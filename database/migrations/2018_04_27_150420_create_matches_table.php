@@ -16,11 +16,14 @@ class CreateMatchesTable extends Migration
         Schema::create('matches', function (Blueprint $table) {
             $table->increments('id');
             $table->string("external_id")->nullable();
+            $table->string("type");
+            $table->string("sub_type");
             $table->integer("team_home_id");
-            $table->integer("team_out_id");
-            $table->integer("game_start_time")->nullable();
-            $table->integer("score_home")->nullable();
-            $table->integer("score_out")->nullable();
+            $table->integer("team_away_id");
+            $table->integer("start_time")->nullable();
+            $table->integer("result_home")->nullable();
+            $table->integer("result_away")->nullable();
+            $table->integer("score")->nullable();
             $table->timestamps();
         });
     }

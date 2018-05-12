@@ -17,4 +17,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get("/home", 'HomeController@index')->name('home');
+Route::get('/admin/download-data', 'AdminController@downloadData')->name('admin');
+Route::get('/api/get-open-matches', 'APIController@GetOpenMatches');

@@ -15,7 +15,8 @@ class CreateBetsTable extends Migration
     {
         Schema::create('bets', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer("match_id");
+            $table->integer("type");
+            $table->integer("type_id");
             $table->integer("user_id");
             $table->text("data");
             $table->integer("score")->nullable();

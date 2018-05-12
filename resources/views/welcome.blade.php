@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Laravel {{ Auth::user()->name }}
                 </div>
 
                 <div class="links">
