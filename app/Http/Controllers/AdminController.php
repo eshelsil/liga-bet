@@ -123,7 +123,6 @@ class AdminController extends Controller
             /** @var User $user */
             $user = $users->find($userBets["ID"]);
             foreach ($matchs as $match) {
-                $match = $match->id;
                 $result = trim($userBets["g{$match->id}"]);
                 $score  = trim($userBets["s{$match->id}"]);
                 Log::debug("User: {$user->name}, Match {$match->id}, $score");
