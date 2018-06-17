@@ -14,6 +14,10 @@
             border-radius: 0;
         }
 
+        .admin {
+            display: none;
+        }
+
         *, th {
             text-align: right;
             direction: rtl;
