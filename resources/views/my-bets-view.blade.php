@@ -27,7 +27,7 @@
                     {{ __("teams.{$match->team_home_id}") }} - {{ __("teams.{$match->team_away_id}") }}
                 </td>
                 <td>
-                    {{ $user->getBet($match)->getData("result-away") }}:{{ $user->getBet($match)->getData("result-home") }}
+                    @if($user->getBet($match)) {{ $user->getBet($match)->getData("result-away") }}:{{ $user->getBet($match)->getData("result-home") }} @endif
                 </td>
                 <td>
                     @if($match->result_away) {{ $match->result_away }}:{{ $match->result_home }} @endif
