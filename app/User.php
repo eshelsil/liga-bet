@@ -7,6 +7,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Query\JoinClause;
 
+/**
+ * Class User
+ *
+ * @property integer id
+ * @property string name
+ */
 class User extends Authenticatable
 {
     use Notifiable;
@@ -41,16 +47,6 @@ class User extends Authenticatable
         return $user;
     }
 
-    /**
-     * @return Bet
-     * @param Match $match
-     * @param array $betData
-     */
-    public function createBet($match, $betData) : Bet {
-        $bet = Bet::create();
-        return $bet;
-    }
-
     public function getOpenMatches() {
         return (new Match)->newQuery()->select(["matches.*"])->leftJoin("bets", function (JoinClause $j) {
             $j->on("type_id", "=", "matches.id")
@@ -61,5 +57,14 @@ class User extends Authenticatable
             ->whereNotNull("team_away_id")
             ->whereNull("type_id")
             ->get();
+    }
+
+    public function getBet(Match $match)
+    {
+        return Bet::query()
+                  ->where("user_id", $this->id)
+                  ->where("type", BetTypes::Game)
+                  ->where("type_id", $match->id)
+                  ->first();
     }
 }

@@ -8,7 +8,7 @@ final class BetTypes extends AbstractEnum {
     const Game           = 1;
     const StagesPosition = 2;
     const Winner         = 3;
-    const FinalTeams     = 3;
+    const FinalTeams     = 4;
 
     protected static $aliases = [
         BetTypes::Game           => "Game",

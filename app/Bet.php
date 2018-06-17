@@ -14,5 +14,16 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Bet extends Model
 {
-    //
+    /**
+     * Get the phone record associated with the user.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    public function getData($key = null, $default = null)
+    {
+        return data_get(json_decode($this->data), $key, $default);
+    }
 }

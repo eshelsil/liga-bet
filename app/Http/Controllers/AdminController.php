@@ -2,10 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Bet;
+use App\Bets\BetGame\BetGame;
+use App\Bets\BetGame\BetGameRequest;
+use App\DataCrawler\Crawler;
+use App\Match;
 use App\Team;
-use \Guzzle\Http\Client as HttpClient;
+use App\User;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+use \Exception;
 
 class AdminController extends Controller
 {
@@ -21,26 +30,24 @@ class AdminController extends Controller
 
     public function downloadData()
     {
-        $client = new HttpClient();
-        $res = $client->get('https://raw.githubusercontent.com/lsv/fifa-worldcup-2018/master/data.json')->send();
-        $fullData = json_decode($res->getBody());
+        $crawler = new Crawler();
 
         DB::table("teams")->truncate();
         DB::table("matches")->truncate();
-        self::saveTeams(data_get($fullData, "teams", []));
-        self::saveMatches("groups", "a", data_get($fullData, "groups.a.matches", []));
-        self::saveMatches("groups", "b", data_get($fullData, "groups.b.matches", []));
-        self::saveMatches("groups", "c", data_get($fullData, "groups.c.matches", []));
-        self::saveMatches("groups", "d", data_get($fullData, "groups.d.matches", []));
-        self::saveMatches("groups", "e", data_get($fullData, "groups.e.matches", []));
-        self::saveMatches("groups", "f", data_get($fullData, "groups.f.matches", []));
-        self::saveMatches("groups", "g", data_get($fullData, "groups.g.matches", []));
-        self::saveMatches("groups", "h", data_get($fullData, "groups.h.matches", []));
+        self::saveTeams($crawler->getData("teams", []));
+        self::saveMatches("groups", "a", $crawler->getData("groups.a.matches", []));
+        self::saveMatches("groups", "b", $crawler->getData("groups.b.matches", []));
+        self::saveMatches("groups", "c", $crawler->getData("groups.c.matches", []));
+        self::saveMatches("groups", "d", $crawler->getData("groups.d.matches", []));
+        self::saveMatches("groups", "e", $crawler->getData("groups.e.matches", []));
+        self::saveMatches("groups", "f", $crawler->getData("groups.f.matches", []));
+        self::saveMatches("groups", "g", $crawler->getData("groups.g.matches", []));
+        self::saveMatches("groups", "h", $crawler->getData("groups.h.matches", []));
     }
 
     private static function saveTeams($teamsData) {
         foreach ($teamsData as $teamData) {
-            $team = new \App\Team();
+            $team = new Team();
             $team->external_id = $teamData->id;
             $team->name = $teamData->name;
             $team->save();
@@ -65,4 +72,90 @@ class AdminController extends Controller
         }
     }
 
+    public function saveUsers() {
+        $data = self::parseCSV("resources/bets-data.csv");
+        User::query()->truncate();
+        foreach ($data as $user) {
+            User::create([
+                'name' => $user['Name'],
+                'email' => "0".$user['Phone'],
+                'phone' => "0".$user['Phone'],
+                'password' => Hash::make("0".$user['Phone']),
+                'permissions' => 0
+            ]);
+        }
+        return User::all()->toJson();
+    }
+
+    public function showHomeA($id = null) {
+        var_dump(self::parseCSV("resources/bets-data.csv"));
+    }
+
+    public function completeMatch($id) {
+        /** @var Match $match */
+        $match = Match::query()->find($id);
+        $match->completeBets();
+        return "completed";
+    }
+
+    public function completeAllMatches() {
+
+        $matches = Match::query()->whereNull("result_home")->orderBy("start_time")->get();
+        /** @var Match $match */
+        foreach ($matches as $match) {
+            try {
+                echo "<hr><br>";
+                $match->completeBets();
+            } catch (Exception $exception) {
+                return $exception->getMessage();
+                continue 1;
+            }
+        }
+        return "completed";
+    }
+
+    public function parseBets() {
+        Bet::query()->truncate();
+        $data = self::parseCSV("resources/bets-data.csv");
+        $matchs = Match::all();
+        $users = User::all();
+        foreach ($data as $userBets) {
+            /** @var User $user */
+            $user = $users->find($userBets["ID"]);
+            foreach ($matchs as $match) {
+                $match = $match->id;
+                $result = trim($userBets["g{$match->id}"]);
+                $score  = trim($userBets["s{$match->id}"]);
+                Log::debug("User: {$user->name}, Match {$match->id}, $score");
+
+                $score_a = explode(":", $score)[1];
+                $score_b = explode(":", $score)[0];
+
+//                $fixInput = false;
+//                if ($result == 1 && $score_a <  $score_b) {
+//                    $fixInput = true;
+//                }
+                $betRequest = new BetGameRequest($match, [
+                    "result-home" => $score_a,
+                    "result-away" => $score_b,
+//                    "result-home" => $fixInput ? $score_b : $score_a,
+//                    "result-away" => $fixInput ? $score_a : $score_b,
+                ]);
+                $bet = BetGame::save($user, $betRequest);
+            }
+
+        }
+    }
+
+    public static function parseCSV($filePath) {
+        $filePath = "../{$filePath}";
+
+        $csv = array_map('str_getcsv', file($filePath));
+        array_walk($csv, function(&$a) use ($csv) {
+            $a = array_combine($csv[0], $a);
+        });
+        array_shift($csv); # remove column header
+
+        return $csv;
+    }
 }

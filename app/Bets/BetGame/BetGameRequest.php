@@ -3,6 +3,7 @@
 namespace App\Bets\BetGame;
 
 use App\Match;
+use Illuminate\Support\Facades\Log;
 
 class BetGameRequest
 {
@@ -13,14 +14,15 @@ class BetGameRequest
     /**
      * BetGameRequest constructor.
      *
-     * @param       $matchId
+     * @param Match $match
      * @param array $data
      */
-    public function __construct($matchId, array $data) {
-        $this->validateData($matchId, $data);
-        $this->match = Match::findOrFail($matchId);
-        $this->resultHome = $data["result_home"];
-        $this->resultAway = $data["result_away"];
+    public function __construct($match, $data = []) {
+        Log::debug("Validating data: {$match->id}\r\nData: ". json_encode($data, JSON_PRETTY_PRINT));
+        $this->validateData($match->id, $data);
+        $this->match = $match;
+        $this->resultHome = $data["result-home"];
+        $this->resultAway = $data["result-away"];
     }
 
     public function toJson() {
@@ -28,7 +30,8 @@ class BetGameRequest
     }
 
     private function validateData($matchId, $data) {
-        if (!ctype_digit($matchId)) {
+        Log::debug("Validating data: {$matchId}\r\nData: ". json_encode($data, JSON_PRETTY_PRINT));
+        if (!is_numeric($matchId)) {
             throw new \InvalidArgumentException();
         }
         if (!ctype_digit(array_get($data, "result-home"))) {
@@ -58,5 +61,26 @@ class BetGameRequest
      */
     public function getResultAway() {
         return $this->resultAway;
+    }
+
+    public function calculate() {
+        $score = 0;
+        if ($this->getMatch()->result_home == $this->getResultHome()
+            && $this->getMatch()->result_away == $this->getResultAway()) {
+            $score += $this->getMatch()->getScore("score");
+        }
+
+        if (
+            ($this->getMatch()->result_home == $this->getMatch()->result_away
+            && $this->getResultHome() == $this->getResultAway()) // Teko
+            || ($this->getMatch()->result_home > $this->getMatch()->result_away
+            && $this->getResultHome() > $this->getResultAway()) // Winner Home
+            || ($this->getMatch()->result_home < $this->getMatch()->result_away
+            && $this->getResultHome() < $this->getResultAway()) // Winner Away
+        ) {
+            $score += $this->getMatch()->getScore("winner");
+        }
+
+        return $score;
     }
 }

@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel {{ Auth::user()->name }}
+                    מונדיאל חברים
                 </div>
 
                 <div class="links">

@@ -16,7 +16,15 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get("/home", 'HomeController@index')->name('home');
+Route::get("/today-matches", 'HomeController@showTodayMatches')->name('match-list');
+Route::get("/my-bets", 'HomeController@showMyBets')->name('my-bets');
 Route::get('/admin/download-data', 'AdminController@downloadData')->name('admin');
+Route::get('/admin/show-home/{id?}', 'AdminController@showHomeA')->name('admin');
+Route::get('/admin/save-users', 'AdminController@saveUsers')->name('admin');
+Route::get('/admin/parse-bets', 'AdminController@parseBets')->name('admin');
+Route::get('/admin/complete-match/{id?}', 'AdminController@completeMatch');
+Route::get('/admin/complete-all-matches', 'AdminController@completeAllMatches');
 Route::get('/api/get-open-matches', 'APIController@GetOpenMatches');

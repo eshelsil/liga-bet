@@ -85,7 +85,7 @@ class APIController extends Controller
         foreach ($betsInput as $betInput) {
             switch ($betInput->type) {
                 case BetTypes::Game:
-                    $betRequest = new BetGameRequest($betsInput->type_id, $betsInput->data);
+                    $betRequest = new BetGameRequest(Match::query()->find($betsInput->type_id), $betsInput->data);
                     $bet = BetGame::save($user, $betRequest);
                     break;
                 default:
