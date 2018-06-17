@@ -48,6 +48,7 @@ class AdminController extends Controller
     private static function saveTeams($teamsData) {
         foreach ($teamsData as $teamData) {
             $team = new Team();
+            $team->id = $teamData->id;
             $team->external_id = $teamData->id;
             $team->name = $teamData->name;
             $team->save();
@@ -56,10 +57,13 @@ class AdminController extends Controller
     }
 
     private static function saveMatches($type, $subType, $matchesData) {
+        $lastMatch = Match::query()->orderBy("id", "DESC")->first();
+        $id = $lastMatch ? $lastMatch->id++ : 1;
         foreach ($matchesData as $matchData) {
             $time =  \DateTime::createFromFormat(\DateTime::ISO8601, $matchData->date);
 
-            $match = new \App\Match();
+            $match = new Match();
+            $match->id           = $id;
             $match->external_id  = $matchData->name;
             $match->type         = $type;
             $match->sub_type     = $subType;
@@ -69,6 +73,7 @@ class AdminController extends Controller
             $match->result_home  = $matchData->home_result;
             $match->result_away  = $matchData->away_result;
             $match->save();
+            $id++;
         }
     }
 
