@@ -24,7 +24,7 @@
                 <td class="admin">{{ $match->id }}</td>
 
                 <td>
-                    {{ _("teams.{$match->team_home_id}") }} - {{ _("teams.{$match->team_away_id}") }}
+                    {{ __("teams.{$match->team_home_id}") }} - {{ __("teams.{$match->team_away_id}") }}
                 </td>
                 <td>
                     {{ $user->getBet($match)->getData("result-away") }}:{{ $user->getBet($match)->getData("result-home") }}
