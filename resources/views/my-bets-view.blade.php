@@ -30,7 +30,7 @@
                     @if($user->getBet($match)) {{ $user->getBet($match)->getData("result-away") }}:{{ $user->getBet($match)->getData("result-home") }} @endif
                 </td>
                 <td>
-                    @if($match->result_away) {{ $match->result_away }}:{{ $match->result_home }} @endif
+                    @if(!is_null($match->result_away)) {{ $match->result_away }}:{{ $match->result_home }} @endif
                 </td>
             </tr>
         @endforeach

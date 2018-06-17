@@ -18,9 +18,9 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get("/home", 'HomeController@index')->name('home');
-Route::get("/today-matches", 'HomeController@showTodayMatches')->name('match-list');
-Route::get("/my-bets", 'HomeController@showMyBets')->name('my-bets');
+Route::get("/home", 'HomeController@index')->middleware("auth")->name('home');
+Route::get("/today-matches", 'HomeController@showTodayMatches')->middleware("auth")->name('match-list');
+Route::get("/my-bets", 'HomeController@showMyBets')->middleware("auth")->name('my-bets');
 Route::get('/admin/download-data', 'AdminController@downloadData');
 Route::get('/admin/show-home/{id?}', 'AdminController@showHomeA');
 Route::get('/admin/save-users', 'AdminController@saveUsers');
