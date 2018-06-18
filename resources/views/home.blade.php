@@ -25,7 +25,7 @@
                                     <div class="col-sm-2 pull-right">ניקוד</div>
                                     <div class="col-sm-10 pull-right">הימור</div>
                                 </li>
-                                @foreach($row->bets->filter(function ($bet) { return $bet->score > 0; })->sort("type_id") as $bet)
+                                @foreach($row->bets->filter(function ($bet) { return $bet->score > 0; })->sortBy("type_id") as $bet)
                                     <?php
                                         /** @var App\Bet $bet */
                                         /** @var App\Match $match */
