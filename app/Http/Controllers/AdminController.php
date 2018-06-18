@@ -146,6 +146,27 @@ class AdminController extends Controller
         }
     }
 
+    public static function fixMatchBet($matchId, $userId = null)
+    {
+        /** @var Match $match */
+        $match = Match::query()->find($matchId);
+        echo "Match Found: ". trans("teams.{$match->team_home_id}") . " - " . trans("teams.{$match->team_away_id}");
+        $bets = $match->getBets();
+        if ($userId) {
+            $bets = $bets->filter(function($bet) use ($userId) { return $bet->user_id == $userId; });
+        }
+
+        /** @var Bet $bet */
+        foreach ($bets as $bet) {
+            $betGame = new BetGame($bet, $match, $bet->user);
+            echo "<br><br>Update {$bet->user->name}<br>Before {$betGame->getRequest()->getResultHome()}:{$betGame->getRequest()->getResultAway()}";
+            $betGame->switchScore();
+            echo "<br>After {$betGame->getRequest()->getResultHome()}:{$betGame->getRequest()->getResultAway()}";
+        }
+
+        return "<br><br>Done";
+    }
+
     public static function parseCSV($filePath) {
         $filePath = "../{$filePath}";
 

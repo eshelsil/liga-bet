@@ -21,8 +21,8 @@ class BetGameRequest
         Log::debug("Validating data: {$match->id}\r\nData: ". json_encode($data, JSON_PRETTY_PRINT));
         $this->validateData($match->id, $data);
         $this->match = $match;
-        $this->resultHome = $data["result-home"];
-        $this->resultAway = $data["result-away"];
+        $this->resultHome = data_get($data, "result-home");
+        $this->resultAway = data_get($data, "result-away");
     }
 
     public function toJson() {
@@ -34,10 +34,12 @@ class BetGameRequest
         if (!is_numeric($matchId)) {
             throw new \InvalidArgumentException();
         }
-        if (!ctype_digit(array_get($data, "result-home"))) {
+        $resultHome = data_get($data, "result-home");
+        if (!ctype_digit($resultHome)) {
             throw new \InvalidArgumentException();
         }
-        if (!ctype_digit(array_get($data, "result-away"))) {
+        $resultAway = data_get($data, "result-away");
+        if (!ctype_digit($resultAway)) {
             throw new \InvalidArgumentException();
         }
     }
@@ -83,4 +85,5 @@ class BetGameRequest
 
         return $score;
     }
+
 }
