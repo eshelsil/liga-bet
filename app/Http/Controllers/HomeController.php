@@ -43,7 +43,7 @@ class HomeController extends Controller
             $rank++;
         }
 
-        return view('home')->with(["table" => $table]);
+        return view('home')->with(["table" => $table, "matches" => Match::all()]);
     }
 
     public function showTodayMatches()

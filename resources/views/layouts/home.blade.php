@@ -48,10 +48,10 @@
             .row.content {height:auto;}
         }
 
-        .rank-1 { background-color: #1c7430; color: #ffffff }
-        .rank-2 { background-color: #1f3e1a; color: #ffffff }
-        .rank-3 { background-color: #495057; color: #ffffff }
-        .rank-4 { background-color: #645b62; color: #ffffff }
+        .rank-1 { background-color: #1c7430!important; color: #ffffff!important; }
+        .rank-2 { background-color: #1f3e1a!important; color: #ffffff!important; }
+        .rank-3 { background-color: #495057!important; color: #ffffff!important; }
+        .rank-4 { background-color: #645b62!important; color: #ffffff!important; }
     </style>
 </head>
 <body style="direction: rtl;" dir="rtl">
