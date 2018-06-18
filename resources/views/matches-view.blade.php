@@ -9,6 +9,7 @@
         <table class="table">
             <thead>
             <tr>
+                <td class="admin">מזהה מוכר</td>
                 <th>שם</th>
                 <th>תוצאה</th>
             </tr>
@@ -16,6 +17,7 @@
             <tbody>
             @foreach($match->getBets() as $bet)
                 <tr>
+                    <td class="admin">{{$bet->user->id}}</td>
                     <td>{{$bet->user->name}}</td>
                     <td>{{$bet->getData("result-away")}}:{{$bet->getData("result-home")}}</td>
                 </tr>
