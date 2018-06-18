@@ -55,7 +55,7 @@ class HomeController extends Controller
 
     public function showMyBets()
     {
-        $matches = Match::all();
+        $matches = Match::query()->orderBy("id")->get();
 
         return view("my-bets-view")->with(["matches" => $matches, "user" => Auth::user()]);
     }
