@@ -6,6 +6,7 @@ use App\Bet;
 use App\Bets\BetGame\BetGame;
 use App\Bets\BetGame\BetGameRequest;
 use App\DataCrawler\Crawler;
+use App\Enums\BetTypes;
 use App\Match;
 use App\Team;
 use App\User;
