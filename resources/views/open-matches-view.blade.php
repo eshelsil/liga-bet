@@ -3,6 +3,9 @@
 @section('content')
     <h1>רשימת משחקים</h1>
 
+    @if($matches->isEmpty())
+    <h3>אין משחקים פתוחים</h3>
+    @else
     <table class="table table-striped">
         <thead>
         <tr>
@@ -43,6 +46,7 @@
         @endforeach
         </tbody>
     </table>
+    @endif
     <script>
         function sendMatchBet(matchID) {
             // TODO: Validated

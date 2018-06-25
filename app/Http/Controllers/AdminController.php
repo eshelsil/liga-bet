@@ -192,6 +192,22 @@ class AdminController extends Controller
         }
     }
 
+    public function deleteMatch($matchId)
+    {
+        $match = Match::query()->find($matchId);
+        if (!$match) {
+            return "Match not found";
+        }
+
+        Bet::query()
+           ->where("type", BetTypes::Match)
+           ->where("type_id", $match->id)
+           ->delete();
+
+        $match->delete();
+        echo "Match deleted";
+    }
+
     public static function fixMatchBet($matchId, $userId = null)
     {
         /** @var Match $match */
