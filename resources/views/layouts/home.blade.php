@@ -82,7 +82,7 @@
                 <li class="{{ Route::currentRouteName() == "update" ? "active" : "" }}"><a href="/admin/download-knockout-matches">עדכן משחקים</a></li>
                 <li class="{{ Route::currentRouteName() == "my-bets" ? "active" : "" }}"><a href="/my-bets">הטופס שלי</a></li>
                 <li class="{{ Route::currentRouteName() == "match-list" ? "active" : "" }}"><a href="/today-matches">רשימת משחקים</a></li>
-                <li class="{{ Route::currentRouteName() == "open-matches" ? "active" : "" }}"><a href="/open-matches">משחקים פתוחים</a></li>
+                {{--<li class="{{ Route::currentRouteName() == "open-matches" ? "active" : "" }}"><a href="/open-matches">משחקים פתוחים</a></li>--}}
                 <li class="{{ Route::currentRouteName() == "home" ? "active" : "" }}"><a href="/home">טבלת ניקוד</a></li>
             </ul>
             {{--<ul class="nav navbar-nav navbar-right">--}}
