@@ -127,4 +127,9 @@ class Match extends Model
         if (!$this->teamAway) { $this->teamAway= Team::query()->find($this->team_away_id); }
         return $this->teamAway;
     }
+
+    public function isClosedToBets()
+    {
+        return $this->start_time < time() + 60*60*12;
+    }
 }
