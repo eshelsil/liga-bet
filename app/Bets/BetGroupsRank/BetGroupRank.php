@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Bets\BetGame;
+namespace App\Bets\BetGroupRank;
 
 use App\Bet;
 use App\Match;
@@ -9,7 +9,7 @@ use App\User;
 use App\Enums\BetTypes;
 use Illuminate\Support\Facades\Log;
 
-class BetGame
+class BetGroupRank
 {
     /** @var Bet $bet */
     protected $bet = null;
@@ -17,10 +17,10 @@ class BetGame
     protected $match = null;
     /** @var User $user */
     protected $user = null;
-    /** @var BetGameRequest $request */
+    /** @var BetGroupRankRequest $request */
     protected $request = null;
     /**
-     * BetGame constructor.
+     * BetMatch constructor.
      *
      * @param Bet        $bet
      * @param Match|null $match
@@ -48,7 +48,7 @@ class BetGame
 
     private function setRequest()
     {
-        $this->request = new BetGameRequest($this->match, $this->bet->getData());
+        $this->request = new BetGroupRankRequest($this->match, $this->bet->getData());
     }
 
     public function getRequest()
@@ -60,26 +60,19 @@ class BetGame
     }
 
     /**
-     * @param User $user
-     * @param BetGameRequest $request
+     * @param User                $user
+     * @param BetGroupRankRequest $request
+     *
      * @return Bet
      */
-    public static function save($user, BetGameRequest $request) {
+    public static function save($user, BetGroupRankRequest $request) {
         // TODO: Throw exception if match already has score
         $bet = new Bet();
-        $bet->type = BetTypes::Game;
+        $bet->type = BetTypes::StagesPosition;
         $bet->user_id = $user->id;
         $bet->type_id = $request->getMatch()->id;
         $bet->data = $request->toJson();
         $bet->save();
         return $bet;
-    }
-
-
-    public function switchScore()
-    {
-        $this->request = new BetGameRequest($this->match, ["result-home" => $this->request->getResultAway(), "result-away" => $this->request->getResultHome()]);
-        $this->bet->data = $this->request->toJson();
-        $this->bet->save();
     }
 }

@@ -48,7 +48,7 @@ class HomeController extends Controller
 
     public function showTodayMatches()
     {
-        $matches = Match::query()->whereNull("result_home")->orderBy("start_time")->take(5)->get();
+        $matches = Match::query()->whereNull("result_home")->orderBy("start_time")->get();
 
         return view("matches-view")->with(["matches" => $matches]);
     }
@@ -59,4 +59,22 @@ class HomeController extends Controller
 
         return view("my-bets-view")->with(["matches" => $matches, "user" => Auth::user()]);
     }
+
+
+
+    /**
+     * Return Matches with no user's bet
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showOpenMatches()
+    {
+        /** @var User $user */
+        $user = Auth::user();
+        $matches = $user->getOpenMatches();
+
+        return view("open-matches-view")->with(["matches" => $matches, "user" => $user]);
+
+    }
+
 }

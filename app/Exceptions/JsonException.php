@@ -23,5 +23,5 @@ class JsonException extends \Exception
      */
     public function render($options = 0)
     {
-        return new JsonResponse(["status" => 1, "code" => $this->code, "message" => $this->message]);
+        return new JsonResponse(["status" => 1, "code" => $this->code, "message" => $this->message], 500);
 }}

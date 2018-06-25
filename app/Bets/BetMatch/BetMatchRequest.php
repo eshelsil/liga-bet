@@ -1,25 +1,26 @@
 <?php
 
-namespace App\Bets\BetGame;
+namespace App\Bets\BetMatch;
 
+use App\Exceptions\JsonException;
 use App\Match;
 use Illuminate\Support\Facades\Log;
 
-class BetGameRequest
+class BetMatchRequest
 {
     protected $match = null;
     protected $resultHome = null;
     protected $resultAway = null;
 
     /**
-     * BetGameRequest constructor.
+     * BetMatchRequest constructor.
      *
      * @param Match $match
      * @param array $data
      */
     public function __construct($match, $data = []) {
         Log::debug("Validating data: {$match->id}\r\nData: ". json_encode($data, JSON_PRETTY_PRINT));
-        $this->validateData($match->id, $data);
+        $this->validateData($match, $data);
         $this->match = $match;
         $this->resultHome = data_get($data, "result-home");
         $this->resultAway = data_get($data, "result-away");
@@ -29,10 +30,15 @@ class BetGameRequest
         return json_encode(["result-home" => $this->resultHome, "result-away" => $this->resultAway]);
     }
 
-    private function validateData($matchId, $data) {
-        Log::debug("Validating data: {$matchId}\r\nData: ". json_encode($data, JSON_PRETTY_PRINT));
-        if (!is_numeric($matchId)) {
-            throw new \InvalidArgumentException();
+    /**
+     * @param Match $match
+     * @param array $data
+     */
+    private function validateData($match, $data)
+    {
+        Log::debug("Validating data: {$match->id}\r\nData: ". json_encode($data, JSON_PRETTY_PRINT));
+        if ($match->start_time < time() + 60*60*12) {
+            throw new JsonException("הימור נסגר - לא ניתן להזין תוצאה");
         }
         $resultHome = data_get($data, "result-home");
         if (!ctype_digit($resultHome)) {
@@ -47,25 +53,29 @@ class BetGameRequest
     /**
      * @return Match
      */
-    public function getMatch(): ?Match {
+    public function getMatch(): ?Match
+    {
         return $this->match;
     }
 
     /**
      * @return int
      */
-    public function getResultHome() {
+    public function getResultHome()
+    {
         return $this->resultHome;
     }
 
     /**
      * @return int
      */
-    public function getResultAway() {
+    public function getResultAway()
+    {
         return $this->resultAway;
     }
 
-    public function calculate() {
+    public function calculate()
+    {
         $score = 0;
         if ($this->getMatch()->result_home == $this->getResultHome()
             && $this->getMatch()->result_away == $this->getResultAway()) {

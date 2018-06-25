@@ -32,7 +32,7 @@
                                         /** @var \Illuminate\Database\Eloquent\Collection $matches */
                                         $betEntity = null;
                                         switch ($bet->type) {
-                                            case \App\Enums\BetTypes::Game:
+                                            case \App\Enums\BetTypes::Match:
                                                 $match = $matches->first(function($match) use ($bet) { return $match->id == $bet->type_id; });
                                                 $betDescription = __("teams.{$match->team_home_id}") . " ({$bet->getData("result-home")}) - " . __("teams.{$match->team_away_id}") . " ({$bet->getData("result-away")})";
                                         }

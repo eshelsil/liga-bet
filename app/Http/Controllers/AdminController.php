@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Bet;
-use App\Bets\BetGame\BetGame;
-use App\Bets\BetGame\BetGameRequest;
+use App\Bets\BetMatch\BetMatch;
+use App\Bets\BetMatch\BetMatchRequest;
+use App\DataCrawler\AbstractCrawlerMatch;
 use App\DataCrawler\Crawler;
 use App\Enums\BetTypes;
 use App\Match;
@@ -31,19 +32,19 @@ class AdminController extends Controller
 
     public function downloadData()
     {
-        $crawler = new Crawler();
+        $crawler = Crawler::getInstance();
 
         DB::table("teams")->truncate();
         DB::table("matches")->truncate();
         self::saveTeams($crawler->getData("teams", []));
-        self::saveMatches("groups", "a", $crawler->getData("groups.a.matches", []));
-        self::saveMatches("groups", "b", $crawler->getData("groups.b.matches", []));
-        self::saveMatches("groups", "c", $crawler->getData("groups.c.matches", []));
-        self::saveMatches("groups", "d", $crawler->getData("groups.d.matches", []));
-        self::saveMatches("groups", "e", $crawler->getData("groups.e.matches", []));
-        self::saveMatches("groups", "f", $crawler->getData("groups.f.matches", []));
-        self::saveMatches("groups", "g", $crawler->getData("groups.g.matches", []));
-        self::saveMatches("groups", "h", $crawler->getData("groups.h.matches", []));
+        self::saveMatches($crawler->getGroupMatches());
+    }
+
+    public function downloadKnockoutMatches()
+    {
+        $crawler = Crawler::getInstance();
+
+        self::saveMatches($crawler->getKnownOpenMatches());
     }
 
     private static function saveTeams($teamsData) {
@@ -56,19 +57,30 @@ class AdminController extends Controller
         }
     }
 
-    private static function saveMatches($type, $subType, $matchesData) {
-        foreach ($matchesData as $matchData) {
-            $time =  \DateTime::createFromFormat(\DateTime::ISO8601, $matchData->date);
+    private static function saveMatches($crawlerMatches) {
+        $existingMatchExternalIds = Match::all(["external_id"])->pluck("external_id")->toArray();
 
+        /** @var AbstractCrawlerMatch $crawlerMatch */
+        foreach ($crawlerMatches as $crawlerMatch) {
+            if (in_array($crawlerMatch->getID(), $existingMatchExternalIds)) {
+                echo "<br><br> Match {$crawlerMatch->getID()} " . trans("teams.{$crawlerMatch->getTeamHomeID()}") . " - " . trans("teams.{$crawlerMatch->getTeamAwayID()}") . "<br>Already Exists";
+                continue;
+            }
             $match = new Match();
-            $match->external_id  = $matchData->name;
-            $match->type         = $type;
-            $match->sub_type     = $subType;
-            $match->team_home_id = $matchData->home_team;
-            $match->team_away_id = $matchData->away_team;
-            $match->start_time   = $time ? $time->format("U") : false;
-            $match->result_home  = $matchData->home_result;
-            $match->result_away  = $matchData->away_result;
+            $match->external_id  = $crawlerMatch->getID();
+            $match->type         = $crawlerMatch->getType();
+            $match->sub_type     = $crawlerMatch->getSubType();
+            $match->team_home_id = $crawlerMatch->getTeamHomeID();
+            $match->team_away_id = $crawlerMatch->getTeamAwayID();
+            $match->start_time   = $crawlerMatch->getStartTime();
+            $match->result_home  = null;
+            $match->result_away  = null;
+
+            if ($crawlerMatch->isCompleted()) {
+                $match->completeBets();
+            } else {
+                echo "<br><br>Match Home ({$match->getTeamHome()->name}): {$match->result_home} | Away ({$match->getTeamAway()->name}): {$match->result_away}";
+            }
             $match->save();
         }
     }
@@ -100,6 +112,8 @@ class AdminController extends Controller
     }
 
     public function completeAllMatches() {
+        $crawler = Crawler::getInstance();
+        self::saveMatches($crawler->getKnownOpenMatches());
 
         $matches = Match::query()->whereNull("result_home")->orderBy("start_time")->get();
         /** @var Match $match */
@@ -115,7 +129,7 @@ class AdminController extends Controller
         return "completed";
     }
 
-    public function parseBets() {
+    public function parseGroupBets() {
         Bet::query()->truncate();
         $data = self::parseCSV("resources/bets-data.csv");
         $matchs = Match::all();
@@ -135,14 +149,45 @@ class AdminController extends Controller
 //                if ($result == 1 && $score_a <  $score_b) {
 //                    $fixInput = true;
 //                }
-                $betRequest = new BetGameRequest($match, [
+                $betRequest = new BetMatchRequest($match, [
                     "result-home" => $score_a,
                     "result-away" => $score_b,
 //                    "result-home" => $fixInput ? $score_b : $score_a,
 //                    "result-away" => $fixInput ? $score_a : $score_b,
                 ]);
-                $bet = BetGame::save($user, $betRequest);
+                $bet = BetMatch::save($user, $betRequest);
             }
+
+        }
+    }
+
+    public function parseSpecialBets() {
+        Bet::query()->truncate();
+        $data = self::parseCSV("resources/bets-data.csv");
+        $users = User::all();
+        foreach ($data as $userBets) {
+            /** @var User $user */
+//            $user = $users->find($userBets["ID"]);
+//            foreach ($matchs as $match) {
+//                $result = trim($userBets["g{$match->id}"]);
+//                $score  = trim($userBets["s{$match->id}"]);
+//                Log::debug("User: {$user->name}, Match {$match->id}, $score");
+//
+//                $score_a = explode(":", $score)[1];
+//                $score_b = explode(":", $score)[0];
+//
+////                $fixInput = false;
+////                if ($result == 1 && $score_a <  $score_b) {
+////                    $fixInput = true;
+////                }
+//                $betRequest = new BetGroupRankRequest($match, [
+//                    "result-home" => $score_a,
+//                    "result-away" => $score_b,
+////                    "result-home" => $fixInput ? $score_b : $score_a,
+////                    "result-away" => $fixInput ? $score_a : $score_b,
+//                ]);
+//                $bet = BetMatch::save($user, $betRequest);
+//            }
 
         }
     }
@@ -159,10 +204,10 @@ class AdminController extends Controller
 
         /** @var Bet $bet */
         foreach ($bets as $bet) {
-            $betGame = new BetGame($bet, $match, $bet->user);
-            echo "<br><br>Update {$bet->user->name}<br>Before {$betGame->getRequest()->getResultHome()}:{$betGame->getRequest()->getResultAway()}";
-            $betGame->switchScore();
-            echo "<br>After {$betGame->getRequest()->getResultHome()}:{$betGame->getRequest()->getResultAway()}";
+            $betMatch = new BetMatch($bet, $match, $bet->user);
+            echo "<br><br>Update {$bet->user->name}<br>Before {$betMatch->getRequest()->getResultHome()}:{$betMatch->getRequest()->getResultAway()}";
+            $betMatch->switchScore();
+            echo "<br>After {$betMatch->getRequest()->getResultHome()}:{$betMatch->getRequest()->getResultAway()}";
         }
 
         return "<br><br>Done";
@@ -170,9 +215,9 @@ class AdminController extends Controller
 
     public function switchBetMatchIDs($fromMatchID, $toMatchID) {
         DB::table("bets")
-            ->where("type", BetTypes::Game)
-            ->where("type_id", $fromMatchID)
-            ->update(["type_id" => $toMatchID]);
+          ->where("type", BetTypes::Match)
+          ->where("type_id", $fromMatchID)
+          ->update(["type_id" => $toMatchID]);
     }
 
     public static function parseCSV($filePath) {

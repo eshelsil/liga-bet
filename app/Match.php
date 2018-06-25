@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Bets\BetGame\BetGameRequest;
+use App\Bets\BetMatch\BetMatchRequest;
 use App\DataCrawler\Crawler;
 use App\Enums\BetTypes;
 use App\Exceptions\JsonException;
@@ -32,6 +32,10 @@ class Match extends Model
         "groups" => [
             "winner" => 1,
             "score" => 3
+        ],
+        "knockout" => [
+            "winner" => 3,
+            "score" => 8
         ]
     ];
 
@@ -42,13 +46,13 @@ class Match extends Model
 
     public function getScore($type)
     {
-        $scorePath = $this->type; // TODO: Dynamic for nockouts
+        $scorePath = $this->type;
         return array_get($this->scores, "{$scorePath}.{$type}");
     }
 
     private function getCrawlerMatch()
     {
-        $crawler = new Crawler();
+        $crawler = Crawler::getInstance();
         $crawlerSubType = Collection::make($crawler->getData("{$this->type}.{$this->sub_type}.matches"));
         $crawlerMatch = $crawlerSubType->first(function ($match) { return $match->name == $this->external_id; });
         return $crawlerMatch;
@@ -62,7 +66,7 @@ class Match extends Model
 
         /** @var Bet $bet */
         foreach ($this->getBets() as $bet) {
-            $betRequest = new BetGameRequest($this, [
+            $betRequest = new BetMatchRequest($this, [
                 "result-home" => $bet->getData("result-home"),
                 "result-away" => $bet->getData("result-away"),
             ]);
@@ -78,6 +82,10 @@ class Match extends Model
 
     private function updateScore()
     {
+        if (!is_null($this->result_home) && !is_null($this->result_home)) {
+            return;
+        }
+
         $crawlerMatch = $this->getCrawlerMatch();
 
         if (!$crawlerMatch->finished) {
@@ -94,12 +102,12 @@ class Match extends Model
      */
     public function getBets()
     {
-        $gameBets = Bet::query()->where("type", BetTypes::Game)
+        $MatchBets = Bet::query()->where("type", BetTypes::Match)
                        ->where("type_id", $this->id)
                        ->with("user")
                        ->get();
 
-        return $gameBets;
+        return $MatchBets;
     }
 
     /**

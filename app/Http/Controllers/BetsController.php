@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Bet;
-use App\Bets\BetGame\BetGame;
-use App\Bets\BetGame\BetGameRequest;
+use App\Bets\BetMatch\BetMatch;
+use App\Bets\BetMatch\BetMatchRequest;
 use App\Enums\BetTypes;
 use App\Match;
 use App\Team;
@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Psr\Log\InvalidArgumentException;
 
-class APIController extends Controller
+class BetsController extends Controller
 {
     private $user = null;
     /**
@@ -53,45 +53,30 @@ class APIController extends Controller
         return new JsonResponse(["status" => 0], 200);
     }
 
-    /**
-     * Return Matches with no user's bet
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getOpenMatches()
-    {
-        $user = $this->getUser();
-
-        $matches = $user->getOpenMatches();
-
-        $teams = Team::all();
-
-        $matches->each(function ($match) use ($teams) {
-            $match->team_home_name = $teams->first(function($team) use ($match) { return $team->id == $match->team_home_id; })->name;
-            $match->team_away_name = $teams->first(function($team) use ($match) { return $team->id == $match->team_away_id; })->name;
-        });
-
-        return response($matches->groupBy(["type", "sub_type"])->toJson());
-    }
-
     public function submitBets()
     {
         $user = $this->getUser();
         $betsInput = Request::json("bets", []);
 
-
         $this->validateBatch($betsInput);
 
+        $bets = [];
         foreach ($betsInput as $betInput) {
+            $betInput = (object)$betInput;
             switch ($betInput->type) {
-                case BetTypes::Game:
-                    $betRequest = new BetGameRequest(Match::query()->find($betsInput->type_id), $betsInput->data);
-                    $bet = BetGame::save($user, $betRequest);
+                case BetTypes::Match:
+                    $betRequest = new BetMatchRequest(
+                        Match::query()->find($betInput->data["type_id"]),
+                        $betInput->data
+                    );
+                    $bets[] = BetMatch::save($user, $betRequest);
                     break;
                 default:
                     throw new InvalidArgumentException();
             }
         }
+
+        return JsonResponse::create(["status" => 1, "bets" =>$bets]);
 
     }
 
@@ -99,20 +84,24 @@ class APIController extends Controller
         // Validate no duplicates
         $betsTypeGrouped = [];
         foreach ($betsInput as $bet) {
+            $bet = (object)$bet;
+            if (!isset($bet->type) || !isset($bet->data) || !isset($bet->data["type_id"])) {
+                throw new JsonException("מבנה הימור לא תקין");
+            }
             if (!isset($betsTypeGrouped[$bet->type])) {
                 $betsTypeGrouped[$bet->type] = [];
             }
 
-            if (in_array($bet->data->type_id, $betsTypeGrouped[$bet->type])) {
-                throw new JsonException("משחק {$bet->data->type_id} נשלח פעמיים");
+            if (in_array($bet->data["type_id"], $betsTypeGrouped[$bet->type])) {
+                throw new JsonException("משחק {$bet->data["type_id"]} נשלח פעמיים");
             }
 
-            $betsTypeGrouped[$bet->type][] = $bet->data->type_id;
+            $betsTypeGrouped[$bet->type][] = $bet->data["type_id"];
         }
 
-        // Validate all games has teams and no scores
-        if (isset($betsTypeGrouped[BetTypes::Game])) {
-            $notAllowedMatches = Match::query()->whereIn("id", $betsTypeGrouped[BetTypes::Game])
+        // Validate all Matchs has teams and no scores
+        if (isset($betsTypeGrouped[BetTypes::Match])) {
+            $notAllowedMatches = Match::query()->whereIn("id", $betsTypeGrouped[BetTypes::Match])
                 ->where(function(\Illuminate\Database\Eloquent\Builder $q) {
                     $q->whereNull("team_home_id")
                       ->orWhereNull("team_away_id")
@@ -139,7 +128,7 @@ class APIController extends Controller
             })->get();
 
         if ($alreadySubmittedBets->isNotEmpty()) {
-            throw new JsonException("משחקים ({$alreadySubmittedBets->implode("id", ", ")} כבר הוזנו", 201);
+            throw new JsonException("משחקים ({$alreadySubmittedBets->implode("type_id", ", ")} כבר הוזנו", 201);
         }
 
 

@@ -48,10 +48,10 @@ class User extends Authenticatable
     }
 
     public function getOpenMatches() {
-        return (new Match)->newQuery()->select(["matches.*"])->leftJoin("bets", function (JoinClause $j) {
+        return Match::query()->select(["matches.*"])->leftJoin("bets", function (JoinClause $j) {
             $j->on("type_id", "=", "matches.id")
-                ->where("bets.type", BetTypes::Game)
-                ->where("user_id", 1);
+                ->where("bets.type", BetTypes::Match)
+                ->where("user_id", $this->id);
         })
             ->whereNotNull("team_home_id")
             ->whereNotNull("team_away_id")
@@ -63,7 +63,7 @@ class User extends Authenticatable
     {
         return Bet::query()
                   ->where("user_id", $this->id)
-                  ->where("type", BetTypes::Game)
+                  ->where("type", BetTypes::Match)
                   ->where("type_id", $match->id)
                   ->first();
     }
