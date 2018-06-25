@@ -167,6 +167,13 @@ class AdminController extends Controller
         return "<br><br>Done";
     }
 
+    public function switchBetMatchIDs($fromMatchID, $toMatchID) {
+        DB::table("bets")
+            ->where("type", BetTypes::Game)
+            ->where("type_id", $fromMatchID)
+            ->update(["type_id" => $toMatchID]);
+    }
+
     public static function parseCSV($filePath) {
         $filePath = "../{$filePath}";
 
