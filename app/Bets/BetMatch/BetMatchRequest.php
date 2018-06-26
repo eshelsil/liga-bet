@@ -37,9 +37,6 @@ class BetMatchRequest
     private function validateData($match, $data)
     {
         Log::debug("Validating data: {$match->id}\r\nData: ". json_encode($data, JSON_PRETTY_PRINT));
-        if ($match->isClosedToBets()) {
-            throw new JsonException("הימור נסגר - לא ניתן להזין תוצאה");
-        }
         $resultHome = data_get($data, "result-home");
         if (!ctype_digit($resultHome)) {
             throw new \InvalidArgumentException();
