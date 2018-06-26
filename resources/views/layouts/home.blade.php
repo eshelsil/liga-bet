@@ -79,7 +79,7 @@
         </div>
         <div class="collapse navbar-collapse" style="float: right!important;" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li class="{{ Route::currentRouteName() == "update" ? "active" : "" }}"><a href="/admin/download-knockout-matches">עדכן משחקים</a></li>
+                <li class="{{ Route::currentRouteName() == "update" ? "active" : "" }}"><a href="/admin/complete-all-matches">עדכן</a></li>
                 <li class="{{ Route::currentRouteName() == "my-bets" ? "active" : "" }}"><a href="/my-bets">הטופס שלי</a></li>
                 <li class="{{ Route::currentRouteName() == "match-list" ? "active" : "" }}"><a href="/today-matches">רשימת משחקים</a></li>
                 <li class="{{ Route::currentRouteName() == "open-matches" ? "active" : "" }}"><a href="/open-matches">הימורים פתוחים</a></li>

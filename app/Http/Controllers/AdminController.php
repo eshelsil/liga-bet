@@ -11,11 +11,9 @@ use App\Enums\BetTypes;
 use App\Match;
 use App\Team;
 use App\User;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use \Exception;
 
 class AdminController extends Controller
@@ -115,7 +113,11 @@ class AdminController extends Controller
         $crawler = Crawler::getInstance();
         self::saveMatches($crawler->getKnownOpenMatches());
 
-        $matches = Match::query()->whereNull("result_home")->orderBy("start_time")->get();
+        $matches = Match::query()
+            ->where("type", "=", "groups") // The Crawler not showing valid data in knockouts
+            ->whereNull("result_home")
+            ->orderBy("start_time")
+            ->get();
         /** @var Match $match */
         foreach ($matches as $match) {
             try {
@@ -190,6 +192,8 @@ class AdminController extends Controller
 //            }
 
         }
+
+        return "<br><br> Done";
     }
 
     public function deleteMatch($matchId)
