@@ -82,10 +82,6 @@ class Match extends Model
 
     private function updateScore()
     {
-        if (!is_null($this->result_home) && !is_null($this->result_home)) {
-            return;
-        }
-
         $crawlerMatch = $this->getCrawlerMatch();
 
         if (!$crawlerMatch->finished) {
