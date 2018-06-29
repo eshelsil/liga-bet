@@ -86,7 +86,7 @@ class User extends Authenticatable
                 }
                 $groupRank[$rank] = $teamID;
             }
-            $betRequest = new BetGroupRankRequest($group->getID(), [
+            $betRequest = new BetGroupRankRequest($group, [
                 "team-a" => $groupRank["1"],
                 "team-b" => $groupRank["2"],
                 "team-c" => $groupRank["3"],
