@@ -173,11 +173,12 @@ class AdminController extends Controller
         return "completed";
     }
 
-    public function parseGroupBets($userId = null) {
+    public function parseGroupBets($userId = null, $fixMatchIds = null) {
 //        Bet::query()->truncate();
         $data = self::parseCSV("resources/bets-data.csv");
         $matchs = Match::query()->where("type", "groups")->get();
         $users = $userId ? User::query()->where("id", $userId)->get() : User::all();
+        $fixMatchIds = explode("-",$fixMatchIds);
         foreach ($data as $userBets) {
             /** @var User $user */
             /** @var Match $match */
@@ -193,26 +194,23 @@ class AdminController extends Controller
                 $score_a = explode(":", $score)[1];
                 $score_b = explode(":", $score)[0];
 
-//                $fixInput = false;
-//                if ($result == 1 && $score_a <  $score_b) {
-//                    $fixInput = true;
-//                }
+                $fixInput = in_array($match->id, $fixMatchIds);
                 $betRequest = new BetMatchRequest($match, [
-                    "result-home" => $score_a,
-                    "result-away" => $score_b,
-//                    "result-home" => $fixInput ? $score_b : $score_a,
-//                    "result-away" => $fixInput ? $score_a : $score_b,
+//                    "result-home" => $score_a,
+//                    "result-away" => $score_b,
+                    "result-home" => $fixInput ? $score_b : $score_a,
+                    "result-away" => $fixInput ? $score_a : $score_b,
                 ]);
                 $bet = BetMatch::save($user, $betRequest);
 
-//                if (!is_null($match->result_home) && !is_null($match->result_away)) {
-//                    $finalResult = new BetMatchRequest($match, [
-//                        "result-home" => "{$match->result_home}",
-//                        "result-away" => "{$match->result_away}",
-//                    ]);
-//                    $bet->score = $betRequest->calculate($finalResult);
-//                    $bet->save();
-//                }
+                if (!is_null($match->result_home) && !is_null($match->result_away)) {
+                    $finalResult = new BetMatchRequest($match, [
+                        "result-home" => "{$match->result_home}",
+                        "result-away" => "{$match->result_away}",
+                    ]);
+                    $bet->score = $betRequest->calculate($finalResult);
+                    $bet->save();
+                }
 
             }
 
