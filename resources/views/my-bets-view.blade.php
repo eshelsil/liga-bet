@@ -6,7 +6,7 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>מזהה</th>
+            <th class="admin">מזהה</th>
             <th>
                 סוג
             </th>
@@ -41,7 +41,7 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th class="admin">מזהה</th>
+            <th>מזהה</th>
             <th>
                 משחק
             </th>
