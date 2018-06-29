@@ -34,7 +34,7 @@ class BetGroupRankRequest extends AbstractBetRequest
             "team-b" => $this->teamB,
             "team-c" => $this->teamC,
             "team-d" => $this->teamD,
-        ]);
+        ], JSON_UNESCAPED_UNICODE);
     }
 
     /**

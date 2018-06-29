@@ -6,11 +6,13 @@ use App\Bet;
 use App\Bets\BetGroupRank\BetGroupRankRequest;
 use App\Bets\BetMatch\BetMatch;
 use App\Bets\BetMatch\BetMatchRequest;
+use App\Bets\BetSpecialBets\BetSpecialBetsRequest;
 use App\DataCrawler\AbstractCrawlerMatch;
 use App\DataCrawler\Crawler;
 use App\Enums\BetTypes;
 use App\Groups\Group;
 use App\Match;
+use App\SpecialBets\SpecialBet;
 use App\Team;
 use App\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -173,8 +175,34 @@ class AdminController extends Controller
         return "completed";
     }
 
+    public function completeSpecialBet($specialBetID) {
+        $specialBet = SpecialBet::find($specialBetID);
+        $bets = Bet::query()
+                   ->where("type", BetTypes::SpecialBet)
+                   ->where("type_id", $specialBetID)
+                   ->get();
+
+        $finalRequest = new BetSpecialBetsRequest($specialBet, [
+            "answers" => $specialBet->getAnswers(),
+        ]);
+
+        echo "FINAL answer: {$finalRequest->toJson()}<br><br>";
+        /** @var Bet $bet */
+        foreach ($bets as $bet) {
+            try {
+                $betRequest = new BetSpecialBetsRequest($specialBet, $bet->getData());
+                $bet->score = $betRequest->calculate($finalRequest);
+                $bet->save();
+                echo "USER {$bet->user_id} Score ({$bet->score}) Answer: {$betRequest->toJson()}<br>";
+            } catch (Exception $exception) {
+                return $exception->getMessage();
+                continue 1;
+            }
+        }
+        return "completed";
+    }
+
     public function parseGroupBets($userId = null, $fixMatchIds = null) {
-//        Bet::query()->truncate();
         $data = self::parseCSV("resources/bets-data.csv");
         $matchs = Match::query()->where("type", "groups")->get();
         $users = $userId ? User::query()->where("id", $userId)->get() : User::all();
@@ -229,34 +257,28 @@ class AdminController extends Controller
         return "<br><br> Done";
     }
 
-    public function parseSpecialBets() {
-        Bet::query()->truncate();
+    public function parseSpecialBets($userId = null) {
         $data = self::parseCSV("resources/bets-data.csv");
-        $users = User::all();
+        $users = $userId ? User::query()->where("id", $userId)->get() : User::all();
+
+        $guide = [
+            "1" => ["BestAttackTeam"],
+            "2" => ["BestDefenceTeam"],
+            "3" => ["finalTeamA", "finalTeamB"],
+            "4" => ["winner"],
+            "5" => ["bestAssister"],
+            "6" => ["bestStriker"],
+            "7" => ["MVP"],
+        ];
+
         foreach ($data as $userBets) {
             /** @var User $user */
-//            $user = $users->find($userBets["ID"]);
-//            foreach ($matchs as $match) {
-//                $result = trim($userBets["g{$match->id}"]);
-//                $score  = trim($userBets["s{$match->id}"]);
-//                Log::debug("User: {$user->name}, Match {$match->id}, $score");
-//
-//                $score_a = explode(":", $score)[1];
-//                $score_b = explode(":", $score)[0];
-//
-////                $fixInput = false;
-////                if ($result == 1 && $score_a <  $score_b) {
-////                    $fixInput = true;
-////                }
-//                $betRequest = new BetGroupRankRequest($match, [
-//                    "result-home" => $score_a,
-//                    "result-away" => $score_b,
-////                    "result-home" => $fixInput ? $score_b : $score_a,
-////                    "result-away" => $fixInput ? $score_a : $score_b,
-//                ]);
-//                $bet = BetMatch::save($user, $betRequest);
-//            }
+            $user = $users->find($userBets["ID"]);
+            if (!$user) {
+                continue;
+            }
 
+            $user->insertSpecialBetsData($userBets, $guide);
         }
 
         return "<br><br> Done";

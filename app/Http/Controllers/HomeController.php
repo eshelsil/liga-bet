@@ -39,8 +39,10 @@ class HomeController extends Controller
             ->get();
 
         $rank = 1;
+        /** @var User $user */
         foreach ($table as $user) {
             $user->rank = $rank;
+            $user->betsByType = $user->bets->groupBy("type");
             $rank++;
         }
 

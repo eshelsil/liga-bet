@@ -8,6 +8,41 @@
         <tr>
             <th class="admin">מזהה</th>
             <th>
+                סוג
+            </th>
+            <th>
+                הימור
+            </th>
+            <th>
+                תוצאה
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($user->getSpecialBets() as $bet)
+            <tr>
+                <td class="admin">{{ $bet->type_id }}</td>
+
+                <td>
+                    {!! $bet->specialBet->getQuestion() !!}
+                </td>
+                <td>
+                    {!! implode(",", $bet->getData("answers")) !!}
+                </td>
+                <td>
+                    {!! $bet->specialBet->getAnswers() ? implode(",", $bet->specialBet->getAnswers()) : "" !!}
+                </td>
+            </tr>
+        @endforeach
+
+        </tbody>
+    </table>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th class="admin">מזהה</th>
+            <th>
                 משחק
             </th>
             <th>

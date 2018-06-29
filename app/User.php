@@ -4,9 +4,12 @@ namespace App;
 
 use App\Bets\BetGroupRank\BetGroupRank;
 use App\Bets\BetGroupRank\BetGroupRankRequest;
+use App\Bets\BetSpecialBets\BetSpecialBets;
+use App\Bets\BetSpecialBets\BetSpecialBetsRequest;
 use App\Enums\BetTypes;
 use App\Exceptions\JsonException;
 use App\Groups\Group;
+use App\SpecialBets\SpecialBet;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Query\JoinClause;
@@ -73,6 +76,20 @@ class User extends Authenticatable
                   ->first();
     }
 
+    public function getSpecialBets()
+    {
+        $bets = Bet::query()
+                  ->where("user_id", $this->id)
+                  ->where("type", BetTypes::SpecialBet)
+                  ->get();
+
+        foreach ($bets as $bet) {
+            $bet->specialBet = SpecialBet::find($bet->type_id);
+        }
+
+        return $bets;
+    }
+
     public function insertGroupRankData($betsData)
     {
         echo "<br><br> User {$this->name}";
@@ -96,5 +113,24 @@ class User extends Authenticatable
 
             echo "<br><br> Group {$group->getID()} Rank: " . $betRequest->toJson();
         }
+    }
+
+    public function insertSpecialBetsData($betsData, $parseGuide)
+    {
+        echo "<br><br> User {$this->name}";
+
+        foreach ($parseGuide as $specialBetID => $answerColumns) {
+            $special = SpecialBet::find($specialBetID);
+            $answers = [];
+            foreach ($answerColumns as $column) {
+                $answers[] = trim($betsData[$column]);
+            }
+
+            $betRequest = new BetSpecialBetsRequest($special, ["answers" => array_sort($answers)]);
+            $bet = BetSpecialBets::save($this, $betRequest);
+
+            echo "<br><br> SpecialBet {$special->getID()} Answer: " . $betRequest->toJson();
+        }
+        echo "</body></html>";
     }
 }

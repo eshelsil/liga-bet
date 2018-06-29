@@ -27,7 +27,7 @@ class BetMatchRequest extends AbstractBetRequest
     }
 
     public function toJson() {
-        return json_encode(["result-home" => $this->resultHome, "result-away" => $this->resultAway]);
+        return json_encode(["result-home" => $this->resultHome, "result-away" => $this->resultAway], JSON_UNESCAPED_UNICODE);
     }
 
 
