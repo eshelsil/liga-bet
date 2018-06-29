@@ -2,6 +2,7 @@
 
 @section('content')
     <h1>רשימת משחקים</h1>
+    <span class="admin">{{ DateTime::createFromFormat("U", time())->setTimezone(new DateTimeZone("Asia/Jerusalem"))->format("Y/m/d H:i") }}</span>
 
     @if($matches->isEmpty())
     <h3>אין משחקים פתוחים</h3>
@@ -9,7 +10,7 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th class="admin">מזהה</th>
+            <th>מזהה</th>
             <th style="width: 120px;">
                 תאריך
             </th>
@@ -27,7 +28,7 @@
         <tbody>
         @foreach($matches as $match)
             <tr>
-                <td class="admin">{{ $match->id }}</td>
+                <td>{{ $match->id }}</td>
                 <td>
                     {{ DateTime::createFromFormat("U", $match->start_time)->setTimezone(new DateTimeZone("Asia/Jerusalem"))->format("Y/m/d H:i") }}
                 </td>
@@ -36,8 +37,8 @@
                     {{ __("teams.{$match->team_home_id}") }} <br> {{ __("teams.{$match->team_away_id}") }}
                 </td>
                 <td>
-                    <input class="form-control" id="result-home-{{ $match->id }}" type="number">
-                    <input class="form-control" id="result-away-{{ $match->id }}" type="number">
+                    <input class="form-control" id="result-home-{{ $match->id }}" type="number" value="{{ $match->bet ? $match->bet->getData("result-home") : "" }}">
+                    <input class="form-control" id="result-away-{{ $match->id }}" type="number" value="{{ $match->bet ? $match->bet->getData("result-away") : "" }}">
                 </td>
                 <td>
                     <button class="btn btn-primary" id="save-match-{{ $match->id }}" onclick="sendMatchBet({{ $match->id }})">שלח</button>

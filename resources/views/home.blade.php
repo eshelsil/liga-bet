@@ -5,13 +5,13 @@
                 <div class="row">
                     <div class="col-sm-2 pull-right">מקום</div>
                     <div class="col-sm-8 pull-right">שם</div>
-                    <div class="col-sm-2 pull-right">ניקוד</div>
+                    <div class="col-sm-1 pull-right">ניקוד</div>
                 </div>
                 @foreach($table as $row)
                 <div class="panel-group" style="margin-bottom: 0;">
                     <div class="panel panel-default">
                         <div class="panel-heading row rank-{{$row->rank}}" style="margin-right: 0;margin-left: 0;">
-                            <div class="col-sm-2 pull-right">{{$row->rank}}</div>
+                            <div class="col-sm-1 pull-right">{{$row->rank}}</div>
                             <div class="col-sm-8 pull-right">
                                 <h4 class="panel-title">
                                     <a data-toggle="collapse" href="#collapserank-{{$row->rank}}"><span class="admin">{{$row->id}} </span>{{$row->name}}</a>
@@ -21,7 +21,7 @@
                         </div>
                         <div id="collapserank-{{$row->rank}}" class="panel-collapse collapse">
                             <ul class="nav nav-tabs">
-                                <li class="active" style="float: right"><a data-toggle="tab" href="#groups-{{$row->id}}">בתים</a></li>
+                                <li class="active" style="float: right"><a data-toggle="tab" href="#groups-{{$row->id}}">משחקים</a></li>
                                 <li style="float: right"><a data-toggle="tab" href="#group-ranks-{{$row->id}}">מיקומי בתים</a></li>
                                 <li style="float: right"><a data-toggle="tab" href="#special-bets-{{$row->id}}">הימורים מיוחדים</a></li>
                             </ul>
@@ -31,7 +31,7 @@
                                     <h3>סה"כ: {{ $row->betsByType[\App\Enums\BetTypes::Match]->sum("score") }}</h3>
                                     <ul class="list-group">
                                         <li class="list-group-item row" style="background: #d2d2d2;">
-                                            <div class="col-sm-2 pull-right">ניקוד</div>
+                                            <div class="col-sm-1 pull-right">ניקוד</div>
                                             <div class="col-sm-5 pull-right">הימור</div>
                                             <div class="col-sm-3 pull-right">תוצאה</div>
                                         </li>
@@ -45,7 +45,7 @@
                                             $resultDescription = "{$match->result_home} - {$match->result_away}";
                                          ?>
                                             <li class="list-group-item row">
-                                                <div class="col-sm-2 pull-right">{{ $bet->score }}</div>
+                                                <div class="col-sm-1 pull-right">{{ $bet->score }}</div>
                                                 <div class="col-sm-5 pull-right">{!! $betDescription !!}</div>
                                                 <div class="col-sm-3 pull-right">{!! $resultDescription !!}</div>
                                             </li>
@@ -56,9 +56,9 @@
                                     <h3>סה"כ: {{ $row->betsByType[\App\Enums\BetTypes::GroupsRank]->sum("score") }}</h3>
                                     <ul class="list-group">
                                         <li class="list-group-item row" style="background: #d2d2d2;">
-                                            <div class="col-sm-2 pull-right">ניקוד</div>
+                                            <div class="col-sm-1 pull-right">ניקוד</div>
                                             <div class="col-sm-5 pull-right">הימור</div>
-                                            <div class="col-sm-3 pull-right">תוצאה</div>
+                                            <div class="col-sm-5 pull-right">תוצאה</div>
                                         </li>
                                         @foreach($row->betsByType[\App\Enums\BetTypes::GroupsRank]->sortBy("type_id") as $bet)
                                         <?php
@@ -67,7 +67,7 @@
                                                 $resultDescription = "(1) " . __("teams.{$group->getTeamIDByRank(1)}") ."<br>(2) " . __("teams.{$group->getTeamIDByRank(2)}") ."<br>(3) " . __("teams.{$group->getTeamIDByRank(3)}") ."<br>(4) " . __("teams.{$group->getTeamIDByRank(4)}") ;
                                         ?>
                                         <li class="list-group-item row">
-                                            <div class="col-sm-2 pull-right">{{ $bet->score }}</div>
+                                            <div class="col-sm-1 pull-right">{{ $bet->score }}</div>
                                             <div class="col-sm-5 pull-right">{!! $betDescription !!}</div>
                                             <div class="col-sm-5 pull-right">{!! $resultDescription !!}</div>
                                         </li>

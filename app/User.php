@@ -56,15 +56,22 @@ class User extends Authenticatable
     }
 
     public function getOpenMatches() {
-        return Match::query()->select(["matches.*"])->leftJoin("bets", function (JoinClause $j) {
-            $j->on("type_id", "=", "matches.id")
-                ->where("bets.type", BetTypes::Match)
-                ->where("user_id", $this->id);
-        })
-            ->whereNotNull("team_home_id")
+        $matches = Match::query()->whereNotNull("team_home_id")
             ->whereNotNull("team_away_id")
-            ->whereNull("type_id")
+            ->where("start_time", ">", time())
             ->get();
+
+        $bets = Bet::query()
+            ->whereIn("type_id", $matches->pluck("id")->all())
+            ->where("type", BetTypes::Match)
+            ->where("user_id", $this->id)
+            ->get();
+
+        foreach ($matches as $match) {
+            $match->bet = $bets->first(function ($bet) use ($match) { return $bet->type_id == $match->id; });
+        }
+
+        return $matches;
     }
 
     public function getBet(Match $match)

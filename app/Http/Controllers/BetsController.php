@@ -106,7 +106,8 @@ class BetsController extends Controller
                     $q->whereNull("team_home_id")
                       ->orWhereNull("team_away_id")
                       ->orWhereNotNull("result_home")
-                      ->orWhereNotNull("result_away");
+                      ->orWhereNotNull("result_away")
+                      ->orWhere("start_time", "<", time() + 60*60*12);
                 })->get();
 
             if ($notAllowedMatches->isNotEmpty()) {
@@ -128,7 +129,7 @@ class BetsController extends Controller
             })->get();
 
         if ($alreadySubmittedBets->isNotEmpty()) {
-            throw new JsonException("משחקים ({$alreadySubmittedBets->implode("type_id", ", ")} כבר הוזנו", 201);
+//            throw new JsonException("משחקים ({$alreadySubmittedBets->implode("type_id", ", ")} כבר הוזנו", 201);
         }
 
 
