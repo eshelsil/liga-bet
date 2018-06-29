@@ -13,6 +13,7 @@ use App\Groups\Group;
 use App\Match;
 use App\Team;
 use App\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -172,14 +173,18 @@ class AdminController extends Controller
         return "completed";
     }
 
-    public function parseGroupBets() {
+    public function parseGroupBets($userId = null) {
 //        Bet::query()->truncate();
         $data = self::parseCSV("resources/bets-data.csv");
         $matchs = Match::query()->where("type", "groups")->get();
-        $users = User::all();
+        $users = $userId ? User::query()->where("id", $userId)->get() : User::all();
         foreach ($data as $userBets) {
             /** @var User $user */
+            /** @var Match $match */
             $user = $users->find($userBets["ID"]);
+            if (!$user) {
+                continue;
+            }
             foreach ($matchs as $match) {
                 $result = trim($userBets["g{$match->id}"]);
                 $score  = trim($userBets["s{$match->id}"]);
@@ -199,6 +204,16 @@ class AdminController extends Controller
 //                    "result-away" => $fixInput ? $score_a : $score_b,
                 ]);
                 $bet = BetMatch::save($user, $betRequest);
+
+//                if (!is_null($match->result_home) && !is_null($match->result_away)) {
+//                    $finalResult = new BetMatchRequest($match, [
+//                        "result-home" => "{$match->result_home}",
+//                        "result-away" => "{$match->result_away}",
+//                    ]);
+//                    $bet->score = $betRequest->calculate($finalResult);
+//                    $bet->save();
+//                }
+
             }
 
         }

@@ -14,7 +14,7 @@
                             <div class="col-sm-2 pull-right">{{$row->rank}}</div>
                             <div class="col-sm-8 pull-right">
                                 <h4 class="panel-title">
-                                    <a data-toggle="collapse" href="#collapserank-{{$row->rank}}">{{$row->name}}</a>
+                                    <a data-toggle="collapse" href="#collapserank-{{$row->rank}}"><span class="admin">{{$row->id}} </span>{{$row->name}}</a>
                                 </h4>
                             </div>
                             <div class="col-sm-2 pull-right">{{$row->total_score}}</div>
