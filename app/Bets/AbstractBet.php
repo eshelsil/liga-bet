@@ -84,7 +84,7 @@ abstract class AbstractBet
             "type"    => static::getType(),
             "user_id" => $userID,
             "type_id" => $typeID,
-        ]);
+        ])->first();
 
         if (!$bet) {
             Bet::unguard();
