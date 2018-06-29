@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Bets\BetableInterface;
 use App\Bets\BetMatch\BetMatchRequest;
 use App\DataCrawler\Crawler;
 use App\Enums\BetTypes;
@@ -26,7 +27,7 @@ use Illuminate\Support\Facades\Log;
  * @property int $result_away
  * @property int $score
  */
-class Match extends Model
+class Match extends Model implements BetableInterface
 {
     protected $scores = [
         "groups" => [
@@ -64,13 +65,19 @@ class Match extends Model
 
         echo "Match Home ({$this->getTeamHome()->name}): {$this->result_home} | Away ({$this->getTeamAway()->name}): {$this->result_away}<br><br>";
 
+        Log::debug("Creating result");
+        $result = new BetMatchRequest($this, [
+            "result-home" => "{$this->result_home}",
+            "result-away" => "{$this->result_away}",
+        ]);
+        Log::debug("REsult: {$result->toJson()}");
         /** @var Bet $bet */
         foreach ($this->getBets() as $bet) {
             $betRequest = new BetMatchRequest($this, [
                 "result-home" => $bet->getData("result-home"),
                 "result-away" => $bet->getData("result-away"),
             ]);
-            $bet->score = $betRequest->calculate();
+            $bet->score = $betRequest->calculate($result);
             $bet->save();
 
             echo "User: {$bet->user->name} Bet home: {$bet->getData("result-home")} Bet away: {$bet->getData("result-away")} Score: {$bet->score}<br><br>";
@@ -127,5 +134,10 @@ class Match extends Model
     public function isClosedToBets()
     {
         return $this->start_time < time() + 60*60*12;
+    }
+
+    public function getID()
+    {
+        return $this->id;
     }
 }

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Bet;
+use App\Bets\BetGroupRank\BetGroupRankRequest;
 use App\Bets\BetMatch\BetMatch;
 use App\Bets\BetMatch\BetMatchRequest;
 use App\DataCrawler\AbstractCrawlerMatch;
 use App\DataCrawler\Crawler;
 use App\Enums\BetTypes;
+use App\Groups\Group;
 use App\Match;
 use App\Team;
 use App\User;
@@ -98,6 +100,13 @@ class AdminController extends Controller
         return User::all()->toJson();
     }
 
+    public function resetPass($id) {
+        $user = User::query()->find($id);
+        $user->password = Hash::make("123123");
+        $user->save();
+        return "reset User {$user->name} pass";
+    }
+
     public function showHomeA($id = null) {
         var_dump(self::parseCSV("resources/bets-data.csv"));
     }
@@ -131,10 +140,42 @@ class AdminController extends Controller
         return "completed";
     }
 
+    public function completeGroupRank($groupID) {
+        $crawler = Crawler::getInstance();
+
+        $group = Group::find($groupID);
+        $bets = Bet::query()
+            ->where("type", BetTypes::GroupsRank)
+            ->where("type_id", $groupID)
+            ->get();
+
+        $finalRequest = new BetGroupRankRequest($group, [
+            "team-a" => $group->getTeamIDByRank(1),
+            "team-b" => $group->getTeamIDByRank(2),
+            "team-c" => $group->getTeamIDByRank(3),
+            "team-d" => $group->getTeamIDByRank(4),
+        ]);
+
+        echo "FINAL RANKS: {$finalRequest->toJson()}<br><br>";
+        /** @var Bet $bet */
+        foreach ($bets as $bet) {
+            try {
+                $betRequest = new BetGroupRankRequest($group, $bet->getData());
+                $bet->score = $betRequest->calculate($finalRequest);
+                $bet->save();
+                echo "USER {$bet->user_id} Score ({$bet->score}) RANKS: {$betRequest->toJson()}<br>";
+            } catch (Exception $exception) {
+                return $exception->getMessage();
+                continue 1;
+            }
+        }
+        return "completed";
+    }
+
     public function parseGroupBets() {
-        Bet::query()->truncate();
+//        Bet::query()->truncate();
         $data = self::parseCSV("resources/bets-data.csv");
-        $matchs = Match::all();
+        $matchs = Match::query()->where("type", "groups")->get();
         $users = User::all();
         foreach ($data as $userBets) {
             /** @var User $user */
@@ -161,6 +202,18 @@ class AdminController extends Controller
             }
 
         }
+    }
+
+    public function parseGroupRankBets() {
+        $data = self::parseCSV("resources/bets-data.csv");
+        $users = User::all();
+        foreach ($data as $userBets) {
+            /** @var User $user */
+            $user = $users->find($userBets["ID"]);
+            $user->insertGroupRankData($userBets);
+        }
+
+        return "<br><br> Done";
     }
 
     public function parseSpecialBets() {

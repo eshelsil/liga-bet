@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Groups\Group;
 use App\Match;
 use App\User;
 use Illuminate\Database\Query\JoinClause;

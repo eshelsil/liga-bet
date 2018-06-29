@@ -3,76 +3,39 @@
 namespace App\Bets\BetGroupRank;
 
 use App\Bet;
+use App\Bets\AbstractBet;
+use App\Bets\BetableInterface;
+use App\Groups\Group;
 use App\Match;
 use App\User;
 
 use App\Enums\BetTypes;
 use Illuminate\Support\Facades\Log;
 
-class BetGroupRank
+class BetGroupRank extends AbstractBet
 {
-    /** @var Bet $bet */
-    protected $bet = null;
-    /** @var Match $match */
-    protected $match = null;
-    /** @var User $user */
-    protected $user = null;
-    /** @var BetGroupRankRequest $request */
-    protected $request = null;
-    /**
-     * BetMatch constructor.
-     *
-     * @param Bet        $bet
-     * @param Match|null $match
-     * @param User|null  $user
-     */
-    public function __construct(Bet $bet,Match $match = null , User $user = null)
+    /** @var Group $group */
+    protected $group = null;
+
+
+    protected function setRequest()
     {
-        $this->bet = $bet;
-        $this->setMatch($match);
-        $this->setUser($user);
-
-        $this->setRequest();
-
+        $this->request = new BetGroupRankRequest($this->group, $this->bet->getData());
     }
 
-    private function setMatch(Match $match = null)
+    protected function setEntity($group = null)
     {
-        $this->match = $match ?: Match::query()->find($this->bet->type_id);
+        $this->group = $group ?: Group::find($this->bet->type_id);
     }
 
-    private function setUser(User $user = null)
+    protected function getEntity()
     {
-        $this->user = $user ?: User::query()->find($this->bet->user_id);
+        return $this->group;
     }
 
-    private function setRequest()
+    protected static function getType()
     {
-        $this->request = new BetGroupRankRequest($this->match, $this->bet->getData());
+        return BetTypes::GroupsRank;
     }
 
-    public function getRequest()
-    {
-        if (!$this->request) {
-            $this->setRequest();
-        }
-        return $this->request;
-    }
-
-    /**
-     * @param User                $user
-     * @param BetGroupRankRequest $request
-     *
-     * @return Bet
-     */
-    public static function save($user, BetGroupRankRequest $request) {
-        // TODO: Throw exception if match already has score
-        $bet = new Bet();
-        $bet->type = BetTypes::StagesPosition;
-        $bet->user_id = $user->id;
-        $bet->type_id = $request->getMatch()->id;
-        $bet->data = $request->toJson();
-        $bet->save();
-        return $bet;
-    }
 }

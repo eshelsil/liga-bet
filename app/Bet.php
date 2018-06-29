@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Enums\BetTypes;
+use App\Groups\Group;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -25,5 +27,23 @@ class Bet extends Model
     public function getData($key = null, $default = null)
     {
         return data_get(json_decode($this->data), $key, $default);
+    }
+
+    public function getRequest()
+    {
+        $betEntity = null;
+        $abstract = null;
+        switch ($this->type) {
+            case BetTypes::Match:
+                $betEntity = Match::query()->find($this->type_id);
+                $abstract = \App\Bets\BetMatch\BetMatch::class;
+                break;
+            case BetTypes::GroupsRank:
+                $betEntity = Group::find($this->type_id);
+                $abstract = \App\Bets\BetGroupRank\BetGroupRank::class;
+                break;
+        }
+
+        return (new $abstract($this, $betEntity));
     }
 }

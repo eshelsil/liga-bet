@@ -2,13 +2,13 @@
 
 namespace App\Bets\BetGroupRank;
 
-use App\Exceptions\JsonException;
-use App\Match;
+use App\Bets\AbstractBetRequest;
+use App\Groups\Group;
 use Illuminate\Support\Facades\Log;
 
-class BetGroupRankRequest
+class BetGroupRankRequest extends AbstractBetRequest
 {
-    protected $match = null;
+    protected $group = null;
     protected $teamA = null;
     protected $teamB = null;
     protected $teamC = null;
@@ -17,13 +17,11 @@ class BetGroupRankRequest
     /**
      * BetGroupRankRequest constructor.
      *
-     * @param Match $match // TODO: data array of group rank
+     * @param Group $group
      * @param array $data
      */
-    public function __construct($match, $data = []) {
-        Log::debug("Validating data: {$match->id}\r\nData: ". json_encode($data, JSON_PRETTY_PRINT));
-        $this->validateData($match, $data);
-        $this->match      = $match;
+    public function __construct($group, $data = []) {
+        parent::__construct($group, $data);
         $this->teamA      = data_get($data, "team-a");
         $this->teamB      = data_get($data, "team-b");
         $this->teamC      = data_get($data, "team-c");
@@ -40,30 +38,27 @@ class BetGroupRankRequest
     }
 
     /**
-     * @param Match $match
+     * @param Group $group
      * @param array $data
      */
-    private function validateData($match, $data) {
-        Log::debug("Validating data: {$match->id}\r\nData: ". json_encode($data, JSON_PRETTY_PRINT));
-        if (!ctype_digit(data_get($data, "team-a"))) {
-            throw new \InvalidArgumentException();
-        }
-        if (!ctype_digit(data_get($data, "team-b"))) {
-            throw new \InvalidArgumentException();
-        }
-        if (!ctype_digit(data_get($data, "team-c"))) {
-            throw new \InvalidArgumentException();
-        }
-        if (!ctype_digit(data_get($data, "team-d"))) {
-            throw new \InvalidArgumentException();
+    protected function validateData($group, $data) {
+        Log::debug("Validating data: {$group->getID()}\r\nData: ". json_encode($data, JSON_PRETTY_PRINT));
+        $this->validateTeamID(data_get($data, "team-a"));
+        $this->validateTeamID(data_get($data, "team-b"));
+        $this->validateTeamID(data_get($data, "team-c"));
+        $this->validateTeamID(data_get($data, "team-d"));
+    }
+
+    private function validateTeamID($teamID)
+    {
+        if (!trans("teams.{$teamID}")) {
+            throw new \InvalidArgumentException("invalid Team {$teamID}");
         }
     }
 
-    /**
-     * @return Match
-     */
-    public function getMatch(): ?Match {
-        return $this->match;
+    public function getGroup()
+    {
+        return $this->group;
     }
 
     /**
@@ -94,11 +89,45 @@ class BetGroupRankRequest
         return $this->teamD;
     }
 
-    public function calculate() {
+    public function calculate(AbstractBetRequest $finalRanks) {
         $score = 0;
-        // TODO
+        /** @var BetGroupRankRequest $finalRanks */
+        if ($finalRanks->isQualifiedTeam($this->getTeamA())) {
+            $score += 2;
+        }
+        if ($finalRanks->isQualifiedTeam($this->getTeamB())) {
+            $score += 2;
+        }
+        if ($finalRanks->getTeamA() == $this->getTeamA()
+            && $finalRanks->getTeamB() == $this->getTeamB()) {
+            $score += 2;
+            if ($finalRanks->getTeamC() == $this->getTeamC()
+                && $finalRanks->getTeamD() == $this->getTeamD()) {
+                $score += 2;
+
+            }
+        }
 
         return $score;
     }
 
+    /**
+     * @param int $teamId
+     *
+     * @return bool
+     */
+    private function isQualifiedTeam($teamId)
+    {
+        return in_array($teamId, [$this->getTeamA(), $this->getTeamB()]);
+    }
+
+    protected function setEntity($entity = null)
+    {
+        $this->group = $entity;
+    }
+
+    public function getEntity()
+    {
+        return $this->getGroup();
+    }
 }

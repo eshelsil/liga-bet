@@ -2,11 +2,13 @@
 
 namespace App\Bets\BetMatch;
 
+use App\Bets\AbstractBetRequest;
+use App\Bets\BetableInterface;
 use App\Exceptions\JsonException;
 use App\Match;
 use Illuminate\Support\Facades\Log;
 
-class BetMatchRequest
+class BetMatchRequest extends AbstractBetRequest
 {
     protected $match = null;
     protected $resultHome = null;
@@ -19,9 +21,7 @@ class BetMatchRequest
      * @param array $data
      */
     public function __construct($match, $data = []) {
-        Log::debug("Validating data: {$match->id}\r\nData: ". json_encode($data, JSON_PRETTY_PRINT));
-        $this->validateData($match, $data);
-        $this->match = $match;
+        parent::__construct($match, $data);
         $this->resultHome = data_get($data, "result-home");
         $this->resultAway = data_get($data, "result-away");
     }
@@ -30,20 +30,17 @@ class BetMatchRequest
         return json_encode(["result-home" => $this->resultHome, "result-away" => $this->resultAway]);
     }
 
-    /**
-     * @param Match $match
-     * @param array $data
-     */
-    private function validateData($match, $data)
+
+    protected function validateData($match, $data)
     {
-        Log::debug("Validating data: {$match->id}\r\nData: ". json_encode($data, JSON_PRETTY_PRINT));
+        Log::debug("Validating data: {$match->getID()}\r\nData: ". json_encode($data, JSON_PRETTY_PRINT));
         $resultHome = data_get($data, "result-home");
         if (!ctype_digit($resultHome)) {
-            throw new \InvalidArgumentException();
+            throw new \InvalidArgumentException($resultHome);
         }
         $resultAway = data_get($data, "result-away");
         if (!ctype_digit($resultAway)) {
-            throw new \InvalidArgumentException();
+            throw new \InvalidArgumentException($resultHome);
         }
     }
 
@@ -71,20 +68,25 @@ class BetMatchRequest
         return $this->resultAway;
     }
 
-    public function calculate()
+    /**
+     * @param BetMatchRequest $request
+     *
+     * @return int|mixed
+     */
+    public function calculate(AbstractBetRequest $request)
     {
         $score = 0;
-        if ($this->getMatch()->result_home == $this->getResultHome()
-            && $this->getMatch()->result_away == $this->getResultAway()) {
+        if ($request->getResultHome() == $this->getResultHome()
+            && $request->getResultAway() == $this->getResultAway()) {
             $score += $this->getMatch()->getScore("score");
         }
 
         if (
-            ($this->getMatch()->result_home == $this->getMatch()->result_away
+            ($request->getResultHome() == $request->getResultAway()
             && $this->getResultHome() == $this->getResultAway()) // Teko
-            || ($this->getMatch()->result_home > $this->getMatch()->result_away
+            || ($request->getResultHome() > $request->getResultAway()
             && $this->getResultHome() > $this->getResultAway()) // Winner Home
-            || ($this->getMatch()->result_home < $this->getMatch()->result_away
+            || ($request->getResultHome() < $request->getResultAway()
             && $this->getResultHome() < $this->getResultAway()) // Winner Away
         ) {
             $score += $this->getMatch()->getScore("winner");
@@ -93,4 +95,16 @@ class BetMatchRequest
         return $score;
     }
 
+    protected function setEntity($entity = null)
+    {
+        $this->match = $entity;
+    }
+
+    /**
+     * @return BetableInterface
+     */
+    public function getEntity()
+    {
+        return $this->match;
+    }
 }
