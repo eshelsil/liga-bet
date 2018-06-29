@@ -28,7 +28,7 @@ Route::get('/admin/show-home/{id?}', 'AdminController@showHomeA');
 Route::get('/admin/save-users', 'AdminController@saveUsers');
 Route::get('/admin/reset-user-pass/{id}', 'AdminController@resetPass');
 Route::get('/admin/parse-bets/{userId?}/{fixMatchIds?}', 'AdminController@parseGroupBets');
-Route::get('/admin/complete-match/{id?}', 'AdminController@completeMatch');
+Route::get('/admin/complete-match/{id}/{scoreHome?}/{scoreAway?}', 'AdminController@completeMatch');
 Route::get('/admin/complete-all-matches', 'AdminController@completeAllMatches');
 Route::get('/admin/complete-group-rank/{groupID}', 'AdminController@completeGroupRank');
 Route::get('/admin/complete-special-bet/{specialBetID}', 'AdminController@completeSpecialBet');

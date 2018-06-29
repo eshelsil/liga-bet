@@ -6,7 +6,7 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th class="admin">מזהה</th>
+            <th>מזהה</th>
             <th>
                 סוג
             </th>
@@ -56,7 +56,7 @@
         <tbody>
         @foreach($matches as $match)
             <tr>
-                <td class="admin">{{ $match->id }}</td>
+                <td>{{ $match->id }}</td>
 
                 <td>
                     {{ __("teams.{$match->team_home_id}") }} - {{ __("teams.{$match->team_away_id}") }}

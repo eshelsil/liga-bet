@@ -114,10 +114,10 @@ class AdminController extends Controller
         var_dump(self::parseCSV("resources/bets-data.csv"));
     }
 
-    public function completeMatch($id) {
+    public function completeMatch($id, $scoreHome = null, $scoreAway = null) {
         /** @var Match $match */
         $match = Match::query()->find($id);
-        $match->completeBets();
+        $match->completeBets($scoreHome, $scoreAway);
         return "completed";
     }
 
