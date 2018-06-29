@@ -67,20 +67,30 @@ abstract class AbstractBet
      */
     public static function save($user, AbstractBetRequest $request)
     {
-        Bet::unguard(); // For fill() in firstOrCreate
-
         /** @var Bet $bet */
-        $bet = Bet::query()->firstOrCreate([
-            "type"    => static::getType(),
-            "user_id" => $user->id,
-            "type_id" => $request->getEntity()->getID(),
-        ]);
+        $bet = self::firstOrCreateUserBet($user->id, $request->getEntity()->getID());
 
         $bet->data = $request->toJson();
         $bet->score = null;
         $bet->save();
 
-        Bet::reguard();
+
+        return $bet;
+    }
+
+    private static function firstOrCreateUserBet($userID, $typeID)
+    {
+        $bet = Bet::query()->where($wheres = [
+            "type"    => static::getType(),
+            "user_id" => $userID,
+            "type_id" => $typeID,
+        ]);
+
+        if (!$bet) {
+            Bet::unguard();
+            $bet = new Bet($wheres);
+            Bet::reguard();
+        }
 
         return $bet;
     }
