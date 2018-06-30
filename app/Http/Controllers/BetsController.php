@@ -107,7 +107,7 @@ class BetsController extends Controller
                       ->orWhereNull("team_away_id")
                       ->orWhereNotNull("result_home")
                       ->orWhereNotNull("result_away")
-                      ->orWhere("start_time", "<", time() + 60*60*12);
+                      ->orWhere("start_time", "<", time() + 60*60*3);
                 })->get();
 
             if ($notAllowedMatches->isNotEmpty()) {
