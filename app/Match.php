@@ -139,7 +139,7 @@ class Match extends Model implements BetableInterface
 
     public function isClosedToBets()
     {
-        return $this->start_time < time() + 60*60*0;
+        return $this->start_time < time() + config("bets.lockBeforeSeconds");
     }
 
     public function getID()

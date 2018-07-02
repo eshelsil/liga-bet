@@ -26,7 +26,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($matches as $match)
+        @foreach($matches->sortBy("start_time") as $match)
             <tr>
                 <td>{{ $match->id }}</td>
                 <td>
