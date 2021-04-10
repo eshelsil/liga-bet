@@ -42,6 +42,12 @@ class AdminController extends Controller
         return view('admin.confirm_users')->with(["users_to_confirm" => $users_to_confirm]);
     }
 
+    public function showConfirmedUsers()
+    {
+        $users = User::query()->where('permissions', '>', 0)->get();
+        return view('admin.confirmed_users')->with(["users" => $users]);
+    }
+
 
     public function downloadData()
     {

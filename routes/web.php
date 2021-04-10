@@ -23,6 +23,7 @@ Route::get("/today-matches", 'HomeController@showTodayMatches')->middleware("aut
 Route::get("/my-bets", 'HomeController@showMyBets')->middleware("auth")->name('my-bets');
 Route::get('/open-matches', 'HomeController@showOpenMatches')->middleware("auth")->name('open-matches');
 Route::get('/admin/users-to-confirm', 'AdminController@showUsersToConfirm');
+Route::get('/admin/confirmed-users', 'AdminController@showConfirmedUsers');
 Route::post('/admin/set-permission', 'AdminController@setPermission');
 Route::get('/admin/download-data', 'AdminController@downloadData');
 Route::get('/admin/download-knockout-matches', 'AdminController@downloadKnockoutMatches');
