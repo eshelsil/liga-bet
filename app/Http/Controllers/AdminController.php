@@ -30,7 +30,8 @@ class AdminController extends Controller
      */
     public function __construct()
     {
-//        $this->middleware('auth');
+       $this->middleware('auth');
+       $this->middleware('admin');
     }
 
     public function downloadData()
@@ -299,7 +300,7 @@ class AdminController extends Controller
         $match->delete();
         echo "Match deleted";
     }
-
+    
     public static function fixMatchBet($matchId, $userId = null)
     {
         /** @var Match $match */

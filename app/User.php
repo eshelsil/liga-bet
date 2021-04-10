@@ -43,6 +43,20 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    const TYPE_ADMIN = 2;
+    const TYPE_CONFIRMED = 1;
+    const TYPE_NOT_CONFIRMED = 0;
+
+    public function isAdmin()
+    {
+        return $this->permissions == self::TYPE_ADMIN;
+    }
+
+    private function isConfirmed()
+    {
+        return $this->permissions > 0;
+    }
+
     public function bets()
     {
         return $this->hasMany('App\Bet');

@@ -63,11 +63,12 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $is_first_user = !User::exists();
         $user = User::create([
             'name' => $data['name'],
             'username' => $data['username'],
             'password' => Hash::make($data['password']),
-            'permissions' => 0
+            'permissions' => $is_first_user ? User::TYPE_ADMIN : User::TYPE_NOT_CONFIRMED
         ]);
 
         $this->guard()->login($user, true);
