@@ -4,10 +4,7 @@
         - If scores are available from API - make it possible for everyone to update.
         - Scores that should be updated manually (cant get from API) may be updated only by Admin
 - Users:
-    -create permission types:
-        - admin
-        - confirmed
-        - new (can't bet)
+    - Prevent regular users from making admin actions
 - Views:
     - View for special bets
     - View for GroupStage standings bets
