@@ -19,6 +19,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use \Exception;
 
 class AdminController extends Controller
@@ -33,6 +35,13 @@ class AdminController extends Controller
        $this->middleware('auth');
        $this->middleware('admin');
     }
+
+    public function showUsersToConfirm()
+    {
+        $users_to_confirm = User::query()->where('permissions', 0)->get();
+        return view('admin.confirm_users')->with(["users_to_confirm" => $users_to_confirm]);
+    }
+
 
     public function downloadData()
     {
@@ -301,6 +310,24 @@ class AdminController extends Controller
         echo "Match deleted";
     }
     
+    public function setPermission(Request $request){
+        $request->validate([
+            "user_id" => ["required", "integer", "exists:users,id"],
+            "permission" => ["required", Rule::in([User::TYPE_NOT_CONFIRMED, User::TYPE_CONFIRMED, User::TYPE_ADMIN])]
+        ]);
+
+        $user_id = $request->get('user_id');
+        $permission = $request->get('permission');
+        
+        $user = User::find($user_id);
+        if ($user->id == $request->user()->id) {
+            return response()->json(["message" => "User cannot change his own permissions"], 400);
+        }
+        $user->permissions = $permission;
+        $user->save();
+        return response()->json();
+    }
+
     public static function fixMatchBet($matchId, $userId = null)
     {
         /** @var Match $match */
