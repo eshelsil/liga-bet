@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use \Exception;
+use Storage;
+
 
 class AdminController extends Controller
 {
@@ -66,6 +68,13 @@ class AdminController extends Controller
         self::saveMatches($crawler->getKnownOpenMatches());
     }
 
+    public function fetchGames(){
+        $json = Storage::disk('local')->get('api/matches.json');
+        #where should locate fetched data??
+        $json = json_decode($json, true);
+        self::newSaveMatches(data_get($json, 'matches'));
+    }
+
     private static function saveTeams($teamsData) {
         foreach ($teamsData as $teamData) {
             $team = new Team();
@@ -84,7 +93,7 @@ class AdminController extends Controller
             if (in_array($crawlerMatch->getID(), $existingMatchExternalIds)) {
                 echo "<br><br> Match {$crawlerMatch->getID()} " . trans("teams.{$crawlerMatch->getTeamHomeID()}") . " - " . trans("teams.{$crawlerMatch->getTeamAwayID()}") . "<br>Already Exists";
                 continue;
-            }
+            }         
             $match = new Match();
             $match->external_id  = $crawlerMatch->getID();
             $match->type         = $crawlerMatch->getType();
@@ -101,6 +110,48 @@ class AdminController extends Controller
                 echo "<br><br>Match Home ({$match->getTeamHome()->name}): {$match->result_home} | Away ({$match->getTeamAway()->name}): {$match->result_away}";
             }
             $match->save();
+        }
+    }
+
+    private static function getSubType($type){
+        if ($type == 'GROUP_STAGE'){
+            return 'group';
+        }
+        return 'knockout';
+    }
+
+    private static function newSaveMatches($matches) {
+        $existingMatchExternalIds = Match::all(["external_id"])->pluck("external_id")->toArray();
+
+        /** @var AbstractCrawlerMatch $crawlerMatch */
+        foreach ($matches as $match) {
+            $id = data_get($match, 'id');
+            // dd($id);
+            if (in_array($id, $existingMatchExternalIds)) {
+                $home_team = data_get($match, 'homeTeam.name');
+                $away_team = data_get($match, 'awayTeam.name');
+                echo "<br><br> Match {$id} " . "{$home_team}" . " - " . "{$away_team}" . "<br>Already Exists";
+                continue;
+            }
+            
+            $start_time =  \DateTime::createFromFormat(\DateTime::ISO8601, data_get($match, 'utcDate'));
+            $Match = new Match();
+            $Match->external_id  = data_get($match, 'id');
+            $Match->type         = data_get($match, 'stage');
+            
+            $Match->sub_type     = self::getSubType(data_get($match, 'stage'));
+            $Match->team_home_id = data_get($match, 'homeTeam.id');
+            $Match->team_away_id = data_get($match, 'awayTeam.id');
+            $Match->start_time   = $start_time ? $start_time->format("U") : null;
+            $Match->result_home  = data_get($match, 'score.fullTime.homeTeam');
+            $Match->result_away  = data_get($match, 'score.fullTime.awayTeam');
+
+            // if ($crawlerMatch->isCompleted()) {
+            //     $Match->completeBets();
+            // } else {
+            //     echo "<br><br>Match Home ({$Match->getTeamHome()->name}): {$Match->result_home} | Away ({$Match->getTeamAway()->name}): {$Match->result_away}";
+            // }
+            $Match->save();
         }
     }
 
