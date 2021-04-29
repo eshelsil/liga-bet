@@ -78,6 +78,9 @@
             <a class="navbar-brand" href="/home">מונדיאל חברים - {{  \Auth::user()->name }}, {{  \Auth::user()->permissions }}</a>
         </div>
         <div class="collapse navbar-collapse" style="float: right!important;" id="myNavbar">
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="/logout">התנתק</a></li>
+            </ul>
             <ul class="nav navbar-nav">
                 <li class="{{ Route::currentRouteName() == "update" ? "active" : "" }}"><a href="/admin/complete-all-matches">עדכן</a></li>
                 <li class="{{ Route::currentRouteName() == "my-bets" ? "active" : "" }}"><a href="/my-bets">הטופס שלי</a></li>
