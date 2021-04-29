@@ -86,7 +86,7 @@
                 <li class="{{ Route::currentRouteName() == "home" ? "active" : "" }}"><a href="/home">טבלת ניקוד</a></li>
                 @if (\Auth::user()->isAdmin())
                     <li class="{{ Route::currentRouteName() == "users-to-confirm" ? "active" : "" }}"><a href="/admin/users-to-confirm">מתמשים ממתינים לאישור</a></li>
-                    <li class="{{ Route::currentRouteName() == "confirmed_users" ? "active" : "" }}"><a href="/admin/confirmed-users">משתמשים שאושרו</a></li>
+                    <li class="{{ Route::currentRouteName() == "confirmed-users" ? "active" : "" }}"><a href="/admin/confirmed-users">משתמשים שאושרו</a></li>
                 @endif
             </ul>
             {{--<ul class="nav navbar-nav navbar-right">--}}

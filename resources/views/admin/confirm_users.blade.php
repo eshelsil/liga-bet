@@ -2,6 +2,9 @@
 
 @section('script')
 <script>
+    function showResetPassForm(userId){
+        window.location = `/admin/reset-password/${userId}`;
+    }
     function confirmUser(userId) {
         $.ajax({
             type: 'POST',
@@ -45,6 +48,7 @@
                         <td class="">{{$user->updated_at}}</td>
                         <td class="">
                             <button class="btn btn-primary" onclick="confirmUser({{ $user->id }})" id="confirm_user_button">אשר</button>
+                            <button class="btn btn-sm btn-secondary" onclick="showResetPassForm({{ $user->id }})" id="confirm_user_button">שנה סיסמה</button>
                         </td>
                     <tr>
                     @endforeach

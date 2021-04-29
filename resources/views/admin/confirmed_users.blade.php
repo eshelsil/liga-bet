@@ -2,6 +2,10 @@
 
 @section('script')
 <script>
+    function showResetPassForm(userId){
+        window.location = `/admin/reset-password/${userId}`;
+    }
+
     function setPermission(userId, permission) {
         $.ajax({
             type: 'POST',
@@ -53,6 +57,7 @@
                             @else
                             <button class="btn btn-sm btn-success" onclick="makeAdmin({{ $user->id }})" id="confirm_user_button">הפוך לאדמין</button>
                             @endif
+                            <button class="btn btn-sm btn-secondary" onclick="showResetPassForm({{ $user->id }})" id="confirm_user_button">שנה סיסמה</button>
                         </td>
                     <tr>
                     @endforeach

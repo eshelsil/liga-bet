@@ -50,6 +50,11 @@ class AdminController extends Controller
         return view('admin.confirmed_users')->with(["users" => $users]);
     }
 
+    public function showResetPassword($id)
+    {
+        $user = User::find($id);
+        return view('admin.reset_password')->with(["user_id" => $user->id, "username" => $user->username]);
+    }
 
     public function downloadData()
     {
@@ -93,7 +98,7 @@ class AdminController extends Controller
             if (in_array($crawlerMatch->getID(), $existingMatchExternalIds)) {
                 echo "<br><br> Match {$crawlerMatch->getID()} " . trans("teams.{$crawlerMatch->getTeamHomeID()}") . " - " . trans("teams.{$crawlerMatch->getTeamAwayID()}") . "<br>Already Exists";
                 continue;
-            }         
+            }
             $match = new Match();
             $match->external_id  = $crawlerMatch->getID();
             $match->type         = $crawlerMatch->getType();
@@ -168,6 +173,18 @@ class AdminController extends Controller
             ]);
         }
         return User::all()->toJson();
+    }
+
+    public function setPassword(Request $request) {
+        $id = $request->user_id;
+        $validated = $request->validate([
+            'new_password' => 'required|string|min:4|confirmed'
+        ]);
+        $password = $request->new_password;
+        $user = User::query()->find($id);
+        $user->password = Hash::make($password);
+        $user->save();
+        return response()->json(200);
     }
 
     public function resetPass($id) {
