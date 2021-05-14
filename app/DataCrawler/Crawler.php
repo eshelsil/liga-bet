@@ -70,14 +70,18 @@ class Crawler
             'ko_winner' => $ko_winner
         ];
     }
-
-    public function fetchTeams(){
+    private function apiCall($additional_path){
         $api_path = config('api.path');
         $api_token = config('api.api_token');
         $headers = ['X-Auth-Token' => $api_token];
         $client = new HttpClient();
-        $res = $client->get("{$api_path}/standings", $headers)->send();
-        $standings = data_get(json_decode($res->getBody()), 'standings');
+        $res = $client->get("{$api_path}{$additional_path}", $headers)->send();
+        return json_decode($res->getBody());
+    }
+
+    public function fetchTeams(){
+        $data = $this->apiCall('/standings');
+        $standings = data_get($data, 'standings');
 
         $groups = collect($standings)->where('type', 'TOTAL');
         $teams = [];
@@ -93,18 +97,22 @@ class Crawler
 
     public function fetchMatches()
     {
-        $api_path = config('api.path');
-        $api_token = config('api.api_token');
-        $headers = ['X-Auth-Token' => $api_token];
-        $client = new HttpClient();
-        $res = $client->get("{$api_path}/matches", $headers)->send();
-        $matches = data_get(json_decode($res->getBody()), 'matches');
+        $data = $this->apiCall('/matches');
+        $matches = data_get($data, 'matches');
 
         return collect($matches)->map(function($m){
             return self::parse_match($m);
         })->filter(function($m){
             return !is_null($m);
         });
+    }
+
+    public function fetchScorers()
+    {    
+        $data = $this->apiCall('/scorers');
+        $scorers = data_get($data, 'scorers');
+
+        return collect($scorers);
     }
 
     /**

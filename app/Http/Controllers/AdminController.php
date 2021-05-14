@@ -80,6 +80,27 @@ class AdminController extends Controller
         self::saveNewMatches($matches);
     }
 
+    public function fetchScorers(){
+        $crawler = Crawler::getInstance();
+        $scorers = $crawler->fetchScorers();
+        self::updateScorers($scorers);
+    }
+
+    private static function updateScorers($scorers) {
+        $relevantScorers = Scorers::all();
+        foreach ($scorers as $scorer){
+            $id = data_get($scorer, 'player.id');
+            if (in_array($id, $relevantScorers->pluck('external_id'))){
+                $goals = data_get($scorer, 'numberOfGoals');
+                $scorer = $relevantScorers->where('external_id', $id)->first();
+                if ($goals !== $scorer->goals){
+                    $scorer->goals = $goals;
+                    $scorer->save();
+                }
+            }
+        }
+    }
+
     private static function saveTeams($teamsData) {
         foreach ($teamsData as $teamData) {
             $team = new Team();
