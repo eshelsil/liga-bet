@@ -62,8 +62,8 @@ class AdminController extends Controller
 
         DB::table("teams")->truncate();
         DB::table("matches")->truncate();
-        self::saveTeams($crawler->getData("teams", []));
-        self::saveMatches($crawler->getGroupMatches());
+        self::saveTeams($crawler->fetchTeams());
+        self::fetchGames();
     }
 
     public function downloadKnockoutMatches()
@@ -74,17 +74,19 @@ class AdminController extends Controller
     }
 
     public function fetchGames(){
-        $json = Storage::disk('local')->get('api/matches.json');
-        #where should locate fetched data??
-        $json = json_decode($json, true);
-        self::newSaveMatches(data_get($json, 'matches'));
+        $crawler = Crawler::getInstance();
+        $matches = $crawler->fetchMatches();
+        
+        self::saveNewMatches($matches);
     }
 
     private static function saveTeams($teamsData) {
         foreach ($teamsData as $teamData) {
             $team = new Team();
-            $team->external_id = $teamData->id;
-            $team->name = $teamData->name;
+            $team->external_id = data_get($teamData, 'id');
+            $team->name = data_get($teamData, 'name');
+            $team->crest_url = data_get($teamData, 'crestUrl');
+            $team->home_id = data_get($teamData, 'home_id');
             $team->save();
             echo $team->id . ". ".$team->name . "<br/>";
         }
@@ -118,45 +120,38 @@ class AdminController extends Controller
         }
     }
 
-    private static function getSubType($type){
-        if ($type == 'GROUP_STAGE'){
-            return 'group';
+
+    private static function saveNewMatches($matches) {
+        $existingMatches = Match::all();
+        $new_matches = $matches->filter(function($m) use ($existingMatches){
+            $id = data_get($m, 'id');
+            return !in_array($id, $existingMatches->pluck('external_id')->toArray());
+        });
+
+        $matches_with_no_score = $existingMatches->where("is_done", false)
+                                    ->keyBy->external_id;
+        $new_scores = $matches->filter(function($m) use ($matches_with_no_score){
+            $id = data_get($m, 'id');
+            return data_get($m, 'is_done') && in_array($id, $matches_with_no_score->pluck('external_id')->toArray());
+        });
+
+        foreach ($new_matches as $match_data) {
+            $match = new Match();
+            $match->external_id  = data_get($match_data, 'id');
+            $match->type         = data_get($match_data, 'type');
+            $match->sub_type     = data_get($match_data, 'sub_type');
+            $match->team_home_id = data_get($match_data, 'team_home_id');
+            $match->team_away_id = data_get($match_data, 'team_away_id');
+            $match->start_time   = data_get($match_data, 'start_time');
+            $match->save();
         }
-        return 'knockout';
-    }
 
-    private static function newSaveMatches($matches) {
-        $existingMatchExternalIds = Match::all(["external_id"])->pluck("external_id")->toArray();
-
-        /** @var AbstractCrawlerMatch $crawlerMatch */
-        foreach ($matches as $match) {
-            $id = data_get($match, 'id');
-            // dd($id);
-            if (in_array($id, $existingMatchExternalIds)) {
-                $home_team = data_get($match, 'homeTeam.name');
-                $away_team = data_get($match, 'awayTeam.name');
-                echo "<br><br> Match {$id} " . "{$home_team}" . " - " . "{$away_team}" . "<br>Already Exists";
-                continue;
-            }
-            
-            $start_time =  \DateTime::createFromFormat(\DateTime::ISO8601, data_get($match, 'utcDate'));
-            $Match = new Match();
-            $Match->external_id  = data_get($match, 'id');
-            $Match->type         = data_get($match, 'stage');
-            
-            $Match->sub_type     = self::getSubType(data_get($match, 'stage'));
-            $Match->team_home_id = data_get($match, 'homeTeam.id');
-            $Match->team_away_id = data_get($match, 'awayTeam.id');
-            $Match->start_time   = $start_time ? $start_time->format("U") : null;
-            $Match->result_home  = data_get($match, 'score.fullTime.homeTeam');
-            $Match->result_away  = data_get($match, 'score.fullTime.awayTeam');
-
-            // if ($crawlerMatch->isCompleted()) {
-            //     $Match->completeBets();
-            // } else {
-            //     echo "<br><br>Match Home ({$Match->getTeamHome()->name}): {$Match->result_home} | Away ({$Match->getTeamAway()->name}): {$Match->result_away}";
-            // }
-            $Match->save();
+        foreach ($new_scores as $match_data)  {
+            $match = $matches_with_no_score->where('external_id', data_get($match_data, 'id'))->first();
+            $match->result_home  = data_get($match_data, 'result_home');
+            $match->result_away  = data_get($match_data, 'result_away');
+            $match->ko_winner  = data_get($match_data, 'ko_winner');
+            $match->save();
         }
     }
 

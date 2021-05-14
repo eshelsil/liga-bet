@@ -24,6 +24,8 @@ class CreateMatchesTable extends Migration
             $table->integer("result_home")->nullable();
             $table->integer("result_away")->nullable();
             $table->integer("score")->nullable();
+            $table->integer("ko_winner")->nullable(); # get winner of knockout game;
+            $table->boolean('is_done')->storedAs('result_home is not null and result_away is not null');
             $table->timestamps();
         });
     }

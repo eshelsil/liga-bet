@@ -26,11 +26,12 @@ use Illuminate\Support\Facades\Log;
  * @property int $result_home
  * @property int $result_away
  * @property int $score
+ * @property bool $is_done
  */
 class Match extends Model implements BetableInterface
 {
     protected $scores = [
-        "groups" => [
+        "group_stage" => [
             "winner" => 1,
             "score" => 3
         ],
