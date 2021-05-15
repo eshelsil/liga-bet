@@ -33,11 +33,11 @@ class Match extends Model implements BetableInterface
     protected $scores = [
         "group_stage" => [
             "winner" => 1,
-            "score" => 3
+            "score" => 2
         ],
         "knockout" => [
             "winner" => 3,
-            "score" => 8
+            "score" => 6
         ]
     ];
 
