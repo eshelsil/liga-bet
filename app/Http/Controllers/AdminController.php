@@ -14,6 +14,7 @@ use App\Groups\Group;
 use App\Match;
 use App\SpecialBets\SpecialBet;
 use App\Team;
+use App\Group as GroupModel;
 use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
@@ -61,8 +62,12 @@ class AdminController extends Controller
         $crawler = Crawler::getInstance();
 
         DB::table("teams")->truncate();
+        DB::table("groups")->truncate();
         DB::table("matches")->truncate();
-        self::saveTeams($crawler->fetchTeams());
+        $teams = $crawler->fetchTeams();
+        self::saveTeams($teams);
+        $groups = array_unique($teams->pluck('group_id')->toArray());
+        self::saveGroups($groups);
         self::fetchGames();
     }
 
@@ -86,6 +91,23 @@ class AdminController extends Controller
         self::updateScorers($scorers);
     }
 
+    public function updateStandings(){
+        $crawler = Crawler::getInstance();
+        $final_standings = $crawler->fetchGroupStandings();
+        $groupsNotCompleted = GroupModel::all()->filter(function($g){
+            return !$g->isComplete();
+        });
+        $relevantGroupIds = $groupsNotCompleted->pluck('external_id')->toArray();
+        foreach($final_standings as $group_id => $standings){
+            if (!in_array($group_id, $relevantGroupIds)){
+                continue;
+            }
+            $group = $groupsNotCompleted->where('external_id', $group_id)->first();
+            $group->standings = json_encode($standings);
+            $group->save();
+        }
+    }
+
     private static function updateScorers($scorers) {
         $relevantScorers = Scorers::all();
         foreach ($scorers as $scorer){
@@ -107,9 +129,19 @@ class AdminController extends Controller
             $team->external_id = data_get($teamData, 'id');
             $team->name = data_get($teamData, 'name');
             $team->crest_url = data_get($teamData, 'crestUrl');
-            $team->home_id = data_get($teamData, 'home_id');
+            $team->group_id = data_get($teamData, 'group_id');
             $team->save();
             echo $team->id . ". ".$team->name . "<br/>";
+        }
+    }
+
+    private static function saveGroups($groups) {
+        foreach ($groups as $group_id) {
+            $group = new GroupModel();
+            $group->external_id = $group_id;
+            $group->name = "Group ".substr($group_id, -1);
+            $group->save();
+            echo $group->id . ". ".$group->name . "<br/>";
         }
     }
 

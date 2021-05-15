@@ -18,7 +18,7 @@ class CreateTeamsTable extends Migration
             $table->string("external_id")->nullable();
             $table->string("name");
             $table->string("crest_url");
-            $table->string("home_id");
+            $table->string("group_id");
             $table->timestamps();
         });
     }

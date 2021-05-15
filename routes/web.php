@@ -44,5 +44,6 @@ Route::get('/admin/delete-match/{matchId}', 'AdminController@deleteMatch');
 Route::get('/admin/parse-group-rank-bets', 'AdminController@parseGroupRankBets');
 Route::get('/admin/parse-special-bets/{userId?}', 'AdminController@parseSpecialBets');
 Route::get('/admin/fetch_games', 'AdminController@fetchGames');
+Route::get('/admin/fetch_standings', 'AdminController@updateStandings');
 
 Route::post('/user/update', 'BetsController@submitBets');

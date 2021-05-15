@@ -89,7 +89,7 @@ class Crawler
             $group_id = data_get($group, 'group');
             $group_teams = data_get($group, 'table.*.team');
             $teams = array_merge($teams, array_map(function($t) use($group_id){
-                return array_merge(['home_id' => $group_id], get_object_vars($t));
+                return array_merge(['group_id' => $group_id], get_object_vars($t));
             }, $group_teams));
         }
         return collect($teams);
@@ -113,6 +113,30 @@ class Crawler
         $scorers = data_get($data, 'scorers');
 
         return collect($scorers);
+    }
+
+    public function fetchGroupStandings()
+    {    
+        $data = $this->apiCall('/standings');
+        $standings = data_get($data, 'standings');
+        $groups = collect($standings)->where('type', 'TOTAL');
+        $done_groups = $groups->filter(function($group){
+            # verifying 6 games were played in a group:
+            return array_sum( data_get($group, "table.*.playedGames") ) / 2 == 6;
+        });
+        $res = [];
+        foreach($done_groups as $group_data){
+            $table = data_get($group_data, 'table');
+            $group_id = data_get($group_data, 'group');
+            $standings = [];
+            foreach ($table as $row){
+                array_push($standings, [
+                    data_get($row, "position") => data_get($row, "team.id")
+                ]);
+            }
+            $res[$group_id] = $standings;
+        }
+        return $res;
     }
 
     /**
