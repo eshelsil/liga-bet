@@ -61,6 +61,16 @@ class BetGroupRankRequest extends AbstractBetRequest
         return $this->group;
     }
 
+    public function getRanking()
+    {
+        return [
+            1 => $this->getTeamA(),
+            2 => $this->getTeamB(),
+            3 => $this->getTeamC(),
+            4 => $this->getTeamD()
+        ];
+    }
+
     /**
      * @return int
      */
@@ -91,23 +101,32 @@ class BetGroupRankRequest extends AbstractBetRequest
 
     public function calculate(AbstractBetRequest $finalRanks) {
         $score = 0;
-        /** @var BetGroupRankRequest $finalRanks */
-        if ($finalRanks->isQualifiedTeam($this->getTeamA())) {
-            $score += 2;
-        }
-        if ($finalRanks->isQualifiedTeam($this->getTeamB())) {
-            $score += 2;
-        }
-        if ($finalRanks->getTeamA() == $this->getTeamA()
-            && $finalRanks->getTeamB() == $this->getTeamB()) {
-            $score += 2;
-            if ($finalRanks->getTeamC() == $this->getTeamC()
-                && $finalRanks->getTeamD() == $this->getTeamD()) {
-                $score += 2;
-
+        $ranking = $this->getRanking();
+        $has_minimal_ranking_error = false;
+        $no_points = false;
+        foreach($ranking as $position => $team_id){
+            if ($finalRanks[$position] == $team_id){
+                continue;
             }
+            if ($has_minimal_ranking_error){
+                $no_points = true;
+                break;
+            }
+            if ($finalRanks[$position + 1] == $team_id &&
+                $finalRanks[$position] == $ranking[$position + 1]){
+                $has_minimal_ranking_error = true;
+                continue;
+            }
+            $no_points = true;
+            break;
         }
-
+        if ($no_points){
+            $score = 0;
+        } elseif ($has_minimal_ranking_error){
+            $score = 3;
+        } else {
+            $score = 6;
+        }
         return $score;
     }
 
