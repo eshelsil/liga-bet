@@ -23,6 +23,7 @@ Route::get("/today-matches", 'HomeController@showTodayMatches')->middleware("aut
 Route::get("/my-bets", 'HomeController@showMyBets')->middleware("auth")->name('my-bets');
 Route::get('/open-matches', 'HomeController@showOpenMatches')->middleware("auth")->name('open-matches');
 Route::get('/open-group-bets', 'HomeController@showOpenGroupBets')->middleware("auth")->name('open-group-bets');
+Route::get('/all-group-bets', 'HomeController@showAllGroupBets')->middleware("auth")->middleware("group_bets_closed")->name('all-group-bets');
 Route::get('/admin/users-to-confirm', 'AdminController@showUsersToConfirm')->name('users-to-confirm');
 Route::get('/admin/confirmed-users', 'AdminController@showConfirmedUsers')->name('confirmed-users');
 Route::get('/admin/reset-password/{id}', 'AdminController@showResetPassword');

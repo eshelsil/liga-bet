@@ -6,6 +6,8 @@ use App\Match;
 use App\User;
 use App\Team;
 use App\Group;
+use App\Bet;
+use App\Enums\BetTypes;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -124,6 +126,37 @@ class HomeController extends Controller
             'groupsTeamsData' => $groupsTeamsData,
             "currentBetsById" => $currentBetsById,
             "groupsByExternalId" => $groupsByExternalId,
+        ]);
+
+    }
+
+    /**
+     * Return Group Bets with no user's bet
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showAllGroupBets()
+    {
+        /** @var User $user */
+        $usersById = User::all()->groupBy('id')->map(
+            function($coll){return $coll->first();}
+        );
+        $betsByUserId = Bet::where("type", BetTypes::GroupsRank)->get()
+            ->groupBy('user_id');
+        $groups = Group::all()
+        ->map(function($group){
+            $group->teams = Team::where('group_id', $group->external_id)->get();
+            return $group;
+        });
+        $usersWhoBet = [];
+        foreach($betsByUserId as $user_id => $bets){
+            $user = $usersById[$user_id];
+            $user->bets = $bets;
+            array_push($usersWhoBet, $user);
+        }
+        return view("all-group-bets-view")->with([
+            "usersWhoBet" => $usersWhoBet,
+            "groups" => $groups,
         ]);
 
     }

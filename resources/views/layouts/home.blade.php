@@ -88,6 +88,8 @@
                 <li class="{{ Route::currentRouteName() == "open-matches" ? "active" : "" }}"><a href="/open-matches">הימורים פתוחים</a></li>
                 @if (\App\Group::areBetsOpen())
                     <li class="{{ Route::currentRouteName() == "open-group-bets" ? "active" : "" }}"><a href="/open-group-bets">הימורי בתים פתוחים</a></li>
+                @else
+                    <li class="{{ Route::currentRouteName() == "all-group-bets" ? "active" : "" }}"><a href="/all-group-bets">צפה בהימורי בתים</a></li>
                 @endif
                 <li class="{{ Route::currentRouteName() == "home" ? "active" : "" }}"><a href="/home">טבלת ניקוד</a></li>
                 @if (\Auth::user()->isAdmin())
