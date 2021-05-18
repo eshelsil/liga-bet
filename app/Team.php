@@ -13,5 +13,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Team extends Model
 {
+    public static function getExternalIdToIdMap(){
+        return Team::all(['external_id', 'id'])->groupBy('external_id')->map(function($t){
+            return $t->first()->id;
+        });
+    }
 
+    public static function getTeamsById(){
+        return Team::all()->groupBy('id')->map(function($t){
+            return $t->first();
+        });
+    }
 }

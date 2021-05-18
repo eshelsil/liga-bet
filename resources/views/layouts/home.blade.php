@@ -86,6 +86,9 @@
                 <li class="{{ Route::currentRouteName() == "my-bets" ? "active" : "" }}"><a href="/my-bets">הטופס שלי</a></li>
                 <li class="{{ Route::currentRouteName() == "match-list" ? "active" : "" }}"><a href="/today-matches">רשימת משחקים</a></li>
                 <li class="{{ Route::currentRouteName() == "open-matches" ? "active" : "" }}"><a href="/open-matches">הימורים פתוחים</a></li>
+                @if (\App\Group::areBetsOpen())
+                    <li class="{{ Route::currentRouteName() == "open-group-bets" ? "active" : "" }}"><a href="/open-group-bets">הימורי בתים פתוחים</a></li>
+                @endif
                 <li class="{{ Route::currentRouteName() == "home" ? "active" : "" }}"><a href="/home">טבלת ניקוד</a></li>
                 @if (\Auth::user()->isAdmin())
                     <li class="{{ Route::currentRouteName() == "users-to-confirm" ? "active" : "" }}"><a href="/admin/users-to-confirm">מתמשים ממתינים לאישור</a></li>

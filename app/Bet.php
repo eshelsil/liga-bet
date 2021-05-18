@@ -3,7 +3,7 @@
 namespace App;
 
 use App\Enums\BetTypes;
-use App\Groups\Group;
+use App\Group;
 use Illuminate\Database\Eloquent\Model;
 
 /**

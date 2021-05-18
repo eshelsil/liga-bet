@@ -10,11 +10,10 @@ use App\Bets\BetSpecialBets\BetSpecialBetsRequest;
 use App\DataCrawler\AbstractCrawlerMatch;
 use App\DataCrawler\Crawler;
 use App\Enums\BetTypes;
-use App\Groups\Group;
 use App\Match;
 use App\SpecialBets\SpecialBet;
 use App\Team;
-use App\Group as GroupModel;
+use App\Group;
 use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
@@ -91,20 +90,28 @@ class AdminController extends Controller
         self::updateScorers($scorers);
     }
 
-    public function updateStandings(){
+    public function fetchStandings(){
         $crawler = Crawler::getInstance();
         $final_standings = $crawler->fetchGroupStandings();
-        $groupsNotCompleted = GroupModel::all()->filter(function($g){
+        $team_ext_id_to_id = Team::getExternalIdToIdMap();
+        $groupsNotCompleted = Group::all()->filter(function($g){
             return !$g->isComplete();
         });
         $relevantGroupIds = $groupsNotCompleted->pluck('external_id')->toArray();
         foreach($final_standings as $group_id => $standings){
-            if (!in_array($group_id, $relevantGroupIds)){
+            if (!in_array($group_id, array_values($relevantGroupIds))){
                 continue;
             }
             $group = $groupsNotCompleted->where('external_id', $group_id)->first();
+            $standings = $standings->map(function($row) use ($team_ext_id_to_id){
+                $external_team_id = $row['team_ext_id'];
+                $row['team_id'] = $team_ext_id_to_id[$external_team_id];
+                return $row;
+            });
             $group->standings = json_encode($standings);
             $group->save();
+            echo "updated final standings of group \"{$group->name}\"<br>";
+            $group->calculateBets();
         }
     }
 
@@ -137,7 +144,7 @@ class AdminController extends Controller
 
     private static function saveGroups($groups) {
         foreach ($groups as $group_id) {
-            $group = new GroupModel();
+            $group = new Group();
             $group->external_id = $group_id;
             $group->name = "Group ".substr($group_id, -1);
             $group->save();
@@ -267,38 +274,6 @@ class AdminController extends Controller
             try {
                 echo "<hr><br>";
                 $match->completeBets();
-            } catch (Exception $exception) {
-                return $exception->getMessage();
-                continue 1;
-            }
-        }
-        return "completed";
-    }
-
-    public function completeGroupRank($groupID) {
-        $crawler = Crawler::getInstance();
-
-        $group = Group::find($groupID);
-        $bets = Bet::query()
-            ->where("type", BetTypes::GroupsRank)
-            ->where("type_id", $groupID)
-            ->get();
-
-        $finalRequest = new BetGroupRankRequest($group, [
-            "team-a" => $group->getTeamIDByRank(1),
-            "team-b" => $group->getTeamIDByRank(2),
-            "team-c" => $group->getTeamIDByRank(3),
-            "team-d" => $group->getTeamIDByRank(4),
-        ]);
-
-        echo "FINAL RANKS: {$finalRequest->toJson()}<br><br>";
-        /** @var Bet $bet */
-        foreach ($bets as $bet) {
-            try {
-                $betRequest = new BetGroupRankRequest($group, $bet->getData());
-                $bet->score = $betRequest->calculate($finalRequest);
-                $bet->save();
-                echo "USER {$bet->user_id} Score ({$bet->score}) RANKS: {$betRequest->toJson()}<br>";
             } catch (Exception $exception) {
                 return $exception->getMessage();
                 continue 1;

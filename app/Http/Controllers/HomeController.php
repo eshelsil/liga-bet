@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Groups\Group;
 use App\Match;
 use App\User;
+use App\Team;
+use App\Group;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -84,6 +85,43 @@ class HomeController extends Controller
         $matches = $user->getOpenMatches();
 
         return view("open-matches-view")->with(["matches" => $matches, "user" => $user]);
+
+    }
+
+
+    /**
+     * Return Group Bets with no user's bet
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showOpenGroupBets()
+    {
+        /** @var User $user */
+        $user = Auth::user();
+        $groupsByExternalId = Group::all(['external_id', 'name', 'id'])->groupBy('external_id')
+        ->map(function($collection){
+            return $collection->first();
+        });
+        $currentBetsById = $user->getGroupBetsById();
+        $groupsTeamsData = Team::all()->groupBy('group_id')->values()
+        ->map(function($teams){
+            return [
+                'group_id' => $teams->first()->group_id,
+                'teams' => $teams
+            ];
+        })
+        ->sortBy(function($groupData) use($groupsByExternalId, $currentBetsById){
+            $group = $groupsByExternalId[data_get($groupData, 'group_id')];
+            $groupRankBet = $currentBetsById[$group->id]->bet;
+            $hasData = $groupRankBet !== null;
+            return $hasData;
+        });
+        return view("open-group-bets-view")->with([
+            "user" => $user,
+            'groupsTeamsData' => $groupsTeamsData,
+            "currentBetsById" => $currentBetsById,
+            "groupsByExternalId" => $groupsByExternalId,
+        ]);
 
     }
 

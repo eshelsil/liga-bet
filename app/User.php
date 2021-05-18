@@ -8,7 +8,7 @@ use App\Bets\BetSpecialBets\BetSpecialBets;
 use App\Bets\BetSpecialBets\BetSpecialBetsRequest;
 use App\Enums\BetTypes;
 use App\Exceptions\JsonException;
-use App\Groups\Group;
+use App\Group;
 use App\SpecialBets\SpecialBet;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -88,6 +88,22 @@ class User extends Authenticatable
         return $matches;
     }
 
+
+    public function getGroupBetsById() {
+        $groups = Group::all();
+        $bets = Bet::query()
+            ->where("type", BetTypes::GroupsRank)
+            ->where("user_id", $this->id)
+            ->get();
+        $output = [];
+        foreach ($groups as $group) {
+            $group->bet = $bets->first(function ($bet) use ($group) { return $bet->type_id == $group->id; });
+            $group->teamsById = $group->getGroupTeamsById();
+            $output[$group->id] = $group;
+        }
+        return $output;
+    }
+
     public function getBet(Match $match)
     {
         return Bet::query()
@@ -113,6 +129,7 @@ class User extends Authenticatable
 
     public function insertGroupRankData($betsData)
     {
+        #deprecate - no betsData from google-forms
         echo "<br><br> User {$this->name}";
 
         foreach (Group::all() as $group) {

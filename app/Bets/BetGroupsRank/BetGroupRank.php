@@ -5,7 +5,7 @@ namespace App\Bets\BetGroupRank;
 use App\Bet;
 use App\Bets\AbstractBet;
 use App\Bets\BetableInterface;
-use App\Groups\Group;
+use App\Group;
 use App\Match;
 use App\User;
 

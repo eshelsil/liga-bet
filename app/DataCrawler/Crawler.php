@@ -131,32 +131,13 @@ class Crawler
             $standings = [];
             foreach ($table as $row){
                 array_push($standings, [
-                    data_get($row, "position") => data_get($row, "team.id")
+                    "position" => data_get($row, "position"),
+                    "team_ext_id" => data_get($row, "team.id")
                 ]);
             }
-            $res[$group_id] = $standings;
+            $res[$group_id] = collect($standings);
         }
         return $res;
-    }
-
-    /**
-     * Crawler constructor.
-     */
-    protected function __construct()
-    {
-        // $this->queryData();
-        $this->mockData();
-    }
-
-    private function mockData()
-    {
-//        $this->data->groups->a->winner = 2;
-//        $this->data->groups->a->runnerup = 4;
-//        $this->data->groups->b->winner = 5;
-//        $this->data->groups->b->runnerup = 8;
-
-//        $this->data->knockout->round_16->matches[0]->winner = 2;
-//        $this->data->knockout->round_16->matches[1]->winner = 5;
     }
 
 }

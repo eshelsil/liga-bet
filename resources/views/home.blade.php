@@ -28,14 +28,18 @@
 
                             <div class="tab-content">
                                 <div id="groups-{{$row->id}}" class="tab-pane fade in active" style="padding: 20px;">
-                                    <h3>סה"כ: {{ $row->betsByType[\App\Enums\BetTypes::Match]->sum("score") }}</h3>
+                                    @php
+                                        $betType = \App\Enums\BetTypes::Match;
+                                        $matchBets = $row->betsByType->has($betType) ? $row->betsByType[$betType] : collect();
+                                    @endphp
+                                    <h3>סה"כ: {{ $matchBets->sum("score") }}</h3>
                                     <ul class="list-group">
                                         <li class="list-group-item row" style="background: #d2d2d2;">
                                             <div class="col-sm-1 pull-right">ניקוד</div>
                                             <div class="col-sm-5 pull-right">הימור</div>
                                             <div class="col-sm-3 pull-right">תוצאה</div>
                                         </li>
-                                        @foreach($row->betsByType[\App\Enums\BetTypes::Match]->filter(function ($bet) { return $bet->score > 0;})->sortBy("type_id") as $bet)
+                                        @foreach($matchBets->filter(function ($bet) { return $bet->score > 0;})->sortBy("type_id") as $bet)
                                          <?php
                                             /** @var App\Bet $bet */
                                             /** @var App\Match $match */
@@ -53,29 +57,58 @@
                                     </ul>
                                 </div>
                                 <div id="group-ranks-{{$row->id}}" class="tab-pane fade" style="padding: 20px;">
-                                    <h3>סה"כ: {{ $row->betsByType[\App\Enums\BetTypes::GroupsRank]->sum("score") }}</h3>
+                                    @php
+                                        $betType = \App\Enums\BetTypes::GroupsRank;
+                                        $groupRankBets = $row->betsByType->has($betType) ? $row->betsByType[$betType] : collect();
+                                    @endphp
+                                    <h3>סה"כ: {{ $groupRankBets->sum("score") }}</h3>
                                     <ul class="list-group">
                                         <li class="list-group-item row" style="background: #d2d2d2;">
                                             <div class="col-sm-1 pull-right">ניקוד</div>
                                             <div class="col-sm-5 pull-right">הימור</div>
                                             <div class="col-sm-5 pull-right">תוצאה</div>
                                         </li>
-                                        @foreach($row->betsByType[\App\Enums\BetTypes::GroupsRank]->sortBy("type_id") as $bet)
+                                        @foreach($groupRankBets->sortBy("type_id") as $bet)
                                         <?php
-                                                $group = App\Groups\Group::find($bet->type_id);
-                                                $betDescription = "(1) " . __("teams.{$bet->getData("team-a")}") ."<br>(2) " . __("teams.{$bet->getData("team-b")}") ."<br>(3) " . __("teams.{$bet->getData("team-c")}") ."<br>(4) " . __("teams.{$bet->getData("team-d")}") ;
-                                                $resultDescription = "(1) " . __("teams.{$group->getTeamIDByRank(1)}") ."<br>(2) " . __("teams.{$group->getTeamIDByRank(2)}") ."<br>(3) " . __("teams.{$group->getTeamIDByRank(3)}") ."<br>(4) " . __("teams.{$group->getTeamIDByRank(4)}") ;
+                                                $group = App\Group::find($bet->type_id);
+                                                if ($group->isComplete()){
+                                                    $teamsById = $group->getGroupTeamsById();
+                                                    $betDescription = "" ;
+                                                    $resultDescription = "" ;
+                                                    foreach(range(1, 4) as $position){
+                                                        $res_team_id = $group->getTeamIDByPosition($position);
+                                                        $res_team = $teamsById[$res_team_id];
+                                                        $flag_html = "<img style='margin-left: 5px;' src=\"$res_team->crest_url\" width='15' height='15'>";
+                                                        $resultDescription .= "($position) " .$flag_html .$res_team->name;
+
+                                                        $bet_team_id = $bet->getData($position);
+                                                        $bet_team = $teamsById[$bet_team_id];
+                                                        $flag_html = "<img style='margin-left: 5px;' src=\"$bet_team->crest_url\" width='15' height='15'>";
+                                                        $betDescription .= "($position) ". $flag_html . $bet_team->name;
+                                                        if ($position < 4){
+                                                            $betDescription .= "<br>";
+                                                            $resultDescription .= "<br>";
+                                                        }
+
+                                                    }
+                                                }
                                         ?>
+                                        @if ($group->isComplete())
                                         <li class="list-group-item row">
                                             <div class="col-sm-1 pull-right">{{ $bet->score }}</div>
                                             <div class="col-sm-5 pull-right">{!! $betDescription !!}</div>
                                             <div class="col-sm-5 pull-right">{!! $resultDescription !!}</div>
                                         </li>
+                                        @endif
                                     @endforeach
                                     </ul>
                                 </div>
                                 <div id="special-bets-{{$row->id}}" class="tab-pane fade" style="padding: 20px;">
-                                    <h3>סה"כ: {{ $row->betsByType[\App\Enums\BetTypes::SpecialBet]->sum("score") }}</h3>
+                                    @php
+                                        $betType = \App\Enums\BetTypes::SpecialBet;
+                                        $specialBets = $row->betsByType->has($betType)  ? $row->betsByType[$betType] : collect();
+                                    @endphp
+                                    <h3>סה"כ: {{ $specialBets->sum("score") }}</h3>
                                     <ul class="list-group">
                                         <li class="list-group-item row" style="background: #d2d2d2;">
                                             <div class="col-sm-1 pull-right">ניקוד</div>
@@ -83,7 +116,7 @@
                                             <div class="col-sm-3 pull-right">הימור</div>
                                             <div class="col-sm-3 pull-right">תשובה</div>
                                         </li>
-                                    @foreach($row->betsByType[\App\Enums\BetTypes::SpecialBet]->sortBy("type_id") as $bet)
+                                    @foreach($specialBets->sortBy("type_id") as $bet)
                                         <?php
                                         $specialBet = \App\SpecialBets\SpecialBet::find($bet->type_id);
                                         $betDescription = implode(", ", $bet->getData("answers"));

@@ -3,16 +3,14 @@
 namespace App\Bets\BetGroupRank;
 
 use App\Bets\AbstractBetRequest;
-use App\Groups\Group;
+use App\Team;
+use App\Group;
 use Illuminate\Support\Facades\Log;
 
 class BetGroupRankRequest extends AbstractBetRequest
 {
     protected $group = null;
-    protected $teamA = null;
-    protected $teamB = null;
-    protected $teamC = null;
-    protected $teamD = null;
+    protected $standings = null;
 
     /**
      * BetGroupRankRequest constructor.
@@ -22,19 +20,11 @@ class BetGroupRankRequest extends AbstractBetRequest
      */
     public function __construct($group, $data = []) {
         parent::__construct($group, $data);
-        $this->teamA      = data_get($data, "team-a");
-        $this->teamB      = data_get($data, "team-b");
-        $this->teamC      = data_get($data, "team-c");
-        $this->teamD      = data_get($data, "team-d");
+        $this->standings = $data;
     }
 
     public function toJson() {
-        return json_encode([
-            "team-a" => $this->teamA,
-            "team-b" => $this->teamB,
-            "team-c" => $this->teamC,
-            "team-d" => $this->teamD,
-        ], JSON_UNESCAPED_UNICODE);
+        return json_encode($this->standings);
     }
 
     /**
@@ -43,101 +33,68 @@ class BetGroupRankRequest extends AbstractBetRequest
      */
     protected function validateData($group, $data) {
         Log::debug("Validating data: {$group->getID()}\r\nData: ". json_encode($data, JSON_PRETTY_PRINT));
-        $this->validateTeamID(data_get($data, "team-a"));
-        $this->validateTeamID(data_get($data, "team-b"));
-        $this->validateTeamID(data_get($data, "team-c"));
-        $this->validateTeamID(data_get($data, "team-d"));
-    }
-
-    private function validateTeamID($teamID)
-    {
-        if (!trans("teams.{$teamID}")) {
-            throw new \InvalidArgumentException("invalid Team {$teamID}");
+        if (!Group::areBetsOpen()){
+            throw new \InvalidArgumentException("GroupRank bets are closed. cannot update bet");
+        }
+        $passed_positions = array_keys($data);
+        sort($passed_positions);
+        if (json_encode($passed_positions) !== json_encode([1,2,3,4]) ){
+            throw new \InvalidArgumentException("Invalid standing positions. \n
+                    Got: ". json_encode($passed_positions). ". \n Must use: '1,2,3,4'");
+        }
+        $passed_team_ids = array_values($data);
+        sort($passed_team_ids);
+        $group_team_ids = array_keys($group->getGroupTeamsById()->toArray());
+        sort($group_team_ids);
+        if (json_encode($passed_team_ids) !== json_encode($group_team_ids) ){
+                throw new \InvalidArgumentException("Invalid standing team_ids. \n Got: " . json_encode($passed_team_ids). "\nGroup includes teams: ". json_encode($group_team_ids));
         }
     }
 
-    public function getGroup()
-    {
-        return $this->group;
-    }
 
+    /**
+     * @return [
+     *  1 => team_id
+     *  2 => team_id
+     *  3 => team_id
+     *  4 => team_id
+     * ]
+     */
     public function getRanking()
     {
-        return [
-            1 => $this->getTeamA(),
-            2 => $this->getTeamB(),
-            3 => $this->getTeamC(),
-            4 => $this->getTeamD()
-        ];
+        return $this->standings;
     }
 
-    /**
-     * @return int
-     */
-    public function getTeamA() {
-        return $this->teamA;
-    }
-
-    /**
-     * @return int
-     */
-    public function getTeamB() {
-        return $this->teamB;
-    }
-
-    /**
-     * @return int
-     */
-    public function getTeamC() {
-        return $this->teamC;
-    }
-
-    /**
-     * @return int
-     */
-    public function getTeamD() {
-        return $this->teamD;
-    }
-
-    public function calculate(AbstractBetRequest $finalRanks) {
-        $score = 0;
+    public function calculate($finalRanks) {
         $ranking = $this->getRanking();
         $has_minimal_ranking_error = false;
         $no_points = false;
+        $minimal_errors = 0;
         foreach($ranking as $position => $team_id){
+            $team_id = (string)$team_id;
+            if ($minimal_errors > 2){
+                break;
+            }
             if ($finalRanks[$position] == $team_id){
                 continue;
             }
-            if ($has_minimal_ranking_error){
-                $no_points = true;
-                break;
-            }
-            if ($finalRanks[$position + 1] == $team_id &&
-                $finalRanks[$position] == $ranking[$position + 1]){
-                $has_minimal_ranking_error = true;
+            if (
+                ($position + 1 <= 4 && $finalRanks[$position + 1] == $team_id) ||
+                ($position - 1 >= 1 && $finalRanks[$position - 1] == $team_id)
+            ){
+                $minimal_errors += 1;
                 continue;
             }
-            $no_points = true;
+            $minimal_errors = 3;
             break;
         }
-        if ($no_points){
-            $score = 0;
-        } elseif ($has_minimal_ranking_error){
-            $score = 3;
+        if ($minimal_errors == 0){
+            return 6;
+        } elseif ($minimal_errors < 3){
+            return 3;
         } else {
-            $score = 6;
+            return 0;
         }
-        return $score;
-    }
-
-    /**
-     * @param int $teamId
-     *
-     * @return bool
-     */
-    private function isQualifiedTeam($teamId)
-    {
-        return in_array($teamId, [$this->getTeamA(), $this->getTeamB()]);
     }
 
     protected function setEntity($entity = null)
@@ -147,6 +104,6 @@ class BetGroupRankRequest extends AbstractBetRequest
 
     public function getEntity()
     {
-        return $this->getGroup();
+        return $this->group;
     }
 }

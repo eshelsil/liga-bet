@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Bet;
 use App\Bets\BetMatch\BetMatch;
 use App\Bets\BetMatch\BetMatchRequest;
+use App\Bets\BetGroupRank\BetGroupRankRequest;
+use App\Bets\BetGroupRank\BetGroupRank;
 use App\Enums\BetTypes;
 use App\Match;
 use App\Team;
 use App\User;
+use App\Group;
 use App\Exceptions\JsonException;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
@@ -27,7 +30,7 @@ class BetsController extends Controller
      */
     public function __construct()
     {
-//        $this->middleware('auth');
+       $this->middleware('auth');
     }
 
     /**
@@ -71,12 +74,20 @@ class BetsController extends Controller
                     );
                     $bets[] = BetMatch::save($user, $betRequest);
                     break;
+                case BetTypes::GroupsRank:
+                    $standings = [];
+                    $betRequest = new BetGroupRankRequest(
+                        Group::find($betInput->data["type_id"]),
+                        $betInput->data["value"]
+                    );
+                    $bets[] = BetGroupRank::save($user, $betRequest);
+                    break;
                 default:
                     throw new InvalidArgumentException();
             }
         }
 
-        return JsonResponse::create(["status" => 1, "bets" =>$bets]);
+        return new JsonResponse(["bets" =>$bets], 200);
 
     }
 

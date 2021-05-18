@@ -3,7 +3,6 @@
 namespace App\Bets\BetSpecialBets;
 
 use App\Bets\AbstractBetRequest;
-use App\Groups\Group;
 use App\SpecialBets\SpecialBet;
 use Illuminate\Support\Facades\Log;
 
