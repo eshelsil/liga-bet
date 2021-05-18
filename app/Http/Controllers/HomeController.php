@@ -44,6 +44,9 @@ class HomeController extends Controller
         foreach ($table as $user) {
             $user->rank = $rank;
             $user->betsByType = $user->bets->groupBy("type");
+            if ($user->total_score === null){
+                $user->total_score = 0;
+            }
             $rank++;
         }
 
