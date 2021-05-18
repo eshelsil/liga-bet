@@ -19,11 +19,11 @@ Auth::routes();
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get("/home", 'HomeController@index')->middleware("auth")->name('home');
-Route::get("/today-matches", 'HomeController@showTodayMatches')->middleware("auth")->name('match-list');
-Route::get("/my-bets", 'HomeController@showMyBets')->middleware("auth")->name('my-bets');
-Route::get('/open-matches', 'HomeController@showOpenMatches')->middleware("auth")->name('open-matches');
-Route::get('/open-group-bets', 'HomeController@showOpenGroupBets')->middleware("auth")->name('open-group-bets');
-Route::get('/all-group-bets', 'HomeController@showAllGroupBets')->middleware("auth")->middleware("group_bets_closed")->name('all-group-bets');
+Route::get("/today-matches", 'HomeController@showTodayMatches')->middleware("auth")->middleware("confirmed_user")->name('match-list');
+Route::get("/my-bets", 'HomeController@showMyBets')->middleware("auth")->middleware("confirmed_user")->name('my-bets');
+Route::get('/open-matches', 'HomeController@showOpenMatches')->middleware("auth")->middleware("confirmed_user")->name('open-matches');
+Route::get('/open-group-bets', 'HomeController@showOpenGroupBets')->middleware("auth")->middleware("confirmed_user")->name('open-group-bets');
+Route::get('/all-group-bets', 'HomeController@showAllGroupBets')->middleware("auth")->middleware("confirmed_user")->middleware("group_bets_closed")->name('all-group-bets');
 Route::get('/admin/users-to-confirm', 'AdminController@showUsersToConfirm')->name('users-to-confirm');
 Route::get('/admin/confirmed-users', 'AdminController@showConfirmedUsers')->name('confirmed-users');
 Route::get('/admin/reset-password/{id}', 'AdminController@showResetPassword');
@@ -48,4 +48,4 @@ Route::get('/admin/fetch_games', 'AdminController@fetchGames');
 Route::get('/admin/fetch_scorers', 'AdminController@fetchScorers');
 Route::get('/admin/fetch_standings', 'AdminController@fetchStandings');
 
-Route::post('/user/update', 'BetsController@submitBets');
+Route::post('/user/update', 'BetsController@submitBets')->middleware("confirmed_user");

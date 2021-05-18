@@ -52,7 +52,7 @@ class User extends Authenticatable
         return $this->permissions == self::TYPE_ADMIN;
     }
 
-    private function isConfirmed()
+    public function isConfirmed()
     {
         return $this->permissions > 0;
     }

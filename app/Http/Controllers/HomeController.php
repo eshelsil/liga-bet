@@ -31,8 +31,13 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
+        $user = Auth::user();
+        if (!$user->isConfirmed()){
+            return  view('home')->with(["show_table" => false]);
+        }
         $table = User::query()
+            ->where('permissions', '>', 0)
             ->select(["users.id", "users.name", DB::raw("sum(bets.score) as total_score")])
             ->join("bets", function (JoinClause $join) {
                 $join->on("users.id", "=", "user_id");
