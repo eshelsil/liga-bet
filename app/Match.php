@@ -122,8 +122,71 @@ class Match extends Model implements BetableInterface
         return $this->start_time < time() + config("bets.lockBeforeSeconds");
     }
 
+    public function getGoalsData()
+    {
+        return [
+            $this->team_home_id => $this->result_home,
+            $this->team_away_id => $this->result_away
+        ];
+    }
+
+    public function getTeamIds()
+    {
+        return [
+            $this->team_home_id,
+            $this->team_away_id
+        ];
+    }
+
+    public function getKnockoutWinner()
+    {
+        return $this->ko_winner;
+    }
+
+    public function getKnockoutLoser()
+    {
+        return array_diff($this->getTeamIds(), [$this->getKnockoutWinner()])[0];
+    }
+
+    public static function getFinalMatchIfDone()
+    {
+        $final_match = Match::where('type', 'knockout')
+            ->where('sub_type', 'FINAL')
+            ->where('is_done', true)
+            ->get();
+        if ($final_match->count() == 0){
+            return null;
+        }
+        return $final_match;
+    }
+
     public function getID()
     {
         return $this->id;
+    }
+
+    public static function getGroupStageGamesIfStageDone(){
+        $matches = Match::where('is_done', true)
+            ->where('type', 'group_stage')->get();
+        
+        if (count($matches) < config('tournament_data.groupStageGamesCount')){
+            return null;
+        };
+        return $matches;
+    }
+    
+    public static function isTournamentDone(){
+        $final_match = Match::getFinalMatchIfDone();
+        return !!$final_match;
+    }
+
+    public static function getTeamKnockoutGames($team_id){
+        return Match::where('type', 'knockout')
+            ->where(function($query) use($team_id) {
+                $query->where('team_home_id', $team_id)
+                     ->orWhere('team_away_id', $team_id);
+            })
+            ->where('is_done', true)
+            ->get();
     }
 }

@@ -113,19 +113,22 @@ class User extends Authenticatable
                   ->first();
     }
 
-    public function getSpecialBets()
+    public function getSpecialBetsById()
     {
+        $specialBets = SpecialBet::all();
         $bets = Bet::query()
                   ->where("user_id", $this->id)
                   ->where("type", BetTypes::SpecialBet)
                   ->get();
 
-        foreach ($bets as $bet) {
-            $bet->specialBet = SpecialBet::find($bet->type_id);
+        $output = [];
+        foreach ($specialBets as $specialBet) {
+            $specialBet->bet = $bets->first(function ($bet) use ($specialBet) { return $bet->type_id == $specialBet->getID(); });
+            $output[$specialBet->getID()] = $specialBet;
         }
-
-        return $bets;
+        return $output;
     }
+
 
     public function insertGroupRankData($betsData)
     {

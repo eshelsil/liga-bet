@@ -23,6 +23,7 @@ Route::get("/today-matches", 'HomeController@showTodayMatches')->middleware("aut
 Route::get("/my-bets", 'HomeController@showMyBets')->middleware("auth")->middleware("confirmed_user")->name('my-bets');
 Route::get('/open-matches', 'HomeController@showOpenMatches')->middleware("auth")->middleware("confirmed_user")->name('open-matches');
 Route::get('/open-group-bets', 'HomeController@showOpenGroupBets')->middleware("auth")->middleware("confirmed_user")->name('open-group-bets');
+Route::get('/open-special-bets', 'HomeController@showOpenSpecialBets')->middleware("auth")->middleware("confirmed_user")->name('open-special-bets');
 Route::get('/all-group-bets', 'HomeController@showAllGroupBets')->middleware("auth")->middleware("confirmed_user")->middleware("group_bets_closed")->name('all-group-bets');
 Route::get('/admin/users-to-confirm', 'AdminController@showUsersToConfirm')->name('users-to-confirm');
 Route::get('/admin/confirmed-users', 'AdminController@showConfirmedUsers')->name('confirmed-users');
@@ -37,7 +38,7 @@ Route::get('/admin/reset-user-pass/{id}', 'AdminController@resetPass');
 Route::get('/admin/parse-bets/{userId?}/{fixMatchIds?}', 'AdminController@parseGroupBets');
 Route::get('/admin/complete-match/{id}/{scoreHome?}/{scoreAway?}', 'AdminController@completeMatch');
 Route::get('/admin/complete-all-matches', 'AdminController@completeAllMatches');
-Route::get('/admin/complete-special-bet/{specialBetID}', 'AdminController@completeSpecialBet');
+Route::get('/admin/calc-special-bets', 'AdminController@calculateSpecialBets');
 
 Route::get('/admin/switch-bet-match/{fromMatchID}/{toMatchID}', 'AdminController@switchBetMatchIDs');
 Route::get('/admin/fix-bets/{matchId}/{userId?}', 'AdminController@fixMatchBet');

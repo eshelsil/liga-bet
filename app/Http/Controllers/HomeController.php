@@ -98,6 +98,20 @@ class HomeController extends Controller
 
     }
 
+    /**
+     * Return Open Special Bets
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showOpenSpecialBets()
+    {
+        /** @var User $user */
+        $user = Auth::user();
+        $bets = $user->getSpecialBetsById();
+        return view("open-special-bets-view")->with(["bets" => $bets, "user" => $user]);
+
+    }
+
 
     /**
      * Return Group Bets with no user's bet

@@ -7,11 +7,14 @@ use App\Bets\BetMatch\BetMatch;
 use App\Bets\BetMatch\BetMatchRequest;
 use App\Bets\BetGroupRank\BetGroupRankRequest;
 use App\Bets\BetGroupRank\BetGroupRank;
+use App\Bets\BetSpecialBets\BetSpecialBetsRequest;
+use App\Bets\BetSpecialBets\BetSpecialBets;
 use App\Enums\BetTypes;
 use App\Match;
 use App\Team;
 use App\User;
 use App\Group;
+use App\SpecialBets\SpecialBet;
 use App\Exceptions\JsonException;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
@@ -75,12 +78,24 @@ class BetsController extends Controller
                     $bets[] = BetMatch::save($user, $betRequest);
                     break;
                 case BetTypes::GroupsRank:
-                    $standings = [];
                     $betRequest = new BetGroupRankRequest(
                         Group::find($betInput->data["type_id"]),
                         $betInput->data["value"]
                     );
                     $bets[] = BetGroupRank::save($user, $betRequest);
+                    break;
+                case BetTypes::SpecialBet:
+                    $top_scorer_type_id = SpecialBet::getBetTypeIdByName('top_scorer');
+                    $betValue = $betInput->data["value"];
+                    if ($betInput->data["type_id"] == $top_scorer_type_id){
+                        $player_id = $betValue['player_id'] ?? $betValue['player_name'];
+                        $betValue = ["answer" => $player_id];
+                    }
+                    $betRequest = new BetSpecialBetsRequest(
+                        SpecialBet::find($betInput->data["type_id"]),
+                        $betValue
+                    );
+                    $bets[] = BetSpecialBets::save($user, $betRequest);
                     break;
                 default:
                     throw new InvalidArgumentException();

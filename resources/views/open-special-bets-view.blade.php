@@ -1,0 +1,202 @@
+@extends('layouts.home')
+
+@php
+    $topScorerDropdownTitle = "----בחר מלך שערים----";
+    $teamSelectionTitle = "----בחר קבוצה----";
+    $topScorerDefaultBets = config('tournamentData.topScorerBets');
+    $teams = \App\Team::all(['id', 'name', 'crest_url'])->toArray();
+    $inputAttrMap = [
+            'top_scorer' => [
+                'type' => 'select',
+                'title' => $topScorerDropdownTitle,
+                'options' => $topScorerDefaultBets,
+                'has_custom' => true,
+            ],
+            'winner' => [
+                'type' => 'select',
+                'title' => $teamSelectionTitle,
+                'options' => $teams,
+                'has_custom' => false,
+            ],
+            'runner_up' => [
+                'type' => 'select',
+                'title' => $teamSelectionTitle,
+                'options' => $teams,
+                'has_custom' => false,
+            ],
+            'offensive_team' => [
+                'type' => 'select',
+                'title' => $teamSelectionTitle,
+                'options' => $teams,
+                'has_custom' => false,
+            ],
+            'mvp' => [
+                'type' => 'text',
+            ],
+            'most_assists' => [
+                'type' => 'text',
+            ],
+        ];  
+@endphp
+
+@section('script')
+<style>
+    .left-to-right  { direction: ltr; text-align: left;}
+    .betContent {display: table-cell;}
+    .betContent .inputWrapper {
+        display: flex;
+        flex-direction: column;
+        width: fit-content;
+        width: -moz-fit-content;
+    }
+    .betContent .inputWrapper > * {
+        margin-bottom: 10px;
+    }
+    .betContent .btn {
+        margin-bottom: 10px;
+    }
+    .currentBetWrapper span{
+        font-weight: 700;
+    }
+</style>
+<script type="text/javascript">
+
+
+    function sendBet(betId) {
+        const top_scorer_bet_id = "{{ \App\SpecialBets\SpecialBet::getBetTypeIdByName('top_scorer') }}";
+        const offensive_team_bet_id = "{{ \App\SpecialBets\SpecialBet::getBetTypeIdByName('offensive_team') }}";
+        const champions_bet_id = "{{ \App\SpecialBets\SpecialBet::getBetTypeIdByName('winner') }}";
+        const runner_up_scorer_bet_id = "{{ \App\SpecialBets\SpecialBet::getBetTypeIdByName('runner_up') }}";
+        const selectionBetIds = [
+            runner_up_scorer_bet_id,
+            champions_bet_id,
+            offensive_team_bet_id,
+            top_scorer_bet_id,
+        ]
+        const isTopScorerBet = betId == top_scorer_bet_id;
+
+        let betValue, value, name, id=null;
+        if (selectionBetIds.indexOf(betId) > -1){
+            const input = $(`#${betId}_select_input`);
+            value = input.val();
+            if (value == 'custom'){
+                name = $(`.special_bet_custom_input[data-bet-id='${betId}']`).val();
+            } else if (value !== "no_value") {
+                id = value;
+                let options = isTopScorerBet ? @json($topScorerDefaultBets) : @json($teams);
+                name = options.find((opt)=>{ return opt.id == id})['name'];
+            } else {
+                let optionEntity = isTopScorerBet ? 'player' : 'team';
+                toastr["error"](`No ${optionEntity} was selected`);
+                return;
+            }
+
+            betValue = isTopScorerBet ?
+            {
+                player_name: name,
+                player_id: id,
+            } : {
+                answer: id
+            };
+        } else {
+            const input = $(`.special_bet_input[data-bet-id='${betId}']`);
+            value = input.val();
+            betValue = {answer: value};
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '/user/update',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                bets: [{
+                    type: {{ \App\Enums\BetTypes::SpecialBet }},
+                    data: {
+                        type_id: betId,
+                        value: betValue,
+                    }
+                }]
+            }),
+            dataType: 'json',
+            success: function (data) {
+                let newVal = name !== undefined ? name : value;
+                $(`#bet_${betId}_current_bet`).children('span').first().html(newVal);
+                $(`#bet_${betId}_current_bet`).attr('hidden', false);
+                $("#save-bet-" + betId).removeClass("btn-primary").addClass("btn-success");
+            },
+            error: function(data) {
+                toastr["error"](data.responseJSON.message);
+            }
+        });
+    }
+
+    function onSelectInputChange(id){
+        const input = $(`#${id}_select_input`);
+        const custom_text_input = $(`.special_bet_custom_input[data-bet-id='${id}']`);
+        if (custom_text_input.length == 0){
+            return
+        }
+        const enable_custom_input = input.val() === 'custom';
+        if (enable_custom_input){
+            custom_text_input.attr('hidden', false)
+        } else {
+            custom_text_input.attr('hidden', true)
+        }
+    }
+
+</script>
+@endsection
+
+@section('content')
+    @if(\App\Group::areBetsOpen())
+    <h2>הימורים לטווח רחוק</h2>
+    @foreach($bets as $i => $specialBet)
+        @php
+            $bet = $specialBet->bet;
+            $specialBetId = $specialBet->getID();
+            $betName = $specialBet->getName();
+            $inputAttrs = $inputAttrMap[$betName];
+        @endphp
+        <div style="width: 60%; border-radius: 5px; border: #000 1px solid; margin-bottom: 25px; padding: 10px;">
+            <h5 style="text-align: center;">{{$specialBet->getTitle()}}</h5>
+            <div class="betContent">
+                <div class="inputWrapper">
+                @if ($inputAttrs['type'] == 'select')
+                    <select id="{{$specialBetId}}_select_input" onChange="onSelectInputChange({{$specialBetId}})" class="form-select form-select-lg mb-3">
+                        <option value="no_value" selected>{{$inputAttrs['title']}}</option>
+                        @foreach($inputAttrs['options'] as $option_data)
+                        <div class="eshel">
+                            <option class="left-to-right" value="{{$option_data['id']}}">
+                                {{$option_data['name']}}
+                            </option>
+                        </div>
+                        @endforeach
+                        @if($inputAttrs['has_custom'])
+                            <option value="custom">אחר...</option>
+                        @endif
+                    </select>
+                    @if($inputAttrs['has_custom'])
+                        <input class="special_bet_custom_input from-control" type="text" data-bet-id="{{$specialBetId}}" hidden>
+                    @endif
+                @else
+                    <input class="special_bet_input from-control" type="text" data-bet-id="{{$specialBetId}}">
+                @endif
+                </div>
+                <button id="save-bet-{{$specialBetId}}" onClick="sendBet('{{$specialBetId}}')" type="button" class="btn btn-primary">שלח</button>
+                <div id="bet_{{$specialBetId}}_current_bet" class="currentBetWrapper" @if (!$bet) hidden @endif>
+                <u>הימור נוכחי</u>: " <span>
+                        @if ($bet)
+                        {{$specialBet->formatDescription($bet->getData('answer'))}}
+                        @endif
+                    </span> "
+                </div>
+            </div>
+        </div>
+        
+    @endforeach
+
+    @else
+    <h2>נסגרו ההימורים! לא ניתן לעדכן הימורים אלה</h2>
+    @endif
+
+@endsection

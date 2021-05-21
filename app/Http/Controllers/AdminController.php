@@ -15,6 +15,7 @@ use App\SpecialBets\SpecialBet;
 use App\Team;
 use App\Group;
 use App\User;
+use App\Scorer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -116,16 +117,24 @@ class AdminController extends Controller
     }
 
     private static function updateScorers($scorers) {
-        $relevantScorers = Scorers::all();
-        foreach ($scorers as $scorer){
+        $relevantScorers = Scorer::all();
+        $saveFirstAnyway = Match::isTournamentDone();
+        foreach ($scorers as $index => $scorer){
             $id = data_get($scorer, 'player.id');
-            if (in_array($id, $relevantScorers->pluck('external_id'))){
-                $goals = data_get($scorer, 'numberOfGoals');
-                $scorer = $relevantScorers->where('external_id', $id)->first();
-                if ($goals !== $scorer->goals){
-                    $scorer->goals = $goals;
-                    $scorer->save();
+            if (!in_array($id, $relevantScorers->pluck('external_id'))){
+                $saveAnyway = $index == 0 && $saveFirstAnyway;
+                if (!$saveAnyway){
+                    continue;
                 }
+                $scorerModel = new Scorer();
+                $scorerModel->external_id = $id;
+                $scorerModel->name = data_get($scorer, 'player.name');
+            }
+            $goals = data_get($scorer, 'numberOfGoals');
+            $scorerModel = $scorerModel ?? $relevantScorers->where('external_id', $id)->first();
+            if ($goals !== $scorerModel->goals){
+                $scorerModel->goals = $goals;
+                $scorerModel->save();
             }
         }
     }
@@ -283,30 +292,14 @@ class AdminController extends Controller
         return "completed";
     }
 
-    public function completeSpecialBet($specialBetID) {
-        $specialBet = SpecialBet::find($specialBetID);
-        $bets = Bet::query()
-                   ->where("type", BetTypes::SpecialBet)
-                   ->where("type_id", $specialBetID)
-                   ->get();
-
-        $finalRequest = new BetSpecialBetsRequest($specialBet, [
-            "answers" => $specialBet->getAnswers(),
-        ]);
-
-        echo "FINAL answer: {$finalRequest->toJson()}<br><br>";
-        /** @var Bet $bet */
-        foreach ($bets as $bet) {
-            try {
-                $betRequest = new BetSpecialBetsRequest($specialBet, $bet->getData());
-                $bet->score = $betRequest->calculate($finalRequest);
-                $bet->save();
-                echo "USER {$bet->user_id} Score ({$bet->score}) Answer: {$betRequest->toJson()}<br>";
-            } catch (Exception $exception) {
-                return $exception->getMessage();
-                continue 1;
+    public function calculateSpecialBets($types = null) {
+        SpecialBet::all()->each(function($specialBet){
+            if ($types && !in_array($specialBet->getName(), $types)){
+                return;
             }
-        }
+            $specialBet->calculateBets();
+        });
+
         return "completed";
     }
 

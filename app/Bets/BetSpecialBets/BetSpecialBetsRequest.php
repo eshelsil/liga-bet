@@ -10,7 +10,7 @@ class BetSpecialBetsRequest extends AbstractBetRequest
 {
     /** @var SpecialBet $specialBet */
     protected $specialBet = null;
-    protected $answers = null;
+    protected $answer = null;
 
     /**
      * BetGroupRankRequest constructor.
@@ -20,12 +20,12 @@ class BetSpecialBetsRequest extends AbstractBetRequest
      */
     public function __construct($specialBet, $data = []) {
         parent::__construct($specialBet, $data);
-        $this->answers      = data_get($data, "answers");
+        $this->answer      = data_get($data, "answer");
     }
 
     public function toJson() {
         return json_encode([
-            "answers" => $this->answers,
+            "answer" => $this->answer,
         ], JSON_UNESCAPED_UNICODE);
     }
 
@@ -35,9 +35,10 @@ class BetSpecialBetsRequest extends AbstractBetRequest
      */
     protected function validateData($specialBet, $data) {
         Log::debug("Validating data: {$specialBet->getID()}\r\nData: ". json_encode($data, JSON_PRETTY_PRINT));
-        if (!is_array(data_get($data, "answers")) || !count(data_get($data, "answers"))) {
-            throw new \InvalidArgumentException("invalid answers");
-        }
+        // Todo:
+        // if (data_get($data, "answer")) {
+        //     throw new \InvalidArgumentException("invalid answers");
+        // }
     }
 
     public function getSpecialBet()
@@ -48,18 +49,14 @@ class BetSpecialBetsRequest extends AbstractBetRequest
     /**
      * @return int
      */
-    public function getAnswers() {
-        return $this->answers;
+    public function getAnswer() {
+        return $this->answer;
     }
 
-    public function calculate(AbstractBetRequest $answers) {
+    public function calculate($irrelevant = null) {
         $score = 0;
         /** @var BetSpecialBetsRequest $answers */
-        if ($answers->getAnswers() === $this->getAnswers()) {
-            $score += $this->specialBet->getScore();
-        }
-
-        return $score;
+        return $this->getEntity()->calculateScore($this->getAnswer());
     }
 
 

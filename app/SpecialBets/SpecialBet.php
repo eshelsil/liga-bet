@@ -10,23 +10,193 @@ namespace App\SpecialBets;
 
 use App\Bets\BetableInterface;
 use \Illuminate\Support\Collection;
+use App\Match;
+use App\Bet;
+use App\Team;
+use App\Scorer;
+use App\Bets\BetSpecialBets\BetSpecialBetsRequest;
+use App\Enums\BetTypes;
 
 class SpecialBet implements BetableInterface
 {
+
     protected $id = null;
-    protected $score = null;
-    protected $question = [];
-    protected $answers = [];
+    protected $name = null;
+    protected $title = null;
+
 
     private static $source = [
-        "1" => ["score" => "10", "question" => "ההתקפה החזקה בבתים", "answers" => ["בלגיה"]],
-        "2" => ["score" => "10", "question" => "ההגנה החזקה בבתים", "answers" => ["אורוגוואי"]],
-        "3" => ["score" => "10", "question" => "הקבוצות שיגיעו לגמר", "answers" => null],
-        "4" => ["score" => "25", "question" => "אלופת העולם", "answers" => null],
-        "5" => ["score" => "10", "question" => "מלך הבישולים", "answers" => null],
-        "6" => ["score" => "20", "question" => "מלך השערים", "answers" => null],
-        "7" => ["score" => "10", "question" => "מצטיין הטורניר", "answers" => null],
+        "1" => ["name" => "offensive_team", "title" => "ההתקפה החזקה בבתים"],
+        "2" => ["name" => "mvp", "title" => "מצטיין הטורניר"],
+        "3" => ["name" => "most_assists", "title" => "מלך הבישולים"],
+        "4" => ["name" => "top_scorer", "title" => "מלך השערים"],
+        "5" => ["name" => "winner", "title" => "זוכה"],
+        "6" => ["name" => "runner_up", "title" => "סגנית"],
     ];
+
+    public function getOffensiveTeams(){
+        $matches = Match::getGroupStageGamesIfStageDone();
+        if (!$matches){
+            return null;
+        }
+        $gsByTeamId = [];
+        foreach($matches as $match){
+            $goals_data = $match->getGoalsData();
+            foreach($goals_data as $teamId => $gs){
+                if (!in_array($teamId, $gsByTeamId)){
+                    $gsByTeamId[$teamID] = 0;
+                }
+                $gsByTeamId[$teamID] += $gs;
+            }
+        }
+        $gs_values = array_values($gsByTeamId);
+        $max_gs = max($gs_values);
+        $best_offensive_teams = [];
+        foreach($gsByTeamId as $teamId => $goalsScored){
+            if ($goalsScored == $max_gs){
+                array_push($best_offensive_teams, $teamId);
+            }
+        }
+        return $best_offensive_teams;
+    }
+
+    public function calculateOffensiveTeam($team_id){
+        $score = 5;
+        
+        $best_offensive_teams = $this->getOffensiveTeams();
+        if ($best_offensive_teams == null){
+            return null;
+        }
+        if (in_array($team_id, $best_offensive_teams)){
+            return $score;
+        }
+        return 0;
+    }
+
+    public function calcMVP($player_name){
+        $score = 10;
+        
+        $mvp = config('bets.mvp');
+        if (!$mvp){
+            return null;
+        }
+        return $player_name == $mvp ? $score : 0;
+    }
+
+    public function getTopAssists(){
+        $topAssistsPlayers = config('bets.topAssits');
+        if ($topAssistsPlayers && !is_array($topAssistsPlayers)){
+            $topAssistsPlayers = array($topAssistsPlayers);
+        }
+        return $topAssistsPlayers;
+    }
+
+    public function calcTopAssists($player_name){
+        $score = 10;
+        
+        $topAssitsPlayers = $this->getTopAssists();;
+        if (!$topAssitsPlayers){
+            return null;
+        }
+        return in_array($player_name, $topAssitsPlayers) ? $score : 0;
+    }
+
+
+    public function getChampions(){
+        $final = Match::getFinalMatchIfDone();
+        if (!$final){
+            return null;
+        }
+        return $final->getKnockoutWinner();
+    }
+
+    public function getRunnerUp(){
+        $final = Match::getFinalMatchIfDone();
+        if (!$final){
+            return null;
+        }
+        return $final->getKnockoutLoser();
+    }
+
+
+    public function calcRoadToFinal($team_id){
+        $score_for_stage = 5;
+
+        $score = 0;
+        $ko_games = Match::getTeamKnockoutGames($team_id);
+        if ($ko_games->count() == 0){
+            return null;
+        }
+        $ko_games->each(function($game){
+            if ($game->sub_type == 'FINAL'){
+                return;
+            }
+            if ($game->getKnockoutWinner() == $team_id){
+                $score += $score_for_stage;
+            }
+        });
+        return $score;
+    }
+
+    public function calcChampions($team_id){
+        $score_for_winning_final = 15;
+
+        $score = $this->calcRoadToFinal($team_id);
+        $final = Match::getFinalMatchIfDone();
+        if (!$final){
+            return $score;
+        }
+        if ($final->getKnockoutWinner() == $team_id){
+            $score += $score_for_winning_final;
+        }
+        return $score;
+    }
+
+    public function getTopScorers(){
+        return Scorer::getTopScorers();
+    }
+
+    public function calcTopScorer($player_id){
+        $score_for_goal = 2;
+        $top_scorer_bonus = 5;
+
+        $score = 0;
+        $scorer = Scorer::findByExternalId($player_id);
+        # Will fetch from Database too many times?
+        $most_goals = Scorer::getTopGoalsCount();
+        if ($most_goals !== null){
+            if ($scorer->goals == $most_goals){
+                $score += $top_scorer_bonus;
+            }
+        }
+        $score += ($score_for_goal * $scorer->goals);
+        return $score;
+    }
+
+
+    public function calculateBets(){
+        $bets = Bet::query()
+            ->where("type", BetTypes::SpecialBet)
+            ->where("type_id", $this->id)
+            ->get();
+        foreach ($bets as $bet) {
+            try {
+                $betRequest = new BetSpecialBetsRequest($this, $bet->getData());
+                $score = $betRequest->calculate();
+                $bet->score = $score;
+                $bet->save();
+                if ($score !== null){
+                    echo "USER {$bet->user_id} Score ({$bet->score}) RANKS: {$betRequest->toJson()}<br>";
+                }
+            } catch (Exception $exception) {
+                return $exception->getMessage();
+                continue 1;
+            }
+        }
+        return "OK";
+    }
+
+
 
     /**
      * Group constructor.
@@ -37,9 +207,8 @@ class SpecialBet implements BetableInterface
     public function __construct($id, array $data)
     {
         $this->id       = $id;
-        $this->question = $data["question"];
-        $this->answers  = $data["answers"];
-        $this->score    = $data["score"];
+        $this->title = $data["title"];
+        $this->name    = $data["name"];
     }
 
     public function getID()
@@ -47,20 +216,100 @@ class SpecialBet implements BetableInterface
         return $this->id;
     }
 
-    public function getScore()
+    public function getTitle()
     {
-        return $this->score;
+        return $this->title;
     }
 
-    public function getQuestion()
+    public function getName()
     {
-        return $this->question;
+        return $this->name;
     }
 
-    public function getAnswers()
+    public static function getBetTypeIdByName($name)
     {
-        return $this->answers;
+        foreach(self::$source as $typeId => $data){
+            if ($data['name'] == $name){
+                return $typeId;
+            }
+        }
     }
+
+
+    public function calculateScore($bet_answer)
+    {
+        switch ($this->name) {
+            case "mvp":
+                return $this->calcMVP($bet_answer);
+                break;
+            case "most_assists":
+                return $this->calcTopAssists($bet_answer);
+                break;
+            case "offensive_team":
+                return $this->calculateOffensiveTeam($bet_answer);
+                break;
+            case "winner":
+                return $this->calcChampions($bet_answer);
+                break;
+            case "runner_up":
+                return $this->calcRunnerUp($bet_answer);
+                break;
+            case "top_scorer":
+                return $this->calcTopScorer($bet_answer);
+                break;
+            default:
+                throw new InvalidArgumentException("Invalid SpecialBet name \"$this->name\"");
+        };
+    }
+
+    public function getAnswer()
+    {
+        switch ($this->name) {
+            case "mvp":
+                return config('bets.mvp');
+                break;
+            case "most_assists":
+                return $this->getTopAssists();
+                break;
+            case "offensive_team":
+                return $this->getOffensiveTeams();
+                break;
+            case "winner":
+                return $this->getChampions();
+                break;
+            case "runner_up":
+                return $this->getRunnerUp();
+                break;
+            case "top_scorer":
+                return $this->getTopScorers()->map(function($player){
+                    return $player->name;
+                });
+                break;
+            default:
+                throw new InvalidArgumentException("Invalid SpecialBet name \"$this->name\"");
+        };
+    }
+
+    public function formatDescription($answer){
+        switch ($this->name) {
+            case "top_scorer":
+                $scorer = Scorer::findByExternalId($answer);
+                return $scorer->name;
+                break;
+            case "winner":
+                return Team::find($answer)->name;
+                break;
+            case "runner_up":
+                return Team::find($answer)->name;
+                break;
+            case "offensive_team":
+                return Team::find($answer)->name;
+                break;
+            default:
+                return $answer;
+        };
+    }
+
 
     /**
      * @return Collection|static[]

@@ -124,12 +124,17 @@
                             @foreach($specialBets->sortBy("type_id") as $bet)
                                 <?php
                                 $specialBet = \App\SpecialBets\SpecialBet::find($bet->type_id);
-                                $betDescription = implode(", ", $bet->getData("answers"));
-                                $resultDescription = implode(", ", $specialBet->getAnswers() ?? []);
+                                $betDescription = $specialBet->formatDescription($bet->getData("answer"));
+                                $answer = $specialBet->getAnswer();
+                                if (is_array($answer)){
+                                    $resultDescription = implode(', ', $answer);
+                                } else {
+                                    $resultDescription = $answer;
+                                }
                                 ?>
                                 <li class="list-group-item row">
                                     <div class="col-sm-1 pull-right">{{ $bet->score }}</div>
-                                    <div class="col-sm-3 pull-right">{{ $specialBet->getQuestion() }}</div>
+                                    <div class="col-sm-3 pull-right">{{ $specialBet->getTitle() }}</div>
                                     <div class="col-sm-3 pull-right">{!! $betDescription !!}</div>
                                     <div class="col-sm-3 pull-right">{!! $resultDescription !!}</div>
                                 </li>
