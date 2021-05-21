@@ -14,6 +14,7 @@ use App\Match;
 use App\Team;
 use App\User;
 use App\Group;
+use App\Scorer;
 use App\SpecialBets\SpecialBet;
 use App\Exceptions\JsonException;
 use Illuminate\Database\Query\Builder;
@@ -88,7 +89,9 @@ class BetsController extends Controller
                     $top_scorer_type_id = SpecialBet::getBetTypeIdByName('top_scorer');
                     $betValue = $betInput->data["value"];
                     if ($betInput->data["type_id"] == $top_scorer_type_id){
-                        $player_id = $betValue['player_id'] ?? $betValue['player_name'];
+                        $player_id = $betValue['player_id'] ?? Scorer::getNextNegaitveId();
+                        $player_name = $betValue['player_name'];
+                        Scorer::register_player($player_id, $player_name);
                         $betValue = ["answer" => $player_id];
                     }
                     $betRequest = new BetSpecialBetsRequest(

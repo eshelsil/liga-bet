@@ -41,4 +41,15 @@ class Scorer extends Model
     public static function getCustomPlayers(){
         return Scorer::where('external_id', '<', 0)->get();
     }
+
+    public static function register_player($player_id, $player_name){
+        if ($player_id && self::findByExternalId($player_id)){
+            return;
+        }
+        $scorer = new Scorer();
+        $scorer->external_id = $player_id;
+        $scorer->name = $player_name;
+        $scorer->goals = 0;
+        $scorer->save();
+    }
 }
