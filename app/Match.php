@@ -174,6 +174,10 @@ class Match extends Model implements BetableInterface
         };
         return $matches;
     }
+
+    public static function isGroupStageDone(){
+        return Match::getGroupStageGamesIfStageDone() !== null;
+    }
     
     public static function isTournamentDone(){
         $final_match = Match::getFinalMatchIfDone();
