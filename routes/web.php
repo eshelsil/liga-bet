@@ -49,5 +49,6 @@ Route::get('/admin/fetch_games', 'AdminController@fetchGames');
 Route::get('/admin/fetch_scorers', 'AdminController@fetchScorers');
 Route::get('/admin/fetch_standings', 'AdminController@fetchStandings');
 Route::get('/admin/remove-irrelevant-scorers', 'AdminController@removeIrrelevantScorers');
+Route::get('/admin/print-custom-scorers', 'AdminController@printCustomScorerBets');
 
 Route::post('/user/update', 'BetsController@submitBets')->middleware("confirmed_user");

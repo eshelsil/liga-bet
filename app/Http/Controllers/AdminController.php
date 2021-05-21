@@ -94,7 +94,19 @@ class AdminController extends Controller
 
         });
     }
-    
+
+    public function printCustomScorerBets()
+    {
+        $customPlayers = Scorer::getCustomPlayers();
+        if ($customPlayers->count() == 0){
+            echo "All players on \"scorers\" table are registered with valid external id!  :)";
+            return;
+        }
+        $customPlayers->each(function($player){
+            echo $player->name . "<br>";
+        });
+    }
+
     public function fetchGames(){
         $crawler = Crawler::getInstance();
         $matches = $crawler->fetchMatches();
