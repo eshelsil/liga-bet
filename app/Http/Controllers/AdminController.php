@@ -111,13 +111,13 @@ class AdminController extends Controller
         $crawler = Crawler::getInstance();
         $matches = $crawler->fetchMatches();
         
-        self::saveNewMatches($matches);
+        $this->saveNewMatches($matches);
     }
 
     public function fetchScorers(){
         $crawler = Crawler::getInstance();
         $scorers = $crawler->fetchScorers();
-        self::updateScorers($scorers);
+        $this->updateScorers($scorers);
     }
 
     public function fetchStandings(){
@@ -148,9 +148,10 @@ class AdminController extends Controller
         }
     }
 
-    private static function updateScorers($scorers) {
+    private function updateScorers($scorers) {
         $relevantScorers = Scorer::all();
-        $saveFirstAnyway = Match::isTournamentDone();
+        $isTournamentDone = Match::isTournamentDone();
+        $saveFirstAnyway = $isTournamentDone;
         foreach ($scorers as $index => $scorer){
             $id = data_get($scorer, 'player.id');
             if (!in_array($id, $relevantScorers->pluck('external_id'))){
@@ -168,6 +169,9 @@ class AdminController extends Controller
                 $scorerModel->goals = $goals;
                 $scorerModel->save();
             }
+        }
+        if ($isTournamentDone){
+            $this->calculateSpecialBets(['top_scorer']);
         }
     }
 
@@ -222,7 +226,7 @@ class AdminController extends Controller
     }
 
 
-    private static function saveNewMatches($matches) {
+    private function saveNewMatches($matches) {
         $existingMatches = Match::all();
         $new_matches = $matches->filter(function($m) use ($existingMatches){
             $id = data_get($m, 'id');
@@ -254,6 +258,9 @@ class AdminController extends Controller
             $match->ko_winner  = data_get($match_data, 'ko_winner');
             $match->save();
             $match->completeBets();
+            if (Match::isTournamentDone()){
+                $this->calculateSpecialBets(['winner', 'runner_up']);
+            }
         }
     }
 
@@ -325,7 +332,7 @@ class AdminController extends Controller
     }
 
     public function calculateSpecialBets($types = null) {
-        SpecialBet::all()->each(function($specialBet){
+        SpecialBet::all()->each(function($specialBet) use ($types){
             if ($types && !in_array($specialBet->getName(), $types)){
                 return;
             }

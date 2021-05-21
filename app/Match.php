@@ -169,7 +169,7 @@ class Match extends Model implements BetableInterface
         $matches = Match::where('is_done', true)
             ->where('type', 'group_stage')->get();
         
-        if (count($matches) < config('tournament_data.groupStageGamesCount')){
+        if (count($matches) < config('tournamentData.groupStageGamesCount')){
             return null;
         };
         return $matches;

@@ -252,7 +252,7 @@ class SpecialBet implements BetableInterface
                 return $this->calcChampions($bet_answer);
                 break;
             case "runner_up":
-                return $this->calcRunnerUp($bet_answer);
+                return $this->calcRoadToFinal($bet_answer);
                 break;
             case "top_scorer":
                 return $this->calcTopScorer($bet_answer);
