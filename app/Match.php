@@ -60,16 +60,8 @@ class Match extends Model implements BetableInterface
         return $crawlerMatch;
     }
 
-    public function completeBets($scoreHome = null, $scoreAway = null)
+    public function completeBets()
     {
-        if (is_null($scoreHome) || is_null($scoreAway)) {
-            $this->updateScore();
-        } else {
-            $this->result_home = $scoreHome;
-            $this->result_away = $scoreAway;
-            $this->save();
-        }
-
         echo "Match Home ({$this->getTeamHome()->name}): {$this->result_home} | Away ({$this->getTeamAway()->name}): {$this->result_away}<br><br>";
 
         Log::debug("Creating result");
@@ -92,19 +84,6 @@ class Match extends Model implements BetableInterface
 
         return "FINISHED";
 
-    }
-
-    private function updateScore()
-    {
-        $crawlerMatch = $this->getCrawlerMatch();
-
-        if (!$crawlerMatch->finished) {
-            throw new JsonException("Match {$this->id} not finished");
-        }
-
-        $this->result_home = $crawlerMatch->home_result;
-        $this->result_away = $crawlerMatch->away_result;
-        $this->save();
     }
 
     /**

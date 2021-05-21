@@ -212,6 +212,7 @@ class AdminController extends Controller
             $match->result_away  = data_get($match_data, 'result_away');
             $match->ko_winner  = data_get($match_data, 'ko_winner');
             $match->save();
+            $match->completeBets();
         }
     }
 
