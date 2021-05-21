@@ -66,6 +66,7 @@ class Group extends Model implements BetableInterface
 
     public static function areBetsOpen(){
         $first_match_start_time = Match::min('start_time');
-        return $first_match_start_time - (60 * 60 * 22) > time();
+        $lock_before_secs = config('bets.lockBetsBeforeTournamentSeconds');
+        return $first_match_start_time - $lock_before_secs > time();
     }
 }
