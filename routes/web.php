@@ -48,5 +48,6 @@ Route::get('/admin/parse-special-bets/{userId?}', 'AdminController@parseSpecialB
 Route::get('/admin/fetch_games', 'AdminController@fetchGames');
 Route::get('/admin/fetch_scorers', 'AdminController@fetchScorers');
 Route::get('/admin/fetch_standings', 'AdminController@fetchStandings');
+Route::get('/admin/remove-irrelevant-scorers', 'AdminController@removeIrrelevantScorers');
 
 Route::post('/user/update', 'BetsController@submitBets')->middleware("confirmed_user");

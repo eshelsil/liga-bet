@@ -78,6 +78,23 @@ class AdminController extends Controller
         self::saveMatches($crawler->getKnownOpenMatches());
     }
 
+    public function removeIrrelevantScorers()
+    {
+        $specialBetId = SpecialBet::getBetTypeIdByName('top_scorer');
+        $relevantBets = Bet::where("type", BetTypes::SpecialBet)
+            ->where('type_id', $specialBetId)
+            ->get();
+        $relevantPlayerIds = $relevantBets->map(function($bet){
+            return $bet->getData('answer');
+        })->toArray();
+        Scorer::all()->each(function($scorer) use($relevantPlayerIds){
+            if (!in_array($scorer->external_id, $relevantPlayerIds)){
+                $scorer->delete();
+            }
+
+        });
+    }
+    
     public function fetchGames(){
         $crawler = Crawler::getInstance();
         $matches = $crawler->fetchMatches();
