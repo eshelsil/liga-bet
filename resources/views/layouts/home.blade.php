@@ -75,7 +75,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/home">מונדיאל חברים - {{  \Auth::user()->name }}, {{  \Auth::user()->permissions }}</a>
+            <a class="navbar-brand" href="/home">מונדיאל חברים - {{  \Auth::user()->name }}</a>
         </div>
         <div class="collapse navbar-collapse" style="float: right!important;" id="myNavbar">
             <ul class="nav navbar-nav navbar-left">
