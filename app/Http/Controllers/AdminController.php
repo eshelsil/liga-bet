@@ -142,9 +142,9 @@ class AdminController extends Controller
             $group->save();
             echo "updated final standings of group \"{$group->name}\"<br>";
             $group->calculateBets();
-            if (Match::isGroupStageDone()){
-                $this->calculateSpecialBets(['offensive_team']);
-            }
+        }
+        if (Match::isGroupStageDone()){
+            $this->calculateSpecialBets(['offensive_team']);
         }
     }
 
