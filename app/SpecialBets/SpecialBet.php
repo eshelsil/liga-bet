@@ -84,7 +84,7 @@ class SpecialBet implements BetableInterface
     }
 
     public function getTopAssists(){
-        $topAssistsPlayers = config('bets.topAssits');
+        $topAssistsPlayers = config('bets.topAssists');
         if ($topAssistsPlayers && !is_array($topAssistsPlayers)){
             $topAssistsPlayers = array($topAssistsPlayers);
         }
@@ -94,7 +94,7 @@ class SpecialBet implements BetableInterface
     public function calcTopAssists($player_name){
         $score = 10;
         
-        $topAssitsPlayers = $this->getTopAssists();;
+        $topAssitsPlayers = $this->getTopAssists();
         if (!$topAssitsPlayers){
             return null;
         }
