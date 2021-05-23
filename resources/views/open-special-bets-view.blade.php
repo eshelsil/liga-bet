@@ -58,6 +58,10 @@
     .currentBetWrapper span{
         font-weight: 700;
     }
+    h6{
+        margin-top: 3px;
+        color: #444
+    }
 </style>
 <script type="text/javascript">
 
@@ -80,7 +84,7 @@
             const input = $(`#${betId}_select_input`);
             value = input.val();
             if (value == 'custom'){
-                name = $(`.special_bet_custom_input[data-bet-id='${betId}']`).val();
+                name = $(`.special_bet_custom_input_wrapper[data-bet-id='${betId}']`).children('input').val();
             } else if (value !== "no_value") {
                 id = value;
                 let options = isTopScorerBet ? @json($topScorerDefaultBets) : @json($teams);
@@ -132,7 +136,7 @@
 
     function onSelectInputChange(id){
         const input = $(`#${id}_select_input`);
-        const custom_text_input = $(`.special_bet_custom_input[data-bet-id='${id}']`);
+        const custom_text_input  = $(`.special_bet_custom_input_wrapper[data-bet-id='${id}']`);
         if (custom_text_input.length == 0){
             return
         }
@@ -156,6 +160,7 @@
             $specialBetId = $specialBet->getID();
             $betName = $specialBet->getName();
             $inputAttrs = $inputAttrMap[$betName];
+            $playerCustomInputNote = "נא להכניס את השם המלא של השחקן";
         @endphp
         <div style="width: 60%; border-radius: 5px; border: #000 1px solid; margin-bottom: 25px; padding: 10px;">
             <h5 style="text-align: center;">{{$specialBet->getTitle()}}</h5>
@@ -176,10 +181,14 @@
                         @endif
                     </select>
                     @if($inputAttrs['has_custom'])
-                        <input class="special_bet_custom_input from-control" type="text" data-bet-id="{{$specialBetId}}" hidden>
+                        <div class="special_bet_custom_input_wrapper" data-bet-id="{{$specialBetId}}" hidden>
+                            <input class="from-control" type="text">
+                            <h6>{{$playerCustomInputNote}}</h6>
+                        </div>
                     @endif
                 @else
-                    <input class="special_bet_input from-control" type="text" data-bet-id="{{$specialBetId}}">
+                    <input class="special_bet_input from-control" style="margin-bottom: 0px;" type="text" data-bet-id="{{$specialBetId}}">
+                    <h6>{{$playerCustomInputNote}}</h6>
                 @endif
                 </div>
                 <button id="save-bet-{{$specialBetId}}" onClick="sendBet('{{$specialBetId}}')" type="button" class="btn btn-primary">שלח</button>
