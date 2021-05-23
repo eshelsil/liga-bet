@@ -1,26 +1,15 @@
 
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
 
-.ws-nowrap{
-  white-space: nowrap;
+// Variables
+@import "variables";
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
-.flex-row{
-  display: flex;
-  flex-direction: row;
-}
-.team_flag{
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  height: 15px;
-  &.no-border{
-    border:0px; 
-  }
-  &.larger{
-    height: 20px;
-    width: 30px;
-  }
-}
-.team-and-flag{
-  display: flex;
-  .flag-wrapper{
-    margin-left: 3px;
-  }
-}
+
