@@ -5,6 +5,10 @@
   .sortable li { cursor: pointer; margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em;}
   .sortable > li { cursor: pointer; display: flex; align-items: center; justify-content: start;}
   .sortable li span { position: absolute; margin-left: -1.3em; }
+  ol.currentBet li{
+    margin-bottom:3px;
+  }
+
   </style>
   
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -55,7 +59,7 @@
             $teams = data_get($groupTeamsData, 'teams');
             $group = $groupsByExternalId[data_get($groupTeamsData, 'group_id')];
         @endphp
-        <div style="width: 60%; border-radius: 5px; border: #000 1px solid; margin-bottom: 25px; padding: 10px;">
+        <div class="col-sm-12 col-md-9 col-lg-7" style="float: right; border-radius: 5px; border: #000 1px solid; margin-bottom: 25px; padding: 10px;">
             <h5 style="text-align: center;">{{$group->name}}</h5>
             <div class="row">
                 @php
@@ -74,15 +78,14 @@
                 @endphp
                 <div class="col-sm-5" >
                         <h6>הימור נוכחי:</h6>
-                        <ol>
+                        <ol class="currentBet">
                         @foreach(json_decode($currentBet->data) as $index => $teamId)
                         @php
                         $teamData = $groupTeamsById[$teamId];
 
                         @endphp
                         <li style="font-size: 80%;">
-                            <img src="{{$teamData->crest_url}}" width="15" height="15">
-                            <span style="margin-right:5px; position:relative;">{{$teamData->name}}</span>
+                            @include('widgets.teamWithFlag', $teamData)
                         </li>
                         @endforeach
                         </ol>
@@ -95,8 +98,8 @@
                         @foreach($teams as $team_data)
                             <div class="team_row" data-team-id="{{$team_data->id}}">
                                 <li class="bg-info">
-                                    <img src="{{$team_data->crest_url}}" width="20" height="20">
-                                    <span style="margin-right:5px; position:relative;">{{$team_data->name}}</span>
+                                    <img class="team_flag larger no-border" src="{{$team_data->crest_url}}">
+                                    <span style="position:relative;">{{$team_data->name}}</span>
                                 </li>
                             </div>
                                 @endforeach

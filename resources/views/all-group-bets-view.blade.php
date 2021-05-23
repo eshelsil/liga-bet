@@ -15,17 +15,10 @@
                     <a data-toggle="collapse" href="#collapserank-{{$group->id}}">{{$group->name}}</a>
                 </h4></div>
             <div class="col-sm-7 pull-right">
-                <?php
-                    $teamsDescription = "" ;
-                    foreach($group->teams as $index => $team){
-                        $flag_html = "<img style='margin-left: 5px;' src=\"$team->crest_url\" width='15' height='15'>";
-                        $teamsDescription .= $flag_html .$team->name;
-                        if ($index < 3){
-                            $teamsDescription .= "<br>";
-                        }
-                    }
-                    echo($teamsDescription);
-                ?>
+                @foreach($group->teams as $index => $team)
+                    @include('widgets.teamWithFlag', $team)
+                @endforeach
+                
             </div>
         </div>
         <div id="collapserank-{{$group->id}}" class="panel-collapse collapse">
@@ -37,24 +30,24 @@
                 @foreach($usersWhoBet as $user)
                 @php    
                     $bet = $user->bets->where('type_id', $group->id)->first();
-                    if (!$bet){
-                        continue;
-                    }
-                    $betDescription = "" ;
-                    foreach(range(1, 4) as $position){
-                        $bet_team_id = $bet->getData($position);
-                        $bet_team = $group->teams->find($bet_team_id);
-                        $flag_html = "<img style='margin-left: 5px;' src=\"$bet_team->crest_url\" width='15' height='15'>";
-                        $betDescription .= "($position) ". $flag_html . $bet_team->name;
-                        if ($position < 4){
-                            $betDescription .= "<br>";
-                        }
-                    }
                 @endphp
-                <li class="list-group-item row">
-                    <div class="col-sm-4 pull-right">{{ $user->name }}</div>
-                    <div class="col-sm-7 pull-right">{!! $betDescription !!}</div>
-                </li>
+                @if ($bet)
+                    <li class="list-group-item row">
+                        <div class="col-sm-4 pull-right">{{ $user->name }}</div>
+                        <div class="col-sm-7 pull-right">
+                        @foreach (range(1,4) as $position)
+                            @php
+                                $bet_team_id = $bet->getData($position);
+                                $bet_team = $group->teams->find($bet_team_id);
+                            @endphp
+                            <div class="flex-row">
+                                <span>({{$position}}) </span>
+                                @include('widgets.teamWithFlag', $bet_team)
+                            </div>
+                        @endforeach
+                        </div>
+                    </li>
+                @endif
                 @endforeach
             </ul>        
         </div>

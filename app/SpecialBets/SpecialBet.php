@@ -283,31 +283,53 @@ class SpecialBet implements BetableInterface
             case "top_scorer":
                 return $this->getTopScorers()->map(function($player){
                     return $player->name;
-                });
+                })->toArray();
                 break;
             default:
                 throw new InvalidArgumentException("Invalid SpecialBet name \"$this->name\"");
         };
     }
 
+    private function formatTeamDescription($answer, $asHtml = true){
+        $team = Team::find($answer);
+        if (!$team){
+            return "Invalid Bet team_id ". $answer;
+        }
+        if (!$asHtml){
+            return $team->name;
+        }
+        return view('widgets.teamWithFlag')->with($team->toArray());
+    }
+
     public function formatDescription($answer){
-        switch ($this->name) {
-            case "top_scorer":
-                $scorer = Scorer::findByExternalId($answer);
-                return $scorer->name;
-                break;
-            case "winner":
-                return Team::find($answer)->name;
-                break;
-            case "runner_up":
-                return Team::find($answer)->name;
-                break;
-            case "offensive_team":
-                return Team::find($answer)->name;
-                break;
-            default:
-                return $answer;
-        };
+        if ($answer == null){
+            return null;
+        }
+        if (!is_array($answer)){
+            $answer = [$answer];
+        }
+        $res = implode(', ', array_map(
+            function ($ans){
+                switch ($this->name) {
+                    case "top_scorer":
+                        $scorer = Scorer::findByExternalId($ans);
+                        return $scorer->name;
+                        break;
+                    case "winner":
+                        return $this->formatTeamDescription($ans);
+                        break;
+                    case "runner_up":
+                        return $this->formatTeamDescription($ans);
+                        break;
+                    case "offensive_team":
+                        return $this->formatTeamDescription($ans);
+                        break;
+                    default:
+                        return $ans;
+                };
+            }
+        , $answer));
+        return $res;
     }
 
 

@@ -76,34 +76,39 @@
                                 @foreach($groupRankBets->sortBy("type_id") as $bet)
                                 <?php
                                         $group = App\Group::find($bet->type_id);
-                                        if ($group->isComplete()){
-                                            $teamsById = $group->getGroupTeamsById();
-                                            $betDescription = "" ;
-                                            $resultDescription = "" ;
-                                            foreach(range(1, 4) as $position){
-                                                $res_team_id = $group->getTeamIDByPosition($position);
-                                                $res_team = $teamsById[$res_team_id];
-                                                $flag_html = "<img style='margin-left: 5px;' src=\"$res_team->crest_url\" width='15' height='15'>";
-                                                $resultDescription .= "($position) " .$flag_html .$res_team->name;
-
-                                                $bet_team_id = $bet->getData($position);
-                                                $bet_team = $teamsById[$bet_team_id];
-                                                $flag_html = "<img style='margin-left: 5px;' src=\"$bet_team->crest_url\" width='15' height='15'>";
-                                                $betDescription .= "($position) ". $flag_html . $bet_team->name;
-                                                if ($position < 4){
-                                                    $betDescription .= "<br>";
-                                                    $resultDescription .= "<br>";
-                                                }
-
-                                            }
-                                        }
                                 ?>
                                 @if ($group->isComplete())
-                                <li class="list-group-item row">
-                                    <div class="col-sm-1 pull-right">{{ $bet->score }}</div>
-                                    <div class="col-sm-5 pull-right">{!! $betDescription !!}</div>
-                                    <div class="col-sm-5 pull-right">{!! $resultDescription !!}</div>
-                                </li>
+                                    <?php
+                                        $positions = range(1,4);
+                                        $teamsById = $group->getGroupTeamsById();
+                                    ?>
+                                    <li class="list-group-item row">
+                                        <div class="col-sm-1 pull-right">{{ $bet->score }}</div>
+                                        <div class="col-sm-5 pull-right">
+                                            @foreach($positions as $position)
+                                            @php
+                                                $bet_team_id = $bet->getData($position);
+                                                $bet_team = $teamsById[$bet_team_id];
+                                            @endphp
+                                                <div class="flex-row">
+                                                    <span>({{$position}}) </span>
+                                                    @include('widgets.teamWithFlag', $bet_team)
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        <div class="col-sm-5 pull-right">
+                                            @foreach($positions as $position)
+                                            @php
+                                                $res_team_id = $group->getTeamIDByPosition($position);
+                                                $res_team = $teamsById[$res_team_id];
+                                            @endphp
+                                                <div class="flex-row">
+                                                    <span>({{$position}}) </span>
+                                                    @include('widgets.teamWithFlag', $res_team)
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </li>
                                 @endif
                             @endforeach
                             </ul>
@@ -119,24 +124,22 @@
                                     <div class="col-sm-1 pull-right">ניקוד</div>
                                     <div class="col-sm-3 pull-right">סוג</div>
                                     <div class="col-sm-3 pull-right">הימור</div>
-                                    <div class="col-sm-3 pull-right">תשובה</div>
+                                    <div class="col-sm-3 pull-right">תוצאה</div>
                                 </li>
                             @foreach($specialBets->sortBy("type_id") as $bet)
                                 <?php
                                 $specialBet = \App\SpecialBets\SpecialBet::find($bet->type_id);
                                 $betDescription = $specialBet->formatDescription($bet->getData("answer"));
                                 $answer = $specialBet->getAnswer();
-                                if (is_array($answer)){
-                                    $resultDescription = implode(', ', $answer);
-                                } else {
-                                    $resultDescription = $answer;
-                                }
+                                $resultDescription = $specialBet->formatDescription($answer);
                                 ?>
                                 <li class="list-group-item row">
                                     <div class="col-sm-1 pull-right">{{ $bet->score }}</div>
                                     <div class="col-sm-3 pull-right">{{ $specialBet->getTitle() }}</div>
                                     <div class="col-sm-3 pull-right">{!! $betDescription !!}</div>
-                                    <div class="col-sm-3 pull-right">{!! $resultDescription !!}</div>
+                                    <div class="col-sm-3 pull-right">
+                                        <div class="flex-row ws-nowrap">{!! $resultDescription !!}</div>
+                                    </div>
                                 </li>
                             @endforeach
                             </ul>

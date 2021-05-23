@@ -55,7 +55,9 @@
     .betContent .btn {
         margin-bottom: 10px;
     }
-    .currentBetWrapper span{
+    .currentBetWrapper > span{
+        margin-left: 3px;
+        margin-right: 3px;
         font-weight: 700;
     }
     h6{
@@ -71,10 +73,9 @@
         const offensive_team_bet_id = "{{ \App\SpecialBets\SpecialBet::getBetTypeIdByName('offensive_team') }}";
         const champions_bet_id = "{{ \App\SpecialBets\SpecialBet::getBetTypeIdByName('winner') }}";
         const runner_up_scorer_bet_id = "{{ \App\SpecialBets\SpecialBet::getBetTypeIdByName('runner_up') }}";
+        const teamSelectionBetIds = [runner_up_scorer_bet_id, champions_bet_id, offensive_team_bet_id]
         const selectionBetIds = [
-            runner_up_scorer_bet_id,
-            champions_bet_id,
-            offensive_team_bet_id,
+            ...teamSelectionBetIds,
             top_scorer_bet_id,
         ]
         const isTopScorerBet = betId == top_scorer_bet_id;
@@ -124,7 +125,18 @@
             dataType: 'json',
             success: function (data) {
                 let newVal = name !== undefined ? name : value;
-                $(`#bet_${betId}_current_bet`).children('span').first().html(newVal);
+                let currentBetHtml = newVal;
+                if (teamSelectionBetIds.indexOf(betId) > -1){
+                    let teams = @json($teams);
+                    let team = teams.find((team)=>team.id == value)
+                    const wrapper = $(`#bet_${betId}_current_bet`).find('.team-and-flag');
+                    wrapper.find('.team_flag').attr('src', team.crest_url);
+                    wrapper.find('span').html(team.name);
+
+                }
+                else {
+                    $(`#bet_${betId}_current_bet`).children('span').first().html(currentBetHtml);
+                }
                 $(`#bet_${betId}_current_bet`).attr('hidden', false);
                 $("#save-bet-" + betId).removeClass("btn-primary").addClass("btn-success");
             },
@@ -162,7 +174,7 @@
             $inputAttrs = $inputAttrMap[$betName];
             $playerCustomInputNote = "נא להכניס את השם המלא של השחקן";
         @endphp
-        <div style="width: 60%; border-radius: 5px; border: #000 1px solid; margin-bottom: 25px; padding: 10px;">
+        <div class="col-sm-12 col-md-9 col-lg-7" style="float: right; border-radius: 5px; border: #000 1px solid; margin-bottom: 25px; padding: 10px;">
             <h5 style="text-align: center;">{{$specialBet->getTitle()}}</h5>
             <div class="betContent">
                 <div class="inputWrapper">
@@ -192,10 +204,11 @@
                 @endif
                 </div>
                 <button id="save-bet-{{$specialBetId}}" onClick="sendBet('{{$specialBetId}}')" type="button" class="btn btn-primary">שלח</button>
-                <div id="bet_{{$specialBetId}}_current_bet" class="currentBetWrapper" @if (!$bet) hidden @endif>
+                <div id="bet_{{$specialBetId}}_current_bet" class="currentBetWrapper flex-row" @if (!$bet) hidden @endif>
                 <u>הימור נוכחי</u>: " <span>
                         @if ($bet)
-                        {{$specialBet->formatDescription($bet->getData('answer'))}}
+                        {{-- Should work when betting first Bet? --}}
+                        {!! $specialBet->formatDescription($bet->getData('answer')) !!}
                         @endif
                     </span> "
                 </div>
