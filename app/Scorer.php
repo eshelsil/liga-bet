@@ -19,7 +19,7 @@ class Scorer extends Model
         if ($most_goals = null){
             return null;
         }
-        $top_scorers = Scorer::where('goals', $most_goals);
+        $top_scorers = Scorer::where('goals', $most_goals)->get();
         return $top_scorers;
     }
 
