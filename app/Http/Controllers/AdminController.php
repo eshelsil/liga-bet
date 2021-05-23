@@ -225,6 +225,16 @@ class AdminController extends Controller
         }
     }
 
+    public function calculateGroupRanks(){
+        $completedGroups = Group::all()->filter(function($g){
+            return $g->isComplete();
+        });
+        foreach ($completedGroups as $group){
+            $group->calculateBets();
+        }
+        return 'DONE';
+    }
+
 
     private function saveNewMatches($matches) {
         $existingMatches = Match::all();
