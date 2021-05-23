@@ -10,6 +10,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <script>
         $.ajaxSetup({
@@ -91,6 +92,7 @@
                     <li class="{{ Route::currentRouteName() == "open-special-bets" ? "active" : "" }}"><a href="/open-special-bets">הימורים לטווח רחוק</a></li>
                 @else
                     <li class="{{ Route::currentRouteName() == "all-group-bets" ? "active" : "" }}"><a href="/all-group-bets">צפה בהימורי בתים</a></li>
+                    <li class="{{ Route::currentRouteName() == "all-special-bets" ? "active" : "" }}"><a href="/all-special-bets">צפה בהימורים לטווח רחוק</a></li>
                 @endif
                 <li class="{{ Route::currentRouteName() == "home" ? "active" : "" }}"><a href="/home">טבלת ניקוד</a></li>
                 @if (\Auth::user()->isAdmin())
