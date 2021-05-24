@@ -1,5 +1,9 @@
 @extends('layouts.home')
 
+@section('script')
+    
+@endsection
+
 @section('content')
     <h1>רשימת משחקים</h1>
     <span class="admin">{{ DateTime::createFromFormat("U", time())->setTimezone(new DateTimeZone("Asia/Jerusalem"))->format("Y/m/d H:i") }}</span>
@@ -39,8 +43,8 @@
                     @include('widgets.teamWithFlag', $teamsByExtId[$match->team_away_id])
                 </td>
                 <td>
-                    <input class="form-control" id="result-home-{{ $match->id }}" type="number" value="{{ $match->bet ? $match->bet->getData("result-home") : "" }}">
-                    <input class="form-control" id="result-away-{{ $match->id }}" type="number" value="{{ $match->bet ? $match->bet->getData("result-away") : "" }}">
+                    <input onfocus="inputChange({{$match->id}})" class="form-control" id="result-home-{{ $match->id }}" type="number" value="{{ $match->bet ? $match->bet->getData("result-home") : "" }}">
+                    <input onfocus="inputChange({{$match->id}})" class="form-control" id="result-away-{{ $match->id }}" type="number" value="{{ $match->bet ? $match->bet->getData("result-away") : "" }}">
                 </td>
                 <td>
                     <button class="btn btn-primary" id="save-match-{{ $match->id }}" onclick="sendMatchBet({{ $match->id }})">שלח</button>
@@ -51,6 +55,10 @@
     </table>
     @endif
     <script>
+        function inputChange(matchId){
+            $("#save-match-" + matchId).removeClass("btn-success").addClass("btn-primary");
+        }
+        
         function sendMatchBet(matchID) {
             // TODO: Validated
             $.ajax({

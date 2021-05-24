@@ -146,7 +146,12 @@
         });
     }
 
+    function inputChange(betId){
+        $("#save-bet-" + betId).removeClass("btn-success").addClass("btn-primary");
+    }
+
     function onSelectInputChange(id){
+        inputChange(id)
         const input = $(`#${id}_select_input`);
         const custom_text_input  = $(`.special_bet_custom_input_wrapper[data-bet-id='${id}']`);
         if (custom_text_input.length == 0){
@@ -199,7 +204,7 @@
                         </div>
                     @endif
                 @else
-                    <input class="special_bet_input from-control" style="margin-bottom: 0px;" type="text" data-bet-id="{{$specialBetId}}">
+                    <input class="special_bet_input from-control" onfocus="inputChange({{$specialBetId}})" style="margin-bottom: 0px;" type="text" data-bet-id="{{$specialBetId}}">
                     <h6>{{$playerCustomInputNote}}</h6>
                 @endif
                 </div>
