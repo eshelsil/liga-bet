@@ -60,8 +60,15 @@ class Match extends Model implements BetableInterface
         return $crawlerMatch;
     }
 
-    public function completeBets()
+    public function completeBets($scoreHome = null, $scoreAway = null)
     {
+        if (!is_null($scoreHome) && !is_null($scoreAway)) {
+            $this->result_home = $scoreHome;
+            $this->result_away = $scoreAway;
+            $this->save();
+        }
+
+
         echo "Match Home ({$this->getTeamHome()->name}): {$this->result_home} | Away ({$this->getTeamAway()->name}): {$this->result_away}<br><br>";
 
         Log::debug("Creating result");
