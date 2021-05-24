@@ -137,7 +137,7 @@
                 else {
                     $(`#bet_${betId}_current_bet`).children('span').first().html(currentBetHtml);
                 }
-                $(`#bet_${betId}_current_bet`).attr('hidden', false);
+                $(`#bet_${betId}_current_bet`).removeClass('hidden');
                 $("#save-bet-" + betId).removeClass("btn-primary").addClass("btn-success");
             },
             error: function(data) {
@@ -204,11 +204,12 @@
                 @endif
                 </div>
                 <button id="save-bet-{{$specialBetId}}" onClick="sendBet('{{$specialBetId}}')" type="button" class="btn btn-primary">שלח</button>
-                <div id="bet_{{$specialBetId}}_current_bet" class="currentBetWrapper flex-row" @if (!$bet) hidden @endif>
+                <div id="bet_{{$specialBetId}}_current_bet" class="currentBetWrapper flex-row {{!$bet ? "hidden" : ''}}">
                 <u>הימור נוכחי</u>: " <span>
                         @if ($bet)
-                        {{-- Should work when betting first Bet? --}}
                         {!! $specialBet->formatDescription($bet->getData('answer')) !!}
+                        @else
+                            @include('widgets.teamWithFlag')
                         @endif
                     </span> "
                 </div>
