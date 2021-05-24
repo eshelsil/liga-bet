@@ -34,7 +34,9 @@
                 </td>
 
                 <td>
-                    {{ __("teams.{$match->team_home_id}") }} <br> {{ __("teams.{$match->team_away_id}") }}
+                    @include('widgets.teamWithFlag', $teamsByExtId[$match->team_home_id])
+                    <br>
+                    @include('widgets.teamWithFlag', $teamsByExtId[$match->team_away_id])
                 </td>
                 <td>
                     <input class="form-control" id="result-home-{{ $match->id }}" type="number" value="{{ $match->bet ? $match->bet->getData("result-home") : "" }}">

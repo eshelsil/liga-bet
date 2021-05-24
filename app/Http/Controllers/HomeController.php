@@ -58,7 +58,9 @@ class HomeController extends Controller
             $rank++;
         }
 
-        return view('home')->with(["table" => $table, "matches" => Match::all()]);
+        $teamsByExtId = Team::getTeamsByExternalId();
+
+        return view('home')->with(["table" => $table, "matches" => Match::all(), "teamsByExtId" => $teamsByExtId]);
     }
 
     public function showTodayMatches()
