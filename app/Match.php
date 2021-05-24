@@ -104,7 +104,10 @@ class Match extends Model implements BetableInterface
      */
     public function getTeamHome()
     {
-        if (!$this->teamHome) { $this->teamHome = Team::query()->find($this->team_home_id); }
+        if (!$this->teamHome) { 
+            $this->teamHome = Team::query()->where('external_id', $this->team_home_id)
+            ->get()->first();
+        }
         return $this->teamHome;
     }
 
@@ -113,7 +116,10 @@ class Match extends Model implements BetableInterface
      */
     public function getTeamAway()
     {
-        if (!$this->teamAway) { $this->teamAway= Team::query()->find($this->team_away_id); }
+        if (!$this->teamAway) {
+            $this->teamAway= Team::query()->where('external_id', $this->team_away_id)
+            ->get()->first();
+        }
         return $this->teamAway;
     }
 
