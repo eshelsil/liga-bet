@@ -96,8 +96,14 @@ class HomeController extends Controller
         /** @var User $user */
         $user = Auth::user();
         $matches = $user->getOpenMatches();
+        $teamsByExtId = Team::getTeamsByExternalId();
 
-        return view("open-matches-view")->with(["matches" => $matches, "user" => $user]);
+
+        return view("open-matches-view")->with([
+            "matches" => $matches,
+            "user" => $user,
+            "teamsByExtId" => $teamsByExtId
+        ]);
 
     }
 

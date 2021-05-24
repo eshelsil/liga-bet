@@ -50,12 +50,31 @@
                                     /** @var App\Match $match */
                                     /** @var \Illuminate\Database\Eloquent\Collection $matches */
                                     $match = $matches->first(function(App\Match $match) use ($bet) { return $match->getID() == $bet->type_id; });
-                                    $betDescription = __("teams.{$match->team_home_id}") . " ({$bet->getData("result-home")}) - " . __("teams.{$match->team_away_id}") . " ({$bet->getData("result-away")})";
+                                    $home_team = $teamsByExtId[$match->team_home_id];
+                                    $away_team = $teamsByExtId[$match->team_away_id];
                                     $resultDescription = "{$match->result_home} - {$match->result_away}";
                                     ?>
                                     <li class="list-group-item row">
                                         <div class="col-sm-1 pull-right">{{ $bet->score }}</div>
-                                        <div class="col-sm-5 pull-right">{!! $betDescription !!}</div>
+                                        <div class="col-sm-5 pull-right">
+                                            <table>
+                                                <tbody>
+                                                    <tr class="flex-row" style="align-items: center;">
+                                                        <td class="flex-row dir-ltr">
+                                                            @include('widgets.teamWithFlag', $home_team)
+                                                            <span> ({{$bet->getData("result-home")}})</span>
+                                                        </td>
+                                                        <td style='padding: 5px;'>
+                                                            -
+                                                        </td>
+                                                        <td class="flex-row dir-ltr">
+                                                            @include('widgets.teamWithFlag', $away_team)
+                                                            <span> ({{$bet->getData("result-away")}})</span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                         <div class="col-sm-3 pull-right">{!! $resultDescription !!}</div>
                                     </li>
                                 @endforeach

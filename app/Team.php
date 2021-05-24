@@ -24,4 +24,10 @@ class Team extends Model
             return $t->first();
         });
     }
+
+    public static function getTeamsByExternalId(){
+        return Team::all()->groupBy('external_id')->map(function($t){
+            return $t->first();
+        });
+    }
 }
