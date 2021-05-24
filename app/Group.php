@@ -8,6 +8,8 @@ use App\Match;
 use App\Enums\BetTypes;
 use App\Bets\BetableInterface;
 use App\Bets\BetGroupRank\BetGroupRankRequest;
+
+
 class Group extends Model implements BetableInterface
 {
     //
@@ -33,6 +35,11 @@ class Group extends Model implements BetableInterface
     public function getID()
     {
         return $this->id;
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 
     public function getGroupTeamsById()

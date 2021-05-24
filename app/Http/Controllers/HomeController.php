@@ -80,8 +80,27 @@ class HomeController extends Controller
     public function showMyBets()
     {
         $matches = Match::query()->orderBy("id")->get();
+        $user = Auth::user();
+        $teams = Team::all();
+        
+        $userGroupBetsById = Bet::where('type', BetTypes::GroupsRank)
+            ->where('user_id', $user->id)->get()
+            ->groupBy('type_id')
+            ->map(function($b){
+                return $b->first();
+            });
+        $groups = Group::all();
+        $groups->map(function($group) use($userGroupBetsById){
+            $group->bet = $userGroupBetsById[$group->id] ?? null;
+            return $group;
+        });
 
-        return view("my-bets-view")->with(["matches" => $matches, "user" => Auth::user()]);
+        return view("my-bets-view")->with([
+            "matches" => $matches,
+            "user" => $user,
+            "groups" => $groups,
+            "teams" => $teams,
+        ]);
     }
 
 
