@@ -63,6 +63,9 @@
                             }
                             $bettersByBetValue[$betVal][] = $bet->user->name;
                         }
+                        $bettersByBetValue = collect($bettersByBetValue)->sort(function ($a, $b) {
+                            return count($b) - count($a);
+                        })->toArray();
                     ?>
                     @foreach($bettersByBetValue as $betVal => $names)
                         <tr>
