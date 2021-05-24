@@ -171,10 +171,12 @@ class HomeController extends Controller
             $hasData = $groupRankBet !== null;
             return $hasData;
         });
+        $teamsById = Team::getTeamsById();
         return view("open-group-bets-view")->with([
             "user" => $user,
             'groupsTeamsData' => $groupsTeamsData,
             "currentBetsById" => $currentBetsById,
+            "teamsById" => $teamsById,
             "groupsByExternalId" => $groupsByExternalId,
         ]);
 
