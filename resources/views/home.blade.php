@@ -7,10 +7,10 @@
     @if ($show_table)
     
     <h1>טבלה עדכנית</h1>
-        <div class="row">
-            <div class="col-sm-2 pull-right">מקום</div>
+        <div class="row" style="margin: 0; padding-right: 15px; padding-left: 15px;">
+            <div class="col-sm-1 pull-right">מקום</div>
             <div class="col-sm-8 pull-right">שם</div>
-            <div class="col-sm-1 pull-right">ניקוד</div>
+            <div class="col-sm-2 pull-right">ניקוד</div>
         </div>
         @foreach($table as $row)
         <div class="panel-group" style="margin-bottom: 0;">
