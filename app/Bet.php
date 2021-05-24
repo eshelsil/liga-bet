@@ -29,6 +29,11 @@ class Bet extends Model
         return data_get(json_decode($this->data), $key, $default);
     }
 
+    public function getAnswer()
+    {
+        return $this->getData('answer');
+    }
+
     public function getRequest()
     {
         $betEntity = null;

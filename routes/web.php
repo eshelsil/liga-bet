@@ -25,6 +25,7 @@ Route::get('/open-matches', 'HomeController@showOpenMatches')->middleware("auth"
 Route::get('/open-group-bets', 'HomeController@showOpenGroupBets')->middleware("auth")->middleware("confirmed_user")->name('open-group-bets');
 Route::get('/open-special-bets', 'HomeController@showOpenSpecialBets')->middleware("auth")->middleware("confirmed_user")->name('open-special-bets');
 Route::get('/all-group-bets', 'HomeController@showAllGroupBets')->middleware("auth")->middleware("confirmed_user")->middleware("group_bets_closed")->name('all-group-bets');
+Route::get('/all-special-bets', 'HomeController@showAllSpecialBets')->middleware("auth")->middleware("confirmed_user")->middleware("group_bets_closed")->name('all-special-bets');
 Route::get('/admin/users-to-confirm', 'AdminController@showUsersToConfirm')->name('users-to-confirm');
 Route::get('/admin/confirmed-users', 'AdminController@showConfirmedUsers')->name('confirmed-users');
 Route::get('/admin/reset-password/{id}', 'AdminController@showResetPassword');

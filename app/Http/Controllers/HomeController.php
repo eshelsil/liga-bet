@@ -7,6 +7,7 @@ use App\User;
 use App\Team;
 use App\Group;
 use App\Bet;
+use App\SpecialBets\SpecialBet;
 use App\Enums\BetTypes;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
@@ -150,7 +151,7 @@ class HomeController extends Controller
     }
 
     /**
-     * Return Group Bets with no user's bet
+     * Return Group Bets 
      *
      * @return \Illuminate\Http\Response
      */
@@ -176,6 +177,30 @@ class HomeController extends Controller
         return view("all-group-bets-view")->with([
             "usersWhoBet" => $usersWhoBet,
             "groups" => $groups,
+        ]);
+
+    }
+
+    /**
+     * Return Special Bets
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showAllSpecialBets()
+    {
+        /** @var User $user */
+        $usersById = User::all(['name', 'id'])->groupBy('id')->map(
+            function($coll){return $coll->first();}
+        );
+        $bets = Bet::where("type", BetTypes::SpecialBet)->get()
+            ->map(function($bet) use($usersById){
+                $bet->user;
+                return $bet;
+            });
+        $specialBets = SpecialBet::all();
+        return view("all-special-bets-view")->with([
+            "bets" => $bets,
+            "specialBets" => $specialBets,
         ]);
 
     }
