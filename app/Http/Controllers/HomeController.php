@@ -65,16 +65,19 @@ class HomeController extends Controller
 
     public function showTodayMatches()
     {
-        $matches = Match::query()
-                        ->whereNull("result_home")
+        $matches = Match::where('is_done', false)
                         ->orderBy("start_time")
                         ->get();
 
         $matches = $matches->filter(function (Match $match) {
-            return $match->type == "groups" || $match->isClosedToBets();
+            return $match->isClosedToBets();
         });
+        $teamsByExtId = Team::getTeamsByExternalId();
 
-        return view("matches-view")->with(["matches" => $matches]);
+        return view("matches-view")->with([
+            "matches" => $matches,
+            "teamsByExtId" => $teamsByExtId,
+        ]);
     }
 
     public function showMyBets()

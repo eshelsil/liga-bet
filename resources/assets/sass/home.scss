@@ -13,7 +13,17 @@
 .flex-row{
   display: flex;
   flex-direction: row;
+  &.center-items {
+    align-items: center;
+  }
 }
+
+.around-huge-flag{
+  .team_flag{
+    height: 22px;
+  }
+}
+
 .team_flag{
   border: 1px solid rgba(0, 0, 0, 0.2);
   height: 15px;
