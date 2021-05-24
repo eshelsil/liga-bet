@@ -26,12 +26,12 @@ class SpecialBet implements BetableInterface
 
 
     private static $source = [
-        "1" => ["name" => "offensive_team", "title" => "ההתקפה החזקה בבתים"],
-        "2" => ["name" => "mvp", "title" => "מצטיין הטורניר"],
-        "3" => ["name" => "most_assists", "title" => "מלך הבישולים"],
-        "4" => ["name" => "top_scorer", "title" => "מלך השערים"],
-        "5" => ["name" => "winner", "title" => "זוכה"],
-        "6" => ["name" => "runner_up", "title" => "סגנית"],
+        "1" => ["name" => "winner", "title" => "זוכה"],
+        "2" => ["name" => "runner_up", "title" => "סגנית"],
+        "3" => ["name" => "top_scorer", "title" => "מלך השערים"],
+        "4" => ["name" => "most_assists", "title" => "מלך הבישולים"],
+        "5" => ["name" => "mvp", "title" => "מצטיין הטורניר"],
+        "6" => ["name" => "offensive_team", "title" => "ההתקפה החזקה בבתים"],
     ];
 
     public function getOffensiveTeams(){
