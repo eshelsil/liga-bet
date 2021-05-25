@@ -39,10 +39,10 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th class="col-sm-4">שם</th>
-                        <th class="col-sm-3">שם משתמש</th>
-                        <th class="col-sm-3">הרשאות</th>
-                        <th class="col-sm-1">פעולות</th>
+                        <th class="col-xs-4">שם</th>
+                        <th class="col-xs-3">שם משתמש</th>
+                        <th class="col-xs-3">הרשאות</th>
+                        <th class="col-xs-1">פעולות</th>
                     </tr>
                 </thead>
                 <tbody>

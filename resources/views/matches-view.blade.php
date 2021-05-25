@@ -49,8 +49,8 @@
                     <thead>
                         <tr>
                             <td class="admin">מזהה מוכר</td>
-                            <th class="col-sm-6">תוצאה</th>
-                            <th class="col-sm-6">מהמרים</th>
+                            <th class="col-xs-6">תוצאה</th>
+                            <th class="col-xs-6">מהמרים</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -82,8 +82,8 @@
                     <thead>
                         <tr>
                             <td class="admin">מזהה מוכר</td>
-                            <th class="col-sm-6">שם</th>
-                            <th class="col-sm-6">תוצאה</th>
+                            <th class="col-xs-6">שם</th>
+                            <th class="col-xs-6">תוצאה</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -179,7 +179,7 @@
             $inputAttrs = $inputAttrMap[$betName];
             $playerCustomInputNote = "נא להכניס את השם המלא של השחקן";
         @endphp
-        <div class="col-sm-12 col-md-9 col-lg-7" style="float: right; border-radius: 5px; border: #000 1px solid; margin-bottom: 25px; padding: 10px;">
+        <div class="col-xs-12 col-md-9 col-lg-7" style="float: right; border-radius: 5px; border: #000 1px solid; margin-bottom: 25px; padding: 10px;">
             <h5 style="text-align: center;">{{$specialBet->getTitle()}}</h5>
             <div class="betContent">
                 <div class="inputWrapper">

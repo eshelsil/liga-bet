@@ -8,21 +8,21 @@
     
     <h1>טבלה עדכנית</h1>
         <div class="row" style="margin: 0; padding-right: 15px; padding-left: 15px;">
-            <div class="col-sm-1 pull-right">מקום</div>
-            <div class="col-sm-8 pull-right">שם</div>
-            <div class="col-sm-2 pull-right">ניקוד</div>
+            <div class="col-xs-1 pull-right">מקום</div>
+            <div class="col-xs-8 pull-right">שם</div>
+            <div class="col-xs-2 pull-right">ניקוד</div>
         </div>
         @foreach($table as $row)
         <div class="panel-group" style="margin-bottom: 0;">
             <div class="panel panel-default">
                 <div class="panel-heading row rank-{{$row->rank}}" style="margin-right: 0;margin-left: 0;">
-                    <div class="col-sm-1 pull-right">{{$row->rank}}</div>
-                    <div class="col-sm-8 pull-right">
+                    <div class="col-xs-1 pull-right">{{$row->rank}}</div>
+                    <div class="col-xs-8 pull-right">
                         <h4 class="panel-title">
                             <a data-toggle="collapse" href="#collapserank-{{$row->rank}}"><span class="admin">{{$row->id}} </span>{{$row->name}}</a>
                         </h4>
                     </div>
-                    <div class="col-sm-2 pull-right">{{$row->total_score}}</div>
+                    <div class="col-xs-2 pull-right">{{$row->total_score}}</div>
                 </div>
                 <div id="collapserank-{{$row->rank}}" class="panel-collapse collapse">
                     <ul class="nav nav-tabs">
@@ -40,9 +40,9 @@
                             <h3>סה"כ: {{ $matchBets->sum("score") }}</h3>
                             <ul class="list-group">
                                 <li class="list-group-item row" style="background: #d2d2d2;">
-                                    <div class="col-sm-1 pull-right">ניקוד</div>
-                                    <div class="col-sm-5 pull-right">הימור</div>
-                                    <div class="col-sm-3 pull-right">תוצאה</div>
+                                    <div class="col-xs-1 pull-right">ניקוד</div>
+                                    <div class="col-xs-5 pull-right">הימור</div>
+                                    <div class="col-xs-3 pull-right">תוצאה</div>
                                 </li>
                                 @foreach($matchBets->filter(function ($bet) { return $bet->score > 0;})->sortBy("type_id") as $bet)
                                     <?php
@@ -55,8 +55,8 @@
                                     $resultDescription = "{$match->result_home} - {$match->result_away}";
                                     ?>
                                     <li class="list-group-item row">
-                                        <div class="col-sm-1 pull-right">{{ $bet->score }}</div>
-                                        <div class="col-sm-5 pull-right">
+                                        <div class="col-xs-1 pull-right">{{ $bet->score }}</div>
+                                        <div class="col-xs-5 pull-right">
                                             <table>
                                                 <tbody>
                                                     <tr class="flex-row" style="align-items: center;">
@@ -75,7 +75,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <div class="col-sm-3 pull-right">{!! $resultDescription !!}</div>
+                                        <div class="col-xs-3 pull-right">{!! $resultDescription !!}</div>
                                     </li>
                                 @endforeach
                             </ul>
@@ -88,9 +88,9 @@
                             <h3>סה"כ: {{ $groupRankBets->sum("score") }}</h3>
                             <ul class="list-group">
                                 <li class="list-group-item row" style="background: #d2d2d2;">
-                                    <div class="col-sm-1 pull-right">ניקוד</div>
-                                    <div class="col-sm-5 pull-right">הימור</div>
-                                    <div class="col-sm-5 pull-right">תוצאה</div>
+                                    <div class="col-xs-1 pull-right">ניקוד</div>
+                                    <div class="col-xs-5 pull-right">הימור</div>
+                                    <div class="col-xs-5 pull-right">תוצאה</div>
                                 </li>
                                 @foreach($groupRankBets->sortBy("type_id") as $bet)
                                 <?php
@@ -102,8 +102,8 @@
                                         $teamsById = $group->getGroupTeamsById();
                                     ?>
                                     <li class="list-group-item row">
-                                        <div class="col-sm-1 pull-right">{{ $bet->score }}</div>
-                                        <div class="col-sm-5 pull-right">
+                                        <div class="col-xs-1 pull-right">{{ $bet->score }}</div>
+                                        <div class="col-xs-5 pull-right">
                                             @foreach($positions as $position)
                                             @php
                                                 $bet_team_id = $bet->getData($position);
@@ -115,7 +115,7 @@
                                                 </div>
                                             @endforeach
                                         </div>
-                                        <div class="col-sm-5 pull-right">
+                                        <div class="col-xs-5 pull-right">
                                             @foreach($positions as $position)
                                             @php
                                                 $res_team_id = $group->getTeamIDByPosition($position);
@@ -140,10 +140,10 @@
                             <h3>סה"כ: {{ $specialBets->sum("score") }}</h3>
                             <ul class="list-group">
                                 <li class="list-group-item row" style="background: #d2d2d2;">
-                                    <div class="col-sm-1 pull-right">ניקוד</div>
-                                    <div class="col-sm-3 pull-right">סוג</div>
-                                    <div class="col-sm-3 pull-right">הימור</div>
-                                    <div class="col-sm-3 pull-right">תוצאה</div>
+                                    <div class="col-xs-1 pull-right">ניקוד</div>
+                                    <div class="col-xs-3 pull-right">סוג</div>
+                                    <div class="col-xs-3 pull-right">הימור</div>
+                                    <div class="col-xs-3 pull-right">תוצאה</div>
                                 </li>
                             @foreach($specialBets->sortBy("type_id") as $bet)
                                 <?php
@@ -153,10 +153,10 @@
                                 $resultDescription = $specialBet->formatDescription($answer);
                                 ?>
                                 <li class="list-group-item row">
-                                    <div class="col-sm-1 pull-right">{{ $bet->score }}</div>
-                                    <div class="col-sm-3 pull-right">{{ $specialBet->getTitle() }}</div>
-                                    <div class="col-sm-3 pull-right">{!! $betDescription !!}</div>
-                                    <div class="col-sm-3 pull-right">
+                                    <div class="col-xs-1 pull-right">{{ $bet->score }}</div>
+                                    <div class="col-xs-3 pull-right">{{ $specialBet->getTitle() }}</div>
+                                    <div class="col-xs-3 pull-right">{!! $betDescription !!}</div>
+                                    <div class="col-xs-3 pull-right">
                                         <div class="flex-row ws-nowrap">{!! $resultDescription !!}</div>
                                     </div>
                                 </li>

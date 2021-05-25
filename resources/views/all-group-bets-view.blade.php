@@ -3,18 +3,18 @@
 @section('content')
     <h1>הימורי בתים</h1>
     <div class="row">
-        <div class="col-sm-4 pull-right">בית</div>
-        <div class="col-sm-7 pull-right">קבוצות</div>
+        <div class="col-xs-4 pull-right">בית</div>
+        <div class="col-xs-7 pull-right">קבוצות</div>
     </div>
 @foreach($groups as $group)
 <div class="panel-group" style="margin-bottom: 0;">
     <div class="panel panel-default">
         <div class="panel-heading row" style="margin-right: 0;margin-left: 0;">
-            <div class="col-sm-4 pull-right">
+            <div class="col-xs-4 pull-right">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" href="#collapserank-{{$group->id}}">{{$group->name}}</a>
                 </h4></div>
-            <div class="col-sm-7 pull-right">
+            <div class="col-xs-7 pull-right">
                 @foreach($group->teams as $index => $team)
                     @include('widgets.teamWithFlag', $team)
                 @endforeach
@@ -61,10 +61,10 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th class="col-sm-4">
+                                <th class="col-xs-4">
                                     הימור
                                 </th>
-                                <th class="col-sm-8">
+                                <th class="col-xs-8">
                                     מהמרים
                                 </th>
                             </tr>
@@ -97,10 +97,10 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th class="col-sm-4">
+                                <th class="col-xs-4">
                                     שם
                                 </th>
-                                <th class="col-sm-8">
+                                <th class="col-xs-8">
                                     הימור
                                 </th>
                             </tr>
