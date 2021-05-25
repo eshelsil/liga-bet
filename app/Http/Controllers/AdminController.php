@@ -258,7 +258,6 @@ class AdminController extends Controller
             $match->team_home_id = data_get($match_data, 'team_home_id');
             $match->team_away_id = data_get($match_data, 'team_away_id');
             $match->start_time   = data_get($match_data, 'start_time');
-            $match->is_done      = 0;
             $match->save();
         }
 
