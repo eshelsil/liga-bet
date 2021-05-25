@@ -66,6 +66,8 @@
     }
 
     </script>
+  <script src="{{ asset('js/jquery-ui-touch-punch.js') }}" defer></script>
+
 @endsection
 
 @section('content')
