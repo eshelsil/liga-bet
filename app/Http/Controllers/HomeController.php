@@ -65,7 +65,7 @@ class HomeController extends Controller
 
     public function showTodayMatches()
     {
-        $matches = Match::where('is_done', false)
+        $matches = Match::isDone('is_done', false)
                         ->orderBy("start_time")
                         ->get();
 

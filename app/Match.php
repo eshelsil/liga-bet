@@ -7,6 +7,7 @@ use App\Bets\BetMatch\BetMatchRequest;
 use App\DataCrawler\Crawler;
 use App\Enums\BetTypes;
 use App\Exceptions\JsonException;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
@@ -161,11 +162,31 @@ class Match extends Model implements BetableInterface
         return array_diff($this->getTeamIds(), [$this->getKnockoutWinner()])[0];
     }
 
+    public function getIsDoneAttribute()
+    {
+        return !is_null($this->attributes["result_home"]) &&
+               !is_null($this->attributes["result_away"]);
+    }
+
+    /**
+     * Scope a query to only include active users.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsDone($query, $isDone)
+    {
+        return $query->where(function (Builder $b) use ($isDone) {
+            $b->whereNull("result_home", 'and', !$isDone)
+                ->whereNull("result_away", 'and', !$isDone);
+        });
+    }
+
     public static function getFinalMatchIfDone()
     {
         $final_match = Match::where('type', 'knockout')
             ->where('sub_type', 'FINAL')
-            ->where('is_done', true)
+            ->isDone(true)
             ->get();
         if ($final_match->count() == 0){
             return null;
@@ -179,7 +200,7 @@ class Match extends Model implements BetableInterface
     }
 
     public static function getGroupStageGamesIfStageDone(){
-        $matches = Match::where('is_done', true)
+        $matches = Match::query()->isDone(true)
             ->where('type', 'group_stage')->get();
         
         if (count($matches) < config('tournamentData.groupStageGamesCount')){
@@ -203,7 +224,7 @@ class Match extends Model implements BetableInterface
                 $query->where('team_home_id', $team_id)
                      ->orWhere('team_away_id', $team_id);
             })
-            ->where('is_done', true)
+            ->isDone(true)
             ->get();
     }
 }
