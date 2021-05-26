@@ -170,7 +170,7 @@
 
 @section('content')
     @if(\App\Group::areBetsOpen())
-    <div class="row">
+    <div class="row" style="margin-right: -10px; margin-left: -10px;">
         <h2>הימורים לטווח רחוק</h2>
         @foreach($bets as $i => $specialBet)
             @php
@@ -182,6 +182,7 @@
             @endphp
             <div class="col-xs-12 col-md-9 col-lg-7" style="float: right; border-radius: 5px; border: #000 1px solid; margin-bottom: 25px; padding: 10px;">
                 <h5 style="text-align: center;">{{$specialBet->getTitle()}}</h5>
+                <span style="position: absolute; top: 10px; right: 15px;">{{$specialBetId}}</span>
                 <div class="betContent">
                     <div class="inputWrapper">
                     @if ($inputAttrs['type'] == 'select')
