@@ -170,58 +170,58 @@
 
 @section('content')
     @if(\App\Group::areBetsOpen())
-    <h2>הימורים לטווח רחוק</h2>
-    @foreach($bets as $i => $specialBet)
-        @php
-            $bet = $specialBet->bet;
-            $specialBetId = $specialBet->getID();
-            $betName = $specialBet->getName();
-            $inputAttrs = $inputAttrMap[$betName];
-            $playerCustomInputNote = "נא להכניס את השם המלא של השחקן";
-        @endphp
-        <div class="col-xs-12 col-md-9 col-lg-7" style="float: right; border-radius: 5px; border: #000 1px solid; margin-bottom: 25px; padding: 10px;">
-            <h5 style="text-align: center;">{{$specialBet->getTitle()}}</h5>
-            <div class="betContent">
-                <div class="inputWrapper">
-                @if ($inputAttrs['type'] == 'select')
-                    <select id="{{$specialBetId}}_select_input" onChange="onSelectInputChange({{$specialBetId}})" class="form-select form-select-lg mb-3">
-                        <option value="no_value" selected>{{$inputAttrs['title']}}</option>
-                        @foreach($inputAttrs['options'] as $option_data)
-                        <div class="eshel">
-                            <option class="left-to-right" value="{{$option_data['id']}}">
-                                {{$option_data['name']}}
-                            </option>
-                        </div>
-                        @endforeach
+    <div class="row">
+        <h2>הימורים לטווח רחוק</h2>
+        @foreach($bets as $i => $specialBet)
+            @php
+                $bet = $specialBet->bet;
+                $specialBetId = $specialBet->getID();
+                $betName = $specialBet->getName();
+                $inputAttrs = $inputAttrMap[$betName];
+                $playerCustomInputNote = "נא להכניס את השם המלא של השחקן";
+            @endphp
+            <div class="col-xs-12 col-md-9 col-lg-7" style="float: right; border-radius: 5px; border: #000 1px solid; margin-bottom: 25px; padding: 10px;">
+                <h5 style="text-align: center;">{{$specialBet->getTitle()}}</h5>
+                <div class="betContent">
+                    <div class="inputWrapper">
+                    @if ($inputAttrs['type'] == 'select')
+                        <select id="{{$specialBetId}}_select_input" onChange="onSelectInputChange({{$specialBetId}})" class="form-select form-select-lg mb-3">
+                            <option value="no_value" selected>{{$inputAttrs['title']}}</option>
+                            @foreach($inputAttrs['options'] as $option_data)
+                                <option class="left-to-right" value="{{$option_data['id']}}">
+                                    {{$option_data['name']}}
+                                </option>
+                            @endforeach
+                            @if($inputAttrs['has_custom'])
+                                <option value="custom">אחר...</option>
+                            @endif
+                        </select>
                         @if($inputAttrs['has_custom'])
-                            <option value="custom">אחר...</option>
+                            <div class="special_bet_custom_input_wrapper" data-bet-id="{{$specialBetId}}" hidden>
+                                <input class="from-control" type="text">
+                                <h6>{{$playerCustomInputNote}}</h6>
+                            </div>
                         @endif
-                    </select>
-                    @if($inputAttrs['has_custom'])
-                        <div class="special_bet_custom_input_wrapper" data-bet-id="{{$specialBetId}}" hidden>
-                            <input class="from-control" type="text">
-                            <h6>{{$playerCustomInputNote}}</h6>
-                        </div>
+                    @else
+                        <input class="special_bet_input from-control" onfocus="inputChange({{$specialBetId}})" style="margin-bottom: 0px;" type="text" data-bet-id="{{$specialBetId}}">
+                        <h6>{{$playerCustomInputNote}}</h6>
                     @endif
-                @else
-                    <input class="special_bet_input from-control" onfocus="inputChange({{$specialBetId}})" style="margin-bottom: 0px;" type="text" data-bet-id="{{$specialBetId}}">
-                    <h6>{{$playerCustomInputNote}}</h6>
-                @endif
-                </div>
-                <button id="save-bet-{{$specialBetId}}" onClick="sendBet('{{$specialBetId}}')" type="button" class="btn btn-primary">שלח</button>
-                <div id="bet_{{$specialBetId}}_current_bet" class="currentBetWrapper flex-row {{!$bet ? "hidden" : ''}}">
-                <u>הימור נוכחי</u>: " <span>
-                        @if ($bet)
-                        {!! $specialBet->formatDescription($bet->getData('answer')) !!}
-                        @else
-                            @include('widgets.teamWithFlag')
-                        @endif
-                    </span> "
+                    </div>
+                    <button id="save-bet-{{$specialBetId}}" onClick="sendBet('{{$specialBetId}}')" type="button" class="btn btn-primary">שלח</button>
+                    <div id="bet_{{$specialBetId}}_current_bet" class="currentBetWrapper flex-row {{!$bet ? "hidden" : ''}}">
+                    <u>הימור נוכחי</u>: " <span>
+                            @if ($bet)
+                            {!! $specialBet->formatDescription($bet->getData('answer')) !!}
+                            @else
+                                @include('widgets.teamWithFlag')
+                            @endif
+                        </span> "
+                    </div>
                 </div>
             </div>
-        </div>
-        
-    @endforeach
+            
+        @endforeach
+    </div>
 
     @else
     <h2>נסגרו ההימורים! לא ניתן לעדכן הימורים אלה</h2>
