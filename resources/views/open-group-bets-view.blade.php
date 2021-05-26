@@ -42,7 +42,7 @@
             }),
             dataType: 'json',
             success: function (data) {
-                $(`#set-bet-table-${groupId}`).removeClass('col-xs-12').addClass('col-xs-7');
+                $(`#set-bet-table-${groupId}`).removeClass('col-xs-12').addClass('col-xs-8');
                 const betWrapper = $(`#current-bet-${groupId}-position`);
                 betWrapper.attr('hidden', false);
                 for (const [position, team_id] of Object.entries(standings)){
@@ -72,14 +72,14 @@
 
 @section('content')
         @if(\App\Group::areBetsOpen())
-        <div class="row">
+        <div class="row" style="margin-right: -10px; margin-left: -10px;">
             <h2>הימורי בתים פתוחים</h2>
             @foreach($groupsTeamsData as $i => $groupTeamsData)
             @php
                 $teams = data_get($groupTeamsData, 'teams');
                 $group = $groupsByExternalId[data_get($groupTeamsData, 'group_id')];
             @endphp
-            <div class="col-xs-12 col-md-9 col-lg-7" style="width: 80%; float: right; border-radius: 5px; border: #000 1px solid; margin-bottom: 25px; padding: 10px;">
+            <div class="col-xs-12 col-md-9 col-lg-7" style="float: right; border-radius: 5px; border: #000 1px solid; margin-bottom: 25px; padding: 10px;">
                 <h5 style="text-align: center;">{{$group->name}}</h5>
                 <div class="row">
                     @php
@@ -94,9 +94,9 @@
                             }
                             $teams = $teams_by_bet_order;
                         @endphp
-                        <div id="current-bet-{{$group->id}}-position" class="col-xs-5" >
+                        <div id="current-bet-{{$group->id}}-position" class="col-xs-4" >
                             <h6>הימור נוכחי:</h6>
-                            <ol class="currentBet">
+                            <ol class="currentBet" style="padding-right: 10px;">
                             @foreach(json_decode($currentBet->data) as $position => $teamId)
                                 @php
                                 $teamData = $teamsById[$teamId];
@@ -109,9 +109,9 @@
                         </div>
 
                     @else
-                        <div id="current-bet-{{$group->id}}-position" class="col-xs-5" hidden>
+                        <div id="current-bet-{{$group->id}}-position" class="col-xs-4" hidden>
                             <h6>הימור נוכחי:</h6>
-                            <ol class="currentBet">
+                            <ol class="currentBet" style="padding-right: 10px;">
                             @foreach(range(1,4) as $position)
                                 <li style="font-size: 80%;" data-pos="{{$position}}">
                                     @include('widgets.teamWithFlag')
@@ -121,7 +121,7 @@
                         </div>
 
                     @endif
-                        <div id="set-bet-table-{{$group->id}}" class="{{$currentBet ? 'col-xs-7' : 'col-xs-12'}}">
+                        <div id="set-bet-table-{{$group->id}}" class="{{$currentBet ? 'col-xs-8' : 'col-xs-12'}}">
                         <ol class="sortable" data-group="{{$group->id}}">
                             @foreach($teams as $team_data)
                                 <div class="team_row" data-team-id="{{$team_data->id}}"  onmousedown="inputChange({{$group->id}})">
