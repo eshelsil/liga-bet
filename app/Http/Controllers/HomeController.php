@@ -70,7 +70,8 @@ class HomeController extends Controller
         $matches = $matches->filter(function (Match $match) {
             return $match->isClosedToBets();
         })->groupBy('is_done');
-        $done_matches = $matches[1]->reverse() ?? [];
+        $done_matches = $matches[1] ?? collect([]);
+        $done_matches = $done_matches->reverse();
         $onging_matches = $matches[0] ?? [];
         $teamsByExtId = Team::getTeamsByExternalId();
 
