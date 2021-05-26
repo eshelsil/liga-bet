@@ -72,7 +72,7 @@
         
                             </ul>
                         </div>
-                        <div id="by-user-{{$betId}}" class="tab-pane fade" style="padding: 20px; padding-top: 35px;">
+                        <div id="by-user-{{$betId}}" class="tab-pane fade" style="padding-top: 35px;">
                             <?php
                                     $usersWithBets = [];
                                     foreach($usersByBetValue as $betValue => $users){
