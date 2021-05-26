@@ -31,6 +31,11 @@ use Illuminate\Support\Facades\Log;
  */
 class Match extends Model implements BetableInterface
 {
+
+protected static $groupStageGames = null;
+protected static $knockoutGames = null;
+protected static $theFinal = null;
+
     protected $scores = [
         "group_stage" => [
             "winner" => 1,
@@ -103,7 +108,6 @@ class Match extends Model implements BetableInterface
                        ->where("type_id", $this->id)
                        ->with("user")
                        ->get();
-
         return $MatchBets;
     }
 
@@ -185,16 +189,27 @@ class Match extends Model implements BetableInterface
             });
     }
 
+    public static function getFinalMatch()
+    {
+        if (static::$theFinal){
+            return static::$theFinal;
+        }
+        return static::$theFinal = Match::where('type', 'knockout')
+            ->where('sub_type', 'FINAL')
+            ->get();
+    }
+
     public static function getFinalMatchIfDone()
     {
-        $final_match = Match::where('type', 'knockout')
+        $final = static::getFinalMatch();
+        static::$theFinal = Match::where('type', 'knockout')
             ->where('sub_type', 'FINAL')
             ->isDone(true)
             ->get();
-        if ($final_match->count() == 0){
+        if ($final->where('is_done', true)->count() == 0){
             return null;
         }
-        return $final_match;
+        return $final;
     }
 
     public function getID()
@@ -202,14 +217,29 @@ class Match extends Model implements BetableInterface
         return $this->id;
     }
 
-    public static function getGroupStageGamesIfStageDone(){
-        $matches = Match::query()->isDone(true)
+    public static function getGroupStageGames(){
+        if (static::$groupStageGames){
+            return static::$groupStageGames;
+        }
+        return static::$groupStageGames = Match::query()->isDone(true)
             ->where('type', 'group_stage')->get();
+    }
+    
+    public static function getGroupStageGamesIfStageDone(){
+        $games = static::getGroupStageGames();
         
-        if (count($matches) < config('tournamentData.groupStageGamesCount')){
+        if ($games->count() < config('tournamentData.groupStageGamesCount')){
             return null;
         };
-        return $matches;
+        return $games;
+    }
+
+    public static function getKnockoutGames(){
+        if (static::$knockoutGames){
+            return static::$knockoutGames;
+        }
+        return static::$knockoutGames = Match::query()->isDone(true)
+            ->where('type', 'knockout')->get();
     }
 
     public static function isGroupStageDone(){
@@ -222,12 +252,8 @@ class Match extends Model implements BetableInterface
     }
 
     public static function getTeamKnockoutGames($team_id){
-        return Match::where('type', 'knockout')
-            ->where(function($query) use($team_id) {
-                $query->where('team_home_id', $team_id)
-                     ->orWhere('team_away_id', $team_id);
-            })
-            ->isDone(true)
-            ->get();
+        return static::getKnockoutGames()->filter(function($match) use($team_id){
+            return in_array($team_id, [$match->team_home_id, $match->team_away_id]);
+        });
     }
 }
