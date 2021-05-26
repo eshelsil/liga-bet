@@ -32,16 +32,16 @@
                     </ul>
 
                     <div class="tab-content">
-                        <div id="groups-{{$row->id}}" class="tab-pane fade in active" style="padding: 10px;">
+                        <div id="groups-{{$row->id}}" class="tab-pane fade in active" style="padding: 20px;">
                             @php
                                 $betType = \App\Enums\BetTypes::Match;
                                 $matchBets = $row->betsByType->has($betType) ? $row->betsByType[$betType] : collect();
                             @endphp
                             <h3>סה"כ: {{ $matchBets->sum("score") }}</h3>
                             <ul class="list-group" style="padding-right: 0px;">
-                                <li class="list-group-item row " style="background: #d2d2d2;">
-                                    <div class="col-xs-2 pull-right" style="padding-left: 5px; padding-right: 5px;">נק'</div>
-                                    <div class="col-xs-8 pull-right col-no-padding">הימור</div>
+                                <li class="list-group-item row " style="background: #d2d2d2; padding-right: 10px;">
+                                    <div class="col-xs-1 pull-right col-no-padding">נק'</div>
+                                    <div class="col-xs-9 pull-right col-no-padding">הימור</div>
                                     <div class="col-xs-2 pull-right col-no-padding">תוצאה</div>
                                 </li>
                                 @foreach($matchBets->filter(function ($bet) { return $bet->score > 0;})->sortBy("type_id") as $bet)
@@ -54,9 +54,9 @@
                                     $away_team = $teamsByExtId[$match->team_away_id];
                                     $resultDescription = "{$match->result_home} - {$match->result_away}";
                                     ?>
-                                    <li class="list-group-item row flex-row center-items col-no-padding">
-                                        <div class="col-xs-2 pull-right col-no-padding">{{ $bet->score }}</div>
-                                        <div class="col-xs-8 pull-right col-no-padding">
+                                    <li class="list-group-item row flex-row center-items col-no-padding" style="padding-left: 0px; padding-right: 10px;">
+                                        <div class="col-xs-1 pull-right col-no-padding">{{ $bet->score }}</div>
+                                        <div class="col-xs-9 pull-right col-no-padding">
                                             <table>
                                                 <tbody>
                                                     <tr class="flex-row" style="align-items: center;">
@@ -88,9 +88,9 @@
                             <h3>סה"כ: {{ $groupRankBets->sum("score") }}</h3>
                             <ul class="list-group" style="padding-right: 0px;">
                                 <li class="list-group-item row" style="background: #d2d2d2;">
-                                    <div class="col-xs-1 pull-right">ניקוד</div>
-                                    <div class="col-xs-5 pull-right">הימור</div>
-                                    <div class="col-xs-5 pull-right">תוצאה</div>
+                                    <div class="col-xs-2 pull-right col-no-padding">ניקוד</div>
+                                    <div class="col-xs-5 pull-right col-no-padding">הימור</div>
+                                    <div class="col-xs-5 pull-right col-no-padding">תוצאה</div>
                                 </li>
                                 @foreach($groupRankBets->sortBy("type_id") as $bet)
                                 <?php
@@ -101,9 +101,9 @@
                                         $positions = range(1,4);
                                         $teamsById = $group->getGroupTeamsById();
                                     ?>
-                                    <li class="list-group-item row">
-                                        <div class="col-xs-1 pull-right">{{ $bet->score }}</div>
-                                        <div class="col-xs-5 pull-right">
+                                    <li class="list-group-item row flex-row  col-no-padding">
+                                        <div class="col-xs-2 pull-right col-no-padding" style="padding-right: 15px;">{{ $bet->score }}</div>
+                                        <div class="col-xs-5 pull-right col-no-padding">
                                             @foreach($positions as $position)
                                             @php
                                                 $bet_team_id = $bet->getData($position);
@@ -115,7 +115,7 @@
                                                 </div>
                                             @endforeach
                                         </div>
-                                        <div class="col-xs-5 pull-right">
+                                        <div class="col-xs-5 pull-right col-no-padding">
                                             @foreach($positions as $position)
                                             @php
                                                 $res_team_id = $group->getTeamIDByPosition($position);
@@ -139,11 +139,11 @@
                             @endphp
                             <h3>סה"כ: {{ $specialBets->sum("score") }}</h3>
                             <ul class="list-group" style="padding-right: 0px;">
-                                <li class="list-group-item row" style="background: #d2d2d2;">
-                                    <div class="col-xs-1 pull-right">ניקוד</div>
-                                    <div class="col-xs-3 pull-right">סוג</div>
-                                    <div class="col-xs-3 pull-right">הימור</div>
-                                    <div class="col-xs-3 pull-right">תוצאה</div>
+                                <li class="list-group-item row" style="background: #d2d2d2; padding-right: 10px;">
+                                    <div class="col-xs-1 pull-right col-no-padding">נק'</div>
+                                    <div class="col-xs-3 pull-right col-no-padding">סוג</div>
+                                    <div class="col-xs-4 pull-right col-no-padding">הימור</div>
+                                    <div class="col-xs-4 pull-right col-no-padding">תוצאה</div>
                                 </li>
                             @foreach($specialBets->sortBy("type_id") as $bet)
                                 <?php
@@ -152,11 +152,11 @@
                                 $answer = $specialBet->getAnswer();
                                 $resultDescription = $specialBet->formatDescription($answer);
                                 ?>
-                                <li class="list-group-item row">
-                                    <div class="col-xs-1 pull-right">{{ $bet->score }}</div>
-                                    <div class="col-xs-3 pull-right">{{ $specialBet->getTitle() }}</div>
-                                    <div class="col-xs-3 pull-right">{!! $betDescription !!}</div>
-                                    <div class="col-xs-3 pull-right">
+                                <li class="list-group-item row flex-row center-items col-no-padding" style="padding-right: 10px;">
+                                    <div class="col-xs-1 pull-right col-no-padding">{{ $bet->score }}</div>
+                                    <div class="col-xs-3 pull-right col-no-padding">{{ $specialBet->getTitle() }}</div>
+                                    <div class="col-xs-4 pull-right col-no-padding">{!! $betDescription !!}</div>
+                                    <div class="col-xs-4 pull-right col-no-padding">
                                         <div class="flex-row ws-nowrap">{!! $resultDescription !!}</div>
                                     </div>
                                 </li>
