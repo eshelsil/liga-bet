@@ -14,20 +14,28 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Scorer extends Model
 {
+    static $most_goals = null;
+    static $top_scorers = null;
+
     public static function getTopScorers(){
-        $most_goals = Scorer::getTopGoalsCount();
+        if (!is_null(static::$top_scorers)){
+            return static::$top_scorers;
+        }
+        $most_goals = static::getTopGoalsCount();
         if ($most_goals = null){
             return null;
         }
-        $top_scorers = Scorer::where('goals', $most_goals)->get();
-        return $top_scorers;
+        return static::$top_scorers = Scorer::where('goals', $most_goals)->get();
     }
 
     public static function getTopGoalsCount(){
         if (!Match::isTournamentDone()){
             return null;
         }
-        return Scorer::max('goals');
+        if (!is_null(static::$most_goals)){
+            return static::$most_goals;
+        }
+        return static::$most_goals = Scorer::max('goals');
     }
 
     public static function findByExternalId($ext_id){
