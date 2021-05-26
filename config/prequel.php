@@ -143,6 +143,5 @@
         'middleware' => [
             'web',
             'admin',
-            Protoqol\Prequel\Http\Middleware\Authorised::class,
         ],
     ];
