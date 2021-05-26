@@ -128,7 +128,7 @@ class SpecialBet implements BetableInterface
         if ($ko_games->count() == 0){
             return null;
         }
-        $ko_games->each(function($game){
+        $ko_games->each(function($game) use($score){
             if ($game->sub_type == 'FINAL'){
                 return;
             }
