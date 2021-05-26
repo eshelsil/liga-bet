@@ -12,7 +12,9 @@ use App\Bets\BetGroupRank\BetGroupRankRequest;
 
 class Group extends Model implements BetableInterface
 {
-    //
+    static $teamsColl = null;
+    static $firstMatchStartTime = null;
+
     public function isComplete(){
         return !is_null($this->standings);
     }
@@ -42,9 +44,17 @@ class Group extends Model implements BetableInterface
         return $this->name;
     }
 
+    public static function getTeamsCollection()
+    {
+        if (static::$teamsColl) {
+            return static::$teamsColl;
+        }
+        return static::$teamsColl = Team::all();
+    }
+
     public function getGroupTeamsById()
     {
-        return Team::all()->where('group_id', $this->external_id)->groupBy('id')->map(function($arr){
+        return static::getTeamsCollection()->where('group_id', $this->external_id)->groupBy('id')->map(function($arr){
             return $arr->first();
         });
     }
@@ -71,9 +81,17 @@ class Group extends Model implements BetableInterface
         echo "completed";
     }
 
+    public static function getTournamentStartTime()
+    {
+        if (!is_null(static::$firstMatchStartTime)) {
+            return static::$firstMatchStartTime;
+        }
+        return static::$firstMatchStartTime = Match::min('start_time');
+    }
+
     public static function areBetsOpen(){
-        $first_match_start_time = Match::min('start_time');
+        $tournament_start_time = static::getTournamentStartTime();
         $lock_before_secs = config('bets.lockBetsBeforeTournamentSeconds');
-        return $first_match_start_time - $lock_before_secs > time();
+        return $tournament_start_time - $lock_before_secs > time();
     }
 }
