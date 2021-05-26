@@ -23,6 +23,7 @@ class SpecialBet implements BetableInterface
     protected $id = null;
     protected $name = null;
     protected $title = null;
+    static $teamsColl = null;
 
 
     private static $source = [
@@ -290,13 +291,11 @@ class SpecialBet implements BetableInterface
         };
     }
 
-    private function formatTeamDescription($answer, $asHtml = true){
-        $team = Team::find($answer);
+    private function formatTeamDescription($answer){
+        $teams = static::getTeamsCollection();
+        $team = $teams->find($answer);
         if (!$team){
             return "Invalid Bet team_id ". $answer;
-        }
-        if (!$asHtml){
-            return $team->name;
         }
         return view('widgets.teamWithFlag')->with($team->toArray());
     }
@@ -330,6 +329,14 @@ class SpecialBet implements BetableInterface
             }
         , $answer));
         return $res;
+    }
+
+    public static function getTeamsCollection()
+    {
+        if (static::$teamsColl) {
+            return static::$teamsColl;
+        }
+        return static::$teamsColl = Team::all();
     }
 
 
