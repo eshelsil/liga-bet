@@ -18,6 +18,13 @@
   }
 }
 
+.row{
+  &.full-row{
+    margin-right: 0px;
+    width: 100%;
+  }
+}
+
 .around-huge-flag{
   .team_flag{
     height: 22px;
