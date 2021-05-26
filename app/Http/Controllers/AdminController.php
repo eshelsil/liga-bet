@@ -87,12 +87,8 @@ class AdminController extends Controller
         $relevantPlayerIds = $relevantBets->map(function($bet){
             return $bet->getData('answer');
         })->toArray();
-        Scorer::all()->each(function($scorer) use($relevantPlayerIds){
-            if (!in_array($scorer->external_id, $relevantPlayerIds)){
-                $scorer->delete();
-            }
-
-        });
+        Scorer::whereNotIn('external_id', $relevantPlayerIds)->delete();
+        return 'DONE';
     }
 
     public function printCustomScorerBets()
