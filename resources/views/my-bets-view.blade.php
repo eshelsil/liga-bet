@@ -65,7 +65,7 @@
             <tr>
                 <td class="admin">{{ $match->id }}</td>
 
-                <td class="flex-row">
+                <td class="flex-row v-align-center">
                     <table>
                         <tbody>
                             <td>
@@ -80,10 +80,10 @@
                         </tbody>
                     </table>
                 </td>
-                <td>
+                <td class="v-align-center">
                     @if($user->getBet($match)) {{ $user->getBet($match)->getData("result-away") }}:{{ $user->getBet($match)->getData("result-home") }} @endif
                 </td>
-                <td>
+                <td class="v-align-center">
                     @if(!is_null($match->result_away)) {{ $match->result_away }}:{{ $match->result_home }} @endif
                 </td>
             </tr>
