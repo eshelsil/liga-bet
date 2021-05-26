@@ -16,7 +16,8 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (\Auth::user()->permissions !== User::TYPE_ADMIN) {
+        $user = \Auth::user();
+        if ( !$user || $user->permissions !== User::TYPE_ADMIN) {
             return redirect('/home');
         }
         return $next($request);
