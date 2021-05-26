@@ -7,7 +7,7 @@
     $teams = \App\Team::all(['id', 'name', 'crest_url'])->sortBy('name')->toArray();
     $inputAttrMap = [
             'top_scorer' => [
-                'type' => 'select',
+                'type' => count($topScorerDefaultBets) > 0 ? 'select' : 'text',
                 'title' => $topScorerDropdownTitle,
                 'options' => $topScorerDefaultBets,
                 'has_custom' => true,
@@ -76,8 +76,10 @@
         const teamSelectionBetIds = [runner_up_scorer_bet_id, champions_bet_id, offensive_team_bet_id]
         const selectionBetIds = [
             ...teamSelectionBetIds,
-            top_scorer_bet_id,
         ]
+        if (@json($inputAttrMap)['top_scorer']['type'] === 'select'){
+            selectionBetIds.push(top_scorer_bet_id);
+        }
         const isTopScorerBet = betId == top_scorer_bet_id;
 
         let betValue, value, name, id=null;
@@ -106,7 +108,11 @@
         } else {
             const input = $(`.special_bet_input[data-bet-id='${betId}']`);
             value = input.val();
-            betValue = {answer: value};
+            if (isTopScorerBet){
+                betValue = {player_name: value};
+            } else {
+                betValue = {answer: value};
+            }
         }
 
         $.ajax({
