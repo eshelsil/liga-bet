@@ -4,7 +4,7 @@
     $topScorerDropdownTitle = "----בחר מלך שערים----";
     $teamSelectionTitle = "----בחר קבוצה----";
     $topScorerDefaultBets = config('tournamentData.topScorerBets');
-    $teams = \App\Team::all(['id', 'name', 'crest_url'])->toArray();
+    $teams = \App\Team::all(['id', 'name', 'crest_url'])->sortBy('name')->toArray();
     $inputAttrMap = [
             'top_scorer' => [
                 'type' => 'select',
@@ -88,7 +88,7 @@
                 name = $(`.special_bet_custom_input_wrapper[data-bet-id='${betId}']`).children('input').val();
             } else if (value !== "no_value") {
                 id = value;
-                let options = isTopScorerBet ? @json($topScorerDefaultBets) : @json($teams);
+                let options = isTopScorerBet ? @json($topScorerDefaultBets) : Object.values(@json($teams));
                 name = options.find((opt)=>{ return opt.id == id})['name'];
             } else {
                 let optionEntity = isTopScorerBet ? 'player' : 'team';
@@ -127,7 +127,7 @@
                 let newVal = name !== undefined ? name : value;
                 let currentBetHtml = newVal;
                 if (teamSelectionBetIds.indexOf(betId) > -1){
-                    let teams = @json($teams);
+                    let teams = Object.values(@json($teams));
                     let team = teams.find((team)=>team.id == value)
                     const wrapper = $(`#bet_${betId}_current_bet`).find('.team-and-flag');
                     wrapper.find('.team_flag').attr('src', team.crest_url);
