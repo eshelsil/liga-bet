@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row">
-        <h1>הימורים לטווח רחוק</h1>
+        <h1>הימורים מיוחדים</h1>
         <div class="float-right">
             <ul class="nav nav-tabs" style="padding-right: 0px;">
                 @foreach($specialBets as $index => $specialBet)

@@ -89,10 +89,10 @@
                 <li class="{{ Route::currentRouteName() == "open-matches" ? "active" : "" }}"><a href="/open-matches">הימורים פתוחים</a></li>
                 @if (\App\Group::areBetsOpen())
                     <li class="{{ Route::currentRouteName() == "open-group-bets" ? "active" : "" }}"><a href="/open-group-bets">הימורי בתים פתוחים</a></li>
-                    <li class="{{ Route::currentRouteName() == "open-special-bets" ? "active" : "" }}"><a href="/open-special-bets">הימורים לטווח רחוק</a></li>
+                    <li class="{{ Route::currentRouteName() == "open-special-bets" ? "active" : "" }}"><a href="/open-special-bets">הימורים מיוחדים</a></li>
                 @else
                     <li class="{{ Route::currentRouteName() == "all-group-bets" ? "active" : "" }}"><a href="/all-group-bets">צפה בהימורי בתים</a></li>
-                    <li class="{{ Route::currentRouteName() == "all-special-bets" ? "active" : "" }}"><a href="/all-special-bets">צפה בהימורים לטווח רחוק</a></li>
+                    <li class="{{ Route::currentRouteName() == "all-special-bets" ? "active" : "" }}"><a href="/all-special-bets">צפה בהימורים מיוחדים</a></li>
                 @endif
                 <li class="{{ Route::currentRouteName() == "home" ? "active" : "" }}"><a href="/home">טבלת ניקוד</a></li>
                 @if (\Auth::user()->isAdmin())

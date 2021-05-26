@@ -177,7 +177,7 @@
 @section('content')
     @if(\App\Group::areBetsOpen())
     <div class="row" style="margin-right: -10px; margin-left: -10px;">
-        <h2>הימורים לטווח רחוק</h2>
+        <h2>הימורים מיוחדים</h2>
         @foreach($bets as $i => $specialBet)
             @php
                 $bet = $specialBet->bet;
