@@ -254,6 +254,7 @@ class AdminController extends Controller
             $match->team_home_id = data_get($match_data, 'team_home_id');
             $match->team_away_id = data_get($match_data, 'team_away_id');
             $match->start_time   = data_get($match_data, 'start_time');
+            echo("Saving Match: ".$match->team_home_id." vs. ".$match->team_away_id."<br>");
             $match->save();
         }
 
@@ -263,6 +264,8 @@ class AdminController extends Controller
             $match->result_away  = data_get($match_data, 'result_away');
             $match->ko_winner  = data_get($match_data, 'ko_winner');
             $match->save();
+
+            echo("Saving Result of Match: ext_id - ".$match->external_id." | id - ".$match->id."-> ".$match->result_home." - ".$match->result_away."<br>");
             $match->completeBets();
             if (Match::isTournamentDone()){
                 $this->calculateSpecialBets(['winner', 'runner_up']);
