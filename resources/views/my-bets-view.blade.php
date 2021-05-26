@@ -43,7 +43,7 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>מזהה</th>
+            <th class="admin">מזהה</th>
             <th>
                 משחק
             </th>
@@ -63,7 +63,7 @@
                 $away_team = $teams->where('external_id', $match->team_away_id)->first();
             ?>
             <tr>
-                <td>{{ $match->id }}</td>
+                <td class="admin">{{ $match->id }}</td>
 
                 <td class="flex-row">
                     <table>

@@ -14,7 +14,7 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>מזהה</th>
+            <th class="admin">מזהה</th>
             <th style="width: 120px;">
                 תאריך
             </th>
@@ -32,7 +32,7 @@
         <tbody>
         @foreach($matches->sortBy("start_time") as $match)
             <tr>
-                <td>{{ $match->id }}</td>
+                <td class="admin">{{ $match->id }}</td>
                 <td>
                     {{ DateTime::createFromFormat("U", $match->start_time)->setTimezone(new DateTimeZone("Asia/Jerusalem"))->format("Y/m/d H:i") }}
                 </td>
