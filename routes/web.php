@@ -38,6 +38,7 @@ Route::get('/admin/save-users', 'AdminController@saveUsers');
 Route::get('/admin/reset-user-pass/{id}', 'AdminController@resetPass');
 Route::get('/admin/parse-bets/{userId?}/{fixMatchIds?}', 'AdminController@parseGroupBets');
 Route::get('/admin/complete-match/{id}/{scoreHome?}/{scoreAway?}', 'AdminController@completeMatch');
+Route::get('/admin/decomplete-match/{id}', 'AdminController@removeMatchResult');
 Route::get('/admin/complete-all-matches', 'AdminController@completeAllMatches');
 Route::get('/admin/calc-special-bets', 'AdminController@calculateSpecialBets');
 

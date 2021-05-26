@@ -319,6 +319,16 @@ class AdminController extends Controller
         return "completed";
     }
 
+    public function removeMatchResult($id) {
+        /** @var Match $match */
+        $match = Match::query()->find($id);
+        $match->result_home = null;
+        $match->result_away = null;
+        $match->save();
+        $match->decompleteBets();
+        return "completed";
+    }
+
     public function completeAllMatches() {
         $crawler = Crawler::getInstance();
         self::saveMatches($crawler->getKnownOpenMatches());

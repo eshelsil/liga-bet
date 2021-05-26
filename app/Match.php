@@ -66,6 +66,14 @@ protected static $theFinal = null;
         return $crawlerMatch;
     }
 
+    public function decompleteBets($scoreHome = null, $scoreAway = null){
+        foreach ($this->getBets() as $bet) {
+            $bet->score = null;
+            $bet->save();
+            echo "User: {$bet->user->name} Bet home: Score: null<br><br>";
+        }
+    }
+
     public function completeBets($scoreHome = null, $scoreAway = null)
     {
         if (!is_null($scoreHome) && !is_null($scoreAway)) {
@@ -198,7 +206,7 @@ protected static $theFinal = null;
             ->where('sub_type', 'FINAL')
             ->get();
     }
-
+    
     public static function getFinalMatchIfDone()
     {
         $final = static::getFinalMatch();
