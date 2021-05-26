@@ -176,10 +176,13 @@ class Match extends Model implements BetableInterface
      */
     public function scopeIsDone($query, $isDone)
     {
-        return $query->where(function (Builder $b) use ($isDone) {
-            $b->whereNull("result_home", 'and', !$isDone)
-                ->whereNull("result_away", 'and', !$isDone);
-        });
+        return $query->when($isDone, function (Builder $b) {
+                $b->whereNotNull("result_home")
+                  ->whereNotNull("result_away");
+            },  function (Builder $b) {
+                $b->whereNull("result_home")
+                  ->whereNull("result_away");
+            });
     }
 
     public static function getFinalMatchIfDone()
