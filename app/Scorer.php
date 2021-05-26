@@ -43,7 +43,12 @@ class Scorer extends Model
     }
 
     public static function register_player($player_id, $player_name){
-        if ($player_id && self::findByExternalId($player_id)){
+        $player = self::findByExternalId($player_id);
+        if ($player){
+            if ($player->name !== $player_name){
+                throw new \InvalidArgumentException("Player has different name then passed 'name' attribute - \"{{$player_name}}\". "
+                                                ."existing_player - id: \"{{$player_id}}\"  |  name: \"{{$player->name}}\"");
+            }
             return;
         }
         $scorer = new Scorer();

@@ -89,14 +89,21 @@ class BetsController extends Controller
                     $top_scorer_type_id = SpecialBet::getBetTypeIdByName('top_scorer');
                     $betValue = $betInput->data["value"];
                     if ($betInput->data["type_id"] == $top_scorer_type_id){
-                        $player_id = $betValue['player_id'] ?? Scorer::getNextNegaitveId();
+                        $player_id = $betValue['player_id'] ?? null;
+                        if ($player_id == null){
+                            $player_id = Scorer::getNextNegaitveId();
+                        } else if ($player_id < 0){
+                            throw new InvalidArgumentException("Can't input negative player_id. Got: \"{{$player_id}}\"");
+                        }
                         $player_name = $betValue['player_name'];
                         Scorer::register_player($player_id, $player_name);
                         $betValue = ["answer" => $player_id];
                     }
+                    $userData = ["user" => $user];
+                    $betRequestData = array_merge($betValue, $userData);
                     $betRequest = new BetSpecialBetsRequest(
                         SpecialBet::find($betInput->data["type_id"]),
-                        $betValue
+                        $betRequestData
                     );
                     $bets[] = BetSpecialBets::save($user, $betRequest);
                     break;
