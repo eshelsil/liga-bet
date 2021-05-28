@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-    <title>מונדיאל חברים - {{  \Auth::user()->name }}</title>
+    <title>יורו חברים - {{  \Auth::user()->name }}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -76,7 +76,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/home">מונדיאל חברים - {{  \Auth::user()->name }}</a>
+            <a class="navbar-brand" href="/home">יורו חברים - {{  \Auth::user()->name }}</a>
         </div>
         <div class="collapse navbar-collapse" style="float: right!important;" id="myNavbar">
             <ul class="nav navbar-nav navbar-left">

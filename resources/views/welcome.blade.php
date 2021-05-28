@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    מונדיאל חברים
+                    יורו חברים
                 </div>
 
                 <div class="links">
