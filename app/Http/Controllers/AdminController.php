@@ -58,6 +58,11 @@ class AdminController extends Controller
         return view('admin.reset_password')->with(["user_id" => $user->id, "username" => $user->username]);
     }
 
+    public function showTools()
+    {
+        return view('admin.tools_index');
+    }
+
     public function downloadData()
     {
         $crawler = Crawler::getInstance();

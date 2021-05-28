@@ -14,6 +14,9 @@
 Route::get('/', function () {
     return redirect('/home');
 });
+Route::get('/admin', function () {
+    return redirect('/admin/index');
+});
 
 Auth::routes();
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
@@ -28,6 +31,7 @@ Route::get('/all-group-bets', 'HomeController@showAllGroupBets')->middleware("au
 Route::get('/all-special-bets', 'HomeController@showAllSpecialBets')->middleware("auth")->middleware("confirmed_user")->middleware("group_bets_closed")->name('all-special-bets');
 Route::get('/admin/users-to-confirm', 'AdminController@showUsersToConfirm')->name('users-to-confirm');
 Route::get('/admin/confirmed-users', 'AdminController@showConfirmedUsers')->name('confirmed-users');
+Route::get('/admin/index', 'AdminController@showTools');
 Route::get('/admin/reset-password/{id}', 'AdminController@showResetPassword');
 Route::post('/admin/set-permission', 'AdminController@setPermission');
 Route::post('/admin/set-password', 'AdminController@setPassword');
