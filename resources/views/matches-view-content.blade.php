@@ -8,10 +8,7 @@
         $away_team = $teamsByExtId[$match->team_away_id];
     ?>
     <h3>
-        <div>
-                {{ DateTime::createFromFormat("U", $match->start_time)->setTimezone(new DateTimeZone("Asia/Jerusalem"))->format("Y/m/d H:i") }}
-        </div>
-        <table>
+        <table style="margin-bottom: 5px;">
             <tbody>
                 <tr class="flex-row center-items">
                     <td class="around-huge-flag">
@@ -26,9 +23,17 @@
                 </tr>
             </tbody>
         </table>
-        @if($match->is_done)
-        <span class="label label-success" style="font-size: 12px;">הסתיים</span>
-        @endif
+        <div style="font-size: 75%">
+            <div style="margin-bottom: 5px;">
+            {{ DateTime::createFromFormat("U", $match->start_time)->setTimezone(new DateTimeZone("Asia/Jerusalem"))->format("Y/m/d H:i") }}
+            </div>
+            @if($match->is_done)
+            <div class="flex-row center-items" style="margin-bottom: 5px;">
+                <span class="label label-success" style="margin-left: 5px; font-size: 12px;">הסתיים</span>
+                <span>{{$match->result_home}} - {{$match->result_away}} </span>
+            </div>
+            @endif
+        </div>
     </h3>
 
     <div class="float-right">
@@ -50,9 +55,16 @@
             <table class="table">
                 <thead>
                     <tr>
+                    @if($match->is_done)
                         <td class="admin">מזהה מוכר</td>
-                        <th class="col-xs-6">תוצאה</th>
+                        <th class="col-xs-3">הימור</th>
                         <th class="col-xs-6">מהמרים</th>
+                        <th class="col-xs-3">ניקוד</th>
+                    @else
+                        <td class="admin">מזהה מוכר</td>
+                        <th class="col-xs-6">הימור</th>
+                        <th class="col-xs-6">מהמרים</th>
+                    @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -61,19 +73,27 @@
                     foreach($match->getBets() as $bet){
                         $betVal = "".$bet->getData("result-away").":".$bet->getData("result-home");
                         if (!array_key_exists($betVal, $bettersByBetValue)){
-                            $bettersByBetValue[$betVal] = [];
+                            $bettersByBetValue[$betVal] = ["names" => [], "score" => $bet->score];
                         }
-                        $bettersByBetValue[$betVal][] = $bet->user->name;
+                        $bettersByBetValue[$betVal]["names"][] = $bet->user->name;
                     }
                     $bettersByBetValue = collect($bettersByBetValue)->sort(function ($a, $b) {
-                        return count($b) - count($a);
-                    })->toArray();
+                        return count($b['names']) - count($a['names']);
+                    });
+                    if ($match->is_done){
+                        $bettersByBetValue = $bettersByBetValue->sort(function ($a, $b) {
+                            return $b['score'] - $a['score'];
+                        });
+                    }
                 ?>
-                @foreach($bettersByBetValue as $betVal => $names)
+                @foreach($bettersByBetValue as $betVal => $betData)
                     <tr>
                         <td class="admin">{{$bet->user->id}}</td>
                         <td>{{$betVal}}</td>
-                        <td>{!! implode('<br>', $names) !!}</td>
+                        <td>{!! implode('<br>', $betData['names']) !!}</td>
+                        @if($match->is_done)
+                            <td>{{$betData['score']}}</td>
+                        @endif
                     </tr>
                 @endforeach
                 </tbody>
@@ -83,17 +103,35 @@
             <table class="table">
                 <thead>
                     <tr>
+                    @if($match->is_done)
+                        <td class="admin">מזהה מוכר</td>
+                        <th class="col-xs-3">שם</th>
+                        <th class="col-xs-6">הימור</th>
+                        <th class="col-xs-3">ניקוד</th>
+                    @else
                         <td class="admin">מזהה מוכר</td>
                         <th class="col-xs-6">שם</th>
-                        <th class="col-xs-6">תוצאה</th>
+                        <th class="col-xs-6">הימור</th>
+                    @endif
                     </tr>
                 </thead>
                 <tbody>
-                @foreach($match->getBets() as $bet)
+                <?php
+                    $bets = $match->getBets();
+                    if ($match->is_done){
+                        $bets = $bets->sort(function ($a, $b) {
+                            return $b->score - $a->score;
+                        });
+                    }
+                ?>
+                @foreach($bets as $bet)
                     <tr>
                         <td class="admin">{{$bet->user->id}}</td>
                         <td>{{$bet->user->name}}</td>
                         <td>{{$bet->getData("result-away")}}:{{$bet->getData("result-home")}}</td>
+                        @if($match->is_done)
+                            <td>{{$bet->score}}</td>
+                        @endif
                     </tr>
                 @endforeach
                 </tbody>
