@@ -53,6 +53,8 @@ Route::get('/admin/fetch_standings', 'AdminController@fetchStandings');
 Route::get('/admin/calculate-group-ranks', 'AdminController@calculateGroupRanks');
 Route::get('/admin/remove-irrelevant-scorers', 'AdminController@removeIrrelevantScorers');
 Route::get('/admin/init-scorers', 'AdminController@saveDefaultScorers');
+Route::get('/admin/add-scorer', 'AdminController@showAddScorer');
+Route::post('/admin/add-scorer', 'AdminController@addScorer');
 Route::get('/admin/print-custom-scorers', 'AdminController@printCustomScorerBets');
 
 Route::post('/user/update', 'BetsController@submitBets')->middleware("confirmed_user");

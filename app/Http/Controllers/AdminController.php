@@ -80,6 +80,25 @@ class AdminController extends Controller
         self::saveMatches($crawler->getKnownOpenMatches());
     }
 
+    public function showAddScorer()
+    {
+        return view('admin.add_scorer');
+    }
+
+    public function addScorer(Request $request)
+    {
+        if (!Group::areBetsOpen()){
+            throw JsonException(403, "Adding players to scorers table is not allowed when specia_bets are closed");
+        }
+        $playerData = [
+            "name" => $request->name,
+            "external_id" => $request->id,
+            "team_id" => $request->team_id,
+        ];
+        Scorer::register_player($playerData);
+        return response()->json('Done', 200);
+    }
+
     public function saveDefaultScorers()
     {
         if (!Group::areBetsOpen()){
