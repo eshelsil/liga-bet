@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Exceptions\JsonException;
 use \Exception;
 use Storage;
 
@@ -69,6 +70,7 @@ class AdminController extends Controller
         $groups = array_unique($teams->pluck('group_id')->toArray());
         self::saveGroups($groups);
         self::fetchGames();
+        self::saveDefaultScorers();
     }
 
     public function downloadKnockoutMatches()
@@ -78,8 +80,27 @@ class AdminController extends Controller
         self::saveMatches($crawler->getKnownOpenMatches());
     }
 
+    public function saveDefaultScorers()
+    {
+        if (!Group::areBetsOpen()){
+            throw JsonException(403, "Adding players to scorers table is not allowed when specia_bets are closed");
+        }
+        $teamIdByExtId = Team::getExternalIdToIdMap();
+        
+        $topScorerDefaultBets = collect(config('tournamentData.topScorerBets'))->map(function($playerData) use($teamIdByExtId){
+            $playerData['team_id'] = $teamIdByExtId[$playerData['team_ext_id']];
+            $playerData['external_id'] = $playerData['id'];
+            return $playerData;
+        })->toArray();
+        Scorer::register_players($topScorerDefaultBets);
+        return 'DONE';
+    }
+
     public function removeIrrelevantScorers()
     {
+        if (Group::areBetsOpen()){
+            throw JsonException(403, "Removing players from scorers table is not allowed when specia_bets are still open");
+        }
         $specialBetId = SpecialBet::getBetTypeIdByName('top_scorer');
         $relevantBets = Bet::where("type", BetTypes::SpecialBet)
             ->where('type_id', $specialBetId)
@@ -89,18 +110,6 @@ class AdminController extends Controller
         })->toArray();
         Scorer::whereNotIn('external_id', $relevantPlayerIds)->delete();
         return 'DONE';
-    }
-
-    public function printCustomScorerBets()
-    {
-        $customPlayers = Scorer::getCustomPlayers();
-        if ($customPlayers->count() == 0){
-            echo "All players on \"scorers\" table are registered with valid external id!  :)";
-            return;
-        }
-        $customPlayers->each(function($player){
-            echo $player->name . "<br>";
-        });
     }
 
     public function fetchGames(){
@@ -158,6 +167,8 @@ class AdminController extends Controller
                 $scorerModel = new Scorer();
                 $scorerModel->external_id = $id;
                 $scorerModel->name = data_get($scorer, 'player.name');
+                $team = Team::where('external_id', data_get($scorer, 'team.id'))->first();
+                $scorerModel->team_id = $team->id;
             }
             $goals = data_get($scorer, 'numberOfGoals');
             $scorerModel = $scorerModel ?? $relevantScorers->where('external_id', $id)->first();

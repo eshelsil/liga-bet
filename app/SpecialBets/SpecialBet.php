@@ -76,7 +76,7 @@ class SpecialBet implements BetableInterface
 
     public function calcMVP($player_name){
         $score = 10;
-        
+
         $mvp = config('bets.mvp');
         if (!$mvp){
             return null;
@@ -163,7 +163,6 @@ class SpecialBet implements BetableInterface
 
         $score = 0;
         $scorer = Scorer::findByExternalId($player_id);
-        # Will fetch from Database too many times?
         $most_goals = Scorer::getTopGoalsCount();
         if ($most_goals !== null){
             if ($scorer->goals == $most_goals){
@@ -283,7 +282,7 @@ class SpecialBet implements BetableInterface
                 break;
             case "top_scorer":
                 return $this->getTopScorers()->map(function($player){
-                    return $player->name;
+                    return $player->external_id;
                 })->toArray();
                 break;
             default:
@@ -307,12 +306,17 @@ class SpecialBet implements BetableInterface
         if (!is_array($answer)){
             $answer = [$answer];
         }
-        $res = implode(', ', array_map(
+        $res = implode('<br>', array_map(
             function ($ans){
                 switch ($this->name) {
                     case "top_scorer":
                         $scorer = Scorer::findByExternalId($ans);
-                        return $scorer->name;
+                        $teams = static::getTeamsCollection();
+                        $team = $teams->find($scorer->team_id);
+                        return view('widgets.teamWithFlag')->with([
+                            "name" => $scorer->name,
+                            "crest_url" => $team->crest_url
+                        ]);
                         break;
                     case "winner":
                         return $this->formatTeamDescription($ans);

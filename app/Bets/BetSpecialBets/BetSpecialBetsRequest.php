@@ -78,6 +78,7 @@ class BetSpecialBetsRequest extends AbstractBetRequest
                 }
                 break;
             case "top_scorer":
+                $this->validateTopScorer($answer);
                 break;
             default:
                 throw new InvalidArgumentException("Invalid SpecialBet name \"$this->name\"");
@@ -118,11 +119,10 @@ class BetSpecialBetsRequest extends AbstractBetRequest
         return $bet->getAnswer() == $answer;
     }
 
-    public static function validateTopScorer($answer) {
+    public function validateTopScorer($answer) {
         $scorerIds = static::getScorerIds();
-        $player = $scorers->find($id);
         if (!in_array($answer, $scorerIds)){
-            throw new \InvalidArgumentException("Scorers table has no player with id \"{{$id}}\"");
+            throw new \InvalidArgumentException("Scorers table has no player with id \"{{$answer}}\"");
         }
     }
 

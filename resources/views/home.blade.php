@@ -152,12 +152,12 @@
                                 $answer = $specialBet->getAnswer();
                                 $resultDescription = $specialBet->formatDescription($answer);
                                 ?>
-                                <li class="list-group-item row flex-row center-items col-no-padding" style="padding-right: 10px;">
+                                <li class="list-group-item row flex-row col-no-padding" style="padding-right: 10px;">
                                     <div class="col-xs-1 pull-right col-no-padding">{{ $bet->score }}</div>
                                     <div class="col-xs-3 pull-right col-no-padding">{{ $specialBet->getTitle() }}</div>
                                     <div class="col-xs-4 pull-right col-no-padding">{!! $betDescription !!}</div>
                                     <div class="col-xs-4 pull-right col-no-padding">
-                                        <div class="flex-row ws-nowrap">{!! $resultDescription !!}</div>
+                                        <div>{!! $resultDescription !!}</div>
                                     </div>
                                 </li>
                             @endforeach

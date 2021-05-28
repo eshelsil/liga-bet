@@ -3,32 +3,28 @@
 @php
     $topScorerDropdownTitle = "----בחר מלך שערים----";
     $teamSelectionTitle = "----בחר קבוצה----";
-    $topScorerDefaultBets = config('tournamentData.topScorerBets');
+    $scorersList = \App\Scorer::all(['external_id as id', 'name', 'team_id'])->sortBy('name')->toArray();
     $teams = \App\Team::all(['id', 'name', 'crest_url'])->sortBy('name')->toArray();
     $inputAttrMap = [
             'top_scorer' => [
-                'type' => count($topScorerDefaultBets) > 0 ? 'select' : 'text',
+                'type' => 'select',
                 'title' => $topScorerDropdownTitle,
-                'options' => $topScorerDefaultBets,
-                'has_custom' => true,
+                'options' => $scorersList,
             ],
             'winner' => [
                 'type' => 'select',
                 'title' => $teamSelectionTitle,
                 'options' => $teams,
-                'has_custom' => false,
             ],
             'runner_up' => [
                 'type' => 'select',
                 'title' => $teamSelectionTitle,
                 'options' => $teams,
-                'has_custom' => false,
             ],
             'offensive_team' => [
                 'type' => 'select',
                 'title' => $teamSelectionTitle,
                 'options' => $teams,
-                'has_custom' => false,
             ],
             'mvp' => [
                 'type' => 'text',
@@ -76,43 +72,22 @@
         const teamSelectionBetIds = [runner_up_scorer_bet_id, champions_bet_id, offensive_team_bet_id]
         const selectionBetIds = [
             ...teamSelectionBetIds,
+            top_scorer_bet_id
         ]
-        if (@json($inputAttrMap)['top_scorer']['type'] === 'select'){
-            selectionBetIds.push(top_scorer_bet_id);
-        }
         const isTopScorerBet = betId == top_scorer_bet_id;
 
-        let betValue, value, name, id=null;
+        let value;
         if (selectionBetIds.indexOf(betId) > -1){
             const input = $(`#${betId}_select_input`);
             value = input.val();
-            if (value == 'custom'){
-                name = $(`.special_bet_custom_input_wrapper[data-bet-id='${betId}']`).children('input').val();
-            } else if (value !== "no_value") {
-                id = value;
-                let options = isTopScorerBet ? @json($topScorerDefaultBets) : Object.values(@json($teams));
-                name = options.find((opt)=>{ return opt.id == id})['name'];
-            } else {
+            if (value == "no_value") {
                 let optionEntity = isTopScorerBet ? 'player' : 'team';
                 toastr["error"](`No ${optionEntity} was selected`);
                 return;
             }
-
-            betValue = isTopScorerBet ?
-            {
-                player_name: name,
-                player_id: id,
-            } : {
-                answer: id
-            };
         } else {
             const input = $(`.special_bet_input[data-bet-id='${betId}']`);
             value = input.val();
-            if (isTopScorerBet){
-                betValue = {player_name: value};
-            } else {
-                betValue = {answer: value};
-            }
         }
 
         $.ajax({
@@ -124,21 +99,27 @@
                     type: {{ \App\Enums\BetTypes::SpecialBet }},
                     data: {
                         type_id: betId,
-                        value: betValue,
+                        value: {answer: value},
                     }
                 }]
             }),
             dataType: 'json',
             success: function (data) {
-                let newVal = name !== undefined ? name : value;
+                let teams = Object.values(@json($teams));
+                let newVal = value;
                 let currentBetHtml = newVal;
                 if (teamSelectionBetIds.indexOf(betId) > -1){
-                    let teams = Object.values(@json($teams));
                     let team = teams.find((team)=>team.id == value)
                     const wrapper = $(`#bet_${betId}_current_bet`).find('.team-and-flag');
                     wrapper.find('.team_flag').attr('src', team.crest_url);
                     wrapper.find('span').html(team.name);
-
+                } else if (isTopScorerBet){
+                    let scorers = Object.values(@json($scorersList));
+                    let scorer = scorers.find((s)=>s.id == value)
+                    let team = teams.find((team)=>team.id == scorer.team_id)
+                    const wrapper = $(`#bet_${betId}_current_bet`).find('.team-and-flag');
+                    wrapper.find('.team_flag').attr('src', team.crest_url);
+                    wrapper.find('span').html(scorer.name);
                 }
                 else {
                     $(`#bet_${betId}_current_bet`).children('span').first().html(currentBetHtml);
@@ -158,17 +139,6 @@
 
     function onSelectInputChange(id){
         inputChange(id)
-        const input = $(`#${id}_select_input`);
-        const custom_text_input  = $(`.special_bet_custom_input_wrapper[data-bet-id='${id}']`);
-        if (custom_text_input.length == 0){
-            return
-        }
-        const enable_custom_input = input.val() === 'custom';
-        if (enable_custom_input){
-            custom_text_input.attr('hidden', false)
-        } else {
-            custom_text_input.attr('hidden', true)
-        }
     }
 
 </script>
@@ -199,16 +169,7 @@
                                     {{$option_data['name']}}
                                 </option>
                             @endforeach
-                            @if($inputAttrs['has_custom'])
-                                <option value="custom">אחר...</option>
-                            @endif
                         </select>
-                        @if($inputAttrs['has_custom'])
-                            <div class="special_bet_custom_input_wrapper" data-bet-id="{{$specialBetId}}" hidden>
-                                <input class="from-control" type="text">
-                                <h6>{{$playerCustomInputNote}}</h6>
-                            </div>
-                        @endif
                     @else
                         <input class="special_bet_input from-control" onfocus="inputChange({{$specialBetId}})" style="margin-bottom: 0px;" type="text" data-bet-id="{{$specialBetId}}">
                         <h6>{{$playerCustomInputNote}}</h6>

@@ -15,8 +15,9 @@ class CreateScorersTable extends Migration
     {
         Schema::create('scorers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string("external_id");
-            $table->string("name");
+            $table->string("external_id")->unique();
+            $table->string("name")->unique();
+            $table->string("team_id");
             $table->integer("goals");
             $table->timestamps();
         });
