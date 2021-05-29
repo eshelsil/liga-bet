@@ -2,8 +2,19 @@
 
 @section('script')
 <script>
-    function showResetPassForm(userId){
-        window.location = `/admin/reset-password/${userId}`;
+    function resetPassword(userId){
+        $.ajax({
+            type: 'PUT',
+            url: `/admin/reset-user-pass/${userId}`,
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function (data) {
+                $(`.user_${userId}`).css('display', 'none');
+            },
+            error: function(data) {
+                toastr["error"](data.responseJSON.message);
+            }
+        });
     }
     function confirmUser(userId) {
         $.ajax({
@@ -48,7 +59,7 @@
                         <td class="">{{$user->updated_at}}</td>
                         <td class="">
                             <button class="btn btn-primary" onclick="confirmUser({{ $user->id }})" id="confirm_user_button">אשר</button>
-                            <button class="btn btn-sm btn-secondary" onclick="showResetPassForm({{ $user->id }})" id="confirm_user_button">שנה סיסמה</button>
+                            <button class="btn btn-sm btn-secondary" onclick="resetPassword({{ $user->id }})">אפס סיסמה</button>
                         </td>
                     <tr>
                     @endforeach

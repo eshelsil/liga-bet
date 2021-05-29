@@ -31,19 +31,19 @@ Route::get('/all-group-bets', 'HomeController@showAllGroupBets')->middleware("au
 Route::get('/all-special-bets', 'HomeController@showAllSpecialBets')->middleware("auth")->middleware("confirmed_user")->middleware("group_bets_closed")->name('all-special-bets');
 Route::get('/terms', 'HomeController@showTerms');
 Route::get('/api-fetch-games', 'ApiFetchController@userUpdateGames');
+Route::get('/set-password', 'UserController@showSetPassword');
+Route::put('/set-password', 'UserController@setPassword');
 
 Route::get('/admin/users-to-confirm', 'AdminController@showUsersToConfirm')->name('users-to-confirm');
 Route::get('/admin/confirmed-users', 'AdminController@showConfirmedUsers')->name('confirmed-users');
 Route::get('/admin/index', 'AdminController@showTools');
-Route::get('/admin/reset-password/{id}', 'AdminController@showResetPassword');
 Route::post('/admin/set-permission', 'AdminController@setPermission');
-Route::post('/admin/set-password', 'AdminController@setPassword');
 Route::get('/admin/download-data', 'AdminController@downloadData');
 Route::get('/admin/download-knockout-matches', 'AdminController@downloadKnockoutMatches');
 Route::get('/admin/show-home/{id?}', 'AdminController@showHomeA');
 Route::get('/admin/save-users', 'AdminController@saveUsers');
-Route::get('/admin/reset-user-pass/{id}', 'AdminController@resetPass');
 Route::get('/admin/parse-bets/{userId?}/{fixMatchIds?}', 'AdminController@parseGroupBets');
+Route::put('/admin/reset-user-pass/{id}', 'AdminController@resetPass');
 Route::get('/admin/complete-match/{id}/{scoreHome?}/{scoreAway?}', 'AdminController@completeMatch');
 Route::get('/admin/decomplete-match/{id}', 'AdminController@removeMatchResult');
 Route::get('/admin/calc-special-bets', 'AdminController@calculateSpecialBets');

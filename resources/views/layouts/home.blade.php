@@ -124,6 +124,7 @@
                 
             </ul>
             <ul class="nav navbar-nav navbar-left">
+                <li><a href="/set-password">שנה סיסמה</a></li>
                 <li><a href="/logout">התנתק</a></li>
             </ul>
            

@@ -54,12 +54,6 @@ class AdminController extends Controller
         return view('admin.confirmed_users')->with(["users" => $users]);
     }
 
-    public function showResetPassword($id)
-    {
-        $user = User::find($id);
-        return view('admin.reset_password')->with(["user_id" => $user->id, "username" => $user->username]);
-    }
-
     public function showTools()
     {
         return view('admin.tools_index');
@@ -241,9 +235,9 @@ class AdminController extends Controller
 
     public function resetPass($id) {
         $user = User::query()->find($id);
-        $user->password = Hash::make("123123");
+        $user->password = Hash::make("1234");
         $user->save();
-        return "reset User {$user->name} pass";
+        return "reset User {$user->name} password to \"1234\"";
     }
 
     public function showHomeA($id = null) {
