@@ -70,9 +70,12 @@ class Crawler
             'ko_winner' => $ko_winner
         ];
     }
-    private function apiCall($additional_path){
+    private function apiCall($additional_path, $useSpareToken = false){
         $api_path = config('api.path');
         $api_token = config('api.api_token');
+        if ($useSpareToken){
+            $api_token = config('api.api_token_2');
+        }
         $headers = ['X-Auth-Token' => $api_token];
         $client = new HttpClient();
         $res = $client->get("{$api_path}{$additional_path}", $headers)->send();
@@ -95,9 +98,9 @@ class Crawler
         return collect($teams);
     }
 
-    public function fetchMatches()
+    public function fetchMatches($useSpareToken = false)
     {
-        $data = $this->apiCall('/matches');
+        $data = $this->apiCall('/matches', $useSpareToken);
         $matches = data_get($data, 'matches');
 
         return collect($matches)->map(function($m){

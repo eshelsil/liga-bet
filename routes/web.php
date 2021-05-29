@@ -30,6 +30,8 @@ Route::get('/open-special-bets', 'HomeController@showOpenSpecialBets')->middlewa
 Route::get('/all-group-bets', 'HomeController@showAllGroupBets')->middleware("auth")->middleware("confirmed_user")->middleware("group_bets_closed")->name('all-group-bets');
 Route::get('/all-special-bets', 'HomeController@showAllSpecialBets')->middleware("auth")->middleware("confirmed_user")->middleware("group_bets_closed")->name('all-special-bets');
 Route::get('/terms', 'HomeController@showTerms');
+Route::get('/api-fetch-games', 'ApiFetchController@userUpdateGames');
+
 Route::get('/admin/users-to-confirm', 'AdminController@showUsersToConfirm')->name('users-to-confirm');
 Route::get('/admin/confirmed-users', 'AdminController@showConfirmedUsers')->name('confirmed-users');
 Route::get('/admin/index', 'AdminController@showTools');
@@ -44,7 +46,6 @@ Route::get('/admin/reset-user-pass/{id}', 'AdminController@resetPass');
 Route::get('/admin/parse-bets/{userId?}/{fixMatchIds?}', 'AdminController@parseGroupBets');
 Route::get('/admin/complete-match/{id}/{scoreHome?}/{scoreAway?}', 'AdminController@completeMatch');
 Route::get('/admin/decomplete-match/{id}', 'AdminController@removeMatchResult');
-Route::get('/admin/complete-all-matches', 'AdminController@completeAllMatches');
 Route::get('/admin/calc-special-bets', 'AdminController@calculateSpecialBets');
 
 Route::get('/admin/switch-bet-match/{fromMatchID}/{toMatchID}', 'AdminController@switchBetMatchIDs');
@@ -60,6 +61,5 @@ Route::get('/admin/remove-irrelevant-scorers', 'AdminController@removeIrrelevant
 Route::get('/admin/init-scorers', 'AdminController@saveDefaultScorers');
 Route::get('/admin/add-scorer', 'AdminController@showAddScorer');
 Route::post('/admin/add-scorer', 'AdminController@addScorer');
-Route::get('/admin/print-custom-scorers', 'AdminController@printCustomScorerBets');
 
 Route::post('/user/update', 'BetsController@submitBets')->middleware("confirmed_user");

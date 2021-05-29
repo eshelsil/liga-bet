@@ -225,6 +225,13 @@ protected static $theFinal = null;
         return $this->id;
     }
 
+    public static function hasOneWaitingForResult()
+    {
+        return Match::where('start_time', '<', time() - (60 * 90))
+                ->isDone(false)
+                ->exists();
+    }
+
     public static function getGroupStageGames(){
         if (static::$groupStageGames){
             return static::$groupStageGames;

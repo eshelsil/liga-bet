@@ -94,4 +94,8 @@ class Group extends Model implements BetableInterface
         $lock_before_secs = config('bets.lockBetsBeforeTournamentSeconds');
         return $tournament_start_time - $lock_before_secs > time();
     }
+    
+    public static function hasAllGroupsStandings(){
+        return !Group::where('standings', null)->exists();
+    }
 }
