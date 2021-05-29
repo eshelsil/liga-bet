@@ -51,14 +51,6 @@ class Scorer extends Model
         return $scorers->where('external_id', $ext_id)->first();
     }
 
-    public static function getNextNegaitveId(){
-        return -1 - Scorer::where('external_id', '<', 0)->get()->count();
-    }
-
-    public static function getCustomPlayers(){
-        return Scorer::where('external_id', '<', 0)->get();
-    }
-
     public static function register_players($playersArray){
         foreach($playersArray as $playerData){
             static::register_player($playerData);
