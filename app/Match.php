@@ -58,14 +58,6 @@ protected static $theFinal = null;
         return array_get($this->scores, "{$scorePath}.{$type}");
     }
 
-    private function getCrawlerMatch()
-    {
-        $crawler = Crawler::getInstance();
-        $crawlerSubType = Collection::make($crawler->getData("{$this->type}.{$this->sub_type}.matches"));
-        $crawlerMatch = $crawlerSubType->first(function ($match) { return $match->name == $this->external_id; });
-        return $crawlerMatch;
-    }
-
     public function decompleteBets($scoreHome = null, $scoreAway = null){
         foreach ($this->getBets() as $bet) {
             $bet->score = null;
