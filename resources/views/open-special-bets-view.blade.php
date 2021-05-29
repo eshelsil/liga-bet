@@ -68,14 +68,6 @@
         margin-top: 3px;
         color: #444
     }
-    ul >li {
-        cursor: pointer;
-        padding: 3px;
-        padding-right: 6px;
-    }
-    ul >li:hover{
-        background: #d3d3d3
-    }
 </style>
 <script type="text/javascript">
 
@@ -184,7 +176,7 @@
                     <div class="inputWrapper">
                     @if ($inputAttrs['type'] == 'select')
                         <input id="hiddenInput-{{$specialBetId}}" value="no_op" hidden>
-                        <div class="dropdown dropdown-menu-right">
+                        <div class="dropdown dropdown-menu-right dropdown-input">
                             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu-{{$specialBetId}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <div id="dropdownMenuTitle-{{$specialBetId}}" style="display: inline-block;">{{$inputAttrs['title']}}</div>
                                 <span class="caret"></span>

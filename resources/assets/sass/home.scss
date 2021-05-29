@@ -70,3 +70,24 @@
     margin-left: 3px;
   }
 }
+
+
+.dropdown.dropdown-input{     
+  ul >li {
+      cursor: pointer;
+      padding: 3px;
+      padding-right: 9px;
+      padding-left: 6px;
+      &:hover{
+        background: #d3d3d3
+      }
+  }
+}
+@media (max-width: 767px){
+  .dropdown.dropdown-input{
+    .dropdown-menu{
+      max-height: 280px;
+      overflow-y: scroll;
+    }
+  }
+}
