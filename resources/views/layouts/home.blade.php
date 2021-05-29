@@ -34,6 +34,12 @@
             text-align: right;
             direction: rtl;
         }
+
+        @media (min-width: 768px){
+            ul.navbar-nav > li {
+                float: right;
+            }
+        }
         /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
         .row.content {height: 450px}
 
@@ -79,30 +85,48 @@
             <a class="navbar-brand" href="/home">יורו חברים - {{  \Auth::user()->name }}</a>
         </div>
         <div class="collapse navbar-collapse" style="float: right!important;" id="myNavbar">
+            
+            <ul class="nav navbar-nav navbar-right">
+                <li class="{{ Route::currentRouteName() == "home" ? "active" : "" }}"><a href="/home">טבלת ניקוד</a></li>
+                <li class="{{ Route::currentRouteName() == "open-matches" ? "active" : "" }}"><a href="/open-matches">הימורים פתוחים</a></li>
+                <li class="{{ Route::currentRouteName() == "match-list" ? "active" : "" }}"><a href="/today-matches">צפייה בהימורים</a></li>
+                
+                <?php
+                    $group_bets_name = 'open-group-bets';
+                    $group_bets_link = '/open-group-bets';
+                    $group_bets_label = 'הימורי בתים פתוחים';
+                    $special_bets_name = 'open-special-bets';
+                    $special_bets_link = '/open-special-bets';
+                    $special_bets_label = 'הימורים מיוחדים פתוחים';
+                    if (!\App\Group::areBetsOpen()){
+                        $group_bets_name = 'all-group-bets';
+                        $group_bets_link = '/all-group-bets';
+                        $group_bets_label = 'צפייה בהימורי בתים';
+                        $special_bets_name = 'all-special-bets';
+                        $special_bets_link = '/all-special-bets';
+                        $special_bets_label = 'צפייה בהימורים מיוחדים';
+                    }
+                    $current_route_name = Route::currentRouteName();
+                    $is_selected = in_array($current_route_name, [$group_bets_name, $special_bets_name]);
+                ?>
+                <li class="dropdown {{$is_selected ? 'active' : ''}}">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        הימורים של לפני הטורניר<span class="caret" style="margin-right: 5px;"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="{{$current_route_name == $group_bets_name ? 'active' : ''}}"><a href="{{$group_bets_link}}">{{$group_bets_label}}</a></li>
+                        <li class="{{$current_route_name == $special_bets_name ? 'active' : ''}}"><a href="{{$special_bets_link}}">{{$special_bets_label}}</a></li>
+                    </ul>
+                </li>
+                
+                <li class="{{ Route::currentRouteName() == "my-bets" ? "active" : "" }}"><a href="/my-bets">הטופס שלי</a></li>
+                <li class=""><a href="/api-fetch-games">עדכן תוצאות</a></li>
+                
+            </ul>
             <ul class="nav navbar-nav navbar-left">
                 <li><a href="/logout">התנתק</a></li>
             </ul>
-            <ul class="nav navbar-nav">
-                <li class="{{ Route::currentRouteName() == "update" ? "active" : "" }}"><a href="/admin/complete-all-matches">עדכן</a></li>
-                <li class="{{ Route::currentRouteName() == "my-bets" ? "active" : "" }}"><a href="/my-bets">הטופס שלי</a></li>
-                <li class="{{ Route::currentRouteName() == "match-list" ? "active" : "" }}"><a href="/today-matches">רשימת משחקים</a></li>
-                <li class="{{ Route::currentRouteName() == "open-matches" ? "active" : "" }}"><a href="/open-matches">הימורים פתוחים</a></li>
-                @if (\App\Group::areBetsOpen())
-                    <li class="{{ Route::currentRouteName() == "open-group-bets" ? "active" : "" }}"><a href="/open-group-bets">הימורי בתים פתוחים</a></li>
-                    <li class="{{ Route::currentRouteName() == "open-special-bets" ? "active" : "" }}"><a href="/open-special-bets">הימורים מיוחדים</a></li>
-                @else
-                    <li class="{{ Route::currentRouteName() == "all-group-bets" ? "active" : "" }}"><a href="/all-group-bets">צפה בהימורי בתים</a></li>
-                    <li class="{{ Route::currentRouteName() == "all-special-bets" ? "active" : "" }}"><a href="/all-special-bets">צפה בהימורים מיוחדים</a></li>
-                @endif
-                <li class="{{ Route::currentRouteName() == "home" ? "active" : "" }}"><a href="/home">טבלת ניקוד</a></li>
-                @if (\Auth::user()->isAdmin())
-                    <li class="{{ Route::currentRouteName() == "users-to-confirm" ? "active" : "" }}"><a href="/admin/users-to-confirm">מתמשים ממתינים לאישור</a></li>
-                    <li class="{{ Route::currentRouteName() == "confirmed-users" ? "active" : "" }}"><a href="/admin/confirmed-users">משתמשים שאושרו</a></li>
-                @endif
-            </ul>
-            {{--<ul class="nav navbar-nav navbar-right">--}}
-                {{--<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>--}}
-            {{--</ul>--}}
+           
         </div>
     </div>
 </nav>
@@ -136,7 +160,7 @@
 </div>
 
 <footer class="container-fluid text-center">
-    <p>Footer Text</p>
+    <p></p>
 </footer>
 
 </body>
