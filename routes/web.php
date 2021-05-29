@@ -38,7 +38,7 @@ Route::get('/admin/users-to-confirm', 'AdminController@showUsersToConfirm')->nam
 Route::get('/admin/confirmed-users', 'AdminController@showConfirmedUsers')->name('confirmed-users');
 Route::get('/admin/index', 'AdminController@showTools');
 Route::post('/admin/set-permission', 'AdminController@setPermission');
-Route::get('/admin/download-data', 'AdminController@downloadData');
+Route::get('/admin/download-data', 'AdminController@downloadInitialData');
 Route::put('/admin/reset-user-pass/{id}', 'AdminController@resetPass');
 Route::get('/admin/complete-match/{id}/{scoreHome?}/{scoreAway?}', 'AdminController@completeMatch');
 Route::get('/admin/decomplete-match/{id}', 'AdminController@removeMatchResult');

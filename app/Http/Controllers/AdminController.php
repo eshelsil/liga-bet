@@ -59,7 +59,7 @@ class AdminController extends Controller
         return view('admin.tools_index');
     }
 
-    public function downloadData()
+    public function downloadInitialData()
     {
         $crawler = Crawler::getInstance();
 
