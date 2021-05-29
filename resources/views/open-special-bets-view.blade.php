@@ -1,10 +1,15 @@
 @extends('layouts.home')
 
 @php
-    $topScorerDropdownTitle = "----בחר מלך שערים----";
-    $teamSelectionTitle = "----בחר קבוצה----";
-    $scorersList = \App\Scorer::all(['external_id as id', 'name', 'team_id'])->sortBy('name')->toArray();
-    $teams = \App\Team::all(['id', 'name', 'crest_url'])->sortBy('name')->toArray();
+    $topScorerDropdownTitle = "בחר שחקן";
+    $teamSelectionTitle = "בחר קבוצה";
+    $teamsCollection = \App\Team::all(['id', 'name', 'crest_url']);
+    $scorersList = \App\Scorer::all(['external_id as id', 'name', 'team_id'])->sortBy('name')
+                ->map(function($p) use ($teamsCollection){
+                    $p->crest_url = $teamsCollection->find($p->team_id)->crest_url;
+                    return $p;
+                })->toArray();
+    $teams = $teamsCollection->sortBy('name')->toArray();
     $inputAttrMap = [
             'top_scorer' => [
                 'type' => 'select',
@@ -48,8 +53,11 @@
     .betContent .inputWrapper > * {
         margin-bottom: 10px;
     }
-    .betContent .btn {
+    .betContent button.btn {
         margin-bottom: 10px;
+    }
+    .betContent button.btn.dropdown-toggle {
+        margin-bottom: 0px;
     }
     .currentBetWrapper > span{
         margin-left: 3px;
@@ -59,6 +67,14 @@
     h6{
         margin-top: 3px;
         color: #444
+    }
+    ul >li {
+        cursor: pointer;
+        padding: 3px;
+        padding-right: 6px;
+    }
+    ul >li:hover{
+        background: #d3d3d3
     }
 </style>
 <script type="text/javascript">
@@ -78,9 +94,9 @@
 
         let value;
         if (selectionBetIds.indexOf(betId) > -1){
-            const input = $(`#${betId}_select_input`);
+            const input = $(`#hiddenInput-${betId}`);
             value = input.val();
-            if (value == "no_value") {
+            if (value == "no_op") {
                 let optionEntity = isTopScorerBet ? 'player' : 'team';
                 toastr["error"](`No ${optionEntity} was selected`);
                 return;
@@ -137,8 +153,13 @@
         $("#save-bet-" + betId).removeClass("btn-success").addClass("btn-primary");
     }
 
-    function onSelectInputChange(id){
-        inputChange(id)
+    function selectOption(betId, option_id){
+        const input = $(`#hiddenInput-${betId}`);
+        input.val(option_id);
+        const option_el = $(`#dropdownOption-${betId}-${option_id}`);
+        const dropdown_title_el = $(`#dropdownMenuTitle-${betId}`);
+        dropdown_title_el.html(option_el.html());
+        inputChange(betId);
     }
 
 </script>
@@ -162,14 +183,21 @@
                 <div class="betContent">
                     <div class="inputWrapper">
                     @if ($inputAttrs['type'] == 'select')
-                        <select id="{{$specialBetId}}_select_input" onChange="onSelectInputChange({{$specialBetId}})" class="form-select form-select-lg mb-3">
-                            <option value="no_value" selected>{{$inputAttrs['title']}}</option>
-                            @foreach($inputAttrs['options'] as $option_data)
-                                <option class="left-to-right" value="{{$option_data['id']}}">
-                                    {{$option_data['name']}}
-                                </option>
-                            @endforeach
-                        </select>
+                        <input id="hiddenInput-{{$specialBetId}}" value="no_op" hidden>
+                        <div class="dropdown dropdown-menu-right">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu-{{$specialBetId}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <div id="dropdownMenuTitle-{{$specialBetId}}" style="display: inline-block;">{{$inputAttrs['title']}}</div>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu-{{$specialBetId}}">
+                                @foreach($inputAttrs['options'] as $option_data)
+                                <li id="dropdownOption-{{$specialBetId}}-{{$option_data['id']}}"
+                                    onclick="selectOption({{$specialBetId}}, {{$option_data['id']}})">
+                                    @include('widgets.teamWithFlag', array_merge(['align_left' => true], $option_data))
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
                     @else
                         <input class="special_bet_input from-control" onfocus="inputChange({{$specialBetId}})" style="margin-bottom: 0px;" type="text" data-bet-id="{{$specialBetId}}">
                         <h6>{{$playerCustomInputNote}}</h6>
