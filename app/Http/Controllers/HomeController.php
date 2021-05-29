@@ -239,4 +239,10 @@ class HomeController extends Controller
 
     }
 
+
+    public function showTerms()
+    {
+        return view("takanon");
+    }
+
 }

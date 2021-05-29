@@ -110,7 +110,10 @@
 <div class="container-fluid text-center">
     <div class="row content">
         <div class="col-sm-2 sidenav">
-            <p><a href="/admin/index">Admin Tools</a></p>
+            <p><a href="/terms">תקנון</a></p>
+            @if (\Auth::user()->isAdmin())
+                <p><a href="/admin/index">Admin Tools</a></p>
+            @endif
         </div>
         <div class="col-sm-8 text-left">
             @yield('content')
