@@ -45,6 +45,7 @@ Route::get('/admin/remove-irrelevant-scorers', 'AdminController@removeIrrelevant
 Route::get('/admin/add-scorer', 'AdminController@showAddScorer');
 Route::post('/admin/add-scorer', 'AdminController@addScorer');
 Route::get('/admin/init-scorers', 'AdminController@saveDefaultScorers');
+Route::put('/admin/format-custom-answers', 'AdminController@formatSpecialBetsCustomAnswer');
 
 Route::get('/admin/decomplete-match/{id}', 'AdminController@removeMatchResult');
 Route::get('/admin/complete-match/{id}/{scoreHome?}/{scoreAway?}', 'AdminController@completeMatch');

@@ -206,6 +206,23 @@ class AdminController extends Controller
         return "completed";
     }
 
+    public function formatSpecialBetsCustomAnswer(Request $request) {
+        $from_name = $request->from_name;
+        $to_name = $request->to_name;
+        $custom_special_bet_ids = [SpecialBet::getBetTypeIdByName('mvp'), SpecialBet::getBetTypeIdByName('most_assists')];
+        $bets = Bet::where('type', BetTypes::SpecialBet)
+                ->whereIn('type_id', $custom_special_bet_ids)
+                ->where('data->answer', $from_name)
+                ->get();
+        foreach($bets as $bet){
+            $bet->data = json_encode(["answer" => $to_name]);
+            echo "Formatting bet value from {{$from_name}} to {{$to_name}}:  ".
+                "Bet ID - {{$bet->id}}  |  User ID - {{$bet->user_id}} <br><br>";
+            $bet->save();
+        }
+        return "DONE";
+    }
+
 
     public function calculateSpecialBets($types = null) {
         return $this->ApiFetchController->calculateSpecialBets($types);

@@ -2,7 +2,27 @@
 
 @section('script')
 <script>
-    
+    function callAjax(url, data = {}, method="POST"){
+        $.ajax({
+            type: method,
+            url: url,
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            success: function (data) {
+                console.log("callAjax success_data", data)
+                toastr["success"](data);
+            },
+            error: function(data) {
+                console.log("callAjax error_data", data)
+                if (data.responseText.endsWith('DONE')){
+                    toastr["success"](data.responseText);
+                    return;
+                }
+                toastr["error"](data.responseJSON.message);
+            }
+        });
+    }
     function decopmleteMatch(){
         let match_id = prompt("Enter match ID:");
         if (match_id != null) {
@@ -25,7 +45,13 @@
             window.location = `/admin/flip-bets/${match_id}/${user_id}`;
         }
     }
-    
+    function formatCustomAnswers(){
+        let from_name = prompt("Enter the name you want to remove");
+        let to_name = prompt("Enter the name you want to replace it");
+        if ( from_name != null && to_name != null ) {
+            callAjax('/admin/format-custom-answers', {from_name, to_name}, 'PUT')
+        }
+    }
 </script>
 @endsection
 
@@ -45,5 +71,6 @@
         <a href="javascript:decopmleteMatch()">Remove match result</a><br>
         <a href="javascript:copmleteMatch()">Complete match result</a><br>
         <a href="javascript:flipMatchBet()">Flip match bet</a><br>
+        <a href="javascript:formatCustomAnswers()">Replace special bets custom answer (on mvp & most_assists)</a><br>
     </div>
 @endsection
