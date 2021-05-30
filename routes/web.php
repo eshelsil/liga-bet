@@ -58,4 +58,9 @@ Route::get('/admin/fetch-scorers', 'AdminController@fetchScorers');
 Route::get('/admin/fetch-standings', 'AdminController@fetchStandings');
 Route::get('/admin/calculate-group-ranks', 'AdminController@calculateGroupRanks');
 
+Route::get('/debug/get-table-ids/{name}', 'DebugController@getTableIds');
+Route::get('/debug/get-full-table/{name}', 'DebugController@getFullTable');
+Route::get('/debug/scorers-simple-data', 'DebugController@getScorersIntuitiveData');
+Route::get('/debug/special-bets-values/{name}', 'DebugController@getSpecialBetsData');
+
 Route::post('/user/update', 'BetsController@submitBets')->middleware("confirmed_user");

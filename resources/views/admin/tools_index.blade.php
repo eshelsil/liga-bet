@@ -64,6 +64,18 @@
             window.location = `/admin/complete-match/${match_id}`;
         }
     }
+    function getTableIDs(){
+        let name = prompt("Enter table name");
+        if ( name != null ) {
+            window.location = `/debug/get-table-ids/${name}`;
+        }
+    }
+    function getFullTable(){
+        let name = prompt("Enter table name");
+        if ( name != null ) {
+            window.location = `/debug/get-full-table/${name}`;
+        }
+    }
 </script>
 @endsection
 
@@ -90,5 +102,12 @@
         <a href="javascript:decopmleteMatch()">Remove match result [input params]</a><br>
         <a href="javascript:copmleteMatch()">Complete match result [input params]</a><br>
         <a href="javascript:flipMatchBet()">Flip match bet [input params]</a><br>
+        <br>
+        <a href="javascript:getTableIDs()">Get all IDs from table [input params]</a><br>
+        <a href="javascript:getFullTable()">Get full table data [input params]</a><br>
+        <a href="/debug/scorers-simple-data">Get scorers: [id, external_id, name]</a><br>
+        <a href="/debug/special-bets-values/mvp">Get mvp bet values</a><br>
+        <a href="/debug/special-bets-values/most_assists">Get most_assists bet values</a><br>
+        <a href="/debug/special-bets-values/top_scorer">Get top_scorer bet values</a><br>
     </div>
 @endsection
