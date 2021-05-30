@@ -144,13 +144,13 @@
         </div>
         <div class="col-sm-2 sidenav">
             <div class="well rank-1">
-                <p>מקום ראשון<br>1600 ש"ח</p>
+                <p>מקום ראשון<br>טרם נקבע הפרס</p>
             </div>
             <div class="well rank-2">
-                <p>מקום שני<br>700 ש"ח</p>
+                <p>מקום שני<br>טרם נקבע הפרס</p>
             </div>
             <div class="well rank-3">
-                <p>מקום שלישי<br>300 ש"ח</p>
+                <p>מקום שלישי<br>טרם נקבע הפרס</p>
             </div>
             <div class="well rank-4">
                 <p>מקום רביעי<br>150 ש"ח</p>
