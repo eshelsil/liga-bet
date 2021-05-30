@@ -147,10 +147,10 @@ class ApiFetchController extends Controller
 
     public function userUpdateGames() {
         if ($blockEndAt = Cache::get("general_api_update")) {
-            return "blocked. will release at {$blockEndAt}";
+            return "עדכון תוצאות חסום מכיוון שכבר בוצעה קריאת עדכון ב10 הדקות האחרונות. יהיה ניתן לנסות לעדכן שוב בשעה:<br>{$blockEndAt}";
         }
         if (!Match::hasOneWaitingForResult()){
-            return "Did not fetch data. There are no games waiting for result.";
+            return "לא בוצע עדכון מכיוון שאין משחקים שממתינים לתוצאות";
         }
         try {
             Cache::put("general_api_update", now()->addMinutes(10)->format("Y-m-d H:i:s"), 10);

@@ -120,7 +120,6 @@
                 </li>
                 
                 <li class="{{ Route::currentRouteName() == "my-bets" ? "active" : "" }}"><a href="/my-bets">הטופס שלי</a></li>
-                <li class=""><a href="/api-fetch-games">עדכן תוצאות</a></li>
                 
             </ul>
             <ul class="nav navbar-nav navbar-left">

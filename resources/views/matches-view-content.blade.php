@@ -1,7 +1,16 @@
 <?php 
     $matches = $matches;
     $teamsByExtId = $teamsByExtId;
+    $show_fetch_button = $with_api_fetch_button ?? false;
 ?>
+@if(count($matches) > 0 && $show_fetch_button)
+    <script>
+        function fetchFromAPI(){
+            window.location = "/api-fetch-games";
+        }
+    </script>
+    <button class="btn btn-primary" onclick="fetchFromAPI()" style="margin-right: 10px; margin-top: 15px;">עדכן תוצאות</button>
+@endif
 @foreach($matches as $match)
     <?php
         $home_team = $teamsByExtId[$match->team_home_id];
