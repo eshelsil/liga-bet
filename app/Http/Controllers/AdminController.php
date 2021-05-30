@@ -82,7 +82,7 @@ class AdminController extends Controller
     public function addScorer(Request $request)
     {
         if (!Group::areBetsOpen()){
-            throw JsonException(403, "Adding players to scorers table is not allowed when specia_bets are closed");
+            throw new JsonException("Adding players to scorers table is not allowed when specia_bets are closed", 403);
         }
         $playerData = [
             "name" => $request->name,
@@ -96,7 +96,7 @@ class AdminController extends Controller
     public function saveDefaultScorers()
     {
         if (!Group::areBetsOpen()){
-            throw JsonException(403, "Adding players to scorers table is not allowed when specia_bets are closed");
+            throw new JsonException("Adding players to scorers table is not allowed when specia_bets are closed", 403);
         }
         $teamIdByExtId = Team::getExternalIdToIdMap();
         
@@ -112,7 +112,7 @@ class AdminController extends Controller
     public function removeIrrelevantScorers()
     {
         if (Group::areBetsOpen()){
-            throw JsonException(403, "Removing players from scorers table is not allowed when specia_bets are still open");
+            throw new JsonException("Removing players from scorers table is not allowed when specia_bets are still open", 403);
         }
         $specialBetId = SpecialBet::getBetTypeIdByName('top_scorer');
         $relevantBets = Bet::where("type", BetTypes::SpecialBet)
@@ -200,6 +200,7 @@ class AdminController extends Controller
         $match = Match::query()->find($id);
         $match->result_home = null;
         $match->result_away = null;
+        $match->ko_winner = null;
         $match->save();
         $match->decompleteBets();
         return "completed";
@@ -244,7 +245,7 @@ class AdminController extends Controller
         return response()->json();
     }
 
-    public static function fixMatchBet($matchId, $userId = null)
+    public static function flipMatchBet($matchId, $userId = null)
     {
         /** @var Match $match */
         $match = Match::query()->find($matchId);

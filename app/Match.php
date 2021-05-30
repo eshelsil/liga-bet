@@ -58,7 +58,7 @@ protected static $theFinal = null;
         return array_get($this->scores, "{$scorePath}.{$type}");
     }
 
-    public function decompleteBets($scoreHome = null, $scoreAway = null){
+    public function decompleteBets(){
         foreach ($this->getBets() as $bet) {
             $bet->score = null;
             $bet->save();

@@ -30,30 +30,30 @@ Route::get('/open-special-bets', 'HomeController@showOpenSpecialBets')->middlewa
 Route::get('/all-group-bets', 'HomeController@showAllGroupBets')->middleware("auth")->middleware("confirmed_user")->middleware("group_bets_closed")->name('all-group-bets');
 Route::get('/all-special-bets', 'HomeController@showAllSpecialBets')->middleware("auth")->middleware("confirmed_user")->middleware("group_bets_closed")->name('all-special-bets');
 Route::get('/terms', 'HomeController@showTerms')->middleware("auth");
-Route::get('/api-fetch-games', 'ApiFetchController@userUpdateGames');
 Route::get('/set-password', 'UserController@showSetPassword');
 Route::put('/set-password', 'UserController@setPassword');
+Route::get('/api-fetch-games', 'ApiFetchController@userUpdateGames');
 
 Route::get('/admin/users-to-confirm', 'AdminController@showUsersToConfirm')->name('users-to-confirm');
 Route::get('/admin/confirmed-users', 'AdminController@showConfirmedUsers')->name('confirmed-users');
-Route::get('/admin/index', 'AdminController@showTools');
 Route::post('/admin/set-permission', 'AdminController@setPermission');
 Route::get('/admin/download-data', 'AdminController@downloadInitialData');
-Route::put('/admin/reset-user-pass/{id}', 'AdminController@resetPass');
-Route::get('/admin/complete-match/{id}/{scoreHome?}/{scoreAway?}', 'AdminController@completeMatch');
-Route::get('/admin/decomplete-match/{id}', 'AdminController@removeMatchResult');
 Route::get('/admin/calc-special-bets', 'AdminController@calculateSpecialBets');
-
-Route::get('/admin/switch-bet-match/{fromMatchID}/{toMatchID}', 'AdminController@switchBetMatchIDs');
-Route::get('/admin/fix-bets/{matchId}/{userId?}', 'AdminController@fixMatchBet');
-Route::get('/admin/delete-match/{matchId}', 'AdminController@deleteMatch');
-Route::get('/admin/fetch_games', 'AdminController@fetchGames');
-Route::get('/admin/fetch_scorers', 'AdminController@fetchScorers');
-Route::get('/admin/fetch_standings', 'AdminController@fetchStandings');
-Route::get('/admin/calculate-group-ranks', 'AdminController@calculateGroupRanks');
+Route::get('/admin/index', 'AdminController@showTools');
+Route::put('/admin/reset-user-pass/{id}', 'AdminController@resetPass');
 Route::get('/admin/remove-irrelevant-scorers', 'AdminController@removeIrrelevantScorers');
-Route::get('/admin/init-scorers', 'AdminController@saveDefaultScorers');
 Route::get('/admin/add-scorer', 'AdminController@showAddScorer');
 Route::post('/admin/add-scorer', 'AdminController@addScorer');
+Route::get('/admin/init-scorers', 'AdminController@saveDefaultScorers');
+
+Route::get('/admin/decomplete-match/{id}', 'AdminController@removeMatchResult');
+Route::get('/admin/complete-match/{id}/{scoreHome?}/{scoreAway?}', 'AdminController@completeMatch');
+Route::get('/admin/switch-bet-match/{fromMatchID}/{toMatchID}', 'AdminController@switchBetMatchIDs');
+Route::get('/admin/flip-bets/{matchId}/{userId?}', 'AdminController@flipMatchBet');
+Route::get('/admin/delete-match/{matchId}', 'AdminController@deleteMatch');
+Route::get('/admin/fetch-games', 'AdminController@fetchGames');
+Route::get('/admin/fetch-scorers', 'AdminController@fetchScorers');
+Route::get('/admin/fetch-standings', 'AdminController@fetchStandings');
+Route::get('/admin/calculate-group-ranks', 'AdminController@calculateGroupRanks');
 
 Route::post('/user/update', 'BetsController@submitBets')->middleware("confirmed_user");

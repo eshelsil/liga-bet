@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: michael
- * Date: 26/06/18
- * Time: 02:41
- */
 
 namespace App\SpecialBets;
 
