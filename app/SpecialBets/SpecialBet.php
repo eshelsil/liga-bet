@@ -153,7 +153,7 @@ class SpecialBet implements BetableInterface
 
     public function calcTopScorer($player_id){
         $score_for_goal = 2;
-        $top_scorer_bonus = 5;
+        $top_scorer_bonus = 4;
 
         $score = 0;
         $scorer = Scorer::findByExternalId($player_id);
