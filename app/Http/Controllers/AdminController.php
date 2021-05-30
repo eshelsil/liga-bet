@@ -224,8 +224,12 @@ class AdminController extends Controller
     }
 
 
-    public function calculateSpecialBets($types = null) {
-        return $this->ApiFetchController->calculateSpecialBets($types);
+    public function calculateSpecialBets() {
+        return $this->ApiFetchController->calculateSpecialBets();
+    }
+
+    public function calculateSpecialBet($name) {
+        return $this->ApiFetchController->calculateSpecialBets([$name]);
     }
 
     public function deleteMatch($matchId)

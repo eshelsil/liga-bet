@@ -39,6 +39,7 @@ Route::get('/admin/confirmed-users', 'AdminController@showConfirmedUsers')->name
 Route::post('/admin/set-permission', 'AdminController@setPermission');
 Route::get('/admin/download-data', 'AdminController@downloadInitialData');
 Route::get('/admin/calc-special-bets', 'AdminController@calculateSpecialBets');
+Route::get('/admin/calc-special-bet/{name}', 'AdminController@calculateSpecialBet');
 Route::get('/admin/index', 'AdminController@showTools');
 Route::put('/admin/reset-user-pass/{id}', 'AdminController@resetPass');
 Route::get('/admin/remove-irrelevant-scorers', 'AdminController@removeIrrelevantScorers');
