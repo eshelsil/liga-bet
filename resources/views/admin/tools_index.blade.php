@@ -45,6 +45,23 @@
             window.location = `/admin/complete-match/${match_id}/${score_home}/${score_away}`;
         }
     }
+    function copmleteKoMatch(){
+        let match_id = prompt("Enter match ID:");
+        let score_home = prompt("Enter score home:");
+        let score_away = prompt("Enter score away:");
+        let isAwayWinner;
+        if (score_home === score_away){
+            isAwayWinner = prompt("Enter isAwayWinner param (0 - if home_team won | 1 - if away_team won)");
+            if (["1", "0"].indexOf(isAwayWinner) === -1){
+                toastr["error"](`isAwayWinner must be one of [0,1] | Got: ${isAwayWinner}`);
+                return
+            }
+        }
+        if ( match_id != null && score_home != null && score_away != null ) {
+            isAwayWinner = isAwayWinner ?? '';
+            window.location = `/admin/complete-match/${match_id}/${score_home}/${score_away}/${isAwayWinner}`;
+        }
+    }
     function flipMatchBet(){
         let match_id = prompt("Enter match ID:");
         let user_id = prompt("Enter user ID:");
@@ -135,8 +152,9 @@
         <a href="/admin/fetch-scorers">Fetch scorers from API</a><br>
         <a href="/admin/fetch-standings">Fetch standings from API</a><br>
         <br>
+        <a href="javascript:copmleteMatch()">Complete groups-stage-match result [input params]</a><br>
+        <a href="javascript:copmleteKoMatch()">Complete knockout-match result [input params]</a><br>
         <a href="javascript:decopmleteMatch()">Remove match result [input params]</a><br>
-        <a href="javascript:copmleteMatch()">Complete match result [input params]</a><br>
         <a href="javascript:flipMatchBet()">[DANGER] Flip match bet [input params]</a><br>
         <a href="javascript:switchGroups()">[DANGER] Switch between 2 groups (group-rank-bets & belonging-teams) [input params]</a><br>
         <br>

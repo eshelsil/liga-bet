@@ -200,10 +200,14 @@ class AdminController extends Controller
         return "reset User {$user->name} password to \"1234\"";
     }
 
-    public function completeMatch($id, $scoreHome = null, $scoreAway = null) {
+    public function completeMatch($id, $scoreHome = null, $scoreAway = null, $isAwayWinner = null) {
         /** @var Match $match */
         $match = Match::query()->find($id);
-        $match->completeBets($scoreHome, $scoreAway);
+        if ($match->isKnockout() && !is_null($scoreHome)
+            && $scoreHome == $scoreAway && is_null($isAwayWinner)){
+            throw new \InvalidArgumentException("Score is tied on a knockout game and \"isAwayWinner\" param is not given");
+        }
+        $match->completeBets($scoreHome, $scoreAway, $isAwayWinner);
         return "completed";
     }
 

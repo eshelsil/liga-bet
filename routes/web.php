@@ -49,7 +49,7 @@ Route::get('/admin/init-scorers', 'AdminController@saveDefaultScorers');
 Route::put('/admin/format-custom-answers', 'AdminController@formatSpecialBetsCustomAnswer');
 
 Route::get('/admin/decomplete-match/{id}', 'AdminController@removeMatchResult');
-Route::get('/admin/complete-match/{id}/{scoreHome?}/{scoreAway?}', 'AdminController@completeMatch');
+Route::get('/admin/complete-match/{id}/{scoreHome?}/{scoreAway?}/{isAwayWinner?}', 'AdminController@completeMatch');
 Route::get('/admin/switch-bet-match/{fromMatchID}/{toMatchID}', 'AdminController@switchBetMatchIDs');
 Route::get('/admin/flip-bets/{matchId}/{userId?}', 'AdminController@flipMatchBet');
 Route::get('/admin/danger-switch-groups/{external_id_a}/{external_id_b}', 'AdminController@switchGroups');

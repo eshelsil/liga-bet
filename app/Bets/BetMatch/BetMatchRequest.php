@@ -24,10 +24,18 @@ class BetMatchRequest extends AbstractBetRequest
         parent::__construct($match, $data);
         $this->resultHome = data_get($data, "result-home");
         $this->resultAway = data_get($data, "result-away");
+        $this->koWinnerSide = null;
+        if ($this->match->isKnockout() ){
+            $this->koWinnerSide = data_get($data, "winner_side");
+        }
     }
 
     public function toJson() {
-        return json_encode(["result-home" => $this->resultHome, "result-away" => $this->resultAway], JSON_UNESCAPED_UNICODE);
+        return json_encode([
+            "result-home" => $this->resultHome,
+            "result-away" => $this->resultAway,
+            "ko_winner_side" => $this->koWinnerSide,
+        ], JSON_UNESCAPED_UNICODE);
     }
 
 
@@ -41,6 +49,13 @@ class BetMatchRequest extends AbstractBetRequest
         $resultAway = data_get($data, "result-away");
         if (!ctype_digit($resultAway)) {
             throw new \InvalidArgumentException($resultHome);
+        }
+        if ($match->isKnockout()){
+            $koWinnerSide = data_get($data, "winner_side", null);
+            if ((int)$resultAway == (int)$resultHome && !in_array($koWinnerSide, ["home", "away"])){
+                $paramString = is_null($koWinnerSide) ? "null" : $koWinnerSide;
+                throw new \InvalidArgumentException("Knockout Bet's \"winner_side\" parameter must be one of [\"away\", \"home\"] if score is tied. <br>Got: {$paramString}");
+            }
         }
     }
 
@@ -60,6 +75,16 @@ class BetMatchRequest extends AbstractBetRequest
         return $this->resultHome;
     }
 
+    public function getWinnerSide()
+    {
+        if ($this->resultHome > $this->resultAway){
+            return "home";
+        } else if ($this->resultHome < $this->resultAway){
+            return "away";
+        }
+        return $this->koWinnerSide;
+    }
+
     /**
      * @return int
      */
@@ -76,20 +101,26 @@ class BetMatchRequest extends AbstractBetRequest
     public function calculate(AbstractBetRequest $request)
     {
         $score = 0;
+        
         if ($request->getResultHome() == $this->getResultHome()
             && $request->getResultAway() == $this->getResultAway()) {
             $score += $this->getMatch()->getScore("score");
         }
-
-        if (
-            ($request->getResultHome() == $request->getResultAway()
+        
+        $match = $this->getMatch();
+        $is_1x2_success = ($request->getResultHome() == $request->getResultAway()
             && $this->getResultHome() == $this->getResultAway()) // Teko
             || ($request->getResultHome() > $request->getResultAway()
             && $this->getResultHome() > $this->getResultAway()) // Winner Home
             || ($request->getResultHome() < $request->getResultAway()
-            && $this->getResultHome() < $this->getResultAway()) // Winner Away
-        ) {
-            $score += $this->getMatch()->getScore("winner");
+            && $this->getResultHome() < $this->getResultAway()); // Winner Away
+        if ($is_1x2_success) {
+            $score += $match->getScore("1X2");
+        }
+        if ($match->isKnockout()){
+            if ($this->getWinnerSide() == $match->getKnockoutWinnerSide()) {
+                $score += $match->getScore("winner");
+            }
         }
 
         return $score;

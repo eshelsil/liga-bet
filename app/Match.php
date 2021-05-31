@@ -39,11 +39,12 @@ protected static $theFinal = null;
 
     protected $scores = [
         "group_stage" => [
-            "winner" => 1,
+            "1X2" => 1,
             "score" => 2
         ],
         "knockout" => [
-            "winner" => 3,
+            "winner" => 2,
+            "1X2" => 1,
             "score" => 6
         ]
     ];
@@ -68,13 +69,24 @@ protected static $theFinal = null;
         foreach ($this->getBets() as $bet) {
             $bet->score = null;
             $bet->save();
-            echo "User: {$bet->user->name} Bet home: Score: null<br><br>";
+            echo "User: {$bet->user->name} | Score: null<br><br>";
         }
     }
 
-    public function completeBets($scoreHome = null, $scoreAway = null)
+    public function completeBets($scoreHome = null, $scoreAway = null, $isAwayWinner = null)
     {
         if (!is_null($scoreHome) && !is_null($scoreAway)) {
+            if ($this->isKnockout()){
+                if ($scoreHome > $scoreAway){
+                    $this->ko_winner = $this->team_home_id;
+                } else if ($scoreHome < $scoreAway){
+                    $this->ko_winner = $this->team_away_id;
+                } else if ($isAwayWinner) {
+                    $this->ko_winner = $this->team_away_id;
+                } else {
+                    $this->ko_winner = $this->team_home_id;
+                }
+            }
             $this->result_home = $scoreHome;
             $this->result_away = $scoreAway;
             $this->save();
@@ -87,6 +99,7 @@ protected static $theFinal = null;
         $result = new BetMatchRequest($this, [
             "result-home" => "{$this->result_home}",
             "result-away" => "{$this->result_away}",
+            "winner_side" => "{$this->getKnockoutWinnerSide()}",
         ]);
         Log::debug("REsult: {$result->toJson()}");
         /** @var Bet $bet */
@@ -94,6 +107,7 @@ protected static $theFinal = null;
             $betRequest = new BetMatchRequest($this, [
                 "result-home" => $bet->getData("result-home"),
                 "result-away" => $bet->getData("result-away"),
+                "winner_side" => $bet->getData("ko_winner_side"),
             ]);
             $bet->score = $betRequest->calculate($result);
             $bet->save();
@@ -160,6 +174,18 @@ protected static $theFinal = null;
             $this->team_home_id,
             $this->team_away_id
         ];
+    }
+
+    public function getKnockoutWinnerSide()
+    {
+        $winner_id = $this->getKnockoutWinner();
+        if ($winner_id === null){
+            return null;
+        }
+        if ($winner_id == $this->team_home_id){
+            return "home";
+        }
+        return "away";
     }
 
     public function getKnockoutWinner()
