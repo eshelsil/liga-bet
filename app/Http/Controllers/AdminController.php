@@ -169,6 +169,18 @@ class AdminController extends Controller
         return 'DONE';
     }
 
+    public function setNametoUser(Request $request) {
+        $username = $request->username;
+        $new_name = $request->new_name;
+        $user = User::where('username', $username)->first();
+        if (!$user){
+            throw new JsonException("There is no user with username {{$username}}", 400);
+        }
+        $user->name = $new_name;
+        $user->save();
+        return response()->json(200);
+    }
+
     public function setPassword(Request $request) {
         $id = $request->user_id;
         $validated = $request->validate([

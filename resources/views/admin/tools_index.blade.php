@@ -23,6 +23,13 @@
             }
         });
     }
+    function setNameOfUser(){
+        let username = prompt("Enter the USERNAME of user");
+        let new_name = prompt("Enter the new name you want to set");
+        if ( username != null && new_name != null ) {
+            callAjax('/admin/user-set-name', {username, new_name})
+        }
+    }
     function decopmleteMatch(){
         let match_id = prompt("Enter match ID:");
         if (match_id != null) {
@@ -85,6 +92,7 @@
         <h2 style="direction: ltr; text-align: left;">Tools:</h2><br>
         <a href="/admin/users-to-confirm">Users To Confirm</a><br>
         <a href="/admin/confirmed-users">Confirmed Users</a><br>
+        <a href="javascript:setNameOfUser()">Update user's name [input params]</a><br>
         <br>
         <a href="/admin/add-scorer">Add player to scorers table</a><br>
         <a href="/admin/remove-irrelevant-scorers">Remove irrelevant players from scorers table</a><br>
