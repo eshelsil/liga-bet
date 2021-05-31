@@ -24,6 +24,12 @@
 .v-align-center{
   vertical-align: middle !important;
 }
+.spaced-row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
 
 .row{
   &.full-row{
@@ -162,4 +168,35 @@
       @include menu_icons_hover;
     }
   }
+}
+
+
+.form-control.open-match-input{
+  width: calc(100% - 16px);
+  margin-right: auto;
+}
+.open-matches-date-header{
+  width: 120px;
+}
+.open-matches-bet-header{
+  width: 100px;
+}
+@media (max-width: 767px){
+  .form-control.open-match-input{
+    padding: 6px;
+  }
+  .open-matches-date-header{
+    width: 100px;
+  }
+  .open-matches-bet-cell{
+    padding-left: 5px;
+  }
+}
+
+
+.winner_color{
+  color: #00ad00;
+}
+.loser_color{
+  color: red;
 }
