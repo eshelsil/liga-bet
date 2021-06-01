@@ -60,7 +60,17 @@
         }
         
         function sendMatchBet(matchID) {
-            // TODO: Validated
+            let home_val = $("#result-home-" + matchID).val();
+            let away_val = $("#result-away-" + matchID).val();
+            const valid_input_vals = [...Array(21).keys()];
+            if (home_val === "" || valid_input_vals.indexOf(Number(home_val)) === -1){
+                toastr["error"](`כמות שערים לקבוצה חייבת להיות מספר שלם בין 0 ל-20. הערך שהתקבל לקבוצת הבית: ${home_val}`)
+                return
+            }
+            if (away_val === "" || valid_input_vals.indexOf(Number(away_val)) === -1){
+                toastr["error"](`כמות שערים לקבוצה חייבת להיות מספר שלם בין 0 ל-20. הערך שהתקבל לקבוצת החוץ: ${away_val}`)
+                return
+            }
             $.ajax({
                 type: 'POST',
                 url: '/user/update',
@@ -70,8 +80,8 @@
                         type: {{ \App\Enums\BetTypes::Match }},
                         data: {
                             type_id: matchID,
-                            "result-home": $("#result-home-" + matchID).val(),
-                            "result-away": $("#result-away-" + matchID).val()
+                            "result-home": home_val,
+                            "result-away": away_val
                         }
                     }]
                 }),
