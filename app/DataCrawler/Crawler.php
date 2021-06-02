@@ -112,7 +112,7 @@ class Crawler
 
     public function fetchScorers()
     {    
-        $data = $this->apiCall('/scorers');
+        $data = $this->apiCall('/scorers?limit=300');
         $scorers = data_get($data, 'scorers');
 
         return collect($scorers);
