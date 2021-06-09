@@ -52,6 +52,13 @@
             window.location = `/admin/flip-bets/${match_id}/${user_id}`;
         }
     }
+    function switchGroups(){
+        let group_a_ext_id = prompt("Enter external ID of the first group [example: \"GROUP_X\"]:");
+        let group_b_ext_id = prompt("Enter external ID of the second group [example: \"GROUP_X\"]:");
+        if ( group_a_ext_id != null && group_b_ext_id != null ) {            
+            window.location = `/admin/danger-switch-groups/${group_a_ext_id}/${group_b_ext_id}`;
+        }
+    }
     function formatCustomAnswers(){
         let from_name = prompt("Enter the name you want to remove");
         let to_name = prompt("Enter the name you want to replace it");
@@ -110,6 +117,7 @@
         <a href="javascript:decopmleteMatch()">Remove match result [input params]</a><br>
         <a href="javascript:copmleteMatch()">Complete match result [input params]</a><br>
         <a href="javascript:flipMatchBet()">Flip match bet [input params]</a><br>
+        <a href="javascript:switchGroups()">Switch between 2 groups (group-rank-bets & belonging-teams) [input params]</a><br>
         <br>
         <a href="javascript:getTableIDs()">Get all IDs from table [input params]</a><br>
         <a href="javascript:getFullTable()">Get full table data [input params]</a><br>

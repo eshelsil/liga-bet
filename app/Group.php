@@ -34,6 +34,10 @@ class Group extends Model implements BetableInterface
         })->toArray();
     }
 
+    public static function findByExternalId($ext_id){
+        return static::where('external_id', $ext_id)->first();
+    }
+
     public function getID()
     {
         return $this->id;

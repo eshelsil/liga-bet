@@ -128,4 +128,10 @@ class User extends Authenticatable
         }
         return $output;
     }
+
+    public static function getIdToNameMap(){
+        return static::all()->groupBy('id')->map(function($u){
+            return $u->first()->name;
+        });
+    }
 }

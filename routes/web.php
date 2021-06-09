@@ -52,6 +52,7 @@ Route::get('/admin/decomplete-match/{id}', 'AdminController@removeMatchResult');
 Route::get('/admin/complete-match/{id}/{scoreHome?}/{scoreAway?}', 'AdminController@completeMatch');
 Route::get('/admin/switch-bet-match/{fromMatchID}/{toMatchID}', 'AdminController@switchBetMatchIDs');
 Route::get('/admin/flip-bets/{matchId}/{userId?}', 'AdminController@flipMatchBet');
+Route::get('/admin/danger-switch-groups/{external_id_a}/{external_id_b}', 'AdminController@switchGroups');
 Route::get('/admin/delete-match/{matchId}', 'AdminController@deleteMatch');
 Route::get('/admin/fetch-games', 'AdminController@fetchGames');
 Route::get('/admin/fetch-scorers', 'AdminController@fetchScorers');

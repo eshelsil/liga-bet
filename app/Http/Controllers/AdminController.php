@@ -299,6 +299,57 @@ class AdminController extends Controller
         return "<br><br>Done";
     }
 
+    public static function switchGroups($external_id_a, $external_id_b)
+    {
+        $group_a = Group::findByExternalId($external_id_a);
+        if (!$group_a){
+            throw new \InvalidArgumentException("Could not find a group with exernal id {{$external_id_a}}");
+        }
+        $group_b = Group::findByExternalId($external_id_b);
+        if (!$group_b){
+            throw new \InvalidArgumentException("Could not find a group with exernal id {{$external_id_b}}");
+        }
+        echo "Switch groups: {$group_a->getName()} & {$group_b->getName()}...<br><br>";
+        $group_a_teams = $group_a->getGroupTeamsById();
+        $group_b_teams = $group_b->getGroupTeamsById();
+        echo "<br>Changeing group_id of Teams:";
+        foreach($group_a_teams as $team_id => $team){
+            $curr_g_id = $team->group_id;
+            $team->group_id = $group_b->external_id;
+            $team->save();
+            echo "<br>\"{$team->name}\": \t '{$curr_g_id}' -> '{$team->group_id}'";
+        }
+        foreach($group_b_teams as $team_id => $team){
+            $curr_g_id = $team->group_id;
+            $team->group_id = $group_a->external_id;
+            $team->save();
+            echo "<br>\"{$team->name}\": \t '{$curr_g_id}' -> '{$team->group_id}'";
+
+        }
+        echo "<br>";
+
+        $relevant_bets = Bet::where('type', BetTypes::GroupsRank)
+            ->whereIn('type_id', [$group_a->id, $group_b->id])->get();
+        $relevant_bets_by_user_id = $relevant_bets->groupBy('user_id');
+        $userIdToNameMap = User::getIdToNameMap();
+        echo "<br><br>Updated GroupRankBet of users:";
+        foreach($relevant_bets_by_user_id as $user_id => $bets){
+            $name = $userIdToNameMap[$user_id];
+            echo "<br>....{{$name}}:";
+            foreach($bets as $bet){
+                $curr_group = $bet->type_id == $group_a->id ? $group_a : $group_b;
+                $desired_group = $curr_group->id == $group_a->id ? $group_b : $group_a;
+                $bet->type_id = $desired_group->id;
+                $bet->save();
+                echo "<br>........Bet of group \t {{$curr_group->name}} -> {{$desired_group->name}}";
+            }
+        }
+        echo "<br><br>Note: real-life (actual) standings result of the groups were not changed";
+
+
+        return "<br><br>Done";
+    }
+
     public function switchBetMatchIDs($fromMatchID, $toMatchID) {
         DB::table("bets")
           ->where("type", BetTypes::Match)
