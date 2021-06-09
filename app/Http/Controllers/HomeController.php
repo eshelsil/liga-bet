@@ -167,6 +167,9 @@ class HomeController extends Controller
                 'teams' => $teams
             ];
         })
+        ->sortBy(function($groupData){
+            return data_get($groupData, 'group_id');
+        })
         ->sortBy(function($groupData) use($groupsByExternalId, $currentBetsById){
             $group = $groupsByExternalId[data_get($groupData, 'group_id')];
             $groupRankBet = $currentBetsById[$group->id]->bet;
