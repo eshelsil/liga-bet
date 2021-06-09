@@ -79,6 +79,9 @@ class BetsController extends Controller
                     $bets[] = BetMatch::save($user, $betRequest);
                     break;
                 case BetTypes::GroupsRank:
+                    if (!Group::areBetsOpen()){
+                        throw new \InvalidArgumentException("GroupRank bets are closed. cannot update bet");
+                    }
                     $betRequest = new BetGroupRankRequest(
                         Group::find($betInput->data["type_id"]),
                         $betInput->data["value"]

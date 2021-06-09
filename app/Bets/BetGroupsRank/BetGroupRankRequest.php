@@ -33,9 +33,6 @@ class BetGroupRankRequest extends AbstractBetRequest
      */
     protected function validateData($group, $data) {
         Log::debug("Validating data: {$group->getID()}\r\nData: ". json_encode($data, JSON_PRETTY_PRINT));
-        if (!Group::areBetsOpen()){
-            throw new \InvalidArgumentException("GroupRank bets are closed. cannot update bet");
-        }
         $passed_positions = array_keys($data);
         sort($passed_positions);
         if (json_encode($passed_positions) !== json_encode([1,2,3,4]) ){
