@@ -28,6 +28,26 @@ class Group extends Model implements BetableInterface
         }
     }
 
+    public function fartStandings(){
+        $team_ids = self::getGroupTeamsById()->keys()->toArray();
+        shuffle($team_ids);
+        $standings = [];
+        foreach($team_ids as $index => $team_id){
+            $standings[] = [
+                "position" => $index + 1,
+                "team_id" => $team_id,
+            ];
+        }
+        return $standings;
+    }
+
+    public static function randomizeAllStandings(){
+        foreach (static::all() as $group){
+            $group->standings = json_encode($group->fartStandings());
+            $group->save();
+        }
+    }
+
     private function getStandings(){
         return collect(json_decode($this->standings))->groupBy('position')->map(function($rows){
             return $rows->first()->team_id;
