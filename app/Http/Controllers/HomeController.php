@@ -39,6 +39,7 @@ class HomeController extends Controller
         }
         $table = User::query()
             ->where('permissions', '>', 0)
+            ->orWhere('permissions', -1)
             ->select(["users.id", "users.name", DB::raw("sum(bets.score) as total_score")])
             ->join("bets", function (JoinClause $join) {
                 $join->on("users.id", "=", "user_id");

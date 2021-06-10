@@ -356,4 +356,15 @@ class AdminController extends Controller
           ->where("type_id", $fromMatchID)
           ->update(["type_id" => $toMatchID]);
     }
+
+    public function createMonkey() {
+        $monkey = User::create([
+            'name' => 'הקוף',
+            'username' => 'themonkey_2021',
+            'password' => '',
+            'permissions' => User::TYPE_MONKEY
+        ]);
+        $monkey->autoBetPreTournament();
+        return "DONE";
+    }
 }

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Arr;
 
 /**
  * Class Match
@@ -263,4 +264,21 @@ protected static $theFinal = null;
             return in_array($team_id, [$match->team_home_id, $match->team_away_id]);
         });
     }
+
+    public function generateRandomBetData()
+    {
+        $res = [];
+        foreach(['result-home', 'result-away'] as $key){
+            $goals = Arr::random([0,1]);
+            if ($goals == 1){
+                $goals = Arr::random([1,2]);
+            }
+            if ($goals == 2){
+                $goals = Arr::random([2,3]);
+            }
+            $res[$key] = $goals;
+        }
+        return json_encode($res);
+    }
+
 }

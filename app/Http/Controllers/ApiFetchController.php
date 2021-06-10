@@ -7,6 +7,7 @@ use App\DataCrawler\Crawler;
 use Illuminate\Support\Facades\Cache;
 use App\Match;
 use App\Team;
+use App\User;
 use App\Group;
 use App\SpecialBets\SpecialBet;
 use App\Scorer;
@@ -81,6 +82,9 @@ class ApiFetchController extends Controller
             $match->start_time   = data_get($match_data, 'start_time');
             echo("Saving Match: ".$match->team_home_id." vs. ".$match->team_away_id."<br>");
             $match->save();
+            User::getMonkeyUsers()->each(function($monkey){
+                $monkey->autoBetNewMatches();
+            });
         }
 
         foreach ($new_scores as $match_data)  {

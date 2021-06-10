@@ -90,6 +90,9 @@
             window.location = `/debug/get-full-table/${name}`;
         }
     }
+    function createMonkey(){
+        callAjax('/admin/create-monkey-user', {}, 'POST')
+    }
 </script>
 @endsection
 
@@ -99,7 +102,9 @@
         <h2 style="direction: ltr; text-align: left;">Tools:</h2><br>
         <a href="/admin/users-to-confirm">Users To Confirm</a><br>
         <a href="/admin/confirmed-users">Confirmed Users</a><br>
+        <br>
         <a href="javascript:setNameOfUser()">Update user's name [input params]</a><br>
+        <a href="javascript:createMonkey()">Create a monkey user (if not exists)</a><br>
         <br>
         <a href="/admin/add-scorer">Add player to scorers table</a><br>
         <a href="/admin/remove-irrelevant-scorers">Remove irrelevant players from scorers table</a><br>
@@ -116,8 +121,8 @@
         <br>
         <a href="javascript:decopmleteMatch()">Remove match result [input params]</a><br>
         <a href="javascript:copmleteMatch()">Complete match result [input params]</a><br>
-        <a href="javascript:flipMatchBet()">Flip match bet [input params]</a><br>
-        <a href="javascript:switchGroups()">Switch between 2 groups (group-rank-bets & belonging-teams) [input params]</a><br>
+        <a href="javascript:flipMatchBet()">[DANGER] Flip match bet [input params]</a><br>
+        <a href="javascript:switchGroups()">[DANGER] Switch between 2 groups (group-rank-bets & belonging-teams) [input params]</a><br>
         <br>
         <a href="javascript:getTableIDs()">Get all IDs from table [input params]</a><br>
         <a href="javascript:getFullTable()">Get full table data [input params]</a><br>

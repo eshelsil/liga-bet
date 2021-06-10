@@ -9,6 +9,8 @@ use App\Bets\BetSpecialBets\BetSpecialBetsRequest;
 use App\Enums\BetTypes;
 use App\Exceptions\JsonException;
 use App\Group;
+use App\Match;
+use App\Bet;
 use App\SpecialBets\SpecialBet;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -46,6 +48,7 @@ class User extends Authenticatable
     const TYPE_ADMIN = 2;
     const TYPE_CONFIRMED = 1;
     const TYPE_NOT_CONFIRMED = 0;
+    const TYPE_MONKEY = -1;
 
     public function isAdmin()
     {
@@ -55,6 +58,11 @@ class User extends Authenticatable
     public function isConfirmed()
     {
         return $this->permissions > 0;
+    }
+
+    public function isMonkey()
+    {
+        return $this->permissions == self::TYPE_MONKEY;
     }
 
     public function bets()
@@ -132,6 +140,59 @@ class User extends Authenticatable
     public static function getIdToNameMap(){
         return static::all()->groupBy('id')->map(function($u){
             return $u->first()->name;
+        });
+    }
+
+    public static function getMonkeyUsers(){
+        return static::where('permissions', static::TYPE_MONKEY)->get();
+    }
+
+    private function autoGenerateBet($type, $type_id, $data){
+        if (!$this->isMonkey()){
+            throw new InvalidArgumentException("Cannot auto-generate bets for a user who is not a monkey");
+        }
+        $bet = new Bet();
+        $bet->user_id = $this->id;
+        $bet->type = $type;
+        $bet->type_id = $type_id;
+        $bet->data = $data;
+        $bet->save();
+    }
+
+    public function autoBetPreTournament(){
+        if (!$this->isMonkey()){
+            throw new InvalidArgumentException("Cannot auto-generate bets for a user who is not a monkey");
+        }
+        Group::all()->each(function($group){
+            $type = BetTypes::GroupsRank;
+            $type_id = $group->getID();
+            $data = $group->generateRandomBetData();
+            $this->autoGenerateBet($type, $type_id, $data);
+        });
+        Match::all()->each(function($match){
+            $type = BetTypes::Match;
+            $type_id = $match->getID();
+            $data = $match->generateRandomBetData();
+            $this->autoGenerateBet($type, $type_id, $data);
+        });
+        SpecialBet::all()->each(function($specialBet){
+            $type = BetTypes::SpecialBet;
+            $type_id = $specialBet->getID();
+            $data = $specialBet->generateRandomBetData();
+            $this->autoGenerateBet($type, $type_id, $data);
+        });
+    }
+
+    public function autoBetNewMatches(){
+        if (!$this->isMonkey()){
+            throw new InvalidArgumentException("Cannot auto-generate bets for a user who is not a monkey");
+        }
+        $ids_with_bet = $this->bets()->where('type', BetTypes::Match)->pluck('type_id');
+        Match::whereNotIn('id', $ids_with_bet)->get()->each(function($match){
+            $type = BetTypes::Match;
+            $type_id = $match->getID();
+            $data = $match->generateRandomBetData();
+            $this->autoGenerateBet($type, $type_id, $data);
         });
     }
 }

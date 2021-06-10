@@ -337,6 +337,34 @@ class SpecialBet implements BetableInterface
         return static::$teamsColl = Team::all();
     }
 
+    public function generateRandomBetData()
+    {
+        $answer = null;
+        switch ($this->name) {
+            case "mvp":
+                $answer = Scorer::all()->random()->name;
+                break;
+            case "most_assists":
+                $answer = Scorer::all()->random()->name;
+                break;
+            case "offensive_team":
+                $answer = Team::all()->random()->id;
+                break;
+            case "winner":
+                $answer = Team::all()->random()->id;
+                break;
+            case "runner_up":
+                $answer = Team::all()->random()->id;
+                break;
+            case "top_scorer":
+                $answer = Scorer::all()->random()->external_id;
+                break;
+            default:
+                throw new InvalidArgumentException("Invalid SpecialBet name \"$name\"");
+        };
+        return json_encode(["answer" => $answer]);
+    }
+
 
     /**
      * @return Collection|static[]

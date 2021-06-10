@@ -122,4 +122,13 @@ class Group extends Model implements BetableInterface
     public static function hasAllGroupsStandings(){
         return !Group::where('standings', null)->exists();
     }
+
+    public function generateRandomBetData(){
+        $standings = $this->fartStandings();
+        $res = [];
+        foreach($standings as $data){
+            $res[$data['position']] = $data['team_id'];
+        }
+        return json_encode($res);
+    }
 }
