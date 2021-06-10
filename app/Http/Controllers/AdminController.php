@@ -367,4 +367,25 @@ class AdminController extends Controller
         $monkey->autoBetPreTournament();
         return "DONE";
     }
+
+    public function deleteUser(Request $request){
+        $request->validate([
+            "username" => ["required", "string", "exists:users,username"],
+            "should_delete_bets" => ["required", "boolean"]
+        ]);
+        $username = $request->get('username');
+        $shouldDeleteBets = $request->get('should_delete_bets');
+
+        $user = User::where('username', $username)->first();
+        $userId = $user->id;
+        if ($userId == $request->user()->id) {
+            return response()->json(["message" => "User cannot delete himself"], 400);
+        }
+        $user->delete();
+
+        if ($shouldDeleteBets){
+            Bet::where('user_id', $userId)->delete();
+        }
+        return response()->json();
+    }
 }

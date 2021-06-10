@@ -59,6 +59,7 @@ Route::get('/admin/fetch-scorers', 'AdminController@fetchScorers');
 Route::get('/admin/fetch-standings', 'AdminController@fetchStandings');
 Route::get('/admin/calculate-group-ranks', 'AdminController@calculateGroupRanks');
 Route::post('/admin/user-set-name', 'AdminController@setNametoUser');
+Route::delete('/admin/delete-user', 'AdminController@deleteUser');
 Route::post('/admin/create-monkey-user', 'AdminController@createMonkey');
 
 Route::get('/debug/get-table-ids/{name}', 'DebugController@getTableIds');

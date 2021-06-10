@@ -93,6 +93,21 @@
     function createMonkey(){
         callAjax('/admin/create-monkey-user', {}, 'POST')
     }
+    function deleteUser(){
+        let username = prompt("Enter the USERNAME of the user you want to delete");
+        let withBets = prompt("Would you like to delete all user bets? (type \"yes\" for TRUE anything else for FALSE)");
+        if ( username != null && withBets !== null ) {
+            let deleteBets = String(withBets).toLowerCase() == "yes";
+            let removeBetsMsg = deleteBets ? "and all of his bets"
+                                : "without removing his bets";
+            let confirm = prompt(`You are about to delete user "${username}" ${removeBetsMsg}.
+            Are you sure?
+            (type \"yes\" to confirm)`);
+            if (String(confirm).toLowerCase() === "yes"){
+                callAjax('/admin/delete-user', { username, should_delete_bets: deleteBets}, 'DELETE')
+            }
+        }
+    }
 </script>
 @endsection
 
@@ -103,8 +118,9 @@
         <a href="/admin/users-to-confirm">Users To Confirm</a><br>
         <a href="/admin/confirmed-users">Confirmed Users</a><br>
         <br>
-        <a href="javascript:setNameOfUser()">Update user's name [input params]</a><br>
         <a href="javascript:createMonkey()">Create a monkey user (if not exists)</a><br>
+        <a href="javascript:setNameOfUser()">Update user's name [input params]</a><br>
+        <a href="javascript:deleteUser()">[DANGER] Delete a user [input params]</a><br>
         <br>
         <a href="/admin/add-scorer">Add player to scorers table</a><br>
         <a href="/admin/remove-irrelevant-scorers">Remove irrelevant players from scorers table</a><br>
