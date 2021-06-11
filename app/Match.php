@@ -276,7 +276,7 @@ protected static $theFinal = null;
             if ($goals == 2){
                 $goals = Arr::random([2,3]);
             }
-            $res[$key] = $goals;
+            $res[$key] = "{$goals}";
         }
         return json_encode($res);
     }
