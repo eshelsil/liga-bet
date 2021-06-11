@@ -224,8 +224,10 @@ class AdminController extends Controller
         $custom_special_bet_ids = [SpecialBet::getBetTypeIdByName('mvp'), SpecialBet::getBetTypeIdByName('most_assists')];
         $bets = Bet::where('type', BetTypes::SpecialBet)
                 ->whereIn('type_id', $custom_special_bet_ids)
-                ->where('data->answer', $from_name)
                 ->get();
+        $bets = $bets->filter(function($bet) use ($from_name){
+            return json_decode($bet->data)->answer == $from_name;
+        });
         foreach($bets as $bet){
             $bet->data = json_encode(["answer" => $to_name]);
             echo "Formatting bet value from {{$from_name}} to {{$to_name}}:  ".
