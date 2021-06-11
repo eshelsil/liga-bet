@@ -45,6 +45,7 @@ class Crawler
             return null;
         }
 
+        $is_done = data_get($match_json, 'status') == "FINISHED";
         $winner_side = data_get($match_json, 'score.winner');
 
         $ko_winner = null;
@@ -66,7 +67,7 @@ class Crawler
             'start_time' => $start_time ? $start_time->format("U") : null,
             'result_home'  => data_get($match_json, 'score.fullTime.homeTeam'),
             'result_away'  => data_get($match_json, 'score.fullTime.awayTeam'),
-            'is_done' => $winner_side !== null,
+            'is_done' => $is_done,
             'ko_winner' => $ko_winner
         ];
     }
