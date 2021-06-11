@@ -24,7 +24,7 @@
                 "with_api_fetch_button" => true,
             ])
         </div>
-        <div id="done-games" class="tab-pane fade active in" style="padding-top: 35px;">
+        <div id="done-games" class="tab-pane fade" style="padding-top: 35px;">
             @include('matches-view-content', [
                 "teamsByExtId" => $teamsByExtId,
                 "matches" => $done_matches,
