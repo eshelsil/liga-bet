@@ -96,6 +96,9 @@ class ApiFetchController extends Controller
 
             echo("Saving Result of Match: ext_id - ".$match->external_id." | id - ".$match->id."-> ".$match->result_home." - ".$match->result_away."<br>");
             $match->completeBets();
+            if ($match->isKnockout()){
+                $this->calculateSpecialBets(['winner', 'runner_up']);
+            }
         }
         if (count($new_scores) > 0){
             $this->fetchScorers();
@@ -110,8 +113,7 @@ class ApiFetchController extends Controller
 
     private function updateScorers($scorers) {
         $relevantScorers = Scorer::all();
-        $isTournamentDone = Match::isTournamentDone();
-        $saveFirstAnyway = $isTournamentDone;
+        $saveFirstAnyway = Match::isTournamentDone();
         foreach ($scorers as $index => $scorer){
             $id = data_get($scorer, 'player.id');
             if (!in_array($id, $relevantScorers->pluck('external_id')->toArray())){
@@ -134,9 +136,6 @@ class ApiFetchController extends Controller
             }
         }
         $this->calculateSpecialBets(['top_scorer']);
-        if ($isTournamentDone){
-            $this->calculateSpecialBets(['winner', 'runner_up']);
-        }
     }
 
     public function calculateSpecialBets($types = null) {

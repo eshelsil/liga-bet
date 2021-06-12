@@ -53,6 +53,11 @@ protected static $theFinal = null;
     /** @var Team $teamAway */
     protected $teamAway = null;
 
+    public function isKnockout()
+    {
+        return $this->type == "knockout";
+    }
+
     public function getScore($type)
     {
         $scorePath = $this->type;
