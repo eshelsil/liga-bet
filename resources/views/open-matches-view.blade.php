@@ -78,6 +78,7 @@
                 dataType: 'json',
                 success: function (data) {
                     $("#save-match-" + matchID).removeClass("btn-primary").addClass("btn-success");
+                    toastr["success"]("ההימור נשלח");
                 },
                 error: function(data) {
                     toastr["error"](data.responseJSON.message);
