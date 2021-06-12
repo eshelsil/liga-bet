@@ -124,16 +124,17 @@ class ApiFetchController extends Controller
                 $scorerModel->name = data_get($scorer, 'player.name');
                 $team = Team::where('external_id', data_get($scorer, 'team.id'))->first();
                 $scorerModel->team_id = $team->id;
+                $relevantScorers->push($scorerModel);
             }
             $goals = data_get($scorer, 'numberOfGoals');
-            $scorerModel = $scorerModel ?? $relevantScorers->where('external_id', $id)->first();
+            $scorerModel = $relevantScorers->where('external_id', $id)->first();
             if ($goals !== $scorerModel->goals){
                 $scorerModel->goals = $goals;
                 $scorerModel->save();
             }
         }
+        $this->calculateSpecialBets(['top_scorer']);
         if ($isTournamentDone){
-            $this->calculateSpecialBets(['top_scorer']);
             $this->calculateSpecialBets(['winner', 'runner_up']);
         }
     }
