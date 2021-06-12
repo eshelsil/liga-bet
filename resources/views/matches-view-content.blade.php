@@ -6,7 +6,24 @@
 @if(count($matches) > 0 && $show_fetch_button)
     <script>
         function fetchFromAPI(){
-            window.location = "/api-fetch-games";
+            $.ajax({
+                type: 'GET',
+                url: '/api-fetch-games',
+                success: function (data) {
+                    toastr["success"]("העדכון בוצע בהצלחה");
+                },
+                error: function(error) {
+                    console.log("error", error)
+                    const error_text = error.responseText;
+                    const server_error_divider = "SERVER_ERROR_MSG:";
+                    if (error_text.indexOf(server_error_divider) > -1){
+                        const error_msg = error_text.split(server_error_divider)[1];
+                        toastr["error"](error_msg);
+                    } else {
+                        toastr["error"](error_text);
+                    }
+                }
+            });
         }
     </script>
     <button class="btn btn-primary" onclick="fetchFromAPI()" style="margin-right: 10px; margin-top: 15px;">עדכן תוצאות</button>

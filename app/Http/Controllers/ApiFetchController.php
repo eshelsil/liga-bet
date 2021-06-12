@@ -151,19 +151,19 @@ class ApiFetchController extends Controller
 
     public function userUpdateGames() {
         if ($blockEndAt = Cache::get("general_api_update")) {
-            return "עדכון תוצאות חסום מכיוון שכבר בוצעה קריאת עדכון ב10 הדקות האחרונות. יהיה ניתן לנסות לעדכן שוב בשעה:<br>{$blockEndAt}";
+            return response("עדכון תוצאות חסום מכיוון שכבר בוצעה קריאת עדכון ב5 הדקות האחרונות. יהיה ניתן לנסות לעדכן שוב בשעה:<br>{$blockEndAt}", 400);
         }
         if (!Match::hasOneWaitingForResult()){
-            return "לא בוצע עדכון מכיוון שאין משחקים שממתינים לתוצאות";
+            return response("לא בוצע עדכון מכיוון שאין משחקים שממתינים לתוצאות", 400);
         }
         try {
-            Cache::put("general_api_update", now()->addMinutes(10)->format("Y-m-d H:i:s"), 10);
+            Cache::put("general_api_update", now()->addMinutes(10)->format("Y-m-d H:i:s"), 5);
             $this->fetchGames(true);
         } catch (\Throwable $e) {
             Cache::forget("general_api_update");
-            return "error in fetch crawler";
+            return response("SERVER_ERROR_MSG:".$e->getMessage(), 500);
         }
-        return 'OK';
+            return "DONE";
     }
 
 }
