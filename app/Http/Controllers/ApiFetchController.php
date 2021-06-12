@@ -114,7 +114,7 @@ class ApiFetchController extends Controller
         $saveFirstAnyway = $isTournamentDone;
         foreach ($scorers as $index => $scorer){
             $id = data_get($scorer, 'player.id');
-            if (!in_array($id, $relevantScorers->pluck('external_id'))){
+            if (!in_array($id, $relevantScorers->pluck('external_id')->toArray())){
                 $saveAnyway = $index == 0 && $saveFirstAnyway;
                 if (!$saveAnyway){
                     continue;
