@@ -157,7 +157,7 @@ class ApiFetchController extends Controller
             return response("לא בוצע עדכון מכיוון שאין משחקים שממתינים לתוצאות", 400);
         }
         try {
-            Cache::put("general_api_update", now()->addMinutes(10)->format("Y-m-d H:i:s"), 5);
+            Cache::put("general_api_update", now()->addMinutes(5)->format("Y-m-d H:i:s"), 5);
             $this->fetchGames(true);
         } catch (\Throwable $e) {
             Cache::forget("general_api_update");
