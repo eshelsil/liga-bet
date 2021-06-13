@@ -94,6 +94,7 @@ class ApiFetchController extends Controller
             $match->ko_winner  = data_get($match_data, 'ko_winner');
             $match->save();
 
+            $this->user_fetch_got_games = true;
             echo("Saving Result of Match: ext_id - ".$match->external_id." | id - ".$match->id."-> ".$match->result_home." - ".$match->result_away."<br>");
             $match->completeBets();
             if ($match->isKnockout()){
@@ -150,11 +151,12 @@ class ApiFetchController extends Controller
     }
 
     public function userUpdateGames() {
+        $this->user_fetch_got_games = false;
         if ($blockEndAt = Cache::get("general_api_update")) {
-            return response("עדכון תוצאות חסום מכיוון שכבר בוצעה קריאת עדכון ב5 הדקות האחרונות. יהיה ניתן לנסות לעדכן שוב בשעה:<br>{$blockEndAt}", 400);
+            return response("SERVER_ERROR_MSG:". "עדכון תוצאות חסום מכיוון שכבר בוצעה קריאת עדכון ב5 הדקות האחרונות. יהיה ניתן לנסות לעדכן שוב בשעה:<br>{$blockEndAt}", 400);
         }
         if (!Match::hasOneWaitingForResult()){
-            return response("לא בוצע עדכון מכיוון שאין משחקים שממתינים לתוצאות", 400);
+            return response("SERVER_ERROR_MSG:". "לא בוצע עדכון מכיוון שאין משחקים שממתינים לתוצאות", 400);
         }
         try {
             Cache::put("general_api_update", now()->addMinutes(5)->format("Y-m-d H:i:s"), 5);
@@ -163,7 +165,12 @@ class ApiFetchController extends Controller
             Cache::forget("general_api_update");
             return response("SERVER_ERROR_MSG:".$e->getMessage(), 500);
         }
-            return "DONE";
+        if (!$this->user_fetch_got_games){
+            $error_msg = "למשחקים שעבורם נדרש עדכון עדיין אין תוצאות זמינות";
+            return response("SERVER_ERROR_MSG:".$error_msg, 400);
+        }
+        $success_msg = "העדכון בוצע בהצלחה";
+        return response("SERVER_SUCCESS_MSG:".$success_msg, 200);
     }
 
 }

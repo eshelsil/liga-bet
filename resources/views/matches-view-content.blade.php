@@ -9,8 +9,11 @@
             $.ajax({
                 type: 'GET',
                 url: '/api-fetch-games',
-                success: function (data) {
-                    toastr["success"]("העדכון בוצע בהצלחה");
+                success: function (server_msg) {
+                    const server_success_divider = "SERVER_SUCCESS_MSG:";
+                    const msg = server_msg.split(server_success_divider)[1];
+                    toastr["success"](msg);
+                    setTimeout(()=>{window.location.reload()}, 3000);
                 },
                 error: function(error) {
                     console.log("error", error)
