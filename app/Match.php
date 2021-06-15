@@ -176,6 +176,24 @@ protected static $theFinal = null;
         ];
     }
 
+    public function getWinnerSide()
+    {
+        if (!$this->is_done){
+            return null;
+        }
+        $result_home = $this->result_home;
+        $result_away = $this->result_away;
+        if ($result_home > $result_away){
+            return "home";
+        } else if ($result_home < $result_away){
+            return "away";
+        }
+        if (!$this->isKnockout()){
+            return null;
+        }
+        return $this->getKnockoutWinnerSide();
+    }
+
     public function getKnockoutWinnerSide()
     {
         $winner_id = $this->getKnockoutWinner();
@@ -196,6 +214,19 @@ protected static $theFinal = null;
     public function getKnockoutLoser()
     {
         return array_diff($this->getTeamIds(), [$this->getKnockoutWinner()])[0];
+    }
+
+    public function formatMatchResult()
+    {
+        $winner_side = $this->getWinnerSide();
+        $result_home = $this->result_home;
+        $result_away = $this->result_away;
+        if ($winner_side === "home"){
+            return $result_away.":<b>".$result_home."</b>";
+        } else if ($winner_side === "away"){
+            return "<b>".$result_away."</b>:".$result_home;
+        }
+        return $result_away.":".$result_home;
     }
 
     public function getIsDoneAttribute()

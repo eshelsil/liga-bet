@@ -61,6 +61,9 @@
             <?php
                 $home_team = $teams->where('external_id', $match->team_home_id)->first();
                 $away_team = $teams->where('external_id', $match->team_away_id)->first();
+                $userBet = $user->getBet($match);
+                $match_winner_side = $match->getWinnerSide();
+                $bet_winner_side = $userBet ? $userBet->getWinnerSide() : null;
             ?>
             <tr>
                 <td class="admin">{{ $match->id }}</td>
@@ -69,22 +72,28 @@
                     <table>
                         <tbody>
                             <td>
-                                @include('widgets.teamWithFlag', $home_team)
+                                @include('widgets.teamWithFlag', array_merge($home_team->toArray(),[
+                                    "bet_is_winner"=> $bet_winner_side === "home",
+                                    "match_is_winner"=> $match_winner_side === "home",
+                                ]))
                             </td>
                             <td style="padding: 5px;">
                                 -
                             </td>
                             <td>
-                                @include('widgets.teamWithFlag', $away_team)
+                                @include('widgets.teamWithFlag', array_merge($away_team->toArray(),[
+                                    "bet_is_winner"=> $bet_winner_side === "away",
+                                    "match_is_winner"=> $match_winner_side === "away",
+                                ]))
                             </td>
                         </tbody>
                     </table>
                 </td>
                 <td class="v-align-center">
-                    @if($user->getBet($match)) {{ $user->getBet($match)->getData("result-away") }}:{{ $user->getBet($match)->getData("result-home") }} @endif
+                    @if($userBet) {!! $userBet->formatMatchBet() !!} @endif
                 </td>
                 <td class="v-align-center">
-                    @if(!is_null($match->result_away)) {{ $match->result_away }}:{{ $match->result_home }} @endif
+                    @if($match->is_done) {!! $match->formatMatchResult() !!} @endif
                 </td>
             </tr>
         @endforeach
