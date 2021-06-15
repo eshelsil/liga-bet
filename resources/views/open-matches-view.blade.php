@@ -47,7 +47,7 @@
                     $homeScoreInputClass = "";
                     $awayScoreInputClass = "";
                 }
-                $bet_winner_side = $match->bet ? $match->bet->getWinnerSide() : null;
+                $bet_winner_side = ($match->bet && $match->isKnockout()) ? $match->bet->getWinnerSide() : null;
             ?>
             <tr id="row_match_{{$match->id}}">
                 <td class="admin">{{ $match->id }}</td>
@@ -131,14 +131,14 @@
             away_team_span = $(away_team_span);
 
             if (winner_side === "home"){
-                home_team_span.addClass('underlined');
-                away_team_span.removeClass('underlined');
+                home_team_span.addClass('bet-winner-bg');
+                away_team_span.removeClass('bet-winner-bg');
             } else if (winner_side === "away"){
-                home_team_span.removeClass('underlined');
-                away_team_span.addClass('underlined');
+                home_team_span.removeClass('bet-winner-bg');
+                away_team_span.addClass('bet-winner-bg');
             } else {
-                home_team_span.removeClass('underlined');
-                away_team_span.removeClass('underlined');
+                home_team_span.removeClass('bet-winner-bg');
+                away_team_span.removeClass('bet-winner-bg');
             }
         }
 

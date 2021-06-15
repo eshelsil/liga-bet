@@ -67,7 +67,7 @@
                                                                     "bet_is_winner"=> $bet_winner_side === "home",
                                                                     "match_is_winner"=> $match_winner_side === "home",
                                                                 ]))
-                                                                <span class="{{$bet_winner_side === "home" ? "underlined" : ""}}"> ({{$bet->getData("result-home")}})</span>
+                                                                <span>({{$bet->getData("result-home")}})</span>
                                                             </td>
                                                             <td style='padding: 5px;'>
                                                                 -
@@ -77,7 +77,7 @@
                                                                     "bet_is_winner"=> $bet_winner_side === "away",
                                                                     "match_is_winner"=> $match_winner_side === "away",
                                                                 ]))
-                                                                <span class="{{$bet_winner_side === "away" ? "underlined" : ""}}"> ({{$bet->getData("result-away")}})</span>
+                                                                <span>({{$bet->getData("result-away")}})</span>
                                                             </td>
                                                         </tr>
                                                     </tbody>

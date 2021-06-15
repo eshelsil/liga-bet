@@ -10,5 +10,5 @@
     <div class=flag-wrapper>
         <img class="team_flag" src="{{$crest_url}}">
     </div>
-    <span class="team_with_flag-span {{$isBetWinner ? "underlined" : ''}} {{$isMatchWinner ? "bolded" : ''}}">{{$name}}</span>
+    <span class="team_with_flag-span {{$isBetWinner ? "bet-winner-bg" : ''}} {{$isMatchWinner ? "bolded" : ''}}">{{$name}}</span>
 </div>

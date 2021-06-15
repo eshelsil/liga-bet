@@ -58,9 +58,9 @@ class Bet extends Model
         $result_home = $this->getData('result-home');
         $result_away = $this->getData('result-away');
         if ($winner_side === "home"){
-            return $result_away.":<u>".$result_home."</u>";
+            return $result_away.":<span class='bet-winner-bg'>".$result_home."</span>";
         } else if ($winner_side === "away"){
-            return "<u>".$result_away."</u>:".$result_home;
+            return "<span class='bet-winner-bg'>".$result_away."</span>:".$result_home;
         }
         return $result_away.":".$result_home;
     }
