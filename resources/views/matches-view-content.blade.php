@@ -100,7 +100,11 @@
                 <?php
                     $bettersByBetValue = [];
                     foreach($match->getBets() as $bet){
-                        $betVal = "".$bet->getData("result-away").":".$bet->getData("result-home");
+                        if ($match->isKnockout()){
+                            $betVal = $bet->formatMatchBet();
+                        } else {
+                            $betVal = "".$bet->getData("result-away").":".$bet->getData("result-home");
+                        }
                         if (!array_key_exists($betVal, $bettersByBetValue)){
                             $bettersByBetValue[$betVal] = ["names" => [], "score" => $bet->score];
                         }
@@ -118,7 +122,7 @@
                 @foreach($bettersByBetValue as $betVal => $betData)
                     <tr>
                         <td class="admin">{{$bet->user->id}}</td>
-                        <td>{{$betVal}}</td>
+                        <td>{!! $betVal !!}</td>
                         <td>{!! implode('<br>', $betData['names']) !!}</td>
                         @if($match->is_done)
                             <td>{{$betData['score']}}</td>
@@ -157,7 +161,11 @@
                     <tr>
                         <td class="admin">{{$bet->user->id}}</td>
                         <td>{{$bet->user->name}}</td>
-                        <td>{{$bet->getData("result-away")}}:{{$bet->getData("result-home")}}</td>
+                        @if($match->isKnockout())
+                            <td>{!! $bet->formatMatchBet() !!}</td>
+                        @else
+                            <td>{{$bet->getData("result-away")}}:{{$bet->getData("result-home")}}</td>
+                        @endif
                         @if($match->is_done)
                             <td>{{$bet->score}}</td>
                         @endif
