@@ -44,7 +44,7 @@
                                         <div class="col-xs-9 pull-right col-no-padding">הימור</div>
                                         <div class="col-xs-2 pull-right col-no-padding">תוצאה</div>
                                     </li>
-                                    @foreach($matchBets->filter(function ($bet) { return $bet->score > 0;})->sortBy("type_id") as $bet)
+                                    @foreach($matchBets->filter(function ($bet) { return $bet->score > 0;})->sortBy("type_id")->reverse() as $bet)
                                         <?php
                                         /** @var App\Bet $bet */
                                         /** @var App\Match $match */

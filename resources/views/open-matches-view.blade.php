@@ -34,7 +34,6 @@
             <?php
                 $m_type = $match->isKnockout() ? "knockout" : "groups";
                 $showRadio = $match->isKnockout() && $match->bet && ($match->bet->getData("result-home") == $match->bet->getData("result-away"));
-                // dd($match->isKnockout());
                 $radioVal = $showRadio ? $match->bet->getData("ko_winner_side") : null;
                 $homeRadioChecked = $radioVal == "home";
                 $awayRadioChecked = $radioVal == "away";
