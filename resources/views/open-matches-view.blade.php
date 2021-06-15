@@ -21,7 +21,7 @@
             <th>
                 משחק
             </th>
-            <th class="open-matches-bet-header" style="padding-right: 18px;">
+            <th class="open-matches-bet-header" style="padding-left: 30px;">
                 הימור
             </th>
             <th>
@@ -34,6 +34,7 @@
             <?php
                 $m_type = $match->isKnockout() ? "knockout" : "groups";
                 $showRadio = $match->isKnockout() && $match->bet && ($match->bet->getData("result-home") == $match->bet->getData("result-away"));
+                // dd($match->isKnockout());
                 $radioVal = $showRadio ? $match->bet->getData("ko_winner_side") : null;
                 $homeRadioChecked = $radioVal == "home";
                 $awayRadioChecked = $radioVal == "away";
@@ -51,10 +52,10 @@
             ?>
             <tr id="row_match_{{$match->id}}">
                 <td class="admin">{{ $match->id }}</td>
-                <td>
-                    {{ DateTime::createFromFormat("U", $match->start_time)->setTimezone(new DateTimeZone("Asia/Jerusalem"))->format("Y/m/d H:i") }}
-                </td>
                 <td class="v-align-center">
+                    {{ DateTime::createFromFormat("U", $match->start_time)->setTimezone(new DateTimeZone("Asia/Jerusalem"))->format("d/m H:i") }}
+                </td>
+                <td class="open-match-teams-cell v-align-center">
                     @include('widgets.teamWithFlag', array_merge($teamsByExtId[$match->team_home_id]->toArray(), [
                         "bet_is_winner"=> $bet_winner_side === "home",
                     ]))
@@ -64,21 +65,29 @@
                     ]))
                 </td>
                 <td class="open-matches-bet-cell">
+                    <div id="ko_switch_input_{{$match->id}}" class="ko_switch_input" {{$showRadio ? '' : 'hidden'}}>
+                        <div class="tw-toggle">
+                            <input type="radio" onchange="koWinnerInputChange({{$match->id}})" value="home"
+                                id="ko_winner_radio_{{$match->id}}_home" name="ko_winner_of_match_{{$match->id}}"
+                                class="home-radio" {{$homeRadioChecked ? 'checked' : ''}}>
+                            <label class="toggle"><i class="fa fa-star" aria-hidden="true"></i></label>
+                            <label class="arrow"><i class="fa fa-arrows-v arrow-icon"></i></label>
+                            <input type="radio" onchange="koWinnerInputChange({{$match->id}})" value="away"
+                                id="ko_winner_radio_{{$match->id}}_away" name="ko_winner_of_match_{{$match->id}}"
+                                class="away-radio" {{$awayRadioChecked ? 'checked' : ''}}>
+                            <label class="toggle"><i class="fa fa-star"></i></label>
+                            <span></span>
+                        </div>
+                    </div>
                     <div class="row full-row">
-                        <div class  ="spaced-row">
-                            <input type="radio" onchange="koWinnerInputChange({{$match->id}})"
-                                    id="ko_winner_radio_{{$match->id}}_home" name="ko_winner_of_match_{{$match->id}}"
-                                    value="home" {{$showRadio ? '' : 'hidden'}} {{$homeRadioChecked ? 'checked' : ''}}>
+                        <div class ="spaced-row">
                             <input onchange="scoreInputChange({{$match->id}}, '{{$m_type}}')" class="form-control open-match-input {{$homeScoreInputClass}}"
                                     id="result-home-{{ $match->id }}" type="number" value="{{ $match->bet ? $match->bet->getData("result-home") : "" }}">
                         </div>
                         <div class="row full-row" style="height: 16px; font-size: 11px;">
-                            <span id="ko_winner_note_{{$match->id}}" hidden>בחר מעפילה</span>
+                            <span id="ko_winner_note_{{$match->id}}" hidden>מעפילה:</span>
                         </div>
                         <div class="spaced-row">
-                            <input type="radio" onchange="koWinnerInputChange({{$match->id}})"
-                                    id="ko_winner_radio_{{$match->id}}_away" name="ko_winner_of_match_{{$match->id}}"
-                                    value="away" {{$showRadio ? '' : 'hidden'}} {{$awayRadioChecked ? 'checked' : ''}}>
                             <input onchange="scoreInputChange({{$match->id}}, '{{$m_type}}')" class="form-control open-match-input {{$awayScoreInputClass}}"
                                     id="result-away-{{ $match->id }}" type="number" value="{{ $match->bet ? $match->bet->getData("result-away") : "" }}">
                         </div>
@@ -168,9 +177,9 @@
         }
         function toggleKoWinnerInput(matchId, shouldShow){
             toggleKoWinnerNote(matchId, shouldShow);
-            const radio_input = $(`input[type="radio"][name="ko_winner_of_match_${matchId}"]`);
-            radio_input.prop("hidden", !shouldShow);
+            $(`#ko_switch_input_${matchId}`).prop("hidden", !shouldShow);
             if (!shouldShow){
+                const radio_input = $(`input[type="radio"][name="ko_winner_of_match_${matchId}"]`);
                 radio_input.prop("checked", false);
                 colorScoreInputs(matchId);
             }

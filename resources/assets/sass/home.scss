@@ -179,9 +179,20 @@
 
 
 .form-control.open-match-input{
-  width: calc(100% - 16px);
-  margin-right: auto;
+  width: calc(100% - 25px);
+  margin-left: auto;
 }
+table {
+  > tbody {
+    > tr {
+      > td.open-match-teams-cell{
+        padding-right: 0px;
+        padding-left: 0px;
+      }
+    }
+  }
+}
+
 .open-matches-date-header{
   width: 120px;
 }
@@ -192,8 +203,11 @@
   .form-control.open-match-input{
     padding: 6px;
   }
+  .open-matches-bet-header{
+    width: 80px;
+  }
   .open-matches-date-header{
-    width: 100px;
+    width: 60px;
   }
   .open-matches-bet-cell{
     padding-left: 5px;
@@ -207,3 +221,5 @@
 .loser_color{
   color: red;
 }
+
+@import "ko_switch";
