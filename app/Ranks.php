@@ -13,7 +13,7 @@ class Ranks extends Model
 
     protected $cachedData = null;
 
-    protected function getData($key = null)
+    public function getData($key = null)
     {
         if (is_null($this->cachedData)) {
             $this->cachedData = json_decode($this->data, false);
