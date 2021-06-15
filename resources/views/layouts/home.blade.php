@@ -87,9 +87,24 @@
         <div class="collapse navbar-collapse" style="float: right!important;" id="myNavbar">
             
             <ul class="nav navbar-nav navbar-right">
-                <li class="{{ Route::currentRouteName() == "home" ? "active" : "" }}"><a href="/home">טבלת ניקוד</a></li>
-                <li class="{{ Route::currentRouteName() == "open-matches" ? "active" : "" }}"><a href="/open-matches">הימורים פתוחים</a></li>
-                <li class="{{ Route::currentRouteName() == "match-list" ? "active" : "" }}"><a href="/today-matches">צפייה בהימורים</a></li>
+                <li class="{{ Route::currentRouteName() == "home" ? "active" : "" }}">
+                    <a href="/home">
+                        <div class="icon podium_icon"></div>
+                        <span class="menu-label">טבלת ניקוד</span>
+                    </a>
+                </li>
+                <li class="{{ Route::currentRouteName() == "open-matches" ? "active" : "" }}">
+                    <a href="/open-matches">
+                        <div class="icon bet_icon"></div>
+                        <span class="menu-label">הימורים פתוחים</span>
+                    </a>
+                </li>
+                <li class="{{ Route::currentRouteName() == "match-list" ? "active" : "" }}">
+                    <a href="/today-matches">
+                        <div class="icon watch_bets_icon"></div>
+                        <span class="menu-label">צפייה בהימורים</span>
+                    </a>
+                </li>
                 
                 <?php
                     $group_bets_name = 'open-group-bets';
@@ -111,20 +126,44 @@
                 ?>
                 <li class="dropdown {{$is_selected ? 'active' : ''}}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        הימורים של לפני הטורניר<span class="caret" style="margin-right: 5px;"></span>
+                        <div class="icon pre_game_icon"></div>
+                        <span class="menu-label">הימורים של לפני הטורניר</span><span class="caret" style="margin-right: 5px;"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="{{$current_route_name == $group_bets_name ? 'active' : ''}}"><a href="{{$group_bets_link}}">{{$group_bets_label}}</a></li>
-                        <li class="{{$current_route_name == $special_bets_name ? 'active' : ''}}"><a href="{{$special_bets_link}}">{{$special_bets_label}}</a></li>
+                        <li class="{{$current_route_name == $group_bets_name ? 'active' : ''}}">
+                            <a href="{{$group_bets_link}}">
+                                <span class="menu-label">{{$group_bets_label}}</span>
+                            </a>
+                        </li>
+                        <li class="{{$current_route_name == $special_bets_name ? 'active' : ''}}">
+                            <a href="{{$special_bets_link}}">
+                                <span class="menu-label">{{$special_bets_label}}</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 
-                <li class="{{ Route::currentRouteName() == "my-bets" ? "active" : "" }}"><a href="/my-bets">הטופס שלי</a></li>
+                <li class="{{ Route::currentRouteName() == "my-bets" ? "active" : "" }}">
+                    <a href="/my-bets">
+                        <div class="icon form_icon"></div>
+                        <span class="menu-label">הטופס שלי</span>
+                    </a>
+                </li>
                 
             </ul>
             <ul class="nav navbar-nav navbar-left">
-                <li><a href="/set-password">שנה סיסמה</a></li>
-                <li><a href="/logout">התנתק</a></li>
+                <li>
+                    <a href="/set-password">
+                        <div class="icon change_password_icon"></div>
+                        <span class="menu-label">שנה סיסמה</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/logout">
+                        <div class="icon logout_icon"></div>
+                        <span class="menu-label">התנתק</span>
+                    </a>
+                </li>
             </ul>
            
         </div>
