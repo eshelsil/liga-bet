@@ -38,7 +38,13 @@ class HomeController extends Controller
         if (!$user->isConfirmed()){
             return  view('home')->with(["show_table" => false]);
         }
+
+        $bets = Bet::query()->get()->groupBy("user_id");
+
         $table = Ranks::query()->latest()->first()->getData();
+        foreach ($table as $row) {
+            $row->betsByType = $bets->get($row->id, collect())->groupBy("type");
+        }
 
         $teamsByExtId = Team::getTeamsByExternalId();
 

@@ -40,7 +40,6 @@
                             <div id="groups-{{$row->id}}" class="tab-pane fade in active" style="padding: 20px;">
                                 @php
                                     $betType = \App\Enums\BetTypes::Match;
-                                    $row->betsByType = collect($row->betsByType);
                                     $matchBets = $row->betsByType->has($betType) ? $row->betsByType[$betType] : collect();
                                 @endphp
                                 <h3>סה"כ: {{ $matchBets->sum("score") }}</h3>
