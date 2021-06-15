@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Ranks;
 use Illuminate\Http\Request;
 use App\DataCrawler\Crawler;
 use Illuminate\Support\Facades\Cache;
@@ -110,6 +111,8 @@ class ApiFetchController extends Controller
                 $this->calculateSpecialBets(['offensive_team']);
             }
         }
+
+        Ranks::updateRanks();
     }
 
     private function updateScorers($scorers) {

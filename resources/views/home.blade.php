@@ -16,7 +16,12 @@
             <div class="panel-group" style="margin-bottom: 0;">
                 <div class="panel panel-default">
                     <div class="panel-heading row rank-{{$row->rank}}" style="margin-right: 0;margin-left: 0;">
-                        <div class="col-xs-2 pull-right col-no-padding">{{$row->rank}}</div>
+                        <div class="col-xs-2 pull-right col-no-padding">
+                            {{$row->rankDisplay}}
+                            <span style="color: dimgrey">
+                                @if($row->change > 0) (+{{$row->change}}) @elseif($row->change < 0) ({{$row->change}}) @endif
+                            </span>
+                        </div>
                         <div class="col-xs-8 pull-right col-no-padding">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" href="#collapserank-{{$row->rank}}"><span class="admin">{{$row->id}} </span>{{$row->name}}</a>
@@ -35,6 +40,7 @@
                             <div id="groups-{{$row->id}}" class="tab-pane fade in active" style="padding: 20px;">
                                 @php
                                     $betType = \App\Enums\BetTypes::Match;
+                                    $row->betsByType = collect($row->betsByType);
                                     $matchBets = $row->betsByType->has($betType) ? $row->betsByType[$betType] : collect();
                                 @endphp
                                 <h3>סה"כ: {{ $matchBets->sum("score") }}</h3>

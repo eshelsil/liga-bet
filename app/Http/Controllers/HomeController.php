@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Match;
+use App\Ranks;
 use App\User;
 use App\Team;
 use App\Group;
@@ -37,27 +38,7 @@ class HomeController extends Controller
         if (!$user->isConfirmed()){
             return  view('home')->with(["show_table" => false]);
         }
-        $table = User::query()
-            ->where('permissions', '>', 0)
-            ->orWhere('permissions', -1)
-            ->select(["users.id", "users.name", DB::raw("sum(bets.score) as total_score")])
-            ->join("bets", function (JoinClause $join) {
-                $join->on("users.id", "=", "user_id");
-            })
-            ->groupBy("users.id", "users.name")
-            ->orderBy("total_score", "desc")
-            ->get();
-
-        $rank = 1;
-        /** @var User $user */
-        foreach ($table as $user) {
-            $user->rank = $rank;
-            $user->betsByType = $user->bets->groupBy("type");
-            if ($user->total_score === null){
-                $user->total_score = 0;
-            }
-            $rank++;
-        }
+        $table = Ranks::query()->latest()->first()->getData();
 
         $teamsByExtId = Team::getTeamsByExternalId();
 
