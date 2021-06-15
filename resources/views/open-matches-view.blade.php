@@ -47,16 +47,21 @@
                     $homeScoreInputClass = "";
                     $awayScoreInputClass = "";
                 }
+                $bet_winner_side = $match->bet ? $match->bet->getWinnerSide() : null;
             ?>
-            <tr>
+            <tr id="row_match_{{$match->id}}">
                 <td class="admin">{{ $match->id }}</td>
                 <td>
                     {{ DateTime::createFromFormat("U", $match->start_time)->setTimezone(new DateTimeZone("Asia/Jerusalem"))->format("Y/m/d H:i") }}
                 </td>
                 <td class="v-align-center">
-                    @include('widgets.teamWithFlag', $teamsByExtId[$match->team_home_id])
+                    @include('widgets.teamWithFlag', array_merge($teamsByExtId[$match->team_home_id]->toArray(), [
+                        "bet_is_winner"=> $bet_winner_side === "home",
+                    ]))
                     <br>
-                    @include('widgets.teamWithFlag', $teamsByExtId[$match->team_away_id])
+                    @include('widgets.teamWithFlag', array_merge($teamsByExtId[$match->team_away_id]->toArray(), [
+                        "bet_is_winner"=> $bet_winner_side === "away",
+                    ]))
                 </td>
                 <td class="open-matches-bet-cell">
                     <div class="row full-row">
@@ -93,21 +98,40 @@
             const winner_side = $(`input[type="radio"][name="ko_winner_of_match_${matchId}"]:checked`).val();
             const home_input = $(`#result-home-${matchId}`);
             const away_input = $(`#result-away-${matchId}`);
-            if (winner_side === undefined ){
-                home_input.removeClass("winner_color loser_color")
-                away_input.removeClass("winner_color loser_color")
+            if (winner_side == "away"){
+                away_input.addClass("winner_color").removeClass("loser_color")
+                home_input.addClass("loser_color").removeClass("winner_color")
             } else if (winner_side == "home") {
                 home_input.addClass("winner_color").removeClass("loser_color")
                 away_input.addClass("loser_color").removeClass("winner_color")
             } else {
-                away_input.addClass("winner_color").removeClass("loser_color")
-                home_input.addClass("loser_color").removeClass("winner_color")
+                home_input.removeClass("winner_color loser_color")
+                away_input.removeClass("winner_color loser_color")
             }
+            indicateCurrentWinner(matchId, winner_side);
         }
         
         function koWinnerInputChange(matchId){
             toggleKoWinnerNote(matchId, false);
             colorScoreInputs(matchId);
+        }
+
+        function indicateCurrentWinner(matchId, winner_side){
+            const bet_row = $(`#row_match_${matchId}`);
+            let [home_team_span, away_team_span] = bet_row.find("span.team_with_flag-span");
+            home_team_span = $(home_team_span);
+            away_team_span = $(away_team_span);
+
+            if (winner_side === "home"){
+                home_team_span.addClass('underlined');
+                away_team_span.removeClass('underlined');
+            } else if (winner_side === "away"){
+                home_team_span.removeClass('underlined');
+                away_team_span.addClass('underlined');
+            } else {
+                home_team_span.removeClass('underlined');
+                away_team_span.removeClass('underlined');
+            }
         }
 
         function scoreInputChange(matchId, matchType){
@@ -122,6 +146,20 @@
                 toggleKoWinnerInput(matchId, true);
             } else {
                 toggleKoWinnerInput(matchId, false);
+            }
+
+            if (away_val === "" || home_val === "" ){
+                indicateCurrentWinner(matchId, null);
+            } else {
+                const away_score = Number(away_val);
+                const home_score = Number(home_val);
+                if ( isNaN(away_score) || isNaN(home_score) || away_score === home_score ){
+                    indicateCurrentWinner(matchId, null);
+                } else if (home_score > away_score){
+                    indicateCurrentWinner(matchId, "home");
+                } else {
+                    indicateCurrentWinner(matchId, "away");
+                }
             }
         }
 
