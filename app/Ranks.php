@@ -52,6 +52,7 @@ class Ranks extends Model
             }
 
             $user->rank = $rank;
+            $user->rankDisplay = $user->rankDisplay ?? $rank;
 
             $user->change = $lastRanksByUserId->get($user->id) ? ($lastRanksByUserId->get($user->id)->rank - $rank) : 0;
 
