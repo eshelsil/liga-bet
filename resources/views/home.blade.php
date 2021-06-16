@@ -26,12 +26,12 @@
                         </div>
                         <div class="col-xs-8 pull-right col-no-padding">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" href="#collapserank-{{$row->rank}}"><span class="admin">{{$row->id}} </span>{{$row->name}}</a>
+                                <a data-toggle="collapse" href="#collapserank-{{$row->id}}"><span class="admin">{{$row->id}} </span>{{$row->name}}</a>
                             </h4>
                         </div>
                         <div class="col-xs-2 pull-right col-no-padding">{{$row->total_score}}</div>
                     </div>
-                    <div id="collapserank-{{$row->rank}}" class="panel-collapse collapse">
+                    <div id="collapserank-{{$row->id}}" class="panel-collapse collapse">
                         <ul class="nav nav-tabs" style="padding-right: 0px;">
                             <li class="active" style="float: right"><a data-toggle="tab" href="#groups-{{$row->id}}">משחקים</a></li>
                             <li style="float: right"><a data-toggle="tab" href="#group-ranks-{{$row->id}}">מיקומי בתים</a></li>
