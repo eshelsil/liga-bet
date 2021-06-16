@@ -26,7 +26,7 @@ class Ranks extends Model
     public static function updateRanks()
     {
         $table = User::query()
-                     ->select(["users.id", "users.name", DB::raw("sum(bets.score) as total_score")])
+                     ->select(["users.id", "users.name", DB::raw("COALESCE(sum(bets.score), 0) as total_score")])
                      ->where(function (Builder $q) {
                          $q->where('permissions', '>', 0)
                            ->orWhere('permissions', -1);
