@@ -41,28 +41,25 @@ class Ranks extends Model
         $lastRank = Ranks::query()->latest()->first();
         $lastRanksByUserId = collect($lastRank ? $lastRank->getData() : [])->keyBy("id");
 
-        $rank = 0;
-        $sameRankCounter = 0;
-        $lastScore = -1;
-        foreach ($table as $user) {
-            if ($lastScore == $user->total_score) {
-                $user->rankDisplay = "-";
-                $sameRankCounter++;
-            } else {
-                $sameRankCounter = null;
-                $lastScore = $user->total_score;
-                $rank++;
-            }
-
-            $user->rank = $rank + $sameRankCounter;
-            $user->rankDisplay = $user->rankDisplay ?? $rank;
-
-            $user->change = $lastRanksByUserId->get($user->id) ? ($lastRanksByUserId->get($user->id)->rank - $rank) : 0;
-
-            $user->betsByType = $user->bets->groupBy("type");
+        $lastUser = null;
+        foreach ($table as $i => $user) {
             if ($user->total_score === null){
                 $user->total_score = 0;
             }
+
+            if ($lastUser && $lastUser->total_score == $user->total_score) {
+                $user->rank = $lastUser->rank;
+                $user->rankDisplay = "-";
+            } else {
+                $user->rank = $user->rankDisplay = $i+1;
+            }
+
+            $user->change = $lastRanksByUserId->get($user->id) ? ($lastRanksByUserId->get($user->id)->rank - $i+1) : 0;
+
+            $user->betsByType = $user->bets->groupBy("type");
+
+            unset($user->bets);
+            $lastUser = $user;
         }
 
         Ranks::query()->create([
