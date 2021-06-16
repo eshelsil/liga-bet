@@ -49,6 +49,7 @@ class Ranks extends Model
                 $user->rankDisplay = "-";
                 $sameRankCounter++;
             } else {
+                $sameRankCounter = null;
                 $lastScore = $user->total_score;
                 $rank++;
             }
