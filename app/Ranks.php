@@ -54,7 +54,8 @@ class Ranks extends Model
                 $user->rank = $user->rankDisplay = $i+1;
             }
 
-            $user->change = $lastRanksByUserId->get($user->id) ? ($lastRanksByUserId->get($user->id)->rank - $i+1) : 0;
+            $user->change = $lastRanksByUserId->get($user->id) ? ($lastRanksByUserId->get($user->id)->rank - $user->rank) : 0;
+            $user->previousRank = $lastRanksByUserId->get($user->id) ? ($lastRanksByUserId->get($user->id)->rank) : "-";
 
             $user->betsByType = $user->bets->groupBy("type");
 
