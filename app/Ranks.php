@@ -42,16 +42,18 @@ class Ranks extends Model
         $lastRanksByUserId = collect($lastRank ? $lastRank->getData() : [])->keyBy("id");
 
         $rank = 0;
+        $sameRankCounter = 0;
         $lastScore = -1;
         foreach ($table as $user) {
             if ($lastScore == $user->total_score) {
                 $user->rankDisplay = "-";
+                $sameRankCounter++;
             } else {
                 $lastScore = $user->total_score;
                 $rank++;
             }
 
-            $user->rank = $rank;
+            $user->rank = $rank + $sameRankCounter;
             $user->rankDisplay = $user->rankDisplay ?? $rank;
 
             $user->change = $lastRanksByUserId->get($user->id) ? ($lastRanksByUserId->get($user->id)->rank - $rank) : 0;
