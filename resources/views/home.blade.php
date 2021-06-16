@@ -16,8 +16,11 @@
             <div class="panel-group" style="margin-bottom: 0;">
                 <div class="panel panel-default">
                     <div class="panel-heading row rank-{{$row->rank}}" style="margin-right: 0;margin-left: 0;">
-                        <div class="col-xs-2 pull-right col-no-padding">
+                        <div class="col-xs-1 pull-right col-no-padding">
                             {{$row->rankDisplay}}
+
+                        </div>
+                        <div class="col-xs-1 pull-right col-no-padding">
                             @if($row->change > 0)
                                 <bdi><span class="label label-success" style="direction: ltr;" dir="RTL">+{{$row->change}}</span></bdi>
                             @elseif($row->change < 0)
