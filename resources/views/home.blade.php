@@ -18,9 +18,11 @@
                     <div class="panel-heading row rank-{{$row->rank}}" style="margin-right: 0;margin-left: 0;">
                         <div class="col-xs-2 pull-right col-no-padding">
                             {{$row->rankDisplay}}
-                            <span style="color: dimgrey">
-                                @if($row->change > 0) (+{{$row->change}}) @elseif($row->change < 0) ({{$row->change}}) @endif
-                            </span>
+                            @if($row->change > 0)
+                                <bdi><span class="label label-success" style="direction: ltr;" dir="RTL">+{{$row->change}}</span></bdi>
+                            @elseif($row->change < 0)
+                                <bdi><span class="label label-danger" style="direction: ltr;" dir="RTL">{{$row->change}}</span></bdi>
+                            @endif
                         </div>
                         <div class="col-xs-8 pull-right col-no-padding">
                             <h4 class="panel-title">
