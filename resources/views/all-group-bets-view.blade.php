@@ -50,13 +50,13 @@
                                 $bet_data = $bet->getData();
                                 $bet_value = json_encode($bet_data);
                                 if (!array_key_exists($bet_value, $bettersByBetValue)){
-                                    $bettersByBetValue[$bet_value] = [];
+                                    $bettersByBetValue[$bet_value] = ["names" => [], "score" => $bet->score];
                                 }
-                                $bettersByBetValue[$bet_value][] = $user->name;
-                                $bettersByBetValue = collect($bettersByBetValue)->sort(function ($a, $b) {
-                                    return count($b) - count($a);
-                                })->toArray();
+                                $bettersByBetValue[$bet_value]["names"][] = $user->name;
                             }
+                            $bettersByBetValue = collect($bettersByBetValue)->sort(function ($a, $b) {
+                                return count($b['names']) - count($a['names']);
+                            })->toArray();
                         ?>
                     <table class="table">
                         <thead>
@@ -64,15 +64,20 @@
                                 <th class="col-xs-4">
                                     הימור
                                 </th>
-                                <th class="col-xs-8">
+                                <th class="col-xs-7">
                                     מהמרים
+                                </th>
+                                <th class="col-xs-1">
+                                    נק'
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($bettersByBetValue as $betValue => $names)
+                            @foreach($bettersByBetValue as $betValue => $bettersData)
                                 <?php    
                                     $bet_data = json_decode($betValue);
+                                    $names = $bettersData["names"];
+                                    $score = $bettersData["score"];
                                 ?>
                                 <tr>
                                     <td>
@@ -88,6 +93,7 @@
                                     @endforeach
                                     </td>
                                     <td>{!! implode('<br>', $names) !!}</td>
+                                    <td>{{ $score }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -100,8 +106,11 @@
                                 <th class="col-xs-4">
                                     שם
                                 </th>
-                                <th class="col-xs-8">
+                                <th class="col-xs-7">
                                     הימור
+                                </th>
+                                <th class="col-xs-1">
+                                    נק'
                                 </th>
                             </tr>
                         </thead>
@@ -125,6 +134,7 @@
                                             </div>
                                         @endforeach
                                         </td>
+                                        <td>{{ $bet->score }}</td>
                                     </tr>
                                 @endif
                             @endforeach
