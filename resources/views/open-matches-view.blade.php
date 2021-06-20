@@ -56,11 +56,13 @@
                 </td>
                 <td class="open-match-teams-cell v-align-center">
                     @include('widgets.teamWithFlag', array_merge($teamsByExtId[$match->team_home_id]->toArray(), [
-                        "bet_is_winner"=> $bet_winner_side === "home",
+                        "is_winner_bg"=> $bet_winner_side === "home",
+                        "is_loser_bg"=> $bet_winner_side === "away",
                     ]))
                     <br>
                     @include('widgets.teamWithFlag', array_merge($teamsByExtId[$match->team_away_id]->toArray(), [
-                        "bet_is_winner"=> $bet_winner_side === "away",
+                        "is_winner_bg"=> $bet_winner_side === "away",
+                        "is_loser_bg"=> $bet_winner_side === "home",
                     ]))
                 </td>
                 <td class="open-matches-bet-cell">
@@ -132,13 +134,17 @@
 
             if (winner_side === "home"){
                 home_team_span.addClass('bet-winner-bg');
+                home_team_span.removeClass('bet-loser-bg');
+                away_team_span.addClass('bet-loser-bg');
                 away_team_span.removeClass('bet-winner-bg');
             } else if (winner_side === "away"){
+                home_team_span.addClass('bet-loser-bg');
                 home_team_span.removeClass('bet-winner-bg');
                 away_team_span.addClass('bet-winner-bg');
+                away_team_span.removeClass('bet-loser-bg');
             } else {
-                home_team_span.removeClass('bet-winner-bg');
-                away_team_span.removeClass('bet-winner-bg');
+                home_team_span.removeClass('bet-winner-bg bet-loser-bg');
+                away_team_span.removeClass('bet-winner-bg bet-loser-bg');
             }
         }
 

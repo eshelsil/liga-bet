@@ -62,8 +62,9 @@
                                         $match = $matches->first(function(App\Match $match) use ($bet) { return $match->getID() == $bet->type_id; });
                                         $home_team = $teamsByExtId[$match->team_home_id];
                                         $away_team = $teamsByExtId[$match->team_away_id];
-                                        $resultDescription = $match->formatMatchResult();
+                                        $resultDescription = $match->formatMatchResult(["winner_class" => "bolded"]);
                                         $bet_winner_side = $bet->getWinnerSide();
+                                        $is_winner_underlined = $bet->getData('ko_winner_side') !== null;
                                         $match_winner_side = $match->getWinnerSide();
                                         ?>
                                         <li class="list-group-item row flex-row center-items col-no-padding" style="padding-left: 0px; padding-right: 10px;">
@@ -74,8 +75,8 @@
                                                         <tr class="flex-row" style="align-items: center;">
                                                             <td class="flex-row dir-ltr">
                                                                 @include('widgets.teamWithFlag', array_merge($home_team->toArray(),[
-                                                                    "bet_is_winner"=> $bet_winner_side === "home",
-                                                                    "match_is_winner"=> $match_winner_side === "home",
+                                                                    "is_underlined"=> $is_winner_underlined && $bet_winner_side === "home",
+                                                                    "is_bold"=> $match_winner_side === "home",
                                                                 ]))
                                                                 <span>({{$bet->getData("result-home")}})</span>
                                                             </td>
@@ -84,8 +85,8 @@
                                                             </td>
                                                             <td class="flex-row dir-ltr">
                                                                 @include('widgets.teamWithFlag', array_merge($away_team->toArray(),[
-                                                                    "bet_is_winner"=> $bet_winner_side === "away",
-                                                                    "match_is_winner"=> $match_winner_side === "away",
+                                                                    "is_underlined"=> $is_winner_underlined && $bet_winner_side === "away",
+                                                                    "is_bold"=> $match_winner_side === "away",
                                                                 ]))
                                                                 <span>({{$bet->getData("result-away")}})</span>
                                                             </td>

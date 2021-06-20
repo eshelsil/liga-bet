@@ -216,15 +216,16 @@ protected static $theFinal = null;
         return array_diff($this->getTeamIds(), [$this->getKnockoutWinner()])[0];
     }
 
-    public function formatMatchResult()
+    public function formatMatchResult($options = [])
     {
+        $winner_class = $options['winner_class'] ?? '';
         $winner_side = $this->getWinnerSide();
         $result_home = $this->result_home;
         $result_away = $this->result_away;
         if ($winner_side === "home"){
-            return $result_away.":<b>".$result_home."</b>";
+            return $result_away.":<span class=\"{$winner_class}\">".$result_home."</span>";
         } else if ($winner_side === "away"){
-            return "<b>".$result_away."</b>:".$result_home;
+            return "<span class=\"{$winner_class}\">".$result_away."</span>:".$result_home;
         }
         return $result_away.":".$result_home;
     }

@@ -73,8 +73,8 @@
                         <tbody>
                             <td>
                                 @include('widgets.teamWithFlag', array_merge($home_team->toArray(),[
-                                    "bet_is_winner"=> $bet_winner_side === "home",
-                                    "match_is_winner"=> $match_winner_side === "home",
+                                    "is_underlined"=> $bet_winner_side === "home",
+                                    "is_bold"=> $match_winner_side === "home",
                                 ]))
                             </td>
                             <td style="padding: 5px;">
@@ -82,18 +82,18 @@
                             </td>
                             <td>
                                 @include('widgets.teamWithFlag', array_merge($away_team->toArray(),[
-                                    "bet_is_winner"=> $bet_winner_side === "away",
-                                    "match_is_winner"=> $match_winner_side === "away",
+                                    "is_underlined"=> $bet_winner_side === "away",
+                                    "is_bold"=> $match_winner_side === "away",
                                 ]))
                             </td>
                         </tbody>
                     </table>
                 </td>
                 <td class="v-align-center">
-                    @if($userBet) {!! $userBet->formatMatchBet() !!} @endif
+                    @if($userBet) {!! $userBet->formatMatchBet(["winner_class" => "underlined"]) !!} @endif
                 </td>
                 <td class="v-align-center">
-                    @if($match->is_done) {!! $match->formatMatchResult() !!} @endif
+                    @if($match->is_done) {!! $match->formatMatchResult(["winner_class" => "bolded"]) !!} @endif
                 </td>
             </tr>
         @endforeach

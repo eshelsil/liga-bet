@@ -101,7 +101,7 @@
                     $bettersByBetValue = [];
                     foreach($match->getBets() as $bet){
                         if ($match->isKnockout()){
-                            $betVal = $bet->formatMatchBet();
+                            $betVal = $bet->formatMatchBet(["winner_class" => "bolded", "only_if_tied" => true]);
                         } else {
                             $betVal = "".$bet->getData("result-away").":".$bet->getData("result-home");
                         }
@@ -162,7 +162,7 @@
                         <td class="admin">{{$bet->user->id}}</td>
                         <td>{{$bet->user->name}}</td>
                         @if($match->isKnockout())
-                            <td>{!! $bet->formatMatchBet() !!}</td>
+                            <td>{!! $bet->formatMatchBet(["winner_class" => "bolded", "only_if_tied" => true]) !!}</td>
                         @else
                             <td>{{$bet->getData("result-away")}}:{{$bet->getData("result-home")}}</td>
                         @endif
