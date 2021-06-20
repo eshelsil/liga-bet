@@ -341,7 +341,7 @@ protected static $theFinal = null;
             $res[$key] = "{$goals}";
         }
         if($this->isKnockout() && $res['result-home'] == $res['result-away']){
-            $res['ko_winner_side'] == Arr::random(['home','away']);
+            $res['ko_winner_side'] = Arr::random(['home','away']);
         }
         return json_encode($res);
     }
