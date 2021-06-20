@@ -192,7 +192,8 @@ class HomeController extends Controller
         ->map(function($group){
             $group->teams = Team::where('group_id', $group->external_id)->get();
             return $group;
-        });
+        })
+        ->sortBy('name');
         $usersWhoBet = [];
         foreach($betsByUserId as $user_id => $bets){
             $user = $usersById[$user_id];
