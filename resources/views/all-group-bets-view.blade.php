@@ -55,6 +55,9 @@
                                 $bettersByBetValue[$bet_value]["names"][] = $user->name;
                             }
                             $bettersByBetValue = collect($bettersByBetValue)->sort(function ($a, $b) {
+                                if ($b['score'] !== $a['score'] ){
+                                    return $b['score'] - $a['score'];
+                                }
                                 return count($b['names']) - count($a['names']);
                             })->toArray();
                         ?>
@@ -115,9 +118,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($usersWhoBet as $user)
-                                <?php    
+                            <?php    
+                                $bet = $user->bets->where('type_id', $group->id)->first();
+                                $rows = collect($usersWhoBet)->map(function($user) use($group){
                                     $bet = $user->bets->where('type_id', $group->id)->first();
+                                    return ["user" => $user, "bet" => $bet, "score" => $bet->score ?? null];
+                                });
+                                $rows = collect($rows)->sortByDesc("score")->toArray();
+                            ?>
+                            @foreach($rows as $row)
+                                <?php    
+                                    $bet = $row['bet'];
+                                    $user = $row['user'];
+                                    $score = $row['score'];
                                 ?>
                                 @if ($bet)
                                     <tr>
@@ -134,7 +147,7 @@
                                             </div>
                                         @endforeach
                                         </td>
-                                        <td>{{ $bet->score }}</td>
+                                        <td>{{ $score }}</td>
                                     </tr>
                                 @endif
                             @endforeach
