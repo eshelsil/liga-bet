@@ -122,18 +122,19 @@ class SpecialBet implements BetableInterface
         $score_for_stage = 5;
 
         $score = 0;
-        $ko_games = Match::getTeamKnockoutGames($team_id);
+        $team_ext_id = Team::find($team_id)->external_id;
+        $ko_games = Match::getTeamKnockoutGames($team_ext_id);
         if ($ko_games->count() == 0){
             return null;
         }
-        $ko_games->each(function($game) use($score){
+        foreach($ko_games as $game){
             if ($game->sub_type == 'FINAL'){
                 return;
             }
-            if ($game->getKnockoutWinner() == $team_id){
+            if ($game->getKnockoutWinner() == $team_ext_id){
                 $score += $score_for_stage;
             }
-        });
+        }
         return $score;
     }
 
