@@ -52,7 +52,11 @@ class SpecialBet implements BetableInterface
                 array_push($best_offensive_teams, $teamId);
             }
         }
-        return $best_offensive_teams;
+        
+        $teamExtIdToId = Team::getExternalIdToIdMap();
+        return array_map(function($ext_team_id) use($teamExtIdToId){
+            return $teamExtIdToId[$ext_team_id];
+        }, $best_offensive_teams);
     }
 
     public function calculateOffensiveTeam($team_id){
