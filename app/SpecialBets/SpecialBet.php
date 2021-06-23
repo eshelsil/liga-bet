@@ -35,19 +35,15 @@ class SpecialBet implements BetableInterface
             return null;
         }
         $gsByTeamId = [];
-
-        $teams = Team::all(["id", "external_id"])->keyBy("external_id");
         foreach($matches as $match){
             $goals_data = $match->getGoalsData();
-            foreach($goals_data as $externalTeamId => $gs){
-                $teamId = $teams->get($externalTeamId)->id;
+            foreach($goals_data as $teamId => $gs){
                 if (!in_array($teamId, $gsByTeamId)){
                     $gsByTeamId[$teamId] = 0;
                 }
                 $gsByTeamId[$teamId] += $gs;
             }
         }
-
         $gs_values = array_values($gsByTeamId);
         $max_gs = max($gs_values);
         $best_offensive_teams = [];

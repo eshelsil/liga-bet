@@ -46,7 +46,7 @@ class HomeController extends Controller
             $row->betsByType = $bets->get($row->id, collect())->groupBy("type");
         }
 
-        $teamsByExtId = Team::all()->keyBy('external_id');
+        $teamsByExtId = Team::getTeamsByExternalId();
 
         return view('home')->with(["table" => $table, "matches" => Match::all(), "teamsByExtId" => $teamsByExtId]);
     }
@@ -61,7 +61,7 @@ class HomeController extends Controller
         $done_matches = $matches[1] ?? collect([]);
         $done_matches = $done_matches->reverse();
         $onging_matches = $matches[0] ?? [];
-        $teamsByExtId = Team::all()->keyBy('external_id');
+        $teamsByExtId = Team::getTeamsByExternalId();
 
         return view("matches-view")->with([
             "done_matches" => $done_matches,
@@ -108,7 +108,7 @@ class HomeController extends Controller
         /** @var User $user */
         $user = Auth::user();
         $matches = $user->getOpenMatches();
-        $teamsByExtId = Team::all()->keyBy('external_id');
+        $teamsByExtId = Team::getTeamsByExternalId();
 
 
         return view("open-matches-view")->with([
@@ -164,7 +164,7 @@ class HomeController extends Controller
             $hasData = $groupRankBet !== null;
             return $hasData;
         });
-        $teamsById = Team::all()->keyBy("id");
+        $teamsById = Team::getTeamsById();
         return view("open-group-bets-view")->with([
             "user" => $user,
             'groupsTeamsData' => $groupsTeamsData,
