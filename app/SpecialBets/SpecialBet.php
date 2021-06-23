@@ -39,9 +39,9 @@ class SpecialBet implements BetableInterface
             $goals_data = $match->getGoalsData();
             foreach($goals_data as $teamId => $gs){
                 if (!in_array($teamId, $gsByTeamId)){
-                    $gsByTeamId[$teamID] = 0;
+                    $gsByTeamId[$teamId] = 0;
                 }
-                $gsByTeamId[$teamID] += $gs;
+                $gsByTeamId[$teamId] += $gs;
             }
         }
         $gs_values = array_values($gsByTeamId);
