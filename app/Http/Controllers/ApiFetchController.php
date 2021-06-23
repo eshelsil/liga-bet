@@ -110,9 +110,8 @@ class ApiFetchController extends Controller
             if (Match::isGroupStageDone()){
                 $this->calculateSpecialBets(['offensive_team']);
             }
+            Ranks::updateRanks();
         }
-
-        Ranks::updateRanks();
     }
 
     private function updateScorers($scorers) {
