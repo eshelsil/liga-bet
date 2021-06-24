@@ -213,7 +213,7 @@ protected static $theFinal = null;
 
     public function getKnockoutLoser()
     {
-        return array_diff($this->getTeamIds(), [$this->getKnockoutWinner()])[0];
+        return array_values(array_diff($this->getTeamIds(), [$this->getKnockoutWinner()]))[0];
     }
 
     public function formatMatchResult($options = [])

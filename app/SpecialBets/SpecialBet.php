@@ -100,13 +100,18 @@ class SpecialBet implements BetableInterface
         return in_array($player_name, $topAssitsPlayers) ? $score : 0;
     }
 
+    private static function getTeamId($team_ext_id){
+        $teams = static::getTeamsCollection();
+        $team = $teams->where('external_id', $team_ext_id)->first();
+        return $team->id;
+    }
 
     public function getChampions(){
         $final = Match::getFinalMatchIfDone();
         if (!$final){
             return null;
         }
-        return $final->getKnockoutWinner();
+        return self::getTeamId($final->getKnockoutWinner());
     }
 
     public function getRunnerUp(){
@@ -114,7 +119,7 @@ class SpecialBet implements BetableInterface
         if (!$final){
             return null;
         }
-        return $final->getKnockoutLoser();
+        return self::getTeamId($final->getKnockoutLoser());
     }
 
 
@@ -146,7 +151,7 @@ class SpecialBet implements BetableInterface
         if (!$final){
             return $score;
         }
-        if ($final->getKnockoutWinner() == $team_id){
+        if (self::getTeamId($final->getKnockoutWinner()) == $team_id){
             $score += $score_for_winning_final;
         }
         return $score;
