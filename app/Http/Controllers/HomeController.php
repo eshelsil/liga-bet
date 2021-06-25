@@ -214,15 +214,7 @@ class HomeController extends Controller
      */
     public function showAllSpecialBets()
     {
-        /** @var User $user */
-        $usersById = User::all(['name', 'id'])->groupBy('id')->map(
-            function($coll){return $coll->first();}
-        );
-        $bets = Bet::where("type", BetTypes::SpecialBet)->get()
-            ->map(function($bet) use($usersById){
-                $bet->user;
-                return $bet;
-            });
+        $bets = Bet::where("type", BetTypes::SpecialBet)->get();
         $specialBets = SpecialBet::all();
         return view("all-special-bets-view")->with([
             "bets" => $bets,
@@ -235,6 +227,15 @@ class HomeController extends Controller
     public function showTerms()
     {
         return view("takanon");
+    }
+
+    public function registerFCMToken(Request $request) {
+        /** @var User $user */
+        $user = $request->user();
+        $user->fcm_token = $request->getContent() ?: null;
+        $user->save();
+
+        return redirect("/");
     }
 
 }

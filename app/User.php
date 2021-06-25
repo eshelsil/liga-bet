@@ -2,26 +2,19 @@
 
 namespace App;
 
-use App\Bets\BetGroupRank\BetGroupRank;
-use App\Bets\BetGroupRank\BetGroupRankRequest;
-use App\Bets\BetSpecialBets\BetSpecialBets;
-use App\Bets\BetSpecialBets\BetSpecialBetsRequest;
 use App\Enums\BetTypes;
-use App\Exceptions\JsonException;
-use App\Group;
-use App\Match;
-use App\Bet;
 use App\SpecialBets\SpecialBet;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Query\JoinClause;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class User
  *
  * @property integer id
  * @property string name
+ * @property string fcm_token
+ * @property  Bet[]|Collection   bets
  */
 class User extends Authenticatable
 {
@@ -149,7 +142,7 @@ class User extends Authenticatable
 
     private function autoGenerateBet($type, $type_id, $data){
         if (!$this->isMonkey()){
-            throw new InvalidArgumentException("Cannot auto-generate bets for a user who is not a monkey");
+            throw new \InvalidArgumentException("Cannot auto-generate bets for a user who is not a monkey");
         }
         $bet = new Bet();
         $bet->user_id = $this->id;
@@ -161,7 +154,7 @@ class User extends Authenticatable
 
     public function autoBetPreTournament(){
         if (!$this->isMonkey()){
-            throw new InvalidArgumentException("Cannot auto-generate bets for a user who is not a monkey");
+            throw new \InvalidArgumentException("Cannot auto-generate bets for a user who is not a monkey");
         }
         Group::all()->each(function($group){
             $type = BetTypes::GroupsRank;
@@ -185,7 +178,7 @@ class User extends Authenticatable
 
     public function autoBetNewMatches(){
         if (!$this->isMonkey()){
-            throw new InvalidArgumentException("Cannot auto-generate bets for a user who is not a monkey");
+            throw new \InvalidArgumentException("Cannot auto-generate bets for a user who is not a monkey");
         }
         $ids_with_bet = $this->bets()->where('type', BetTypes::Match)->pluck('type_id');
         Match::whereNotIn('id', $ids_with_bet)->get()->each(function($match){
