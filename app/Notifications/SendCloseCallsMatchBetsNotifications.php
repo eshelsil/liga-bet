@@ -16,6 +16,7 @@ class SendCloseCallsMatchBetsNotifications
     public function sendNotifications()
     {
         $closeCallMatches = Match::query()
+            ->isDone(false)
             ->where("start_time", "<", now()->addMinutes(15)->format("U"))
             ->get();
 
