@@ -40,7 +40,7 @@ class SendCloseCallsMatchBetsNotifications
 
         $users = User::query()->select(["users.*", "match_id"])
             ->whereNotNull("fm_token")
-            ->with(["bets", function ($q) use ($closeCallMatches) {
+            ->with(["bets" => function ($q) use ($closeCallMatches) {
                     $q->whereIn("match_id", $closeCallMatches->pluck("id"));
                 }
             ])
