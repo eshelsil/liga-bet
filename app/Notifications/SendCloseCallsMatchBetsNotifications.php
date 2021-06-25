@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Enums\BetTypes;
 use App\Match;
 use App\Team;
 use App\User;
@@ -24,8 +25,7 @@ class SendCloseCallsMatchBetsNotifications
             return;
         }
         $teams = Team::query()
-            ->whereIn("external_id",
-                $closeCallMatches->pluck("team_home_id")
+            ->whereIn("external_id", $closeCallMatches->pluck("team_home_id")
                     ->concat($closeCallMatches->pluck("team_away_id"))
             )->get()
              ->keyBy("external_id");
@@ -41,7 +41,8 @@ class SendCloseCallsMatchBetsNotifications
         $users = User::query()
             ->whereNotNull("fcm_token")
             ->with(["bets" => function ($q) use ($closeCallMatches) {
-                    $q->whereIn("match_id", $closeCallMatches->pluck("id"));
+                    $q->where("type", BetTypes::Match)
+                      ->whereIn("type_id", $closeCallMatches->pluck("id"));
                 }
             ])
             ->get();

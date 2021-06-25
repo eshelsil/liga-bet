@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Log;
 
 class Handler extends ExceptionHandler
 {
@@ -34,6 +35,9 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        Log::critical($exception->getMessage() . ($this->context() ? "\r\n" . json_encode($this->context()) : ""));
+        Log::debug("Exception class (" . get_class($exception) . ") StackTrace:\n{$exception->getTraceAsString()}");
+
         parent::report($exception);
     }
 
