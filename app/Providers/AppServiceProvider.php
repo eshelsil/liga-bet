@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -26,6 +29,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        App::terminating(function() {
+            Log::debug("[Runtime][" . Request::method() . "] " . Request::getRequestUri() . " " .
+                       (defined('LARAVEL_START') ? round((microtime(true) - LARAVEL_START), 4) : 0));
+        });
     }
 }

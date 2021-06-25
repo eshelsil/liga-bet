@@ -14,6 +14,7 @@ use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -230,12 +231,18 @@ class HomeController extends Controller
     }
 
     public function registerFCMToken(Request $request) {
+        Log::debug("[HomeController][registerFCMToken] Got request");
+
         /** @var User $user */
-        $user = $request->user();
+        if (!$user = $request->user()) {
+            Log::debug("[HomeController][registerFCMToken] Got request");
+
+            return redirect("/login?fcm-no-user=1");
+        }
         $user->fcm_token = $request->getContent() ?: null;
         $user->save();
 
-        return redirect("/");
+        return redirect("/home");
     }
 
 }
