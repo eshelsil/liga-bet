@@ -76,6 +76,7 @@ class SendCloseCallsMatchBetsNotifications
 
                 // Instantiate the push notification request object.
                 $notifications[$key] = (new \Fcm\Push\Notification())
+                    ->setClickAction("המר עכשיו")
                     ->setTitle($body)
                     ->setBody($subject);
 
