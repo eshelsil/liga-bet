@@ -13,7 +13,7 @@ class AddColumnFcmNotificationUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->string("fcm_token")->nullable();
         });
     }
@@ -25,7 +25,7 @@ class AddColumnFcmNotificationUsersTable extends Migration
      */
     public function down()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->dropColumn("fcm_token");
         });
     }
