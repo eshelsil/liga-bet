@@ -21,6 +21,10 @@ Route::get('/admin', function () {
 Auth::routes();
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
+Route::post('register-token', function (\Illuminate\Http\Request $request) {
+    var_dump(["user" => $request->user(), "data" => $request->getContent()]);
+});
+
 Route::get("/home", 'HomeController@index')->middleware("auth")->name('home');
 Route::get("/today-matches", 'HomeController@showTodayMatches')->middleware("auth")->middleware("confirmed_user")->name('match-list');
 Route::get("/my-bets", 'HomeController@showMyBets')->middleware("auth")->middleware("confirmed_user")->name('my-bets');
