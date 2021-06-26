@@ -48,6 +48,13 @@ class AdminController extends Controller
         return view('admin.confirm_users')->with(["users_to_confirm" => $users_to_confirm]);
     }
 
+
+    public function sendGlobalNotification(Request $request)
+    {
+        User::query()->whereNotNull("fcm_token")->get()->map->sendNotifications($request->get("title"), $request->get("body"));
+        return response()->json('Done', 200);
+    }
+
     public function showConfirmedUsers()
     {
         $users = User::query()->where('permissions', '>', 0)->get();

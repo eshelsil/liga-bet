@@ -4,6 +4,7 @@ namespace App;
 
 use App\Enums\BetTypes;
 use App\SpecialBets\SpecialBet;
+use Fcm\FcmClient;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -187,5 +188,19 @@ class User extends Authenticatable
             $data = $match->generateRandomBetData();
             $this->autoGenerateBet($type, $type_id, $data);
         });
+    }
+
+    public function sendNotifications($title, $body){
+        if (!$this->fcm_token) {
+            return;
+        }
+        /** @var FcmClient $client */
+        $client = app('FcmClient');
+        $req = (new \Fcm\Push\Notification())
+            ->setTitle($title)
+            ->setBody($body)
+            ->addRecipient($this->fcm_token);
+
+        return $client->send($req);
     }
 }

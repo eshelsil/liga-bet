@@ -30,6 +30,16 @@
             callAjax('/admin/user-set-name', {username, new_name})
         }
     }
+    function sendGlobalNotification(){
+        let title = prompt("Enter the title");
+        let body = prompt("Enter the body");
+        if ( title != null && body != null ) {
+            callAjax('/admin/send-global-notifications', {
+                "title": title,
+                "body": body,
+            })
+        }
+    }
     function decopmleteMatch(){
         let match_id = prompt("Enter match ID:");
         if (match_id != null) {
@@ -134,6 +144,8 @@
         <h2 style="direction: ltr; text-align: left;">Tools:</h2><br>
         <a href="/admin/users-to-confirm">Users To Confirm</a><br>
         <a href="/admin/confirmed-users">Confirmed Users</a><br>
+        <br>
+        <a href="javascript:sendGlobalNotification()">Send Global Notifications</a><br>
         <br>
         <a href="javascript:createMonkey()">Create a monkey user (if not exists)</a><br>
         <a href="javascript:setNameOfUser()">Update user's name [input params]</a><br>

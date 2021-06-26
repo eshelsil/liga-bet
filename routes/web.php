@@ -36,6 +36,7 @@ Route::get('/set-password', 'UserController@showSetPassword');
 Route::put('/set-password', 'UserController@setPassword');
 Route::get('/api-fetch-games', 'ApiFetchController@userUpdateGames');
 
+Route::post('/admin/send-global-notification', 'AdminController@sendGlobalNotification');
 Route::get('/admin/users-to-confirm', 'AdminController@showUsersToConfirm')->name('users-to-confirm');
 Route::get('/admin/confirmed-users', 'AdminController@showConfirmedUsers')->name('confirmed-users');
 Route::post('/admin/set-permission', 'AdminController@setPermission');
