@@ -17,7 +17,7 @@ class SendCloseCallsMatchBetsNotifications
     {
         $closeCallMatches = Match::query()
             ->isDone(false)
-            ->where("start_time", "<", now()->addMinutes(15)->format("U"))
+            ->where("start_time", "<", now()->addMinutes(30)->format("U"))
             ->get();
 
         if ($closeCallMatches->isEmpty()) {
@@ -85,7 +85,7 @@ class SendCloseCallsMatchBetsNotifications
 
             $notifications[$key]->addRecipient($user->fcm_token);
 
-            Cache::put(self::_CACHE_KEY_CLOSE_CALLS_BETS . ":u:" . $user->id, $missingBetsMatches->pluck("id")->toJson(), 60);
+            Cache::put(self::_CACHE_KEY_CLOSE_CALLS_BETS . ":u:" . $user->id, $missingBetsMatches->pluck("id")->toJson(), 250);
         }
 
         $client = app('FcmClient');
