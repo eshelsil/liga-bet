@@ -6,6 +6,7 @@ use App\Enums\BetTypes;
 use App\Match;
 use App\Team;
 use App\User;
+use Fcm\FcmClient;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
@@ -88,6 +89,7 @@ class SendCloseCallsMatchBetsNotifications
             Cache::put(self::_CACHE_KEY_CLOSE_CALLS_BETS . ":u:" . $user->id, $missingBetsMatches->pluck("id")->toJson(), 250);
         }
 
+        /** @var FcmClient $client */
         $client = app('FcmClient');
 
 //        $req = (new \Fcm\Push\Notification())->setTitle("הזדמנות אחרונה לשליחת הימורי חברים")
@@ -100,7 +102,8 @@ class SendCloseCallsMatchBetsNotifications
             //     - custom icon file must be in drawable resource, if not set, FCM displays launcher icon in app manifest
 
             // Send the notification to the Firebase servers for further handling.
-            $client->send($notification);
+            $result = $client->send($notification);
+            Log::debug("[SendCloseCallsMatches] Sent: " . json_encode($result));
         }
     }
 }
