@@ -34,7 +34,7 @@
         let title = prompt("Enter the title");
         let body = prompt("Enter the body");
         if ( title != null && body != null ) {
-            callAjax('/admin/send-global-notifications', {
+            callAjax('/admin/send-global-notification', {
                 "title": title,
                 "body": body,
             })

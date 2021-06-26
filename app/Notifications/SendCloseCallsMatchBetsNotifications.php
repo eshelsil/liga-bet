@@ -88,12 +88,7 @@ class SendCloseCallsMatchBetsNotifications
             Cache::put(self::_CACHE_KEY_CLOSE_CALLS_BETS . ":u:" . $user->id, $missingBetsMatches->pluck("id")->toJson(), 60);
         }
 
-        // Instantiate the client with the project api_token and sender_id.
-        $client = new \Fcm\FcmClient(
-            // TODO: Env vars
-            "AAAA0HFSolE:APA91bEuTxclSUzGDpTDSr8Hwd9yAu1puQHX-pVR2c_T7-AVPfkVDhkLbWipmCkQ7CwCPVv5Y7GEd3upMVIu_AicAaa7lTB03TGymKv3Q-l09cCPl1ltfgvaz-WvZx6ZfgCTAd2Eoztb",
-            895254438481
-        );
+        $client = app('FcmClient');
 
 //        $req = (new \Fcm\Push\Notification())->setTitle("הזדמנות אחרונה לשליחת הימורי חברים")
 //                                            ->setBody('Notification body')
