@@ -58,6 +58,22 @@ class Crawler
             }
         }
 
+        $result_home = null;
+        $result_away = null;
+        if ($is_done){
+            $result_home_ft = data_get($match_json, 'score.fullTime.homeTeam');
+            $result_away_ft = data_get($match_json, 'score.fullTime.awayTeam');
+            if (data_get($match_json, 'score.duration') === 'REGULAR'){
+                $result_home = $result_home_ft;
+                $result_away = $result_away_ft;
+            } else {
+                $result_home_et = data_get($match_json, 'score.extraTime.homeTeam');
+                $result_away_et = data_get($match_json, 'score.extraTime.awayTeam');
+                $result_home = $result_home_ft - $result_home_et;
+                $result_away = $result_away_ft - $result_away_et;
+            }
+        }
+
         return [
             'id' => data_get($match_json, 'id'),
             'type' => $type,
@@ -65,8 +81,8 @@ class Crawler
             'team_home_id' => $home_team_id,
             'team_away_id' => $away_team_id,
             'start_time' => $start_time ? $start_time->format("U") : null,
-            'result_home'  => data_get($match_json, 'score.fullTime.homeTeam'),
-            'result_away'  => data_get($match_json, 'score.fullTime.awayTeam'),
+            'result_home'  => $result_home,
+            'result_away'  => $result_away,
             'is_done' => $is_done,
             'ko_winner' => $ko_winner
         ];
