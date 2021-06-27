@@ -44,7 +44,7 @@ class SendCloseCallsMatchBetsNotifications
             ->whereNotNull("fcm_token")
             ->with(["bets" => function ($q) use ($closeCallMatches) {
                     $q->where("type", BetTypes::Match)
-                      ->whereIn("type_id", $closeCallMatches->pluck("id"));
+                      ->whereNotIn("type_id", $closeCallMatches->pluck("id"));
                 }
             ])
             ->get();
@@ -58,12 +58,11 @@ class SendCloseCallsMatchBetsNotifications
             Log::debug("[SendCloseCallsMatches] Checking user {$user->id}, with already sent: {$alreadySentMatchIdsStr}");
 
             $missingBetsMatches = $closeCallMatches->filter(function (Match $match) use ($user, $alreadySentMatchIds) {
-                return ! $user->bets->contains("match_id", $match->id) && !in_array($match->id, $alreadySentMatchIds);
+                return ! $user->bets->where("type", BetTypes::Match)->where("type_id", $match->id)->exists() && !in_array($match->id, $alreadySentMatchIds);
             })->sortBy("id");
 
             if ($missingBetsMatches->isEmpty()) {
-                Log::debug("[SendCloseCallsMatches] Shouldn't send anything..");
-                Cache::forget(self::_CACHE_KEY_CLOSE_CALLS_BETS . ":u:" . $user->id);
+                Log::debug("[SendCloseCallsMatches] Shouldn't send anything.. for user [username:{$user->username}]");
                 continue;
             }
 
