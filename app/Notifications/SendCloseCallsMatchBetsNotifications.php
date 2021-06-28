@@ -88,7 +88,7 @@ class SendCloseCallsMatchBetsNotifications
 
             $notifications[$key]->addRecipient($user->fcm_token);
 
-            Cache::put(self::_CACHE_KEY_CLOSE_CALLS_BETS . ":u:" . $user->id, $missingBetsMatches->pluck("id")->toJson(), 250);
+            Cache::put(self::_CACHE_KEY_CLOSE_CALLS_BETS . ":u:" . $user->id, json_encode(array_merge($alreadySentMatchIds, $missingBetsMatches->pluck("id")->toArray())), 250);
         }
 
         /** @var FcmClient $client */
