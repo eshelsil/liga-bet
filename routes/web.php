@@ -65,6 +65,8 @@ Route::post('/admin/user-set-name', 'AdminController@setNametoUser');
 Route::delete('/admin/delete-user', 'AdminController@deleteUser');
 Route::post('/admin/create-monkey-user', 'AdminController@createMonkey');
 
+Route::get('/notifications/send', 'NotificationsController@sendAll');
+
 Route::get('/debug/get-table-ids/{name}', 'DebugController@getTableIds');
 Route::get('/debug/get-full-table/{name}', 'DebugController@getFullTable');
 Route::get('/debug/scorers-simple-data', 'DebugController@getScorersIntuitiveData');
