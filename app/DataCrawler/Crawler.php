@@ -63,14 +63,22 @@ class Crawler
         if ($is_done){
             $result_home_ft = data_get($match_json, 'score.fullTime.homeTeam');
             $result_away_ft = data_get($match_json, 'score.fullTime.awayTeam');
-            if (data_get($match_json, 'score.duration') === 'REGULAR'){
+            $result_home_et = data_get($match_json, 'score.extraTime.homeTeam');
+            $result_away_et = data_get($match_json, 'score.extraTime.awayTeam');
+            $result_home_penalties = data_get($match_json, 'score.penalties.homeTeam');
+            $result_away_penalties = data_get($match_json, 'score.penalties.awayTeam');
+            $duration = data_get($match_json, 'score.duration');
+            if ($duration === 'REGULAR'){
                 $result_home = $result_home_ft;
                 $result_away = $result_away_ft;
-            } else {
-                $result_home_et = data_get($match_json, 'score.extraTime.homeTeam');
-                $result_away_et = data_get($match_json, 'score.extraTime.awayTeam');
+            } else if ($duration === 'EXTRA_TIME'){
                 $result_home = $result_home_ft - $result_home_et;
                 $result_away = $result_away_ft - $result_away_et;
+            } else if ($duration === 'PENALTY_SHOOTOUT'){
+                $result_home = $result_home_ft - $result_home_et - $result_home_penalties;
+                $result_away = $result_away_ft - $result_away_et - $result_away_penalties;
+            } else {
+                throw new \Exception("Cannot parse score from match due to unrecognised 'duration' value: [${$duration}]");
             }
         }
 
