@@ -7,32 +7,36 @@
     @if ($show_table)
         <h1>טבלה עדכנית</h1>
         @if (!\App\Group::areBetsOpen())
-            <div class="row" style="margin: 0;">
-                <div class="col-xs-2 pull-right">מקום</div>
-                <div class="col-xs-8 pull-right">שם</div>
-                <div class="col-xs-2 pull-right">ניקוד</div>
+            <div class="row" style="margin: 0; padding: 5px 15px;">
+                <div class="col-xs-2 pull-right col-no-padding" style="text-align: center;">מיקום</div>
+                <div class="col-xs-8 pull-right col-no-padding" style="padding-right: 7px;">שם</div>
+                <div class="col-xs-2 pull-right col-no-padding" style="padding-right: 7px; text-align: center;">ניקוד</div>
             </div>
-            @foreach($table as $row)
+            @foreach($table as $i=>$row)
             <div class="panel-group" style="margin-bottom: 0;">
                 <div class="panel panel-default">
                     <div class="panel-heading row rank-{{$row->rank}}" style="margin-right: 0;margin-left: 0;">
-                        <div class="col-xs-1 pull-right col-no-padding">
-                            {{$row->rankDisplay}}
-
-                        </div>
-                        <div class="col-xs-1 pull-right col-no-padding">
-                            @if($row->change > 0)
+                        <div class="col-xs-2 pull-right col-no-padding">
+                            <div class="col-xs-6 col-no-padding">{{$row->rankDisplay}}</div>
+                            <div class="col-xs-6 col-no-padding" style="margin-right: -7px; margin-left: 7px; margin-top: -2px;">
+                                @if($row->change > 0)
                                 <bdi><span class="label label-success" style="direction: ltr;" dir="RTL">+{{$row->change}}</span></bdi>
-                            @elseif($row->change < 0)
+                                @elseif($row->change < 0)
                                 <bdi><span class="label label-danger" style="direction: ltr;" dir="RTL">{{$row->change}}</span></bdi>
-                            @endif
+                                @endif
+                            </div>
                         </div>
-                        <div class="col-xs-8 pull-right col-no-padding">
+                        <div class="col-xs-8 pull-right col-no-padding" style="margin-top: 2px;">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" href="#collapserank-{{$row->id}}"><span class="admin">{{$row->id}} </span>{{$row->name}}</a>
                             </h4>
                         </div>
-                        <div class="col-xs-2 pull-right col-no-padding">{{$row->total_score}}{{($row->addedScore ?? -1) > 0 ? '  (+'.$row->addedScore.')' : ''}}</div>
+                        <div class="col-xs-1 pull-right col-no-padding">
+                            @if(($row->addedScore ?? 0 > 0) && $i != 1)
+                                <bdi><span class="label label-success" style="direction: ltr;" dir="RTL">+{{$row->addedScore}}</span></bdi>
+                            @endif
+                        </div>
+                        <div class="col-xs-1 pull-right col-no-padding" style="padding-right: 7px;">{{$row->total_score}}</div>
                     </div>
                     <div id="collapserank-{{$row->id}}" class="panel-collapse collapse">
                         <ul class="nav nav-tabs" style="padding-right: 0px;">
