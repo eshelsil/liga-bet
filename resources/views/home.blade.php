@@ -32,7 +32,7 @@
                                 <a data-toggle="collapse" href="#collapserank-{{$row->id}}"><span class="admin">{{$row->id}} </span>{{$row->name}}</a>
                             </h4>
                         </div>
-                        <div class="col-xs-2 pull-right col-no-padding">{{$row->total_score}}</div>
+                        <div class="col-xs-2 pull-right col-no-padding">{{$row->total_score}}{{($row->addedScore ?? -1) > 0 ? '  (+'.$row->addedScore.')' : ''}}</div>
                     </div>
                     <div id="collapserank-{{$row->id}}" class="panel-collapse collapse">
                         <ul class="nav nav-tabs" style="padding-right: 0px;">
