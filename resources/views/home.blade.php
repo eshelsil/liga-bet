@@ -12,7 +12,7 @@
                 <div class="col-xs-8 pull-right col-no-padding" style="padding-right: 7px;">שם</div>
                 <div class="col-xs-2 pull-right col-no-padding" style="padding-right: 7px; text-align: center;">ניקוד</div>
             </div>
-            @foreach($table as $i=>$row)
+            @foreach($table as $row)
             <div class="panel-group" style="margin-bottom: 0;">
                 <div class="panel panel-default">
                     <div class="panel-heading row rank-{{$row->rank}}" style="margin-right: 0;margin-left: 0;">
@@ -32,7 +32,7 @@
                             </h4>
                         </div>
                         <div class="col-xs-1 pull-right col-no-padding">
-                            @if(($row->addedScore ?? 0 > 0) && $i != 1)
+                            @if($row->addedScore ?? 0 > 0)
                                 <bdi><span class="label label-success" style="direction: ltr;" dir="RTL">+{{$row->addedScore}}</span></bdi>
                             @endif
                         </div>
