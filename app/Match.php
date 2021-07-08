@@ -266,14 +266,10 @@ protected static $theFinal = null;
     public static function getFinalMatchIfDone()
     {
         $final = static::getFinalMatch();
-        static::$theFinal = Match::where('type', 'knockout')
-            ->where('sub_type', 'FINAL')
-            ->isDone(true)
-            ->get();
         if ($final->where('is_done', true)->count() == 0){
             return null;
         }
-        return $final;
+        return $final->first();
     }
 
     public function getID()
