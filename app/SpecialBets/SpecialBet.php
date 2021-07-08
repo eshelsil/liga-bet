@@ -134,7 +134,7 @@ class SpecialBet implements BetableInterface
         }
         foreach($ko_games as $game){
             if ($game->sub_type == 'FINAL'){
-                return;
+                continue;
             }
             if ($game->getKnockoutWinner() == $team_ext_id){
                 $score += $score_for_stage;
