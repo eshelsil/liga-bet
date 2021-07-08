@@ -50,6 +50,9 @@ Route::get('/admin/add-scorer', 'AdminController@showAddScorer');
 Route::post('/admin/add-scorer', 'AdminController@addScorer');
 Route::get('/admin/init-scorers', 'AdminController@saveDefaultScorers');
 Route::put('/admin/format-custom-answers', 'AdminController@formatSpecialBetsCustomAnswer');
+Route::post('/admin/create-rank-row', 'AdminController@createNewRankingRow');
+Route::post('/admin/update-last-rank-row', 'AdminController@updateLastRankingRow');
+Route::post('/admin/delete-last-rank-row', 'AdminController@removeLastRankingRow');
 
 Route::get('/admin/decomplete-match/{id}', 'AdminController@removeMatchResult');
 Route::get('/admin/complete-match/{id}/{scoreHome?}/{scoreAway?}/{isAwayWinner?}', 'AdminController@completeMatch');

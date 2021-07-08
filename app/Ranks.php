@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\JoinClause;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
 class Ranks extends Model
@@ -67,5 +68,63 @@ class Ranks extends Model
         Ranks::query()->create([
             "data" => json_encode($table->toArray(), JSON_UNESCAPED_UNICODE),
         ]);
+    }
+
+    public static function updateLastRank()
+    {
+        $table = User::query()
+                     ->select(["users.id", "users.name", DB::raw("COALESCE(sum(bets.score), 0) as total_score")])
+                     ->where(function (Builder $q) {
+                         $q->where('permissions', '>', 0)
+                           ->orWhere('permissions', -1);
+                     })
+                     ->join("bets", function (JoinClause $join) {
+                         $join->on("users.id", "=", "user_id");
+                     })
+                     ->groupBy("users.id")
+                     ->orderBy("total_score", "desc")
+                     ->get();
+
+        $lastRank = Ranks::query()->latest()->first();
+        $lastRanksByUserId = collect($lastRank ? $lastRank->getData() : [])->keyBy("id");
+
+        $lastUser = null;
+        foreach ($table as $i => $user) {
+            if ($user->total_score === null){
+                $user->total_score = 0;
+            }
+
+            if ($lastUser && $lastUser->total_score == $user->total_score) {
+                $user->rank = $lastUser->rank;
+                $user->rankDisplay = "-";
+            } else {
+                $user->rank = $user->rankDisplay = $i+1;
+            }
+
+            $lastUserRank = $lastRanksByUserId->get($user->id);
+            $user->change = $lastUserRank ? ($lastUserRank->previousRank - $user->rank) : 0;
+            $user->previousRank = $lastUserRank ? ($lastUserRank->previousRank) : "-";
+
+            $user->addedScore = $lastUserRank ? ($user->total_score - $lastUserRank->total_score + $lastUserRank->addedScore) : 0;
+
+
+            unset($user->bets);
+            $lastUser = $user;
+        }
+
+        echo "Squashing new rank into last rank (which created at $lastRank->created_at) <br>";
+
+        $lastRank->data = json_encode($table->toArray(), JSON_UNESCAPED_UNICODE);
+        $lastRank->save();
+        
+        Log::debug("Squashed new rank into last rank (which created at $lastRank->created_at)");
+    }
+
+    public static function removeLastRank()
+    {
+        $lastRank = Ranks::query()->latest()->first();
+        echo "Removing rank created at $lastRank->created_at <br>";
+        $lastRank->delete();
+        Log::debug("Removed rank created at $lastRank->created_at");
     }
 }

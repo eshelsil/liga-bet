@@ -117,6 +117,15 @@
             window.location = `/debug/get-full-table/${name}`;
         }
     }
+    function createNewRankState(){
+        callAjax('/admin/create-rank-row', {}, 'POST')
+    }
+    function fixLastRankState(){
+        callAjax('/admin/update-last-rank-row', {}, 'POST')
+    }
+    function removeLastRankState(){
+        callAjax('/admin/delete-last-rank-row', {}, 'POST')
+    }
     function createMonkey(){
         callAjax('/admin/create-monkey-user', {}, 'POST')
     }
@@ -154,6 +163,10 @@
         <a href="/admin/add-scorer">Add player to scorers table</a><br>
         <a href="/admin/remove-irrelevant-scorers">Remove irrelevant players from scorers table</a><br>
         <a href="javascript:formatCustomAnswers()">Replace special bets custom answer (on mvp & most_assists) [input params]</a><br>
+        <br>
+        <a href="javascript:createNewRankState()">Update ranking by creating new state</a><br>
+        <a href="javascript:fixLastRankState()">[DANGER] Update ranking by squashing current state to last state</a><br>
+        <a href="javascript:removeLastRankState()">[DANGER] Remove last ranking state</a><br>
         <br>
         <a href="/admin/calc-special-bets">Calculate all special bets</a><br>
         <a href="javascript:calcSpecialBet()">Calculate special bet of single type [input params]</a><br>

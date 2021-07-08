@@ -16,6 +16,7 @@ use App\Team;
 use App\Group;
 use App\User;
 use App\Scorer;
+use App\Ranks;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
@@ -173,6 +174,21 @@ class AdminController extends Controller
         foreach ($completedGroups as $group){
             $group->calculateBets();
         }
+        return 'DONE';
+    }
+
+    public function createNewRankingRow(){
+        Ranks::updateRanks();
+        return 'DONE';
+    }
+    
+    public function updateLastRankingRow(){
+        Ranks::updateLastRank();
+        return 'DONE';
+    }
+    
+    public function removeLastRankingRow(){
+        Ranks::removeLastRank();
         return 'DONE';
     }
 
