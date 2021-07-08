@@ -35,6 +35,7 @@ Route::get('/terms', 'HomeController@showTerms')->middleware("auth");
 Route::get('/set-password', 'UserController@showSetPassword');
 Route::put('/set-password', 'UserController@setPassword');
 Route::get('/api-fetch-games', 'ApiFetchController@userUpdateGames');
+Route::post('/summary-msg-seen', 'HomeController@summaryMessageSeen')->middleware("auth");
 
 Route::post('/admin/send-global-notification', 'AdminController@sendGlobalNotification');
 Route::get('/admin/users-to-confirm', 'AdminController@showUsersToConfirm')->name('users-to-confirm');

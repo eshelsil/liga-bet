@@ -3,6 +3,11 @@
 @php
     $show_table = $show_table ?? true;
 @endphp
+
+@include('widgets.congrats', [
+    "summary_msg" => $summary_msg,
+])
+
 @section('content')
     @if ($show_table)
         <h1>טבלה עדכנית</h1>

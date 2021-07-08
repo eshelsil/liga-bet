@@ -14,6 +14,7 @@ use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
@@ -43,13 +44,70 @@ class HomeController extends Controller
         $bets = Bet::query()->get()->groupBy("user_id");
 
         $table = Ranks::query()->latest()->first()->getData();
+        $summary_msg = $this->getSummaryMessage($table);
         foreach ($table as $row) {
             $row->betsByType = $bets->get($row->id, collect())->groupBy("type");
         }
 
         $teamsByExtId = Team::getTeamsByExternalId();
 
-        return view('home')->with(["table" => $table, "matches" => Match::all(), "teamsByExtId" => $teamsByExtId]);
+        return view('home')->with([
+            "table" => $table,
+            "matches" => Match::all(),
+            "teamsByExtId" => $teamsByExtId,
+            "summary_msg" => $summary_msg,
+        ]);
+    }
+
+    public function summaryMessageSeen()
+    {
+        $user_id = Auth::user()->id;
+        Cache::put("TOURNAMENT_SUMMARY_MESSAGE". ":u_id:" . $user_id, "seen", 60 * 3);
+    }
+
+    private function getSummaryMessage($rankTable)
+    {   
+
+        if (!Match::isTournamentDone() || !SpecialBet::hasAllCustomAnswers()){
+            return null;
+        }
+        $final = Match::getFinalMatch();
+        if (now()->addHours(24 * -3)->timestamp > $final->start_time){
+            return null;
+        }
+        $user_id = Auth::user()->id;
+        if (Cache::get("TOURNAMENT_SUMMARY_MESSAGE". ":u_id:" . $user_id)){
+            return null;
+        };
+        $user_row = collect($rankTable)->first(function($row) use($user_id){
+            return $row->id == $user_id;
+        });
+        if (!$user_row){
+            return null;
+        }
+        $rank = $user_row->rank;
+        if ($rank == 1){
+            return "winner";
+        } else if ($rank == 2){
+            return "runner_up";
+        } else if ($rank == 3){
+            return "3rd";
+        } else if ($rank == 4){
+            return "4th";
+        } else if ($rank == 5){
+            return "almost_money";
+        } else if (5 < $rank && $rank <= 7){
+            return "bottom_of_top";
+        } else if (7 < $rank && $rank <= 11){
+            return "middle";
+        } else if (11 < $rank && $rank <= 14){
+            return "top_of_bottom";
+        } else if ($rank == 15){
+            return "almost_last";
+        } else if ($rank == 16){
+            return "last";
+        }
+        return null;
     }
 
     public function showTodayMatches()

@@ -294,6 +294,10 @@ class SpecialBet implements BetableInterface
         };
     }
 
+    public static function hasAllCustomAnswers(){
+        return !is_null(config('bets.topAssists')) && !is_null(config('bets.mvp'));
+    }
+
     private function formatTeamDescription($answer){
         $teams = static::getTeamsCollection();
         $team = $teams->find($answer);
