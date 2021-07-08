@@ -158,7 +158,7 @@ class SpecialBet implements BetableInterface
     }
 
     public function getTopScorers(){
-        return Scorer::getTopScorers();
+        return Scorer::getTopScorers() ?? collect([]);
     }
 
     public function calcTopScorer($player_id){

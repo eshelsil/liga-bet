@@ -24,7 +24,7 @@ class Scorer extends Model
             return static::$top_scorers;
         }
         $most_goals = static::getTopGoalsCount();
-        if ($most_goals = null){
+        if ($most_goals == null){
             return null;
         }
         return static::$top_scorers = Scorer::where('goals', $most_goals)->get();
