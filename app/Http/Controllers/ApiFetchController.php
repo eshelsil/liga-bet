@@ -117,11 +117,17 @@ class ApiFetchController extends Controller
     private function updateScorers($scorers) {
         $relevantScorers = Scorer::all();
         $saveFirstAnyway = Match::isTournamentDone();
+        $mostGoals = null;
         foreach ($scorers as $index => $scorer){
             $id = data_get($scorer, 'player.id');
             if (!in_array($id, $relevantScorers->pluck('external_id')->toArray())){
-                $saveAnyway = $index == 0 && $saveFirstAnyway;
-                if (!$saveAnyway){
+                if (!$saveFirstAnyway){
+                    continue;
+                };
+                if ($index == 0){
+                    $mostGoals = data_get($scorer, 'numberOfGoals');
+                } else if (data_get($scorer, 'numberOfGoals') !== $mostGoals){
+                    $saveFirstAnyway = false;
                     continue;
                 }
                 $scorerModel = new Scorer();
