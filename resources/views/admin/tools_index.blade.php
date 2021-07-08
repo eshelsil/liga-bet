@@ -156,6 +156,8 @@
         <br>
         <a href="javascript:sendGlobalNotification()">Send Global Notifications</a><br>
         <br>
+        <a href="/admin/download-data">Download initial data (teams, matches & scorers)</a><br>
+        <br>
         <a href="javascript:createMonkey()">Create a monkey user (if not exists)</a><br>
         <a href="javascript:setNameOfUser()">Update user's name [input params]</a><br>
         <a href="javascript:deleteUser()">[DANGER] Delete a user [input params]</a><br>
