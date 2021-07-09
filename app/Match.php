@@ -260,16 +260,16 @@ protected static $theFinal = null;
         }
         return static::$theFinal = Match::where('type', 'knockout')
             ->where('sub_type', 'FINAL')
-            ->get();
+            ->first();
     }
     
     public static function getFinalMatchIfDone()
     {
         $final = static::getFinalMatch();
-        if ($final->where('is_done', true)->count() == 0){
+        if (is_null($final) || !$final->is_done){
             return null;
         }
-        return $final->first();
+        return $final;
     }
 
     public function getID()
