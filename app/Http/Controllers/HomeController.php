@@ -62,7 +62,7 @@ class HomeController extends Controller
     public function summaryMessageSeen()
     {
         $user_id = Auth::user()->id;
-        Cache::put("TOURNAMENT_SUMMARY_MESSAGE". ":u_id:" . $user_id, "seen", 60 * 3);
+        Cache::put("TOURNAMENT_SUMMARY_MESSAGE". ":u_id:" . $user_id, "seen", 60);
     }
 
     private function getSummaryMessage($rankTable)
