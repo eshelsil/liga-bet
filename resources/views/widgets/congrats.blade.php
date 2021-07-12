@@ -575,7 +575,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', (event) => {
-        setTimeout(renderCongrats, 2000);
+        renderCongrats();
     });
 
 </script>
