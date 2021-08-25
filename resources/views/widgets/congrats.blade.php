@@ -342,27 +342,6 @@
 <script>
     const summary_msg = "{{$summary_msg}}";
 
-    // if (localStorage.last_i === undefined){
-    //     localStorage.last_i = 0
-    // }
-    // last_i = Number(localStorage.last_i);
-    // console.log(last_i)
-    // localStorage.last_i = last_i+1
-    
-    // const msgs=[
-    //     "winner",
-    //     "runner_up",
-    //     "3rd",
-    //     "4th",
-    //     "almost_money",
-    //     "bottom_of_top",
-    //     "middle",
-    //     "top_of_bottom",
-    //     "almost_last",
-    //     "last",
-    // ]
-    // const summary_msg = msgs[last_i];
-
 
     function takeTrophy(){
         $(".fix-bg-wrapper").addClass("taken-animation");
