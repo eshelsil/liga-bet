@@ -284,6 +284,11 @@ class HomeController extends Controller
         return view("takanon");
     }
 
+    public function showArticles()
+    {
+        return view("articles");
+    }
+
     public function registerFCMToken(Request $request) {
         Log::debug("[HomeController][registerFCMToken] Got request");
 

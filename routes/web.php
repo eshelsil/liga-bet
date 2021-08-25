@@ -32,6 +32,7 @@ Route::get('/open-special-bets', 'HomeController@showOpenSpecialBets')->middlewa
 Route::get('/all-group-bets', 'HomeController@showAllGroupBets')->middleware("auth")->middleware("confirmed_user")->middleware("group_bets_closed")->name('all-group-bets');
 Route::get('/all-special-bets', 'HomeController@showAllSpecialBets')->middleware("auth")->middleware("confirmed_user")->middleware("group_bets_closed")->name('all-special-bets');
 Route::get('/terms', 'HomeController@showTerms')->middleware("auth");
+Route::get('/articles', 'HomeController@showArticles')->middleware("auth");
 Route::get('/set-password', 'UserController@showSetPassword');
 Route::put('/set-password', 'UserController@setPassword');
 Route::get('/api-fetch-games', 'ApiFetchController@userUpdateGames');
