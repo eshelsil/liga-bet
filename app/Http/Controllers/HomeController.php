@@ -71,10 +71,6 @@ class HomeController extends Controller
         if (!Match::isTournamentDone() || !SpecialBet::hasAllCustomAnswers()){
             return null;
         }
-        $final = Match::getFinalMatch();
-        if (now()->addHours(24 * -3)->timestamp > $final->start_time){
-            return null;
-        }
         $user_id = Auth::user()->id;
         if (Cache::get("TOURNAMENT_SUMMARY_MESSAGE". ":u_id:" . $user_id)){
             return null;
