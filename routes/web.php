@@ -23,6 +23,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect('/home');
 });
+
+Route::get('/react', function () {
+    return view('layouts.react');
+});
 Route::get('/admin', function () {
     return redirect('/admin/index');
 });
