@@ -74,6 +74,11 @@
     </style>
 </head>
 <body style="direction: rtl;" dir="rtl">
+    <script>
+        window.php_data = {
+            user: @json(Auth::user()->toArray())
+        }
+    </script>
     <div id="root"></div>
 </body>
 <script src="js/main.js"></script>

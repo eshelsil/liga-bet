@@ -1,157 +1,104 @@
-import React from 'react';
-import { Route, Router, Switch } from 'react-router-dom';
-import { useLocation } from 'react-router-dom'
-
+import React, { useEffect, useState, useContext } from 'react';
+import { Route, DefaultRoute, Router, Switch } from 'react-router-dom';
 import { createBrowserHistory } from "history";
-// import { Container, Row } from 'react-bootstrap';
 
-// import AppHeader from './app_header/app_header';
-// import AuthController from './authenticate/auth_controller';
-// import GameConnectionController from './connect_game/game_conn_controller';
-// import LobbyPage from './game_lobby/lobby_controller';
-// import ServerErrorModal from './widgets/modal_error';
+import AppHeader from './app_header/AppHeader';
+import { UserProvider, UserContext } from './user/user';
+import { TournamentProvider } from './tournament/tournament';
+import Leaderboard from './leaderboard/leaderboard';
 import './App.scss';
-
-const routesMap = {
-  "home": {
-    label: "טבלת ניקוד",
-    iconClass: "podium_icon"
-  },
-  "open-matches": {
-    label: "הימורים פתוחים",
-    iconClass: "bet_icon"
-  },
-  "today-matches": {
-    label: "צפייה בהימורים",
-    iconClass: "watch_bets_icon"
-  },
-  "open-group-bets": {
-    label: "הימורי בתים פתוחים",
-  },
-  "open-special-bets": {
-    label: "הימורים מיוחדים פתוחים",
-  },
-  "all-group-bets": {
-    label: "צפייה בהימורי בתים",
-  },
-  "all-special-bets": {
-    label: "צפייה בהימורים מיוחדים",
-  },
-  "my-bets": {
-    label: "הטופס שלי",
-    iconClass: "form_icon",
-  },
-  "set-password": {
-    label: "שנה סיסמה",
-    iconClass: "change_password_icon",
-  },
-  "logout": {
-    label: "התנתק",
-    iconClass: "logout_icon",
-  },
-}
-function AppHeader(props){
-  const {user, isTourStarted} = props;
-  const location = useLocation();
-  const currentRoute = location.pathname.substring(1);
-  
-  const groupBetsRoute = isTourStarted ? "all-group-bets" : "open-group-bets";
-  const specialBetsRoute = isTourStarted ? "all-special-bets" : "open-special-bets";
-
-  const isPreTourActive = ["all-group-bets", "all-special-bets", "open-group-bets", "open-special-bets"].includes(currentRoute);
-
-  function renderMenuItem(route){
-    const isActive = currentRoute === route;
-    const {iconClass, label} = routesMap[route];
-    return <li key={route} className={isActive ? "active" : ""}>
-      <a href={`/${route}`}>
-        {iconClass ? <div className={`icon ${iconClass}`}></div> : null}
-        <span className="menu-label">{label}</span>
-      </a>
-    </li>
-  }
-  return <nav className="navbar navbar-inverse">
-    <div className="container-fluid">
-        <div className="navbar-header" style={{"float": "right!important", "textAlign": "right"}}>
-            <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-            </button>
-            <a className="navbar-brand" href="/home">יורו חברים - {user.name}</a>
-        </div>
-        <div className="collapse navbar-collapse" style={{"float": "right!important"}} id="myNavbar">
-            
-            <ul className="nav navbar-nav navbar-right">
-                {renderMenuItem("home")}
-                {renderMenuItem("open-matches")}
-                {renderMenuItem("today-matches")}
-                
-                <li key={"preTourBets"} className={`dropdown ${isPreTourActive ? "active" : ""}`}>
-                  <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                    <div className="icon pre_game_icon"></div>
-                    <span className="menu-label">הימורים של לפני הטורניר</span><span className="caret" style={{"marginRight": "5px"}}></span>
-                  </a>
-                  <ul className="dropdown-menu">
-                    {renderMenuItem(groupBetsRoute)}
-                    {renderMenuItem(specialBetsRoute)}
-                  </ul>
-                </li>
-                {renderMenuItem("my-bets")}
-                
-            </ul>
-            <ul className="nav navbar-nav navbar-left">
-                {renderMenuItem("set-password")}
-                {renderMenuItem("logout")}
-            </ul>
-           
-        </div>
-    </div>
-</nav>
-}
-
 
 const customHistory = createBrowserHistory();
 
-function App(props) {
+function Content(){
+	const user = useContext(UserContext);
+	if (!user.isConfirmed){
+		return <h2>האתר יהיה זמין לך ברגע שתאושר על ידי אחד מהאדמינים</h2>
+	}
+	return <React.Fragment>
+		<Switch>
+		{/* <Route exact path="/leaderboard" component={GameConnectionController}/> */}
+		<Route exact path="/home" component={Leaderboard} />
+		<Route path="/">
+			<h1>EURO FRIENDS</h1>;
+		</Route>
+	</Switch>
+	</React.Fragment>
+}
 
-  const isAdmin = true
-  return <React.Fragment>
-     <Router history={customHistory}>
+function AppLinks(props){
+	const { isAdmin } = props;
+	return <React.Fragment>
+		<p><a href="/articles">כתבות</a></p>
+		<p><a href="/terms">תקנון</a></p>
+		{isAdmin ? <p><a href="/admin/index">Admin Tools</a></p> : null}
+	</React.Fragment>
+}
 
-      <AppHeader user={{name: "eshel"}} isTourStarted={false}></AppHeader>
-      <div className="container-fluid text-center">
-        <div className="row content">
-          <div className="col-sm-2 sidenav">
-              <p><a href="/articles">כתבות</a></p>
-              <p><a href="/terms">תקנון</a></p>
-              {isAdmin ? <p><a href="/admin/index">Admin Tools</a></p> : null}
-          </div>
-          <div className="col-sm-8 text-left">
-            <h1>EURO FRIENDS</h1>
-          </div>
-          <div className="col-sm-2 sidenav">
-              <div className="well rank-1">
-                  <p>מקום ראשון<br></br>1800 ₪</p>
-              </div>
-              <div className="well rank-2">
-                  <p>מקום שני<br></br>800 ₪</p>
-              </div>
-              <div className="well rank-3">
-                  <p>מקום שלישי<br></br>400 ₪</p>
-              </div>
-              <div className="well rank-4">
-                  <p>מקום רביעי<br></br>200 ₪</p>
-              </div>
-          </div>
-        </div>
-      </div>
-      
-      <footer className="container-fluid text-center">
-        <p></p>
-      </footer>
-     </Router>
-  </React.Fragment>
+function TournamentPrizes(props){
+	const [prizes, setPrizes] = useState({});
+	useEffect(()=>{
+		//get prizes from API
+		const gotFromAPI = {
+			1: {
+				id: 1,
+				label: "מקום ראשון",
+				amount: "1800 ₪",
+			},
+			2: {
+				id: 2,
+				label: "מקום שני",
+				amount: "800 ₪",
+			},
+			3: {
+				id: 3,
+				label: "מקום שלישי",
+				amount: "400 ₪",
+			},
+			4: {
+				id: 4,
+				label: "מקום רביעי",
+				amount: "200 ₪",
+			},
+		}
+		setPrizes(gotFromAPI);
+	}, []);
+	function renderPrize(prize){
+		const {id, label, amount} = prize;
+		return <div key={id} className={`well rank-${id}`}>
+			<p>{label}<br></br>{amount}</p>
+		</div>
+	}
+	return <React.Fragment>
+		{Object.values(prizes).map(renderPrize)}
+	</React.Fragment>
+}
+
+function App() {
+	const isAdmin = true
+	return <UserProvider>
+		<TournamentProvider>
+			<Router history={customHistory}>
+				<AppHeader isTourStarted={false}></AppHeader>
+				<div className="container-fluid text-center">
+					<div className="row content">
+						<div className="col-sm-2 sidenav">
+						<AppLinks isAdmin={isAdmin}></AppLinks>
+						</div>
+						<div className="col-sm-8 text-left">
+							<Content></Content>
+						</div>
+						<div className="col-sm-2 sidenav">
+							<TournamentPrizes></TournamentPrizes>
+						</div>
+					</div>
+				</div>
+				<footer className="container-fluid text-center">
+					<p></p>
+				</footer>
+			</Router>
+		</TournamentProvider>
+	</UserProvider>
 }
 
 export default App;
