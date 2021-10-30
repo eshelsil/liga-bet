@@ -18,7 +18,7 @@ function Content(){
 	return <React.Fragment>
 		<Switch>
 		{/* <Route exact path="/leaderboard" component={GameConnectionController}/> */}
-		<Route exact path="/home" component={Leaderboard} />
+		<Route exact path="/react" component={Leaderboard} />
 		<Route path="/">
 			<h1>EURO FRIENDS</h1>;
 		</Route>

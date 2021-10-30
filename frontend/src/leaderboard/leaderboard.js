@@ -14,6 +14,9 @@ function Leaderboard(props){
 
 	const [rows, setRows] = useState({});
 	const [matches, setMatches] = useState({});
+	const [teams, setTeams] = useState({});
+	const [groups, setGroups] = useState({});
+	const [specialBetResults, setSpecialBets] = useState({});
 	useEffect(()=>{
 		//get data from API
 		const gotFromAPI = {
@@ -41,7 +44,7 @@ function Leaderboard(props){
 						name: "Group A",
 						id: "GROUP_A",
 						isDone: true,
-						score: 6,
+						score: 3,
 						positions: {
 							1: 10,
 							2: 12,
@@ -49,6 +52,18 @@ function Leaderboard(props){
 							4: 11,
 						}
 					}
+				},
+				specialBets:{
+					1: {
+						id: 1,
+						score: null,
+						bet: "haim"
+					},
+					2: {
+						id: 2,
+						score: 10,
+						bet: 7,
+					},
 				}
 
 			}
@@ -71,10 +86,75 @@ function Leaderboard(props){
 				id: 3,
 			}
 		}
+		const gotFromAPI_teams = {
+			10: {
+				name: "Belgium",
+				id: 10,
+				crest_url: "https://localhost/1111"
+			},
+			9: {
+				name: "Denemark",
+				id: 9,
+				crest_url: "https://localhost/1111"
+			},
+			11: {
+				name: "Russia",
+				id: 11,
+				crest_url: "https://localhost/1111"
+			},
+			12: {
+				name: "Finland",
+				id: 12,
+				crest_url: "https://localhost/1111"
+			}
+		}
+		const gotFromAPI_groups = {
+			"GROUP_A": {
+				name: "Group A",
+				id: "GROUP_A",
+				isDone: true,
+				positions: {
+					1: 12,
+					2: 10,
+					3: 9,
+					4: 11,
+				}
+			}
+		}
+		const gotFromAPI_specialBets = {
+			1: {
+				name: "Top Scorer",
+				id: 1,
+				isDone: false,
+			},
+			2: {
+				name: "Most offensive team",
+				id: 2,
+				isDone: true,
+				answer: 7,
+			},
+		}
 		setRows(gotFromAPI);
 		setMatches(gotFromAPI_matches);
+		setTeams(gotFromAPI_teams);
+		setGroups(gotFromAPI_groups);
+		setSpecialBets(gotFromAPI_specialBets);
 	}, [])
 
+	function renderPosition(position, team_id){
+		console.log('teams', teams)
+		const team = teams[team_id];
+		console.log('team', team, team_id)
+		if (!team){
+			return
+		}
+		return <div key={position} className="flex-row">
+			<span>({position}) </span>
+			<TeamWithFlag name={team.name} crest_url={team.crest_url}
+			></TeamWithFlag>
+		</div>
+	}
+	
 	function renderRankChange(change){
 		if (change > 0){
 			return <bdi><span className="label label-success" style={{direction: "ltr"}} dir="RTL">+{change}</span></bdi>
@@ -83,44 +163,46 @@ function Leaderboard(props){
 		}
 		return null;
 	}
+
+	function renderSpecialBetScore(specialBet){
+		const { id, score, bet } = specialBet;
+		const specialBetResult = specialBetResults[id];
+		const {name, isDone, answer} = specialBetResult;
+		// TODO: format special bet answer
+		if (!isDone){
+			return;
+		}
+		return <li key={id} className="list-group-item row flex-row col-no-padding" style={{paddingRight: "10px"}}>
+			<div className="col-xs-1 pull-right col-no-padding">{score}</div>
+			<div className="col-xs-3 pull-right col-no-padding">{name}</div>
+			<div className="col-xs-4 pull-right col-no-padding">{bet}</div>
+			<div className="col-xs-4 pull-right col-no-padding">
+				<div>{answer}</div>
+			</div>
+		</li>
+	}
+
 	function renderGroupRankScore(group){
-		const {isDone, score, positions} = group;
+		const {isDone, id, score, positions} = group;
 		if (!isDone){
 			return null;
 		}
-		return <li className="list-group-item row flex-row  col-no-padding">
+		return <li key={id} className="list-group-item row flex-row  col-no-padding">
 			<div className="col-xs-2 pull-right col-no-padding" style={{paddingRight: "15px"}}>{score}</div>
 			<div className="col-xs-5 pull-right col-no-padding">
-			@foreach($positions as $position)
-			@php
-				$bet_team_id = $bet->getData($position);
-				$bet_team = $teamsById[$bet_team_id];
-			@endphp
-			
-				<div className="flex-row">
-					<span>({{$position}}) </span>
-					@include('widgets.teamWithFlag', $bet_team)
-				</div>
-			@endforeach
-		</div>
-		<div className="col-xs-5 pull-right col-no-padding">
-			@foreach($positions as $position)
-			@php
-				$res_team_id = $group->getTeamIDByPosition($position);
-				$res_team = $teamsById[$res_team_id];
-			@endphp
-				<div className="flex-row">
-					<span>({{$position}}) </span>
-					@include('widgets.teamWithFlag', $res_team)
-				</div>
-			@endforeach
-		</div>
-	</li>
-		const matchData = matches[id];
-		if (!matchData){
-			return null;
-		}
+				{Object.entries(positions).map(([position, team_id])=>{
+					return renderPosition(position, team_id);
+				})}
+			</div>
+			<div className="col-xs-5 pull-right col-no-padding">
+				{Object.keys(positions).map((position)=>{
+					const team_id = groups[id]['positions'][position];
+					return renderPosition(position, team_id);
+				})}
+			</div>
+		</li>
 	}
+
 	function renderMatchScore(match){
 		const {id, score, bet} = match;
 		const matchData = matches[id];
@@ -159,13 +241,14 @@ function Leaderboard(props){
 		</li>
 	}
 	function renderRow(row){
-		const {rank, rankDisplay, change, id, name, addedScore, relevantMatchBets, groupRankBets, total_score} = row;
+		const {rank, rankDisplay, change, id, name, addedScore, relevantMatchBets, groupRankBets, specialBets, total_score} = row;
 		const matchesScore = relevantMatchBets.reduce((sum, match) => (sum + match.score) , 0);
-		const groupRankScore = groupRankBets.reduce((sum, group) => (sum + (group.score ?? 0)) , 0);
+		const groupRankScore = Object.values(groupRankBets).reduce((sum, group) => (sum + (group.score ?? 0)) , 0);
+		const specialBetScore = Object.values(specialBets).reduce((sum, bet) => (sum + (bet.score ?? 0)) , 0);
 
 		return <div key={id} className="panel-group" style={{marginBottom: 0}}>
 			<div className="panel panel-default">
-				<div className={`panel-heading row rank-${rank}`} style={{marginRight: 0, marginLeft: 0}}>
+					<div className={`panel-heading row rank-${rank}`} style={{marginRight: 0, marginLeft: 0}}>
 					<div className="col-xs-2 pull-right col-no-padding">
 						<div className="col-xs-6 col-no-padding">{rankDisplay}</div>
 						<div className="col-xs-6 col-no-padding" style={{marginRight: "-7px", marginLeft: "7px", marginTop: "-2px"}}>
@@ -201,7 +284,7 @@ function Leaderboard(props){
 								{sortBy(relevantMatchBets, "id").map(renderMatchScore)}
 							</ul>
 						</div>
-						<div id={`group-ranks-${id}`} className="tab-pane fade" style={padding: "20px"}>
+						<div id={`group-ranks-${id}`} className="tab-pane fade" style={{padding: "20px"}}>
 							<h3>סה"כ: {groupRankScore}</h3>
 							<ul className="list-group" style={{paddingRight: "0px"}}>
 								<li className="list-group-item row" style={{background: "#d2d2d2"}}>
@@ -210,51 +293,20 @@ function Leaderboard(props){
 									<div className="col-xs-5 pull-right col-no-padding">תוצאה</div>
 								</li>
 								{sortBy(Object.values(groupRankBets), 'id').map(renderGroupRankScore)}
-								@foreach($groupRankBets->sortBy("type_id") as $bet)
-								<?php
-										$group = App\Group::find($bet->type_id);
-								?>
-								@if ($group->isComplete())
-									<?php
-										$positions = range(1,4);
-										$teamsById = $group->getGroupTeamsById();
-									?>
-									
-								@endif
-							@endforeach
 							</ul>
 						</div>
-						{/* <div id="special-bets-{{$row->id}}" className="tab-pane fade" style="padding: 20px;">
-							@php
-								$betType = \App\Enums\BetTypes::SpecialBet;
-								$specialBets = $row->betsByType->has($betType)  ? $row->betsByType[$betType] : collect();
-							@endphp
-							<h3>סה"כ: {{ $specialBets->sum("score") }}</h3>
-							<ul className="list-group" style="padding-right: 0px;">
-								<li className="list-group-item row" style="background: #d2d2d2; padding-right: 10px;">
+						<div id={`special-bets-${id}`} className="tab-pane fade" style={{padding: "20px"}}>
+							<h3>סה"כ: {specialBetScore}</h3>
+							<ul className="list-group" style={{paddingRight: "0px"}}>
+								<li className="list-group-item row" style={{background: "#d2d2d2", paddingRight: "10px"}}>
 									<div className="col-xs-1 pull-right col-no-padding">נק'</div>
 									<div className="col-xs-3 pull-right col-no-padding">סוג</div>
 									<div className="col-xs-4 pull-right col-no-padding">הימור</div>
 									<div className="col-xs-4 pull-right col-no-padding">תוצאה</div>
 								</li>
-							@foreach($specialBets->sortBy("type_id") as $bet)
-								<?php
-								$specialBet = \App\SpecialBets\SpecialBet::find($bet->type_id);
-								$betDescription = $specialBet->formatDescription($bet->getData("answer"));
-								$answer = $specialBet->getAnswer();
-								$resultDescription = $specialBet->formatDescription($answer);
-								?>
-								<li className="list-group-item row flex-row col-no-padding" style="padding-right: 10px;">
-									<div className="col-xs-1 pull-right col-no-padding">{{ $bet->score }}</div>
-									<div className="col-xs-3 pull-right col-no-padding">{{ $specialBet->getTitle() }}</div>
-									<div className="col-xs-4 pull-right col-no-padding">{!! $betDescription !!}</div>
-									<div className="col-xs-4 pull-right col-no-padding">
-										<div>{!! $resultDescription !!}</div>
-									</div>
-								</li>
-							@endforeach
+								{sortBy(Object.values(specialBets), 'id').map(renderSpecialBetScore)}
 							</ul>
-						</div> */}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -269,9 +321,6 @@ function Leaderboard(props){
 		</div>
 		{Object.values(rows).map(renderRow)}
 	</React.Fragment>
-	// return (
-	// 	<h1>Leaderboard table</h1>
-	// );
 }
 
 export default Leaderboard;
