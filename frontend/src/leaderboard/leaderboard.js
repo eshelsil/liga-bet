@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { TournamentContext } from '../tournament/tournament';
-import { UserContext } from '../user/user';
+import { TournamentContext } from '../contexts/tournament';
+import { UserContext } from '../contexts/user';
 import MatchResult from '../widgets/match_result';
 import TeamWithFlag from '../widgets/team_with_flag';
 import {sortBy} from "lodash";
@@ -124,11 +124,13 @@ function Leaderboard(props){
 		const gotFromAPI_specialBets = {
 			1: {
 				name: "Top Scorer",
+				key: "top_scorer",
 				id: 1,
 				isDone: false,
 			},
 			2: {
 				name: "Most offensive team",
+				key: "most_offensive_team",
 				id: 2,
 				isDone: true,
 				answer: 7,
@@ -162,6 +164,10 @@ function Leaderboard(props){
 			return <bdi><span className="label label-danger" style={{direction: "ltr"}} dir="RTL">+{change}</span></bdi>
 		}
 		return null;
+	}
+
+	function formatSpecialBet(bet_data){
+
 	}
 
 	function renderSpecialBetScore(specialBet){

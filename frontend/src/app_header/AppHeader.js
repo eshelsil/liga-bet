@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useHistory, useLocation } from 'react-router-dom'
-import { UserContext } from '../user/user';
+import { UserContext } from '../contexts/user';
 
 const routesMap = {
 	"home": {

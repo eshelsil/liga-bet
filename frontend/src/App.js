@@ -3,8 +3,9 @@ import { Route, DefaultRoute, Router, Switch } from 'react-router-dom';
 import { createBrowserHistory } from "history";
 
 import AppHeader from './app_header/AppHeader';
-import { UserProvider, UserContext } from './user/user';
-import { TournamentProvider } from './tournament/tournament';
+import { UserProvider, UserContext } from './contexts/user';
+import { TournamentProvider } from './contexts/tournament';
+import { TeamsProvider } from './contexts/teams';
 import Leaderboard from './leaderboard/leaderboard';
 import './App.scss';
 
@@ -18,10 +19,10 @@ function Content(){
 	return <React.Fragment>
 		<Switch>
 		{/* <Route exact path="/leaderboard" component={GameConnectionController}/> */}
-		<Route exact path="/react" component={Leaderboard} />
-		<Route path="/">
+		<Route path="/" component={Leaderboard} />
+		{/* <Route path="/">
 			<h1>EURO FRIENDS</h1>;
-		</Route>
+		</Route> */}
 	</Switch>
 	</React.Fragment>
 }
@@ -78,25 +79,27 @@ function App() {
 	const isAdmin = true
 	return <UserProvider>
 		<TournamentProvider>
-			<Router history={customHistory}>
-				<AppHeader isTourStarted={false}></AppHeader>
-				<div className="container-fluid text-center">
-					<div className="row content">
-						<div className="col-sm-2 sidenav">
-						<AppLinks isAdmin={isAdmin}></AppLinks>
-						</div>
-						<div className="col-sm-8 text-left">
-							<Content></Content>
-						</div>
-						<div className="col-sm-2 sidenav">
-							<TournamentPrizes></TournamentPrizes>
+			<TeamsProvider>
+				<Router history={customHistory}>
+					<AppHeader isTourStarted={false}></AppHeader>
+					<div className="container-fluid text-center">
+						<div className="row content">
+							<div className="col-sm-2 sidenav">
+							<AppLinks isAdmin={isAdmin}></AppLinks>
+							</div>
+							<div className="col-sm-8 text-left">
+								<Content></Content>
+							</div>
+							<div className="col-sm-2 sidenav">
+								<TournamentPrizes></TournamentPrizes>
+							</div>
 						</div>
 					</div>
-				</div>
-				<footer className="container-fluid text-center">
-					<p></p>
-				</footer>
-			</Router>
+					<footer className="container-fluid text-center">
+						<p></p>
+					</footer>
+				</Router>
+			</TeamsProvider>
 		</TournamentProvider>
 	</UserProvider>
 }
