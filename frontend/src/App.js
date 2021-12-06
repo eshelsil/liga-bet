@@ -8,6 +8,12 @@ import { TournamentProvider } from './contexts/tournament';
 import { TeamsProvider } from './contexts/teams';
 import Leaderboard from './leaderboard/leaderboard';
 import './App.scss';
+import OpenMatchesView from "./open_matches/openMachesView";
+import UserBetsView from "./user_bets/userBetsView";
+import MatchesView from "./matches/machesView";
+import GroupBetsView from "./group_bets/groupBets";
+import SpecialBetsView from "./special_bets/groupBets";
+import MyBetsView from "./my_bets/groupBets";
 
 const customHistory = createBrowserHistory();
 
@@ -19,7 +25,13 @@ function Content(){
 	return <React.Fragment>
 		<Switch>
 		{/* <Route exact path="/leaderboard" component={GameConnectionController}/> */}
-		<Route path="/" component={Leaderboard} />
+		{/*<Route path="/" component={Leaderboard} />*/}
+		{/*<Route path="/" component={OpenMatchesView} />*/}
+		{/*<Route path="/" component={UserBetsView} />*/}
+		{/*<Route path="/" component={MatchesView} />*/}
+		{/*<Route path="/" component={GroupBetsView} />*/}
+		{/*<Route path="/" component={SpecialBetsView} />*/}
+		<Route path="/" component={MyBetsView} />
 		{/* <Route path="/">
 			<h1>EURO FRIENDS</h1>;
 		</Route> */}
