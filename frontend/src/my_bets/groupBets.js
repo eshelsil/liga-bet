@@ -1,9 +1,16 @@
 import React from 'react';
+import '../styles/global.scss';
+import SpecialBetsTable from "./specialBetsTable";
+import MatchesBetsTable from "./matchesBetsTable";
 
-const MyBetsView = () => {
+
+const MyBetsView = (props) => {
+
     return (
-        <div>
-            הטופס שלי
+        <div className="my-bets-container">
+            <h1>הטופס שלי</h1>
+            <SpecialBetsTable/>
+            <MatchesBetsTable/>
         </div>
     );
 };

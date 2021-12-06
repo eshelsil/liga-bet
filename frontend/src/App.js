@@ -12,7 +12,7 @@ import OpenMatchesView from "./open_matches/openMachesView";
 import UserBetsView from "./user_bets/userBetsView";
 import MatchesView from "./matches/machesView";
 import GroupBetsView from "./group_bets/groupBets";
-import SpecialBetsView from "./special_bets/groupBets";
+import SpecialBetsView from "./special_bets/specialBets";
 import MyBetsView from "./my_bets/groupBets";
 
 const customHistory = createBrowserHistory();
