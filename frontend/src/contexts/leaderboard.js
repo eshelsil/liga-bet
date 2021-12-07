@@ -16,51 +16,13 @@ const LeaderboardProvider = ({ children }) => {
 				name: "Eliyahu Hanavim",
 				addedScore: 9,
 				total_score: 27,
-				relevantMatchBets: [
-					{
-						id: 3,
-						bet: {
-							home: 1,
-							away: 1,
-							ko_winner_side: 'away',
-						},
-						score: 3,
-					}
-				],
-				groupRankBets:{
-					"GROUP_A":{
-						name: "Group A",
-						id: "GROUP_A",
-						isDone: true,
-						score: 3,
-						positions: {
-							1: 10,
-							2: 12,
-							3: 9,
-							4: 11,
-						}
-					}
-				},
-				specialBets:{
-					1: {
-						id: 1,
-						score: null,
-						bet: "haim"
-					},
-					2: {
-						id: 2,
-						score: 10,
-						bet: 7,
-					},
-				}
-
 			}
 		}
 		setLeaderboard(gotFromAPI);
 		setInitialized(true);
 	};
     return <LeaderboardContext.Provider value={{
-        groups: leaderboard,
+        leaderboard,
 		initialize,
     }}>
         {children}
