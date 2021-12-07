@@ -9,11 +9,11 @@ const DUMMY_DATA = {
             id: 1,
             homeTeam: {
                 name: "Turkey",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
+                flag: "https://crests.football-data.org/803.svg"
             },
             awayTeam: {
                 name: "Italy",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
+                flag: "https://crests.football-data.org/784.svg"
             },
             userBet: {
                 homeTeamScore: 0,
@@ -28,11 +28,11 @@ const DUMMY_DATA = {
             id: 2,
             homeTeam: {
                 name: "Wales",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
+                flag: "https://crests.football-data.org/833.svg"
             },
             awayTeam: {
                 name: "Switzerland",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
+                flag: "https://crests.football-data.org/788.svg"
             },
             userBet: {
                 homeTeamScore: 1,
@@ -47,11 +47,11 @@ const DUMMY_DATA = {
             id: 3,
             homeTeam: {
                 name: "Denmark",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
+                flag: "https://crests.football-data.org/782.svg"
             },
             awayTeam: {
                 name: "Finland",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
+                flag: "https://crests.football-data.org/1976.svg"
             },
             userBet: {
                 homeTeamScore: 2,
@@ -66,11 +66,11 @@ const DUMMY_DATA = {
             id: 4,
             homeTeam: {
                 name: "Belgium",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
+                flag: "https://crests.football-data.org/805.svg"
             },
             awayTeam: {
                 name: "Russia",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
+                flag: "https://crests.football-data.org/808.svg"
             },
             userBet: {
                 homeTeamScore: 4,
@@ -85,11 +85,11 @@ const DUMMY_DATA = {
             id: 5,
             homeTeam: {
                 name: "England",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
+                flag: "https://crests.football-data.org/770.svg"
             },
             awayTeam: {
                 name: "Croatia",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
+                flag: "https://crests.football-data.org/799.svg"
             },
             userBet: {
                 homeTeamScore: 2,
@@ -97,177 +97,6 @@ const DUMMY_DATA = {
             },
             actualResults: {
                 homeTeamScore: 1,
-                awayTeamScore: 0
-            },
-        },
-        {
-            id: 6,
-            homeTeam: {
-                name: "Italy",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
-            },
-            awayTeam: {
-                name: "Turkey",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
-            },
-            userBet: {
-                homeTeamScore: 1,
-                awayTeamScore: 0
-            },
-            actualResults: {
-                homeTeamScore: 3,
-                awayTeamScore: 0
-            },
-        },
-        {
-            id: 7,
-            homeTeam: {
-                name: "Italy",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
-            },
-            awayTeam: {
-                name: "Turkey",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
-            },
-            userBet: {
-                homeTeamScore: 1,
-                awayTeamScore: 0
-            },
-            actualResults: {
-                homeTeamScore: 3,
-                awayTeamScore: 0
-            },
-        },
-        {
-            id: 8,
-            homeTeam: {
-                name: "Italy",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
-            },
-            awayTeam: {
-                name: "Turkey",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
-            },
-            userBet: {
-                homeTeamScore: 1,
-                awayTeamScore: 0
-            },
-            actualResults: {
-                homeTeamScore: 3,
-                awayTeamScore: 0
-            },
-        },
-        {
-            id: 9,
-            homeTeam: {
-                name: "Italy",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
-            },
-            awayTeam: {
-                name: "Turkey",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
-            },
-            userBet: {
-                homeTeamScore: 1,
-                awayTeamScore: 0
-            },
-            actualResults: {
-                homeTeamScore: 3,
-                awayTeamScore: 0
-            },
-        },
-        {
-            id: 10,
-            homeTeam: {
-                name: "Italy",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
-            },
-            awayTeam: {
-                name: "Turkey",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
-            },
-            userBet: {
-                homeTeamScore: 1,
-                awayTeamScore: 0
-            },
-            actualResults: {
-                homeTeamScore: 3,
-                awayTeamScore: 0
-            },
-        },
-        {
-            id: 11,
-            homeTeam: {
-                name: "Italy",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
-            },
-            awayTeam: {
-                name: "Turkey",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
-            },
-            userBet: {
-                homeTeamScore: 1,
-                awayTeamScore: 0
-            },
-            actualResults: {
-                homeTeamScore: 3,
-                awayTeamScore: 0
-            },
-        },
-        {
-            id: 12,
-            homeTeam: {
-                name: "Italy",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
-            },
-            awayTeam: {
-                name: "Turkey",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
-            },
-            userBet: {
-                homeTeamScore: 1,
-                awayTeamScore: 0
-            },
-            actualResults: {
-                homeTeamScore: 3,
-                awayTeamScore: 0
-            },
-        },
-        {
-            id: 13,
-            homeTeam: {
-                name: "Italy",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
-            },
-            awayTeam: {
-                name: "Turkey",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
-            },
-            userBet: {
-                homeTeamScore: 1,
-                awayTeamScore: 0
-            },
-            actualResults: {
-                homeTeamScore: 3,
-                awayTeamScore: 0
-            },
-        },
-        {
-            id: 14,
-            homeTeam: {
-                name: "Italy",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
-            },
-            awayTeam: {
-                name: "Turkey",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
-            },
-            userBet: {
-                homeTeamScore: 1,
-                awayTeamScore: 0
-            },
-            actualResults: {
-                homeTeamScore: 3,
                 awayTeamScore: 0
             },
         },

@@ -2,97 +2,102 @@ import React from 'react';
 import TeamAndSymbol from "../widgets/team_with_flag";
 
 const DUMMY_DATA = {
-    id: 1,
     specialBet: [
         {
+            id: 1,
             title: "זוכה",
             bet: {
                 value: "France",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
+                flag: "https://crests.football-data.org/773.svg"
             },
             actualResults: [
                 {
                     value: "Italy",
-                    flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
+                    flag: "https://crests.football-data.org/784.svg"
                 }
             ]
         },
         {
+            id: 2,
             title: "סגנית",
             bet: {
                 value: "Belgium",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
+                flag: "https://crests.football-data.org/805.svg"
             },
             actualResults: [
                 {
                     value: "England",
-                    flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
+                    flag: "https://crests.football-data.org/770.svg"
                 }
             ]
         },
         {
+            id: 3,
             title: "מלך השערים",
             bet: {
                 value: "Romelu Lukaku",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
+                flag: "https://crests.football-data.org/805.svg"
             },
             actualResults: [
                 {
                     value: "Cristiano Ronaldo",
-                    flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
+                    flag: "https://crests.football-data.org/765.svg"
                 },
                 {
                     value: "Patrik Schick",
-                    flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
+                    flag: "https://crests.football-data.org/798.svg"
                 }
             ]
         },
         {
+            id: 4,
             title: "מלך הבישולים",
             bet: {
                 value: "Thomas Müller",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
+                // flag: "https://crests.football-data.org/759.svg"
             },
             actualResults: [
                 {
                     value: "Steven Zuber",
-                    flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
+                    // flag: "https://crests.football-data.org/788.svg"
                 }
             ]
         },
         {
+            id: 5,
             title: "מצטיין הטורניר",
             bet: {
                 value: "N'Golo Kanté",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
+                // flag: ""
             },
             actualResults: [
                 {
                     value: "Gianluigi Donnarumma",
-                    flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
+                    // flag: ""
                 }
             ]
         },
         {
+            id: 6,
             title: "ההתקפה החזקה בבתים",
             bet: {
                 value: "Belgium",
-                flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
+                flag: "https://crests.football-data.org/805.svg"
             },
             actualResults: [
                 {
                     value: "Netherlands",
-                    flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/1920px-Flag_of_Canada_%28Pantone%29.svg.png"
+                    flag: "https://crests.football-data.org/8601.svg"
                 }
             ]
         },
     ],
 }
 
-const SpecialBetsTable = ( props ) => {
+const SpecialBetsTable = (props) => {
 
     // const {specialBet} = props;
-    const {id, specialBet} = DUMMY_DATA;
+    const {specialBet} = DUMMY_DATA;
 
 
     return <table className="table table-striped">
@@ -114,7 +119,7 @@ const SpecialBetsTable = ( props ) => {
         {
             specialBet && specialBet.map((row =>
                     <tr>
-                        <td className="admin">{id}</td>
+                        <td className="admin">{row.id}</td>
 
                         <td>
                             {row.title}
@@ -124,8 +129,14 @@ const SpecialBetsTable = ( props ) => {
                         </td>
                         <td>
                             {
-                                row.actualResults.map(data =>
-                                    <TeamAndSymbol name={data.value} crest_url={data.flag}/>
+                                row.actualResults.map((data, index) =>
+                                    <>
+                                        <TeamAndSymbol name={data.value} crest_url={data.flag}/>
+                                        {
+                                            // if there is another data to display create a 'br' object for spacing
+                                            row.actualResults.length > 1 && index < row.actualResults.length-1 && <br/>
+                                        }
+                                    </>
                                 )
                             }
                         </td>

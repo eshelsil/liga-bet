@@ -2,6 +2,7 @@ import React from 'react';
 import '../styles/global.scss';
 import SpecialBetsTable from "./specialBetsTable";
 import MatchesBetsTable from "./matchesBetsTable";
+import GroupPositionBetsTable from "./groupPositionBetsTable";
 
 
 const MyBetsView = (props) => {
@@ -11,6 +12,7 @@ const MyBetsView = (props) => {
             <h1>הטופס שלי</h1>
             <SpecialBetsTable/>
             <MatchesBetsTable/>
+            <GroupPositionBetsTable/>
         </div>
     );
 };
