@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 
 const MatchesContext = createContext(null);
 const MatchesProvider = ({ children }) => {
@@ -32,5 +32,5 @@ const MatchesProvider = ({ children }) => {
         {children}
     </MatchesContext.Provider>
 }
-export {MatchesContext}
+export const useMatchesContext = () => useContext(MatchesContext);
 export {MatchesProvider}

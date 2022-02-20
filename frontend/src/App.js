@@ -14,6 +14,9 @@ import MatchesView from "./matches/machesView";
 import GroupBetsView from "./group_bets/groupBets";
 import SpecialBetsView from "./special_bets/specialBets";
 import MyBetsView from "./my_bets/groupBets";
+import { LeaderboardProvider } from './contexts/leaderboard';
+import { Provider as StoreProvider } from 'react-redux';
+import store from './_helpers/store';
 
 const customHistory = createBrowserHistory();
 
@@ -25,13 +28,13 @@ function Content(){
 	return <React.Fragment>
 		<Switch>
 		{/* <Route exact path="/leaderboard" component={GameConnectionController}/> */}
-		{/*<Route path="/" component={Leaderboard} />*/}
+		<Route path="/" component={Leaderboard} />
 		{/*<Route path="/" component={OpenMatchesView} />*/}
 		{/*<Route path="/" component={UserBetsView} />*/}
 		{/*<Route path="/" component={MatchesView} />*/}
 		{/*<Route path="/" component={GroupBetsView} />*/}
 		{/*<Route path="/" component={SpecialBetsView} />*/}
-		<Route path="/" component={MyBetsView} />
+		{/* <Route path="/" component={MyBetsView} /> */}
 		{/* <Route path="/">
 			<h1>EURO FRIENDS</h1>;
 		</Route> */}
@@ -89,31 +92,37 @@ function TournamentPrizes(props){
 
 function App() {
 	const isAdmin = true
-	return <UserProvider>
-		<TournamentProvider>
-			<TeamsProvider>
-				<Router history={customHistory}>
-					<AppHeader isTourStarted={false}></AppHeader>
-					<div className="container-fluid text-center">
-						<div className="row content">
-							<div className="col-sm-2 sidenav">
-							<AppLinks isAdmin={isAdmin}></AppLinks>
+	return (
+	<StoreProvider store={store}>
+		<UserProvider>
+			<TournamentProvider>
+				<TeamsProvider>
+					<LeaderboardProvider>
+						<Router history={customHistory}>
+							<AppHeader isTourStarted={false}></AppHeader>
+							<div className="container-fluid text-center">
+								<div className="row content">
+									<div className="col-sm-2 sidenav">
+									<AppLinks isAdmin={isAdmin}></AppLinks>
+									</div>
+									<div className="col-sm-8 text-left">
+										<Content></Content>
+									</div>
+									<div className="col-sm-2 sidenav">
+										<TournamentPrizes></TournamentPrizes>
+									</div>
+								</div>
 							</div>
-							<div className="col-sm-8 text-left">
-								<Content></Content>
-							</div>
-							<div className="col-sm-2 sidenav">
-								<TournamentPrizes></TournamentPrizes>
-							</div>
-						</div>
-					</div>
-					<footer className="container-fluid text-center">
-						<p></p>
-					</footer>
-				</Router>
-			</TeamsProvider>
-		</TournamentProvider>
-	</UserProvider>
+							<footer className="container-fluid text-center">
+								<p></p>
+							</footer>
+						</Router>
+					</LeaderboardProvider>
+				</TeamsProvider>
+			</TournamentProvider>
+		</UserProvider>
+	</StoreProvider>
+	);
 }
 
 export default App;

@@ -1,7 +1,7 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 
-const QuestionBetsContext = createContext(null);
-const QuestionBetsProvider = ({ children }) => {
+const SpecialQuestionsContext = createContext(null);
+const SpecialQuestionsProvider = ({ children }) => {
 	const [questions, setQuestions] = useState({});
 	const [initialized, setInitialized] = useState(false);
     const initialize = () => {
@@ -29,12 +29,12 @@ const QuestionBetsProvider = ({ children }) => {
 		setQuestions(gotFromAPI);
 		setInitialized(true);
 	};
-    return <QuestionBetsContext.Provider value={{
+    return <SpecialQuestionsContext.Provider value={{
         questions,
 		initialize,
     }}>
         {children}
-    </QuestionBetsContext.Provider>
+    </SpecialQuestionsContext.Provider>
 }
-export {QuestionBetsContext}
-export {QuestionBetsProvider}
+export const useSpecialQuestionsContext = () => useContext(SpecialQuestionsContext);
+export {SpecialQuestionsProvider}

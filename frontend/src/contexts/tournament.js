@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 
 const TournamentContext = createContext(null);
 const TournamentProvider = ({ children }) => {
@@ -20,5 +20,5 @@ const TournamentProvider = ({ children }) => {
         {children}
     </TournamentContext.Provider>
 }
-export {TournamentContext}
-export {TournamentProvider}
+export const useTournamentContext = () => useContext(TournamentContext);
+export { TournamentProvider }

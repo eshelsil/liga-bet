@@ -1,40 +1,46 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 
-const QuestionBetsContext = createContext(null);
-const QuestionBetsProvider = ({ children }) => {
-	const [questions, setQuestions] = useState({});
+const BetsContext = createContext(null);
+const BetsProvider = ({ children }) => {
+	const [bets, setBets] = useState({});
 	const [initialized, setInitialized] = useState(false);
     const initialize = () => {
 		if (initialized) return;
 		//get data from API
 		const gotFromAPI = {
+			//bet_id
 			3: {
-				home_team: {
-					name: "Israel",
-					id: 4,
-					crest_url: "https://localhost/1111"
+				type: 1,
+				type_id: 4,
+				user_id: 20,
+				data: {
+					result_home: 5,
+					result_away: 2,
+					winner_side: 'home',
 				},
-				away_team: {
-					name: "Austria",
-					id: 14,
-					crest_url: "https://localhost/1111"
-				},
-				// change to only id
-				result_home: 5,
-				result_away: 2,
-				winner_side: 'home',
 				id: 3,
+				score: 3,
+			},
+			4: {
+				type: 3,
+				type_id: 4,
+				user_id: 20,
+				data: {
+					answer: 5,
+				},
+				id: 4,
+				score: 5,
 			},
 		}
-		setQuestions(gotFromAPI);
+		setBets(gotFromAPI);
 		setInitialized(true);
 	};
-    return <QuestionBetsContext.Provider value={{
-        questions,
+    return <BetsContext.Provider value={{
+        bets,
 		initialize,
     }}>
         {children}
-    </QuestionBetsContext.Provider>
+    </BetsContext.Provider>
 }
-export {QuestionBetsContext}
-export {QuestionBetsProvider}
+export const useBetsContext = () => useContext(BetsContext);
+export {BetsProvider}

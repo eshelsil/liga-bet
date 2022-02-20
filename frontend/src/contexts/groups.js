@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 
 const GroupsContext = createContext(null);
 const GroupsProvider = ({ children }) => {
@@ -30,5 +30,5 @@ const GroupsProvider = ({ children }) => {
         {children}
     </GroupsContext.Provider>
 }
-export {GroupsContext}
+export const useGroupsContext = () => useContext(GroupsContext);
 export {GroupsProvider}

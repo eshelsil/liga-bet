@@ -1,8 +1,11 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 
-const LeaderboardContext = createContext(null);
+const LeaderboardContext = createContext({
+	rows: {},
+	initialize: ()=>{},
+});
 const LeaderboardProvider = ({ children }) => {
-	const [leaderboard, setLeaderboard] = useState({});
+	const [rows, setRows] = useState({});
 	const [initialized, setInitialized] = useState(false);
     const initialize = () => {
 		if (initialized) return;
@@ -13,20 +16,24 @@ const LeaderboardProvider = ({ children }) => {
 				rankDisplay: 1,
 				change: 0,
 				id: 1,
+				user_id: 20,
 				name: "Eliyahu Hanavim",
 				addedScore: 9,
 				total_score: 27,
+				relevantMatchBets: [],
+				groupRankBets: {},
+				specialBets: {},
 			}
 		}
-		setLeaderboard(gotFromAPI);
+		setRows(gotFromAPI);
 		setInitialized(true);
 	};
     return <LeaderboardContext.Provider value={{
-        leaderboard,
+        rows,
 		initialize,
     }}>
         {children}
     </LeaderboardContext.Provider>
 }
-export {LeaderboardContext}
+export const useLeaderboardContext = () => useContext(LeaderboardContext);
 export {LeaderboardProvider}

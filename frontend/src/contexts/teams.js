@@ -35,5 +35,5 @@ const TeamsProvider = ({ children }) => {
         {children}
     </TeamsContext.Provider>
 }
-export {TeamsContext}
+export const useTeamsContext = () => useContext(TeamsContex);
 export {TeamsProvider}
