@@ -8,6 +8,8 @@ import { useBetsContext } from "../contexts/bets";
 import { connect } from "react-redux";
 import { fetch_bets } from "../_actions/bets";
 import { fetch_teams } from "../_actions/teams";
+import { fetch_groups } from "../_actions/groups";
+import { fetch_questions } from "../_actions/specialQuestions";
 import { ContestantSelector } from "../_selectors/main";
 import { BetTypes } from "../_enums/betTypes";
 import TeamWithFlag from '../widgets/team_with_flag';
@@ -15,16 +17,14 @@ import MatchResult from "../widgets/match_result";
 
 
 
-function renderPosition(position, team_id){
-    console.log('teams', teams)
-    const team = teams[team_id];
-    console.log('team', team, team_id)
+function renderPosition(position, team){
     if (!team){
         return
     }
+    const {crest_url, name} = team;
     return <div key={position} className="flex-row">
         <span>({position}) </span>
-        <TeamWithFlag name={team.name} crest_url={team.crest_url}
+        <TeamWithFlag name={name} crest_url={crest_url}
         ></TeamWithFlag>
     </div>
 }
@@ -38,45 +38,48 @@ function renderRankChange(change){
     return null;
 }
 
-function formatSpecialBet(bet_data){
-
+function formatSpecialAnswer(specialQuestionType, answer){
+    console.log({specialQuestionType, answer})
+    switch (specialQuestionType){
+        case 4: // top scorer
+            const {name, crest_url} = answer;
+            return <TeamWithFlag name={name} crest_url={crest_url}/>
+        case 2: // mvp
+            return answer;
+        default:
+            return null;
+    }
 }
 
 function renderSpecialBetScore(specialBet){
-    const { id, score, bet } = specialBet;
-    const specialBetResult = specialBetResults[id];
-    const {name, isDone, answer} = specialBetResult;
-    // TODO: format special bet answer
-    if (!isDone){
-        return;
-    }
-    return <li key={id} className="list-group-item row flex-row col-no-padding" style={{paddingRight: "10px"}}>
+    const { id, score, answer, relatedQuestion } = specialBet;
+    const {id: questionId, name, isDone, answer: finalAnswer} = relatedQuestion;
+    return <li key={questionId} className="list-group-item row flex-row col-no-padding" style={{paddingRight: "10px"}}>
         <div className="col-xs-1 pull-right col-no-padding">{score}</div>
         <div className="col-xs-3 pull-right col-no-padding">{name}</div>
-        <div className="col-xs-4 pull-right col-no-padding">{bet}</div>
+        <div className="col-xs-4 pull-right col-no-padding">{formatSpecialAnswer(questionId, answer)}</div>
         <div className="col-xs-4 pull-right col-no-padding">
-            <div>{answer}</div>
+            <div>{formatSpecialAnswer(questionId, finalAnswer)}</div>
         </div>
     </li>
 }
 
-function renderGroupRankScore(group){
-    const {isDone, id, score, positions} = group;
-    if (!isDone){
-        return null;
-    }
+function renderGroupRankScore(groupRankBet){
+    const {id, score, standings, relatedGroup = {}} = groupRankBet;
+    const {standings: finalStandings, isDone} = relatedGroup;
     return <li key={id} className="list-group-item row flex-row  col-no-padding">
         <div className="col-xs-2 pull-right col-no-padding" style={{paddingRight: "15px"}}>{score}</div>
         <div className="col-xs-5 pull-right col-no-padding">
-            {Object.entries(positions).map(([position, team_id])=>{
-                return renderPosition(position, team_id);
+            {Object.entries(standings).map(([rank, team])=>{
+                return renderPosition(rank, team);
             })}
         </div>
         <div className="col-xs-5 pull-right col-no-padding">
-            {Object.keys(positions).map((position)=>{
-                const team_id = groups[id]['positions'][position];
-                return renderPosition(position, team_id);
-            })}
+            {isDone &&(
+                Object.entries(finalStandings).map(([rank, team])=>{
+                    return renderPosition(rank, team);
+                })
+            )}
         </div>
     </li>
 }
@@ -119,34 +122,35 @@ function renderMatchScore(bet){
 }
 
 export function Contestant(props){
-    const {rank, rankDisplay, change, id, user_id, name, addedScore, relevantMatchBets, groupRankBets, specialBets, total_score} = props;
+    const {rank, rankDisplay, change, id, user_id, name, addedScore, specialBets, total_score} = props;
     // const matchesContext = useMatchesContext();
-    const {fetch_matches, fetch_bets, fetch_teams, contestantBetsData} = props;
+    const {fetch_matches, fetch_bets, fetch_teams, fetch_questions, fetch_groups, betsByUserID} = props;
 
-    const userBetsByType = contestantBetsData[user_id] ?? {};
+    const userBetsByType = betsByUserID[user_id] ?? {};
     const userMatchBets = userBetsByType[BetTypes.Match] ?? [];
+    const userSpecialQuestionBets = userBetsByType[BetTypes.SpecialBet] ?? [];
+    const userGroupRankBets = userBetsByType[BetTypes.GroupsRank] ?? [];
+    console.log('userMatchBets', userMatchBets)
 
 
-
-    const groupsContext = useGroupsContext();
-    const specialQuestionsContext = useSpecialQuestionsContext();
-    const betsContext = useBetsContext();
+    // const groupsContext = useGroupsContext();
+    // const specialQuestionsContext = useSpecialQuestionsContext();
+    // const betsContext = useBetsContext();
     // const { matches } = matchesContext ?? {};
-    const { groups } = groupsContext ?? {};
-    const { questions } = specialQuestionsContext ?? {};
+    // const { groups } = groupsContext ?? {};
+    // const { questions } = specialQuestionsContext ?? {};
     // const relevantMatchBets = bets.filter()
-    console.log('contestantBetsData', contestantBetsData)
     const matchesScore = userMatchBets.reduce((sum, bet) => (sum + bet.score) , 0);
-    const groupRankScore = Object.values(groupRankBets).reduce((sum, group) => (sum + (group.score ?? 0)) , 0);
-    const specialBetScore = Object.values(specialBets).reduce((sum, bet) => (sum + (bet.score ?? 0)) , 0);
+    const groupRankScore = userGroupRankBets.reduce((sum, bet) => (sum + (bet.score ?? 0)) , 0);
+    const specialBetScore = userSpecialQuestionBets.reduce((sum, bet) => (sum + (bet.score ?? 0)) , 0);
     useEffect(()=>{
         // matchesContext?.initialize();
         // betsContext?.initialize();
-        fetch_matches();
         fetch_bets();
+        fetch_groups();
+        fetch_matches();
         fetch_teams();
-        groupsContext?.initialize();
-        specialQuestionsContext?.initialize();
+        fetch_questions();
     }, []);
 
     return <div key={id} className="panel-group" style={{marginBottom: 0}}>
@@ -195,7 +199,7 @@ export function Contestant(props){
                                 <div className="col-xs-5 pull-right col-no-padding">הימור</div>
                                 <div className="col-xs-5 pull-right col-no-padding">תוצאה</div>
                             </li>
-                            {sortBy(Object.values(groupRankBets), 'id').map(renderGroupRankScore)}
+                            {sortBy(userGroupRankBets, 'id').map(renderGroupRankScore)}
                         </ul>
                     </div>
                     <div id={`special-bets-${id}`} className="tab-pane fade" style={{padding: "20px"}}>
@@ -207,7 +211,7 @@ export function Contestant(props){
                                 <div className="col-xs-4 pull-right col-no-padding">הימור</div>
                                 <div className="col-xs-4 pull-right col-no-padding">תוצאה</div>
                             </li>
-                            {sortBy(Object.values(specialBets), 'id').map(renderSpecialBetScore)}
+                            {sortBy(userSpecialQuestionBets, 'id').map(renderSpecialBetScore)}
                         </ul>
                     </div>
                 </div>
@@ -221,6 +225,8 @@ const mapDispatchToProps = {
     fetch_matches,
     fetch_bets,
     fetch_teams,
+    fetch_groups,
+    fetch_questions,
 }
 
 
