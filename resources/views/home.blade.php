@@ -5,7 +5,7 @@
 @endphp
 
 @include('widgets.congrats', [
-    "summary_msg" => $summary_msg,
+    "summary_msg" => $summary_msg ?? null,
 ])
 
 @section('content')

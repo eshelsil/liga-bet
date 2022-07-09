@@ -9,25 +9,27 @@
         "ext-json": "*",
         "edwinhoksberg/php-fcm": "^1.2",
         "fideloper/proxy": "^4.0",
-        "guzzle/guzzle": "~3.0",
-        "laravel/framework": "5.6.*",
-        "laravel/tinker": "^1.0",
+        "fruitcake/laravel-cors": "^2.0",
+        "guzzlehttp/guzzle": "^7.0.1",
+        "laravel/framework": "^8.0",
+        "laravel/helpers": "^1.5",
+        "laravel/tinker": "^3.0",
+        "laravel/ui": "^2.0",
         "protoqol/prequel": "^1.22"
     },
     "require-dev": {
+        "facade/ignition": "^2.3.6",
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
-        "nunomaduro/collision": "^2.0",
-        "phpunit/phpunit": "^7.0"
+        "nunomaduro/collision": "^5.0",
+        "phpunit/phpunit": "^9.0"
     },
     "autoload": {
-        "classmap": [
-            "database/seeds",
-            "database/factories"
-        ],
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {

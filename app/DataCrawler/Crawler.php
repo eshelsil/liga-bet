@@ -8,6 +8,7 @@
 
 namespace App\DataCrawler;
 
+use Guzzle\Http\Exception\BadResponseException;
 use \Illuminate\Support\Collection;
 use \Guzzle\Http\Client as HttpClient;
 
@@ -103,7 +104,12 @@ class Crawler
         }
         $headers = ['X-Auth-Token' => $api_token];
         $client = new HttpClient();
-        $res = $client->get("{$api_path}{$additional_path}", $headers)->send();
+        try {
+            $url = "{$api_path}{$additional_path}";
+            $res = $client->get($url, $headers)->send();
+        }catch (BadResponseException $e) {
+            exit("cannot call api");
+        }
         return json_decode($res->getBody());
     }
 

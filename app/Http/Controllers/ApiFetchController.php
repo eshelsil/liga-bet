@@ -168,7 +168,7 @@ class ApiFetchController extends Controller
         }
         try {
             $apiBlockageMinutes = config('api.throttling_minutes');
-            Cache::put("general_api_update", now()->addMinutes($apiBlockageMinutes)->format("Y-m-d H:i:s"), $apiBlockageMinutes);
+            Cache::put("general_api_update", now()->addMinutes($apiBlockageMinutes)->format("Y-m-d H:i:s"), now()->addMinutes($apiBlockageMinutes));
             $this->fetchGames(true);
         } catch (\Throwable $e) {
             Cache::forget("general_api_update");

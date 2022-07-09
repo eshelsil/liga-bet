@@ -35,7 +35,7 @@ class Ranks extends Model
                      ->join("bets", function (JoinClause $join) {
                          $join->on("users.id", "=", "user_id");
                      })
-                     ->groupBy("users.id")
+                     ->groupBy(["users.id", "users.name"])
                      ->orderBy("total_score", "desc")
                      ->get();
 

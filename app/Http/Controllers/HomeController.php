@@ -62,7 +62,7 @@ class HomeController extends Controller
     public function summaryMessageSeen()
     {
         $user_id = Auth::user()->id;
-        Cache::put("TOURNAMENT_SUMMARY_MESSAGE". ":u_id:" . $user_id, "seen", 60);
+        Cache::put("TOURNAMENT_SUMMARY_MESSAGE". ":u_id:" . $user_id, "seen", now()->addMinutes(60));
     }
 
     private function getSummaryMessage($rankTable)
@@ -115,7 +115,7 @@ class HomeController extends Controller
         })->groupBy('is_done');
         $done_matches = $matches[1] ?? collect([]);
         $done_matches = $done_matches->reverse();
-        $onging_matches = $matches[0] ?? [];
+        $onging_matches = $matches[0] ?? collect([]);
         $teamsByExtId = Team::getTeamsByExternalId();
 
         return view("matches-view")->with([
