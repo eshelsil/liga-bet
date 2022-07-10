@@ -5,8 +5,9 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "^7.1.3",
+        "php": "^7.4",
         "ext-json": "*",
+        "barryvdh/laravel-ide-helper": "^2.12",
         "edwinhoksberg/php-fcm": "^1.2",
         "fideloper/proxy": "^4.0",
         "fruitcake/laravel-cors": "^2.0",

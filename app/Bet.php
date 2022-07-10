@@ -7,12 +7,31 @@ use App\Group;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * App\Bet
+ *
  * @property int $id
  * @property int $type
  * @property int $type_id
- * @property int $user_id
  * @property string $data
- * @property int $score
+ * @property int|null $score
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $tournament_id
+ * @property int $user_tournament_id
+ * @property-read \App\User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Bet newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Bet newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Bet query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Bet whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bet whereData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bet whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bet whereScore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bet whereTournamentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bet whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bet whereTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bet whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bet whereUserTournamentId($value)
+ * @mixin \Eloquent
  */
 class Bet extends Model
 {

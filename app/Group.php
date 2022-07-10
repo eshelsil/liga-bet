@@ -10,6 +10,28 @@ use App\Bets\BetableInterface;
 use App\Bets\BetGroupRank\BetGroupRankRequest;
 
 
+/**
+ * App\Group
+ *
+ * @property int $id
+ * @property string $external_id
+ * @property string $name
+ * @property string|null $standings
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $competition_id
+ * @method static \Illuminate\Database\Eloquent\Builder|Group newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Group newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Group query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Group whereCompetitionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Group whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Group whereExternalId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Group whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Group whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Group whereStandings($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Group whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Group extends Model implements BetableInterface
 {
     static $teamsColl = null;

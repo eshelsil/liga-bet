@@ -69,17 +69,7 @@ class AdminController extends Controller
 
     public function downloadInitialData()
     {
-        $crawler = Crawler::getInstance();
 
-        DB::table("teams")->truncate();
-        DB::table("groups")->truncate();
-        DB::table("matches")->truncate();
-        $teams = $crawler->fetchTeams();
-        self::saveTeams($teams);
-        $groups = array_unique($teams->pluck('group_id')->toArray());
-        self::saveGroups($groups);
-        self::fetchGames();
-        self::saveDefaultScorers();
     }
 
     public function showAddScorer()
@@ -133,38 +123,12 @@ class AdminController extends Controller
         return 'DONE';
     }
 
-    public function fetchGames(){
-        $this->ApiFetchController->fetchGames();
-    }
-
     public function fetchScorers(){
         $this->ApiFetchController->fetchScorers();
     }
 
     public function fetchStandings(){
         $this->ApiFetchController->fetchStandings();
-    }
-
-    private static function saveTeams($teamsData) {
-        foreach ($teamsData as $teamData) {
-            $team = new Team();
-            $team->external_id = data_get($teamData, 'id');
-            $team->name = data_get($teamData, 'name');
-            $team->crest_url = data_get($teamData, 'crestUrl');
-            $team->group_id = data_get($teamData, 'group_id');
-            $team->save();
-            echo $team->id . ". ".$team->name . "<br/>";
-        }
-    }
-
-    private static function saveGroups($groups) {
-        foreach ($groups as $group_id) {
-            $group = new Group();
-            $group->external_id = $group_id;
-            $group->name = "Group ".substr($group_id, -1);
-            $group->save();
-            echo $group->id . ". ".$group->name . "<br/>";
-        }
     }
 
     public function calculateGroupRanks(){

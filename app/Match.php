@@ -19,16 +19,42 @@ use Illuminate\Support\Arr;
  */
 
 /**
- * @property int $external_id
- * @property int $type
- * @property int $sub_type
+ * App\Match
+ *
+ * @property int $id
+ * @property string|null $external_id
+ * @property string $type
+ * @property string $sub_type
  * @property int $team_home_id
  * @property int $team_away_id
- * @property int $start_time
- * @property int $result_home
- * @property int $result_away
- * @property int $score
- * @property bool $is_done
+ * @property int|null $start_time
+ * @property int|null $result_home
+ * @property int|null $result_away
+ * @property int|null $score
+ * @property int|null $ko_winner
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $competition_id
+ * @property-read mixed $is_done
+ * @method static Builder|Match isDone($isDone)
+ * @method static Builder|Match newModelQuery()
+ * @method static Builder|Match newQuery()
+ * @method static Builder|Match query()
+ * @method static Builder|Match whereCompetitionId($value)
+ * @method static Builder|Match whereCreatedAt($value)
+ * @method static Builder|Match whereExternalId($value)
+ * @method static Builder|Match whereId($value)
+ * @method static Builder|Match whereKoWinner($value)
+ * @method static Builder|Match whereResultAway($value)
+ * @method static Builder|Match whereResultHome($value)
+ * @method static Builder|Match whereScore($value)
+ * @method static Builder|Match whereStartTime($value)
+ * @method static Builder|Match whereSubType($value)
+ * @method static Builder|Match whereTeamAwayId($value)
+ * @method static Builder|Match whereTeamHomeId($value)
+ * @method static Builder|Match whereType($value)
+ * @method static Builder|Match whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Match extends Model implements BetableInterface
 {

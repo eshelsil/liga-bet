@@ -12,6 +12,7 @@ use App\User;
 use App\Group;
 use App\SpecialBets\SpecialBet;
 use App\Scorer;
+use Log;
 
 class ApiFetchController extends Controller
 {
@@ -23,7 +24,7 @@ class ApiFetchController extends Controller
 
     public function fetchGames($useSpareApiToken = false){
         $crawler = Crawler::getInstance();
-        $matches = $crawler->fetchMatches($useSpareApiToken);
+        $matches = $crawler->fetchMatches();
         
         $this->saveNewMatches($matches);
     }
@@ -38,7 +39,7 @@ class ApiFetchController extends Controller
         $crawler = Crawler::getInstance();
         $final_standings = $crawler->fetchGroupStandings();
         $team_ext_id_to_id = Team::getExternalIdToIdMap();
-        $groupsNotCompleted = Group::all()->filter(function($g){
+        $groupsNotCompleted = Group::all()->filter(function(Group $g){
             return !$g->isComplete();
         });
         $relevantGroupIds = $groupsNotCompleted->pluck('external_id')->toArray();
@@ -81,7 +82,7 @@ class ApiFetchController extends Controller
             $match->team_home_id = data_get($match_data, 'team_home_id');
             $match->team_away_id = data_get($match_data, 'team_away_id');
             $match->start_time   = data_get($match_data, 'start_time');
-            echo("Saving Match: ".$match->team_home_id." vs. ".$match->team_away_id."<br>");
+            Log::debug("Saving Match: ".$match->team_home_id." vs. ".$match->team_away_id."<br>");
             $match->save();
             User::getMonkeyUsers()->each(function($monkey){
                 $monkey->autoBetNewMatches();
@@ -89,14 +90,14 @@ class ApiFetchController extends Controller
         }
 
         foreach ($new_scores as $match_data)  {
-            $match = $matches_with_no_score->where('external_id', data_get($match_data, 'id'))->first();
+            $match = $matches_with_no_score->get(data_get($match_data, 'id'));
             $match->result_home  = data_get($match_data, 'result_home');
             $match->result_away  = data_get($match_data, 'result_away');
-            $match->ko_winner  = data_get($match_data, 'ko_winner');
+            $match->ko_winner    = data_get($match_data, 'ko_winner');
             $match->save();
 
             $this->user_fetch_got_games = true;
-            echo("Saving Result of Match: ext_id - ".$match->external_id." | id - ".$match->id."-> ".$match->result_home." - ".$match->result_away."<br>");
+            Log::debug("Saving Result of Match: ext_id - ".$match->external_id." | id - ".$match->id."-> ".$match->result_home." - ".$match->result_away."<br>");
             $match->completeBets();
             if ($match->isKnockout()){
                 $this->calculateSpecialBets(['winner', 'runner_up']);

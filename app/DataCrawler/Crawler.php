@@ -8,32 +8,21 @@
 
 namespace App\DataCrawler;
 
-use Guzzle\Http\Exception\BadResponseException;
 use \Illuminate\Support\Collection;
-use \Guzzle\Http\Client as HttpClient;
-
+use Illuminate\Support\Facades\Http;
 
 class Crawler
 {
 
-    protected static $instance = null;
+    protected string $id;
 
-
-    private function __clone()
+    public function __construct(string $id)
     {
-
+        $this->id = $id;
     }
 
-    private function __wakeup()
-    {
-
-    }
-
-    public static function getInstance() {
-        if (!self::$instance) {
-            self::$instance = new static();
-        }
-        return self::$instance;
+    public static function getInstance($id = "ec") {
+        return new static($id);
     }
 
     private static function parse_match($match_json)
@@ -96,24 +85,20 @@ class Crawler
             'ko_winner' => $ko_winner
         ];
     }
-    private function apiCall($additional_path, $useSpareToken = false){
+    private function apiCall($additional_path){
         $api_path = config('api.path');
-        $api_token = config('api.api_token');
-        if ($useSpareToken){
-            $api_token = config('api.api_token_2');
-        }
+        $api_token = config('api.api_token'); // TODO: Rotate
+        $url = "{$api_path}/{$this->id}{$additional_path}";
         $headers = ['X-Auth-Token' => $api_token];
-        $client = new HttpClient();
-        try {
-            $url = "{$api_path}{$additional_path}";
-            $res = $client->get($url, $headers)->send();
-        }catch (BadResponseException $e) {
-            exit("cannot call api");
-        }
-        return json_decode($res->getBody());
+        $res = Http::withHeaders($headers)->get($url);
+
+        $res->throw();
+
+        return $res->json();
     }
 
-    public function fetchTeams(){
+    public function fetchTeams(): Collection
+    {
         $data = $this->apiCall('/standings');
         $standings = data_get($data, 'standings');
 
@@ -123,15 +108,15 @@ class Crawler
             $group_id = data_get($group, 'group');
             $group_teams = data_get($group, 'table.*.team');
             $teams = array_merge($teams, array_map(function($t) use($group_id){
-                return array_merge(['group_id' => $group_id], get_object_vars($t));
+                return array_merge(['group_id' => $group_id], $t);
             }, $group_teams));
         }
         return collect($teams);
     }
 
-    public function fetchMatches($useSpareToken = false)
+    public function fetchMatches()
     {
-        $data = $this->apiCall('/matches', $useSpareToken);
+        $data = $this->apiCall('/matches');
         $matches = data_get($data, 'matches');
 
         return collect($matches)->map(function($m){

@@ -8,6 +8,22 @@ use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * App\Ranks
+ *
+ * @property int $id
+ * @property string $data
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static Builder|Ranks newModelQuery()
+ * @method static Builder|Ranks newQuery()
+ * @method static Builder|Ranks query()
+ * @method static Builder|Ranks whereCreatedAt($value)
+ * @method static Builder|Ranks whereData($value)
+ * @method static Builder|Ranks whereId($value)
+ * @method static Builder|Ranks whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Ranks extends Model
 {
     protected static $unguarded = true;

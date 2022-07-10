@@ -8,10 +8,25 @@ use Illuminate\Support\Facades\Validator;
 
 /**
  * Class Scorer
- * @property int id
- * @property int external_id
- * @property string name
- * @property int goals
+ *
+ * @property int $id
+ * @property string $external_id
+ * @property string $name
+ * @property string $team_id
+ * @property int $goals
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Scorer newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Scorer newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Scorer query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Scorer whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Scorer whereExternalId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Scorer whereGoals($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Scorer whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Scorer whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Scorer whereTeamId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Scorer whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Scorer extends Model
 {
