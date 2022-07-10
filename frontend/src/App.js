@@ -13,7 +13,7 @@ import UserBetsView from "./user_bets/userBetsView";
 import MatchesView from "./matches/machesView";
 import GroupBetsView from "./group_bets/groupBets";
 import SpecialBetsView from "./special_bets/specialBets";
-import MyBetsView from "./my_bets/groupBets";
+import MyBetsView from "./my_bets/myBetsView";
 import { LeaderboardProvider } from './contexts/leaderboard';
 import { Provider as StoreProvider } from 'react-redux';
 import store from './_helpers/store';
@@ -27,14 +27,13 @@ function Content(){
 	}
 	return <React.Fragment>
 		<Switch>
-		{/* <Route exact path="/leaderboard" component={GameConnectionController}/> */}
-		<Route path="/" component={Leaderboard} />
-		{/*<Route path="/" component={OpenMatchesView} />*/}
+		{/* <Route path="/" component={Leaderboard} /> */}
+		{/* <Route path="/" component={OpenMatchesView} /> */}
 		{/*<Route path="/" component={UserBetsView} />*/}
 		{/*<Route path="/" component={MatchesView} />*/}
 		{/*<Route path="/" component={GroupBetsView} />*/}
 		{/*<Route path="/" component={SpecialBetsView} />*/}
-		{/* <Route path="/" component={MyBetsView} /> */}
+		<Route path="/" component={MyBetsView} />
 		{/* <Route path="/">
 			<h1>EURO FRIENDS</h1>;
 		</Route> */}

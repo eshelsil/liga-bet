@@ -9,6 +9,7 @@ import { map } from 'lodash'
 // import * as server_error from './server_error'
 
 
+export const CurrentUser = state => state.currentUser ?? {id: 20};
 export const Bets = state => state.bets ?? {};
 export const Leaderboard = state => state.leaderboard ?? {};
 export const Matches = state => state.matches ?? {};

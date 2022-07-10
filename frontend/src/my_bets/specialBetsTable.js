@@ -94,12 +94,10 @@ const DUMMY_DATA = {
     ],
 }
 
-const SpecialBetsTable = (props) => {
-
-    // const {specialBet} = props;
-    const {specialBet} = DUMMY_DATA;
-
-
+const SpecialBetsTable = ({
+    bets,
+}) => {
+    console.log('bets123', bets)
     return <table className="table table-striped">
         <thead>
         <tr>
@@ -117,28 +115,18 @@ const SpecialBetsTable = (props) => {
         </thead>
         <tbody>
         {
-            specialBet && specialBet.map((row =>
+            bets.map((bet =>
                     <tr>
-                        <td className="admin">{row.id}</td>
+                        <td className="admin">{bet.id}</td>
 
                         <td>
-                            {row.title}
+                            {bet.relatedQuestion.name}
                         </td>
                         <td>
-                            <TeamAndSymbol name={row.bet.value} crest_url={row.bet.flag}/>
+                            <TeamAndSymbol name={bet.answer.name} crest_url={bet.answer.crest_url}/>
                         </td>
                         <td>
-                            {
-                                row.actualResults.map((data, index) =>
-                                    <>
-                                        <TeamAndSymbol name={data.value} crest_url={data.flag}/>
-                                        {
-                                            // if there is another data to display create a 'br' object for spacing
-                                            row.actualResults.length > 1 && index < row.actualResults.length-1 && <br/>
-                                        }
-                                    </>
-                                )
-                            }
+                            <TeamAndSymbol name={bet.relatedQuestion.answer.name} crest_url={bet.relatedQuestion.answer.crest_url}/>
                         </td>
                     </tr>
             ))
