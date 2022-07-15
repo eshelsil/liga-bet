@@ -49,6 +49,90 @@ const sendRequest = async () => {
             id: 4,
             score: 5,
         },
+        49: {
+            type: 3,
+            // type_id: 4,
+            user_id: 1,
+            isDone: true,
+            answer: {
+                id: 2,
+                name: 'Raul Gonzales Blanco',
+                crest_url: 'https://crests.football-data.org/760.svg',
+            },
+            relatedQuestion: {
+                name: "Top Scroer",
+                answer: {
+                    id: 5,
+                    name: 'David Vialla',
+                    crest_url: 'https://crests.football-data.org/760.svg',
+                },
+                id: 4,
+            },
+            id: 49,
+            score: 0,
+        },
+        50: {
+            type: 3,
+            // type_id: 4,
+            user_id: 23,
+            isDone: true,
+            answer: {
+                id: 2,
+                name: 'Raul Gonzales Blanco',
+                crest_url: 'https://crests.football-data.org/760.svg',
+            },
+            relatedQuestion: {
+                name: "Top Scroer",
+                answer: {
+                    id: 5,
+                    name: 'David Vialla',
+                    crest_url: 'https://crests.football-data.org/760.svg',
+                },
+                id: 4,
+            },
+            id: 50,
+            score: 0,
+        },
+        40: {
+            type: 3,
+            // type_id: 4,
+            user_id: 23,
+            isDone: true,
+            answer: {
+                name: "Ukraine",
+                id: 7,
+                crest_url: "https://crests.football-data.org/790.svg"
+            },
+            relatedQuestion: {
+                name: "Top Scroer",
+                answer: {
+                    name: "France",
+                    id: 8,
+                    crest_url: "https://crests.football-data.org/773.svg",
+                },
+                id: 1,
+            },
+            id: 40,
+            score: 0,
+        },
+        41: {
+            type: 3,
+            // type_id: 4,
+            user_id: 4,
+            isDone: false,
+            answer: {
+                name: "Switzerland",
+                id: 9,
+                crest_url: "https://crests.football-data.org/788.svg"
+            },
+            relatedQuestion: {
+                name: "Top Scroer",
+                answer: null,
+                id: 5,
+            },
+            id: 41,
+            score: 5,
+        },
         5: {
             type: 2,
             // type_id: 1,

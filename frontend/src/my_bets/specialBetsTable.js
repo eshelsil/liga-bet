@@ -97,7 +97,6 @@ const DUMMY_DATA = {
 const SpecialBetsTable = ({
     bets,
 }) => {
-    console.log('bets123', bets)
     return <table className="table table-striped">
         <thead>
         <tr>

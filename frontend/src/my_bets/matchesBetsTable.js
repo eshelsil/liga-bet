@@ -104,11 +104,7 @@ const DUMMY_DATA = {
 
 }
 
-const MatchesBetsTable = (props) => {
-
-    // const {matches} = props
-    const {matches} = DUMMY_DATA;
-
+const MatchesBetsTable = ({bets}) => {
     return (
         <table className="table table-striped">
             <thead>
@@ -127,38 +123,38 @@ const MatchesBetsTable = (props) => {
             </thead>
             <tbody>
             {
-                matches && matches.map(match =>
+                bets.map(bet =>
                     <tr>
                         <td className="admin">
-                            {match.id}
+                            {bet.relatedMatch.id}
                         </td>
 
                         <td className="flex-row v-align-center">
                             <TeamAndSymbol
-                                name={match.homeTeam.name}
-                                crest_url={match.homeTeam.flag}
+                                name={bet.relatedMatch.home_team.name}
+                                crest_url={bet.relatedMatch.home_team.crest_url}
                                 // is_loser_bg={match.actualResults.homeTeamScore < match.actualResults.awayTeamScore}
                                 // is_winner_bg={match.actualResults.homeTeamScore > match.actualResults.awayTeamScore}
-                                is_underlined={match.userBet.homeTeamScore > match.userBet.awayTeamScore}
-                                is_bold={match.actualResults.homeTeamScore > match.actualResults.awayTeamScore}
+                                is_underlined={bet.result_home > bet.result_away}
+                                is_bold={bet.relatedMatch.result_home > bet.relatedMatch.result_away}
                             />
                             <span className="dash-space"> - </span>
                             <TeamAndSymbol
-                                name={match.awayTeam.name}
-                                crest_url={match.awayTeam.flag}
+                                name={bet.relatedMatch.away_team.name}
+                                crest_url={bet.relatedMatch.away_team.crest_url}
                                 // is_loser_bg={match.actualResults.homeTeamScore > match.actualResults.awayTeamScore}
                                 // is_winner_bg={match.actualResults.homeTeamScore < match.actualResults.awayTeamScore}
-                                is_underlined={match.userBet.homeTeamScore < match.userBet.awayTeamScore}
-                                is_bold={match.actualResults.homeTeamScore < match.actualResults.awayTeamScore}
+                                is_underlined={bet.result_home < bet.result_away}
+                                is_bold={bet.relatedMatch.result_home < bet.relatedMatch.result_away}
                             />
                         </td>
                         <td className="v-align-center">
                             <MatchResult
                                 winner_class="underlined"
                                 matchData={{
-                                    winner_side: match.userBet.homeTeamScore > match.userBet.awayTeamScore ? "home" : match.userBet.homeTeamScore < match.userBet.awayTeamScore ? "away" : "",
-                                    result_home: match.userBet.homeTeamScore,
-                                    result_away: match.userBet.awayTeamScore,
+                                    winner_side: bet.result_home > bet.result_away ? "home" : bet.result_home < bet.result_away ? "away" : "",
+                                    result_home: bet.result_home,
+                                    result_away: bet.result_away,
                                 }}
                             />
                         </td>
@@ -166,9 +162,9 @@ const MatchesBetsTable = (props) => {
                             <MatchResult
                                 winner_class="bolded"
                                 matchData={{
-                                    winner_side: match.actualResults.homeTeamScore > match.actualResults.awayTeamScore ? "home" : match.actualResults.homeTeamScore < match.actualResults.awayTeamScore ? "away" : "",
-                                    result_home: match.actualResults.homeTeamScore,
-                                    result_away: match.actualResults.awayTeamScore,
+                                    winner_side: bet.relatedMatch.result_home > bet.relatedMatch.result_away ? "home" : bet.relatedMatch.result_home < bet.relatedMatch.result_away ? "away" : "",
+                                    result_home: bet.relatedMatch.result_home,
+                                    result_away: bet.relatedMatch.result_away,
                                 }}
                             />
                         </td>

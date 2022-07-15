@@ -10,6 +10,7 @@ import { map } from 'lodash'
 
 
 export const CurrentUser = state => state.currentUser ?? {id: 20};
+export const Users = state => state.users ?? {};
 export const Bets = state => state.bets ?? {};
 export const Leaderboard = state => state.leaderboard ?? {};
 export const Matches = state => state.matches ?? {};
@@ -57,6 +58,21 @@ export const LeaderboardSelector = createSelector(
 //         })
 //     }
 // );
+
+export const BetsByTypeSelector = createSelector(
+    Bets,
+    bets => {
+        return _.groupBy(Object.values(bets), bet => bet.type);
+    }
+);
+
+export const QuestionBets = createSelector(
+    BetsByTypeSelector,
+    betsByType => {
+        console.log({betsByType})
+        return betsByType[BetTypes.SpecialBet] ?? [];
+    }
+);
 
 export const BetsByUserByTypeSelector = createSelector(
     Bets,

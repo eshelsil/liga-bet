@@ -150,10 +150,7 @@ const DUMMY_DATA = {
     ],
 }
 
-const GroupPositionBetsTable = (props) => {
-
-    // const {groupPositionBet} = props;
-    const {groupPositionBet} = DUMMY_DATA;
+const GroupPositionBetsTable = ({bets}) => {
 
 
     return <table className="table table-striped">
@@ -174,55 +171,51 @@ const GroupPositionBetsTable = (props) => {
         <tbody>
         {/*@foreach($groups as $group)*/}
         {
-            groupPositionBet && groupPositionBet
-                // sort alphabetically by group name
-                .sort((group1, group2) => group1.name.localeCompare(group2.name))
-                .map(group =>
-                    <tr>
-                        <td className="admin">
-                            {group.id}
-                        </td>
+            bets
+            // sort alphabetically by group name
+            .sort((bet1, bet2) => bet1.relatedGroup.name.localeCompare(bet2.relatedGroup.name))
+            .map(bet =>
+                <tr>
+                    <td className="admin">
+                        {bet.relatedGroup.id}
+                    </td>
 
-                        <td>
-                            {group.name}
-                        </td>
-                        <td>
-                            <div className="col pull-right">
-                                {
-                                    group.userBet
-                                        // sort by position of the team
-                                        .sort((team1, team2) => team1.position - team2.position)
-                                        .map(team =>
-                                            <div className="flex-row">
-                                                <span>
-                                                    ({team.position})
-                                                </span>
-                                                {<TeamAndSymbol name={team.name} crest_url={team.flag}/>}
-                                            </div>
-                                        )
-                                }
-                            </div>
-                        </td>
-                        <td>
-                            <div className="col pull-right">
-                                {
-                                    group.actualResult
-                                        // sort by position of the team
-                                        .sort((team1, team2) => team1.position - team2.position)
-                                        .map(team =>
-                                            <div className="flex-row">
-                                                <span>
-                                                    ({team.position})
-                                                </span>
-                                                {<TeamAndSymbol name={team.name} crest_url={team.flag}/>}
-                                            </div>
-                                        )
-                                }
-                            </div>
-                        </td>
+                    <td>
+                        {bet.relatedGroup.name}
+                    </td>
+                    <td>
+                        <div className="col pull-right">
+                            {
+                                bet.standings.map(
+                                    (team, index) =>
+                                        <div className="flex-row">
+                                            <span>
+                                                ({index + 1})
+                                            </span>
+                                            {<TeamAndSymbol name={team.name} crest_url={team.crest_url}/>}
+                                        </div>
+                                )
+                            }
+                        </div>
+                    </td>
+                    <td>
+                        <div className="col pull-right">
+                            {
+                                bet.relatedGroup.standings.map(
+                                    (team, index) =>
+                                        <div className="flex-row">
+                                            <span>
+                                                ({index + 1})
+                                            </span>
+                                            {<TeamAndSymbol name={team.name} crest_url={team.crest_url}/>}
+                                        </div>
+                                )
+                            }
+                        </div>
+                    </td>
 
-                    </tr>
-                )
+                </tr>
+            )
         }
         </tbody>
     </table>

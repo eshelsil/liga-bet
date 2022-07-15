@@ -4,6 +4,7 @@ import specialQuestions from "./specialQuestions";
 import matches from "./matches";
 import groups from "./groups";
 import bets from "./bets";
+import users from "./users";
 
 const init_state = {};
 
@@ -15,5 +16,6 @@ export default function root(state = init_state, action) {
         specialQuestions: specialQuestions(state.specialQuestions, action),
         matches: matches(state.matches, action),
         groups: groups(state.groups, action),
+        users: users(state.users, action),
     }
 }
