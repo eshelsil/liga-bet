@@ -9,6 +9,7 @@ export const ClosedMatchBetsSelector = createSelector(
         const done_matches = [];
         const live_matches = [];
         for (const match of Object.values(matches)){
+            if (!match.closed_for_bets) continue;
             const bets = matchBetsByMatchId[match.id] ?? [];
             const betsByValue = _.groupBy(bets, getMatchBetValue);
             const matchWithBetsByValue = {

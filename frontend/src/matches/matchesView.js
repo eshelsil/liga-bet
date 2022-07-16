@@ -57,14 +57,28 @@ function MatchGumblesList({
                         </tr>
                     </thead>
                     <tbody>
-                        {Object.entries(betsByValue).map(([betVal, bets]) => {
+                        {Object.entries(betsByValue)
+                        .sort(([betVal1, bets1], [betVal2, bets2]) => {
+                            const score1 = bets1[0].score;
+                            const score2 = bets2[0].score;
+                            return score2 - score1;
+                        })
+                        .map(([betVal, bets]) => {
                             const betSample = bets[0];
+                            const {winner_side, result_home, result_away} = betSample;
                             const gumblers = bets.map(bet => bet.user_name);
                             return (
                                 <tr key={betVal}>
                                     <td className="admin">match-id: {match.id}</td>
                                     <td>
-                                        <MatchResult matchData={match} winner_class={'bold'} />
+                                        <MatchResult
+                                            matchData={{
+                                                winner_side,
+                                                result_home,
+                                                result_away,
+                                            }}
+                                            winner_class={'bolded'}
+                                        />
                                     </td>
                                     <td>
                                     {gumblers.map(

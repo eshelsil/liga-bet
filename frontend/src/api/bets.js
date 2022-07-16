@@ -1,6 +1,136 @@
 const sendRequest = async () => {
     return {
         // betId
+        10: {
+            type: 1,
+            type_id: 4,
+            user_id: 23,
+            result_home: 0,
+            result_away: 1,
+            winner_side: 'away',
+            relatedMatch: {
+                home_team: {
+                    name: "Belgium",
+                    id: 10,
+                    crest_url: "https://crests.football-data.org/805.svg"
+                },
+                away_team: {
+                    name: "Nethelands",
+                    id: 6,
+                    crest_url: "https://crests.football-data.org/8601.svg"
+                },
+                result_home: null,
+                result_away: null,
+                winner_side: null,
+                id: 4,
+            },
+            id: 10,
+            score: null,
+        },
+        11: {
+            type: 1,
+            type_id: 4,
+            user_id: 7,
+            result_home: 0,
+            result_away: 1,
+            winner_side: 'away',
+            relatedMatch: {
+                home_team: {
+                    name: "Belgium",
+                    id: 10,
+                    crest_url: "https://crests.football-data.org/805.svg"
+                },
+                away_team: {
+                    name: "Nethelands",
+                    id: 6,
+                    crest_url: "https://crests.football-data.org/8601.svg"
+                },
+                result_home: null,
+                result_away: null,
+                winner_side: null,
+                id: 4,
+            },
+            id: 11,
+            score: null,
+        },
+        12: {
+            type: 1,
+            type_id: 4,
+            user_id: 1,
+            result_home: 0,
+            result_away: 2,
+            winner_side: 'away',
+            relatedMatch: {
+                home_team: {
+                    name: "Belgium",
+                    id: 10,
+                    crest_url: "https://crests.football-data.org/805.svg"
+                },
+                away_team: {
+                    name: "Nethelands",
+                    id: 6,
+                    crest_url: "https://crests.football-data.org/8601.svg"
+                },
+                result_home: null,
+                result_away: null,
+                winner_side: null,
+                id: 4,
+            },
+            id: 12,
+            score: null,
+        },
+        1: {
+            type: 1,
+            type_id: 3,
+            user_id: 23,
+            result_home: 0,
+            result_away: 0,
+            winner_side: 'home',
+            relatedMatch: {
+                home_team: {
+                    name: "Belgium",
+                    id: 10,
+                    crest_url: "https://crests.football-data.org/805.svg"
+                },
+                away_team: {
+                    name: "Switzerland",
+                    id: 9,
+                    crest_url: "https://crests.football-data.org/788.svg"
+                },
+                result_home: 3,
+                result_away: 1,
+                winner_side: 'home',
+                id: 3,
+            },
+            id: 1,
+            score: 0,
+        },
+        2: {
+            type: 1,
+            type_id: 3,
+            user_id: 7,
+            result_home: 3,
+            result_away: 2,
+            winner_side: 'home',
+            relatedMatch: {
+                home_team: {
+                    name: "Belgium",
+                    id: 10,
+                    crest_url: "https://crests.football-data.org/805.svg"
+                },
+                away_team: {
+                    name: "Switzerland",
+                    id: 9,
+                    crest_url: "https://crests.football-data.org/788.svg"
+                },
+                result_home: 3,
+                result_away: 1,
+                winner_side: 'home',
+                id: 3,
+            },
+            id: 2,
+            score: 1,
+        },
         3: {
             type: 1,
             type_id: 3,
@@ -26,6 +156,58 @@ const sendRequest = async () => {
             },
             id: 3,
             score: 3,
+        },
+        4432: {
+            type: 1,
+            type_id: 3,
+            user_id: 18,
+            result_home: 5,
+            result_away: 2,
+            winner_side: 'home',
+            relatedMatch: {
+                home_team: {
+                    name: "Belgium",
+                    id: 10,
+                    crest_url: "https://crests.football-data.org/805.svg"
+                },
+                away_team: {
+                    name: "Switzerland",
+                    id: 9,
+                    crest_url: "https://crests.football-data.org/788.svg"
+                },
+                result_home: 3,
+                result_away: 1,
+                winner_side: 'home',
+                id: 3,
+            },
+            id: 4432,
+            score: 3,
+        },
+        145: {
+            type: 1,
+            type_id: 2,
+            user_id: 20,
+            result_home: 1,
+            result_away: 3,
+            winner_side: 'away',
+            relatedMatch: {
+                home_team:  {
+                    name: "Austria",
+                    id: 5,
+                    crest_url: "https://crests.football-data.org/816.svg",
+                  },
+                  away_team:  {
+                    name: "Nethelands",
+                    id: 6,
+                    crest_url: "https://crests.football-data.org/8601.svg",
+                  },
+                  result_home: 1,
+                  result_away: 3,
+                  winner_side: 'away',
+                  id: 2,
+            },
+            id: 145,
+            score: 9,
         },
         4: {
             type: 3,
