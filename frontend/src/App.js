@@ -11,7 +11,7 @@ import Leaderboard from './leaderboard/leaderboard';
 import './App.scss';
 import OpenMatchesView from "./open_matches/openMachesView";
 import UserBetsView from "./user_bets/userBetsView";
-import MatchesView from "./matches/machesView";
+import MatchesView from "./matches/ClosedMatchBetsProvider";
 import GroupStandingsBetsView from "./group_bets/GroupStandingsBetsProvider";
 import AllQuestionBetsView from "./special_bets/closedQuestionBets";
 import MyBetsView from "./my_bets/myBetsView";
@@ -28,8 +28,8 @@ function Content(){
 	}
 	return <React.Fragment>
 		<Switch>
-		<Route path="/open-matches" component={OpenMatchesView} />
 		<Route path="/closed-matches" component={MatchesView} />
+		<Route path="/open-matches" component={OpenMatchesView} />
 		<Route path="/open-questions" component={UserBetsView} />
 		<Route path="/open-group-standings" component={UserBetsView} />
 		{/* ABOVE TBD ^--------^*/}
@@ -53,7 +53,8 @@ function AppLink({path, label}){
 		history.push(path);
 	}
 	return (
-		<p><a href={path} onClick={onClick}>{label}</a></p>
+		// <p><a href={path} onClick={onClick}>{label}</a></p>
+		<p><a href={path}>{label}</a></p>
 	);
 }
 

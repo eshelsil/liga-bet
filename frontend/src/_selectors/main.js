@@ -75,6 +75,23 @@ export const BetsByTypeSelector = createSelector(
     }
 );
 
+export const BetsByTypeWithIdSelector = createSelector(
+    BetsWithUsersName,
+    bets => {
+        const res = {};
+        for (const bet of Object.values(bets)){
+            if (!res[bet.type]){
+                res[bet.type] = {};
+            }
+            if (!res[bet.type][bet.type_id]){
+                res[bet.type][bet.type_id] = [];
+            }
+            res[bet.type][bet.type_id].push(bet);
+        }
+        return res;
+    }
+);
+
 export const QuestionBets = createSelector(
     BetsByTypeSelector,
     betsByType => {
@@ -86,6 +103,20 @@ export const GroupStandingBets = createSelector(
     BetsByTypeSelector,
     betsByType => {
         return betsByType[BetTypes.GroupsRank] ?? [];
+    }
+);
+
+export const MatchBets = createSelector(
+    BetsByTypeSelector,
+    betsByType => {
+        return betsByType[BetTypes.Match] ?? [];
+    }
+);
+
+export const MatchBetsById = createSelector(
+    BetsByTypeWithIdSelector,
+    betsByTypeWithId => {
+        return betsByTypeWithId[BetTypes.Match] ?? {};
     }
 );
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getStandingsValue } from '../utils/standings';
+import { getStandingsBetValue } from '../utils/bet_values_generators';
 import TeamWithFlag from '../widgets/team_with_flag';
 
 function SingleGroupBets({
@@ -9,7 +9,7 @@ function SingleGroupBets({
 	const {isDone,  standings: teams = []} = group;
 	const [open, setOpen] = useState(false);
 	const toggleOpen = () => setOpen(!open);
-    const betsByAnswer = _.groupBy(bets, bet => getStandingsValue(bet.standings));
+    const betsByAnswer = _.groupBy(bets, bet => getStandingsBetValue(bet.standings));
     return (
     <div className="panel-group" style={{marginBottom: 0}}>
         <div className="panel panel-default">

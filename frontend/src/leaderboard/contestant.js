@@ -33,7 +33,7 @@ function renderRankChange(change){
     if (change > 0){
         return <bdi><span className="label label-success" style={{direction: "ltr"}} dir="RTL">+{change}</span></bdi>
     } else if (change < 0){
-        return <bdi><span className="label label-danger" style={{direction: "ltr"}} dir="RTL">+{change}</span></bdi>
+        return <bdi><span className="label label-danger" style={{direction: "ltr"}} dir="RTL">{change}</span></bdi>
     }
     return null;
 }
@@ -41,6 +41,8 @@ function renderRankChange(change){
 function formatSpecialAnswer(specialQuestionType, answer){
     console.log({specialQuestionType, answer})
     switch (specialQuestionType){
+        case 1: // winner
+        case 5: // offensive_team
         case 4: // top scorer
             const {name, crest_url} = answer;
             return <TeamWithFlag name={name} crest_url={crest_url}/>

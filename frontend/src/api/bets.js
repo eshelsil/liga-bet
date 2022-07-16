@@ -3,7 +3,7 @@ const sendRequest = async () => {
         // betId
         3: {
             type: 1,
-            // type_id: 3,
+            type_id: 3,
             user_id: 20,
             result_home: 5,
             result_away: 2,
@@ -29,7 +29,7 @@ const sendRequest = async () => {
         },
         4: {
             type: 3,
-            // type_id: 4,
+            type_id: 4,
             user_id: 20,
             isDone: true,
             answer: {
@@ -51,7 +51,7 @@ const sendRequest = async () => {
         },
         49: {
             type: 3,
-            // type_id: 4,
+            type_id: 4,
             user_id: 1,
             isDone: true,
             answer: {
@@ -73,7 +73,7 @@ const sendRequest = async () => {
         },
         50: {
             type: 3,
-            // type_id: 4,
+            type_id: 4,
             user_id: 23,
             isDone: true,
             answer: {
@@ -95,7 +95,7 @@ const sendRequest = async () => {
         },
         40: {
             type: 3,
-            // type_id: 4,
+            type_id: 1,
             user_id: 23,
             isDone: true,
             answer: {
@@ -104,7 +104,7 @@ const sendRequest = async () => {
                 crest_url: "https://crests.football-data.org/790.svg"
             },
             relatedQuestion: {
-                name: "Top Scroer",
+                name: "Winner",
                 answer: {
                     name: "France",
                     id: 8,
@@ -117,7 +117,7 @@ const sendRequest = async () => {
         },
         41: {
             type: 3,
-            // type_id: 4,
+            type_id: 5,
             user_id: 4,
             isDone: false,
             answer: {
@@ -135,7 +135,7 @@ const sendRequest = async () => {
         },
         5: {
             type: 2,
-            // type_id: 1,
+            type_id: 1,
             user_id: 20,
             standings: [
                 {
@@ -191,7 +191,7 @@ const sendRequest = async () => {
         },
         6: {
             type: 2,
-            // type_id: 2,
+            type_id: 2,
             user_id: 20,
             standings: [
                 {
