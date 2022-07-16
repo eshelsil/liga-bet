@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom'
 import { UserContext } from '../contexts/user';
 
 const routesMap = {
-	"home": {
+	"leaderboard": {
 		label: "טבלת ניקוד",
 		iconClass: "podium_icon"
 	},
@@ -11,20 +11,20 @@ const routesMap = {
 		label: "הימורים פתוחים",
 		iconClass: "bet_icon"
 	},
-	"today-matches": {
+	"closed-matches": {
 		label: "צפייה בהימורים",
 		iconClass: "watch_bets_icon"
 	},
-	"open-group-bets": {
+	"open-group-standings": {
 		label: "הימורי בתים פתוחים",
 	},
-	"open-special-bets": {
+	"open-questions": {
 		label: "הימורים מיוחדים פתוחים",
 	},
-	"all-group-bets": {
+	"all-group-standings": {
 		label: "צפייה בהימורי בתים",
 	},
-	"all-special-bets": {
+	"all-questions": {
 		label: "צפייה בהימורים מיוחדים",
 	},
 	"my-bets": {
@@ -48,23 +48,20 @@ function AppHeader(props){
 	const history = useHistory();
 	const currentRoute = location.pathname.substring(1);
 	
-	const groupBetsRoute = isTourStarted ? "all-group-bets" : "open-group-bets";
-	const specialBetsRoute = isTourStarted ? "all-special-bets" : "open-special-bets";
-	const isPreTourActive = ["all-group-bets", "all-special-bets", "open-group-bets", "open-special-bets"].includes(currentRoute);
+	const groupBetsRoute = isTourStarted ? "all-group-standings" : "open-group-standings";
+	const specialBetsRoute = isTourStarted ? "all-questions" : "open-questions";
+	const isPreTourActive = ["all-group-standings", "all-questions", "open-group-standings", "open-questions"].includes(currentRoute);
 	
-	const navigate = (path) => {
-	}
 
 	function renderMenuItem(route){
 		const isActive = currentRoute === route;
 		const {iconClass, label} = routesMap[route];
+		const onClick = (e) => {
+			e.preventDefault();
+			history.push(`/${route}`);
+		}
 		return <li key={route} className={isActive ? "active" : ""}>
-			<a href="#" onClick={
-				e => {
-					e.preventDefault();
-					history.push(`/${route}`);
-				}
-			}>
+			<a href={`/${route}`} onClick={onClick}>
 				{iconClass ? <div className={`icon ${iconClass}`}></div> : null}
 				<span className="menu-label">{label}</span>
 			</a>
@@ -80,13 +77,20 @@ function AppHeader(props){
 						<span className="icon-bar"></span>
 						<span className="icon-bar"></span>
 					</button>
-					<a className="navbar-brand" href="/home">יורו חברים - {userContext.name}</a>
+					<a
+						className="navbar-brand"
+						href="/"
+						onClick={e => {
+							e.preventDefault();
+							history.push('/');
+						}}
+					>יורו חברים - {userContext.name}</a>
 				</div>
 				<div className="collapse navbar-collapse" style={{"float": "right"}} id="myNavbar">
 					<ul className="nav navbar-nav navbar-right">
-						{renderMenuItem("home")}
+						{renderMenuItem("leaderboard")}
 						{renderMenuItem("open-matches")}
-						{renderMenuItem("today-matches")}
+						{renderMenuItem("closed-matches")}
 						<li key={"preTourBets"} className={`dropdown ${isPreTourActive ? "active" : ""}`}>
 						<a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 							<div className="icon pre_game_icon"></div>

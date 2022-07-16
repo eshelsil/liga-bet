@@ -109,25 +109,25 @@
 @mixin menu_icons_hover(){
   div.icon{
     &.podium_icon{
-      background-image: url("/img/podium_hover.svg") ;
+      background-image: url("/static/img/podium_hover.svg") ;
     }
     &.bet_icon{
-      background-image: url("/img/bet_hover.svg");
+      background-image: url("/static/img/bet_hover.svg");
     }
     &.watch_bets_icon{
-      background-image: url("/img/watch_hover.svg");
+      background-image: url("/static/img/watch_hover.svg");
     }
     &.pre_game_icon{
-      background-image: url("/img/pre_game_hover.svg");
+      background-image: url("/static/img/pre_game_hover.svg");
     }
     &.form_icon{
-      background-image: url("/img/form_hover.svg");
+      background-image: url("/static/img/form_hover.svg");
     }
     &.change_password_icon{
-      background-image: url("/img/change_password_hover.svg");
+      background-image: url("/static/img/change_password_hover.svg");
     }
     &.logout_icon{
-      background-image: url("/img/logout_hover.svg");
+      background-image: url("/static/img/logout_hover.svg");
     }
   }
 }
@@ -143,26 +143,26 @@
         right: 5px;
         background-size: cover;
         &.podium_icon{
-          background-image: url("/img/podium.svg");
+          background-image: url("/static/img/podium.svg");
         }
         &.bet_icon{
-          background-image: url("/img/bet.svg");
+          background-image: url("/static/img/bet.svg");
         }
         &.watch_bets_icon{
-          background-image: url("/img/watch.svg");
+          background-image: url("/static/img/watch.svg");
         }
         &.pre_game_icon{
-          background-image: url("/img/pre_game.svg");
+          background-image: url("/static/img/pre_game.svg");
         }
         &.form_icon{
-          background-image: url("/img/form.svg");
+          background-image: url("/static/img/form.svg");
         }
         &.change_password_icon{
           height: 29px;
-          background-image: url("/img/change_password.svg");
+          background-image: url("/static/img/change_password.svg");
         }
         &.logout_icon{
-          background-image: url("/img/logout.svg");
+          background-image: url("/static/img/logout.svg");
         }
       }
       > span.menu-label {
