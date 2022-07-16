@@ -97,7 +97,7 @@ const sendRequest = async () => {
       winner_side: null,
       is_done: false,
       closed_for_bets: false,
-      start_time: new Date(new Date() + 1 * DAY),
+      start_time: new Date(Number(new Date()) + HOUR),
       id: 5,
     },
   };
