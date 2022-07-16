@@ -6,7 +6,7 @@ use App\Ranks;
 use Illuminate\Http\Request;
 use App\DataCrawler\Crawler;
 use Illuminate\Support\Facades\Cache;
-use App\Match;
+use App\Game;
 use App\Team;
 use App\User;
 use App\Group;
@@ -61,7 +61,7 @@ class ApiFetchController extends Controller
     }
 
     private function saveNewMatches($matches) {
-        $existingMatches = Match::all();
+        $existingMatches = Game::all();
         $new_matches = $matches->filter(function($m) use ($existingMatches){
             $id = data_get($m, 'id');
             return !in_array($id, $existingMatches->pluck('external_id')->toArray());
@@ -75,14 +75,14 @@ class ApiFetchController extends Controller
         });
 
         foreach ($new_matches as $match_data) {
-            $match = new Match();
+            $match = new Game();
             $match->external_id  = data_get($match_data, 'id');
             $match->type         = data_get($match_data, 'type');
             $match->sub_type     = data_get($match_data, 'sub_type');
             $match->team_home_id = data_get($match_data, 'team_home_id');
             $match->team_away_id = data_get($match_data, 'team_away_id');
             $match->start_time   = data_get($match_data, 'start_time');
-            Log::debug("Saving Match: ".$match->team_home_id." vs. ".$match->team_away_id."<br>");
+            Log::debug("Saving Game: ".$match->team_home_id." vs. ".$match->team_away_id."<br>");
             $match->save();
             User::getMonkeyUsers()->each(function($monkey){
                 $monkey->autoBetNewMatches();
@@ -97,7 +97,7 @@ class ApiFetchController extends Controller
             $match->save();
 
             $this->user_fetch_got_games = true;
-            Log::debug("Saving Result of Match: ext_id - ".$match->external_id." | id - ".$match->id."-> ".$match->result_home." - ".$match->result_away."<br>");
+            Log::debug("Saving Result of Game: ext_id - ".$match->external_id." | id - ".$match->id."-> ".$match->result_home." - ".$match->result_away."<br>");
             $match->completeBets();
             if ($match->isKnockout()){
                 $this->calculateSpecialBets(['winner', 'runner_up']);
@@ -108,7 +108,7 @@ class ApiFetchController extends Controller
             if (!Group::hasAllGroupsStandings()){
                 $this->fetchStandings();
             }
-            if (Match::isGroupStageDone()){
+            if (Game::isGroupStageDone()){
                 $this->calculateSpecialBets(['offensive_team']);
             }
             Ranks::updateRanks();
@@ -117,7 +117,7 @@ class ApiFetchController extends Controller
 
     private function updateScorers($scorers) {
         $relevantScorers = Scorer::all();
-        $saveFirstAnyway = Match::isTournamentDone();
+        $saveFirstAnyway = Game::isTournamentDone();
         $mostGoals = null;
         foreach ($scorers as $index => $scorer){
             $id = data_get($scorer, 'player.id');
@@ -164,7 +164,7 @@ class ApiFetchController extends Controller
         if ($blockEndAt = Cache::get("general_api_update")) {
             return response("SERVER_ERROR_MSG:". "עדכון תוצאות חסום מכיוון שכבר בוצעה קריאת עדכון ב5 הדקות האחרונות. יהיה ניתן לנסות לעדכן שוב בשעה:<br>{$blockEndAt}", 400);
         }
-        if (!Match::hasOneWaitingForResult()){
+        if (!Game::hasOneWaitingForResult()){
             return response("SERVER_ERROR_MSG:". "לא בוצע עדכון מכיוון שאין משחקים שממתינים לתוצאות", 400);
         }
         try {

@@ -221,7 +221,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify({
                     bets: [{
-                        type: {{ \App\Enums\BetTypes::Match }},
+                        type: {{ \App\Enums\BetTypes::Game }},
                         data: params
                     }]
                 }),

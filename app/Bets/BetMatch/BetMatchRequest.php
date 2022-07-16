@@ -5,7 +5,7 @@ namespace App\Bets\BetMatch;
 use App\Bets\AbstractBetRequest;
 use App\Bets\BetableInterface;
 use App\Exceptions\JsonException;
-use App\Match;
+use App\Game;
 use Illuminate\Support\Facades\Log;
 
 class BetMatchRequest extends AbstractBetRequest
@@ -17,7 +17,7 @@ class BetMatchRequest extends AbstractBetRequest
     /**
      * BetMatchRequest constructor.
      *
-     * @param Match $match
+     * @param Game $match
      * @param array $data
      */
     public function __construct($match, $data = []) {
@@ -60,9 +60,9 @@ class BetMatchRequest extends AbstractBetRequest
     }
 
     /**
-     * @return Match
+     * @return Game
      */
-    public function getMatch(): ?Match
+    public function getMatch(): ?Game
     {
         return $this->match;
     }

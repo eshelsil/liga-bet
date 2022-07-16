@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Match;
+use App\Game;
 use App\Ranks;
 use App\User;
 use App\Team;
@@ -53,7 +53,7 @@ class HomeController extends Controller
 
         return view('home')->with([
             "table" => $table,
-            "matches" => Match::all(),
+            "matches" => Game::all(),
             "teamsByExtId" => $teamsByExtId,
             "summary_msg" => $summary_msg,
         ]);
@@ -68,7 +68,7 @@ class HomeController extends Controller
     private function getSummaryMessage($rankTable)
     {   
 
-        if (!Match::isTournamentDone() || !SpecialBet::hasAllCustomAnswers()){
+        if (!Game::isTournamentDone() || !SpecialBet::hasAllCustomAnswers()){
             return null;
         }
         $user_id = Auth::user()->id;
@@ -108,9 +108,9 @@ class HomeController extends Controller
 
     public function showTodayMatches()
     {
-        $matches = Match::orderBy("start_time")
+        $matches = Game::orderBy("start_time")
                         ->get();
-        $matches = $matches->filter(function (Match $match) {
+        $matches = $matches->filter(function (Game $match) {
             return $match->isClosedToBets();
         })->groupBy('is_done');
         $done_matches = $matches[1] ?? collect([]);
@@ -127,7 +127,7 @@ class HomeController extends Controller
 
     public function showMyBets()
     {
-        $matches = Match::query()->orderBy("id")->get();
+        $matches = Game::query()->orderBy("id")->get();
         $user = Auth::user();
         $teams = Team::all();
         

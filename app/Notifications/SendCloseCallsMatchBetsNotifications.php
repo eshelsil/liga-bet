@@ -3,7 +3,7 @@
 namespace App\Notifications;
 
 use App\Enums\BetTypes;
-use App\Match;
+use App\Game;
 use App\Team;
 use App\User;
 use Fcm\FcmClient;
@@ -16,7 +16,7 @@ class SendCloseCallsMatchBetsNotifications
 
     public function sendNotifications()
     {
-        $closeCallMatches = Match::query()
+        $closeCallMatches = Game::query()
             ->whereBetween("start_time", [
                 now()->format("U"),
                 now()->addMinutes(30)->format("U"),
@@ -37,7 +37,7 @@ class SendCloseCallsMatchBetsNotifications
 
 
 
-        Log::debug("[SendCloseCallsMatches] Got Following games: " .$closeCallMatches->map(function (Match $match) use ($teams) {
+        Log::debug("[SendCloseCallsMatches] Got Following games: " .$closeCallMatches->map(function (Game $match) use ($teams) {
             return $teams->get($match->team_home_id)->id . " - " . $teams->get($match->team_home_id)->name
                    . " vs " .
                    $teams->get($match->team_away_id)->id . " - " . $teams->get($match->team_away_id)->name;
@@ -46,7 +46,7 @@ class SendCloseCallsMatchBetsNotifications
         $users = User::query()
             ->whereNotNull("fcm_token")
             ->with(["bets" => function ($q) use ($closeCallMatches) {
-                    $q->where("type", BetTypes::Match)
+                    $q->where("type", BetTypes::Game)
                       ->whereIn("type_id", $closeCallMatches->pluck("id"));
                 }
             ])
@@ -60,7 +60,7 @@ class SendCloseCallsMatchBetsNotifications
 
             Log::debug("[SendCloseCallsMatches] Checking user {$user->id}, with already sent: {$alreadySentMatchIdsStr}");
 
-            $missingBetsMatches = $closeCallMatches->filter(function (Match $match) use ($user, $alreadySentMatchIds) {
+            $missingBetsMatches = $closeCallMatches->filter(function (Game $match) use ($user, $alreadySentMatchIds) {
                 return ! $user->bets->contains("type_id", $match->id) && !in_array($match->id, $alreadySentMatchIds);
             })->sortBy("id");
 
@@ -73,7 +73,7 @@ class SendCloseCallsMatchBetsNotifications
 
             if ( ! array_key_exists($key, $notifications)) {
                 $subject = "הזדמנות אחרונה לשליחת הימורי חברים";
-                $body    = "עוד לא שלחת הימורים ל: " . $missingBetsMatches->map(function (Match $match) use ($teams) {
+                $body    = "עוד לא שלחת הימורים ל: " . $missingBetsMatches->map(function (Game $match) use ($teams) {
                         return $teams->get($match->team_home_id)->name . " נגד " . $teams->get($match->team_away_id)->name;
                     })->implode(", ");
 

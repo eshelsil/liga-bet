@@ -11,7 +11,7 @@ namespace App\Actions;
 use App\Competition;
 use App\DataCrawler\Crawler;
 use App\Group;
-use App\Match;
+use App\Game;
 use App\Team;
 use App\User;
 use Illuminate\Support\Collection;
@@ -99,7 +99,7 @@ class CreateCompetition
     private function saveMatches(Collection $matches): Collection
     {
         return $this->matches = $matches->map(function ($matchData) {
-            $match = new Match();
+            $match = new Game();
             $match->competition_id = $this->competition->id;
             $match->external_id  = $matchData['id'];
             $match->type         = $matchData['type'];
@@ -109,7 +109,7 @@ class CreateCompetition
             $match->start_time   = $matchData['start_time'];
             $match->save();
 
-            Log::debug("Saving Match: ".$match->team_home_id." vs. ".$match->team_away_id."<br>");
+            Log::debug("Saving Game: ".$match->team_home_id." vs. ".$match->team_away_id."<br>");
 
             User::getMonkeyUsers()->each(function($monkey){
                 $monkey->autoBetNewMatches();

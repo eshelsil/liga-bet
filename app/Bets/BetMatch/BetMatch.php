@@ -4,7 +4,7 @@ namespace App\Bets\BetMatch;
 
 use App\Bet;
 use App\Bets\AbstractBet;
-use App\Match;
+use App\Game;
 use App\User;
 
 use App\Enums\BetTypes;
@@ -14,7 +14,7 @@ class BetMatch extends AbstractBet
 {
     /** @var Bet $bet */
     protected $bet = null;
-    /** @var Match $match */
+    /** @var Game $match */
     protected $match = null;
     /** @var User $user */
     protected $user = null;
@@ -24,7 +24,7 @@ class BetMatch extends AbstractBet
 
     protected function setEntity($entity = null)
     {
-        $this->match = $entity ?: Match::query()->find($this->bet->type_id);
+        $this->match = $entity ?: Game::query()->find($this->bet->type_id);
     }
 
     protected function getEntity()
@@ -37,7 +37,7 @@ class BetMatch extends AbstractBet
 
     protected static function getType()
     {
-        return BetTypes::Match;
+        return BetTypes::Game;
     }
 
     protected function setRequest()

@@ -14,12 +14,12 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Arr;
 
 /**
- * Class Match
+ * Class Game
  * @package App
  */
 
 /**
- * App\Match
+ * App\Game
  *
  * @property int $id
  * @property string|null $external_id
@@ -36,27 +36,27 @@ use Illuminate\Support\Arr;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $competition_id
  * @property-read mixed $is_done
- * @method static Builder|Match isDone($isDone)
- * @method static Builder|Match newModelQuery()
- * @method static Builder|Match newQuery()
- * @method static Builder|Match query()
- * @method static Builder|Match whereCompetitionId($value)
- * @method static Builder|Match whereCreatedAt($value)
- * @method static Builder|Match whereExternalId($value)
- * @method static Builder|Match whereId($value)
- * @method static Builder|Match whereKoWinner($value)
- * @method static Builder|Match whereResultAway($value)
- * @method static Builder|Match whereResultHome($value)
- * @method static Builder|Match whereScore($value)
- * @method static Builder|Match whereStartTime($value)
- * @method static Builder|Match whereSubType($value)
- * @method static Builder|Match whereTeamAwayId($value)
- * @method static Builder|Match whereTeamHomeId($value)
- * @method static Builder|Match whereType($value)
- * @method static Builder|Match whereUpdatedAt($value)
+ * @method static Builder|Game isDone($isDone)
+ * @method static Builder|Game newModelQuery()
+ * @method static Builder|Game newQuery()
+ * @method static Builder|Game query()
+ * @method static Builder|Game whereCompetitionId($value)
+ * @method static Builder|Game whereCreatedAt($value)
+ * @method static Builder|Game whereExternalId($value)
+ * @method static Builder|Game whereId($value)
+ * @method static Builder|Game whereKoWinner($value)
+ * @method static Builder|Game whereResultAway($value)
+ * @method static Builder|Game whereResultHome($value)
+ * @method static Builder|Game whereScore($value)
+ * @method static Builder|Game whereStartTime($value)
+ * @method static Builder|Game whereSubType($value)
+ * @method static Builder|Game whereTeamAwayId($value)
+ * @method static Builder|Game whereTeamHomeId($value)
+ * @method static Builder|Game whereType($value)
+ * @method static Builder|Game whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Match extends Model implements BetableInterface
+class Game extends Model implements BetableInterface
 {
 
 protected static $groupStageGames = null;
@@ -119,7 +119,7 @@ protected static $theFinal = null;
         }
 
 
-        echo "Match Home ({$this->getTeamHome()->name}): {$this->result_home} | Away ({$this->getTeamAway()->name}): {$this->result_away}<br><br>";
+        echo "Game Home ({$this->getTeamHome()->name}): {$this->result_home} | Away ({$this->getTeamAway()->name}): {$this->result_away}<br><br>";
 
         Log::debug("Creating result");
         $result = new BetMatchRequest($this, [
@@ -150,7 +150,7 @@ protected static $theFinal = null;
      */
     public function getBets()
     {
-        $MatchBets = Bet::query()->where("type", BetTypes::Match)
+        $MatchBets = Bet::query()->where("type", BetTypes::Game)
                        ->where("type_id", $this->id)
                        ->with("user")
                        ->get();
@@ -284,7 +284,7 @@ protected static $theFinal = null;
         if (static::$theFinal){
             return static::$theFinal;
         }
-        return static::$theFinal = Match::where('type', 'knockout')
+        return static::$theFinal = Game::where('type', 'knockout')
             ->where('sub_type', 'FINAL')
             ->first();
     }
@@ -305,7 +305,7 @@ protected static $theFinal = null;
 
     public static function hasOneWaitingForResult()
     {
-        return Match::where('start_time', '<', time() - (60 * 90))
+        return Game::where('start_time', '<', time() - (60 * 90))
                 ->isDone(false)
                 ->exists();
     }
@@ -314,7 +314,7 @@ protected static $theFinal = null;
         if (static::$groupStageGames){
             return static::$groupStageGames;
         }
-        return static::$groupStageGames = Match::query()->isDone(true)
+        return static::$groupStageGames = Game::query()->isDone(true)
             ->where('type', 'group_stage')->get();
     }
     
@@ -331,16 +331,16 @@ protected static $theFinal = null;
         if (static::$knockoutGames){
             return static::$knockoutGames;
         }
-        return static::$knockoutGames = Match::query()->isDone(true)
+        return static::$knockoutGames = Game::query()->isDone(true)
             ->where('type', 'knockout')->get();
     }
 
     public static function isGroupStageDone(){
-        return Match::getGroupStageGamesIfStageDone() !== null;
+        return Game::getGroupStageGamesIfStageDone() !== null;
     }
     
     public static function isTournamentDone(){
-        $final_match = Match::getFinalMatchIfDone();
+        $final_match = Game::getFinalMatchIfDone();
         return !!$final_match;
     }
 

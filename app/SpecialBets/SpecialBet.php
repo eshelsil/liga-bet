@@ -4,7 +4,7 @@ namespace App\SpecialBets;
 
 use App\Bets\BetableInterface;
 use \Illuminate\Support\Collection;
-use App\Match;
+use App\Game;
 use App\Bet;
 use App\Team;
 use App\Scorer;
@@ -30,7 +30,7 @@ class SpecialBet implements BetableInterface
     ];
 
     public function getOffensiveTeams(){
-        $matches = Match::getGroupStageGamesIfStageDone();
+        $matches = Game::getGroupStageGamesIfStageDone();
         if (!$matches){
             return null;
         }
@@ -107,7 +107,7 @@ class SpecialBet implements BetableInterface
     }
 
     public function getChampions(){
-        $final = Match::getFinalMatchIfDone();
+        $final = Game::getFinalMatchIfDone();
         if (!$final){
             return null;
         }
@@ -115,7 +115,7 @@ class SpecialBet implements BetableInterface
     }
 
     public function getRunnerUp(){
-        $final = Match::getFinalMatchIfDone();
+        $final = Game::getFinalMatchIfDone();
         if (!$final){
             return null;
         }
@@ -128,7 +128,7 @@ class SpecialBet implements BetableInterface
 
         $score = 0;
         $team_ext_id = Team::find($team_id)->external_id;
-        $ko_games = Match::getTeamKnockoutGames($team_ext_id);
+        $ko_games = Game::getTeamKnockoutGames($team_ext_id);
         if ($ko_games->count() == 0){
             return null;
         }
@@ -147,7 +147,7 @@ class SpecialBet implements BetableInterface
         $score_for_winning_final = 15;
 
         $score = $this->calcRoadToFinal($team_id);
-        $final = Match::getFinalMatchIfDone();
+        $final = Game::getFinalMatchIfDone();
         if (!$final){
             return $score;
         }

@@ -10,7 +10,7 @@ use App\Bets\BetGroupRank\BetGroupRank;
 use App\Bets\BetSpecialBets\BetSpecialBetsRequest;
 use App\Bets\BetSpecialBets\BetSpecialBets;
 use App\Enums\BetTypes;
-use App\Match;
+use App\Game;
 use App\Team;
 use App\User;
 use App\Group;
@@ -71,9 +71,9 @@ class BetsController extends Controller
         foreach ($betsInput as $betInput) {
             $betInput = (object)$betInput;
             switch ($betInput->type) {
-                case BetTypes::Match:
+                case BetTypes::Game:
                     $betRequest = new BetMatchRequest(
-                        Match::query()->find($betInput->data["type_id"]),
+                        Game::query()->find($betInput->data["type_id"]),
                         $betInput->data
                     );
                     $bets[] = BetMatch::save($user, $betRequest);
@@ -127,8 +127,8 @@ class BetsController extends Controller
         }
 
         // Validate all Matchs has teams and no scores
-        if (isset($betsTypeGrouped[BetTypes::Match])) {
-            $notAllowedMatches = Match::query()->whereIn("id", $betsTypeGrouped[BetTypes::Match])
+        if (isset($betsTypeGrouped[BetTypes::Game])) {
+            $notAllowedMatches = Game::query()->whereIn("id", $betsTypeGrouped[BetTypes::Game])
                 ->where(function(\Illuminate\Database\Eloquent\Builder $q) {
                     $q->whereNull("team_home_id")
                       ->orWhereNull("team_away_id")

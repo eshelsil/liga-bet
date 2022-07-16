@@ -10,7 +10,7 @@ use App\Bets\BetSpecialBets\BetSpecialBetsRequest;
 use App\DataCrawler\AbstractCrawlerMatch;
 use App\DataCrawler\Crawler;
 use App\Enums\BetTypes;
-use App\Match;
+use App\Game;
 use App\SpecialBets\SpecialBet;
 use App\Team;
 use App\Group;
@@ -188,8 +188,8 @@ class AdminController extends Controller
     }
 
     public function completeMatch($id, $scoreHome = null, $scoreAway = null, $isAwayWinner = null) {
-        /** @var Match $match */
-        $match = Match::query()->find($id);
+        /** @var Game $match */
+        $match = Game::query()->find($id);
         if ($match->isKnockout() && !is_null($scoreHome)
             && $scoreHome == $scoreAway && is_null($isAwayWinner)){
             throw new \InvalidArgumentException("Score is tied on a knockout game and \"isAwayWinner\" param is not given");
@@ -199,8 +199,8 @@ class AdminController extends Controller
     }
 
     public function removeMatchResult($id) {
-        /** @var Match $match */
-        $match = Match::query()->find($id);
+        /** @var Game $match */
+        $match = Game::query()->find($id);
         $match->result_home = null;
         $match->result_away = null;
         $match->ko_winner = null;
@@ -239,18 +239,18 @@ class AdminController extends Controller
 
     public function deleteMatch($matchId)
     {
-        $match = Match::query()->find($matchId);
+        $match = Game::query()->find($matchId);
         if (!$match) {
-            return "Match not found";
+            return "Game not found";
         }
 
         Bet::query()
-           ->where("type", BetTypes::Match)
+           ->where("type", BetTypes::Game)
            ->where("type_id", $match->id)
            ->delete();
 
         $match->delete();
-        echo "Match deleted";
+        echo "Game deleted";
     }
     
     public function setPermission(Request $request){
@@ -273,9 +273,9 @@ class AdminController extends Controller
 
     public static function flipMatchBet($matchId, $userId = null)
     {
-        /** @var Match $match */
-        $match = Match::query()->find($matchId);
-        echo "Match Found: ". trans("teams.{$match->team_home_id}") . " - " . trans("teams.{$match->team_away_id}");
+        /** @var Game $match */
+        $match = Game::query()->find($matchId);
+        echo "Game Found: ". trans("teams.{$match->team_home_id}") . " - " . trans("teams.{$match->team_away_id}");
         $bets = $match->getBets();
         if ($userId) {
             $bets = $bets->filter(function($bet) use ($userId) { return $bet->user_id == $userId; });
@@ -345,7 +345,7 @@ class AdminController extends Controller
 
     public function switchBetMatchIDs($fromMatchID, $toMatchID) {
         DB::table("bets")
-          ->where("type", BetTypes::Match)
+          ->where("type", BetTypes::Game)
           ->where("type_id", $fromMatchID)
           ->update(["type_id" => $toMatchID]);
     }

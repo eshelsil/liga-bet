@@ -53,7 +53,7 @@
                         <div class="tab-content">
                             <div id="groups-{{$row->id}}" class="tab-pane fade in active" style="padding: 20px;">
                                 @php
-                                    $betType = \App\Enums\BetTypes::Match;
+                                    $betType = \App\Enums\BetTypes::Game;
                                     $matchBets = $row->betsByType->has($betType) ? $row->betsByType[$betType] : collect();
                                 @endphp
                                 <h3>סה"כ: {{ $matchBets->sum("score") }}</h3>
@@ -66,9 +66,9 @@
                                     @foreach($matchBets->filter(function ($bet) { return $bet->score > 0;})->sortBy("type_id")->reverse() as $bet)
                                         <?php
                                         /** @var App\Bet $bet */
-                                        /** @var App\Match $match */
+                                        /** @var App\Game $match */
                                         /** @var \Illuminate\Database\Eloquent\Collection $matches */
-                                        $match = $matches->first(function(App\Match $match) use ($bet) { return $match->getID() == $bet->type_id; });
+                                        $match = $matches->first(function(App\Game $match) use ($bet) { return $match->getID() == $bet->type_id; });
                                         $home_team = $teamsByExtId[$match->team_home_id];
                                         $away_team = $teamsByExtId[$match->team_away_id];
                                         $resultDescription = $match->formatMatchResult(["winner_class" => "bolded"]);

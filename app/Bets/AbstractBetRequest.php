@@ -3,7 +3,7 @@
 namespace App\Bets;
 
 use App\Exceptions\JsonException;
-use App\Match;
+use App\Game;
 use Illuminate\Support\Facades\Log;
 
 abstract class AbstractBetRequest

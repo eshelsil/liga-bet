@@ -55,7 +55,7 @@ class Bet extends Model
 
     public function getWinnerSide()
     {
-        if ($this->type !== BetTypes::Match){
+        if ($this->type !== BetTypes::Game){
             return null;
         }
         $result_home = (int)$this->getData('result-home');
@@ -73,7 +73,7 @@ class Bet extends Model
         $winner_class = $options['winner_class'] ?? '';
         $only_if_tied = $options['only_if_tied'] ?? false;
         
-        if ($this->type !== BetTypes::Match){
+        if ($this->type !== BetTypes::Game){
             return null;
         }
         $winner_side = $this->getWinnerSide();
@@ -95,8 +95,8 @@ class Bet extends Model
         $betEntity = null;
         $abstract = null;
         switch ($this->type) {
-            case BetTypes::Match:
-                $betEntity = Match::query()->find($this->type_id);
+            case BetTypes::Game:
+                $betEntity = Game::query()->find($this->type_id);
                 $abstract = \App\Bets\BetMatch\BetMatch::class;
                 break;
             case BetTypes::GroupsRank:

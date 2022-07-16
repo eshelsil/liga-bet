@@ -94,14 +94,14 @@ class User extends Authenticatable
     }
 
     public function getOpenMatches() {
-        $matches = Match::query()->whereNotNull("team_home_id")
+        $matches = Game::query()->whereNotNull("team_home_id")
             ->whereNotNull("team_away_id")
             ->where("start_time", ">", time())
             ->get();
 
         $bets = Bet::query()
             ->whereIn("type_id", $matches->pluck("id")->all())
-            ->where("type", BetTypes::Match)
+            ->where("type", BetTypes::Game)
             ->where("user_id", $this->id)
             ->get();
 
@@ -128,11 +128,11 @@ class User extends Authenticatable
         return $output;
     }
 
-    public function getBet(Match $match)
+    public function getBet(Game $match)
     {
         return Bet::query()
                   ->where("user_id", $this->id)
-                  ->where("type", BetTypes::Match)
+                  ->where("type", BetTypes::Game)
                   ->where("type_id", $match->id)
                   ->first();
     }
@@ -185,8 +185,8 @@ class User extends Authenticatable
             $data = $group->generateRandomBetData();
             $this->autoGenerateBet($type, $type_id, $data);
         });
-        Match::all()->each(function($match){
-            $type = BetTypes::Match;
+        Game::all()->each(function($match){
+            $type = BetTypes::Game;
             $type_id = $match->getID();
             $data = $match->generateRandomBetData();
             $this->autoGenerateBet($type, $type_id, $data);
@@ -203,9 +203,9 @@ class User extends Authenticatable
         if (!$this->isMonkey()){
             throw new \InvalidArgumentException("Cannot auto-generate bets for a user who is not a monkey");
         }
-        $ids_with_bet = $this->bets()->where('type', BetTypes::Match)->pluck('type_id');
-        Match::whereNotIn('id', $ids_with_bet)->get()->each(function($match){
-            $type = BetTypes::Match;
+        $ids_with_bet = $this->bets()->where('type', BetTypes::Game)->pluck('type_id');
+        Game::whereNotIn('id', $ids_with_bet)->get()->each(function($match){
+            $type = BetTypes::Game;
             $type_id = $match->getID();
             $data = $match->generateRandomBetData();
             $this->autoGenerateBet($type, $type_id, $data);

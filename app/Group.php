@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Bet;
-use App\Match;
+use App\Game;
 use App\Enums\BetTypes;
 use App\Bets\BetableInterface;
 use App\Bets\BetGroupRank\BetGroupRankRequest;
@@ -132,7 +132,7 @@ class Group extends Model implements BetableInterface
         if (!is_null(static::$firstMatchStartTime)) {
             return static::$firstMatchStartTime;
         }
-        return static::$firstMatchStartTime = Match::min('start_time');
+        return static::$firstMatchStartTime = Game::min('start_time');
     }
 
     public static function areBetsOpen(){

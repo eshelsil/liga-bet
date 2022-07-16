@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Match;
+use App\Game;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 
@@ -46,7 +46,7 @@ class Scorer extends Model
     }
 
     public static function getTopGoalsCount(){
-        if (!Match::isTournamentDone()){
+        if (!Game::isTournamentDone()){
             return null;
         }
         if (!is_null(static::$most_goals)){

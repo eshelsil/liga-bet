@@ -11,7 +11,7 @@ namespace App\Actions;
 use App\Competition;
 use App\DataCrawler\Crawler;
 use App\Group;
-use App\Match;
+use App\Game;
 use App\Ranks;
 use App\User;
 use Log;
@@ -43,7 +43,7 @@ class UpdateCompetition
             $match->save();
 
             $this->user_fetch_got_games = true;
-            Log::debug("Saving Result of Match: ext_id - ".$match->external_id." | id - ".$match->id."-> ".$match->result_home." - ".$match->result_away."<br>");
+            Log::debug("Saving Result of Game: ext_id - ".$match->external_id." | id - ".$match->id."-> ".$match->result_home." - ".$match->result_away."<br>");
             $match->completeBets();
             if ($match->isKnockout()){
                 $this->calculateSpecialBets(['winner', 'runner_up']);
@@ -54,7 +54,7 @@ class UpdateCompetition
             if (!Group::hasAllGroupsStandings()){
                 $this->fetchStandings();
             }
-            if (Match::isGroupStageDone()){
+            if (Game::isGroupStageDone()){
                 $this->calculateSpecialBets(['offensive_team']);
             }
             Ranks::updateRanks();
@@ -76,14 +76,14 @@ class UpdateCompetition
         });
 
         foreach ($newMatches as $match_data) {
-            $match               = new Match();
+            $match               = new Game();
             $match->external_id  = data_get($match_data, 'id');
             $match->type         = data_get($match_data, 'type');
             $match->sub_type     = data_get($match_data, 'sub_type');
             $match->team_home_id = data_get($match_data, 'team_home_id');
             $match->team_away_id = data_get($match_data, 'team_away_id');
             $match->start_time   = data_get($match_data, 'start_time');
-            Log::debug("Saving Match: " . $match->team_home_id . " vs. "
+            Log::debug("Saving Game: " . $match->team_home_id . " vs. "
                        . $match->team_away_id . "<br>");
             $match->save();
             User::getMonkeyUsers()->each(function ($monkey) {

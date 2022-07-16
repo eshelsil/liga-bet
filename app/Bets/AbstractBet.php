@@ -3,7 +3,7 @@
 namespace App\Bets;
 
 use App\Bet;
-use App\Match;
+use App\Game;
 use App\User;
 
 use App\Enums\BetTypes;

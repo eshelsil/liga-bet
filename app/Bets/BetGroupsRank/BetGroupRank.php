@@ -6,7 +6,7 @@ use App\Bet;
 use App\Bets\AbstractBet;
 use App\Bets\BetableInterface;
 use App\Group;
-use App\Match;
+use App\Game;
 use App\User;
 
 use App\Enums\BetTypes;
