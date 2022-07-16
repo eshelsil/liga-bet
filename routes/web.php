@@ -20,13 +20,13 @@ use App\Http\Controllers\LeaderboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect('/home');
-});
+// Route::get('/', function () {
+//     return redirect('/home');
+// });
 
-Route::get('/react', function () {
-    return view('layouts.react');
-});
+// Route::get('/react', function () {
+//     return view('layouts.react');
+// });
 Route::get('/admin', function () {
     return redirect('/admin/index');
 });
@@ -34,18 +34,18 @@ Route::get('/admin', function () {
 Auth::routes();
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get("/leaderboard", [LeaderboardController::class, 'index']);
+// Route::get("/leaderboard", [LeaderboardController::class, 'index']);
 
 Route::post('register-token', [HomeController::class, 'registerFCMToken'])->middleware("auth");
 
-Route::get("/home", [HomeController::class, 'index'])->middleware("auth")->name('home');
-Route::get("/today-matches", [HomeController::class, 'showTodayMatches'])->middleware("auth")->middleware("confirmed_user")->name('match-list');
-Route::get("/my-bets", [HomeController::class, 'showMyBets'])->middleware("auth")->middleware("confirmed_user")->name('my-bets');
-Route::get('/open-matches', [HomeController::class, 'showOpenMatches'])->middleware("auth")->middleware("confirmed_user")->name('open-matches');
-Route::get('/open-group-bets', [HomeController::class, 'showOpenGroupBets'])->middleware("auth")->middleware("confirmed_user")->name('open-group-bets');
-Route::get('/open-special-bets', [HomeController::class, 'showOpenSpecialBets'])->middleware("auth")->middleware("confirmed_user")->name('open-special-bets');
-Route::get('/all-group-bets', [HomeController::class, 'showAllGroupBets'])->middleware("auth")->middleware("confirmed_user")->middleware("group_bets_closed")->name('all-group-bets');
-Route::get('/all-special-bets', [HomeController::class, 'showAllSpecialBets'])->middleware("auth")->middleware("confirmed_user")->middleware("group_bets_closed")->name('all-special-bets');
+// Route::get("/home", [HomeController::class, 'index'])->middleware("auth")->name('home');
+// Route::get("/today-matches", [HomeController::class, 'showTodayMatches'])->middleware("auth")->middleware("confirmed_user")->name('match-list');
+// Route::get("/my-bets", [HomeController::class, 'showMyBets'])->middleware("auth")->middleware("confirmed_user")->name('my-bets');
+// Route::get('/open-matches', [HomeController::class, 'showOpenMatches'])->middleware("auth")->middleware("confirmed_user")->name('open-matches');
+// Route::get('/open-group-bets', [HomeController::class, 'showOpenGroupBets'])->middleware("auth")->middleware("confirmed_user")->name('open-group-bets');
+// Route::get('/open-special-bets', [HomeController::class, 'showOpenSpecialBets'])->middleware("auth")->middleware("confirmed_user")->name('open-special-bets');
+// Route::get('/all-group-bets', [HomeController::class, 'showAllGroupBets'])->middleware("auth")->middleware("confirmed_user")->middleware("group_bets_closed")->name('all-group-bets');
+// Route::get('/all-special-bets', [HomeController::class, 'showAllSpecialBets'])->middleware("auth")->middleware("confirmed_user")->middleware("group_bets_closed")->name('all-special-bets');
 Route::get('/terms', [HomeController::class, 'showTerms'])->middleware("auth");
 Route::get('/articles', [HomeController::class, 'showArticles'])->middleware("auth");
 Route::get('/set-password', [\App\Http\Controllers\UserController::class, 'showSetPassword']);
@@ -93,3 +93,8 @@ Route::get('/debug/scorers-simple-data', [DebugController::class, 'getScorersInt
 Route::get('/debug/special-bets-values/{name}', [DebugController::class, 'getSpecialBetsData']);
 
 Route::post('/user/update', [BetsController::class, 'submitBets'])->middleware("confirmed_user");
+
+Route::fallback(function () {
+    return \File::get(public_path() . '/index.html');
+})->middleware("auth");
+ 

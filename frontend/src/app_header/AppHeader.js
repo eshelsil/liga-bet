@@ -105,7 +105,13 @@ function AppHeader(props){
 					</ul>
 					<ul className="nav navbar-nav navbar-left">
 						{renderMenuItem("set-password")}
-						{renderMenuItem("logout")}
+						{/* {renderMenuItem("logout")} */}
+						<li>
+							<a href='/logout'>
+								<div className='icon logout_icon'></div>
+								<span className="menu-label">התנתק</span>
+							</a>
+						</li>
 					</ul>
 				</div>
 			</div>
