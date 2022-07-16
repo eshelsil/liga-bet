@@ -11,7 +11,7 @@ import './App.scss';
 import OpenMatchesView from "./open_matches/openMachesView";
 import UserBetsView from "./user_bets/userBetsView";
 import MatchesView from "./matches/machesView";
-import GroupBetsView from "./group_bets/groupBets";
+import GroupStandingsBetsView from "./group_bets/GroupStandingsBetsProvider";
 import AllQuestionBetsView from "./special_bets/closedQuestionBets";
 import MyBetsView from "./my_bets/myBetsView";
 import { LeaderboardProvider } from './contexts/leaderboard';
@@ -31,8 +31,8 @@ function Content(){
 		{/* <Route path="/" component={OpenMatchesView} /> */}
 		{/*<Route path="/" component={UserBetsView} />*/}
 		{/* <Route path="/" component={MatchesView} /> */}
-		{/*<Route path="/" component={GroupBetsView} />*/}
-		<Route path="/" component={AllQuestionBetsView} />
+		<Route path="/" component={GroupStandingsBetsView} />
+		{/* <Route path="/" component={AllQuestionBetsView} /> DONE */}
 		{/* <Route path="/" component={MyBetsView} /> DONE */}
 		{/* <Route path="/">
 			<h1>EURO FRIENDS</h1>;

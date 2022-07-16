@@ -1,7 +1,5 @@
 import { createSelector } from 'reselect'
 import { BetTypes } from '../_enums/betTypes';
-import { mapValues } from 'lodash';
-import { map } from 'lodash'
 
 // import * as auth from './auth'
 // import * as game_conn from './game_connection'
@@ -21,6 +19,17 @@ export const SpecialQuestions = state => state.specialQuestions ?? {};
 export const LeaderboardSelector = createSelector(
     Leaderboard,
     leaderboard => ({ leaderboard })
+);
+
+export const BetsWithUsersName = createSelector(
+    Bets,
+    Users,
+    (bets, users) => {
+        return _.mapValues(bets, bet => ({
+            ...bet,
+            user_name: users[bet.user_id]?.name,
+        }));
+    }
 );
 
 
@@ -60,7 +69,7 @@ export const LeaderboardSelector = createSelector(
 // );
 
 export const BetsByTypeSelector = createSelector(
-    Bets,
+    BetsWithUsersName,
     bets => {
         return _.groupBy(Object.values(bets), bet => bet.type);
     }
@@ -69,13 +78,19 @@ export const BetsByTypeSelector = createSelector(
 export const QuestionBets = createSelector(
     BetsByTypeSelector,
     betsByType => {
-        console.log({betsByType})
         return betsByType[BetTypes.SpecialBet] ?? [];
     }
 );
 
+export const GroupStandingBets = createSelector(
+    BetsByTypeSelector,
+    betsByType => {
+        return betsByType[BetTypes.GroupsRank] ?? [];
+    }
+);
+
 export const BetsByUserByTypeSelector = createSelector(
-    Bets,
+    BetsWithUsersName,
     bets => {
         console.log('bets', bets)
         const res = {};
