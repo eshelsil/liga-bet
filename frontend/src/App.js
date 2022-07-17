@@ -9,7 +9,7 @@ import { TournamentProvider } from './contexts/tournament';
 import { TeamsProvider } from './contexts/teams';
 import Leaderboard from './leaderboard/leaderboard';
 import './App.scss';
-import OpenMatchesView from "./open_matches/openMachesView";
+import OpenMatchesView from "./open_matches/openMatchesProvider";
 import UserBetsView from "./user_bets/userBetsView";
 import MatchesView from "./matches/ClosedMatchBetsProvider";
 import GroupStandingsBetsView from "./group_bets/GroupStandingsBetsProvider";
@@ -28,12 +28,12 @@ function Content(){
 	}
 	return <React.Fragment>
 		<Switch>
-		<Route path="/closed-matches" component={MatchesView} />
 		<Route path="/open-matches" component={OpenMatchesView} />
 		<Route path="/open-questions" component={UserBetsView} />
 		<Route path="/open-group-standings" component={UserBetsView} />
 		{/* ABOVE TBD ^--------^*/}
 		{/* BELOW ARE DONE v-----v*/}
+		<Route path="/closed-matches" component={MatchesView} />
 		<Route path="/leaderboard" component={Leaderboard} />
 		<Route path="/all-group-standings" component={GroupStandingsBetsView} />
 		<Route path="/all-questions" component={AllQuestionBetsView} />

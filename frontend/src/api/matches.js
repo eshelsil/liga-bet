@@ -97,6 +97,7 @@ const sendRequest = async () => {
       winner_side: null,
       is_done: false,
       closed_for_bets: false,
+      is_knockout: true,
       start_time: new Date(Number(new Date()) + HOUR),
       id: 5,
     },

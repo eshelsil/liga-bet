@@ -36,7 +36,6 @@ function QuestionBetsList({
     bets,
 }){
     const betsByAnswer = _.groupBy(bets, bet => bet.answer.id);
-    console.log({betsByAnswer})
     return (
         // <div id={`special-bet-wrapper-${id}`} className="tab-pane fade active in" style="padding: 10px;">
         <div id={`special-bet-wrapper-${id}`} className="tab-pane fade" style={{padding: 10}}>
@@ -76,8 +75,6 @@ const QuestionBetsView = ({
     questions,
     betsByQuestionId
 }) => {
-    console.log({questions,
-        betsByQuestionId})
     return (
         <div >
             <h1>הימורים מיוחדים</h1>

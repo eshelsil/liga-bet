@@ -29,7 +29,6 @@ function Leaderboard(props){
 	const [specialBetResults, setSpecialBets] = useState({});
 	const {leaderboard, fetch_leaderboard} = props;
 	const rows = leaderboard;
-	console.log(rows, 'rows')
 	
 	useEffect(()=>{
 		fetch_leaderboard();

@@ -1,0 +1,1 @@
+export const DEFAULT_DATETIME_FORMAT = 'HH:mm YYYY/MM/DD';

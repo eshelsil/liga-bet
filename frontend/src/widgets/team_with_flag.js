@@ -1,7 +1,14 @@
 import React from "react";
 
-function TeamAndSymbol(props) {
-    const {name, crest_url, align_left, is_loser_bg, is_winner_bg, is_underlined, is_bold} = props;
+function TeamAndSymbol({
+    name,
+    crest_url,
+    align_left,
+    is_loser_bg,
+    is_winner_bg,
+    is_underlined,
+    is_bold,
+}) {
     return <div className={`team-and-flag ${align_left ? 'left-aligned' : ''}`}>
         {
             crest_url &&

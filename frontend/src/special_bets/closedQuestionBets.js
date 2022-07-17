@@ -22,9 +22,6 @@ const ClosedQuestionBets = ({
         fetch_bets();
         fetch_questions();
 	}, []);
-    console.log('eshel', {questions,
-        betsByQuestionId,
-        fetch_users,})
     return <QuestionBetsView
         questions={questions}
         betsByQuestionId={betsByQuestionId}

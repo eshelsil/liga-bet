@@ -13,7 +13,6 @@ const MyBetsView = ({
     betsByType = {},
     fetch_bets,
 }) => {
-    console.log('MyBetsView', {betsByType})
     const matchBets = betsByType[BetTypes.Match] ?? [];
     const stangingBets = betsByType[BetTypes.GroupsRank] ?? [];
     const questionBets = betsByType[BetTypes.SpecialBet] ?? [];

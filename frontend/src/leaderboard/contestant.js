@@ -39,7 +39,6 @@ function renderRankChange(change){
 }
 
 function formatSpecialAnswer(specialQuestionType, answer){
-    console.log({specialQuestionType, answer})
     switch (specialQuestionType){
         case 1: // winner
         case 5: // offensive_team
@@ -132,7 +131,6 @@ export function Contestant(props){
     const userMatchBets = userBetsByType[BetTypes.Match] ?? [];
     const userSpecialQuestionBets = userBetsByType[BetTypes.SpecialBet] ?? [];
     const userGroupRankBets = userBetsByType[BetTypes.GroupsRank] ?? [];
-    console.log('userMatchBets', userMatchBets)
 
 
     // const groupsContext = useGroupsContext();
