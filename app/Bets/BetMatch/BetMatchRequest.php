@@ -43,11 +43,11 @@ class BetMatchRequest extends AbstractBetRequest
     {
         Log::debug("Validating data: {$match->getID()}\r\nData: ". json_encode($data, JSON_PRETTY_PRINT));
         $resultHome = data_get($data, "result-home");
-        if (!ctype_digit($resultHome)) {
+        if (!is_numeric($resultHome)) {
             throw new \InvalidArgumentException($resultHome);
         }
         $resultAway = data_get($data, "result-away");
-        if (!ctype_digit($resultAway)) {
+        if (!is_numeric($resultAway)) {
             throw new \InvalidArgumentException($resultHome);
         }
         if ($match->isKnockout()){

@@ -112,8 +112,12 @@ class BetsController extends Controller
                     throw new InvalidArgumentException();
             }
         }
+        $formattedBets = [];
+        foreach($bets as $bet){
+            array_push($formattedBets, $bet->export_data());
+        }
 
-        return new JsonResponse(["bets" =>$bets], 200);
+        return new JsonResponse(["bets" => $formattedBets], 200);
 
     }
 
