@@ -6,6 +6,7 @@ import groups from "./groups";
 import bets from "./bets";
 import users from "./users";
 import currentUser from "./currentUser";
+import tournamentUser from "./tournamentUser";
 
 const init_state = {};
 
@@ -19,5 +20,6 @@ export default function root(state = init_state, action) {
         groups: groups(state.groups, action),
         users: users(state.users, action),
         currentUser: currentUser(state.currentUser, action),
+        currentTournamentUser: tournamentUser(state.currentTournamentUser, action),
     }
 }

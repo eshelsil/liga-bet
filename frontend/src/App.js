@@ -19,6 +19,7 @@ import { LeaderboardProvider } from './contexts/leaderboard';
 import { Provider as StoreProvider } from 'react-redux';
 import store from './_helpers/store';
 import AuthController from './auth/AuthController';
+import TournamentUserController from './tournamentUser/TournamentUserController';
 
 const customHistory = createBrowserHistory();
 
@@ -29,19 +30,19 @@ function Content(){
 	}
 	return <React.Fragment>
 		<Switch>
-		<Route path="/open-matches" component={OpenMatchesView} />
 		<Route path="/open-questions" component={UserBetsView} />
 		<Route path="/open-group-standings" component={UserBetsView} />
 		{/* ABOVE TBD ^--------^*/}
 		{/* BELOW ARE DONE v-----v*/}
+		<Route path="/open-matches" component={OpenMatchesView} />
 		<Route path="/closed-matches" component={MatchesView} />
 		<Route path="/leaderboard" component={Leaderboard} />
 		<Route path="/all-group-standings" component={GroupStandingsBetsView} />
 		<Route path="/all-questions" component={AllQuestionBetsView} />
 		<Route path="/my-bets" component={MyBetsView} />
 		<Route path="/">
-			<Route path="/closed-matches" component={MatchesView} />
-			{/* <Redirect to='/leaderboard'/> */}
+			{/* <Route path="/closed-matches" component={MatchesView} /> */}
+			<Redirect to='/open-matches'/>
 		</Route>
 	</Switch>
 	</React.Fragment>
@@ -112,33 +113,35 @@ function App() {
 	return (
 	<StoreProvider store={store}>
 		<AuthController>
-			<UserProvider>
-				<TournamentProvider>
-					<TeamsProvider>
-						<LeaderboardProvider>
-							<Router history={customHistory}>
-								<AppHeader isTourStarted={true}></AppHeader>
-								<div className="container-fluid text-center">
-									<div className="row content">
-										<div className="col-sm-2 sidenav">
-										<AppLinks isAdmin={isAdmin}></AppLinks>
-										</div>
-										<div className="col-sm-8 text-left">
-											<Content></Content>
-										</div>
-										<div className="col-sm-2 sidenav">
-											<TournamentPrizes></TournamentPrizes>
+			<TournamentUserController>
+				<UserProvider>
+					<TournamentProvider>
+						<TeamsProvider>
+							<LeaderboardProvider>
+								<Router history={customHistory}>
+									<AppHeader isTourStarted={true}></AppHeader>
+									<div className="container-fluid text-center">
+										<div className="row content">
+											<div className="col-sm-2 sidenav">
+											<AppLinks isAdmin={isAdmin}></AppLinks>
+											</div>
+											<div className="col-sm-8 text-left">
+												<Content></Content>
+											</div>
+											<div className="col-sm-2 sidenav">
+												<TournamentPrizes></TournamentPrizes>
+											</div>
 										</div>
 									</div>
-								</div>
-								<footer className="container-fluid text-center">
-									<p></p>
-								</footer>
-							</Router>
-						</LeaderboardProvider>
-					</TeamsProvider>
-				</TournamentProvider>
-			</UserProvider>
+									<footer className="container-fluid text-center">
+										<p></p>
+									</footer>
+								</Router>
+							</LeaderboardProvider>
+						</TeamsProvider>
+					</TournamentProvider>
+				</UserProvider>
+			</TournamentUserController>
 		</AuthController>
 	</StoreProvider>
 	);

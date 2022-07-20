@@ -1,6 +1,6 @@
-function currentUser(state = {}, action) {
+function tournamentUser(state = {}, action) {
     switch (action.type) {
-      case 'SET_CURRENT_USER':
+      case 'SET_CURRENT_TOURNAMENT_USER':
         return {
           ...action.data,
         }
@@ -8,4 +8,4 @@ function currentUser(state = {}, action) {
         return state
     }
 }
-export default currentUser;
+export default tournamentUser;

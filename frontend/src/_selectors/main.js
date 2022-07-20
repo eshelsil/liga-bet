@@ -8,6 +8,7 @@ import { BetTypes } from '../_enums/betTypes';
 
 
 export const CurrentUser = state => state.currentUser ?? {};
+export const CurrentTournamentUser = state => state.currentTournamentUser ?? {};
 export const Users = state => state.users ?? {};
 export const Bets = state => state.bets ?? {};
 export const Leaderboard = state => state.leaderboard ?? {};
@@ -19,6 +20,10 @@ export const SpecialQuestions = state => state.specialQuestions ?? {};
 export const AuthControllerSelector = createSelector(
     CurrentUser,
     currentUser => ({ user: currentUser })
+);
+export const TournamentUserControllerSelector = createSelector(
+    CurrentTournamentUser,
+    currentTournamentUser => ({ tournamentUser: currentTournamentUser })
 );
 
 export const LeaderboardSelector = createSelector(

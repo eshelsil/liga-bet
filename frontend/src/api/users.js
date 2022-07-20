@@ -5,6 +5,11 @@ export const getUser = async () => {
         url: '/user'
     })
 }
+export const getUserUTLs = async () => {
+    return await sendApiRequest({
+        url: '/tournament-user'
+    })
+}
 
 const sendRequest = async () => {
     return {
