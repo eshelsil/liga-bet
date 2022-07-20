@@ -1,4 +1,4 @@
-import { fetchBets } from "../api/bets";
+import { fetchBets, sendBet } from "../api/bets";
 
 function update_bets(data) {
   return {
@@ -7,11 +7,11 @@ function update_bets(data) {
   }
 }
 
-function update_bet(data) {
-  const { id, new_data } = data;
+function update_bet(bet) {
+  const { id } = bet;
   return {
     type: 'UPDATE_BET',
-    data: new_data,
+    data: bet,
     id,
   }
 }
@@ -23,7 +23,14 @@ function fetch_bets() {
   }
 }
 
+function send_bet(params){
+  return (dispatch) => {
+    return sendBet(params)
+    .then( data => dispatch(update_bet(data)) );
+  }
+}
+
 export {
   fetch_bets,
-  update_bet,
+  send_bet,
 }

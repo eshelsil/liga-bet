@@ -3,7 +3,7 @@ import '../styles/global.scss';
 import SpecialBetsTable from "./specialBetsTable";
 import MatchesBetsTable from "./matchesBetsTable";
 import GroupPositionBetsTable from "./groupPositionBetsTable";
-import { MyBetsSelector } from '../_selectors/userBets';
+import { MyBets } from '../_selectors/userBets';
 import { connect } from 'react-redux';
 import { fetch_bets } from '../_actions/bets';
 import { BetTypes } from '../_enums/betTypes';
@@ -33,4 +33,4 @@ const mapDispatchToProps = {
     fetch_bets,
 }
 
-export default connect(MyBetsSelector, mapDispatchToProps)(MyBetsView);
+export default connect(MyBets, mapDispatchToProps)(MyBetsView);
