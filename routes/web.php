@@ -93,7 +93,7 @@ Route::get('/debug/scorers-simple-data', [DebugController::class, 'getScorersInt
 Route::get('/debug/special-bets-values/{name}', [DebugController::class, 'getSpecialBetsData']);
 
 // Route::post('/user/update', [BetsController::class, 'submitBets'])->middleware("confirmed_user");
-Route::post('/api/bets/{tournamentId}', [BetsController::class, 'getUserBets'])->middleware("confirmed_user");
+Route::post('/api/bets/{tournamentId}', [BetsController::class, 'submitBets'])->middleware("confirmed_user");
 Route::get('/api/bets/{tournamentId}', [BetsController::class, 'getUserBets'])->middleware("confirmed_user");
 Route::get('/user', [\App\Http\Controllers\UserController::class, 'getUser']);
 Route::get('/tournament-user', [\App\Http\Controllers\UserController::class, 'getUserUTLs']);

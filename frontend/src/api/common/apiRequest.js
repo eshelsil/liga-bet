@@ -8,5 +8,8 @@ export const sendApiRequest = async ({
         url,
         contentType: 'application/json',
         data,
+        error: function(data) {
+            toastr["error"](data.responseJSON.message);
+        }
     })
 }

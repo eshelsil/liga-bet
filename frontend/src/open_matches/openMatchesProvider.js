@@ -53,8 +53,8 @@ const OpenMatchesProvider = ({
             .then(function (data) {
                 toastr["success"]("ההימור נשלח");
             })
-            .catch(function(data) {
-                toastr["error"](data.responseJSON.message);
+            .catch(function(error) {
+                console.log('FAILED updating bet', error)
             });
     }
     console.log({matches})
