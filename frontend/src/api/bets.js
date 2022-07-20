@@ -431,10 +431,10 @@ const EXAMPLE_DATA = {
     },
 };
 
-export const fetchBets = async () => {
+export const fetchBets = async (tournamentId) => {
     const res = await $.ajax({
         type: 'GET',
-        url: '/api/bets',
+        url: `/api/bets/${tournamentId}`,
         contentType: 'application/json',
         dataType: 'json',
     })
@@ -445,10 +445,10 @@ export const fetchBets = async () => {
     }
 };
 
-export const sendBet = async (params) =>{
+export const sendBet = async (tournamentId, params) =>{
     const {bets = []} = await sendApiRequest({
         type: 'POST',
-        url: '/user/update',
+        url: `/api/bets/${tournamentId}`,
         data: JSON.stringify({
             bets: [{
                 type: BetTypes.Match,

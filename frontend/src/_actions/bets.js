@@ -17,15 +17,19 @@ function update_bet(bet) {
 }
 
 function fetch_bets() {
-  return (dispatch) => {
-    return fetchBets()
+  return (dispatch, getState) => {
+    const {currentTournamentUser = {} } = getState();
+    const {tournament_id} = currentTournamentUser;
+    return fetchBets(tournament_id)
     .then( data => dispatch(update_bets(data)) );
   }
 }
 
 function send_bet(params){
-  return (dispatch) => {
-    return sendBet(params)
+  return (dispatch, getState) => {
+    const {currentTournamentUser = {} } = getState();
+    const {tournament_id} = currentTournamentUser;
+    return sendBet(tournament_id, params)
     .then( data => dispatch(update_bet(data)) );
   }
 }

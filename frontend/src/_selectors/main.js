@@ -133,14 +133,13 @@ export const MatchBetsById = createSelector(
 export const BetsByUserByTypeSelector = createSelector(
     BetsWithUsersName,
     bets => {
-        console.log('bets', bets)
         const res = {};
         for (const bet of Object.values(bets)){
-            const { user_id, type, id } = bet;
-            if (!res[user_id]){
-                res[user_id] = {};
+            const { user_tournament_id, type, id } = bet;
+            if (!res[user_tournament_id]){
+                res[user_tournament_id] = {};
             }
-            const userBets = res[user_id];
+            const userBets = res[user_tournament_id];
             if (!userBets[type]){
                 userBets[type] = [];
             }
