@@ -18,6 +18,7 @@ import MyBetsView from "./my_bets/myBetsView";
 import { LeaderboardProvider } from './contexts/leaderboard';
 import { Provider as StoreProvider } from 'react-redux';
 import store from './_helpers/store';
+import AuthController from './auth/AuthController';
 
 const customHistory = createBrowserHistory();
 
@@ -110,33 +111,35 @@ function App() {
 	const isAdmin = true
 	return (
 	<StoreProvider store={store}>
-		<UserProvider>
-			<TournamentProvider>
-				<TeamsProvider>
-					<LeaderboardProvider>
-						<Router history={customHistory}>
-							<AppHeader isTourStarted={true}></AppHeader>
-							<div className="container-fluid text-center">
-								<div className="row content">
-									<div className="col-sm-2 sidenav">
-									<AppLinks isAdmin={isAdmin}></AppLinks>
-									</div>
-									<div className="col-sm-8 text-left">
-										<Content></Content>
-									</div>
-									<div className="col-sm-2 sidenav">
-										<TournamentPrizes></TournamentPrizes>
+		<AuthController>
+			<UserProvider>
+				<TournamentProvider>
+					<TeamsProvider>
+						<LeaderboardProvider>
+							<Router history={customHistory}>
+								<AppHeader isTourStarted={true}></AppHeader>
+								<div className="container-fluid text-center">
+									<div className="row content">
+										<div className="col-sm-2 sidenav">
+										<AppLinks isAdmin={isAdmin}></AppLinks>
+										</div>
+										<div className="col-sm-8 text-left">
+											<Content></Content>
+										</div>
+										<div className="col-sm-2 sidenav">
+											<TournamentPrizes></TournamentPrizes>
+										</div>
 									</div>
 								</div>
-							</div>
-							<footer className="container-fluid text-center">
-								<p></p>
-							</footer>
-						</Router>
-					</LeaderboardProvider>
-				</TeamsProvider>
-			</TournamentProvider>
-		</UserProvider>
+								<footer className="container-fluid text-center">
+									<p></p>
+								</footer>
+							</Router>
+						</LeaderboardProvider>
+					</TeamsProvider>
+				</TournamentProvider>
+			</UserProvider>
+		</AuthController>
 	</StoreProvider>
 	);
 }

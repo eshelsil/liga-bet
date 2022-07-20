@@ -1,3 +1,11 @@
+import { sendApiRequest } from "./common/apiRequest";
+
+export const getUser = async () => {
+    return await sendApiRequest({
+        url: '/user'
+    })
+}
+
 const sendRequest = async () => {
     return {
         20: {
@@ -27,6 +35,10 @@ const sendRequest = async () => {
         4: {
             id: 4,
             name: "Niv Dalpa Sivi",
+        },
+        26: {
+            id: 26,
+            name: "Yaniv Catan",
         },
     };
 }

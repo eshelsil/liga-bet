@@ -7,7 +7,7 @@ import { BetTypes } from '../_enums/betTypes';
 // import * as server_error from './server_error'
 
 
-export const CurrentUser = state => state.currentUser ?? {id: 20};
+export const CurrentUser = state => state.currentUser ?? {};
 export const Users = state => state.users ?? {};
 export const Bets = state => state.bets ?? {};
 export const Leaderboard = state => state.leaderboard ?? {};
@@ -15,6 +15,11 @@ export const Matches = state => state.matches ?? {};
 export const Teams = state => state.teams ?? {};
 export const Groups = state => state.groups ?? {};
 export const SpecialQuestions = state => state.specialQuestions ?? {};
+
+export const AuthControllerSelector = createSelector(
+    CurrentUser,
+    currentUser => ({ user: currentUser })
+);
 
 export const LeaderboardSelector = createSelector(
     Leaderboard,
