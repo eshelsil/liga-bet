@@ -96,6 +96,6 @@ Route::post('/user/update', [BetsController::class, 'submitBets'])->middleware("
 Route::get('/api/bets', [BetsController::class, 'getUserBets'])->middleware("confirmed_user");
 
 Route::fallback(function () {
-    return \File::get(public_path() . '/index.html');
+    return view('react-app.index');
 })->middleware("auth");
  
