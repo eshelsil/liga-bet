@@ -62,6 +62,7 @@ class Game extends Model implements BetableInterface
 protected static $groupStageGames = null;
 protected static $knockoutGames = null;
 protected static $theFinal = null;
+protected $table = 'matches';
 
     protected $scores = [
         "group_stage" => [
