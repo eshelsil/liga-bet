@@ -18,6 +18,12 @@ class UserController extends Controller
         return view('set_password');
     }
 
+    public function getUser()
+    {
+        $user = Auth::user();
+        return $user;
+    }
+
 
     public function setPassword(Request $request){
         $user = Auth::user();
