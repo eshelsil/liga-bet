@@ -60,6 +60,16 @@ class BetsController extends Controller
         return new JsonResponse(["status" => 0], 200);
     }
 
+    public function getUserBets()
+    {
+        $user = $this->getUser();
+        $bets = $user->getBets();
+        $formattedBets = $bets->map(function($bet){
+            return $bet->export_data();
+        });
+        return new JsonResponse($formattedBets->keyBy('id'), 200);
+    }
+
     public function submitBets()
     {
         $user = $this->getUser();

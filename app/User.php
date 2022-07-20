@@ -113,6 +113,14 @@ class User extends Authenticatable
     }
 
 
+    public function getBets(){
+        $bets = Bet::query()
+            ->where("user_id", $this->id)
+            ->get();
+        return $bets;
+    }
+
+
     public function getGroupBetsById() {
         $groups = Group::all();
         $bets = Bet::query()
