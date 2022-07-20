@@ -24,6 +24,12 @@ class UserController extends Controller
         return $user;
     }
 
+    public function getUserUTLs()
+    {
+        $user = Auth::user();
+        return $user->getUTLs();
+    }
+
 
     public function setPassword(Request $request){
         $user = Auth::user();

@@ -145,6 +145,21 @@ class User extends Authenticatable
                   ->first();
     }
 
+    public function getTournamentUser($tournamentId)
+    {
+        return TournamentUser::query()
+            ->where("user_id", $this->id)
+            ->where("tournament_id", $tournamentId)
+            ->first();
+    }
+
+    public function getUTLs()
+    {
+        return TournamentUser::query()
+            ->where("user_id", $this->id)
+            ->get();
+    }
+
     public function getSpecialBetsById()
     {
         $specialBets = SpecialBet::all();

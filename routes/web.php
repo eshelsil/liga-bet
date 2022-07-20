@@ -95,6 +95,7 @@ Route::get('/debug/special-bets-values/{name}', [DebugController::class, 'getSpe
 Route::post('/user/update', [BetsController::class, 'submitBets'])->middleware("confirmed_user");
 Route::get('/api/bets', [BetsController::class, 'getUserBets'])->middleware("confirmed_user");
 Route::get('/user', [\App\Http\Controllers\UserController::class, 'getUser']);
+Route::get('/tournament-user', [\App\Http\Controllers\UserController::class, 'getUserUTLs']);
 
 Route::fallback(function () {
     return view('react-app.index');
