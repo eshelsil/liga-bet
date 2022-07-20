@@ -60,22 +60,24 @@ class BetsController extends Controller
         return new JsonResponse(["status" => 0], 200);
     }
 
-    public function getUserBets()
+    public function getUserBets($tournamentId)
     {
         $user = $this->getUser();
-        $bets = $user->getBets();
+        $utl = $user->getTournamentUser($tournamentId);
+        $bets = $utl->getBets();
         $formattedBets = $bets->map(function($bet){
             return $bet->export_data();
         });
         return new JsonResponse($formattedBets->keyBy('id'), 200);
     }
 
-    public function submitBets()
+    public function submitBets($tournamentId)
     {
         $user = $this->getUser();
+        $utl = $user->getTournamentUser($tournamentId);
         $betsInput = Request::json("bets", []);
 
-        $this->validateBatch($betsInput);
+        $this->validateBatch($betsInput, $utl);
 
         $bets = [];
         foreach ($betsInput as $betInput) {
@@ -86,7 +88,7 @@ class BetsController extends Controller
                         Game::query()->find($betInput->data["type_id"]),
                         $betInput->data
                     );
-                    $bets[] = BetMatch::save($user, $betRequest);
+                    $bets[] = BetMatch::save($utl, $betRequest);
                     break;
                 case BetTypes::GroupsRank:
                     if (!Group::areBetsOpen()){
@@ -96,7 +98,7 @@ class BetsController extends Controller
                         Group::find($betInput->data["type_id"]),
                         $betInput->data["value"]
                     );
-                    $bets[] = BetGroupRank::save($user, $betRequest);
+                    $bets[] = BetGroupRank::save($utl, $betRequest);
                     break;
                 case BetTypes::SpecialBet:
                     $betValue = $betInput->data["value"];
@@ -106,7 +108,7 @@ class BetsController extends Controller
                         SpecialBet::find($betInput->data["type_id"]),
                         $betRequestData
                     );
-                    $bets[] = BetSpecialBets::save($user, $betRequest);
+                    $bets[] = BetSpecialBets::save($utl, $betRequest);
                     break;
                 default:
                     throw new InvalidArgumentException();
@@ -121,7 +123,7 @@ class BetsController extends Controller
 
     }
 
-    private function validateBatch($betsInput) {
+    private function validateBatch($betsInput, $utl) {
         // Validate no duplicates
         $betsTypeGrouped = [];
         foreach ($betsInput as $bet) {
@@ -159,7 +161,7 @@ class BetsController extends Controller
 
         // Check if one of the bets already set for this user by type+type_id
         $alreadySubmittedBets = Bet::query()
-            ->where("user_id", "=", $this->getUser()->id)
+            ->where("user_tournament_id", "=", $utl->id)
             ->where(function (\Illuminate\Database\Eloquent\Builder $q) use ($betsTypeGrouped) {
                 foreach ($betsTypeGrouped as $type => $ids) {
                     $q->where(function (\Illuminate\Database\Eloquent\Builder $q) use ($type, $ids) {

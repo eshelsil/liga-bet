@@ -65,10 +65,10 @@ abstract class AbstractBet
      * @param AbstractBetRequest $request
      * @return Bet
      */
-    public static function save($user, AbstractBetRequest $request)
+    public static function save($utl, AbstractBetRequest $request)
     {
         /** @var Bet $bet */
-        $bet = self::firstOrCreateUserBet($user->id, $request->getEntity()->getID());
+        $bet = self::firstOrCreateUserBet($utl, $request->getEntity()->getID());
 
         $bet->data = $request->toJson();
         $bet->score = null;
@@ -78,11 +78,12 @@ abstract class AbstractBet
         return $bet;
     }
 
-    private static function firstOrCreateUserBet($userID, $typeID)
+    private static function firstOrCreateUserBet($utl, $typeID)
     {
         $bet = Bet::query()->where($wheres = [
             "type"    => static::getType(),
-            "user_id" => $userID,
+            "user_tournament_id" => $utl->id,
+            "tournament_id" => $utl->tournament_id,
             "type_id" => $typeID,
         ])->first();
 
