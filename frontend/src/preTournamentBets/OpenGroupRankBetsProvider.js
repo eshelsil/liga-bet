@@ -12,7 +12,7 @@ import { BetTypes } from '../_enums/betTypes';
 function getValueFromStandings(standings){
     const res = {};
     for (const [index, team] of Object.entries(standings)){
-        res[index + 1] = team.id;
+        res[1 + Number(index)] = team.id;
     }
     return res;
 }
@@ -33,7 +33,6 @@ const OpenGroupRankBetsProvider = ({
         groupId,
         standings,
     }) {
-
         const params = {
             betType: BetTypes.GroupsRank,
             type_id: groupId,
