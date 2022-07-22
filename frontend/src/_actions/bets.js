@@ -26,10 +26,11 @@ function fetch_bets() {
 }
 
 function send_bet(params){
+  const {betType, ...restParams} = params;
   return (dispatch, getState) => {
     const {currentTournamentUser = {} } = getState();
     const {tournament_id} = currentTournamentUser;
-    return sendBet(tournament_id, params)
+    return sendBet(tournament_id, betType, restParams)
     .then( data => dispatch(update_bet(data)) );
   }
 }

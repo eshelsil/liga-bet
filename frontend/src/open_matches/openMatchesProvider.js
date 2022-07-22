@@ -5,6 +5,7 @@ import { fetch_users } from '../_actions/users';
 import { fetch_matches } from '../_actions/matches';
 import { fetch_bets, send_bet } from '../_actions/bets';
 import OpenMatchesView from './openMatchesView';
+import { BetTypes } from '../_enums/betTypes';
 
 
 
@@ -49,7 +50,10 @@ const OpenMatchesProvider = ({
                 return
             }
         }
-        await send_bet(params)
+        await send_bet({
+            ...params,
+            betType: BetTypes.Match,
+        })
             .then(function (data) {
                 toastr["success"]("ההימור נשלח");
             })
@@ -57,7 +61,6 @@ const OpenMatchesProvider = ({
                 console.log('FAILED updating bet', error)
             });
     }
-    console.log({matches})
     return <OpenMatchesView
         matches={matches}
         sendBet={sendMatchBet}

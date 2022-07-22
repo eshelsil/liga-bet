@@ -445,13 +445,13 @@ export const fetchBets = async (tournamentId) => {
     }
 };
 
-export const sendBet = async (tournamentId, params) =>{
+export const sendBet = async (tournamentId, betType, params) =>{
     const {bets = []} = await sendApiRequest({
         type: 'POST',
         url: `/api/bets/${tournamentId}`,
         data: JSON.stringify({
             bets: [{
-                type: BetTypes.Match,
+                type: betType,
                 data: params,
             }]
         }),

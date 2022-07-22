@@ -10,7 +10,7 @@ import { TeamsProvider } from './contexts/teams';
 import Leaderboard from './leaderboard/leaderboard';
 import './App.scss';
 import OpenMatchesView from "./open_matches/openMatchesProvider";
-import UserBetsView from "./user_bets/userBetsView";
+import OpenGroupRankBetsView from "./preTournamentBets/OpenGroupRankBetsProvider";
 import MatchesView from "./matches/ClosedMatchBetsProvider";
 import GroupStandingsBetsView from "./group_bets/GroupStandingsBetsProvider";
 import AllQuestionBetsView from "./special_bets/closedQuestionBets";
@@ -30,8 +30,8 @@ function Content(){
 	}
 	return <React.Fragment>
 		<Switch>
-		<Route path="/open-questions" component={UserBetsView} />
-		<Route path="/open-group-standings" component={UserBetsView} />
+		<Route path="/open-questions" component={OpenGroupRankBetsView} />
+		<Route path="/open-group-standings" component={OpenGroupRankBetsView} />
 		{/* ABOVE TBD ^--------^*/}
 		{/* BELOW ARE DONE v-----v*/}
 		<Route path="/open-matches" component={OpenMatchesView} />
@@ -42,7 +42,7 @@ function Content(){
 		<Route path="/my-bets" component={MyBetsView} />
 		<Route path="/">
 			{/* <Route path="/closed-matches" component={MatchesView} /> */}
-			<Redirect to='/open-matches'/>
+			<Redirect to='/open-group-standings'/>
 		</Route>
 	</Switch>
 	</React.Fragment>
@@ -119,7 +119,7 @@ function App() {
 						<TeamsProvider>
 							<LeaderboardProvider>
 								<Router history={customHistory}>
-									<AppHeader isTourStarted={true}></AppHeader>
+									<AppHeader isTourStarted={false}></AppHeader>
 									<div className="container-fluid text-center">
 										<div className="row content">
 											<div className="col-sm-2 sidenav">

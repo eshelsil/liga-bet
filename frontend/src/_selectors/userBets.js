@@ -26,3 +26,11 @@ export const MyMatchBetsSelector = createSelector(
         return _.keyBy(matchBets, 'type_id');
     }
 );
+
+export const MyGroupRankBetsSelector = createSelector(
+    MyBets,
+    (myBetsByType) => {
+        const matchBets = myBetsByType[BetTypes.GroupsRank] ?? [];
+        return _.keyBy(matchBets, 'type_id');
+    }
+);
