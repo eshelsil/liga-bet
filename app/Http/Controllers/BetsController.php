@@ -34,16 +34,17 @@ class BetsController extends Controller
         return new JsonResponse(["status" => 0], 200);
     }
 
-    public function getUserBets(\Illuminate\Http\Request $request, $tournamentId)
+    public function index(\Illuminate\Http\Request $request, $tournamentId)
     {
         $user = $this->getUser();
         $utl = $user->getTournamentUser($tournamentId);
+        $competition = $utl->tournament->competition;
 
         $betsByType = $utl->bets->groupBy("type");
         $formattedBets = collect();
         foreach ($betsByType as $type => $bets) {
             if ($type == BetTypes::GroupsRank) {
-                $groups = $utl->tournament->competition->groups->keyBy("id");
+                $groups = $competition->groups->keyBy("id");
                 /** @var Bet $bet */
                 foreach ($bets as $bet) {
                     /** @var Group $group */
@@ -57,6 +58,26 @@ class BetsController extends Controller
                     $formattedBets[] = $bet->export_data() + [
                         "standings" => $standings,
                         "relatedGroup" => (new GroupResource($group))->toArray($request)
+                    ];
+                }
+            } elseif ($type == BetTypes::Game) {
+                $games = $competition->games->whereIn("id", $bets->pluck("type_id"))
+                                            ->keyBy("id");
+                $teams = $competition->teams->keyBy("id");
+                /** @var Bet $bet */
+                foreach ($bets as $bet) {
+                    /** @var Game $game */
+                    $game = $games->get($bet->type_id);
+
+                    $formattedBets[] = $bet->export_data() + [
+                        "relatedMatch" => [
+                            "home_team" => $teams->get($game->team_home_id)->only(["id", "name", "crest_url"]),
+                            "away_team" => $teams->get($game->team_home_id)->only(["id", "name", "crest_url"]),
+                            "result_home" => $game->result_home,
+                            "result_away" => $game->result_away,
+                            "winner_side" => $game->getWinnerSide(),
+                            "id" => $game->id,
+                        ]
                     ];
                 }
             }
