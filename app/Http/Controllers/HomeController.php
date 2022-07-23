@@ -32,10 +32,10 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
-    {   
+    {
         $user = Auth::user();
         if (!$user->isConfirmed()){
             return  view('home')->with(["show_table" => false]);
@@ -68,7 +68,7 @@ class HomeController extends Controller
     private function getSummaryMessage($rankTable)
     {   
 
-        if (!Game::isTournamentDone() || !SpecialBet::hasAllCustomAnswers()){
+        if ( !Game::isTournamentDone() || !SpecialBet::hasAllCustomAnswers()){
             return null;
         }
         $user_id = Auth::user()->id;
@@ -109,7 +109,7 @@ class HomeController extends Controller
     public function showTodayMatches()
     {
         $matches = Game::orderBy("start_time")
-                        ->get();
+                       ->get();
         $matches = $matches->filter(function (Game $match) {
             return $match->isClosedToBets();
         })->groupBy('is_done');
@@ -156,7 +156,7 @@ class HomeController extends Controller
     /**
      * Return Matches with no user's bet
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function showOpenMatches()
     {
@@ -177,7 +177,7 @@ class HomeController extends Controller
     /**
      * Return Open Special Bets
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function showOpenSpecialBets()
     {
@@ -192,7 +192,7 @@ class HomeController extends Controller
     /**
      * Return Group Bets with no user's bet
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function showOpenGroupBets()
     {
@@ -233,27 +233,27 @@ class HomeController extends Controller
     /**
      * Return Group Bets 
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function showAllGroupBets()
     {
         /** @var User $user */
-        $usersById = User::all()->groupBy('id')->map(
-            function($coll){return $coll->first();}
-        );
-        $betsByUserId = Bet::where("type", BetTypes::GroupsRank)->get()
+        $usersById = User::all()->keyBy('id');
+        $betsByUserId = Bet::where("type", BetTypes::GroupsRank)
+            ->get()
             ->groupBy('user_id');
+
         $groups = Group::all()
-        ->map(function($group){
-            $group->teams = Team::where('group_id', $group->external_id)->get();
-            return $group;
-        })
-        ->sortBy('name');
+            ->map(function($group){
+                $group->teams = Team::where('group_id', $group->external_id)->get();
+                return $group;
+            })
+            ->sortBy('name');
         $usersWhoBet = [];
-        foreach($betsByUserId as $user_id => $bets){
-            $user = $usersById[$user_id];
+        foreach($betsByUserId as $userId => $bets){
+            $user = $usersById[$userId];
             $user->bets = $bets;
-            array_push($usersWhoBet, $user);
+            $usersWhoBet[] = $user;
         }
         return view("all-group-bets-view")->with([
             "usersWhoBet" => $usersWhoBet,
@@ -265,7 +265,7 @@ class HomeController extends Controller
     /**
      * Return Special Bets
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function showAllSpecialBets()
     {

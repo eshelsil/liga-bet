@@ -17,8 +17,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property array $config
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Game[] $matches
- * @property-read int|null $matches_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Game[] $games
+ * @property-read int|null $games_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Group[] $groups
+ * @property-read int|null $groups_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Scorer[] $scorers
+ * @property-read int|null $scorers_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Team[] $teams
+ * @property-read int|null $teams_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Tournament[] $tournaments
  * @property-read int|null $tournaments_count
  * @method static \Illuminate\Database\Eloquent\Builder|Competition newModelQuery()
@@ -41,24 +47,81 @@ class Competition extends Model
         "config" => "array"
     ];
 
-    /**
-     * Get the phone record associated with the user.
-     */
     public function tournaments(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Tournament::class);
     }
 
-    /**
-     * Get the phone record associated with the user.
-     */
-    public function matches(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function games(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Game::class);
+    }
+
+    public function groups(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Group::class);
+    }
+
+    public function scorers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Scorer::class);
+    }
+
+    public function teams(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Team::class);
     }
 
     public function getCrawler()
     {
         return Crawler::getInstance($this->config["external_id"]);
+    }
+
+
+    public function getFinalGame(): ?Game
+    {
+        return $this->games->where('type', 'knockout')
+                           ->where('sub_type', 'FINAL')
+                           ->first();
+    }
+
+    public function isDone() {
+        $final = $this->getFinalGame();
+        return $final && !$final->is_done;
+    }
+
+    public function hasAllGroupsStandings(){
+        return !$this->groups()->where('standings', null)->exists();
+    }
+
+    public function isGroupStageDone(){
+        return $this->getGroupStageGamesIfStageDone() !== null;
+    }
+
+    public function getGroupStageGamesIfStageDone(){
+        $games = $this->getGroupStageGames();
+
+        if ($games->count() < config('tournamentData.groupStageGamesCount')) {
+            return null;
+        };
+        return $games;
+    }
+
+    public function getGroupStageGames(){
+        return $this->games->whereNotNull("result_home")
+                           ->whereNotNull("result_away")
+                           ->where('type', 'group_stage');
+    }
+
+    public function getTournamentStartTime()
+    {
+        return $this->games->min("start_time");
+    }
+
+    public function areBetsOpen()
+    {
+        $startTime = $this->getTournamentStartTime();
+        $lockBeforeSecs = config('bets.lockBetsBeforeTournamentSeconds');
+        return $startTime - $lockBeforeSecs > time();
     }
 }

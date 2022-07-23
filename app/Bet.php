@@ -18,7 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $tournament_id
  * @property int $user_tournament_id
- * @property-read \App\User|null $user
+ * @property-read \App\Tournament|null $tournament
+ * @property-read \App\TournamentUser|null $utl
  * @method static \Illuminate\Database\Eloquent\Builder|Bet newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Bet newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Bet query()
@@ -35,12 +36,17 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Bet extends Model
 {
-    /**
-     * Get the phone record associated with the user.
-     */
-    public function user()
+
+    protected static $unguarded = true;
+
+    public function utl()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(TournamentUser::class, "tournament_user_id");
+    }
+
+    public function tournament()
+    {
+        return $this->belongsTo(Tournament::class);
     }
 
     public function getData($key = null, $default = null)
@@ -110,7 +116,7 @@ class Bet extends Model
                 break;
             case BetTypes::GroupsRank:
                 $betEntity = Group::find($this->type_id);
-                $abstract = \App\Bets\BetGroupRank\BetGroupRank::class;
+                $abstract = \App\Bets\BetGroupsRank\BetGroupRank::class;
                 break;
         }
 

@@ -4,6 +4,7 @@ namespace App\Bets\BetSpecialBets;
 
 use App\Bets\AbstractBetRequest;
 use App\SpecialBets\SpecialBet;
+use App\TournamentUser;
 use Illuminate\Support\Facades\Log;
 use App\Scorer;
 use App\Team;
@@ -17,7 +18,7 @@ class BetSpecialBetsRequest extends AbstractBetRequest
     /** @var SpecialBet $specialBet */
     protected $specialBet = null;
     protected $answer = null;
-    protected $user = null;
+    protected TournamentUser $utl;
 
     static $scorerIds = null;
     static $teamIds = null;
@@ -30,8 +31,8 @@ class BetSpecialBetsRequest extends AbstractBetRequest
      */
     public function __construct($specialBet, $data = []) {
         parent::__construct($specialBet, $data);
-        $this->answer      = data_get($data, "answer");
-        $this->user      = data_get($data, "user", null);
+        $this->answer   = $data["answer"];
+        $this->utl      = $data["utl"];
     }
 
     public function toJson() {
@@ -104,18 +105,20 @@ class BetSpecialBetsRequest extends AbstractBetRequest
 
     protected function hasUserBet($betName, $answer) {
         $specialBetId = SpecialBet::getBetTypeIdByName($betName);
-        $user = $this->getUser();
-        if (!$user){
+        $utl = $this->utl;
+        if (!$utl) {
             return false;
         }
-        $user_id = $user->id;
+
         $bet = Bet::where('type', BetTypes::SpecialBet)
             ->where('type_id', $specialBetId)
-            ->where('user_id', $user_id)
+            ->where('user_id', $utl->id)
             ->first();
+
         if (!$bet){
             return false;
         }
+
         return $bet->getAnswer() == $answer;
     }
 
@@ -143,11 +146,6 @@ class BetSpecialBetsRequest extends AbstractBetRequest
     public function getSpecialBet()
     {
         return $this->specialBet;
-    }
-
-    public function getUser()
-    {
-        return $this->user;
     }
 
     /**

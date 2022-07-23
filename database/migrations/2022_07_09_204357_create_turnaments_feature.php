@@ -53,6 +53,9 @@ class CreateTurnamentsFeature extends Migration
         Schema::table('matches', function (Blueprint $table) {
             $table->foreignId("competition_id");
         });
+        Schema::table('scorers', function (Blueprint $table) {
+            $table->foreignId("competition_id");
+        });
     }
 
     /**
@@ -62,6 +65,9 @@ class CreateTurnamentsFeature extends Migration
      */
     public function down()
     {
+        Schema::table('scorers', function (Blueprint $table) {
+            $table->dropColumn("competition_id");
+        });
         Schema::table('matches', function (Blueprint $table) {
             $table->dropColumn("competition_id");
         });

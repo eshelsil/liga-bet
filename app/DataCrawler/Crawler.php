@@ -114,7 +114,7 @@ class Crawler
         return collect($teams);
     }
 
-    public function fetchMatches()
+    public function fetchGames()
     {
         $data = $this->apiCall('/matches');
         $matches = data_get($data, 'matches');

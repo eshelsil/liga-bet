@@ -15,6 +15,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BetsController;
 use App\Http\Controllers\DebugController;
+use App\Http\Controllers\GroupsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeaderboardController;
 use Illuminate\Support\Facades\Auth;
@@ -77,9 +78,6 @@ Route::get('/admin/switch-bet-match/{fromMatchID}/{toMatchID}', [AdminController
 Route::get('/admin/flip-bets/{matchId}/{userId?}', [AdminController::class, 'flipMatchBet']);
 Route::get('/admin/danger-switch-groups/{external_id_a}/{external_id_b}', [AdminController::class, 'switchGroups']);
 Route::get('/admin/delete-match/{matchId}', [AdminController::class, 'deleteMatch']);
-Route::get('/admin/fetch-games', [AdminController::class, 'fetchGames']);
-Route::get('/admin/fetch-scorers', [AdminController::class, 'fetchScorers']);
-Route::get('/admin/fetch-standings', [AdminController::class, 'fetchStandings']);
 Route::get('/admin/calculate-group-ranks', [AdminController::class, 'calculateGroupRanks']);
 Route::post('/admin/user-set-name', [AdminController::class, 'setNametoUser']);
 Route::delete('/admin/delete-user', [AdminController::class, 'deleteUser']);
@@ -93,8 +91,9 @@ Route::get('/debug/scorers-simple-data', [DebugController::class, 'getScorersInt
 Route::get('/debug/special-bets-values/{name}', [DebugController::class, 'getSpecialBetsData']);
 
 // Route::post('/user/update', [BetsController::class, 'submitBets'])->middleware("confirmed_user");
-Route::post('/api/bets/{tournamentId}', [BetsController::class, 'submitBets'])->middleware("confirmed_user");
-Route::get('/api/bets/{tournamentId}', [BetsController::class, 'getUserBets'])->middleware("confirmed_user");
+Route::post('/api/tournaments/{tournamentId}/bets', [BetsController::class, 'submitBets'])->middleware("confirmed_user");
+Route::get('/api/tournaments/{tournamentId}/bets', [BetsController::class, 'getUserBets'])->middleware("confirmed_user");
+Route::get('/api/tournaments/{tournamentId}/groups', [GroupsController::class, 'index'])->middleware("confirmed_user");
 Route::get('/user', [\App\Http\Controllers\UserController::class, 'getUser']);
 Route::get('/tournament-user', [\App\Http\Controllers\UserController::class, 'getUserUTLs']);
 

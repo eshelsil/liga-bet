@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Bets\BetGroupRank;
+namespace App\Bets\BetGroupsRank;
 
 use App\Bets\AbstractBetRequest;
 use App\Team;
@@ -41,7 +41,7 @@ class BetGroupRankRequest extends AbstractBetRequest
         }
         $passed_team_ids = array_values($data);
         sort($passed_team_ids);
-        $group_team_ids = array_keys($group->getGroupTeamsById()->toArray());
+        $group_team_ids = $group->teams->modelKeys();
         sort($group_team_ids);
         if (json_encode($passed_team_ids) !== json_encode($group_team_ids) ){
                 throw new \InvalidArgumentException("Invalid standing team_ids. \n Got: " . json_encode($passed_team_ids). "\nGroup includes teams: ". json_encode($group_team_ids));

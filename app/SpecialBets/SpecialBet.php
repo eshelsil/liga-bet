@@ -3,6 +3,9 @@
 namespace App\SpecialBets;
 
 use App\Bets\BetableInterface;
+use App\Competition;
+use App\Tournament;
+use Exception;
 use \Illuminate\Support\Collection;
 use App\Game;
 use App\Bet;
@@ -15,6 +18,7 @@ class SpecialBet implements BetableInterface
 {
 
     protected $id = null;
+    protected Competition $competition;
     protected $name = null;
     protected $title = null;
     static $teamsColl = null;
@@ -107,18 +111,19 @@ class SpecialBet implements BetableInterface
     }
 
     public function getChampions(){
-        $final = Game::getFinalMatchIfDone();
-        if (!$final){
+        $final = $this->competition->getFinalGame();
+        if (!$final || !$final->is_done){
             return null;
         }
         return self::getTeamId($final->getKnockoutWinner());
     }
 
     public function getRunnerUp(){
-        $final = Game::getFinalMatchIfDone();
-        if (!$final){
+        $final = $this->competition->getFinalGame();
+        if (!$final || !$final->is_done){
             return null;
         }
+
         return self::getTeamId($final->getKnockoutLoser());
     }
 
@@ -147,10 +152,11 @@ class SpecialBet implements BetableInterface
         $score_for_winning_final = 15;
 
         $score = $this->calcRoadToFinal($team_id);
-        $final = Game::getFinalMatchIfDone();
-        if (!$final){
-            return $score;
+        $final = $this->competition->getFinalGame();
+        if (!$final || !$final->is_done){
+            return null;
         }
+
         if (self::getTeamId($final->getKnockoutWinner()) == $team_id){
             $score += $score_for_winning_final;
         }
@@ -178,25 +184,33 @@ class SpecialBet implements BetableInterface
     }
 
 
-    public function calculateBets(){
-        $bets = Bet::query()
-            ->where("type", BetTypes::SpecialBet)
-            ->where("type_id", $this->id)
-            ->get();
-        foreach ($bets as $bet) {
-            try {
-                $betRequest = new BetSpecialBetsRequest($this, $bet->getData());
-                $score = $betRequest->calculate();
-                $bet->score = $score;
-                $bet->save();
-                if ($score !== null){
-                    echo "USER {$bet->user_id} Score ({$bet->score}) RANKS: {$betRequest->toJson()}<br>";
+    public function calculateBets(int $competitionId)
+    {
+        $competition = Competition::query()->with(["tournaments" => [
+            "bets" => function ($query) {
+                $query->where('type', BetTypes::SpecialBet)
+                      ->where("type_id", $this->id);
+            }]
+        ])->find($competitionId);
+
+        foreach ($competition->tournaments as $tournament) {
+
+            foreach ($tournament->bets as $bet) {
+                try {
+                    $betRequest = new BetSpecialBetsRequest($this, $bet->getData());
+                    $score = $betRequest->calculate();
+                    $bet->score = $score;
+                    $bet->save();
+
+                    if ($score !== null){
+                        echo "USER {$bet->user_id} Score ({$bet->score}) RANKS: {$betRequest->toJson()}<br>";
+                    }
+                } catch (Exception $exception) {
+                    return $exception->getMessage();
                 }
-            } catch (Exception $exception) {
-                return $exception->getMessage();
-                continue 1;
             }
         }
+
         return "OK";
     }
 
@@ -208,11 +222,12 @@ class SpecialBet implements BetableInterface
      * @param null  $id
      * @param array $data
      */
-    public function __construct($id, array $data)
+    public function __construct($id, Competition $competition, array $data)
     {
-        $this->id       = $id;
-        $this->title = $data["title"];
-        $this->name    = $data["name"];
+        $this->id           = $id;
+        $this->competition  = $competition;
+        $this->title        = $data["title"];
+        $this->name         = $data["name"];
     }
 
     public function getID()

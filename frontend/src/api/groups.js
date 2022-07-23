@@ -1,7 +1,7 @@
+import {isDevModeTamir} from "../_helpers/dev";
 
 
-const sendRequest = async () => {
-  return {
+const EXAMPLE_DATA = {
     1: {
       name: "Group A",
       id: 1,
@@ -57,5 +57,17 @@ const sendRequest = async () => {
       ],
     },
   };
+
+const fakeAPI = async () => {
+  return EXAMPLE_DATA;
 }
-export const fetchGroups = sendRequest;
+
+export const fetchGroups = async (tournamentId) => {
+  if (isDevModeTamir()) return await fakeAPI();
+  return await $.ajax({
+    type: 'GET',
+    url: `/api/tournaments/${tournamentId}/groups`,
+    contentType: 'application/json',
+    dataType: 'json',
+  });
+};

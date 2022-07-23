@@ -8,8 +8,10 @@ function set_groups(data) {
 }
 
 function fetch_groups(data) {
-  return (dispatch) => {
-      return fetchGroups()
+  return (dispatch, getState) => {
+      const {currentTournamentUser = {} } = getState();
+      const {tournament_id} = currentTournamentUser;
+      return fetchGroups(tournament_id)
       .then( data => dispatch(set_groups(data)) );
   }
 }

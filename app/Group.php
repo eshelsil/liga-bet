@@ -2,13 +2,14 @@
 
 namespace App;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use App\Bet;
 use App\Game;
 use App\Enums\BetTypes;
 use App\Bets\BetableInterface;
-use App\Bets\BetGroupRank\BetGroupRankRequest;
-
+use App\Bets\BetGroupsRank\BetGroupRankRequest;
+use Illuminate\Support\Facades\Log;
 
 /**
  * App\Group
@@ -20,6 +21,9 @@ use App\Bets\BetGroupRank\BetGroupRankRequest;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $competition_id
+ * @property-read \App\Competition|null $competition
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Team[] $teams
+ * @property-read int|null $teams_count
  * @method static \Illuminate\Database\Eloquent\Builder|Group newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Group newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Group query()
@@ -34,7 +38,6 @@ use App\Bets\BetGroupRank\BetGroupRankRequest;
  */
 class Group extends Model implements BetableInterface
 {
-    static $teamsColl = null;
     static $firstMatchStartTime = null;
 
     public function isComplete(){
@@ -50,17 +53,16 @@ class Group extends Model implements BetableInterface
         }
     }
 
-    public function fartStandings(){
-        $team_ids = self::getGroupTeamsById()->keys()->toArray();
-        shuffle($team_ids);
-        $standings = [];
-        foreach($team_ids as $index => $team_id){
-            $standings[] = [
+    public function fartStandings(): array
+    {
+        return $this->teams
+            ->pluck("id")
+            ->shuffle()
+            ->map(fn($teamId, $index) => [
                 "position" => $index + 1,
-                "team_id" => $team_id,
-            ];
-        }
-        return $standings;
+                "team_id" => $teamId,
+            ])
+            ->toArray();
     }
 
     public static function randomizeAllStandings(){
@@ -71,9 +73,7 @@ class Group extends Model implements BetableInterface
     }
 
     private function getStandings(){
-        return collect(json_decode($this->standings))->groupBy('position')->map(function($rows){
-            return $rows->first()->team_id;
-        })->toArray();
+        return collect(json_decode($this->standings))->pluck('team_id', 'position')->toArray();
     }
 
     public static function findByExternalId($ext_id){
@@ -90,12 +90,14 @@ class Group extends Model implements BetableInterface
         return $this->name;
     }
 
-    public static function getTeamsCollection()
+    public function teams()
     {
-        if (static::$teamsColl) {
-            return static::$teamsColl;
-        }
-        return static::$teamsColl = Team::all();
+        return $this->hasMany(Team::class);
+    }
+
+    public function competition(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Competition::class);
     }
 
     public function getGroupTeamsById()
@@ -105,12 +107,15 @@ class Group extends Model implements BetableInterface
         });
     }
 
-    public function calculateBets(){
+    public function calculateBets()
+    {
         $bets = Bet::query()
+            ->whereIn("tournament_id", $this->competition->tournaments->modelKeys())
             ->where("type", BetTypes::GroupsRank)
             ->where("type_id", $this->id)
             ->get();
-        echo "FINAL RANKS: $this->standings<br><br>";
+
+        Log::debug("FINAL RANKS: $this->standings");
         $finalStandings = $this->getStandings();
         /** @var Bet $bet */
         foreach ($bets as $bet) {
@@ -118,32 +123,15 @@ class Group extends Model implements BetableInterface
                 $betRequest = new BetGroupRankRequest($this, (array)$bet->getData());
                 $bet->score = $betRequest->calculate($finalStandings);
                 $bet->save();
-                echo "USER {$bet->user_id} Score ({$bet->score}) RANKS: {$betRequest->toJson()}<br>";
+                Log::debug("USER {$bet->user_id} Score ({$bet->score}) RANKS: {$betRequest->toJson()}");
             } catch (Exception $exception) {
                 return $exception->getMessage();
-                continue 1;
             }
         }
         echo "completed";
     }
 
-    public static function getTournamentStartTime()
-    {
-        if (!is_null(static::$firstMatchStartTime)) {
-            return static::$firstMatchStartTime;
-        }
-        return static::$firstMatchStartTime = Game::min('start_time');
-    }
 
-    public static function areBetsOpen(){
-        $tournament_start_time = static::getTournamentStartTime();
-        $lock_before_secs = config('bets.lockBetsBeforeTournamentSeconds');
-        return $tournament_start_time - $lock_before_secs > time();
-    }
-    
-    public static function hasAllGroupsStandings(){
-        return !Group::where('standings', null)->exists();
-    }
 
     public function generateRandomBetData(){
         $standings = $this->fartStandings();

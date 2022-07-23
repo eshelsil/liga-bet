@@ -25,6 +25,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property-read int|null $bets_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
+ * @property-read Collection|\App\Tournament[] $tournaments
+ * @property-read int|null $tournaments_count
+ * @property-read Collection|\App\TournamentUser[] $utls
+ * @property-read int|null $utls_count
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User query()
@@ -86,6 +90,16 @@ class User extends Authenticatable
         return $this->hasMany('App\Bet');
     }
 
+    public function tournaments(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Tournament::class, (new TournamentUser)->getTable());
+    }
+
+    public function utls(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(TournamentUser::class);
+    }
+
     public static function create($params) : User {
         $user = new static($params);
         $user->save();
@@ -129,8 +143,8 @@ class User extends Authenticatable
             ->get();
         $output = [];
         foreach ($groups as $group) {
-            $group->bet = $bets->first(function ($bet) use ($group) { return $bet->type_id == $group->id; });
-            $group->teamsById = $group->getGroupTeamsById();
+            $group->bet = $bets->firstWhere("type_id", $group->id);
+            $group->teamsById = $group->teams->keyBy("id");
             $output[$group->id] = $group;
         }
         return $output;
@@ -145,19 +159,9 @@ class User extends Authenticatable
                   ->first();
     }
 
-    public function getTournamentUser($tournamentId)
+    public function getTournamentUser($tournamentId): ?TournamentUser
     {
-        return TournamentUser::query()
-            ->where("user_id", $this->id)
-            ->where("tournament_id", $tournamentId)
-            ->first();
-    }
-
-    public function getUTLs()
-    {
-        return TournamentUser::query()
-            ->where("user_id", $this->id)
-            ->get();
+        return $this->utls->firstWhere("tournament_id", $tournamentId);
     }
 
     public function getSpecialBetsById()
@@ -222,18 +226,6 @@ class User extends Authenticatable
         });
     }
 
-    public function autoBetNewMatches(){
-        if (!$this->isMonkey()){
-            throw new \InvalidArgumentException("Cannot auto-generate bets for a user who is not a monkey");
-        }
-        $ids_with_bet = $this->bets()->where('type', BetTypes::Game)->pluck('type_id');
-        Game::whereNotIn('id', $ids_with_bet)->get()->each(function($match){
-            $type = BetTypes::Game;
-            $type_id = $match->getID();
-            $data = $match->generateRandomBetData();
-            $this->autoGenerateBet($type, $type_id, $data);
-        });
-    }
 
     public function sendNotifications($title, $body){
         if (!$this->fcm_token) {

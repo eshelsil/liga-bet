@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Bet;
 use App\Bets\BetMatch\BetMatch;
 use App\Bets\BetMatch\BetMatchRequest;
-use App\Bets\BetGroupRank\BetGroupRankRequest;
-use App\Bets\BetGroupRank\BetGroupRank;
+use App\Bets\BetGroupsRank\BetGroupRankRequest;
+use App\Bets\BetGroupsRank\BetGroupRank;
 use App\Bets\BetSpecialBets\BetSpecialBetsRequest;
 use App\Bets\BetSpecialBets\BetSpecialBets;
 use App\Enums\BetTypes;
 use App\Game;
+use App\Http\Resources\GroupResource;
 use App\Team;
 use App\User;
 use App\Group;
@@ -26,33 +27,6 @@ use Psr\Log\InvalidArgumentException;
 
 class BetsController extends Controller
 {
-    private $user = null;
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-       $this->middleware('auth');
-    }
-
-    /**
-     * @return User
-     * @throws JsonException
-     */
-    private function getUser(){
-        $request = Request::instance();
-        $this->user = $this->user ?: Auth::user() ?: User::where("id", "=", $request->get("id"))
-                          ->where("remember_token", "=", $request->get("remember"))
-                          ->first();
-
-        if (!$this->user) {
-            throw new JsonException("לא מאומת", 403);
-        }
-
-        return $this->user;
-    }
 
     public function validateCredentials() {
         $this->getUser();
@@ -60,14 +34,34 @@ class BetsController extends Controller
         return new JsonResponse(["status" => 0], 200);
     }
 
-    public function getUserBets($tournamentId)
+    public function getUserBets(\Illuminate\Http\Request $request, $tournamentId)
     {
         $user = $this->getUser();
         $utl = $user->getTournamentUser($tournamentId);
-        $bets = $utl->getBets();
-        $formattedBets = $bets->map(function($bet){
-            return $bet->export_data();
-        });
+
+        $betsByType = $utl->bets->groupBy("type");
+        $formattedBets = collect();
+        foreach ($betsByType as $type => $bets) {
+            if ($type == BetTypes::GroupsRank) {
+                $groups = $utl->tournament->competition->groups->keyBy("id");
+                /** @var Bet $bet */
+                foreach ($bets as $bet) {
+                    /** @var Group $group */
+                    $group = $groups->get($bet->type_id);
+                    $teams = $group->teams->keyBy("id");
+
+                    $standings = collect($bet->getData())->sortKeys()->map(function ($teamId) use ($group, $teams) {
+                        return $teams->get($teamId)->only(["name","id","crest_url"]);
+                    });
+
+                    $formattedBets[] = $bet->export_data() + [
+                        "standings" => $standings,
+                        "relatedGroup" => (new GroupResource($group))->toArray($request)
+                    ];
+                }
+            }
+        }
+
         return new JsonResponse($formattedBets->keyBy('id'), 200);
     }
 
@@ -91,7 +85,7 @@ class BetsController extends Controller
                     $bets[] = BetMatch::save($utl, $betRequest);
                     break;
                 case BetTypes::GroupsRank:
-                    if (!Group::areBetsOpen()){
+                    if (!$utl->tournament->competition->areBetsOpen()){
                         throw new \InvalidArgumentException("GroupRank bets are closed. cannot update bet");
                     }
                     $betRequest = new BetGroupRankRequest(
@@ -116,7 +110,7 @@ class BetsController extends Controller
         }
         $formattedBets = [];
         foreach($bets as $bet){
-            array_push($formattedBets, $bet->export_data());
+            $formattedBets[] = $bet->export_data();
         }
 
         return new JsonResponse(["bets" => $formattedBets], 200);
@@ -145,7 +139,7 @@ class BetsController extends Controller
         // Validate all Matchs has teams and no scores
         if (isset($betsTypeGrouped[BetTypes::Game])) {
             $notAllowedMatches = Game::query()->whereIn("id", $betsTypeGrouped[BetTypes::Game])
-                ->where(function(\Illuminate\Database\Eloquent\Builder $q) {
+                                     ->where(function(\Illuminate\Database\Eloquent\Builder $q) {
                     $q->whereNull("team_home_id")
                       ->orWhereNull("team_away_id")
                       ->orWhereNotNull("result_home")

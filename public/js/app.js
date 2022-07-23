@@ -37428,9 +37428,9 @@ if (token) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/tamirhen/Desktop/euro-21/resources/assets/js/app.js */"./resources/assets/js/app.js");
-__webpack_require__(/*! /Users/tamirhen/Desktop/euro-21/resources/assets/sass/app.scss */"./resources/assets/sass/app.scss");
-!(function webpackMissingModule() { var e = new Error("Cannot find module '/Users/tamirhen/Desktop/euro-21/resources/assets/sass/home.scss'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+__webpack_require__(/*! /home/omer/Projects/wordcup18/resources/assets/js/app.js */"./resources/assets/js/app.js");
+__webpack_require__(/*! /home/omer/Projects/wordcup18/resources/assets/sass/app.scss */"./resources/assets/sass/app.scss");
+!(function webpackMissingModule() { var e = new Error("Cannot find module '/home/omer/Projects/wordcup18/resources/assets/sass/home.scss'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
 
 
 /***/ })

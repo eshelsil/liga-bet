@@ -93,10 +93,11 @@ protected $table = 'matches';
     }
 
     public function decompleteBets(){
-        foreach ($this->getBets() as $bet) {
+        /** @var Bet $bet */
+        foreach ($this->getBets()->load("utl.user") as $bet) {
             $bet->score = null;
             $bet->save();
-            echo "User: {$bet->user->name} | Score: null<br><br>";
+            echo "User: {$bet->utl->user->name} | Score: null<br><br>";
         }
     }
 
@@ -120,7 +121,7 @@ protected $table = 'matches';
         }
 
 
-        echo "Game Home ({$this->getTeamHome()->name}): {$this->result_home} | Away ({$this->getTeamAway()->name}): {$this->result_away}<br><br>";
+        Log::debug("Game Home ({$this->getTeamHome()->name}): {$this->result_home} | Away ({$this->getTeamAway()->name}): {$this->result_away}");
 
         Log::debug("Creating result");
         $result = new BetMatchRequest($this, [
@@ -130,7 +131,7 @@ protected $table = 'matches';
         ]);
         Log::debug("REsult: {$result->toJson()}");
         /** @var Bet $bet */
-        foreach ($this->getBets() as $bet) {
+        foreach ($this->getBets()->load("utl.user") as $bet) {
             $betRequest = new BetMatchRequest($this, [
                 "result-home" => $bet->getData("result-home"),
                 "result-away" => $bet->getData("result-away"),
@@ -139,7 +140,7 @@ protected $table = 'matches';
             $bet->score = $betRequest->calculate($result);
             $bet->save();
 
-            echo "User: {$bet->user->name} Bet home: {$bet->getData("result-home")} Bet away: {$bet->getData("result-away")} Score: {$bet->score}<br><br>";
+            echo "User: {$bet->utl->user->name} Bet home: {$bet->getData("result-home")} Bet away: {$bet->getData("result-away")} Score: {$bet->score}<br><br>";
         }
 
         return "FINISHED";
@@ -280,24 +281,6 @@ protected $table = 'matches';
             });
     }
 
-    public static function getFinalMatch()
-    {
-        if (static::$theFinal){
-            return static::$theFinal;
-        }
-        return static::$theFinal = Game::where('type', 'knockout')
-            ->where('sub_type', 'FINAL')
-            ->first();
-    }
-    
-    public static function getFinalMatchIfDone()
-    {
-        $final = static::getFinalMatch();
-        if (is_null($final) || !$final->is_done){
-            return null;
-        }
-        return $final;
-    }
 
     public function getID()
     {
@@ -340,7 +323,7 @@ protected $table = 'matches';
         return Game::getGroupStageGamesIfStageDone() !== null;
     }
     
-    public static function isTournamentDone(){
+    public static function isTournamentDone() {
         $final_match = Game::getFinalMatchIfDone();
         return !!$final_match;
     }

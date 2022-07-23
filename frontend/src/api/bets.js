@@ -440,7 +440,7 @@ export const fetchBets = async (tournamentId) => {
     if (isDevModeTamir()) return await fakeAPI();
     return await $.ajax({
         type: 'GET',
-        url: `/api/bets/${tournamentId}`,
+        url: `/api/tournaments/${tournamentId}/bets`,
         contentType: 'application/json',
         dataType: 'json',
     });
@@ -449,7 +449,7 @@ export const fetchBets = async (tournamentId) => {
 export const sendBet = async (tournamentId, betType, params) =>{
     const {bets = []} = await sendApiRequest({
         type: 'POST',
-        url: `/api/bets/${tournamentId}`,
+        url: `/api/tournaments/${tournamentId}/bets`,
         data: JSON.stringify({
             bets: [{
                 type: betType,

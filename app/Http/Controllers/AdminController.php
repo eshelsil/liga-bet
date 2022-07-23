@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Bet;
-use App\Bets\BetGroupRank\BetGroupRankRequest;
+use App\Bets\BetGroupsRank\BetGroupRankRequest;
 use App\Bets\BetMatch\BetMatch;
 use App\Bets\BetMatch\BetMatchRequest;
 use App\Bets\BetSpecialBets\BetSpecialBetsRequest;
+use App\Competition;
 use App\DataCrawler\AbstractCrawlerMatch;
 use App\DataCrawler\Crawler;
 use App\Enums\BetTypes;
@@ -87,23 +88,28 @@ class AdminController extends Controller
             "external_id" => $request->id,
             "team_id" => $request->team_id,
         ];
-        Scorer::register_player($playerData);
-        return response()->json('Done', 200);
+        Scorer::generate(Competition::query()->findOrFail($request->get("competition_id")), $playerData);
+        return response()->json('Done');
     }
 
-    public function saveDefaultScorers()
+    public function saveDefaultScorers(Request $request)
     {
+        /** @var Competition $competition */
+        $competition = Competition::query()->findOrFail($request->get("competition_id"));
         if (!Group::areBetsOpen()){
             throw new JsonException("Adding players to scorers table is not allowed when specia_bets are closed", 403);
         }
+
         $teamIdByExtId = Team::getExternalIdToIdMap();
-        
-        $topScorerDefaultBets = collect(config('tournamentData.topScorerBets'))->map(function($playerData) use($teamIdByExtId){
-            $playerData['team_id'] = $teamIdByExtId[$playerData['team_ext_id']];
-            $playerData['external_id'] = $playerData['id'];
-            return $playerData;
-        })->toArray();
-        Scorer::register_players($topScorerDefaultBets);
+
+        collect(config('tournamentData.topScorerBets'))
+            ->each(function ($playerData) use ($competition, $teamIdByExtId) {
+                $playerData['team_id'] = $teamIdByExtId[$playerData['team_ext_id']];
+                $playerData['external_id'] = $playerData['id'];
+
+                Scorer::generate($competition, $playerData);
+            });
+
         return 'DONE';
     }
 
@@ -121,14 +127,6 @@ class AdminController extends Controller
         })->toArray();
         Scorer::whereNotIn('external_id', $relevantPlayerIds)->delete();
         return 'DONE';
-    }
-
-    public function fetchScorers(){
-        $this->ApiFetchController->fetchScorers();
-    }
-
-    public function fetchStandings(){
-        $this->ApiFetchController->fetchStandings();
     }
 
     public function calculateGroupRanks(){
@@ -226,15 +224,6 @@ class AdminController extends Controller
             $bet->save();
         }
         return "DONE";
-    }
-
-
-    public function calculateSpecialBets() {
-        return $this->ApiFetchController->calculateSpecialBets();
-    }
-
-    public function calculateSpecialBet($name) {
-        return $this->ApiFetchController->calculateSpecialBets([$name]);
     }
 
     public function deleteMatch($matchId)

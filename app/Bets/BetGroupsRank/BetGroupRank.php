@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Bets\BetGroupRank;
+namespace App\Bets\BetGroupsRank;
 
 use App\Bet;
 use App\Bets\AbstractBet;

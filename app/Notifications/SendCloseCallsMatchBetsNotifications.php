@@ -21,8 +21,8 @@ class SendCloseCallsMatchBetsNotifications
                 now()->format("U"),
                 now()->addMinutes(30)->format("U"),
             ])
-            ->isDone(false)
-            ->get();
+                                ->isDone(false)
+                                ->get();
 
         if ($closeCallMatches->isEmpty()) {
             Log::debug("[SendCloseCallsMatches] Got Empty games");

@@ -17,7 +17,7 @@ class BetMatchRequest extends AbstractBetRequest
     /**
      * BetMatchRequest constructor.
      *
-     * @param Game $match
+     * @param Game  $match
      * @param array $data
      */
     public function __construct($match, $data = []) {

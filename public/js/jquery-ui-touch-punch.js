@@ -262,7 +262,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/tamirhen/Desktop/euro-21/resources/assets/js/jquery-ui-touch-punch.js */"./resources/assets/js/jquery-ui-touch-punch.js");
+module.exports = __webpack_require__(/*! /home/omer/Projects/wordcup18/resources/assets/js/jquery-ui-touch-punch.js */"./resources/assets/js/jquery-ui-touch-punch.js");
 
 
 /***/ })
