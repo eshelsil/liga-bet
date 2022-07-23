@@ -1,4 +1,5 @@
 import { BetTypes } from "../_enums/betTypes";
+import { isDevModeTamir } from "../_helpers/dev";
 import { sendApiRequest } from "./common/apiRequest";
 
 const EXAMPLE_DATA = {
@@ -431,18 +432,18 @@ const EXAMPLE_DATA = {
     },
 };
 
+const fakeAPI = async () => {
+    return EXAMPLE_DATA;
+}
+
 export const fetchBets = async (tournamentId) => {
-    const res = await $.ajax({
+    if (isDevModeTamir()) return await fakeAPI();
+    return await $.ajax({
         type: 'GET',
         url: `/api/bets/${tournamentId}`,
         contentType: 'application/json',
         dataType: 'json',
-    })
-    console.log('sendApiRequest',{res})
-    return {
-        ...EXAMPLE_DATA,
-        ...res,
-    }
+    });
 };
 
 export const sendBet = async (tournamentId, betType, params) =>{

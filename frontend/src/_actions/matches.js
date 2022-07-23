@@ -11,7 +11,7 @@ function update_matches(data) {
 function fetch_matches() {
   return (dispatch) => {
     return fetchMatches()
-    .then( data => dispatch(update_matches(data)) );
+      .then( data => dispatch(update_matches(data)) );
   }
 }
 

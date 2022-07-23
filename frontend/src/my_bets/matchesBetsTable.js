@@ -2,107 +2,6 @@ import React from 'react';
 import TeamAndSymbol from "../widgets/team_with_flag";
 import MatchResult from "../widgets/match_result";
 
-const DUMMY_DATA = {
-
-    matches: [
-        {
-            id: 1,
-            homeTeam: {
-                name: "Turkey",
-                flag: "https://crests.football-data.org/803.svg"
-            },
-            awayTeam: {
-                name: "Italy",
-                flag: "https://crests.football-data.org/784.svg"
-            },
-            userBet: {
-                homeTeamScore: 0,
-                awayTeamScore: 1
-            },
-            actualResults: {
-                homeTeamScore: 0,
-                awayTeamScore: 3
-            },
-        },
-        {
-            id: 2,
-            homeTeam: {
-                name: "Wales",
-                flag: "https://crests.football-data.org/833.svg"
-            },
-            awayTeam: {
-                name: "Switzerland",
-                flag: "https://crests.football-data.org/788.svg"
-            },
-            userBet: {
-                homeTeamScore: 1,
-                awayTeamScore: 2
-            },
-            actualResults: {
-                homeTeamScore: 1,
-                awayTeamScore: 1
-            },
-        },
-        {
-            id: 3,
-            homeTeam: {
-                name: "Denmark",
-                flag: "https://crests.football-data.org/782.svg"
-            },
-            awayTeam: {
-                name: "Finland",
-                flag: "https://crests.football-data.org/1976.svg"
-            },
-            userBet: {
-                homeTeamScore: 2,
-                awayTeamScore: 0
-            },
-            actualResults: {
-                homeTeamScore: 0,
-                awayTeamScore: 1
-            },
-        },
-        {
-            id: 4,
-            homeTeam: {
-                name: "Belgium",
-                flag: "https://crests.football-data.org/805.svg"
-            },
-            awayTeam: {
-                name: "Russia",
-                flag: "https://crests.football-data.org/808.svg"
-            },
-            userBet: {
-                homeTeamScore: 4,
-                awayTeamScore: 0
-            },
-            actualResults: {
-                homeTeamScore: 3,
-                awayTeamScore: 0
-            },
-        },
-        {
-            id: 5,
-            homeTeam: {
-                name: "England",
-                flag: "https://crests.football-data.org/770.svg"
-            },
-            awayTeam: {
-                name: "Croatia",
-                flag: "https://crests.football-data.org/799.svg"
-            },
-            userBet: {
-                homeTeamScore: 2,
-                awayTeamScore: 1
-            },
-            actualResults: {
-                homeTeamScore: 1,
-                awayTeamScore: 0
-            },
-        },
-    ]
-
-}
 
 const MatchesBetsTable = ({bets}) => {
     return (
@@ -124,7 +23,7 @@ const MatchesBetsTable = ({bets}) => {
             <tbody>
             {
                 bets.map(bet =>
-                    <tr>
+                    <tr key={bet.id}>
                         <td className="admin">
                             {bet.relatedMatch.id}
                         </td>
