@@ -7,7 +7,7 @@ const EXAMPLE_DATA = {
     10: {
         type: 1,
         type_id: 4,
-        user_id: 23,
+        user_tournament_id: 23,
         result_home: 0,
         result_away: 1,
         winner_side: 'away',
@@ -33,7 +33,7 @@ const EXAMPLE_DATA = {
     11: {
         type: 1,
         type_id: 4,
-        user_id: 7,
+        user_tournament_id: 7,
         result_home: 0,
         result_away: 1,
         winner_side: 'away',
@@ -59,7 +59,7 @@ const EXAMPLE_DATA = {
     12: {
         type: 1,
         type_id: 4,
-        user_id: 1,
+        user_tournament_id: 1,
         result_home: 0,
         result_away: 2,
         winner_side: 'away',
@@ -85,7 +85,7 @@ const EXAMPLE_DATA = {
     1: {
         type: 1,
         type_id: 3,
-        user_id: 23,
+        user_tournament_id: 23,
         result_home: 0,
         result_away: 0,
         winner_side: 'home',
@@ -111,7 +111,7 @@ const EXAMPLE_DATA = {
     2: {
         type: 1,
         type_id: 3,
-        user_id: 7,
+        user_tournament_id: 7,
         result_home: 3,
         result_away: 2,
         winner_side: 'home',
@@ -137,7 +137,7 @@ const EXAMPLE_DATA = {
     3: {
         type: 1,
         type_id: 3,
-        user_id: 20,
+        user_tournament_id: 20,
         result_home: 5,
         result_away: 2,
         winner_side: 'home',
@@ -163,7 +163,7 @@ const EXAMPLE_DATA = {
     4432: {
         type: 1,
         type_id: 3,
-        user_id: 18,
+        user_tournament_id: 18,
         result_home: 5,
         result_away: 2,
         winner_side: 'home',
@@ -189,7 +189,7 @@ const EXAMPLE_DATA = {
     145: {
         type: 1,
         type_id: 2,
-        user_id: 20,
+        user_tournament_id: 20,
         result_home: 1,
         result_away: 3,
         winner_side: 'away',
@@ -215,7 +215,7 @@ const EXAMPLE_DATA = {
     4: {
         type: 3,
         type_id: 4,
-        user_id: 20,
+        user_tournament_id: 20,
         isDone: true,
         answer: {
             id: 5,
@@ -237,7 +237,7 @@ const EXAMPLE_DATA = {
     49: {
         type: 3,
         type_id: 4,
-        user_id: 1,
+        user_tournament_id: 1,
         isDone: true,
         answer: {
             id: 2,
@@ -259,7 +259,7 @@ const EXAMPLE_DATA = {
     50: {
         type: 3,
         type_id: 4,
-        user_id: 23,
+        user_tournament_id: 23,
         isDone: true,
         answer: {
             id: 2,
@@ -281,7 +281,7 @@ const EXAMPLE_DATA = {
     40: {
         type: 3,
         type_id: 1,
-        user_id: 23,
+        user_tournament_id: 23,
         isDone: true,
         answer: {
             name: "Ukraine",
@@ -303,7 +303,7 @@ const EXAMPLE_DATA = {
     41: {
         type: 3,
         type_id: 5,
-        user_id: 4,
+        user_tournament_id: 4,
         isDone: false,
         answer: {
             name: "Switzerland",
@@ -321,7 +321,7 @@ const EXAMPLE_DATA = {
     5: {
         type: 2,
         type_id: 1,
-        user_id: 20,
+        user_tournament_id: 20,
         standings: [
             {
                 name: "Finland",
@@ -377,7 +377,7 @@ const EXAMPLE_DATA = {
     6: {
         type: 2,
         type_id: 2,
-        user_id: 20,
+        user_tournament_id: 20,
         standings: [
             {
                 name: "Austria",

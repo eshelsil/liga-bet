@@ -37,7 +37,7 @@ export const BetsWithUsersName = createSelector(
     (bets, users) => {
         return _.mapValues(bets, bet => ({
             ...bet,
-            user_name: users[bet.user_id]?.name,
+            user_name: users[bet.user_tournament_id]?.name,
         }));
     }
 );
