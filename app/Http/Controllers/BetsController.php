@@ -60,6 +60,11 @@ class BetsController extends Controller
                     ];
                 }
             }
+            else {
+                foreach ($bets as $bet) {
+                    $formattedBets[] = $bet->export_data();
+                }
+            }
         }
 
         return new JsonResponse($formattedBets->keyBy('id'), 200);
