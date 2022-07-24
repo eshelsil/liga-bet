@@ -48,7 +48,7 @@ const OpenGroupRankBetsProvider = ({
                 toastr["error"](error.responseJSON.message);
             });
     }
-    console.log({groupsWithBet, sendGroupRankBet})
+    
     return <OpenGroupRankBetsView
         groupsWithBet={groupsWithBet}
         sendGroupRankBet={sendGroupRankBet}

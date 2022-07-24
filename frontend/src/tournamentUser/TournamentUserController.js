@@ -12,7 +12,6 @@ function TournamentUserController({
 }){
 
 
-    console.log({tournamentUser})
     useEffect( ()=>{
         fetch_current_tournament_user()
         .catch(e => {

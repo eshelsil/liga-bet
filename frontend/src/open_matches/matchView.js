@@ -22,7 +22,6 @@ function MatchWithBetView ({
             winnerSide = bet.winner_side;
         }
     }
-    console.log({bet, winnerSide})
 
     const isHomeKoWinner = winnerSide === WINNER_SIDE.home;
     const isAwayKoWinner = winnerSide === WINNER_SIDE.away;

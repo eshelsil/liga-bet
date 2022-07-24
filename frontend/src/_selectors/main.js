@@ -151,11 +151,7 @@ export const BetsByUserByTypeSelector = createSelector(
 
 export const ContestantSelector = createSelector(
     BetsByUserByTypeSelector,
-    betsByUserID => {
-        const res =  {betsByUserID};
-        console.log('resee', res)
-        return res;
-    }
+    betsByUserID => ({betsByUserID})
 );
 // export const ContestantSelector = createSelector(
 //     BetsByUserByTypeSelector,

@@ -12,7 +12,6 @@ function fetch_current_tournament_user(data) {
       return getUserUTLs()
       .then( data => {
         const theOnlyTournament = data[0];
-        console.log({theOnlyTournament})
         dispatch(set_current_tournament_user(theOnlyTournament));
       })
   }

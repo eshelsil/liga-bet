@@ -11,7 +11,6 @@ function fetch_current_user(data) {
   return (dispatch) => {
       return getUser()
       .then( data => {
-        console.log({data});
         dispatch(set_current_user(data));
       })
   }
