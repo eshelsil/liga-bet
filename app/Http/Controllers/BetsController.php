@@ -53,7 +53,7 @@ class BetsController extends Controller
 
                     $standings = collect($bet->getData())->sortKeys()->map(function ($teamId) use ($group, $teams) {
                         return $teams->get($teamId)->only(["name","id","crest_url"]);
-                    });
+                    })->values();
 
                     $formattedBets[] = $bet->export_data() + [
                         "standings" => $standings,
