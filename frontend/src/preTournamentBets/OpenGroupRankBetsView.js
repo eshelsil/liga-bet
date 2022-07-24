@@ -9,9 +9,8 @@ function GroupRankBetView({
     sendGroupRankBet,
 }){
     const {name, id, bet, standings} = groupWithBet;
-    const teamsByRank = bet || standings;
+    const teamsByRank = bet?.standings || standings;
     const [groupStandings, setGroupStandings] = useState(Object.values(teamsByRank));
-    console.log({sendGroupRankBet})
     const sendBet = () => {
         sendGroupRankBet({groupId: id, standings})
     };
