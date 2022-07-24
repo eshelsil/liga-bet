@@ -54,6 +54,9 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover"
+        ],
+        "ide-helper": [
+            "php artisan ide-helper:models --dir='app' --smart-reset --write"
         ]
     },
     "config": {

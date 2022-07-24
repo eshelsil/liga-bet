@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use App\Group;
-use App\Team;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class GroupResource extends JsonResource
@@ -23,7 +22,7 @@ class GroupResource extends JsonResource
             "id"        => $group->id,
             "name"      => $group->name,
             "isDone"    => true,
-            "standings" => $group->teams->map(fn(Team $team) => $team->only(["name", "id", "crest_url"])),
+            "standings" => TeamResource::collection($group->teams),
         ];
     }
 }

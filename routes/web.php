@@ -94,6 +94,7 @@ Route::get('/debug/special-bets-values/{name}', [DebugController::class, 'getSpe
 Route::post('/api/tournaments/{tournamentId}/bets', [BetsController::class, 'submitBets'])->middleware("confirmed_user");
 Route::get('/api/tournaments/{tournamentId}/bets', [BetsController::class, 'index'])->middleware("confirmed_user");
 Route::get('/api/tournaments/{tournamentId}/groups', [GroupsController::class, 'index'])->middleware("confirmed_user");
+Route::get('/api/tournaments/{tournamentId}/games', [\App\Http\Controllers\GamesController::class, 'index'])->middleware("confirmed_user");
 Route::get('/user', [\App\Http\Controllers\UserController::class, 'getUser']);
 Route::get('/tournament-user', [\App\Http\Controllers\UserController::class, 'getUserUTLs']);
 

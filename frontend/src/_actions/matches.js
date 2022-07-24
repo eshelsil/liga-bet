@@ -1,4 +1,4 @@
-import { fetchMatches } from "../api/matches";
+import { fetchGames } from "../api/matches";
 
 
 function update_matches(data) {
@@ -9,8 +9,10 @@ function update_matches(data) {
 }
 
 function fetch_matches() {
-  return (dispatch) => {
-    return fetchMatches()
+  return (dispatch, getState) => {
+      const {currentTournamentUser = {} } = getState();
+      const {tournament_id} = currentTournamentUser;
+      return fetchGames(tournament_id)
       .then( data => dispatch(update_matches(data)) );
   }
 }

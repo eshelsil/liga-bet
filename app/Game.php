@@ -4,12 +4,10 @@ namespace App;
 
 use App\Bets\BetableInterface;
 use App\Bets\BetMatch\BetMatchRequest;
-use App\DataCrawler\Crawler;
 use App\Enums\BetTypes;
-use App\Exceptions\JsonException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Arr;
 
@@ -36,6 +34,8 @@ use Illuminate\Support\Arr;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $competition_id
  * @property-read mixed $is_done
+ * @property-read \App\Team|null $teamAway
+ * @property-read \App\Team|null $teamHome
  * @method static Builder|Game isDone($isDone)
  * @method static Builder|Game newModelQuery()
  * @method static Builder|Game newQuery()
@@ -125,9 +125,9 @@ protected $table = 'matches';
 
         Log::debug("Creating result");
         $result = new BetMatchRequest($this, [
-            "result-home" => "{$this->result_home}",
-            "result-away" => "{$this->result_away}",
-            "winner_side" => "{$this->getKnockoutWinnerSide()}",
+            "result-home" => $this->result_home,
+            "result-away" => $this->result_away,
+            "winner_side" => $this->getKnockoutWinnerSide(),
         ]);
         Log::debug("REsult: {$result->toJson()}");
         /** @var Bet $bet */
@@ -157,6 +157,16 @@ protected $table = 'matches';
                        ->with("user")
                        ->get();
         return $MatchBets;
+    }
+
+    public function teamHome(): BelongsTo
+    {
+        return $this->belongsTo(Team::class, "team_home_id");
+    }
+
+    public function teamAway(): BelongsTo
+    {
+        return $this->belongsTo(Team::class, "team_away_id");
     }
 
     /**
