@@ -18,11 +18,19 @@ class GroupResource extends JsonResource
         /** @var Group $group */
         $group = $this->resource;
 
+        $standings = null;
+        $teams = $group->teams->keyBy("id");
+        if ($group->standings) {
+            $teamsSortedByStandings = collect(json_encode($group->standings, true))
+                ->map(fn($teamId) => $teams->get($teamId));
+            $standings = TeamResource::collection($teamsSortedByStandings);
+        }
+
         return [
             "id"        => $group->id,
             "name"      => $group->name,
             "isDone"    => true,
-            "standings" => TeamResource::collection($group->teams),
+            "standings" => $standings,
         ];
     }
 }
