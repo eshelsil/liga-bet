@@ -4,7 +4,6 @@ import TeamAndSymbol from "../widgets/team_with_flag";
 
 const GroupPositionBetsTable = ({bets}) => {
 
-
     return <table className="table table-striped">
         <thead>
         <tr>
@@ -53,7 +52,7 @@ const GroupPositionBetsTable = ({bets}) => {
                     <td>
                         <div className="col pull-right">
                             {
-                                bet.relatedGroup.standings.map(
+                                bet.relatedGroup.standings && bet.relatedGroup.standings.map(
                                     (team, index) =>
                                         <div key={index} className="flex-row">
                                             <span>
@@ -63,6 +62,7 @@ const GroupPositionBetsTable = ({bets}) => {
                                         </div>
                                 )
                             }
+                            {!bet.relatedGroup.standings && '-'}
                         </div>
                     </td>
 
