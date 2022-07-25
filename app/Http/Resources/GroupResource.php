@@ -29,7 +29,7 @@ class GroupResource extends JsonResource
         return [
             "id"        => $group->id,
             "name"      => $group->name,
-            "isDone"    => true,
+            "isDone"    => false,
             "standings" => $standings,
         ];
     }

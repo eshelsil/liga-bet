@@ -1,11 +1,7 @@
 import { createSelector } from 'reselect'
 import { BetTypes } from '../_enums/betTypes';
 
-// import * as auth from './auth'
-// import * as game_conn from './game_connection'
-// import * as players from './players'
-// import * as server_error from './server_error'
-
+export const NoSelector = state => ({});
 
 export const CurrentUser = state => state.currentUser ?? {};
 export const CurrentTournamentUser = state => state.currentTournamentUser ?? {};

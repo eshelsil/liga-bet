@@ -1,17 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { sortBy } from "lodash";
-import { useMatchesContext } from "../contexts/matches";
-import { fetch_matches } from '../_actions/matches'
-import { useGroupsContext } from "../contexts/groups";
-import { useSpecialQuestionsContext } from "../contexts/specialQuestions";
-import { useBetsContext } from "../contexts/bets";
 import { connect } from "react-redux";
-import { fetch_bets } from "../_actions/bets";
-import { fetch_teams } from "../_actions/teams";
-import { fetch_groups } from "../_actions/groups";
-import { fetch_questions } from "../_actions/specialQuestions";
 import { ContestantSelector } from "../_selectors/main";
-import { BetTypes } from "../_enums/betTypes";
 import TeamWithFlag from '../widgets/team_with_flag';
 import MatchResult from "../widgets/match_result";
 
@@ -68,6 +58,11 @@ function renderSpecialBetScore(specialBet){
 function renderGroupRankScore(groupRankBet){
     const {id, score, standings, relatedGroup = {}} = groupRankBet;
     const {standings: finalStandings, isDone} = relatedGroup;
+    if (!isDone){
+        return null;
+        // Should select only bets with score
+    }
+    console.log({standings, finalStandings})
     return <li key={id} className="list-group-item row flex-row  col-no-padding">
         <div className="col-xs-2 pull-right col-no-padding" style={{paddingRight: "15px"}}>{score}</div>
         <div className="col-xs-5 pull-right col-no-padding">
@@ -90,6 +85,10 @@ function renderMatchScore(bet){
     if (!relatedMatch){
         return null;
     }
+    if (!score) {
+        return null
+        // Should select only bets with score (instead of this if statement)
+    };
     const {home_team, away_team} = relatedMatch;
     return <li key={id} className="list-group-item row flex-row center-items col-no-padding" style={{paddingLeft: "0px", paddingRight: "10px"}}>
         <div className="col-xs-1 pull-right col-no-padding">{score}</div>
@@ -123,35 +122,17 @@ function renderMatchScore(bet){
 }
 
 export function Contestant(props){
-    const {rank, rankDisplay, change, id, user_id, name, addedScore, specialBets, total_score} = props;
-    // const matchesContext = useMatchesContext();
-    const {fetch_matches, fetch_bets, fetch_teams, fetch_questions, fetch_groups, betsByUserID} = props;
+    const {rank, rankDisplay, change, id, user_id, name, addedScore, total_score} = props;
+    const { betsByUserID } = props;
 
     const userBetsByType = betsByUserID[user_id] ?? {};
     const userMatchBets = userBetsByType[BetTypes.Match] ?? [];
     const userSpecialQuestionBets = userBetsByType[BetTypes.SpecialBet] ?? [];
     const userGroupRankBets = userBetsByType[BetTypes.GroupsRank] ?? [];
 
-
-    // const groupsContext = useGroupsContext();
-    // const specialQuestionsContext = useSpecialQuestionsContext();
-    // const betsContext = useBetsContext();
-    // const { matches } = matchesContext ?? {};
-    // const { groups } = groupsContext ?? {};
-    // const { questions } = specialQuestionsContext ?? {};
-    // const relevantMatchBets = bets.filter()
     const matchesScore = userMatchBets.reduce((sum, bet) => (sum + bet.score) , 0);
     const groupRankScore = userGroupRankBets.reduce((sum, bet) => (sum + (bet.score ?? 0)) , 0);
     const specialBetScore = userSpecialQuestionBets.reduce((sum, bet) => (sum + (bet.score ?? 0)) , 0);
-    useEffect(()=>{
-        // matchesContext?.initialize();
-        // betsContext?.initialize();
-        fetch_bets();
-        fetch_groups();
-        fetch_matches();
-        fetch_teams();
-        fetch_questions();
-    }, []);
 
     return <div key={id} className="panel-group" style={{marginBottom: 0}}>
         <div className="panel panel-default">
@@ -221,13 +202,5 @@ export function Contestant(props){
 }
 
 
-const mapDispatchToProps = {
-    fetch_matches,
-    fetch_bets,
-    fetch_teams,
-    fetch_groups,
-    fetch_questions,
-}
 
-
-export default connect(ContestantSelector, mapDispatchToProps)(Contestant);
+export default connect(ContestantSelector)(Contestant);

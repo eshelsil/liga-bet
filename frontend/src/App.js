@@ -6,7 +6,6 @@ import { createBrowserHistory } from "history";
 import AppHeader from './app_header/AppHeader';
 import { UserProvider, UserContext } from './contexts/user';
 import { TournamentProvider } from './contexts/tournament';
-import { TeamsProvider } from './contexts/teams';
 import Leaderboard from './leaderboard/leaderboard';
 import './App.scss';
 import OpenMatchesView from "./open_matches/openMatchesProvider";
@@ -15,11 +14,11 @@ import MatchesView from "./matches/ClosedMatchBetsProvider";
 import GroupStandingsBetsView from "./group_bets/GroupStandingsBetsProvider";
 import AllQuestionBetsView from "./special_bets/closedQuestionBets";
 import MyBetsView from "./my_bets/myBetsView";
-import { LeaderboardProvider } from './contexts/leaderboard';
 import { Provider as StoreProvider } from 'react-redux';
 import store from './_helpers/store';
 import AuthController from './auth/AuthController';
 import TournamentUserController from './tournamentUser/TournamentUserController';
+import InitialDataFetcher from './initialDataFetcher/InitialDataFetcher';
 
 const customHistory = createBrowserHistory();
 
@@ -116,29 +115,27 @@ function App() {
 			<TournamentUserController>
 				<UserProvider>
 					<TournamentProvider>
-						<TeamsProvider>
-							<LeaderboardProvider>
-								<Router history={customHistory}>
-									<AppHeader isTourStarted={false}></AppHeader>
-									<div className="container-fluid text-center">
-										<div className="row content">
-											<div className="col-sm-2 sidenav">
-											<AppLinks isAdmin={isAdmin}></AppLinks>
-											</div>
-											<div className="col-sm-8 text-left">
-												<Content></Content>
-											</div>
-											<div className="col-sm-2 sidenav">
-												<TournamentPrizes></TournamentPrizes>
-											</div>
+						<InitialDataFetcher>
+							<Router history={customHistory}>
+								<AppHeader isTourStarted={false}></AppHeader>
+								<div className="container-fluid text-center">
+									<div className="row content">
+										<div className="col-sm-2 sidenav">
+										<AppLinks isAdmin={isAdmin}></AppLinks>
+										</div>
+										<div className="col-sm-8 text-left">
+											<Content></Content>
+										</div>
+										<div className="col-sm-2 sidenav">
+											<TournamentPrizes></TournamentPrizes>
 										</div>
 									</div>
-									<footer className="container-fluid text-center">
-										<p></p>
-									</footer>
-								</Router>
-							</LeaderboardProvider>
-						</TeamsProvider>
+								</div>
+								<footer className="container-fluid text-center">
+									<p></p>
+								</footer>
+							</Router>
+						</InitialDataFetcher>
 					</TournamentProvider>
 				</UserProvider>
 			</TournamentUserController>

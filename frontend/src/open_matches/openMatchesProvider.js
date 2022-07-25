@@ -1,9 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { MyOpenMatchBetsSelector } from '../_selectors/openMatches';
-import { fetch_users } from '../_actions/users';
-import { fetch_matches } from '../_actions/matches';
-import { fetch_bets, send_bet } from '../_actions/bets';
+import { send_bet } from '../_actions/bets';
 import OpenMatchesView from './openMatchesView';
 import { BetTypes } from '../_enums/betTypes';
 
@@ -12,16 +10,8 @@ import { BetTypes } from '../_enums/betTypes';
 
 const OpenMatchesProvider = ({
     matches,
-    fetch_users,
-    fetch_bets,
-    fetch_matches,
     send_bet,
 }) => {
-    useEffect(()=>{
-		fetch_users();
-        fetch_bets();
-        fetch_matches();
-	}, []);
     async function sendMatchBet({
         matchId,
         is_knockout,
@@ -68,10 +58,7 @@ const OpenMatchesProvider = ({
 };
 
 const mapDispatchToProps = {
-    fetch_users,
-    fetch_bets,
     send_bet,
-    fetch_matches,
 }
 
 export default connect(MyOpenMatchBetsSelector, mapDispatchToProps)(OpenMatchesProvider);
