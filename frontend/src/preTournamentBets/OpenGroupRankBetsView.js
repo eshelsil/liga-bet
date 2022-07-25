@@ -8,11 +8,13 @@ function GroupRankBetView({
     groupWithBet,
     sendGroupRankBet,
 }){
-    const {name, id, bet, standings} = groupWithBet;
-    const teamsByRank = bet?.standings || standings;
-    const [groupStandings, setGroupStandings] = useState(Object.values(teamsByRank));
+    const {name, id, bet, teams} = groupWithBet;
+    const [standingsInput, setStandingsInput] = useState(null);
+    const teamsByRank = bet?.standings || teams;
+    const groupStandings = standingsInput || teamsByRank;
+
     const sendBet = () => {
-        sendGroupRankBet({groupId: id, standings})
+        sendGroupRankBet({groupId: id, standings: groupStandings})
     };
     return (
         <div className="GroupRankBetView col-xs-12 col-md-9 col-lg-7" style={{float: 'right', borderRadius: 5, border: '#000 1px solid', marginBottom: 25, padding: 10}}>
@@ -22,7 +24,7 @@ function GroupRankBetView({
                     {bet && (<>
                         <h6>הימור נוכחי:</h6>
                         <ol className="currentBet" style={{paddingRight: 10}}>
-                        {teamsByRank.map((team, index) => (
+                        {bet.standings.map((team, index) => (
                             <li key={index} style={{fontSize: '80%'}}  data-pos={index + 1}>
                                 <TeamWithFlag name={team.name} crest_url={team.crest_url} />
                             </li>
@@ -36,7 +38,7 @@ function GroupRankBetView({
                 <div id={`set-bet-table-${id}`} className={`${bet ? 'col-xs-8' : 'col-xs-12'}`}>
                     <DraggableStandings
                         items={groupStandings}
-                        setItems={setGroupStandings}
+                        setItems={setStandingsInput}
                     />
                     <div style={{paddingRight: 40, marginTop: 16}}>
                         <button onClick={sendBet} type="button" className="btn btn-primary">שלח</button>
