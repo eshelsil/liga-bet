@@ -62,9 +62,14 @@ class Bet extends Model
     public function export_data()
     {
         $bet = $this->getAttributes();
-        $bet['result_home'] = $this->getData('result-home');
-        $bet['result_away'] = $this->getData('result-away');
-        $bet['winner_side'] = $this->getData('ko_winner_side');
+        unset($bet['data']);
+        if ($this->type === BetTypes::Game){
+            $bet['result_home'] = $this->getData('result-home');
+            $bet['result_away'] = $this->getData('result-away');
+            $bet['winner_side'] = $this->getData('ko_winner_side');
+        } elseif ($this->type === BetTypes::GroupsRank) {
+            $bet['standings'] = $this->getData();
+        }
         return $bet;
     }
 
