@@ -134,12 +134,11 @@ class BetsController extends Controller
                     throw new InvalidArgumentException();
             }
         }
-        $formattedBets = [];
-        foreach($bets as $bet){
-            $formattedBets[] = $bet->export_data();
-        }
+        $formattedBets = (new Collection($bets))->map(function (Bet $bet) {
+            return $bet->export_data();
+        });
 
-        return new JsonResponse(["bets" => $formattedBets], 200);
+        return new JsonResponse(["bets" => $formattedBets->keyBy('id')], 200);
 
     }
 

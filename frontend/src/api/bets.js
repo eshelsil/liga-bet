@@ -457,5 +457,5 @@ export const sendBet = async (tournamentId, betType, params) =>{
             }]
         }),
     })
-    return bets[0]; 
+    return bets; 
 };
