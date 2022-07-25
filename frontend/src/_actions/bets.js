@@ -1,4 +1,5 @@
 import { fetchBets, sendBet } from "../api/bets";
+import { TournamentIdSelector } from "../_selectors/main";
 
 function update_bets(data) {
   return {
@@ -18,9 +19,8 @@ function update_bet(bet) {
 
 function fetch_bets() {
   return (dispatch, getState) => {
-    const {currentTournamentUser = {} } = getState();
-    const {tournament_id} = currentTournamentUser;
-    return fetchBets(tournament_id)
+    const tournamentId = TournamentIdSelector(getState());
+    return fetchBets(tournamentId)
     .then( data => dispatch(update_bets(data)) );
   }
 }
@@ -28,10 +28,9 @@ function fetch_bets() {
 function send_bet(params){
   const {betType, ...restParams} = params;
   return (dispatch, getState) => {
-    const {currentTournamentUser = {} } = getState();
-    const {tournament_id} = currentTournamentUser;
-    return sendBet(tournament_id, betType, restParams)
-    .then( data => dispatch(update_bet(data)) );
+    const tournamentId = TournamentIdSelector(getState());
+    return sendBet(tournamentId, betType, restParams)
+    .then( data => dispatch(update_bets(data)) );
   }
 }
 

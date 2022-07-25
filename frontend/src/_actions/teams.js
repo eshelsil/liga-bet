@@ -1,4 +1,5 @@
 import { fetchTeams } from "../api/teams"
+import { TournamentIdSelector } from "../_selectors/main";
 
 function set_teams(data) {
     return {
@@ -8,8 +9,9 @@ function set_teams(data) {
 }
 
 function fetch_teams(data) {
-    return (dispatch) => {
-        return fetchTeams()
+    return (dispatch, getState) => {
+        const tournamentId = TournamentIdSelector(getState());
+        return fetchTeams(tournamentId)
         .then( data => dispatch(set_teams(data)) );
     }
 }

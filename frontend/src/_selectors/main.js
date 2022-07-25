@@ -22,6 +22,22 @@ export const TournamentUserControllerSelector = createSelector(
     currentTournamentUser => ({ tournamentUser: currentTournamentUser })
 );
 
+
+export const TournamentIdSelector = createSelector(
+    CurrentTournamentUser,
+    utl => utl.tournament_id
+);
+
+// export const CurentTournamentSelector = createSelector(
+//     CurrentTournamentUser,
+//     currentTournamentUser => currentTournamentUser.tournament ?? {}
+// );
+    
+// export const CompetitionIdSelector = createSelector(
+//     CurentTournamentSelector,
+//     currentTournament => currentTournament.competition_id
+// );
+
 export const LeaderboardSelector = createSelector(
     Leaderboard,
     leaderboard => ({ leaderboard })

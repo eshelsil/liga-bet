@@ -1,4 +1,4 @@
-function matches(state = {}, action) {
+function bets(state = {}, action) {
     switch (action.type) {
       case 'UPDATE_BETS':
         return {
@@ -19,4 +19,4 @@ function matches(state = {}, action) {
         return state;
     }
 }
-export default matches;
+export default bets;

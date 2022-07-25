@@ -1,4 +1,5 @@
-import { fetchGames } from "../api/matches";
+import { fetchMatches } from "../api/matches";
+import { TournamentIdSelector } from "../_selectors/main";
 
 
 function update_matches(data) {
@@ -10,10 +11,9 @@ function update_matches(data) {
 
 function fetch_matches() {
   return (dispatch, getState) => {
-      const {currentTournamentUser = {} } = getState();
-      const {tournament_id} = currentTournamentUser;
-      return fetchGames(tournament_id)
-      .then( data => dispatch(update_matches(data)) );
+    const tournamentId = TournamentIdSelector(getState());
+    return fetchMatches(tournamentId)
+    .then( data => dispatch(update_matches(data)) );
   }
 }
 

@@ -1,4 +1,5 @@
 import { fetchGroups } from "../api/groups";
+import { TournamentIdSelector } from "../_selectors/main";
 
 function set_groups(data) {
   return {
@@ -8,10 +9,9 @@ function set_groups(data) {
 }
 
 function fetch_groups(data) {
-  return (dispatch, getState) => {
-      const {currentTournamentUser = {} } = getState();
-      const {tournament_id} = currentTournamentUser;
-      return fetchGroups(tournament_id)
+    return (dispatch, getState) => {
+      const tournamentId = TournamentIdSelector(getState());
+      return fetchGroups(tournamentId)
       .then( data => dispatch(set_groups(data)) );
   }
 }
