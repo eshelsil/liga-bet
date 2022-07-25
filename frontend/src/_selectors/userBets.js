@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import { createSelector } from 'reselect'
-import { BetTypes } from '../_enums/betTypes';
-import { BetsByUserByTypeSelector, CurrentTournamentUser } from './main';
+import { BetsByUserByTypeSelector, CurrentTournamentUser, GroupStandingBetsByUserId, MatchBetsByUserId, QuestionBetsByUserId } from './main';
 
 export const MyBets = createSelector(
     BetsByUserByTypeSelector,
@@ -12,23 +11,49 @@ export const MyBets = createSelector(
     }
 );
 
-export const MyBetsSelector = createSelector(
-    MyBets,
-    (betsByType) => ({betsByType})
-);
-
 export const MyMatchBetsSelector = createSelector(
-    MyBets,
-    (myBetsByType) => {
-        const matchBets = myBetsByType[BetTypes.Match] ?? [];
-        return _.keyBy(matchBets, 'type_id');
+    MatchBetsByUserId,
+    CurrentTournamentUser,
+    (betsByUserId, tournamentUser) => {
+        const { id: userId } = tournamentUser;
+        return betsByUserId[userId] ?? [];
     }
 );
 
-export const MyGroupRankBetsSelector = createSelector(
-    MyBets,
-    (myBetsByType) => {
-        const matchBets = myBetsByType[BetTypes.GroupsRank] ?? [];
-        return _.keyBy(matchBets, 'type_id');
+export const MyGroupStandingsBetsSelector = createSelector(
+    GroupStandingBetsByUserId,
+    CurrentTournamentUser,
+    (betsByUserId, tournamentUser) => {
+        const { id: userId } = tournamentUser;
+        return betsByUserId[userId] ?? [];
+    }
+);
+
+export const MyQuestionBetsSelector = createSelector(
+    QuestionBetsByUserId,
+    CurrentTournamentUser,
+    (betsByUserId, tournamentUser) => {
+        const { id: userId } = tournamentUser;
+        return betsByUserId[userId] ?? [];
+    }
+);
+
+export const MyBetsSelector = createSelector(
+    MyMatchBetsSelector,
+    MyGroupStandingsBetsSelector,
+    MyQuestionBetsSelector,
+    (matchBets, groupRankBets, questionBets) => {
+        return {
+            matchBets,
+            groupRankBets,
+            questionBets,
+        }
+    }
+);
+
+export const MyGroupRankBetsById = createSelector(
+    MyGroupStandingsBetsSelector,
+    (bets) => {
+        return _.keyBy(bets, 'type_id');
     }
 );

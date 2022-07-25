@@ -1,17 +1,17 @@
 import { createSelector } from 'reselect'
-import { getMatchBetValue } from '../utils/bet_values_generators';
-import { MatchBetsById, GroupStandingBets, Matches, QuestionBets, SpecialQuestions, Users } from './main';
+import { Matches } from './main';
 import { MyMatchBetsSelector } from './userBets';
 
 export const MyOpenMatchBetsSelector = createSelector(
     MyMatchBetsSelector,
     Matches,
     (myMatchBets, matches) => {
+        const matchBetsById = _.keyBy(myMatchBets, 'type_id');
         const matchesWithBet = Object.values(matches)
             .filter(match => !match.closed_for_bets)
             .map(match => ({
                     ...match,
-                    bet: myMatchBets[match.id],
+                    bet: matchBetsById[match.id],
             })
         );
         return {

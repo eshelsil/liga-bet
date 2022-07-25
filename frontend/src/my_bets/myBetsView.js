@@ -5,22 +5,20 @@ import MatchesBetsTable from "./matchesBetsTable";
 import GroupPositionBetsTable from "./groupPositionBetsTable";
 import { MyBetsSelector } from '../_selectors/userBets';
 import { connect } from 'react-redux';
-import { BetTypes } from '../_enums/betTypes';
 
 
 const MyBetsView = ({
-    betsByType = {},
+    matchBets,
+    groupRankBets,
+    questionBets,
 }) => {
-    const matchBets = betsByType[BetTypes.Match] ?? [];
-    const stangingBets = betsByType[BetTypes.GroupsRank] ?? [];
-    const questionBets = betsByType[BetTypes.SpecialBet] ?? [];
 
     return (
         <div className="my-bets-container">
             <h1>הטופס שלי</h1>
             <SpecialBetsTable bets={questionBets}/>
             <MatchesBetsTable bets={matchBets} />
-            <GroupPositionBetsTable bets={stangingBets} />
+            <GroupPositionBetsTable bets={groupRankBets} />
         </div>
     );
 };

@@ -55,90 +55,102 @@ export const BetsWithUsersName = createSelector(
 );
 
 
-
-// export const GroupsWithTeams = createSelector(
-//     Groups,
-//     Teams,
-//     (groups, teams) => {
-//         console.log('groups', groups)
-//         return mapValues(groups, group => {
-//             const { positions } = group;
-//             const positionsWithTeams = mapValues(positions, teamId => teams[teamId]);
-//             return {
-//                 ...group,
-//                 positions: positionsWithTeams,
-//             };
-//         })
-//     }
-// );
-
-// export const MatchesWithTeams = createSelector(
-//     Matches,
-//     Teams,
-//     (matches, teams) => {
-//         console.log('teams', teams)
-//         return mapValues(matches, match => {
-//             for (const team_key of ['home_team', 'away_team']){
-//                 const team_id = match[team_key];
-//                 const team = teams[team_id];
-//                 if (team){
-//                     match[team_key] = team;
-//                 }
-//             }
-//             return match;
-//         })
-//     }
-// );
-
-export const BetsByTypeSelector = createSelector(
-    BetsWithUsersName,
-    bets => {
-        return _.groupBy(Object.values(bets), bet => bet.type);
+export const TeamsByGroupId = createSelector(
+    Teams,
+    (teams) => {
+        return _.groupBy(teams, 'group_id');
     }
 );
 
-export const BetsByTypeWithIdSelector = createSelector(
-    BetsWithUsersName,
-    bets => {
-        const res = {};
-        for (const bet of Object.values(bets)){
-            if (!res[bet.type]){
-                res[bet.type] = {};
-            }
-            if (!res[bet.type][bet.type_id]){
-                res[bet.type][bet.type_id] = [];
-            }
-            res[bet.type][bet.type_id].push(bet);
-        }
-        return res;
+export const GroupsWithTeams = createSelector(
+    Groups,
+    TeamsByGroupId,
+    (groups, teamsByGroupId) => {
+        const groupsWithTemas = _.mapValues(groups, group => ({
+            ...group,
+            teams: teamsByGroupId[group.id],
+        }));
+        return _.pickBy(groupsWithTemas, group => group.teams);
     }
 );
 
-export const QuestionBets = createSelector(
-    BetsByTypeSelector,
-    betsByType => {
-        return betsByType[BetTypes.SpecialBet] ?? [];
-    }
-);
 
 export const GroupStandingBets = createSelector(
-    BetsByTypeSelector,
-    betsByType => {
-        return betsByType[BetTypes.GroupsRank] ?? [];
+    BetsWithUsersName,
+    Groups,
+    Teams,
+    (bets, groups, teams) => {
+        const groupRankBets = _.pickBy(bets, bet => bet.type === BetTypes.GroupsRank);
+        const betsWithRelations = _.mapValues(groupRankBets, bet => ({
+            ...bet,
+            standings: bet.standings?.map(teamId => ({
+                ...teams[teamId],
+            })),
+            relatedGroup: groups[bet.type_id],
+        }));
+        return _.pickBy(betsWithRelations, bet => bet.relatedGroup);
     }
 );
 
 export const MatchBets = createSelector(
-    BetsByTypeSelector,
-    betsByType => {
-        return betsByType[BetTypes.Match] ?? [];
+    BetsWithUsersName,
+    Matches,
+    (bets, matches) => {
+        const matchBets = _.pickBy(bets, bet => bet.type === BetTypes.Match);
+        const betsWithRelatedMatch = _.mapValues(matchBets, bet => ({
+            ...bet,
+            relatedMatch: matches[bet.type_id],
+        }));
+        return _.pickBy(betsWithRelatedMatch, bet => bet.relatedMatch);
+    }
+);
+
+export const QuestionBets = createSelector(
+    BetsWithUsersName,
+    (bets) => {
+        return _.pickBy(bets, bet => bet.type === BetTypes.SpecialBet);
+    }
+);
+
+export const GroupStandingBetsByGroupId = createSelector(
+    GroupStandingBets,
+    bets => {
+        return _.groupBy(Object.values(bets), 'type_id');
+    }
+);
+
+export const QuestionBetsByQuestionId = createSelector(
+    QuestionBets,
+    bets => {
+        return _.groupBy(Object.values(bets), 'type_id');
     }
 );
 
 export const MatchBetsById = createSelector(
-    BetsByTypeWithIdSelector,
-    betsByTypeWithId => {
-        return betsByTypeWithId[BetTypes.Match] ?? {};
+    MatchBets,
+    bets => {
+        return _.groupBy(Object.values(bets), 'type_id');
+    }
+);
+
+export const GroupStandingBetsByUserId = createSelector(
+    GroupStandingBets,
+    bets => {
+        return _.groupBy(Object.values(bets), 'user_tournament_id');
+    }
+);
+
+export const QuestionBetsByUserId = createSelector(
+    QuestionBets,
+    bets => {
+        return _.groupBy(Object.values(bets), 'user_tournament_id');
+    }
+);
+
+export const MatchBetsByUserId = createSelector(
+    MatchBets,
+    bets => {
+        return _.groupBy(Object.values(bets), 'user_tournament_id');
     }
 );
 
@@ -162,50 +174,12 @@ export const BetsByUserByTypeSelector = createSelector(
 );
 
 export const ContestantSelector = createSelector(
-    BetsByUserByTypeSelector,
-    betsByUserID => ({betsByUserID})
+    MatchBetsByUserId,
+    GroupStandingBetsByUserId,
+    QuestionBetsByUserId,
+    (matchBetsByUserId, groupStandingBetsByUserId, questionBetsByUserId) => ({
+        matchBetsByUserId,
+        groupStandingBetsByUserId,
+        questionBetsByUserId,
+    })
 );
-// export const ContestantSelector = createSelector(
-//     BetsByUserByTypeSelector,
-//     Teams,
-//     MatchesWithTeams,
-//     Groups,
-//     SpecialQuestions,
-//     (betsMap, teams, matchesWithTeams, groups, specialQuestions ) => {
-//         const res = {};
-//         for (const [user_id, user_bets] of Object.entries(betsMap)){
-//             res[user_id] = {};
-//             for (const [bet_type, betsById] of Object.entries(user_bets)){
-//                 const bets = Object.values(betsById);
-//                 res[user_id][bet_type] = bets;
-//                 if (bet_type == BetTypes.Match){
-//                     for (const bet of bets){
-//                         const { data = {} } = bet;
-//                         const { winner_side, result_home, result_away } = data;
-//                         bet.relatedMatch = matchesWithTeams[bet.type_id];
-//                         bet.result_home = result_home;
-//                         bet.result_away = result_away;
-//                         bet.winner_side = winner_side;
-//                     }
-//                 }
-//                 if (bet_type == BetTypes.GroupsRank){
-//                     for (const bet of bets){
-//                         const { data = {} } = bet;
-//                         console.log('groupsWithTeams', {groupsWithTeams, typeId: bet.type_id})
-//                         bet.relatedGroup = groupsWithTeams[bet.type_id];
-//                         bet.standings = mapValues(data, teamId => teams[teamId]);
-//                     }
-//                 }
-//                 if (bet_type == BetTypes.Bet){
-//                     for (const bet of bets){
-//                         const { data = {} } = bet;
-//                         console.log('groupsWithTeams', {groupsWithTeams, typeId: bet.type_id})
-//                         bet.relatedGroup = groupsWithTeams[bet.type_id];
-//                         bet.standings = mapValues(data, teamId => teams[teamId]);
-//                     }
-//                 }
-//             }
-//         }
-//         return { contestantBetsData: res, };
-//     }
-// );

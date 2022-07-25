@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
-import { Groups, GroupStandingBets, QuestionBets, SpecialQuestions, Users } from './main';
-import { MyGroupRankBetsSelector } from './userBets';
+import { Groups, GroupStandingBets, GroupsWithTeams } from './main';
+import { MyGroupRankBetsById } from './userBets';
 
 export const AllGroupStandingsBets = createSelector(
     GroupStandingBets,
@@ -15,8 +15,8 @@ export const AllGroupStandingsBets = createSelector(
 );
 
 export const OpenGroupRankBetsSelector = createSelector(
-    Groups,
-    MyGroupRankBetsSelector,
+    GroupsWithTeams,
+    MyGroupRankBetsById,
     (groups, groupBets) => {
         const groupsWithBet = Object.values(groups).map(group => ({
             ...group,

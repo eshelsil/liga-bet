@@ -121,14 +121,23 @@ function renderMatchScore(bet){
     </li>
 }
 
-export function Contestant(props){
-    const {rank, rankDisplay, change, id, user_id, name, addedScore, total_score} = props;
-    const { betsByUserID } = props;
+export function Contestant({
+    rank,
+    rankDisplay,
+    change,
+    id,
+    user_id,
+    name,
+    addedScore,
+    total_score,
+    matchBetsByUserId,
+    groupStandingBetsByUserId,
+    questionBetsByUserId,
+}){
 
-    const userBetsByType = betsByUserID[user_id] ?? {};
-    const userMatchBets = userBetsByType[BetTypes.Match] ?? [];
-    const userSpecialQuestionBets = userBetsByType[BetTypes.SpecialBet] ?? [];
-    const userGroupRankBets = userBetsByType[BetTypes.GroupsRank] ?? [];
+    const userMatchBets = matchBetsByUserId[user_id] ?? [];
+    const userSpecialQuestionBets = questionBetsByUserId[user_id] ?? [];
+    const userGroupRankBets = groupStandingBetsByUserId[user_id] ?? [];
 
     const matchesScore = userMatchBets.reduce((sum, bet) => (sum + bet.score) , 0);
     const groupRankScore = userGroupRankBets.reduce((sum, bet) => (sum + (bet.score ?? 0)) , 0);

@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 import { getMatchBetValue } from '../utils/bet_values_generators';
-import { MatchBetsById, GroupStandingBets, Matches, QuestionBets, SpecialQuestions, Users } from './main';
+import { MatchBetsById, Matches } from './main';
 
 export const ClosedMatchBetsSelector = createSelector(
     MatchBetsById,
