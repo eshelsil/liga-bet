@@ -35,7 +35,7 @@ class BetGroupRankRequest extends AbstractBetRequest
         Log::debug("Validating data: {$group->getID()}\r\nData: ". json_encode($data, JSON_PRETTY_PRINT));
         $passed_positions = array_keys($data);
         sort($passed_positions);
-        if (json_encode($passed_positions) !== json_encode([1,2,3,4]) ){
+        if (json_encode($passed_positions) !== json_encode([0, 1, 2, 3]) ){
             throw new \InvalidArgumentException("Invalid standing positions. \n
                     Got: ". json_encode($passed_positions). ". \n Must use: '1,2,3,4'");
         }

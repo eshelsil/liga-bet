@@ -36,7 +36,7 @@ const OpenGroupRankBetsProvider = ({
         const params = {
             betType: BetTypes.GroupsRank,
             type_id: groupId,
-            value: getValueFromStandings(standings),
+            value: standings.map(team => team.id),
         }
 
         await send_bet(params)
