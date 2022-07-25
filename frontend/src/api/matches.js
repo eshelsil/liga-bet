@@ -1,4 +1,5 @@
 import {isDevModeTamir} from "../_helpers/dev";
+import { sendApiRequest } from "./common/apiRequest";
 
 
 const HOUR = 1000 * 60 * 60;
@@ -106,13 +107,10 @@ const fakeAPI = async () => {
   return EXAMPLE_DATA;
 }
 
-export const fetchGames = async (tournamentId) => {
+export const fetchMatches = async (tournamentId) => {
     if (isDevModeTamir()) return await fakeAPI();
-    return await $.ajax({
-        type: 'GET',
+    return await sendApiRequest({
         url: `/api/tournaments/${tournamentId}/games`,
-        contentType: 'application/json',
-        dataType: 'json',
     });
 };
 

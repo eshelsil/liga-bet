@@ -7,6 +7,7 @@ export const sendApiRequest = async ({
         type,
         url,
         contentType: 'application/json',
+        dataType: 'json',
         data,
         error: function(data) {
             toastr["error"](data.responseJSON.message);
