@@ -1,0 +1,24 @@
+.text-part p{
+    direction: rtl;
+}
+.text-part{
+    margin-bottom: 30px;
+}
+.bold{
+    font-weight: 700;
+}
+table tr td, table tr th{
+    padding-right: 5px;
+    padding-left: 5px;
+    vertical-align: top;
+    border: 1px solid #aaa;
+}
+table tr.divide {
+    border-top: 2px solid #000;
+}
+.preline{
+    white-space: pre-line;
+}
+.underlined{
+    text-decoration: underline;
+}

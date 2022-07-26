@@ -19,6 +19,7 @@ import store from './_helpers/store';
 import AuthController from './auth/AuthController';
 import TournamentUserController from './tournamentUser/TournamentUserController';
 import InitialDataFetcher from './initialDataFetcher/InitialDataFetcher';
+import Takanon from './takanon/Takanon';
 
 const customHistory = createBrowserHistory();
 
@@ -30,9 +31,10 @@ function Content(){
 	return <React.Fragment>
 		<Switch>
 		<Route path="/open-questions" component={OpenGroupRankBetsView} />
-		<Route path="/open-group-standings" component={OpenGroupRankBetsView} />
 		{/* ABOVE TBD ^--------^*/}
 		{/* BELOW ARE DONE v-----v*/}
+		<Route path="/takanon" component={Takanon} />
+		<Route path="/open-group-standings" component={OpenGroupRankBetsView} />
 		<Route path="/open-matches" component={OpenMatchesView} />
 		<Route path="/closed-matches" component={MatchesView} />
 		<Route path="/leaderboard" component={Leaderboard} />
@@ -41,7 +43,7 @@ function Content(){
 		<Route path="/my-bets" component={MyBetsView} />
 		<Route path="/">
 			{/* <Route path="/closed-matches" component={MatchesView} /> */}
-			<Redirect to='/open-group-standings'/>
+			<Redirect to='/open-matches'/>
 		</Route>
 	</Switch>
 	</React.Fragment>
@@ -63,7 +65,7 @@ function AppLinks(props){
 	const { isAdmin } = props;
 	return <React.Fragment>
 		<AppLink path='/articles' label='כתבות'/>
-		<AppLink path='/terms' label='תקנון'/>
+		<AppLink path='/takanon' label='תקנון'/>
 		{isAdmin ? <AppLink path='/admin/index' label='Admin Tools'/> : null}
 	</React.Fragment>
 }
