@@ -1,5 +1,5 @@
 import { fetchTeams } from "../api/teams"
-import { TournamentIdSelector } from "../_selectors/main";
+import { TournamentIdSelector } from "../_selectors/base";
 
 function set_teams(data) {
     return {

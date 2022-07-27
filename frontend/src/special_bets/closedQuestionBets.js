@@ -1,7 +1,7 @@
 import React from 'react';
 import QuestionBetsView from './questionBetsView';
 import { connect } from 'react-redux';
-import { ClosedQuestionBetsSelector } from '../_selectors/questionBets';
+import { ClosedQuestionBetsSelector } from '../_selectors';
 
 
 const ClosedQuestionBets = ({

@@ -1,7 +1,7 @@
 import React from 'react';
 import GroupStandingsBetsView from './GroupStandingsBetsView';
 import { connect } from 'react-redux';
-import { AllGroupStandingsBets } from '../_selectors/standingBets';
+import { AllGroupStandingsBets } from '../_selectors';
 
 
 const GroupStandingsBets = ({

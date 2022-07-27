@@ -1,5 +1,5 @@
 import { fetchMatches } from "../api/matches";
-import { TournamentIdSelector } from "../_selectors/main";
+import { TournamentIdSelector } from "../_selectors/base";
 
 
 function update_matches(data) {

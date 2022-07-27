@@ -1,7 +1,7 @@
 import React from "react";
 import { sortBy } from "lodash";
 import { connect } from "react-redux";
-import { ContestantSelector } from "../_selectors/main";
+import { ContestantSelector } from "../_selectors";
 import TeamWithFlag from '../widgets/team_with_flag';
 import MatchResult from "../widgets/match_result";
 

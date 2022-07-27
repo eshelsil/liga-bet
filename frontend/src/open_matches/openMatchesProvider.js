@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { MyOpenMatchBetsSelector } from '../_selectors/openMatches';
+import { MyOpenMatchBetsSelector } from '../_selectors';
 import { send_bet } from '../_actions/bets';
 import OpenMatchesView from './openMatchesView';
 import { BetTypes } from '../_enums/betTypes';

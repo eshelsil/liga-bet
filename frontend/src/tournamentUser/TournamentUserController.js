@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux'
 
 import {fetch_current_tournament_user} from '../_actions/tournamentUser';
-import {TournamentUserControllerSelector} from '../_selectors/main';
+import {TournamentUserControllerSelector} from '../_selectors';
   
 
 function TournamentUserController({

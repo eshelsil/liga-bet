@@ -1,5 +1,5 @@
 import { fetchBets, sendBet } from "../api/bets";
-import { TournamentIdSelector } from "../_selectors/main";
+import { TournamentIdSelector } from "../_selectors/base";
 
 function update_bets(data) {
   return {

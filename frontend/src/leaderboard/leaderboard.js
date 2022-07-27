@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useTournamentContext } from '../contexts/tournament';
 import Contestant from './contestant';
 import { fetch_leaderboard } from '../_actions/leaderboard'
-import { LeaderboardSelector } from '../_selectors/main';
+import { LeaderboardSelector } from '../_selectors';
 import { connect } from 'react-redux';
 
 

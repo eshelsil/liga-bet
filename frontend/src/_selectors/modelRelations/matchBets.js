@@ -17,7 +17,7 @@ export const MatchBetsWithUserNames = createSelector(
 export const MatchBetsLinked = createSelector(
     MatchBetsWithUserNames,
     Matches,
-    (bets, matches) => {
+    (matchBets, matches) => {
         const betsWithRelatedMatch = _.mapValues(matchBets, bet => ({
             ...bet,
             relatedMatch: matches[bet.type_id],

@@ -6,7 +6,7 @@ import { fetch_matches } from '../_actions/matches';
 import { fetch_questions } from '../_actions/specialQuestions';
 import { fetch_teams } from '../_actions/teams';
 import { fetch_users } from '../_actions/users';
-import { NoSelector } from '../_selectors/main';
+import { NoSelector } from '../_selectors';
 
 
 export function InitialDataFetcher({

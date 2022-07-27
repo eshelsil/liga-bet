@@ -3,7 +3,7 @@ import '../styles/global.scss';
 import SpecialBetsTable from "./specialBetsTable";
 import MatchesBetsTable from "./matchesBetsTable";
 import GroupPositionBetsTable from "./groupPositionBetsTable";
-import { MyBetsSelector } from '../_selectors/userBets';
+import { MyBetsSelector } from '../_selectors';
 import { connect } from 'react-redux';
 
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import MatchesView from './matchesView';
 import { connect } from 'react-redux';
-import { ClosedMatchBetsSelector } from '../_selectors/matchBets';
+import { ClosedMatchBetsSelector } from '../_selectors';
 
 
 const ClosedMatchBets = ({
