@@ -36,9 +36,17 @@ class Controller extends BaseController
     protected function getUser()
     {
         $request = Request::instance();
-        $this->user = $this->user ?: Auth::user() ?: User::where("id", "=", $request->get("id"))
-                                                         ->where("remember_token", "=", $request->get("remember"))
-                                                         ->first();
+        if (!$this->user) {
+            Log::warning("[Controller][".static::class."][__construct] Received request {{$request->get("id")}}{{$request->get("remember")}}!");
+
+            $this->user = Auth::user();
+            Log::warning("[Controller][".static::class."][__construct] still here!");
+            if (!$this->user) {
+                $this->user = User::where("id", "=", $request->get("id"))
+                                  ->where("remember_token", "=", $request->get("remember"))
+                                  ->first();
+            }
+        }
 
         if (!$this->user) {
             throw new JsonException("לא מאומת", 403);
