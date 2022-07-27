@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
-import { Matches } from './main';
-import { MyMatchBetsSelector } from './userBets';
+import { Matches } from './base';
+import { MyMatchBetsSelector } from './logic';
 
 export const MyOpenMatchBetsSelector = createSelector(
     MyMatchBetsSelector,

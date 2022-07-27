@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { QuestionBets, SpecialQuestions, Users } from './main';
+import { QuestionBets, SpecialQuestions } from './base';
 
 export const ClosedQuestionBetsSelector = createSelector(
     QuestionBets,
