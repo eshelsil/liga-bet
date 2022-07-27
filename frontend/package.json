@@ -1,8 +1,8 @@
 {
-  "name": "play-catan-client",
+  "name": "liga-bet",
   "version": "1.0.0",
   "private": "true",
-  "description": "client side of web application for playing Catan with friends online",
+  "description": "Tournament of friends guessing soccer game scores of a tournament",
   "main": "app.js",
   "scripts": {
     "build": "webpack",
