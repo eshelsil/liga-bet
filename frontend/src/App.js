@@ -6,7 +6,7 @@ import { createBrowserHistory } from "history";
 import AppHeader from './app_header/AppHeader';
 import { UserProvider, UserContext } from './contexts/user';
 import { TournamentProvider } from './contexts/tournament';
-import Leaderboard from './leaderboard/leaderboard';
+import Leaderboard from './leaderboard/LeaderboardProvider';
 import './App.scss';
 import OpenMatchesView from "./open_matches/openMatchesProvider";
 import OpenGroupRankBetsView from "./preTournamentBets/OpenGroupRankBetsProvider";
