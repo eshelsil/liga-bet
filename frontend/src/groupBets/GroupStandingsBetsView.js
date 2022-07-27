@@ -6,7 +6,7 @@ function SingleGroupBets({
     group,
     bets,
 }){
-	const {isDone,  standings: teams = []} = group;
+	const {standings: teams = []} = group;
 	const [open, setOpen] = useState(false);
 	const toggleOpen = () => setOpen(!open);
     const betsByAnswer = _.groupBy(bets, bet => getStandingsBetValue(bet.standings));

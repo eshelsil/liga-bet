@@ -11,7 +11,7 @@ import './App.scss';
 import OpenMatchesView from "./open_matches/openMatchesProvider";
 import OpenGroupRankBetsView from "./preTournamentBets/OpenGroupRankBetsProvider";
 import MatchesView from "./matches/ClosedMatchBetsProvider";
-import GroupStandingsBetsView from "./group_bets/GroupStandingsBetsProvider";
+import GroupStandingsBetsView from "./groupBets/GroupStandingsBetsProvider";
 import AllQuestionBetsView from "./special_bets/closedQuestionBets";
 import MyBetsView from "./my_bets/myBetsView";
 import { Provider as StoreProvider } from 'react-redux';
