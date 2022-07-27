@@ -1,5 +1,5 @@
 import React from 'react';
-import TeamWithFlag from '../widgets/team_with_flag';
+import TeamWithFlag from '../widgets/TeamWithFlag';
 
 
 function QuestionBetRow({
@@ -37,7 +37,6 @@ function QuestionBetsList({
 }){
     const betsByAnswer = _.groupBy(bets, bet => bet.answer.id);
     return (
-        // <div id={`special-bet-wrapper-${id}`} className="tab-pane fade active in" style="padding: 10px;">
         <div id={`special-bet-wrapper-${id}`} className="tab-pane fade" style={{padding: 10}}>
             <h3 className="text-center">{name}</h3>
             <div style={{paddingTop: 35}}>
@@ -58,6 +57,7 @@ function QuestionBetsList({
     );
 }
 
+
 function QuestionTab({
     name,
     id,
@@ -70,6 +70,7 @@ function QuestionTab({
         </li>
     );
 }
+
 
 const QuestionBetsView = ({
     questions,

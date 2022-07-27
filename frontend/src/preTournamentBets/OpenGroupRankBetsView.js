@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import TeamWithFlag from '../widgets/team_with_flag';
+import TeamWithFlag from '../widgets/TeamWithFlag';
 import DraggableStandings from './DraggableStandings';
 import './openGroupRankBets.scss';
 

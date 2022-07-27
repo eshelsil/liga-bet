@@ -4,8 +4,6 @@ function TeamAndSymbol({
     name,
     crest_url,
     align_left,
-    is_loser_bg,
-    is_winner_bg,
     is_ko_winner,
     is_underlined,
     is_bold,
@@ -20,8 +18,6 @@ function TeamAndSymbol({
         {
             name &&
             <span className={`team_with_flag-span
-                ${is_loser_bg ? "bet-loser-bg" : ''}
-                ${is_winner_bg ? "bet-winner-bg" : ''}
                 ${is_underlined ? "underlined" : ''}
                 ${is_bold ? "bolded" : ''}
             `}>

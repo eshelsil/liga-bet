@@ -1,6 +1,6 @@
 import React from 'react';
 import DraggableList from '../widgets/draggableList/DraggableList';
-import TeamWithFlag from '../widgets/team_with_flag';
+import TeamWithFlag from '../widgets/TeamWithFlag';
 
 
 function RanksView({

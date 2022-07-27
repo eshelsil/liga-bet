@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { getMatchBetValue } from '../utils/bet_values_generators';
+import { getMatchBetValue } from '../utils/betValuesGenerators';
 import { Matches } from './base';
 import { MatchBetsByUserId } from './modelRelations';
 

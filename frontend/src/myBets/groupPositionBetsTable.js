@@ -1,5 +1,5 @@
 import React from 'react';
-import TeamAndSymbol from "../widgets/team_with_flag";
+import TeamAndSymbol from "../widgets/TeamWithFlag";
 
 
 const GroupPositionBetsTable = ({bets}) => {
@@ -20,7 +20,6 @@ const GroupPositionBetsTable = ({bets}) => {
         </tr>
         </thead>
         <tbody>
-        {/*@foreach($groups as $group)*/}
         {
             bets
             // sort alphabetically by group name

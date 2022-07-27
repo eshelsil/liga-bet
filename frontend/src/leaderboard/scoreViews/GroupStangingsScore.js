@@ -1,5 +1,5 @@
 import React from "react";
-import TeamWithFlag from '../../widgets/team_with_flag';
+import TeamWithFlag from '../../widgets/TeamWithFlag';
 
 
 function Position({

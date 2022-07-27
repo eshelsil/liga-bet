@@ -1,5 +1,5 @@
 import React from 'react';
-import TeamAndSymbol from "../widgets/team_with_flag";
+import TeamAndSymbol from "../widgets/TeamWithFlag";
 
 
 const SpecialBetsTable = ({

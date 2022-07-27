@@ -1,6 +1,6 @@
 import React from "react";
-import TeamWithFlag from '../../widgets/team_with_flag';
-import MatchResult from "../../widgets/match_result";
+import TeamWithFlag from '../../widgets/TeamWithFlag';
+import MatchResult from "../../widgets/MatchResult";
 
 
 function MatchBetScore({

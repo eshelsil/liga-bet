@@ -1,6 +1,6 @@
 import React from 'react';
-import TeamAndSymbol from "../widgets/team_with_flag";
-import MatchResult from "../widgets/match_result";
+import TeamAndSymbol from "../widgets/TeamWithFlag";
+import MatchResult from "../widgets/MatchResult";
 
 
 const MatchesBetsTable = ({bets}) => {
@@ -32,8 +32,6 @@ const MatchesBetsTable = ({bets}) => {
                             <TeamAndSymbol
                                 name={bet.relatedMatch.home_team.name}
                                 crest_url={bet.relatedMatch.home_team.crest_url}
-                                // is_loser_bg={match.actualResults.homeTeamScore < match.actualResults.awayTeamScore}
-                                // is_winner_bg={match.actualResults.homeTeamScore > match.actualResults.awayTeamScore}
                                 is_underlined={bet.result_home > bet.result_away}
                                 is_bold={bet.relatedMatch.result_home > bet.relatedMatch.result_away}
                             />
@@ -41,8 +39,6 @@ const MatchesBetsTable = ({bets}) => {
                             <TeamAndSymbol
                                 name={bet.relatedMatch.away_team.name}
                                 crest_url={bet.relatedMatch.away_team.crest_url}
-                                // is_loser_bg={match.actualResults.homeTeamScore > match.actualResults.awayTeamScore}
-                                // is_winner_bg={match.actualResults.homeTeamScore < match.actualResults.awayTeamScore}
                                 is_underlined={bet.result_home < bet.result_away}
                                 is_bold={bet.relatedMatch.result_home < bet.relatedMatch.result_away}
                             />

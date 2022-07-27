@@ -1,5 +1,5 @@
 import React from 'react';
-import QuestionBetsView from './questionBetsView';
+import QuestionBetsView from './QuestionBetsView';
 import { connect } from 'react-redux';
 import { ClosedQuestionBetsSelector } from '../_selectors';
 

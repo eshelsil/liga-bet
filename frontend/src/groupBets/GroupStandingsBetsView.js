@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { getStandingsBetValue } from '../utils/bet_values_generators';
-import TeamWithFlag from '../widgets/team_with_flag';
+import { getStandingsBetValue } from '../utils/betValuesGenerators';
+import TeamWithFlag from '../widgets/TeamWithFlag';
 
 function SingleGroupBets({
     group,

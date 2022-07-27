@@ -1,8 +1,8 @@
 import moment from 'moment';
 import React from 'react';
 import { updateScoresFromApi } from '../api/matches';
-import MatchResult from '../widgets/match_result';
-import TeamWithFlag from '../widgets/team_with_flag';
+import MatchResult from '../widgets/MatchResult';
+import TeamWithFlag from '../widgets/TeamWithFlag';
 
 
 function MatchGumblesList({
