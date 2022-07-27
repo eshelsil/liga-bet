@@ -110,15 +110,15 @@ class CreateCompetition
         return $this->games = $games->map(function ($gameData) use ($autoBet) {
             $game = new Game();
             $game->competition_id = $this->competition->id;
-            $game->external_id  = $gameData['id'];
+            $game->external_id  = $gameData['external_id'];
             $game->type         = $gameData['type'];
             $game->sub_type     = $gameData['sub_type'];
-            $game->team_home_id = $this->teams->get($gameData['team_home_id'])->id;
-            $game->team_away_id = $this->teams->get($gameData['team_away_id'])->id;
+            $game->team_home_id = $this->teams->get($gameData['team_home_external_id'])->id;
+            $game->team_away_id = $this->teams->get($gameData['team_away_external_id'])->id;
             $game->start_time   = $gameData['start_time'];
             $game->save();
 
-            Log::debug("Saving Game: {$game->team_home_id} {$this->teams->get($gameData['team_home_id'])->name} vs. {$game->team_away_id} {$this->teams->get($gameData['team_away_id'])->name}");
+            Log::debug("Saving Game: {$game->team_home_id} {$this->teams->get($gameData['team_home_external_id'])->name} vs. {$game->team_away_id} {$this->teams->get($gameData['team_away_external_id'])->name}");
 
             User::getMonkeyUsers()->each(fn(User $monkey) => $autoBet->handle($monkey, $game));
 

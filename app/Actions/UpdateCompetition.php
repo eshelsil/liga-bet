@@ -17,6 +17,7 @@ use App\Scorer;
 use App\SpecialBets\SpecialBet;
 use App\Team;
 use App\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
 
 class UpdateCompetition
@@ -35,39 +36,24 @@ class UpdateCompetition
         $this->updateStandings = $updateStandings;
     }
 
-    public function handle(Competition $competition)
+    public function handle(Competition $competition, ?\Illuminate\Support\Collection $crawlerGames = null)
     {
         $crawler = $competition->getCrawler();
-        $matches = $crawler->fetchGames();
-        $existingMatches = $competition->games;
+        $crawlerGames ??= $crawler->fetchGames();
+        $existingGames = $competition->games;
 
-        $this->saveNewGames($matches, $existingMatches);
+        $this->saveNewGames($competition, $crawlerGames, $existingGames);
 
-        $gamesWithNoScore = $existingMatches->where("is_done", false)
-            ->keyBy->external_id;
+        $existingGamesWithNoScore = $existingGames->where("is_done", false)
+            ->keyBy("external_id");
 
-        $newScores = $matches->filter(function($m) use ($gamesWithNoScore){
-            $id = data_get($m, 'id');
-            return data_get($m, 'is_done') && in_array($id, $gamesWithNoScore->pluck('external_id')->toArray());
+        $newScores = $crawlerGames->filter(function($crawlerGame) use ($existingGamesWithNoScore){
+            return $crawlerGame['is_done'] && $existingGamesWithNoScore->has($crawlerGame['external_id']);
         });
 
-        foreach ($newScores as $gameData)  {
-            /** @var Game $game */
-            $game = $gamesWithNoScore->get(data_get($gameData, 'id'));
-            $game->result_home  = data_get($gameData, 'result_home');
-            $game->result_away  = data_get($gameData, 'result_away');
-            $game->ko_winner    = data_get($gameData, 'ko_winner');
-            $game->save();
+        $hasNewGames = $this->saveNewScores($newScores, $existingGamesWithNoScore);
 
-            $this->user_fetch_got_games = true;
-            Log::debug("Saving Result of Game: ext_id - ".$game->external_id." | id - ".$game->id."-> ".$game->result_home." - ".$game->result_away);
-            $game->completeBets();
-            if ($game->isKnockout()){
-                $this->calculateSpecialBets->execute($game->competition_id, ['winner', 'runner_up']);
-            }
-        }
-
-        if (count($newScores) > 0){
+        if (!$newScores){
             $this->updateScorers->handle($competition);
 
             if (!$competition->hasAllGroupsStandings()) {
@@ -78,6 +64,8 @@ class UpdateCompetition
             }
             Ranks::updateRanks();
         }
+
+        return $hasNewGames;
     }
 
     /**
@@ -87,28 +75,62 @@ class UpdateCompetition
      * @return void
      */
     protected function saveNewGames(
+        Competition $competition,
         \Illuminate\Support\Collection $games,
         $existingMatches
     ): void {
-        $newGames = $games->filter(function ($m) use ($existingMatches) {
-            return ! in_array($m['id'], $existingMatches->pluck('external_id')->toArray());
+        $newGames = $games->filter(function ($game) use ($existingMatches) {
+            return ! in_array($game['external_id'], $existingMatches->pluck('external_id')->toArray());
         });
 
         $autoBet = (new MonkeyAutoBetCompetitionGames());
 
+        $teamsByExternalId = $competition->teams->pluck("id", "external_id");
+
         foreach ($newGames as $gameData) {
-            $game               = new Game();
-            $game->external_id  = data_get($gameData, 'id');
-            $game->type         = data_get($gameData, 'type');
-            $game->sub_type     = data_get($gameData, 'sub_type');
-            $game->team_home_id = data_get($gameData, 'team_home_id');
-            $game->team_away_id = data_get($gameData, 'team_away_id');
-            $game->start_time   = data_get($gameData, 'start_time');
+            $game                   = new Game();
+            $game->competition_id   = $competition->id;
+            $game->external_id      = $gameData['external_id'];
+            $game->type             = $gameData['type'];
+            $game->sub_type         = $gameData['sub_type'];
+            $game->team_home_id     = $teamsByExternalId[$gameData['team_home_external_id']];
+            $game->team_away_id     = $teamsByExternalId[$gameData['team_away_external_id']];
+            $game->start_time       = $gameData['start_time'];
 
             Log::debug("Saving Game: " . $game->team_home_id . " vs. " . $game->team_away_id . "<br>");
 
             $game->save();
             User::getMonkeyUsers()->each(fn(User $monkey) => $autoBet->handle($monkey, $game));
         }
+    }
+
+    /**
+     * @param \Illuminate\Support\Collection $newScores
+     * @param Collection                          $gamesWithNoScore
+     *
+     * @return bool
+     */
+    protected function saveNewScores(
+        \Illuminate\Support\Collection $newScores,
+        Collection $gamesWithNoScore
+    ): bool {
+        $hasNewGames = false;
+        foreach ($newScores as $gameData) {
+            /** @var Game $game */
+            $game = $gamesWithNoScore->get($gameData['external_id']);
+            $game->result_home = $gameData['result_home'];
+            $game->result_away = $gameData['result_away'];
+            $game->ko_winner   = $gameData['ko_winner'];
+            $game->save();
+
+            $hasNewGames = true;
+            Log::debug("Saving Result of Game: ext_id - " . $game->external_id . " | id - " . $game->id . "-> " . $game->result_home . " - " . $game->result_away);
+            $game->completeBets();
+            if ($game->isKnockout()) {
+                $this->calculateSpecialBets->execute($game->competition_id, ['winner', 'runner_up']);
+            }
+        }
+
+        return $hasNewGames;
     }
 }

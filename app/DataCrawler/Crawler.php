@@ -73,11 +73,11 @@ class Crawler
         }
 
         return [
-            'id' => data_get($match_json, 'id'),
+            'external_id' => data_get($match_json, 'id'),
             'type' => $type,
             'sub_type' => $type == "group_stage" ? data_get($match_json, 'group') : data_get($match_json, 'stage'),
-            'team_home_id' => $home_team_id,
-            'team_away_id' => $away_team_id,
+            'team_home_external_id' => $home_team_id,
+            'team_away_external_id' => $away_team_id,
             'start_time' => $start_time ? $start_time->format("U") : null,
             'result_home'  => $result_home,
             'result_away'  => $result_away,
