@@ -41,7 +41,7 @@ class Bet extends Model
 
     public function utl()
     {
-        return $this->belongsTo(TournamentUser::class, "tournament_user_id");
+        return $this->belongsTo(TournamentUser::class, "user_tournament_id");
     }
 
     public function tournament()

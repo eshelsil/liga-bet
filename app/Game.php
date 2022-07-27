@@ -6,6 +6,7 @@ use App\Bets\BetableInterface;
 use App\Bets\BetMatch\BetMatchRequest;
 use App\Enums\BetTypes;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Log;
@@ -76,11 +77,6 @@ protected $table = 'matches';
         ]
     ];
 
-    /** @var Team $teamHome */
-    protected $teamHome = null;
-    /** @var Team $teamAway */
-    protected $teamAway = null;
-
     public function isKnockout()
     {
         return $this->type == "knockout";
@@ -94,7 +90,7 @@ protected $table = 'matches';
 
     public function decompleteBets(){
         /** @var Bet $bet */
-        foreach ($this->getBets()->load("utl.user") as $bet) {
+        foreach ($this->getBets() as $bet) {
             $bet->score = null;
             $bet->save();
             echo "User: {$bet->utl->user->name} | Score: null<br><br>";
@@ -121,7 +117,7 @@ protected $table = 'matches';
         }
 
 
-        Log::debug("Game Home ({$this->getTeamHome()->name}): {$this->result_home} | Away ({$this->getTeamAway()->name}): {$this->result_away}");
+        Log::debug("Game Home ({$this->teamHome->name}): {$this->result_home} | Away ({$this->teamAway->name}): {$this->result_away}");
 
         Log::debug("Creating result");
         $result = new BetMatchRequest($this, [
@@ -131,7 +127,7 @@ protected $table = 'matches';
         ]);
         Log::debug("REsult: {$result->toJson()}");
         /** @var Bet $bet */
-        foreach ($this->getBets()->load("utl.user") as $bet) {
+        foreach ($this->getBets() as $bet) {
             $betRequest = new BetMatchRequest($this, [
                 "result-home" => $bet->getData("result-home"),
                 "result-away" => $bet->getData("result-away"),
@@ -148,15 +144,16 @@ protected $table = 'matches';
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @return Collection
      */
-    public function getBets()
+    public function getBets(): Collection
     {
-        $MatchBets = Bet::query()->where("type", BetTypes::Game)
+        /** @var Collection $bets */
+        $bets = Bet::query()->where("type", BetTypes::Game)
                        ->where("type_id", $this->id)
-                       ->with("user")
+                       ->with("utl.user")
                        ->get();
-        return $MatchBets;
+        return $bets;
     }
 
     public function teamHome(): BelongsTo
@@ -167,30 +164,6 @@ protected $table = 'matches';
     public function teamAway(): BelongsTo
     {
         return $this->belongsTo(Team::class, "team_away_id");
-    }
-
-    /**
-     * @return Team
-     */
-    public function getTeamHome()
-    {
-        if (!$this->teamHome) { 
-            $this->teamHome = Team::query()->where('external_id', $this->team_home_id)
-            ->get()->first();
-        }
-        return $this->teamHome;
-    }
-
-    /**
-     * @return Team
-     */
-    public function getTeamAway()
-    {
-        if (!$this->teamAway) {
-            $this->teamAway= Team::query()->where('external_id', $this->team_away_id)
-            ->get()->first();
-        }
-        return $this->teamAway;
     }
 
     public function isClosedToBets()
