@@ -50,14 +50,19 @@ function Content(){
 }
 
 function AppLink({path, label}){
+	const hasReactComponent = ['/takanon'] // until all views would be served by react;
 	const history = useHistory();
 	const onClick = (e) =>{
 		e.preventDefault();
 		history.push(path);
 	}
+	const shouldUseHistoryPush = hasReactComponent.includes(path);
 	return (
-		// <p><a href={path} onClick={onClick}>{label}</a></p>
-		<p><a href={path}>{label}</a></p>
+		<p>
+			<a href={path} onClick={shouldUseHistoryPush ? onClick : undefined} >
+				{label}
+			</a>
+		</p>
 	);
 }
 
