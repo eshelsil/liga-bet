@@ -1,19 +1,18 @@
 import { fetchLeaderboard } from "../api/leaderboard"
-import { createSingleton } from "./utils"
 
-function set_leaderboard(data) {
+function setLeaderboard(data) {
   return {
       type: 'SET_LEADERBOARD',
       data,
   }
 }
-function fetch_leaderboard() {
+function fetchAndStoreLeaderboard() {
   return (dispatch) => {
     return fetchLeaderboard()
-    .then( data => dispatch(set_leaderboard(data)) );
+    .then( data => dispatch(setLeaderboard(data)) );
   }
 }
 
 export {
-  fetch_leaderboard,
+  fetchAndStoreLeaderboard,
 }

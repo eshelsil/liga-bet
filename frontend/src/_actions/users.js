@@ -1,18 +1,18 @@
 import { fetchUsers } from "../api/users"
 
-function set_users(data) {
+function setUsers(data) {
   return {
       type: 'SET_USERS',
       data,
   }
 }
-function fetch_users() {
+function fetchAndStoreUsers() {
   return (dispatch) => {
     return fetchUsers()
-    .then( data => dispatch(set_users(data)) );
+    .then( data => dispatch(setUsers(data)) );
   }
 }
 
 export {
-  fetch_users,
+  fetchAndStoreUsers,
 }

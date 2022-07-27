@@ -1,30 +1,30 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetch_bets } from '../_actions/bets';
-import { fetch_groups } from '../_actions/groups';
-import { fetch_matches } from '../_actions/matches';
-import { fetch_questions } from '../_actions/specialQuestions';
-import { fetch_teams } from '../_actions/teams';
-import { fetch_users } from '../_actions/users';
+import { fetchAndStoreBets } from '../_actions/bets';
+import { fetchAndStoreGroups } from '../_actions/groups';
+import { fetchAndStoreMatches } from '../_actions/matches';
+import { fetchAndStoreQuestions } from '../_actions/specialQuestions';
+import { fetchAndStoreTeams } from '../_actions/teams';
+import { fetchAndStoreUsers } from '../_actions/users';
 import { NoSelector } from '../_selectors';
 
 
 export function InitialDataFetcher({
     children,
-    fetch_matches,
-    fetch_bets,
-    fetch_teams,
-    fetch_groups,
-    fetch_questions,
-    fetch_users,
+    fetchAndStoreMatches,
+    fetchAndStoreBets,
+    fetchAndStoreTeams,
+    fetchAndStoreGroups,
+    fetchAndStoreQuestions,
+    fetchAndStoreUsers,
 }) {
     useEffect(()=> {
-        fetch_teams();
-        fetch_groups();
-        fetch_matches();
-        fetch_questions();
-        fetch_users();
-        fetch_bets();
+        fetchAndStoreTeams();
+        fetchAndStoreGroups();
+        fetchAndStoreMatches();
+        fetchAndStoreQuestions();
+        fetchAndStoreUsers();
+        fetchAndStoreBets();
     }, []);
     return (
         children
@@ -32,12 +32,12 @@ export function InitialDataFetcher({
 }
 
 const mapDispatchToProps = {
-    fetch_matches,
-    fetch_bets,
-    fetch_teams,
-    fetch_groups,
-    fetch_questions,
-    fetch_users,
+    fetchAndStoreMatches,
+    fetchAndStoreBets,
+    fetchAndStoreTeams,
+    fetchAndStoreGroups,
+    fetchAndStoreQuestions,
+    fetchAndStoreUsers,
 }
 
 export default connect(NoSelector, mapDispatchToProps)(InitialDataFetcher);

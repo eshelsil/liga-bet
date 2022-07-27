@@ -1,22 +1,22 @@
 import { fetchGroups } from "../api/groups";
 import { TournamentIdSelector } from "../_selectors/base";
 
-function set_groups(data) {
+function setGroups(data) {
   return {
       type: 'SET_GROUPS',
       data,
   }
 }
 
-function fetch_groups(data) {
+function fetchAndStoreGroups() {
     return (dispatch, getState) => {
       const tournamentId = TournamentIdSelector(getState());
       return fetchGroups(tournamentId)
-      .then( data => dispatch(set_groups(data)) );
+      .then( data => dispatch(setGroups(data)) );
   }
 }
 
 
 export {
-  fetch_groups,
+  fetchAndStoreGroups,
 }

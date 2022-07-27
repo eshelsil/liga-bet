@@ -1,19 +1,19 @@
 import { fetchSpecialQuestions } from "../api/specialQuestions";
 
-function set_questions(data) {
+function setQuestions(data) {
   return {
       type: 'SET_QUESTIONS',
       data,
   }
 }
 
-function fetch_questions() {
+function fetchAndStoreQuestions() {
   return (dispatch) => {
     return fetchSpecialQuestions()
-    .then( data => dispatch(set_questions(data)) );
+    .then( data => dispatch(setQuestions(data)) );
   }
 }
 
 export {
-  fetch_questions,
+  fetchAndStoreQuestions,
 }

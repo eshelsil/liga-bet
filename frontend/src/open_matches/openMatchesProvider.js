@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { MyOpenMatchBetsSelector } from '../_selectors';
-import { send_bet } from '../_actions/bets';
+import { sendBetAndStore } from '../_actions/bets';
 import OpenMatchesView from './openMatchesView';
 import { BetTypes } from '../_enums/betTypes';
 
@@ -10,7 +10,7 @@ import { BetTypes } from '../_enums/betTypes';
 
 const OpenMatchesProvider = ({
     matches,
-    send_bet,
+    sendBetAndStore,
 }) => {
     async function sendMatchBet({
         matchId,
@@ -40,7 +40,7 @@ const OpenMatchesProvider = ({
                 return
             }
         }
-        await send_bet({
+        await sendBetAndStore({
             ...params,
             betType: BetTypes.Match,
         })
@@ -58,7 +58,7 @@ const OpenMatchesProvider = ({
 };
 
 const mapDispatchToProps = {
-    send_bet,
+    sendBetAndStore,
 }
 
 export default connect(MyOpenMatchBetsSelector, mapDispatchToProps)(OpenMatchesProvider);

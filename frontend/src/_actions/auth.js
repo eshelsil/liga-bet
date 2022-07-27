@@ -1,22 +1,22 @@
 import { getUser } from "../api/users";
 
-function set_current_user(data) {
+function setCurrentUser(data) {
   return {
       type: 'SET_CURRENT_USER',
       data,
   }
 }
 
-function fetch_current_user(data) {
+function fetchAndStoreCurrentUser() {
   return (dispatch) => {
       return getUser()
       .then( data => {
-        dispatch(set_current_user(data));
+        dispatch(setCurrentUser(data));
       })
   }
 }
 
 
 export {
-  fetch_current_user,
+  fetchAndStoreCurrentUser,
 }

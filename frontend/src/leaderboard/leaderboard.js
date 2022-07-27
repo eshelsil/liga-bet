@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useTournamentContext } from '../contexts/tournament';
 import Contestant from './contestant';
-import { fetch_leaderboard } from '../_actions/leaderboard'
+import { fetchAndStoreLeaderboard } from '../_actions/leaderboard'
 import { LeaderboardSelector } from '../_selectors';
 import { connect } from 'react-redux';
 
@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 
 function Leaderboard({
 	leaderboard,
-	fetch_leaderboard,
+	fetchAndStoreLeaderboard,
 }){
 	const tournament = useTournamentContext();
 	if (!tournament.isStarted){
@@ -20,7 +20,7 @@ function Leaderboard({
 	const rows = leaderboard;
 	
 	useEffect(()=>{
-		fetch_leaderboard();
+		fetchAndStoreLeaderboard();
 	}, [])
 
 	return <React.Fragment>
@@ -39,7 +39,7 @@ function Leaderboard({
 
 
 const mapDispatchToProps = {
-    fetch_leaderboard,
+    fetchAndStoreLeaderboard,
 }
 
 

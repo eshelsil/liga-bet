@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { OpenGroupRankBetsSelector } from '../_selectors';
 import OpenGroupRankBetsView from './OpenGroupRankBetsView';
 import { BetTypes } from '../_enums/betTypes';
-import { send_bet } from '../_actions/bets';
+import { sendBetAndStore } from '../_actions/bets';
 
 
 const OpenGroupRankBetsProvider = ({
     groupsWithBet,
-    send_bet,
+    sendBetAndStore,
 }) => {
     async function sendGroupRankBet({
         groupId,
@@ -20,7 +20,7 @@ const OpenGroupRankBetsProvider = ({
             value: standings.map(team => team.id),
         }
 
-        await send_bet(params)
+        await sendBetAndStore(params)
             .then(function (data) {
                 toastr["success"]("ההימור נשלח");
             })
@@ -37,7 +37,7 @@ const OpenGroupRankBetsProvider = ({
 };
 
 const mapDispatchToProps = {
-    send_bet,
+    sendBetAndStore,
 }
 
 export default connect(OpenGroupRankBetsSelector, mapDispatchToProps)(OpenGroupRankBetsProvider);

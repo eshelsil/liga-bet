@@ -1,22 +1,22 @@
 import { fetchTeams } from "../api/teams"
 import { TournamentIdSelector } from "../_selectors/base";
 
-function set_teams(data) {
+function setTeams(data) {
     return {
         type: 'SET_TEAMS',
         data,
     }
 }
 
-function fetch_teams(data) {
+function fetchAndStoreTeams() {
     return (dispatch, getState) => {
         const tournamentId = TournamentIdSelector(getState());
         return fetchTeams(tournamentId)
-        .then( data => dispatch(set_teams(data)) );
+        .then( data => dispatch(setTeams(data)) );
     }
 }
 
 
 export {
-    fetch_teams,
+    fetchAndStoreTeams,
 }
