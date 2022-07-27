@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 import { Leaderboard } from './base';
-import { GroupStandingBetsByUserId, MatchBetsByUserId, QuestionBetsByUserQuestionId } from './modelRelations';
+import { GroupStandingBetsByUserId, MatchBetsWithPositiveScores, QuestionBetsByUserQuestionId } from './modelRelations';
 
 
 export const LeaderboardSelector = createSelector(
@@ -10,12 +10,15 @@ export const LeaderboardSelector = createSelector(
 
 
 export const ContestantSelector = createSelector(
-    MatchBetsByUserId,
+    MatchBetsWithPositiveScores,
     GroupStandingBetsByUserId,
     QuestionBetsByUserQuestionId,
-    (matchBetsByUserId, groupStandingBetsByUserId, questionBetsByUserId) => ({
-        matchBetsByUserId,
-        groupStandingBetsByUserId,
-        questionBetsByUserId,
-    })
+    (relevantMatchBets, groupStandingBetsByUserId, questionBetsByUserId) => {
+        const matchBetsByUserId = _.groupBy(relevantMatchBets, 'user_tournament_id');
+        return {
+            matchBetsByUserId,
+            groupStandingBetsByUserId,
+            questionBetsByUserId,
+        };
+    }
 );

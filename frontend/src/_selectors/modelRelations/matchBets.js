@@ -26,6 +26,13 @@ export const MatchBetsLinked = createSelector(
     }
 );
 
+export const MatchBetsWithPositiveScores = createSelector(
+    MatchBetsLinked,
+    bets => {
+        return _.pickBy(bets, bet => bet.score > 0);
+    }
+);
+
 export const MatchBetsByMatchId = createSelector(
     MatchBetsLinked,
     bets => {

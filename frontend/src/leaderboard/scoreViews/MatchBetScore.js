@@ -10,10 +10,6 @@ function MatchBetScore({
     if (!relatedMatch){
         return null;
     }
-    if (!score) {
-        return null
-        // Should select only bets with score (instead of this if statement)
-    };
     const {home_team, away_team} = relatedMatch;
     return <li key={id} className="list-group-item row flex-row center-items col-no-padding" style={{paddingLeft: "0px", paddingRight: "10px"}}>
         <div className="col-xs-1 pull-right col-no-padding">{score}</div>
