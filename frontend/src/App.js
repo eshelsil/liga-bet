@@ -15,7 +15,7 @@ import GroupStandingsBetsView from "./groupBets/GroupStandingsBetsProvider";
 import AllQuestionBetsView from "./questionBets/ClosedQuestionBetsProvider";
 import MyBetsView from "./myBets/myBetsView";
 import { Provider as StoreProvider } from 'react-redux';
-import store from './_helpers/store';
+import store from './_helpers/store.ts';
 import AuthController from './auth/AuthController';
 import TournamentUserController from './tournamentUser/TournamentUserController';
 import InitialDataFetcher from './initialDataFetcher/InitialDataFetcher';
