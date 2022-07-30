@@ -1,6 +1,6 @@
 import React from 'react';
 import TeamAndSymbol from "../widgets/TeamWithFlag";
-import MatchResult from "../widgets/MatchResult";
+import MatchResult from "../widgets/MatchResult.tsx";
 
 
 const MatchesBetsTable = ({bets}) => {
