@@ -1,8 +1,13 @@
-const sendRequest = async () => {
+import { ScoreboardRow } from "../types/leaderboard";
+
+
+type LeaderboardApiResult = Record<number, ScoreboardRow>
+
+const sendRequest = async (): Promise<LeaderboardApiResult> => {
     return {
         1: {
             rank: 1,
-            rankDisplay: 1,
+            rankDisplay: '1',
             change: 1,
             id: 1,
             userId: 1,
@@ -12,7 +17,7 @@ const sendRequest = async () => {
         },
         2: {
             rank: 2,
-            rankDisplay: 2,
+            rankDisplay: '2',
             change: -1,
             id: 23,
             userId: 23,

@@ -1,4 +1,4 @@
-import { fetchBets, sendBet } from "../api/bets";
+import { fetchBets, sendBet } from "../api/bets.ts";
 import { TournamentIdSelector } from "../_selectors/base";
 
 function updateBets(data) {

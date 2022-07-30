@@ -1,3 +1,4 @@
+import { User, UserRole, UTL, UtlRole } from "../types";
 import { isDevModeTamir } from "../_helpers/dev";
 import { sendApiRequest } from "./common/apiRequest";
 
@@ -6,7 +7,7 @@ const EXAMPLE_DATA_GET_USER = {
     fcm_token: null,
     id: 1,
     name: "eshel",
-    permissions: 2,
+    role: UserRole.Admin,
     updated_at: "2022-07-20T13:02:11.000000Z",
     username: "eshel",
 }
@@ -16,24 +17,30 @@ const EXAMPLE_DATA_GET_UTLS = [
         "id": 20,
         "user_id": 1,
         "tournament_id": 1,
-        "role": "Admin",
+        "role": UtlRole.Admin,
     },
 ];
 
-export const getUser = async () => {
+
+
+export const getUser = async (): Promise<User> => {
     if (isDevModeTamir()) return EXAMPLE_DATA_GET_USER;
     return await sendApiRequest({
         url: '/user'
     })
 }
-export const getUserUTLs = async () => {
+
+
+export const getUserUTLs = async (): Promise<UTL[]> => {
     if (isDevModeTamir()) return EXAMPLE_DATA_GET_UTLS;
     return await sendApiRequest({
         url: '/tournament-user'
     })
 }
 
-const sendRequest = async () => {
+type UtlsApiResponse = Record<number, UTL>
+
+const sendRequest = async (): Promise<UtlsApiResponse> => {
     return {
         20: {
             id: 20,

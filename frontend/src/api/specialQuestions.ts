@@ -1,31 +1,27 @@
-const sendRequest = async () => {
+import { SpecialQuestion } from '../types';
+
+type QuestionsApiResult = Record<number, SpecialQuestion>
+
+const sendRequest = async (): Promise<QuestionsApiResult> => {
   return {
     4: {
       // name: "top_scorer",
       name: "Top Scroer",
-      answer: {
-        id: 5,
-        name: 'David Vialla',
-        crest_url: 'https://crests.football-data.org/760.svg',
-      },
+      answer: 5,
       id: 4,
     },
     5: {
       // name: "offensive_team",
       name: "Team with most goals on groups stage",
-      answer: {
-        id: 5,
-        name: 'Austria',
-        crest_url: 'https://crests.football-data.org/816.svg',
-      },
+      answer: 5,
       id: 5,
     },
     1: {
       name: "winner",
-      question: "Winner",
       answer: null,
       id: 1,
     },
   };
 }
+
 export const fetchSpecialQuestions = sendRequest;

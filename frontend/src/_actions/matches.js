@@ -1,4 +1,4 @@
-import { fetchMatches } from "../api/matches";
+import { fetchMatches } from "../api/matches.ts";
 import { TournamentIdSelector } from "../_selectors/base";
 
 

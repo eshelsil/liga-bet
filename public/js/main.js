@@ -8846,7 +8846,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fetchAndStoreCurrentUser": () => (/* binding */ fetchAndStoreCurrentUser)
 /* harmony export */ });
-/* harmony import */ var _api_users__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/users */ "./src/api/users.js");
+/* harmony import */ var _api_users_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/users.ts */ "./src/api/users.ts");
 
 
 function setCurrentUser(data) {
@@ -8858,7 +8858,7 @@ function setCurrentUser(data) {
 
 function fetchAndStoreCurrentUser() {
   return function (dispatch) {
-    return (0,_api_users__WEBPACK_IMPORTED_MODULE_0__.getUser)().then(function (data) {
+    return (0,_api_users_ts__WEBPACK_IMPORTED_MODULE_0__.getUser)().then(function (data) {
       dispatch(setCurrentUser(data));
     });
   };
@@ -8880,7 +8880,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "fetchAndStoreBets": () => (/* binding */ fetchAndStoreBets),
 /* harmony export */   "sendBetAndStore": () => (/* binding */ sendBetAndStore)
 /* harmony export */ });
-/* harmony import */ var _api_bets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/bets */ "./src/api/bets.js");
+/* harmony import */ var _api_bets_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/bets.ts */ "./src/api/bets.ts");
 /* harmony import */ var _selectors_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_selectors/base */ "./src/_selectors/base/index.js");
 var _excluded = ["betType"];
 
@@ -8910,7 +8910,7 @@ function updateBet(bet) {
 function fetchAndStoreBets() {
   return function (dispatch, getState) {
     var tournamentId = (0,_selectors_base__WEBPACK_IMPORTED_MODULE_1__.TournamentIdSelector)(getState());
-    return (0,_api_bets__WEBPACK_IMPORTED_MODULE_0__.fetchBets)(tournamentId).then(function (data) {
+    return (0,_api_bets_ts__WEBPACK_IMPORTED_MODULE_0__.fetchBets)(tournamentId).then(function (data) {
       return dispatch(updateBets(data));
     });
   };
@@ -8922,7 +8922,7 @@ function sendBetAndStore(params) {
 
   return function (dispatch, getState) {
     var tournamentId = (0,_selectors_base__WEBPACK_IMPORTED_MODULE_1__.TournamentIdSelector)(getState());
-    return (0,_api_bets__WEBPACK_IMPORTED_MODULE_0__.sendBet)(tournamentId, betType, restParams).then(function (data) {
+    return (0,_api_bets_ts__WEBPACK_IMPORTED_MODULE_0__.sendBet)(tournamentId, betType, restParams).then(function (data) {
       return dispatch(updateBets(data));
     });
   };
@@ -8943,7 +8943,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fetchAndStoreGroups": () => (/* binding */ fetchAndStoreGroups)
 /* harmony export */ });
-/* harmony import */ var _api_groups__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/groups */ "./src/api/groups.js");
+/* harmony import */ var _api_groups_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/groups.ts */ "./src/api/groups.ts");
 /* harmony import */ var _selectors_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_selectors/base */ "./src/_selectors/base/index.js");
 
 
@@ -8958,7 +8958,7 @@ function setGroups(data) {
 function fetchAndStoreGroups() {
   return function (dispatch, getState) {
     var tournamentId = (0,_selectors_base__WEBPACK_IMPORTED_MODULE_1__.TournamentIdSelector)(getState());
-    return (0,_api_groups__WEBPACK_IMPORTED_MODULE_0__.fetchGroups)(tournamentId).then(function (data) {
+    return (0,_api_groups_ts__WEBPACK_IMPORTED_MODULE_0__.fetchGroups)(tournamentId).then(function (data) {
       return dispatch(setGroups(data));
     });
   };
@@ -8979,7 +8979,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fetchAndStoreLeaderboard": () => (/* binding */ fetchAndStoreLeaderboard)
 /* harmony export */ });
-/* harmony import */ var _api_leaderboard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/leaderboard */ "./src/api/leaderboard.js");
+/* harmony import */ var _api_leaderboard_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/leaderboard.ts */ "./src/api/leaderboard.ts");
 
 
 function setLeaderboard(data) {
@@ -8991,7 +8991,7 @@ function setLeaderboard(data) {
 
 function fetchAndStoreLeaderboard() {
   return function (dispatch) {
-    return (0,_api_leaderboard__WEBPACK_IMPORTED_MODULE_0__.fetchLeaderboard)().then(function (data) {
+    return (0,_api_leaderboard_ts__WEBPACK_IMPORTED_MODULE_0__.fetchLeaderboard)().then(function (data) {
       return dispatch(setLeaderboard(data));
     });
   };
@@ -9012,7 +9012,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fetchAndStoreMatches": () => (/* binding */ fetchAndStoreMatches)
 /* harmony export */ });
-/* harmony import */ var _api_matches__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/matches */ "./src/api/matches.js");
+/* harmony import */ var _api_matches_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/matches.ts */ "./src/api/matches.ts");
 /* harmony import */ var _selectors_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_selectors/base */ "./src/_selectors/base/index.js");
 
 
@@ -9027,7 +9027,7 @@ function updateMatches(data) {
 function fetchAndStoreMatches() {
   return function (dispatch, getState) {
     var tournamentId = (0,_selectors_base__WEBPACK_IMPORTED_MODULE_1__.TournamentIdSelector)(getState());
-    return (0,_api_matches__WEBPACK_IMPORTED_MODULE_0__.fetchMatches)(tournamentId).then(function (data) {
+    return (0,_api_matches_ts__WEBPACK_IMPORTED_MODULE_0__.fetchMatches)(tournamentId).then(function (data) {
       return dispatch(updateMatches(data));
     });
   };
@@ -9048,7 +9048,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fetchAndStoreQuestions": () => (/* binding */ fetchAndStoreQuestions)
 /* harmony export */ });
-/* harmony import */ var _api_specialQuestions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/specialQuestions */ "./src/api/specialQuestions.js");
+/* harmony import */ var _api_specialQuestions_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/specialQuestions.ts */ "./src/api/specialQuestions.ts");
 
 
 function setQuestions(data) {
@@ -9060,7 +9060,7 @@ function setQuestions(data) {
 
 function fetchAndStoreQuestions() {
   return function (dispatch) {
-    return (0,_api_specialQuestions__WEBPACK_IMPORTED_MODULE_0__.fetchSpecialQuestions)().then(function (data) {
+    return (0,_api_specialQuestions_ts__WEBPACK_IMPORTED_MODULE_0__.fetchSpecialQuestions)().then(function (data) {
       return dispatch(setQuestions(data));
     });
   };
@@ -9081,7 +9081,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fetchAndStoreTeams": () => (/* binding */ fetchAndStoreTeams)
 /* harmony export */ });
-/* harmony import */ var _api_teams__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/teams */ "./src/api/teams.js");
+/* harmony import */ var _api_teams_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/teams.ts */ "./src/api/teams.ts");
 /* harmony import */ var _selectors_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_selectors/base */ "./src/_selectors/base/index.js");
 
 
@@ -9096,7 +9096,7 @@ function setTeams(data) {
 function fetchAndStoreTeams() {
   return function (dispatch, getState) {
     var tournamentId = (0,_selectors_base__WEBPACK_IMPORTED_MODULE_1__.TournamentIdSelector)(getState());
-    return (0,_api_teams__WEBPACK_IMPORTED_MODULE_0__.fetchTeams)(tournamentId).then(function (data) {
+    return (0,_api_teams_ts__WEBPACK_IMPORTED_MODULE_0__.fetchTeams)(tournamentId).then(function (data) {
       return dispatch(setTeams(data));
     });
   };
@@ -9117,7 +9117,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fetchAndStoreCurrentTournamentUser": () => (/* binding */ fetchAndStoreCurrentTournamentUser)
 /* harmony export */ });
-/* harmony import */ var _api_users__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/users */ "./src/api/users.js");
+/* harmony import */ var _api_users_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/users.ts */ "./src/api/users.ts");
 
 
 function setCurrentTournamentUser(data) {
@@ -9129,7 +9129,7 @@ function setCurrentTournamentUser(data) {
 
 function fetchAndStoreCurrentTournamentUser() {
   return function (dispatch) {
-    return (0,_api_users__WEBPACK_IMPORTED_MODULE_0__.getUserUTLs)().then(function (data) {
+    return (0,_api_users_ts__WEBPACK_IMPORTED_MODULE_0__.getUserUTLs)().then(function (data) {
       var theOnlyTournament = data[0];
       dispatch(setCurrentTournamentUser(theOnlyTournament));
     });
@@ -9151,7 +9151,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fetchAndStoreUsers": () => (/* binding */ fetchAndStoreUsers)
 /* harmony export */ });
-/* harmony import */ var _api_users__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/users */ "./src/api/users.js");
+/* harmony import */ var _api_users_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/users.ts */ "./src/api/users.ts");
 
 
 function setUsers(data) {
@@ -9163,7 +9163,7 @@ function setUsers(data) {
 
 function fetchAndStoreUsers() {
   return function (dispatch) {
-    return (0,_api_users__WEBPACK_IMPORTED_MODULE_0__.fetchUsers)().then(function (data) {
+    return (0,_api_users_ts__WEBPACK_IMPORTED_MODULE_0__.fetchUsers)().then(function (data) {
       return dispatch(setUsers(data));
     });
   };
@@ -10418,1659 +10418,6 @@ var TournamentUserControllerSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_1__.
 
 /***/ }),
 
-/***/ "./src/api/bets.js":
-/*!*************************!*\
-  !*** ./src/api/bets.js ***!
-  \*************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "fetchBets": () => (/* binding */ fetchBets),
-/* harmony export */   "sendBet": () => (/* binding */ sendBet)
-/* harmony export */ });
-/* harmony import */ var _enums_betTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_enums/betTypes */ "./src/_enums/betTypes.js");
-/* harmony import */ var _helpers_dev__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_helpers/dev */ "./src/_helpers/dev.js");
-/* harmony import */ var _common_apiRequest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common/apiRequest */ "./src/api/common/apiRequest.js");
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-
-
-
-var EXAMPLE_DATA = {
-  // betId
-  10: {
-    type: 1,
-    type_id: 4,
-    user_tournament_id: 23,
-    result_home: 0,
-    result_away: 1,
-    winner_side: 'away',
-    relatedMatch: {
-      home_team: {
-        name: "Belgium",
-        id: 10,
-        crest_url: "https://crests.football-data.org/805.svg"
-      },
-      away_team: {
-        name: "Nethelands",
-        id: 6,
-        crest_url: "https://crests.football-data.org/8601.svg"
-      },
-      result_home: null,
-      result_away: null,
-      winner_side: null,
-      id: 4
-    },
-    id: 10,
-    score: null
-  },
-  11: {
-    type: 1,
-    type_id: 4,
-    user_tournament_id: 7,
-    result_home: 0,
-    result_away: 1,
-    winner_side: 'away',
-    relatedMatch: {
-      home_team: {
-        name: "Belgium",
-        id: 10,
-        crest_url: "https://crests.football-data.org/805.svg"
-      },
-      away_team: {
-        name: "Nethelands",
-        id: 6,
-        crest_url: "https://crests.football-data.org/8601.svg"
-      },
-      result_home: null,
-      result_away: null,
-      winner_side: null,
-      id: 4
-    },
-    id: 11,
-    score: null
-  },
-  12: {
-    type: 1,
-    type_id: 4,
-    user_tournament_id: 1,
-    result_home: 0,
-    result_away: 2,
-    winner_side: 'away',
-    relatedMatch: {
-      home_team: {
-        name: "Belgium",
-        id: 10,
-        crest_url: "https://crests.football-data.org/805.svg"
-      },
-      away_team: {
-        name: "Nethelands",
-        id: 6,
-        crest_url: "https://crests.football-data.org/8601.svg"
-      },
-      result_home: null,
-      result_away: null,
-      winner_side: null,
-      id: 4
-    },
-    id: 12,
-    score: null
-  },
-  1: {
-    type: 1,
-    type_id: 3,
-    user_tournament_id: 23,
-    result_home: 0,
-    result_away: 0,
-    winner_side: 'home',
-    relatedMatch: {
-      home_team: {
-        name: "Belgium",
-        id: 10,
-        crest_url: "https://crests.football-data.org/805.svg"
-      },
-      away_team: {
-        name: "Switzerland",
-        id: 9,
-        crest_url: "https://crests.football-data.org/788.svg"
-      },
-      result_home: 3,
-      result_away: 1,
-      winner_side: 'home',
-      id: 3
-    },
-    id: 1,
-    score: 0
-  },
-  2: {
-    type: 1,
-    type_id: 3,
-    user_tournament_id: 7,
-    result_home: 3,
-    result_away: 2,
-    winner_side: 'home',
-    relatedMatch: {
-      home_team: {
-        name: "Belgium",
-        id: 10,
-        crest_url: "https://crests.football-data.org/805.svg"
-      },
-      away_team: {
-        name: "Switzerland",
-        id: 9,
-        crest_url: "https://crests.football-data.org/788.svg"
-      },
-      result_home: 3,
-      result_away: 1,
-      winner_side: 'home',
-      id: 3
-    },
-    id: 2,
-    score: 1
-  },
-  3: {
-    type: 1,
-    type_id: 3,
-    user_tournament_id: 20,
-    result_home: 5,
-    result_away: 2,
-    winner_side: 'home',
-    relatedMatch: {
-      home_team: {
-        name: "Belgium",
-        id: 10,
-        crest_url: "https://crests.football-data.org/805.svg"
-      },
-      away_team: {
-        name: "Switzerland",
-        id: 9,
-        crest_url: "https://crests.football-data.org/788.svg"
-      },
-      result_home: 3,
-      result_away: 1,
-      winner_side: 'home',
-      id: 3
-    },
-    id: 3,
-    score: 3
-  },
-  4432: {
-    type: 1,
-    type_id: 3,
-    user_tournament_id: 18,
-    result_home: 5,
-    result_away: 2,
-    winner_side: 'home',
-    relatedMatch: {
-      home_team: {
-        name: "Belgium",
-        id: 10,
-        crest_url: "https://crests.football-data.org/805.svg"
-      },
-      away_team: {
-        name: "Switzerland",
-        id: 9,
-        crest_url: "https://crests.football-data.org/788.svg"
-      },
-      result_home: 3,
-      result_away: 1,
-      winner_side: 'home',
-      id: 3
-    },
-    id: 4432,
-    score: 3
-  },
-  145: {
-    type: 1,
-    type_id: 2,
-    user_tournament_id: 20,
-    result_home: 1,
-    result_away: 3,
-    winner_side: 'away',
-    relatedMatch: {
-      home_team: {
-        name: "Austria",
-        id: 5,
-        crest_url: "https://crests.football-data.org/816.svg"
-      },
-      away_team: {
-        name: "Nethelands",
-        id: 6,
-        crest_url: "https://crests.football-data.org/8601.svg"
-      },
-      result_home: 1,
-      result_away: 3,
-      winner_side: 'away',
-      id: 2
-    },
-    id: 145,
-    score: 9
-  },
-  4: {
-    type: 3,
-    type_id: 4,
-    user_tournament_id: 20,
-    isDone: true,
-    answer: {
-      id: 5,
-      name: 'David Vialla',
-      crest_url: 'https://crests.football-data.org/760.svg'
-    },
-    relatedQuestion: {
-      name: "Top Scroer",
-      answer: {
-        id: 5,
-        name: 'David Vialla',
-        crest_url: 'https://crests.football-data.org/760.svg'
-      },
-      id: 4
-    },
-    id: 4,
-    score: 5
-  },
-  49: {
-    type: 3,
-    type_id: 4,
-    user_tournament_id: 1,
-    isDone: true,
-    answer: {
-      id: 2,
-      name: 'Raul Gonzales Blanco',
-      crest_url: 'https://crests.football-data.org/760.svg'
-    },
-    relatedQuestion: {
-      name: "Top Scroer",
-      answer: {
-        id: 5,
-        name: 'David Vialla',
-        crest_url: 'https://crests.football-data.org/760.svg'
-      },
-      id: 4
-    },
-    id: 49,
-    score: 0
-  },
-  50: {
-    type: 3,
-    type_id: 4,
-    user_tournament_id: 23,
-    isDone: true,
-    answer: {
-      id: 2,
-      name: 'Raul Gonzales Blanco',
-      crest_url: 'https://crests.football-data.org/760.svg'
-    },
-    relatedQuestion: {
-      name: "Top Scroer",
-      answer: {
-        id: 5,
-        name: 'David Vialla',
-        crest_url: 'https://crests.football-data.org/760.svg'
-      },
-      id: 4
-    },
-    id: 50,
-    score: 0
-  },
-  40: {
-    type: 3,
-    type_id: 1,
-    user_tournament_id: 23,
-    isDone: true,
-    answer: {
-      name: "Ukraine",
-      id: 7,
-      crest_url: "https://crests.football-data.org/790.svg"
-    },
-    relatedQuestion: {
-      name: "Winner",
-      answer: {
-        name: "France",
-        id: 8,
-        crest_url: "https://crests.football-data.org/773.svg"
-      },
-      id: 1
-    },
-    id: 40,
-    score: 0
-  },
-  41: {
-    type: 3,
-    type_id: 5,
-    user_tournament_id: 4,
-    isDone: false,
-    answer: {
-      name: "Switzerland",
-      id: 9,
-      crest_url: "https://crests.football-data.org/788.svg"
-    },
-    relatedQuestion: {
-      name: "Top Scroer",
-      answer: null,
-      id: 5
-    },
-    id: 41,
-    score: 5
-  },
-  5: {
-    type: 2,
-    type_id: 1,
-    user_tournament_id: 20,
-    standings: [{
-      name: "Finland",
-      id: 12,
-      crest_url: "https://crests.football-data.org/1976.svg"
-    }, {
-      name: "Russia",
-      id: 11,
-      crest_url: "https://crests.football-data.org/808.svg"
-    }, {
-      name: "Switzerland",
-      id: 9,
-      crest_url: "https://crests.football-data.org/788.svg"
-    }, {
-      name: "Belgium",
-      id: 10,
-      crest_url: "https://crests.football-data.org/805.svg"
-    }],
-    relatedGroup: {
-      name: "Group A",
-      id: 1,
-      isDone: true,
-      standings: [{
-        name: "Belgium",
-        id: 10,
-        crest_url: "https://crests.football-data.org/805.svg"
-      }, {
-        name: "Switzerland",
-        id: 9,
-        crest_url: "https://crests.football-data.org/788.svg"
-      }, {
-        name: "Russia",
-        id: 11,
-        crest_url: "https://crests.football-data.org/808.svg"
-      }, {
-        name: "Finland",
-        id: 12,
-        crest_url: "https://crests.football-data.org/1976.svg"
-      }]
-    },
-    id: 5,
-    score: 3
-  },
-  6: {
-    type: 2,
-    type_id: 2,
-    user_tournament_id: 20,
-    standings: [{
-      name: "Austria",
-      id: 5,
-      crest_url: "https://crests.football-data.org/816.svg"
-    }, {
-      name: "Nethelands",
-      id: 6,
-      crest_url: "https://crests.football-data.org/8601.svg"
-    }, {
-      name: "Ukraine",
-      id: 7,
-      crest_url: "https://crests.football-data.org/790.svg"
-    }, {
-      name: "France",
-      id: 8,
-      crest_url: "https://crests.football-data.org/773.svg"
-    }],
-    relatedGroup: {
-      name: "Group B",
-      id: 2,
-      isDone: true,
-      standings: [{
-        name: "Ukraine",
-        id: 7,
-        crest_url: "https://crests.football-data.org/790.svg"
-      }, {
-        name: "France",
-        id: 8,
-        crest_url: "https://crests.football-data.org/773.svg"
-      }, {
-        name: "Nethelands",
-        id: 6,
-        crest_url: "https://crests.football-data.org/8601.svg"
-      }, {
-        name: "Austria",
-        id: 5,
-        crest_url: "https://crests.football-data.org/816.svg"
-      }]
-    },
-    id: 6,
-    score: 6
-  }
-};
-
-var fakeAPI = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    return _regeneratorRuntime().wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            return _context.abrupt("return", EXAMPLE_DATA);
-
-          case 1:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-
-  return function fakeAPI() {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-var fetchBets = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(tournamentId) {
-    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            if (!(0,_helpers_dev__WEBPACK_IMPORTED_MODULE_1__.isDevModeTamir)()) {
-              _context2.next = 4;
-              break;
-            }
-
-            _context2.next = 3;
-            return fakeAPI();
-
-          case 3:
-            return _context2.abrupt("return", _context2.sent);
-
-          case 4:
-            _context2.next = 6;
-            return $.ajax({
-              type: 'GET',
-              url: "/api/tournaments/".concat(tournamentId, "/bets"),
-              contentType: 'application/json',
-              dataType: 'json'
-            });
-
-          case 6:
-            return _context2.abrupt("return", _context2.sent);
-
-          case 7:
-          case "end":
-            return _context2.stop();
-        }
-      }
-    }, _callee2);
-  }));
-
-  return function fetchBets(_x) {
-    return _ref2.apply(this, arguments);
-  };
-}();
-var sendBet = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(tournamentId, betType, params) {
-    var _yield$sendApiRequest, _yield$sendApiRequest2, bets;
-
-    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            _context3.next = 2;
-            return (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_2__.sendApiRequest)({
-              type: 'POST',
-              url: "/api/tournaments/".concat(tournamentId, "/bets"),
-              data: JSON.stringify({
-                bets: [{
-                  type: betType,
-                  data: params
-                }]
-              })
-            });
-
-          case 2:
-            _yield$sendApiRequest = _context3.sent;
-            _yield$sendApiRequest2 = _yield$sendApiRequest.bets;
-            bets = _yield$sendApiRequest2 === void 0 ? [] : _yield$sendApiRequest2;
-            return _context3.abrupt("return", bets);
-
-          case 6:
-          case "end":
-            return _context3.stop();
-        }
-      }
-    }, _callee3);
-  }));
-
-  return function sendBet(_x2, _x3, _x4) {
-    return _ref3.apply(this, arguments);
-  };
-}();
-
-/***/ }),
-
-/***/ "./src/api/common/apiRequest.js":
-/*!**************************************!*\
-  !*** ./src/api/common/apiRequest.js ***!
-  \**************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "sendApiRequest": () => (/* binding */ sendApiRequest)
-/* harmony export */ });
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-var sendApiRequest = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(_ref) {
-    var _ref$type, type, url, data;
-
-    return _regeneratorRuntime().wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _ref$type = _ref.type, type = _ref$type === void 0 ? 'GET' : _ref$type, url = _ref.url, data = _ref.data;
-            _context.next = 3;
-            return $.ajax({
-              type: type,
-              url: url,
-              contentType: 'application/json',
-              dataType: 'json',
-              data: data,
-              error: function error(data) {
-                toastr["error"](data.responseJSON.message);
-              }
-            });
-
-          case 3:
-            return _context.abrupt("return", _context.sent);
-
-          case 4:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-
-  return function sendApiRequest(_x) {
-    return _ref2.apply(this, arguments);
-  };
-}();
-
-/***/ }),
-
-/***/ "./src/api/groups.js":
-/*!***************************!*\
-  !*** ./src/api/groups.js ***!
-  \***************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "fetchGroups": () => (/* binding */ fetchGroups)
-/* harmony export */ });
-/* harmony import */ var _helpers_dev__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_helpers/dev */ "./src/_helpers/dev.js");
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-
-var EXAMPLE_DATA = {
-  1: {
-    name: "Group A",
-    id: 1,
-    isDone: true,
-    standings: [{
-      name: "Belgium",
-      id: 10,
-      crest_url: "https://crests.football-data.org/805.svg"
-    }, {
-      name: "Switzerland",
-      id: 9,
-      crest_url: "https://crests.football-data.org/788.svg"
-    }, {
-      name: "Russia",
-      id: 11,
-      crest_url: "https://crests.football-data.org/808.svg"
-    }, {
-      name: "Finland",
-      id: 12,
-      crest_url: "https://crests.football-data.org/1976.svg"
-    }]
-  },
-  2: {
-    name: "Group B",
-    id: 2,
-    isDone: true,
-    standings: [{
-      name: "Ukraine",
-      id: 7,
-      crest_url: "https://crests.football-data.org/790.svg"
-    }, {
-      name: "France",
-      id: 8,
-      crest_url: "https://crests.football-data.org/773.svg"
-    }, {
-      name: "Nethelands",
-      id: 6,
-      crest_url: "https://crests.football-data.org/8601.svg"
-    }, {
-      name: "Austria",
-      id: 5,
-      crest_url: "https://crests.football-data.org/816.svg"
-    }]
-  }
-};
-
-var fakeAPI = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    return _regeneratorRuntime().wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            return _context.abrupt("return", EXAMPLE_DATA);
-
-          case 1:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-
-  return function fakeAPI() {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-var fetchGroups = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(tournamentId) {
-    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            if (!(0,_helpers_dev__WEBPACK_IMPORTED_MODULE_0__.isDevModeTamir)()) {
-              _context2.next = 4;
-              break;
-            }
-
-            _context2.next = 3;
-            return fakeAPI();
-
-          case 3:
-            return _context2.abrupt("return", _context2.sent);
-
-          case 4:
-            _context2.next = 6;
-            return $.ajax({
-              type: 'GET',
-              url: "/api/tournaments/".concat(tournamentId, "/groups"),
-              contentType: 'application/json',
-              dataType: 'json'
-            });
-
-          case 6:
-            return _context2.abrupt("return", _context2.sent);
-
-          case 7:
-          case "end":
-            return _context2.stop();
-        }
-      }
-    }, _callee2);
-  }));
-
-  return function fetchGroups(_x) {
-    return _ref2.apply(this, arguments);
-  };
-}();
-
-/***/ }),
-
-/***/ "./src/api/leaderboard.js":
-/*!********************************!*\
-  !*** ./src/api/leaderboard.js ***!
-  \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "fetchLeaderboard": () => (/* binding */ fetchLeaderboard)
-/* harmony export */ });
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-var sendRequest = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    return _regeneratorRuntime().wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            return _context.abrupt("return", {
-              1: {
-                rank: 1,
-                rankDisplay: 1,
-                change: 1,
-                id: 1,
-                userId: 1,
-                name: "Isam Tuka",
-                addedScore: 9,
-                totalScore: 27
-              },
-              2: {
-                rank: 2,
-                rankDisplay: 2,
-                change: -1,
-                id: 23,
-                userId: 23,
-                name: "Simha Riff Cohen",
-                addedScore: 2,
-                totalScore: 25
-              }
-            });
-
-          case 1:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-
-  return function sendRequest() {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-var fetchLeaderboard = sendRequest;
-
-/***/ }),
-
-/***/ "./src/api/matches.js":
-/*!****************************!*\
-  !*** ./src/api/matches.js ***!
-  \****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "fetchMatches": () => (/* binding */ fetchMatches),
-/* harmony export */   "updateScoresFromApi": () => (/* binding */ updateScoresFromApi)
-/* harmony export */ });
-/* harmony import */ var _helpers_dev__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_helpers/dev */ "./src/_helpers/dev.js");
-/* harmony import */ var _common_apiRequest__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./common/apiRequest */ "./src/api/common/apiRequest.js");
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-
-
-var HOUR = 1000 * 60 * 60;
-var DAY = HOUR * 24;
-var EXAMPLE_DATA = {
-  1: {
-    home_team: {
-      name: "France",
-      id: 8,
-      crest_url: "https://crests.football-data.org/773.svg"
-    },
-    away_team: {
-      name: "Switzerland",
-      id: 9,
-      crest_url: "https://crests.football-data.org/788.svg"
-    },
-    result_home: 4,
-    result_away: 5,
-    winner_side: 'away',
-    is_done: true,
-    closed_for_bets: true,
-    start_time: new Date(new Date() - 2 * DAY),
-    id: 1
-  },
-  2: {
-    home_team: {
-      name: "Austria",
-      id: 5,
-      crest_url: "https://crests.football-data.org/816.svg"
-    },
-    away_team: {
-      name: "Nethelands",
-      id: 6,
-      crest_url: "https://crests.football-data.org/8601.svg"
-    },
-    result_home: 1,
-    result_away: 3,
-    winner_side: 'away',
-    is_done: true,
-    closed_for_bets: true,
-    start_time: new Date(new Date() - 1 * DAY),
-    id: 2
-  },
-  3: {
-    home_team: {
-      name: "Belgium",
-      id: 10,
-      crest_url: "https://crests.football-data.org/805.svg"
-    },
-    away_team: {
-      name: "Switzerland",
-      id: 9,
-      crest_url: "https://crests.football-data.org/788.svg"
-    },
-    result_home: 3,
-    result_away: 1,
-    winner_side: 'home',
-    is_done: true,
-    closed_for_bets: true,
-    start_time: new Date(new Date() - 1 * DAY),
-    id: 3
-  },
-  4: {
-    home_team: {
-      name: "Belgium",
-      id: 10,
-      crest_url: "https://crests.football-data.org/805.svg"
-    },
-    away_team: {
-      name: "Nethelands",
-      id: 6,
-      crest_url: "https://crests.football-data.org/8601.svg"
-    },
-    result_home: null,
-    result_away: null,
-    winner_side: null,
-    is_done: false,
-    closed_for_bets: true,
-    start_time: new Date(new Date() - HOUR),
-    id: 4
-  },
-  5: {
-    home_team: {
-      name: "Finland",
-      id: 12,
-      crest_url: "https://crests.football-data.org/1976.svg"
-    },
-    away_team: {
-      name: "Austria",
-      id: 5,
-      crest_url: "https://crests.football-data.org/816.svg"
-    },
-    result_home: null,
-    result_away: null,
-    winner_side: null,
-    is_done: false,
-    closed_for_bets: false,
-    is_knockout: true,
-    start_time: new Date(Number(new Date()) + HOUR),
-    id: 5
-  }
-};
-
-var fakeAPI = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    return _regeneratorRuntime().wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            return _context.abrupt("return", EXAMPLE_DATA);
-
-          case 1:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-
-  return function fakeAPI() {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-var fetchMatches = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(tournamentId) {
-    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            if (!(0,_helpers_dev__WEBPACK_IMPORTED_MODULE_0__.isDevModeTamir)()) {
-              _context2.next = 4;
-              break;
-            }
-
-            _context2.next = 3;
-            return fakeAPI();
-
-          case 3:
-            return _context2.abrupt("return", _context2.sent);
-
-          case 4:
-            _context2.next = 6;
-            return (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_1__.sendApiRequest)({
-              url: "/api/tournaments/".concat(tournamentId, "/games")
-            });
-
-          case 6:
-            return _context2.abrupt("return", _context2.sent);
-
-          case 7:
-          case "end":
-            return _context2.stop();
-        }
-      }
-    }, _callee2);
-  }));
-
-  return function fetchMatches(_x) {
-    return _ref2.apply(this, arguments);
-  };
-}();
-var updateScoresFromApi = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            $.ajax({
-              type: 'GET',
-              url: '/api-fetch-games',
-              success: function success(server_msg) {
-                var server_success_divider = "SERVER_SUCCESS_MSG:";
-                var msg = server_msg.split(server_success_divider)[1];
-                toastr["success"](msg); // setTimeout(()=>{window.location.reload()}, 3000);
-              },
-              error: function error(_error) {
-                console.log("error", _error);
-                var error_text = _error.responseText;
-                var server_error_divider = "SERVER_ERROR_MSG:";
-
-                if (error_text.indexOf(server_error_divider) > -1) {
-                  var error_msg = error_text.split(server_error_divider)[1];
-                  toastr["error"](error_msg);
-                } else {
-                  toastr["error"](error_text);
-                }
-              }
-            });
-
-          case 1:
-          case "end":
-            return _context3.stop();
-        }
-      }
-    }, _callee3);
-  }));
-
-  return function updateScoresFromApi() {
-    return _ref3.apply(this, arguments);
-  };
-}();
-
-/***/ }),
-
-/***/ "./src/api/specialQuestions.js":
-/*!*************************************!*\
-  !*** ./src/api/specialQuestions.js ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "fetchSpecialQuestions": () => (/* binding */ fetchSpecialQuestions)
-/* harmony export */ });
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-var sendRequest = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    return _regeneratorRuntime().wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            return _context.abrupt("return", {
-              4: {
-                // name: "top_scorer",
-                name: "Top Scroer",
-                answer: {
-                  id: 5,
-                  name: 'David Vialla',
-                  crest_url: 'https://crests.football-data.org/760.svg'
-                },
-                id: 4
-              },
-              5: {
-                // name: "offensive_team",
-                name: "Team with most goals on groups stage",
-                answer: {
-                  id: 5,
-                  name: 'Austria',
-                  crest_url: 'https://crests.football-data.org/816.svg'
-                },
-                id: 5
-              },
-              1: {
-                name: "winner",
-                question: "Winner",
-                answer: null,
-                id: 1
-              }
-            });
-
-          case 1:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-
-  return function sendRequest() {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-var fetchSpecialQuestions = sendRequest;
-
-/***/ }),
-
-/***/ "./src/api/teams.js":
-/*!**************************!*\
-  !*** ./src/api/teams.js ***!
-  \**************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "fetchTeams": () => (/* binding */ fetchTeams)
-/* harmony export */ });
-/* harmony import */ var _helpers_dev__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_helpers/dev */ "./src/_helpers/dev.js");
-/* harmony import */ var _common_apiRequest__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./common/apiRequest */ "./src/api/common/apiRequest.js");
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-
-
-
-var fakeAPI = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    return _regeneratorRuntime().wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            return _context.abrupt("return", {
-              "1": {
-                "id": 1,
-                "external_id": "791",
-                "name": "Ecuador",
-                "crest_url": "https://crests.football-data.org/791.svg",
-                "group_id": "1",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "2": {
-                "id": 2,
-                "external_id": "8601",
-                "name": "Netherlands",
-                "crest_url": "https://crests.football-data.org/8601.svg",
-                "group_id": "1",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "3": {
-                "id": 3,
-                "external_id": "8030",
-                "name": "Qatar",
-                "crest_url": "https://crests.football-data.org/8030.svg",
-                "group_id": "1",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "4": {
-                "id": 4,
-                "external_id": "804",
-                "name": "Senegal",
-                "crest_url": "https://crests.football-data.org/senegal.svg",
-                "group_id": "1",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "5": {
-                "id": 5,
-                "external_id": "770",
-                "name": "England",
-                "crest_url": "https://crests.football-data.org/770.svg",
-                "group_id": "2",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "6": {
-                "id": 6,
-                "external_id": "840",
-                "name": "Iran",
-                "crest_url": "https://crests.football-data.org/iran.svg",
-                "group_id": "2",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "7": {
-                "id": 7,
-                "external_id": "771",
-                "name": "United States",
-                "crest_url": "https://crests.football-data.org/usa.svg",
-                "group_id": "2",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "8": {
-                "id": 8,
-                "external_id": "833",
-                "name": "Wales",
-                "crest_url": "https://crests.football-data.org/833.svg",
-                "group_id": "2",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "9": {
-                "id": 9,
-                "external_id": "762",
-                "name": "Argentina",
-                "crest_url": "https://crests.football-data.org/762.png",
-                "group_id": "3",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "10": {
-                "id": 10,
-                "external_id": "769",
-                "name": "Mexico",
-                "crest_url": "https://crests.football-data.org/769.svg",
-                "group_id": "3",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "11": {
-                "id": 11,
-                "external_id": "794",
-                "name": "Poland",
-                "crest_url": "https://crests.football-data.org/794.svg",
-                "group_id": "3",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "12": {
-                "id": 12,
-                "external_id": "801",
-                "name": "Saudi Arabia",
-                "crest_url": "https://crests.football-data.org/saudi_arabia.svg",
-                "group_id": "3",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "13": {
-                "id": 13,
-                "external_id": "779",
-                "name": "Australia",
-                "crest_url": "https://crests.football-data.org/779.svg",
-                "group_id": "4",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "14": {
-                "id": 14,
-                "external_id": "782",
-                "name": "Denmark",
-                "crest_url": "https://crests.football-data.org/782.svg",
-                "group_id": "4",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "15": {
-                "id": 15,
-                "external_id": "773",
-                "name": "France",
-                "crest_url": "https://crests.football-data.org/773.svg",
-                "group_id": "4",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "16": {
-                "id": 16,
-                "external_id": "802",
-                "name": "Tunisia",
-                "crest_url": "https://crests.football-data.org/tunisia.svg",
-                "group_id": "4",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "17": {
-                "id": 17,
-                "external_id": "793",
-                "name": "Costa Rica",
-                "crest_url": "https://crests.football-data.org/costa_rica.svg",
-                "group_id": "5",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "18": {
-                "id": 18,
-                "external_id": "759",
-                "name": "Germany",
-                "crest_url": "https://crests.football-data.org/759.svg",
-                "group_id": "5",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "19": {
-                "id": 19,
-                "external_id": "766",
-                "name": "Japan",
-                "crest_url": "https://crests.football-data.org/766.svg",
-                "group_id": "5",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "20": {
-                "id": 20,
-                "external_id": "760",
-                "name": "Spain",
-                "crest_url": "https://crests.football-data.org/760.svg",
-                "group_id": "5",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "21": {
-                "id": 21,
-                "external_id": "805",
-                "name": "Belgium",
-                "crest_url": "https://crests.football-data.org/805.svg",
-                "group_id": "6",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "22": {
-                "id": 22,
-                "external_id": "828",
-                "name": "Canada",
-                "crest_url": "https://crests.football-data.org/canada.svg",
-                "group_id": "6",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "23": {
-                "id": 23,
-                "external_id": "799",
-                "name": "Croatia",
-                "crest_url": "https://crests.football-data.org/799.svg",
-                "group_id": "6",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "24": {
-                "id": 24,
-                "external_id": "815",
-                "name": "Morocco",
-                "crest_url": "https://crests.football-data.org/morocco.svg",
-                "group_id": "6",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "25": {
-                "id": 25,
-                "external_id": "764",
-                "name": "Brazil",
-                "crest_url": "https://crests.football-data.org/764.svg",
-                "group_id": "7",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "26": {
-                "id": 26,
-                "external_id": "781",
-                "name": "Cameroon",
-                "crest_url": "https://crests.football-data.org/cameroon.svg",
-                "group_id": "7",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "27": {
-                "id": 27,
-                "external_id": "780",
-                "name": "Serbia",
-                "crest_url": "https://crests.football-data.org/780.svg",
-                "group_id": "7",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "28": {
-                "id": 28,
-                "external_id": "788",
-                "name": "Switzerland",
-                "crest_url": "https://crests.football-data.org/788.svg",
-                "group_id": "7",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "29": {
-                "id": 29,
-                "external_id": "763",
-                "name": "Ghana",
-                "crest_url": "https://crests.football-data.org/ghana.svg",
-                "group_id": "8",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "30": {
-                "id": 30,
-                "external_id": "765",
-                "name": "Portugal",
-                "crest_url": "https://crests.football-data.org/765.svg",
-                "group_id": "8",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "31": {
-                "id": 31,
-                "external_id": "772",
-                "name": "South Korea",
-                "crest_url": "https://crests.football-data.org/772.png",
-                "group_id": "8",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              },
-              "32": {
-                "id": 32,
-                "external_id": "758",
-                "name": "Uruguay",
-                "crest_url": "https://crests.football-data.org/758.svg",
-                "group_id": "8",
-                "created_at": "2022-07-24T19:54:34.000000Z",
-                "updated_at": "2022-07-24T19:54:34.000000Z",
-                "competition_id": 2
-              }
-            });
-
-          case 1:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-
-  return function fakeAPI() {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-var fetchTeams = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(tournamentId) {
-    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            _context2.next = 2;
-            return fakeAPI();
-
-          case 2:
-            return _context2.abrupt("return", _context2.sent);
-
-          case 3:
-          case "end":
-            return _context2.stop();
-        }
-      }
-    }, _callee2);
-  }));
-
-  return function fetchTeams(_x) {
-    return _ref2.apply(this, arguments);
-  };
-}();
-
-/***/ }),
-
-/***/ "./src/api/users.js":
-/*!**************************!*\
-  !*** ./src/api/users.js ***!
-  \**************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "fetchUsers": () => (/* binding */ fetchUsers),
-/* harmony export */   "getUser": () => (/* binding */ getUser),
-/* harmony export */   "getUserUTLs": () => (/* binding */ getUserUTLs)
-/* harmony export */ });
-/* harmony import */ var _helpers_dev__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_helpers/dev */ "./src/_helpers/dev.js");
-/* harmony import */ var _common_apiRequest__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./common/apiRequest */ "./src/api/common/apiRequest.js");
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-
-
-var EXAMPLE_DATA_GET_USER = {
-  created_at: "2022-07-20T13:02:11.000000Z",
-  fcm_token: null,
-  id: 1,
-  name: "eshel",
-  permissions: 2,
-  updated_at: "2022-07-20T13:02:11.000000Z",
-  username: "eshel"
-};
-var EXAMPLE_DATA_GET_UTLS = [{
-  "id": 20,
-  "user_id": 1,
-  "tournament_id": 1,
-  "role": "Admin"
-}];
-var getUser = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    return _regeneratorRuntime().wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            if (!(0,_helpers_dev__WEBPACK_IMPORTED_MODULE_0__.isDevModeTamir)()) {
-              _context.next = 2;
-              break;
-            }
-
-            return _context.abrupt("return", EXAMPLE_DATA_GET_USER);
-
-          case 2:
-            _context.next = 4;
-            return (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_1__.sendApiRequest)({
-              url: '/user'
-            });
-
-          case 4:
-            return _context.abrupt("return", _context.sent);
-
-          case 5:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-
-  return function getUser() {
-    return _ref.apply(this, arguments);
-  };
-}();
-var getUserUTLs = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            if (!(0,_helpers_dev__WEBPACK_IMPORTED_MODULE_0__.isDevModeTamir)()) {
-              _context2.next = 2;
-              break;
-            }
-
-            return _context2.abrupt("return", EXAMPLE_DATA_GET_UTLS);
-
-          case 2:
-            _context2.next = 4;
-            return (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_1__.sendApiRequest)({
-              url: '/tournament-user'
-            });
-
-          case 4:
-            return _context2.abrupt("return", _context2.sent);
-
-          case 5:
-          case "end":
-            return _context2.stop();
-        }
-      }
-    }, _callee2);
-  }));
-
-  return function getUserUTLs() {
-    return _ref2.apply(this, arguments);
-  };
-}();
-
-var sendRequest = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            return _context3.abrupt("return", {
-              20: {
-                id: 20,
-                name: "Eliyahu Hanavim"
-              },
-              18: {
-                id: 18,
-                name: "Avi Siman Savir"
-              },
-              3: {
-                id: 3,
-                name: "Moshe Zion Shlush"
-              },
-              7: {
-                id: 7,
-                name: "Edgar Bat-Sheshet"
-              },
-              23: {
-                id: 23,
-                name: "Simha Riff Cohen"
-              },
-              1: {
-                id: 1,
-                name: "Isam Tuka"
-              },
-              4: {
-                id: 4,
-                name: "Niv Dalpa Sivi"
-              },
-              26: {
-                id: 26,
-                name: "Yaniv Catan"
-              }
-            });
-
-          case 1:
-          case "end":
-            return _context3.stop();
-        }
-      }
-    }, _callee3);
-  }));
-
-  return function sendRequest() {
-    return _ref3.apply(this, arguments);
-  };
-}();
-
-var fetchUsers = sendRequest;
-
-/***/ }),
-
 /***/ "./src/appHeader/AppHeader.js":
 /*!************************************!*\
   !*** ./src/appHeader/AppHeader.js ***!
@@ -12362,7 +10709,7 @@ var UserProvider = function UserProvider(_ref) {
 
   var user = _objectSpread({}, window.php_data.user);
 
-  user.isConfirmed = user.permissions > 0;
+  user.isConfirmed = true;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(UserContext.Provider, {
     value: user
   }, children);
@@ -13325,7 +11672,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _api_matches__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../api/matches */ "./src/api/matches.js");
+/* harmony import */ var _api_matches_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../api/matches.ts */ "./src/api/matches.ts");
 /* harmony import */ var _widgets_MatchResult_tsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../widgets/MatchResult.tsx */ "./src/widgets/MatchResult.tsx");
 /* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -13489,7 +11836,7 @@ var MatchesView = function MatchesView(_ref8) {
     }
   }, hasLiveMatches && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("button", {
     className: "btn btn-primary",
-    onClick: _api_matches__WEBPACK_IMPORTED_MODULE_2__.updateScoresFromApi,
+    onClick: _api_matches_ts__WEBPACK_IMPORTED_MODULE_2__.updateScoresFromApi,
     style: {
       marginRight: 10,
       marginTop: 15
@@ -103378,6 +101725,1075 @@ function warning(condition, message) {
 
 /***/ }),
 
+/***/ "./src/api/bets.ts":
+/*!*************************!*\
+  !*** ./src/api/bets.ts ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fetchBets": () => (/* binding */ fetchBets),
+/* harmony export */   "sendBet": () => (/* binding */ sendBet)
+/* harmony export */ });
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../types */ "./src/types/index.ts");
+/* harmony import */ var _helpers_dev__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_helpers/dev */ "./src/_helpers/dev.js");
+/* harmony import */ var _common_apiRequest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common/apiRequest */ "./src/api/common/apiRequest.ts");
+
+
+
+const EXAMPLE_DATA = {
+    // betId
+    10: {
+        type: 1,
+        type_id: 4,
+        user_tournament_id: 23,
+        result_home: 0,
+        result_away: 1,
+        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Away,
+        relatedMatch: {
+            home_team: {
+                name: "Belgium",
+                id: 10,
+                crest_url: "https://crests.football-data.org/805.svg"
+            },
+            away_team: {
+                name: "Nethelands",
+                id: 6,
+                crest_url: "https://crests.football-data.org/8601.svg"
+            },
+            result_home: null,
+            result_away: null,
+            winner_side: null,
+            id: 4,
+        },
+        id: 10,
+        score: null,
+    },
+    11: {
+        type: 1,
+        type_id: 4,
+        user_tournament_id: 7,
+        result_home: 0,
+        result_away: 1,
+        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Away,
+        relatedMatch: {
+            home_team: {
+                name: "Belgium",
+                id: 10,
+                crest_url: "https://crests.football-data.org/805.svg"
+            },
+            away_team: {
+                name: "Nethelands",
+                id: 6,
+                crest_url: "https://crests.football-data.org/8601.svg"
+            },
+            result_home: null,
+            result_away: null,
+            winner_side: null,
+            id: 4,
+        },
+        id: 11,
+        score: null,
+    },
+    12: {
+        type: 1,
+        type_id: 4,
+        user_tournament_id: 1,
+        result_home: 0,
+        result_away: 2,
+        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Away,
+        relatedMatch: {
+            home_team: {
+                name: "Belgium",
+                id: 10,
+                crest_url: "https://crests.football-data.org/805.svg"
+            },
+            away_team: {
+                name: "Nethelands",
+                id: 6,
+                crest_url: "https://crests.football-data.org/8601.svg"
+            },
+            result_home: null,
+            result_away: null,
+            winner_side: null,
+            id: 4,
+        },
+        id: 12,
+        score: null,
+    },
+    1: {
+        type: 1,
+        type_id: 3,
+        user_tournament_id: 23,
+        result_home: 0,
+        result_away: 0,
+        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
+        relatedMatch: {
+            home_team: {
+                name: "Belgium",
+                id: 10,
+                crest_url: "https://crests.football-data.org/805.svg"
+            },
+            away_team: {
+                name: "Switzerland",
+                id: 9,
+                crest_url: "https://crests.football-data.org/788.svg"
+            },
+            result_home: 3,
+            result_away: 1,
+            winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
+            id: 3,
+        },
+        id: 1,
+        score: 0,
+    },
+    2: {
+        type: 1,
+        type_id: 3,
+        user_tournament_id: 7,
+        result_home: 3,
+        result_away: 2,
+        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
+        relatedMatch: {
+            home_team: {
+                name: "Belgium",
+                id: 10,
+                crest_url: "https://crests.football-data.org/805.svg"
+            },
+            away_team: {
+                name: "Switzerland",
+                id: 9,
+                crest_url: "https://crests.football-data.org/788.svg"
+            },
+            result_home: 3,
+            result_away: 1,
+            winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
+            id: 3,
+        },
+        id: 2,
+        score: 1,
+    },
+    3: {
+        type: 1,
+        type_id: 3,
+        user_tournament_id: 20,
+        result_home: 5,
+        result_away: 2,
+        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
+        relatedMatch: {
+            home_team: {
+                name: "Belgium",
+                id: 10,
+                crest_url: "https://crests.football-data.org/805.svg"
+            },
+            away_team: {
+                name: "Switzerland",
+                id: 9,
+                crest_url: "https://crests.football-data.org/788.svg"
+            },
+            result_home: 3,
+            result_away: 1,
+            winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
+            id: 3,
+        },
+        id: 3,
+        score: 3,
+    },
+    4432: {
+        type: 1,
+        type_id: 3,
+        user_tournament_id: 18,
+        result_home: 5,
+        result_away: 2,
+        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
+        relatedMatch: {
+            home_team: {
+                name: "Belgium",
+                id: 10,
+                crest_url: "https://crests.football-data.org/805.svg"
+            },
+            away_team: {
+                name: "Switzerland",
+                id: 9,
+                crest_url: "https://crests.football-data.org/788.svg"
+            },
+            result_home: 3,
+            result_away: 1,
+            winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
+            id: 3,
+        },
+        id: 4432,
+        score: 3,
+    },
+    145: {
+        type: 1,
+        type_id: 2,
+        user_tournament_id: 20,
+        result_home: 1,
+        result_away: 3,
+        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Away,
+        relatedMatch: {
+            home_team: {
+                name: "Austria",
+                id: 5,
+                crest_url: "https://crests.football-data.org/816.svg",
+            },
+            away_team: {
+                name: "Nethelands",
+                id: 6,
+                crest_url: "https://crests.football-data.org/8601.svg",
+            },
+            result_home: 1,
+            result_away: 3,
+            winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Away,
+            id: 2,
+        },
+        id: 145,
+        score: 9,
+    },
+    4: {
+        type: 3,
+        type_id: 4,
+        user_tournament_id: 20,
+        isDone: true,
+        answer: 5,
+        relatedQuestion: {
+            name: "Top Scroer",
+            answer: {
+                id: 5,
+                name: 'David Vialla',
+                crest_url: 'https://crests.football-data.org/760.svg',
+            },
+            id: 4,
+        },
+        id: 4,
+        score: 5,
+    },
+    49: {
+        type: 3,
+        type_id: 4,
+        user_tournament_id: 1,
+        isDone: true,
+        answer: 2,
+        relatedQuestion: {
+            name: "Top Scroer",
+            answer: {
+                id: 5,
+                name: 'David Vialla',
+                crest_url: 'https://crests.football-data.org/760.svg',
+            },
+            id: 4,
+        },
+        id: 49,
+        score: 0,
+    },
+    50: {
+        type: 3,
+        type_id: 4,
+        user_tournament_id: 23,
+        isDone: true,
+        answer: 2,
+        relatedQuestion: {
+            name: "Top Scroer",
+            answer: {
+                id: 5,
+                name: 'David Vialla',
+                crest_url: 'https://crests.football-data.org/760.svg',
+            },
+            id: 4,
+        },
+        id: 50,
+        score: 0,
+    },
+    40: {
+        type: 3,
+        type_id: 1,
+        user_tournament_id: 23,
+        isDone: true,
+        answer: 7,
+        relatedQuestion: {
+            name: "Winner",
+            answer: 8,
+            id: 1,
+        },
+        id: 40,
+        score: 0,
+    },
+    41: {
+        type: 3,
+        type_id: 5,
+        user_tournament_id: 4,
+        isDone: false,
+        answer: 9,
+        relatedQuestion: {
+            name: "Top Scroer",
+            answer: null,
+            id: 5,
+        },
+        id: 41,
+        score: 5,
+    },
+    5: {
+        type: 2,
+        type_id: 1,
+        user_tournament_id: 20,
+        standings: [12, 11, 9, 10],
+        relatedGroup: {
+            name: "Group A",
+            id: 1,
+            isDone: true,
+            standings: [10, 9, 11, 12]
+        },
+        id: 5,
+        score: 3,
+    },
+    6: {
+        type: 2,
+        type_id: 2,
+        user_tournament_id: 20,
+        standings: [5, 6, 7, 8],
+        relatedGroup: {
+            name: "Group B",
+            id: 2,
+            isDone: true,
+            standings: [7, 8, 6, 5],
+        },
+        id: 6,
+        score: 6,
+    },
+};
+const fakeAPI = async () => {
+    return EXAMPLE_DATA;
+};
+const fetchBets = async (tournamentId) => {
+    if ((0,_helpers_dev__WEBPACK_IMPORTED_MODULE_1__.isDevModeTamir)())
+        return await fakeAPI();
+    return await window.$.ajax({
+        type: 'GET',
+        url: `/api/tournaments/${tournamentId}/bets`,
+        contentType: 'application/json',
+        dataType: 'json',
+    });
+};
+const sendBet = async (tournamentId, betType, params) => {
+    const { bets = [] } = await (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_2__.sendApiRequest)({
+        type: 'POST',
+        url: `/api/tournaments/${tournamentId}/bets`,
+        data: {
+            bets: [{
+                    type: betType,
+                    data: params,
+                }]
+        },
+    });
+    return bets;
+};
+
+
+/***/ }),
+
+/***/ "./src/api/common/apiRequest.ts":
+/*!**************************************!*\
+  !*** ./src/api/common/apiRequest.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "sendApiRequest": () => (/* binding */ sendApiRequest)
+/* harmony export */ });
+const sendApiRequest = async ({ type = 'GET', url, data, }) => {
+    return await window.$.ajax({
+        type,
+        url,
+        contentType: 'application/json',
+        dataType: 'json',
+        data: data ? JSON.stringify(data) : undefined,
+        error: function (data) {
+            window.toastr["error"](data.responseJSON.message);
+        }
+    });
+};
+
+
+/***/ }),
+
+/***/ "./src/api/groups.ts":
+/*!***************************!*\
+  !*** ./src/api/groups.ts ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fetchGroups": () => (/* binding */ fetchGroups)
+/* harmony export */ });
+/* harmony import */ var _helpers_dev__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_helpers/dev */ "./src/_helpers/dev.js");
+
+const EXAMPLE_DATA = {
+    1: {
+        name: "Group A",
+        id: 1,
+        isDone: true,
+        standings: [10, 9, 11, 12]
+    },
+    2: {
+        name: "Group B",
+        id: 2,
+        isDone: true,
+        standings: [7, 8, 6, 5],
+    },
+};
+const fakeAPI = async () => {
+    return EXAMPLE_DATA;
+};
+const fetchGroups = async (tournamentId) => {
+    if ((0,_helpers_dev__WEBPACK_IMPORTED_MODULE_0__.isDevModeTamir)())
+        return await fakeAPI();
+    return await window.$.ajax({
+        type: 'GET',
+        url: `/api/tournaments/${tournamentId}/groups`,
+        contentType: 'application/json',
+        dataType: 'json',
+    });
+};
+
+
+/***/ }),
+
+/***/ "./src/api/leaderboard.ts":
+/*!********************************!*\
+  !*** ./src/api/leaderboard.ts ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fetchLeaderboard": () => (/* binding */ fetchLeaderboard)
+/* harmony export */ });
+const sendRequest = async () => {
+    return {
+        1: {
+            rank: 1,
+            rankDisplay: '1',
+            change: 1,
+            id: 1,
+            userId: 1,
+            name: "Isam Tuka",
+            addedScore: 9,
+            totalScore: 27,
+        },
+        2: {
+            rank: 2,
+            rankDisplay: '2',
+            change: -1,
+            id: 23,
+            userId: 23,
+            name: "Simha Riff Cohen",
+            addedScore: 2,
+            totalScore: 25,
+        },
+    };
+};
+const fetchLeaderboard = sendRequest;
+
+
+/***/ }),
+
+/***/ "./src/api/matches.ts":
+/*!****************************!*\
+  !*** ./src/api/matches.ts ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fetchMatches": () => (/* binding */ fetchMatches),
+/* harmony export */   "updateScoresFromApi": () => (/* binding */ updateScoresFromApi)
+/* harmony export */ });
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../types */ "./src/types/index.ts");
+/* harmony import */ var _helpers_dev__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_helpers/dev */ "./src/_helpers/dev.js");
+/* harmony import */ var _common_apiRequest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common/apiRequest */ "./src/api/common/apiRequest.ts");
+
+
+
+const HOUR = 1000 * 60 * 60;
+const DAY = HOUR * 24;
+const EXAMPLE_DATA = {
+    1: {
+        home_team: 8,
+        away_team: 9,
+        result_home: 4,
+        result_away: 5,
+        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Away,
+        is_done: true,
+        closed_for_bets: true,
+        start_time: new Date(Number(new Date()) - 2 * DAY),
+        id: 1,
+    },
+    2: {
+        home_team: 5,
+        away_team: 6,
+        result_home: 1,
+        result_away: 3,
+        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Away,
+        is_done: true,
+        closed_for_bets: true,
+        start_time: new Date(Number(new Date()) - 1 * DAY),
+        id: 2,
+    },
+    3: {
+        home_team: 10,
+        away_team: 9,
+        result_home: 3,
+        result_away: 1,
+        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
+        is_done: true,
+        closed_for_bets: true,
+        start_time: new Date(Number(new Date()) - 1 * DAY),
+        id: 3,
+    },
+    4: {
+        home_team: 10,
+        away_team: 6,
+        result_home: null,
+        result_away: null,
+        winner_side: null,
+        is_done: false,
+        closed_for_bets: true,
+        start_time: new Date(Number(new Date()) - HOUR),
+        id: 4,
+    },
+    5: {
+        home_team: 12,
+        away_team: 5,
+        result_home: null,
+        result_away: null,
+        winner_side: null,
+        is_done: false,
+        closed_for_bets: false,
+        is_knockout: true,
+        start_time: new Date(Number(new Date()) + HOUR),
+        id: 5,
+    },
+};
+const fakeAPI = async () => {
+    return EXAMPLE_DATA;
+};
+const fetchMatches = async (tournamentId) => {
+    if ((0,_helpers_dev__WEBPACK_IMPORTED_MODULE_1__.isDevModeTamir)())
+        return await fakeAPI();
+    return await (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_2__.sendApiRequest)({
+        url: `/api/tournaments/${tournamentId}/games`,
+    });
+};
+const updateScoresFromApi = async () => {
+    window.$.ajax({
+        type: 'GET',
+        url: '/api-fetch-games',
+        success: function (server_msg) {
+            const server_success_divider = "SERVER_SUCCESS_MSG:";
+            const msg = server_msg.split(server_success_divider)[1];
+            window.toastr["success"](msg);
+        },
+        error: function (error) {
+            console.log("error", error);
+            const error_text = error.responseText;
+            const server_error_divider = "SERVER_ERROR_MSG:";
+            if (error_text.indexOf(server_error_divider) > -1) {
+                const error_msg = error_text.split(server_error_divider)[1];
+                window.toastr["error"](error_msg);
+            }
+            else {
+                window.toastr["error"](error_text);
+            }
+        }
+    });
+};
+
+
+/***/ }),
+
+/***/ "./src/api/specialQuestions.ts":
+/*!*************************************!*\
+  !*** ./src/api/specialQuestions.ts ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fetchSpecialQuestions": () => (/* binding */ fetchSpecialQuestions)
+/* harmony export */ });
+const sendRequest = async () => {
+    return {
+        4: {
+            // name: "top_scorer",
+            name: "Top Scroer",
+            answer: 5,
+            id: 4,
+        },
+        5: {
+            // name: "offensive_team",
+            name: "Team with most goals on groups stage",
+            answer: 5,
+            id: 5,
+        },
+        1: {
+            name: "winner",
+            answer: null,
+            id: 1,
+        },
+    };
+};
+const fetchSpecialQuestions = sendRequest;
+
+
+/***/ }),
+
+/***/ "./src/api/teams.ts":
+/*!**************************!*\
+  !*** ./src/api/teams.ts ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fetchTeams": () => (/* binding */ fetchTeams)
+/* harmony export */ });
+const fakeAPI = async () => {
+    return {
+        "1": {
+            "id": 1,
+            "external_id": "791",
+            "name": "Ecuador",
+            "crest_url": "https://crests.football-data.org/791.svg",
+            "group_id": "1",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "2": {
+            "id": 2,
+            "external_id": "8601",
+            "name": "Netherlands",
+            "crest_url": "https://crests.football-data.org/8601.svg",
+            "group_id": "1",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "3": {
+            "id": 3,
+            "external_id": "8030",
+            "name": "Qatar",
+            "crest_url": "https://crests.football-data.org/8030.svg",
+            "group_id": "1",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "4": {
+            "id": 4,
+            "external_id": "804",
+            "name": "Senegal",
+            "crest_url": "https://crests.football-data.org/senegal.svg",
+            "group_id": "1",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "5": {
+            "id": 5,
+            "external_id": "770",
+            "name": "England",
+            "crest_url": "https://crests.football-data.org/770.svg",
+            "group_id": "2",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "6": {
+            "id": 6,
+            "external_id": "840",
+            "name": "Iran",
+            "crest_url": "https://crests.football-data.org/iran.svg",
+            "group_id": "2",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "7": {
+            "id": 7,
+            "external_id": "771",
+            "name": "United States",
+            "crest_url": "https://crests.football-data.org/usa.svg",
+            "group_id": "2",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "8": {
+            "id": 8,
+            "external_id": "833",
+            "name": "Wales",
+            "crest_url": "https://crests.football-data.org/833.svg",
+            "group_id": "2",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "9": {
+            "id": 9,
+            "external_id": "762",
+            "name": "Argentina",
+            "crest_url": "https://crests.football-data.org/762.png",
+            "group_id": "3",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "10": {
+            "id": 10,
+            "external_id": "769",
+            "name": "Mexico",
+            "crest_url": "https://crests.football-data.org/769.svg",
+            "group_id": "3",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "11": {
+            "id": 11,
+            "external_id": "794",
+            "name": "Poland",
+            "crest_url": "https://crests.football-data.org/794.svg",
+            "group_id": "3",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "12": {
+            "id": 12,
+            "external_id": "801",
+            "name": "Saudi Arabia",
+            "crest_url": "https://crests.football-data.org/saudi_arabia.svg",
+            "group_id": "3",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "13": {
+            "id": 13,
+            "external_id": "779",
+            "name": "Australia",
+            "crest_url": "https://crests.football-data.org/779.svg",
+            "group_id": "4",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "14": {
+            "id": 14,
+            "external_id": "782",
+            "name": "Denmark",
+            "crest_url": "https://crests.football-data.org/782.svg",
+            "group_id": "4",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "15": {
+            "id": 15,
+            "external_id": "773",
+            "name": "France",
+            "crest_url": "https://crests.football-data.org/773.svg",
+            "group_id": "4",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "16": {
+            "id": 16,
+            "external_id": "802",
+            "name": "Tunisia",
+            "crest_url": "https://crests.football-data.org/tunisia.svg",
+            "group_id": "4",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "17": {
+            "id": 17,
+            "external_id": "793",
+            "name": "Costa Rica",
+            "crest_url": "https://crests.football-data.org/costa_rica.svg",
+            "group_id": "5",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "18": {
+            "id": 18,
+            "external_id": "759",
+            "name": "Germany",
+            "crest_url": "https://crests.football-data.org/759.svg",
+            "group_id": "5",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "19": {
+            "id": 19,
+            "external_id": "766",
+            "name": "Japan",
+            "crest_url": "https://crests.football-data.org/766.svg",
+            "group_id": "5",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "20": {
+            "id": 20,
+            "external_id": "760",
+            "name": "Spain",
+            "crest_url": "https://crests.football-data.org/760.svg",
+            "group_id": "5",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "21": {
+            "id": 21,
+            "external_id": "805",
+            "name": "Belgium",
+            "crest_url": "https://crests.football-data.org/805.svg",
+            "group_id": "6",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "22": {
+            "id": 22,
+            "external_id": "828",
+            "name": "Canada",
+            "crest_url": "https://crests.football-data.org/canada.svg",
+            "group_id": "6",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "23": {
+            "id": 23,
+            "external_id": "799",
+            "name": "Croatia",
+            "crest_url": "https://crests.football-data.org/799.svg",
+            "group_id": "6",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "24": {
+            "id": 24,
+            "external_id": "815",
+            "name": "Morocco",
+            "crest_url": "https://crests.football-data.org/morocco.svg",
+            "group_id": "6",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "25": {
+            "id": 25,
+            "external_id": "764",
+            "name": "Brazil",
+            "crest_url": "https://crests.football-data.org/764.svg",
+            "group_id": "7",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "26": {
+            "id": 26,
+            "external_id": "781",
+            "name": "Cameroon",
+            "crest_url": "https://crests.football-data.org/cameroon.svg",
+            "group_id": "7",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "27": {
+            "id": 27,
+            "external_id": "780",
+            "name": "Serbia",
+            "crest_url": "https://crests.football-data.org/780.svg",
+            "group_id": "7",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "28": {
+            "id": 28,
+            "external_id": "788",
+            "name": "Switzerland",
+            "crest_url": "https://crests.football-data.org/788.svg",
+            "group_id": "7",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "29": {
+            "id": 29,
+            "external_id": "763",
+            "name": "Ghana",
+            "crest_url": "https://crests.football-data.org/ghana.svg",
+            "group_id": "8",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "30": {
+            "id": 30,
+            "external_id": "765",
+            "name": "Portugal",
+            "crest_url": "https://crests.football-data.org/765.svg",
+            "group_id": "8",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "31": {
+            "id": 31,
+            "external_id": "772",
+            "name": "South Korea",
+            "crest_url": "https://crests.football-data.org/772.png",
+            "group_id": "8",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        },
+        "32": {
+            "id": 32,
+            "external_id": "758",
+            "name": "Uruguay",
+            "crest_url": "https://crests.football-data.org/758.svg",
+            "group_id": "8",
+            "created_at": "2022-07-24T19:54:34.000000Z",
+            "updated_at": "2022-07-24T19:54:34.000000Z",
+            "competition_id": 2
+        }
+    };
+};
+const fetchTeams = async (tournamentId) => {
+    return await fakeAPI();
+    // if (isDevModeTamir()) return await fakeAPI();
+    // return await sendApiRequest({
+    //   url: `/api/tournaments/${tournamentId}/teams`,
+    // });
+};
+
+
+/***/ }),
+
+/***/ "./src/api/users.ts":
+/*!**************************!*\
+  !*** ./src/api/users.ts ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fetchUsers": () => (/* binding */ fetchUsers),
+/* harmony export */   "getUser": () => (/* binding */ getUser),
+/* harmony export */   "getUserUTLs": () => (/* binding */ getUserUTLs)
+/* harmony export */ });
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../types */ "./src/types/index.ts");
+/* harmony import */ var _helpers_dev__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_helpers/dev */ "./src/_helpers/dev.js");
+/* harmony import */ var _common_apiRequest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common/apiRequest */ "./src/api/common/apiRequest.ts");
+
+
+
+const EXAMPLE_DATA_GET_USER = {
+    created_at: "2022-07-20T13:02:11.000000Z",
+    fcm_token: null,
+    id: 1,
+    name: "eshel",
+    role: _types__WEBPACK_IMPORTED_MODULE_0__.UserRole.Admin,
+    updated_at: "2022-07-20T13:02:11.000000Z",
+    username: "eshel",
+};
+const EXAMPLE_DATA_GET_UTLS = [
+    {
+        "id": 20,
+        "user_id": 1,
+        "tournament_id": 1,
+        "role": _types__WEBPACK_IMPORTED_MODULE_0__.UtlRole.Admin,
+    },
+];
+const getUser = async () => {
+    if ((0,_helpers_dev__WEBPACK_IMPORTED_MODULE_1__.isDevModeTamir)())
+        return EXAMPLE_DATA_GET_USER;
+    return await (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_2__.sendApiRequest)({
+        url: '/user'
+    });
+};
+const getUserUTLs = async () => {
+    if ((0,_helpers_dev__WEBPACK_IMPORTED_MODULE_1__.isDevModeTamir)())
+        return EXAMPLE_DATA_GET_UTLS;
+    return await (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_2__.sendApiRequest)({
+        url: '/tournament-user'
+    });
+};
+const sendRequest = async () => {
+    return {
+        20: {
+            id: 20,
+            name: "Eliyahu Hanavim",
+        },
+        18: {
+            id: 18,
+            name: "Avi Siman Savir",
+        },
+        3: {
+            id: 3,
+            name: "Moshe Zion Shlush",
+        },
+        7: {
+            id: 7,
+            name: "Edgar Bat-Sheshet",
+        },
+        23: {
+            id: 23,
+            name: "Simha Riff Cohen",
+        },
+        1: {
+            id: 1,
+            name: "Isam Tuka",
+        },
+        4: {
+            id: 4,
+            name: "Niv Dalpa Sivi",
+        },
+        26: {
+            id: 26,
+            name: "Yaniv Catan",
+        },
+    };
+};
+const fetchUsers = sendRequest;
+
+
+/***/ }),
+
 /***/ "./src/types/bet.ts":
 /*!**************************!*\
   !*** ./src/types/bet.ts ***!
@@ -103399,6 +102815,19 @@ var BetType;
 
 /***/ }),
 
+/***/ "./src/types/group.ts":
+/*!****************************!*\
+  !*** ./src/types/group.ts ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+
+
+
+/***/ }),
+
 /***/ "./src/types/index.ts":
 /*!****************************!*\
   !*** ./src/types/index.ts ***!
@@ -103409,13 +102838,38 @@ var BetType;
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "BetType": () => (/* reexport safe */ _bet__WEBPACK_IMPORTED_MODULE_0__.BetType),
+/* harmony export */   "UserRole": () => (/* reexport safe */ _user__WEBPACK_IMPORTED_MODULE_6__.UserRole),
+/* harmony export */   "UtlRole": () => (/* reexport safe */ _utl__WEBPACK_IMPORTED_MODULE_7__.UtlRole),
 /* harmony export */   "WinnerSide": () => (/* reexport safe */ _match__WEBPACK_IMPORTED_MODULE_1__.WinnerSide)
 /* harmony export */ });
 /* harmony import */ var _bet__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bet */ "./src/types/bet.ts");
 /* harmony import */ var _match__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./match */ "./src/types/match.ts");
 /* harmony import */ var _teams__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./teams */ "./src/types/teams.ts");
+/* harmony import */ var _group__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./group */ "./src/types/group.ts");
+/* harmony import */ var _leaderboard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./leaderboard */ "./src/types/leaderboard.ts");
+/* harmony import */ var _specialQuestion__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./specialQuestion */ "./src/types/specialQuestion.ts");
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./user */ "./src/types/user.ts");
+/* harmony import */ var _utl__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utl */ "./src/types/utl.ts");
 
 
+
+
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./src/types/leaderboard.ts":
+/*!**********************************!*\
+  !*** ./src/types/leaderboard.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 
 
 
@@ -103441,6 +102895,19 @@ var WinnerSide;
 
 /***/ }),
 
+/***/ "./src/types/specialQuestion.ts":
+/*!**************************************!*\
+  !*** ./src/types/specialQuestion.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+
+
+
+/***/ }),
+
 /***/ "./src/types/teams.ts":
 /*!****************************!*\
   !*** ./src/types/teams.ts ***!
@@ -103450,6 +102917,48 @@ var WinnerSide;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
+
+
+/***/ }),
+
+/***/ "./src/types/user.ts":
+/*!***************************!*\
+  !*** ./src/types/user.ts ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "UserRole": () => (/* binding */ UserRole)
+/* harmony export */ });
+var UserRole;
+(function (UserRole) {
+    UserRole["Admin"] = "Admin";
+    UserRole["TournamentManager"] = "TournamentManager";
+    UserRole["User"] = "User";
+})(UserRole || (UserRole = {}));
+
+
+/***/ }),
+
+/***/ "./src/types/utl.ts":
+/*!**************************!*\
+  !*** ./src/types/utl.ts ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "UtlRole": () => (/* binding */ UtlRole)
+/* harmony export */ });
+var UtlRole;
+(function (UtlRole) {
+    UtlRole["Admin"] = "Admin";
+    UtlRole["Manager"] = "Manager";
+    UtlRole["User"] = "User";
+})(UtlRole || (UtlRole = {}));
 
 
 /***/ }),

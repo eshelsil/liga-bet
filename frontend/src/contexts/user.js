@@ -5,7 +5,7 @@ const UserProvider = ({ children }) => {
 	const user = {
         ...window.php_data.user
     };
-    user.isConfirmed = user.permissions > 0
+    user.isConfirmed = true;
     return <UserContext.Provider value={user}>
         {children}
     </UserContext.Provider>

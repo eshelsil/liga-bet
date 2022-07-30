@@ -1,3 +1,4 @@
+import { BetApiModel, WinnerSide } from "../types";
 import { BetTypes } from "../_enums/betTypes";
 import { isDevModeTamir } from "../_helpers/dev";
 import { sendApiRequest } from "./common/apiRequest";
@@ -10,7 +11,7 @@ const EXAMPLE_DATA = {
         user_tournament_id: 23,
         result_home: 0,
         result_away: 1,
-        winner_side: 'away',
+        winner_side: WinnerSide.Away,
         relatedMatch: {
             home_team: {
                 name: "Belgium",
@@ -36,7 +37,7 @@ const EXAMPLE_DATA = {
         user_tournament_id: 7,
         result_home: 0,
         result_away: 1,
-        winner_side: 'away',
+        winner_side: WinnerSide.Away,
         relatedMatch: {
             home_team: {
                 name: "Belgium",
@@ -62,7 +63,7 @@ const EXAMPLE_DATA = {
         user_tournament_id: 1,
         result_home: 0,
         result_away: 2,
-        winner_side: 'away',
+        winner_side: WinnerSide.Away,
         relatedMatch: {
             home_team: {
                 name: "Belgium",
@@ -88,7 +89,7 @@ const EXAMPLE_DATA = {
         user_tournament_id: 23,
         result_home: 0,
         result_away: 0,
-        winner_side: 'home',
+        winner_side: WinnerSide.Home,
         relatedMatch: {
             home_team: {
                 name: "Belgium",
@@ -102,7 +103,7 @@ const EXAMPLE_DATA = {
             },
             result_home: 3,
             result_away: 1,
-            winner_side: 'home',
+            winner_side: WinnerSide.Home,
             id: 3,
         },
         id: 1,
@@ -114,7 +115,7 @@ const EXAMPLE_DATA = {
         user_tournament_id: 7,
         result_home: 3,
         result_away: 2,
-        winner_side: 'home',
+        winner_side: WinnerSide.Home,
         relatedMatch: {
             home_team: {
                 name: "Belgium",
@@ -128,7 +129,7 @@ const EXAMPLE_DATA = {
             },
             result_home: 3,
             result_away: 1,
-            winner_side: 'home',
+            winner_side: WinnerSide.Home,
             id: 3,
         },
         id: 2,
@@ -140,7 +141,7 @@ const EXAMPLE_DATA = {
         user_tournament_id: 20,
         result_home: 5,
         result_away: 2,
-        winner_side: 'home',
+        winner_side: WinnerSide.Home,
         relatedMatch: {
             home_team: {
                 name: "Belgium",
@@ -154,7 +155,7 @@ const EXAMPLE_DATA = {
             },
             result_home: 3,
             result_away: 1,
-            winner_side: 'home',
+            winner_side: WinnerSide.Home,
             id: 3,
         },
         id: 3,
@@ -166,7 +167,7 @@ const EXAMPLE_DATA = {
         user_tournament_id: 18,
         result_home: 5,
         result_away: 2,
-        winner_side: 'home',
+        winner_side: WinnerSide.Home,
         relatedMatch: {
             home_team: {
                 name: "Belgium",
@@ -180,7 +181,7 @@ const EXAMPLE_DATA = {
             },
             result_home: 3,
             result_away: 1,
-            winner_side: 'home',
+            winner_side: WinnerSide.Home,
             id: 3,
         },
         id: 4432,
@@ -192,7 +193,7 @@ const EXAMPLE_DATA = {
         user_tournament_id: 20,
         result_home: 1,
         result_away: 3,
-        winner_side: 'away',
+        winner_side: WinnerSide.Away,
         relatedMatch: {
             home_team:  {
                 name: "Austria",
@@ -206,7 +207,7 @@ const EXAMPLE_DATA = {
               },
               result_home: 1,
               result_away: 3,
-              winner_side: 'away',
+              winner_side: WinnerSide.Away,
               id: 2,
         },
         id: 145,
@@ -217,11 +218,7 @@ const EXAMPLE_DATA = {
         type_id: 4,
         user_tournament_id: 20,
         isDone: true,
-        answer: {
-            id: 5,
-            name: 'David Vialla',
-            crest_url: 'https://crests.football-data.org/760.svg',
-        },
+        answer: 5,
         relatedQuestion: {
             name: "Top Scroer",
             answer: {
@@ -239,11 +236,7 @@ const EXAMPLE_DATA = {
         type_id: 4,
         user_tournament_id: 1,
         isDone: true,
-        answer: {
-            id: 2,
-            name: 'Raul Gonzales Blanco',
-            crest_url: 'https://crests.football-data.org/760.svg',
-        },
+        answer: 2,
         relatedQuestion: {
             name: "Top Scroer",
             answer: {
@@ -261,11 +254,7 @@ const EXAMPLE_DATA = {
         type_id: 4,
         user_tournament_id: 23,
         isDone: true,
-        answer: {
-            id: 2,
-            name: 'Raul Gonzales Blanco',
-            crest_url: 'https://crests.football-data.org/760.svg',
-        },
+        answer: 2,
         relatedQuestion: {
             name: "Top Scroer",
             answer: {
@@ -283,18 +272,10 @@ const EXAMPLE_DATA = {
         type_id: 1,
         user_tournament_id: 23,
         isDone: true,
-        answer: {
-            name: "Ukraine",
-            id: 7,
-            crest_url: "https://crests.football-data.org/790.svg"
-        },
+        answer: 7,
         relatedQuestion: {
             name: "Winner",
-            answer: {
-                name: "France",
-                id: 8,
-                crest_url: "https://crests.football-data.org/773.svg",
-            },
+            answer: 8,
             id: 1,
         },
         id: 40,
@@ -305,11 +286,7 @@ const EXAMPLE_DATA = {
         type_id: 5,
         user_tournament_id: 4,
         isDone: false,
-        answer: {
-            name: "Switzerland",
-            id: 9,
-            crest_url: "https://crests.football-data.org/788.svg"
-        },
+        answer: 9,
         relatedQuestion: {
             name: "Top Scroer",
             answer: null,
@@ -322,54 +299,12 @@ const EXAMPLE_DATA = {
         type: 2,
         type_id: 1,
         user_tournament_id: 20,
-        standings: [
-            {
-                name: "Finland",
-                id: 12,
-                crest_url: "https://crests.football-data.org/1976.svg",
-            },
-            {
-                name: "Russia",
-                id: 11,
-                crest_url: "https://crests.football-data.org/808.svg"
-            },
-            {
-                name: "Switzerland",
-                id: 9,
-                crest_url: "https://crests.football-data.org/788.svg"
-            },
-            {
-                name: "Belgium",
-                id: 10,
-                crest_url: "https://crests.football-data.org/805.svg"
-            },
-        ],
+        standings: [12, 11, 9, 10],
         relatedGroup: {
             name: "Group A",
             id: 1,
             isDone: true,
-            standings: [
-                {
-                    name: "Belgium",
-                    id: 10,
-                    crest_url: "https://crests.football-data.org/805.svg"
-                },
-                {
-                    name: "Switzerland",
-                    id: 9,
-                    crest_url: "https://crests.football-data.org/788.svg"
-                },
-                {
-                    name: "Russia",
-                    id: 11,
-                    crest_url: "https://crests.football-data.org/808.svg"
-                },
-                {
-                    name: "Finland",
-                    id: 12,
-                    crest_url: "https://crests.football-data.org/1976.svg",
-                },
-            ]
+            standings: [10,9,11,12]
         },
         id: 5,
         score: 3,
@@ -378,54 +313,12 @@ const EXAMPLE_DATA = {
         type: 2,
         type_id: 2,
         user_tournament_id: 20,
-        standings: [
-            {
-                name: "Austria",
-                id: 5,
-                crest_url: "https://crests.football-data.org/816.svg"
-            },
-            {
-                name: "Nethelands",
-                id: 6,
-                crest_url: "https://crests.football-data.org/8601.svg"
-            },
-            {
-                name: "Ukraine",
-                id: 7,
-                crest_url: "https://crests.football-data.org/790.svg"
-            },
-            {
-                name: "France",
-                id: 8,
-                crest_url: "https://crests.football-data.org/773.svg",
-            },
-        ],
+        standings: [5,6,7,8],
         relatedGroup: {
             name: "Group B",
             id: 2,
             isDone: true,
-            standings: [
-                {
-                    name: "Ukraine",
-                    id: 7,
-                    crest_url: "https://crests.football-data.org/790.svg"
-                },
-                {
-                    name: "France",
-                    id: 8,
-                    crest_url: "https://crests.football-data.org/773.svg",
-                },
-                {
-                    name: "Nethelands",
-                    id: 6,
-                    crest_url: "https://crests.football-data.org/8601.svg"
-                },
-                {
-                    name: "Austria",
-                    id: 5,
-                    crest_url: "https://crests.football-data.org/816.svg"
-                },
-            ],
+            standings: [7, 8, 6, 5],
           },
         id: 6,
         score: 6,
@@ -436,9 +329,12 @@ const fakeAPI = async () => {
     return EXAMPLE_DATA;
 }
 
-export const fetchBets = async (tournamentId) => {
+type BetsApiResult = Record<number, BetApiModel>
+
+
+export const fetchBets = async (tournamentId: string): Promise<BetsApiResult> => {
     if (isDevModeTamir()) return await fakeAPI();
-    return await $.ajax({
+    return await (window as any).$.ajax({
         type: 'GET',
         url: `/api/tournaments/${tournamentId}/bets`,
         contentType: 'application/json',
@@ -446,16 +342,20 @@ export const fetchBets = async (tournamentId) => {
     });
 };
 
-export const sendBet = async (tournamentId, betType, params) =>{
+export const sendBet = async (
+    tournamentId: string,
+    betType: BetTypes,
+    params: object
+) =>{
     const {bets = []} = await sendApiRequest({
         type: 'POST',
         url: `/api/tournaments/${tournamentId}/bets`,
-        data: JSON.stringify({
+        data: {
             bets: [{
                 type: betType,
                 data: params,
             }]
-        }),
+        },
     })
     return bets; 
 };

@@ -1,4 +1,4 @@
-import { fetchTeams } from "../api/teams"
+import { fetchTeams } from "../api/teams.ts"
 import { TournamentIdSelector } from "../_selectors/base";
 
 function setTeams(data) {

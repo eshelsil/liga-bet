@@ -1,4 +1,4 @@
-import { getUser, getUserUTLs } from "../api/users";
+import { getUser, getUserUTLs } from "../api/users.ts";
 
 function setCurrentTournamentUser(data) {
   return {

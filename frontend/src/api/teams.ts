@@ -1,3 +1,4 @@
+import { Team } from "../types";
 import { isDevModeTamir } from "../_helpers/dev";
 import { sendApiRequest } from "./common/apiRequest";
 
@@ -327,7 +328,9 @@ const fakeAPI = async () => {
 };
 }
 
-export const fetchTeams = async (tournamentId) => {
+type TeamsApiResult = Record<number, Team>
+
+export const fetchTeams = async (tournamentId: string): Promise<TeamsApiResult> => {
   return await fakeAPI();
   // if (isDevModeTamir()) return await fakeAPI();
   // return await sendApiRequest({

@@ -1,4 +1,4 @@
-import { fetchSpecialQuestions } from "../api/specialQuestions";
+import { fetchSpecialQuestions } from "../api/specialQuestions.ts";
 
 function setQuestions(data) {
   return {
