@@ -1,7 +1,5 @@
-import moment from 'moment';
 import React from 'react';
-import { WINNER_SIDE } from '../../_enums/winnerSide';
-
+import { WinnerSide } from '../../types';
 
 
 let id=0;
@@ -10,10 +8,15 @@ function gen_id(){
     return id;
 }
 
+interface Props {
+    value: WinnerSide,
+    setValue: (side: WinnerSide | null) => void,
+}
+
 function KoWinnerInput ({
     value,
     setValue,
-}){
+}: Props){
 
     const onChange = (e) => {
         setValue(e.target.value);
@@ -23,16 +26,16 @@ function KoWinnerInput ({
     return (
         <div className="ko_switch_input">
             <div className="tw-toggle">
-                <input type="radio" onChange={onChange} value={WINNER_SIDE.home}
+                <input type="radio" onChange={onChange} value={WinnerSide.Home}
                     name={`ko_winner_of_match_${id}`}
                     className="home-radio"
-                    checked={value === WINNER_SIDE.home}
+                    checked={value === WinnerSide.Home}
                 />
                 <label className="toggle"><i className="fa fa-star" aria-hidden="true"></i></label>
                 <label className="arrow"><i className="fa fa-arrows-v arrow-icon"></i></label>
-                <input type="radio" onChange={onChange} value={WINNER_SIDE.away}
+                <input type="radio" onChange={onChange} value={WinnerSide.Away}
                     name={`ko_winner_of_match_${id}`}
-                    checked={value === WINNER_SIDE.away}
+                    checked={value === WinnerSide.Away}
                 />
                 <label className="toggle"><i className="fa fa-star"></i></label>
                 <span></span>

@@ -12419,7 +12419,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _utils_betValuesGenerators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/betValuesGenerators */ "./src/utils/betValuesGenerators.js");
-/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.js");
+/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -12522,7 +12522,7 @@ function SingleGroupBets(_ref) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         key: i,
         className: "flex-row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "(", i + 1, ") "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "(", i + 1, ") "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
         key: team.id,
         name: team.name,
         crest_url: team.crest_url
@@ -13018,7 +13018,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.js");
+/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -13047,7 +13047,7 @@ function Position(_ref) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     key: position,
     className: "flex-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "(", position, ") "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "(", position, ") "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
     name: name,
     crest_url: crest_url
   }));
@@ -13118,7 +13118,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.js");
+/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
 /* harmony import */ var _widgets_MatchResult_tsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../widgets/MatchResult.tsx */ "./src/widgets/MatchResult.tsx");
 
 
@@ -13157,7 +13157,7 @@ function MatchBetScore(_ref) {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
     className: "flex-row dir-ltr"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
     name: home_team.name,
     crest_url: home_team.crest_url,
     is_underlined: winner_side === "home",
@@ -13168,7 +13168,7 @@ function MatchBetScore(_ref) {
     }
   }, "-"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
     className: "flex-row dir-ltr"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
     name: away_team.name,
     crest_url: away_team.crest_url,
     is_underlined: winner_side === "away",
@@ -13197,7 +13197,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.js");
+/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
 
 
 
@@ -13211,7 +13211,7 @@ function SpecialQuestionAnswer(specialQuestionType, answer) {
       // top scorer
       var name = answer.name,
           crest_url = answer.crest_url;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
         name: name,
         crest_url: crest_url
       });
@@ -13327,7 +13327,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _api_matches__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../api/matches */ "./src/api/matches.js");
 /* harmony import */ var _widgets_MatchResult_tsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../widgets/MatchResult.tsx */ "./src/widgets/MatchResult.tsx");
-/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.js");
+/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -13361,7 +13361,7 @@ function MatchGumblesList(_ref) {
     className: "flex-row center-items"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
     className: "around-huge-flag"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
     crest_url: home_team.crest_url,
     name: home_team.name
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
@@ -13370,7 +13370,7 @@ function MatchGumblesList(_ref) {
     }
   }, "-"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
     className: "around-huge-flag"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
     crest_url: away_team.crest_url,
     name: away_team.name
   }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
@@ -13529,7 +13529,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.js");
+/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
 
 
 
@@ -13553,7 +13553,7 @@ var GroupPositionBetsTable = function GroupPositionBetsTable(_ref) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         key: index,
         className: "flex-row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "(", index + 1, ")"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "(", index + 1, ")"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
         name: team.name,
         crest_url: team.crest_url
       }));
@@ -13563,7 +13563,7 @@ var GroupPositionBetsTable = function GroupPositionBetsTable(_ref) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         key: index,
         className: "flex-row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "(", index + 1, ")"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "(", index + 1, ")"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
         name: team.name,
         crest_url: team.crest_url
       }));
@@ -13587,7 +13587,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.js");
+/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
 /* harmony import */ var _widgets_MatchResult_tsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/MatchResult.tsx */ "./src/widgets/MatchResult.tsx");
 
 
@@ -13606,14 +13606,14 @@ var MatchesBetsTable = function MatchesBetsTable(_ref) {
       className: "admin"
     }, bet.relatedMatch.id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
       className: "flex-row v-align-center"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
       name: bet.relatedMatch.home_team.name,
       crest_url: bet.relatedMatch.home_team.crest_url,
       is_underlined: bet.result_home > bet.result_away,
       is_bold: bet.relatedMatch.result_home > bet.relatedMatch.result_away
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
       className: "dash-space"
-    }, " - "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }, " - "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
       name: bet.relatedMatch.away_team.name,
       crest_url: bet.relatedMatch.away_team.crest_url,
       is_underlined: bet.result_home < bet.result_away,
@@ -13701,7 +13701,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.js");
+/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
 
 
 
@@ -13716,10 +13716,10 @@ var SpecialBetsTable = function SpecialBetsTable(_ref) {
       key: bet.id
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
       className: "admin"
-    }, bet.id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, bet.relatedQuestion.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }, bet.id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, bet.relatedQuestion.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
       name: bet.answer.name,
       crest_url: bet.answer.crest_url
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
       name: bet.relatedQuestion.answer.name,
       crest_url: bet.relatedQuestion.answer.crest_url
     })));
@@ -13745,8 +13745,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _utils_timeFormats__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/timeFormats */ "./src/utils/timeFormats.js");
-/* harmony import */ var _widgets_koWinnerInput_koWinnerInput__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../widgets/koWinnerInput/koWinnerInput */ "./src/widgets/koWinnerInput/koWinnerInput.js");
-/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.js");
+/* harmony import */ var _widgets_koWinnerInput_koWinnerInput_tsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../widgets/koWinnerInput/koWinnerInput.tsx */ "./src/widgets/koWinnerInput/koWinnerInput.tsx");
+/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
 /* harmony import */ var _enums_winnerSide__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_enums/winnerSide */ "./src/_enums/winnerSide.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -13847,17 +13847,17 @@ function EditMatchBet(_ref) {
     className: "v-align-center"
   }, moment__WEBPACK_IMPORTED_MODULE_0___default()(start_time).format(_utils_timeFormats__WEBPACK_IMPORTED_MODULE_2__.DEFAULT_DATETIME_FORMAT)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
     className: "open-match-teams-cell v-align-center"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
     crest_url: home_team.crest_url,
     name: home_team.name,
     is_ko_winner: isHomeWinner
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
     crest_url: away_team.crest_url,
     name: away_team.name,
     is_ko_winner: isAwayWinner
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
     className: "open-matches-bet-cell"
-  }, showKoWinnerInput && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_koWinnerInput_koWinnerInput__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, showKoWinnerInput && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_koWinnerInput_koWinnerInput_tsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
     value: koWinner,
     setValue: koWinnerChange
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
@@ -13921,7 +13921,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _utils_timeFormats__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/timeFormats */ "./src/utils/timeFormats.js");
-/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.js");
+/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
 /* harmony import */ var _enums_winnerSide__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_enums/winnerSide */ "./src/_enums/winnerSide.js");
 
 
@@ -13962,11 +13962,11 @@ function MatchWithBetView(_ref) {
     className: "v-align-center"
   }, moment__WEBPACK_IMPORTED_MODULE_0___default()(start_time).format(_utils_timeFormats__WEBPACK_IMPORTED_MODULE_2__.DEFAULT_DATETIME_FORMAT)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
     className: "open-match-teams-cell v-align-center"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
     crest_url: home_team.crest_url,
     name: home_team.name,
     is_ko_winner: isHomeKoWinner
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
     crest_url: away_team.crest_url,
     name: away_team.name,
     is_ko_winner: isAwayKoWinner
@@ -14253,8 +14253,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _widgets_draggableList_DraggableList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/draggableList/DraggableList */ "./src/widgets/draggableList/DraggableList.js");
-/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.js");
+/* harmony import */ var _widgets_draggableList_DraggableList_tsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/draggableList/DraggableList.tsx */ "./src/widgets/draggableList/DraggableList.tsx");
+/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -14302,7 +14302,7 @@ function TeamStanding(_ref2) {
       padding: 8,
       width: '100%'
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
     name: name,
     crest_url: crest_url
   }));
@@ -14319,7 +14319,7 @@ function DraggableStandings(_ref3) {
     style: {
       flex: '1 auto'
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_draggableList_DraggableList__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_draggableList_DraggableList_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
     items: items,
     setItems: setItems,
     Component: TeamStanding
@@ -14428,7 +14428,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.js");
+/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
 /* harmony import */ var _DraggableStandings__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DraggableStandings */ "./src/preTournamentBets/DraggableStandings.js");
 /* harmony import */ var _openGroupRankBets_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./openGroupRankBets.scss */ "./src/preTournamentBets/openGroupRankBets.scss");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -14501,7 +14501,7 @@ function GroupRankBetView(_ref) {
         fontSize: '80%'
       },
       "data-pos": index + 1
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
       name: team.name,
       crest_url: team.crest_url
     }));
@@ -14591,7 +14591,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.js");
+/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
 
 
 
@@ -14603,7 +14603,7 @@ function QuestionBetRow(_ref) {
     className: "list-group-item row full-row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "col-xs-5 pull-right"
-  }, crest_url && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }, crest_url && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
     name: name,
     crest_url: crest_url
   }), !crest_url && name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -14967,289 +14967,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "DEFAULT_DATETIME_FORMAT": () => (/* binding */ DEFAULT_DATETIME_FORMAT)
 /* harmony export */ });
 var DEFAULT_DATETIME_FORMAT = 'HH:mm YYYY/MM/DD';
-
-/***/ }),
-
-/***/ "./src/widgets/TeamWithFlag.js":
-/*!*************************************!*\
-  !*** ./src/widgets/TeamWithFlag.js ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-
-function TeamAndSymbol(_ref) {
-  var name = _ref.name,
-      crest_url = _ref.crest_url,
-      align_left = _ref.align_left,
-      is_ko_winner = _ref.is_ko_winner,
-      is_underlined = _ref.is_underlined,
-      is_bold = _ref.is_bold;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "team-and-flag ".concat(align_left ? 'left-aligned' : '')
-  }, crest_url && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "flag-wrapper"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
-    className: "team_flag",
-    src: crest_url
-  })), name && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-    className: "team_with_flag-span\n                ".concat(is_underlined ? "underlined" : '', "\n                ").concat(is_bold ? "bolded" : '', "\n            ")
-  }, name), is_ko_winner && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    style: {
-      position: 'relative',
-      display: 'flex',
-      justifyContent: 'center',
-      alignContent: 'flex-start',
-      marginRight: 8,
-      marginLeft: -28
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-    style: {
-      background: '#286090',
-      height: 20,
-      width: 20,
-      lineHeight: 1,
-      borderRadius: '50%',
-      display: 'block'
-    }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
-    className: "toggle",
-    style: {
-      color: '#ffff00',
-      position: 'absolute'
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", {
-    className: "fa fa-star"
-  }))));
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TeamAndSymbol);
-
-/***/ }),
-
-/***/ "./src/widgets/draggableList/DraggableList.js":
-/*!****************************************************!*\
-  !*** ./src/widgets/draggableList/DraggableList.js ***!
-  \****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _DraggableListItem__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DraggableListItem */ "./src/widgets/draggableList/DraggableListItem.js");
-/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
-function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-var id = 0;
-
-function gen_id() {
-  id++;
-  return "draggable-list-gen-id_".concat(id);
-}
-
-function listFromItems(items) {
-  return items.map(function (item) {
-    return {
-      id: item.id,
-      data: item
-    };
-  });
-}
-
-var DraggableList = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.memo(function (_ref) {
-  var items = _ref.items,
-      setItems = _ref.setItems,
-      Component = _ref.Component,
-      _ref$classes = _ref.classes;
-  _ref$classes = _ref$classes === void 0 ? {} : _ref$classes;
-  var itemRoot = _ref$classes.itemRoot,
-      itemRootDragging = _ref$classes.itemRootDragging;
-  var id = gen_id();
-  var listItems = listFromItems(items);
-
-  var onDragEnd = function onDragEnd(_ref2) {
-    var destination = _ref2.destination,
-        source = _ref2.source;
-    // dropped outside the list
-    if (!destination) return;
-    var startIndex = source.index;
-    var endIndex = destination.index;
-    var orderedItems = Array.from(items);
-
-    var _orderedItems$splice = orderedItems.splice(startIndex, 1),
-        _orderedItems$splice2 = _slicedToArray(_orderedItems$splice, 1),
-        removedItem = _orderedItems$splice2[0];
-
-    orderedItems.splice(endIndex, 0, removedItem);
-    setItems(orderedItems);
-  };
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_2__.DragDropContext, {
-    onDragEnd: onDragEnd
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_2__.Droppable, {
-    droppableId: id
-  }, function (provided) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", _extends({
-      className: "SortableList",
-      ref: provided.innerRef
-    }, provided.droppableProps), listItems.map(function (item, index) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_DraggableListItem__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        key: item.id,
-        index: index,
-        item: item,
-        Component: Component,
-        className: itemRoot,
-        draggingClassName: itemRootDragging
-      });
-    }), provided.placeholder);
-  }));
-});
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DraggableList);
-
-/***/ }),
-
-/***/ "./src/widgets/draggableList/DraggableListItem.js":
-/*!********************************************************!*\
-  !*** ./src/widgets/draggableList/DraggableListItem.js ***!
-  \********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
-/* harmony import */ var _mui_material_ListItem__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mui/material/ListItem */ "./node_modules/@mui/material/ListItem/ListItem.js");
-/* harmony import */ var _DraggableList_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DraggableList.scss */ "./src/widgets/draggableList/DraggableList.scss");
-function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
-
-
-
-
-
-var DraggableListItem = function DraggableListItem(_ref) {
-  var item = _ref.item,
-      index = _ref.index,
-      Component = _ref.Component;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_2__.Draggable, {
-    draggableId: "".concat(item.id),
-    index: index
-  }, function (provided, snapshot) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_ListItem__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({
-      ref: provided.innerRef
-    }, provided.draggableProps, provided.dragHandleProps, {
-      className: "".concat(snapshot.isDragging ? 'draggingItem' : ''),
-      sx: {
-        padding: 0,
-        marginTop: 0.75,
-        marginBottom: 0.75
-      }
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Component, _extends({}, item.data, {
-      isDragging: snapshot.isDragging,
-      index: index
-    })));
-  });
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DraggableListItem);
-
-/***/ }),
-
-/***/ "./src/widgets/koWinnerInput/koWinnerInput.js":
-/*!****************************************************!*\
-  !*** ./src/widgets/koWinnerInput/koWinnerInput.js ***!
-  \****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _enums_winnerSide__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../_enums/winnerSide */ "./src/_enums/winnerSide.js");
-
-
-
-var id = 0;
-
-function gen_id() {
-  id++;
-  return id;
-}
-
-function KoWinnerInput(_ref) {
-  var value = _ref.value,
-      setValue = _ref.setValue;
-
-  var onChange = function onChange(e) {
-    setValue(e.target.value);
-  };
-
-  var id = gen_id();
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
-    className: "ko_switch_input"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
-    className: "tw-toggle"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("input", {
-    type: "radio",
-    onChange: onChange,
-    value: _enums_winnerSide__WEBPACK_IMPORTED_MODULE_2__.WINNER_SIDE.home,
-    name: "ko_winner_of_match_".concat(id),
-    className: "home-radio",
-    checked: value === _enums_winnerSide__WEBPACK_IMPORTED_MODULE_2__.WINNER_SIDE.home
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("label", {
-    className: "toggle"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("i", {
-    className: "fa fa-star",
-    "aria-hidden": "true"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("label", {
-    className: "arrow"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("i", {
-    className: "fa fa-arrows-v arrow-icon"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("input", {
-    type: "radio",
-    onChange: onChange,
-    value: _enums_winnerSide__WEBPACK_IMPORTED_MODULE_2__.WINNER_SIDE.away,
-    name: "ko_winner_of_match_".concat(id),
-    checked: value === _enums_winnerSide__WEBPACK_IMPORTED_MODULE_2__.WINNER_SIDE.away
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("label", {
-    className: "toggle"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("i", {
-    className: "fa fa-star"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("span", null)));
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (KoWinnerInput);
 
 /***/ }),
 
@@ -103772,6 +103489,182 @@ function MatchResult({ matchData, winner_class = '', }) {
         result_home);
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MatchResult);
+
+
+/***/ }),
+
+/***/ "./src/widgets/TeamWithFlag.tsx":
+/*!**************************************!*\
+  !*** ./src/widgets/TeamWithFlag.tsx ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+function TeamAndSymbol({ name, crest_url, is_ko_winner, is_underlined, is_bold, }) {
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: 'team-and-flag' },
+        crest_url &&
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "flag-wrapper" },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { className: "team_flag", src: crest_url })),
+        name &&
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: `team_with_flag-span
+                ${is_underlined ? "underlined" : ''}
+                ${is_bold ? "bolded" : ''}
+            ` }, name),
+        is_ko_winner && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { style: {
+                position: 'relative',
+                display: 'flex',
+                justifyContent: 'center',
+                alignContent: 'flex-start',
+                marginRight: 8,
+                marginLeft: -28,
+            } },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { style: {
+                    background: '#286090',
+                    height: 20,
+                    width: 20,
+                    lineHeight: 1,
+                    borderRadius: '50%',
+                    display: 'block',
+                } }),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", { className: "toggle", style: {
+                    color: '#ffff00',
+                    position: 'absolute',
+                } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", { className: "fa fa-star" })))));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TeamAndSymbol);
+
+
+/***/ }),
+
+/***/ "./src/widgets/draggableList/DraggableList.tsx":
+/*!*****************************************************!*\
+  !*** ./src/widgets/draggableList/DraggableList.tsx ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _DraggableListItem__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DraggableListItem */ "./src/widgets/draggableList/DraggableListItem.tsx");
+/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
+/* harmony import */ var _DraggableList_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DraggableList.scss */ "./src/widgets/draggableList/DraggableList.scss");
+
+
+
+
+let id = 0;
+function gen_id() {
+    id++;
+    return `draggable-list-gen-id_${id}`;
+}
+function listFromItems(items) {
+    return items.map(item => ({
+        id: item.id,
+        data: item,
+    }));
+}
+const DraggableList = react__WEBPACK_IMPORTED_MODULE_0__.memo(({ items, setItems, Component, }) => {
+    const id = gen_id();
+    const listItems = listFromItems(items);
+    const onDragEnd = ({ destination, source }) => {
+        if (!destination)
+            return; // dropped outside the list        
+        const startIndex = source.index;
+        const endIndex = destination.index;
+        const orderedItems = Array.from(items);
+        const [removedItem] = orderedItems.splice(startIndex, 1);
+        orderedItems.splice(endIndex, 0, removedItem);
+        setItems(orderedItems);
+    };
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: 'SortableList' },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_3__.DragDropContext, { onDragEnd: onDragEnd },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_3__.Droppable, { droppableId: id }, provided => (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { ref: provided.innerRef, ...provided.droppableProps },
+                listItems.map((item, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_DraggableListItem__WEBPACK_IMPORTED_MODULE_1__["default"], { key: item.id, index: index, item: item, Component: Component }))),
+                provided.placeholder))))));
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DraggableList);
+
+
+/***/ }),
+
+/***/ "./src/widgets/draggableList/DraggableListItem.tsx":
+/*!*********************************************************!*\
+  !*** ./src/widgets/draggableList/DraggableListItem.tsx ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
+/* harmony import */ var _mui_material_ListItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @mui/material/ListItem */ "./node_modules/@mui/material/ListItem/ListItem.js");
+
+
+
+const DraggableListItem = ({ item, index, Component, }) => {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__.Draggable, { draggableId: item.id, index: index }, (provided, snapshot) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_ListItem__WEBPACK_IMPORTED_MODULE_2__["default"], { ref: provided.innerRef, ...provided.draggableProps, ...provided.dragHandleProps, className: `${snapshot.isDragging ? 'draggingItem' : ''}`, sx: {
+            padding: 0,
+            marginTop: 0.75,
+            marginBottom: 0.75,
+        } },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(Component, { ...item.data, isDragging: snapshot.isDragging, index: index })))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DraggableListItem);
+
+
+/***/ }),
+
+/***/ "./src/widgets/koWinnerInput/koWinnerInput.tsx":
+/*!*****************************************************!*\
+  !*** ./src/widgets/koWinnerInput/koWinnerInput.tsx ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types */ "./src/types/index.ts");
+
+
+let id = 0;
+function gen_id() {
+    id++;
+    return id;
+}
+function KoWinnerInput({ value, setValue, }) {
+    const onChange = (e) => {
+        setValue(e.target.value);
+    };
+    const id = gen_id();
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "ko_switch_input" },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "tw-toggle" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { type: "radio", onChange: onChange, value: _types__WEBPACK_IMPORTED_MODULE_1__.WinnerSide.Home, name: `ko_winner_of_match_${id}`, className: "home-radio", checked: value === _types__WEBPACK_IMPORTED_MODULE_1__.WinnerSide.Home }),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", { className: "toggle" },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", { className: "fa fa-star", "aria-hidden": "true" })),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", { className: "arrow" },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", { className: "fa fa-arrows-v arrow-icon" })),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { type: "radio", onChange: onChange, value: _types__WEBPACK_IMPORTED_MODULE_1__.WinnerSide.Away, name: `ko_winner_of_match_${id}`, checked: value === _types__WEBPACK_IMPORTED_MODULE_1__.WinnerSide.Away }),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", { className: "toggle" },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", { className: "fa fa-star" })),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null))));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (KoWinnerInput);
 
 
 /***/ }),

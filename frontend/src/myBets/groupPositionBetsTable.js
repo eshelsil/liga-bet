@@ -1,5 +1,5 @@
 import React from 'react';
-import TeamAndSymbol from "../widgets/TeamWithFlag";
+import TeamAndSymbol from "../widgets/TeamWithFlag.tsx";
 
 
 const GroupPositionBetsTable = ({bets}) => {

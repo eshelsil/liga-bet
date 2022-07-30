@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React from 'react';
 import { DEFAULT_DATETIME_FORMAT } from '../utils/timeFormats';
-import TeamAndSymbol from '../widgets/TeamWithFlag';
+import TeamAndSymbol from '../widgets/TeamWithFlag.tsx';
 import { WINNER_SIDE } from '../_enums/winnerSide';
 
 function MatchWithBetView ({

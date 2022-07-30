@@ -1,14 +1,21 @@
 import React from "react";
 
+interface Props {
+    name: string,
+    crest_url: string,
+    is_ko_winner: string,
+    is_underlined: boolean,
+    is_bold: boolean,
+}
+
 function TeamAndSymbol({
     name,
     crest_url,
-    align_left,
     is_ko_winner,
     is_underlined,
     is_bold,
-}) {
-    return <div className={`team-and-flag ${align_left ? 'left-aligned' : ''}`}>
+}: Props) {
+    return <div className='team-and-flag'>
         {
             crest_url &&
             <div className="flag-wrapper">

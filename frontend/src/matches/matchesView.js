@@ -2,7 +2,7 @@ import moment from 'moment';
 import React from 'react';
 import { updateScoresFromApi } from '../api/matches';
 import MatchResult from '../widgets/MatchResult.tsx';
-import TeamWithFlag from '../widgets/TeamWithFlag';
+import TeamWithFlag from '../widgets/TeamWithFlag.tsx';
 
 
 function MatchGumblesList({
