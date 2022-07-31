@@ -28,16 +28,14 @@ class UpdateCompetition
 
     public static function aaa()
     {
-        /** @var Competition $c */
-        $c = Competition::find(1);
-        $c->getCrawler()->fetchGames();
-
         $game = Game::query()->find(2);
         $game->forceFill(["result_home" => null, "result_away" => null])->save();
         $game->getBets()->toQuery()->update(["score" => 0]);
 
+        /** @var Competition $c */
+        $c = Competition::find(1);
         $games = $c->getCrawler()->fetchGames();
-        $games[1] = array_merge($games->get(1), [
+        $games[1] = array_merge($games[1], [
             "is_done" => true,
             "result_home" => 2,
             "result_away" => 1

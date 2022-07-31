@@ -85,10 +85,15 @@ class Crawler
             'ko_winner' => $ko_winner
         ];
     }
-    private function apiCall($additional_path){
-        $api_path = config('api.path');
+    private function apiCall($additional_path, $addCompetitionPrefix = true)
+    {
         $api_token = config('api.api_token'); // TODO: Rotate
-        $url = "{$api_path}/{$this->id}{$additional_path}";
+
+        $url = config('api.path');
+        if ($addCompetitionPrefix) {
+            $url .= "competitions/" . $this->id;
+        }
+        $url .= "/". $additional_path;
         $headers = ['X-Auth-Token' => $api_token];
         $res = Http::withHeaders($headers)->get($url);
 
@@ -129,7 +134,15 @@ class Crawler
     public function fetchScorers()
     {    
         $data = $this->apiCall('/scorers?limit=300');
-        $scorers = data_get($data, 'scorers');
+        $scorers = $data;
+
+        return collect($scorers);
+    }
+
+    public function fetchTest()
+    {
+        $data = $this->apiCall('/teams/884?limit=300', false);
+        $scorers = $data;
 
         return collect($scorers);
     }
