@@ -7,7 +7,10 @@ const bets = createSlice({
   name: 'specialQuestions',
   initialState: {} as BetsApiModelById,
   reducers: {
-    updateMany: (state, action: PayloadAction<BetsApiModelById>) => action.payload,
+    updateMany: (state, action: PayloadAction<BetsApiModelById>) => ({
+      ...state,
+      ...action.payload,
+    }),
     updateOne: (state, action: PayloadAction<BetApiModel>) => {
       const { payload } = action;
       const { id } = payload;

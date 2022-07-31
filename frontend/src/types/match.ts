@@ -30,3 +30,5 @@ export interface MatchResult {
     result_away: number,
     winner_side: WinnerSide,
 }
+
+export type MatchApiModelById = Record<number, MatchApiModel>

@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { fetchAndStoreBets } from '../_actions/bets.ts';
-import { fetchAndStoreGroups } from '../_actions/groups';
-import { fetchAndStoreMatches } from '../_actions/matches';
+import { fetchAndStoreGroups } from '../_actions/groups.ts';
+import { fetchAndStoreMatches } from '../_actions/matches.ts';
 import { fetchAndStoreQuestions } from '../_actions/specialQuestions.ts';
 import { fetchAndStoreTeams } from '../_actions/teams.ts';
-import { fetchAndStoreUsers } from '../_actions/users';
+import { fetchAndStoreUsers } from '../_actions/utls.ts';
 import { NoSelector } from '../_selectors';
 
 

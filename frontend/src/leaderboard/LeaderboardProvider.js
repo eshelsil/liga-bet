@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useTournamentContext } from '../contexts/tournament';
-import { fetchAndStoreLeaderboard } from '../_actions/leaderboard'
+import { fetchAndStoreLeaderboard } from '../_actions/leaderboard.ts'
 import { LeaderboardSelector } from '../_selectors';
 import LeaderboardView from './LeaderboardView';
 

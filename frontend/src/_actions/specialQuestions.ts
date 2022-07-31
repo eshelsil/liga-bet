@@ -5,7 +5,7 @@ import specialQuestions from '../_reducers/specialQuestions';
 function fetchAndStoreQuestions() {
   return (dispatch: AppDispatch) => {
     return fetchSpecialQuestions()
-    .then( data => specialQuestions.actions.set(data) );
+    .then( data => dispatch(specialQuestions.actions.set(data)) );
   }
 }
 

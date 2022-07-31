@@ -10672,177 +10672,6 @@ function App() {
 
 /***/ }),
 
-/***/ "./src/_actions/auth.js":
-/*!******************************!*\
-  !*** ./src/_actions/auth.js ***!
-  \******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "fetchAndStoreCurrentUser": () => (/* binding */ fetchAndStoreCurrentUser)
-/* harmony export */ });
-/* harmony import */ var _api_users_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/users.ts */ "./src/api/users.ts");
-
-
-function setCurrentUser(data) {
-  return {
-    type: 'SET_CURRENT_USER',
-    data: data
-  };
-}
-
-function fetchAndStoreCurrentUser() {
-  return function (dispatch) {
-    return (0,_api_users_ts__WEBPACK_IMPORTED_MODULE_0__.getUser)().then(function (data) {
-      dispatch(setCurrentUser(data));
-    });
-  };
-}
-
-
-
-/***/ }),
-
-/***/ "./src/_actions/groups.js":
-/*!********************************!*\
-  !*** ./src/_actions/groups.js ***!
-  \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "fetchAndStoreGroups": () => (/* binding */ fetchAndStoreGroups)
-/* harmony export */ });
-/* harmony import */ var _api_groups_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/groups.ts */ "./src/api/groups.ts");
-/* harmony import */ var _selectors_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_selectors/base */ "./src/_selectors/base/index.js");
-
-
-
-function setGroups(data) {
-  return {
-    type: 'SET_GROUPS',
-    data: data
-  };
-}
-
-function fetchAndStoreGroups() {
-  return function (dispatch, getState) {
-    var tournamentId = (0,_selectors_base__WEBPACK_IMPORTED_MODULE_1__.TournamentIdSelector)(getState());
-    return (0,_api_groups_ts__WEBPACK_IMPORTED_MODULE_0__.fetchGroups)(tournamentId).then(function (data) {
-      return dispatch(setGroups(data));
-    });
-  };
-}
-
-
-
-/***/ }),
-
-/***/ "./src/_actions/leaderboard.js":
-/*!*************************************!*\
-  !*** ./src/_actions/leaderboard.js ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "fetchAndStoreLeaderboard": () => (/* binding */ fetchAndStoreLeaderboard)
-/* harmony export */ });
-/* harmony import */ var _api_leaderboard_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/leaderboard.ts */ "./src/api/leaderboard.ts");
-
-
-function setLeaderboard(data) {
-  return {
-    type: 'SET_LEADERBOARD',
-    data: data
-  };
-}
-
-function fetchAndStoreLeaderboard() {
-  return function (dispatch) {
-    return (0,_api_leaderboard_ts__WEBPACK_IMPORTED_MODULE_0__.fetchLeaderboard)().then(function (data) {
-      return dispatch(setLeaderboard(data));
-    });
-  };
-}
-
-
-
-/***/ }),
-
-/***/ "./src/_actions/matches.js":
-/*!*********************************!*\
-  !*** ./src/_actions/matches.js ***!
-  \*********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "fetchAndStoreMatches": () => (/* binding */ fetchAndStoreMatches)
-/* harmony export */ });
-/* harmony import */ var _api_matches_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/matches.ts */ "./src/api/matches.ts");
-/* harmony import */ var _selectors_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_selectors/base */ "./src/_selectors/base/index.js");
-
-
-
-function updateMatches(data) {
-  return {
-    type: 'UPDATE_MATCHES',
-    data: data
-  };
-}
-
-function fetchAndStoreMatches() {
-  return function (dispatch, getState) {
-    var tournamentId = (0,_selectors_base__WEBPACK_IMPORTED_MODULE_1__.TournamentIdSelector)(getState());
-    return (0,_api_matches_ts__WEBPACK_IMPORTED_MODULE_0__.fetchMatches)(tournamentId).then(function (data) {
-      return dispatch(updateMatches(data));
-    });
-  };
-}
-
-
-
-/***/ }),
-
-/***/ "./src/_actions/users.js":
-/*!*******************************!*\
-  !*** ./src/_actions/users.js ***!
-  \*******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "fetchAndStoreUsers": () => (/* binding */ fetchAndStoreUsers)
-/* harmony export */ });
-/* harmony import */ var _api_users_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/users.ts */ "./src/api/users.ts");
-
-
-function setUsers(data) {
-  return {
-    type: 'SET_USERS',
-    data: data
-  };
-}
-
-function fetchAndStoreUsers() {
-  return function (dispatch) {
-    return (0,_api_users_ts__WEBPACK_IMPORTED_MODULE_0__.fetchUsers)().then(function (data) {
-      return dispatch(setUsers(data));
-    });
-  };
-}
-
-
-
-/***/ }),
-
 /***/ "./src/_enums/betTypes.js":
 /*!********************************!*\
   !*** ./src/_enums/betTypes.js ***!
@@ -10877,193 +10706,6 @@ var WINNER_SIDE = {
   away: 'away',
   home: 'home'
 };
-
-/***/ }),
-
-/***/ "./src/_helpers/dev.js":
-/*!*****************************!*\
-  !*** ./src/_helpers/dev.js ***!
-  \*****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "isDevModeTamir": () => (/* binding */ isDevModeTamir)
-/* harmony export */ });
-var isDevModeTamir = function isDevModeTamir() {
-  return localStorage.getItem('dev_mode_tamir');
-};
-
-/***/ }),
-
-/***/ "./src/_reducers/currentUser.js":
-/*!**************************************!*\
-  !*** ./src/_reducers/currentUser.js ***!
-  \**************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function currentUser() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-
-  switch (action.type) {
-    case 'SET_CURRENT_USER':
-      return _objectSpread({}, action.data);
-
-    default:
-      return state;
-  }
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (currentUser);
-
-/***/ }),
-
-/***/ "./src/_reducers/groups.js":
-/*!*********************************!*\
-  !*** ./src/_reducers/groups.js ***!
-  \*********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function groups() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-
-  switch (action.type) {
-    case 'SET_GROUPS':
-      return _objectSpread({}, action.data);
-
-    default:
-      return state;
-  }
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (groups);
-
-/***/ }),
-
-/***/ "./src/_reducers/leaderboard.js":
-/*!**************************************!*\
-  !*** ./src/_reducers/leaderboard.js ***!
-  \**************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function leaderboard() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-
-  switch (action.type) {
-    case 'SET_LEADERBOARD':
-      return _objectSpread({}, action.data);
-
-    default:
-      return state;
-  }
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (leaderboard);
-
-/***/ }),
-
-/***/ "./src/_reducers/matches.js":
-/*!**********************************!*\
-  !*** ./src/_reducers/matches.js ***!
-  \**********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function matches() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-
-  switch (action.type) {
-    case 'UPDATE_MATCHES':
-      return _objectSpread(_objectSpread({}, state), action.data);
-
-    default:
-      return state;
-  }
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (matches);
-
-/***/ }),
-
-/***/ "./src/_reducers/users.js":
-/*!********************************!*\
-  !*** ./src/_reducers/users.js ***!
-  \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function users() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-
-  switch (action.type) {
-    case 'SET_USERS':
-      return _objectSpread({}, action.data);
-
-    default:
-      return state;
-  }
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (users);
 
 /***/ }),
 
@@ -12053,7 +11695,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _actions_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_actions/auth */ "./src/_actions/auth.js");
+/* harmony import */ var _actions_auth_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_actions/auth.ts */ "./src/_actions/auth.ts");
 /* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_selectors */ "./src/_selectors/index.js");
 
 
@@ -12073,7 +11715,7 @@ function AuthController(_ref) {
 }
 
 var mapDispatchToProps = {
-  fetchAndStoreCurrentUser: _actions_auth__WEBPACK_IMPORTED_MODULE_2__.fetchAndStoreCurrentUser
+  fetchAndStoreCurrentUser: _actions_auth_ts__WEBPACK_IMPORTED_MODULE_2__.fetchAndStoreCurrentUser
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors__WEBPACK_IMPORTED_MODULE_3__.AuthControllerSelector, mapDispatchToProps)(AuthController));
 
@@ -12378,11 +12020,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_bets_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_actions/bets.ts */ "./src/_actions/bets.ts");
-/* harmony import */ var _actions_groups__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_actions/groups */ "./src/_actions/groups.js");
-/* harmony import */ var _actions_matches__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_actions/matches */ "./src/_actions/matches.js");
+/* harmony import */ var _actions_groups_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_actions/groups.ts */ "./src/_actions/groups.ts");
+/* harmony import */ var _actions_matches_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_actions/matches.ts */ "./src/_actions/matches.ts");
 /* harmony import */ var _actions_specialQuestions_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_actions/specialQuestions.ts */ "./src/_actions/specialQuestions.ts");
 /* harmony import */ var _actions_teams_ts__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../_actions/teams.ts */ "./src/_actions/teams.ts");
-/* harmony import */ var _actions_users__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../_actions/users */ "./src/_actions/users.js");
+/* harmony import */ var _actions_utls_ts__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../_actions/utls.ts */ "./src/_actions/utls.ts");
 /* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../_selectors */ "./src/_selectors/index.js");
 
 
@@ -12412,12 +12054,12 @@ function InitialDataFetcher(_ref) {
   return children;
 }
 var mapDispatchToProps = {
-  fetchAndStoreMatches: _actions_matches__WEBPACK_IMPORTED_MODULE_4__.fetchAndStoreMatches,
+  fetchAndStoreMatches: _actions_matches_ts__WEBPACK_IMPORTED_MODULE_4__.fetchAndStoreMatches,
   fetchAndStoreBets: _actions_bets_ts__WEBPACK_IMPORTED_MODULE_2__.fetchAndStoreBets,
   fetchAndStoreTeams: _actions_teams_ts__WEBPACK_IMPORTED_MODULE_6__.fetchAndStoreTeams,
-  fetchAndStoreGroups: _actions_groups__WEBPACK_IMPORTED_MODULE_3__.fetchAndStoreGroups,
+  fetchAndStoreGroups: _actions_groups_ts__WEBPACK_IMPORTED_MODULE_3__.fetchAndStoreGroups,
   fetchAndStoreQuestions: _actions_specialQuestions_ts__WEBPACK_IMPORTED_MODULE_5__.fetchAndStoreQuestions,
-  fetchAndStoreUsers: _actions_users__WEBPACK_IMPORTED_MODULE_7__.fetchAndStoreUsers
+  fetchAndStoreUsers: _actions_utls_ts__WEBPACK_IMPORTED_MODULE_7__.fetchAndStoreUsers
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors__WEBPACK_IMPORTED_MODULE_8__.NoSelector, mapDispatchToProps)(InitialDataFetcher));
 
@@ -12729,7 +12371,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _contexts_tournament__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../contexts/tournament */ "./src/contexts/tournament.js");
-/* harmony import */ var _actions_leaderboard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_actions/leaderboard */ "./src/_actions/leaderboard.js");
+/* harmony import */ var _actions_leaderboard_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_actions/leaderboard.ts */ "./src/_actions/leaderboard.ts");
 /* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_selectors */ "./src/_selectors/index.js");
 /* harmony import */ var _LeaderboardView__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./LeaderboardView */ "./src/leaderboard/LeaderboardView.js");
 
@@ -12753,7 +12395,7 @@ function Leaderboard(_ref) {
 }
 
 var mapDispatchToProps = {
-  fetchAndStoreLeaderboard: _actions_leaderboard__WEBPACK_IMPORTED_MODULE_3__.fetchAndStoreLeaderboard
+  fetchAndStoreLeaderboard: _actions_leaderboard_ts__WEBPACK_IMPORTED_MODULE_3__.fetchAndStoreLeaderboard
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors__WEBPACK_IMPORTED_MODULE_4__.LeaderboardSelector, mapDispatchToProps)(Leaderboard));
 
@@ -103184,6 +102826,32 @@ function warning(condition, message) {
 
 /***/ }),
 
+/***/ "./src/_actions/auth.ts":
+/*!******************************!*\
+  !*** ./src/_actions/auth.ts ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fetchAndStoreCurrentUser": () => (/* binding */ fetchAndStoreCurrentUser)
+/* harmony export */ });
+/* harmony import */ var _api_users__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/users */ "./src/api/users.ts");
+/* harmony import */ var _reducers_currentUser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_reducers/currentUser */ "./src/_reducers/currentUser.ts");
+
+
+function fetchAndStoreCurrentUser() {
+    return (dispatch) => {
+        return (0,_api_users__WEBPACK_IMPORTED_MODULE_0__.getUser)()
+            .then(data => dispatch(_reducers_currentUser__WEBPACK_IMPORTED_MODULE_1__["default"].actions.set(data)));
+    };
+}
+
+
+
+/***/ }),
+
 /***/ "./src/_actions/bets.ts":
 /*!******************************!*\
   !*** ./src/_actions/bets.ts ***!
@@ -103206,7 +102874,7 @@ function fetchAndStoreBets() {
     return (dispatch, getState) => {
         const tournamentId = (0,_selectors_base__WEBPACK_IMPORTED_MODULE_2__.TournamentIdSelector)(getState());
         return (0,_api_bets__WEBPACK_IMPORTED_MODULE_0__.fetchBets)(tournamentId)
-            .then(data => _reducers_bets__WEBPACK_IMPORTED_MODULE_1__["default"].actions.updateMany(data));
+            .then(data => dispatch(_reducers_bets__WEBPACK_IMPORTED_MODULE_1__["default"].actions.updateMany(data)));
     };
 }
 function sendBetAndStore(params) {
@@ -103214,7 +102882,91 @@ function sendBetAndStore(params) {
     return (dispatch, getState) => {
         const tournamentId = (0,_selectors_base__WEBPACK_IMPORTED_MODULE_2__.TournamentIdSelector)(getState());
         return (0,_api_bets__WEBPACK_IMPORTED_MODULE_0__.sendBet)(tournamentId, betType, restParams)
-            .then(data => _reducers_bets__WEBPACK_IMPORTED_MODULE_1__["default"].actions.updateMany(data));
+            .then(data => dispatch(_reducers_bets__WEBPACK_IMPORTED_MODULE_1__["default"].actions.updateMany(data)));
+    };
+}
+
+
+
+/***/ }),
+
+/***/ "./src/_actions/groups.ts":
+/*!********************************!*\
+  !*** ./src/_actions/groups.ts ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fetchAndStoreGroups": () => (/* binding */ fetchAndStoreGroups)
+/* harmony export */ });
+/* harmony import */ var _api_groups__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/groups */ "./src/api/groups.ts");
+/* harmony import */ var _selectors_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_selectors/base */ "./src/_selectors/base/index.js");
+/* harmony import */ var _reducers_groups__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_reducers/groups */ "./src/_reducers/groups.ts");
+
+
+
+function fetchAndStoreGroups() {
+    return (dispatch, getState) => {
+        const tournamentId = (0,_selectors_base__WEBPACK_IMPORTED_MODULE_1__.TournamentIdSelector)(getState());
+        return (0,_api_groups__WEBPACK_IMPORTED_MODULE_0__.fetchGroups)(tournamentId)
+            .then(data => dispatch(_reducers_groups__WEBPACK_IMPORTED_MODULE_2__["default"].actions.set(data)));
+    };
+}
+
+
+
+/***/ }),
+
+/***/ "./src/_actions/leaderboard.ts":
+/*!*************************************!*\
+  !*** ./src/_actions/leaderboard.ts ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fetchAndStoreLeaderboard": () => (/* binding */ fetchAndStoreLeaderboard)
+/* harmony export */ });
+/* harmony import */ var _api_leaderboard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/leaderboard */ "./src/api/leaderboard.ts");
+/* harmony import */ var _reducers_leaderboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_reducers/leaderboard */ "./src/_reducers/leaderboard.ts");
+
+
+function fetchAndStoreLeaderboard() {
+    return (dispatch) => {
+        return (0,_api_leaderboard__WEBPACK_IMPORTED_MODULE_0__.fetchLeaderboard)()
+            .then(data => dispatch(_reducers_leaderboard__WEBPACK_IMPORTED_MODULE_1__["default"].actions.set(data)));
+    };
+}
+
+
+
+/***/ }),
+
+/***/ "./src/_actions/matches.ts":
+/*!*********************************!*\
+  !*** ./src/_actions/matches.ts ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fetchAndStoreMatches": () => (/* binding */ fetchAndStoreMatches)
+/* harmony export */ });
+/* harmony import */ var _api_matches__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/matches */ "./src/api/matches.ts");
+/* harmony import */ var _reducers_matches__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_reducers/matches */ "./src/_reducers/matches.ts");
+/* harmony import */ var _selectors_base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_selectors/base */ "./src/_selectors/base/index.js");
+
+
+
+function fetchAndStoreMatches() {
+    return (dispatch, getState) => {
+        const tournamentId = (0,_selectors_base__WEBPACK_IMPORTED_MODULE_2__.TournamentIdSelector)(getState());
+        return (0,_api_matches__WEBPACK_IMPORTED_MODULE_0__.fetchMatches)(tournamentId)
+            .then(data => dispatch(_reducers_matches__WEBPACK_IMPORTED_MODULE_1__["default"].actions.updateMany(data)));
     };
 }
 
@@ -103240,7 +102992,7 @@ __webpack_require__.r(__webpack_exports__);
 function fetchAndStoreQuestions() {
     return (dispatch) => {
         return (0,_api_specialQuestions__WEBPACK_IMPORTED_MODULE_0__.fetchSpecialQuestions)()
-            .then(data => _reducers_specialQuestions__WEBPACK_IMPORTED_MODULE_1__["default"].actions.set(data));
+            .then(data => dispatch(_reducers_specialQuestions__WEBPACK_IMPORTED_MODULE_1__["default"].actions.set(data)));
     };
 }
 
@@ -103269,7 +103021,7 @@ function fetchAndStoreTeams() {
     return (dispatch, getState) => {
         const tournamentId = (0,_selectors_base__WEBPACK_IMPORTED_MODULE_2__.TournamentIdSelector)(getState());
         return (0,_api_teams__WEBPACK_IMPORTED_MODULE_0__.fetchTeams)(tournamentId)
-            .then(data => _reducers_teams__WEBPACK_IMPORTED_MODULE_1__["default"].actions.set(data));
+            .then(data => dispatch(_reducers_teams__WEBPACK_IMPORTED_MODULE_1__["default"].actions.set(data)));
     };
 }
 
@@ -103298,11 +103050,54 @@ function fetchAndStoreCurrentTournamentUser() {
             .then(data => {
             const theOnlyTournament = data[0];
             dispatch(_reducers_tournamentUser__WEBPACK_IMPORTED_MODULE_1__["default"].actions.set(theOnlyTournament));
-            // tournamentUser.actions.set(theOnlyTournament);
         });
     };
 }
 
+
+
+/***/ }),
+
+/***/ "./src/_actions/utls.ts":
+/*!******************************!*\
+  !*** ./src/_actions/utls.ts ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fetchAndStoreUsers": () => (/* binding */ fetchAndStoreUsers)
+/* harmony export */ });
+/* harmony import */ var _api_users__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/users */ "./src/api/users.ts");
+/* harmony import */ var _reducers_utls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_reducers/utls */ "./src/_reducers/utls.ts");
+
+
+function fetchAndStoreUsers() {
+    return (dispatch) => {
+        return (0,_api_users__WEBPACK_IMPORTED_MODULE_0__.fetchUsers)()
+            .then(data => dispatch(_reducers_utls__WEBPACK_IMPORTED_MODULE_1__["default"].actions.set(data)));
+    };
+}
+
+
+
+/***/ }),
+
+/***/ "./src/_helpers/dev.ts":
+/*!*****************************!*\
+  !*** ./src/_helpers/dev.ts ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "isDevModeTamir": () => (/* binding */ isDevModeTamir)
+/* harmony export */ });
+const isDevModeTamir = () => {
+    return localStorage.getItem('dev_mode_tamir');
+};
 
 
 /***/ }),
@@ -103345,7 +103140,10 @@ const bets = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
     name: 'specialQuestions',
     initialState: {},
     reducers: {
-        updateMany: (state, action) => action.payload,
+        updateMany: (state, action) => ({
+            ...state,
+            ...action.payload,
+        }),
         updateOne: (state, action) => {
             const { payload } = action;
             const { id } = payload;
@@ -103354,6 +103152,109 @@ const bets = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
     },
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (bets);
+
+
+/***/ }),
+
+/***/ "./src/_reducers/currentUser.ts":
+/*!**************************************!*\
+  !*** ./src/_reducers/currentUser.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+
+const currentUser = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
+    name: 'currentUser',
+    initialState: {},
+    reducers: {
+        set: (state, action) => action.payload,
+    },
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (currentUser);
+
+
+/***/ }),
+
+/***/ "./src/_reducers/groups.ts":
+/*!*********************************!*\
+  !*** ./src/_reducers/groups.ts ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+
+const groups = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
+    name: 'groups',
+    initialState: {},
+    reducers: {
+        set: (state, action) => action.payload,
+    },
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (groups);
+
+
+/***/ }),
+
+/***/ "./src/_reducers/leaderboard.ts":
+/*!**************************************!*\
+  !*** ./src/_reducers/leaderboard.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+
+const leaderboard = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
+    name: 'leaderboard',
+    initialState: [],
+    reducers: {
+        set: (state, action) => action.payload,
+    },
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (leaderboard);
+
+
+/***/ }),
+
+/***/ "./src/_reducers/matches.ts":
+/*!**********************************!*\
+  !*** ./src/_reducers/matches.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+
+const matches = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
+    name: 'matches',
+    initialState: {},
+    reducers: {
+        updateMany: (state, action) => ({
+            ...state,
+            ...action.payload,
+        }),
+    },
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (matches);
 
 
 /***/ }),
@@ -103371,13 +103272,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _teams__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./teams */ "./src/_reducers/teams.ts");
-/* harmony import */ var _leaderboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./leaderboard */ "./src/_reducers/leaderboard.js");
+/* harmony import */ var _leaderboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./leaderboard */ "./src/_reducers/leaderboard.ts");
 /* harmony import */ var _specialQuestions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./specialQuestions */ "./src/_reducers/specialQuestions.ts");
-/* harmony import */ var _matches__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./matches */ "./src/_reducers/matches.js");
-/* harmony import */ var _groups__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./groups */ "./src/_reducers/groups.js");
+/* harmony import */ var _matches__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./matches */ "./src/_reducers/matches.ts");
+/* harmony import */ var _groups__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./groups */ "./src/_reducers/groups.ts");
 /* harmony import */ var _bets__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./bets */ "./src/_reducers/bets.ts");
-/* harmony import */ var _users__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./users */ "./src/_reducers/users.js");
-/* harmony import */ var _currentUser__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./currentUser */ "./src/_reducers/currentUser.js");
+/* harmony import */ var _utls__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utls */ "./src/_reducers/utls.ts");
+/* harmony import */ var _currentUser__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./currentUser */ "./src/_reducers/currentUser.ts");
 /* harmony import */ var _tournamentUser__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./tournamentUser */ "./src/_reducers/tournamentUser.ts");
 
 
@@ -103392,12 +103293,12 @@ __webpack_require__.r(__webpack_exports__);
 const reducer = (0,redux__WEBPACK_IMPORTED_MODULE_9__.combineReducers)({
     bets: _bets__WEBPACK_IMPORTED_MODULE_5__["default"].reducer,
     teams: _teams__WEBPACK_IMPORTED_MODULE_0__["default"].reducer,
-    leaderboard: _leaderboard__WEBPACK_IMPORTED_MODULE_1__["default"],
+    leaderboard: _leaderboard__WEBPACK_IMPORTED_MODULE_1__["default"].reducer,
     specialQuestions: _specialQuestions__WEBPACK_IMPORTED_MODULE_2__["default"].reducer,
-    matches: _matches__WEBPACK_IMPORTED_MODULE_3__["default"],
-    groups: _groups__WEBPACK_IMPORTED_MODULE_4__["default"],
-    users: _users__WEBPACK_IMPORTED_MODULE_6__["default"],
-    currentUser: _currentUser__WEBPACK_IMPORTED_MODULE_7__["default"],
+    matches: _matches__WEBPACK_IMPORTED_MODULE_3__["default"].reducer,
+    groups: _groups__WEBPACK_IMPORTED_MODULE_4__["default"].reducer,
+    users: _utls__WEBPACK_IMPORTED_MODULE_6__["default"].reducer,
+    currentUser: _currentUser__WEBPACK_IMPORTED_MODULE_7__["default"].reducer,
     currentTournamentUser: _tournamentUser__WEBPACK_IMPORTED_MODULE_8__["default"].reducer,
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (reducer);
@@ -103480,6 +103381,31 @@ const tournamentUser = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSl
 
 /***/ }),
 
+/***/ "./src/_reducers/utls.ts":
+/*!*******************************!*\
+  !*** ./src/_reducers/utls.ts ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+
+const utls = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
+    name: 'utls',
+    initialState: {},
+    reducers: {
+        set: (state, action) => action.payload,
+    },
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (utls);
+
+
+/***/ }),
+
 /***/ "./src/api/bets.ts":
 /*!*************************!*\
   !*** ./src/api/bets.ts ***!
@@ -103493,7 +103419,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "sendBet": () => (/* binding */ sendBet)
 /* harmony export */ });
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../types */ "./src/types/index.ts");
-/* harmony import */ var _helpers_dev__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_helpers/dev */ "./src/_helpers/dev.js");
+/* harmony import */ var _helpers_dev__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_helpers/dev */ "./src/_helpers/dev.ts");
 /* harmony import */ var _common_apiRequest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common/apiRequest */ "./src/api/common/apiRequest.ts");
 
 
@@ -103833,7 +103759,7 @@ const fetchBets = async (tournamentId) => {
     });
 };
 const sendBet = async (tournamentId, betType, params) => {
-    const { bets = [] } = await (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_2__.sendApiRequest)({
+    const { bets = {} } = await (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_2__.sendApiRequest)({
         type: 'POST',
         url: `/api/tournaments/${tournamentId}/bets`,
         data: {
@@ -103887,7 +103813,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fetchGroups": () => (/* binding */ fetchGroups)
 /* harmony export */ });
-/* harmony import */ var _helpers_dev__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_helpers/dev */ "./src/_helpers/dev.js");
+/* harmony import */ var _helpers_dev__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_helpers/dev */ "./src/_helpers/dev.ts");
 
 const EXAMPLE_DATA = {
     1: {
@@ -103932,8 +103858,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "fetchLeaderboard": () => (/* binding */ fetchLeaderboard)
 /* harmony export */ });
 const sendRequest = async () => {
-    return {
-        1: {
+    return [
+        {
             rank: 1,
             rankDisplay: '1',
             change: 1,
@@ -103943,7 +103869,7 @@ const sendRequest = async () => {
             addedScore: 9,
             totalScore: 27,
         },
-        2: {
+        {
             rank: 2,
             rankDisplay: '2',
             change: -1,
@@ -103953,7 +103879,7 @@ const sendRequest = async () => {
             addedScore: 2,
             totalScore: 25,
         },
-    };
+    ];
 };
 const fetchLeaderboard = sendRequest;
 
@@ -103973,7 +103899,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "updateScoresFromApi": () => (/* binding */ updateScoresFromApi)
 /* harmony export */ });
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../types */ "./src/types/index.ts");
-/* harmony import */ var _helpers_dev__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_helpers/dev */ "./src/_helpers/dev.js");
+/* harmony import */ var _helpers_dev__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_helpers/dev */ "./src/_helpers/dev.ts");
 /* harmony import */ var _common_apiRequest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common/apiRequest */ "./src/api/common/apiRequest.ts");
 
 
@@ -104472,7 +104398,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "getUserUTLs": () => (/* binding */ getUserUTLs)
 /* harmony export */ });
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../types */ "./src/types/index.ts");
-/* harmony import */ var _helpers_dev__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_helpers/dev */ "./src/_helpers/dev.js");
+/* harmony import */ var _helpers_dev__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_helpers/dev */ "./src/_helpers/dev.ts");
 /* harmony import */ var _common_apiRequest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common/apiRequest */ "./src/api/common/apiRequest.ts");
 
 

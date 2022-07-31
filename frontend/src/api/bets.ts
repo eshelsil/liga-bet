@@ -346,8 +346,8 @@ export const sendBet = async (
     tournamentId: string,
     betType: BetTypes,
     params: object
-) =>{
-    const {bets = []} = await sendApiRequest({
+): Promise<BetsApiResult> =>{
+    const {bets = {}} = await sendApiRequest({
         type: 'POST',
         url: `/api/tournaments/${tournamentId}/bets`,
         data: {

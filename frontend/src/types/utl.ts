@@ -11,3 +11,5 @@ export interface UTL {
     tournament_id?: number,
     role?: UtlRole,
 }
+
+export type UTLsById = Record<number, UTL>

@@ -1,11 +1,11 @@
 import { ScoreboardRow } from "../types/leaderboard";
 
 
-type LeaderboardApiResult = Record<number, ScoreboardRow>
+type LeaderboardApiResult = ScoreboardRow[]
 
 const sendRequest = async (): Promise<LeaderboardApiResult> => {
-    return {
-        1: {
+    return [
+        {
             rank: 1,
             rankDisplay: '1',
             change: 1,
@@ -15,7 +15,7 @@ const sendRequest = async (): Promise<LeaderboardApiResult> => {
             addedScore: 9,
             totalScore: 27,
         },
-        2: {
+        {
             rank: 2,
             rankDisplay: '2',
             change: -1,
@@ -25,6 +25,6 @@ const sendRequest = async (): Promise<LeaderboardApiResult> => {
             addedScore: 2,
             totalScore: 25,
         },
-    };
+    ];
 }
 export const fetchLeaderboard = sendRequest;

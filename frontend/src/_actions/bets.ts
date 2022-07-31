@@ -8,7 +8,7 @@ function fetchAndStoreBets() {
   return (dispatch: AppDispatch, getState: GetRootState) => {
     const tournamentId = TournamentIdSelector(getState());
     return fetchBets(tournamentId)
-      .then( data => bets.actions.updateMany(data) );
+      .then( data => dispatch(bets.actions.updateMany(data)) );
   }
 }
 
@@ -17,7 +17,7 @@ function sendBetAndStore(params){
   return (dispatch: AppDispatch, getState: GetRootState) => {
     const tournamentId = TournamentIdSelector(getState());
     return sendBet(tournamentId, betType, restParams)
-      .then( data => bets.actions.updateMany(data) );
+      .then( data => dispatch(bets.actions.updateMany(data)) );
   }
 }
 

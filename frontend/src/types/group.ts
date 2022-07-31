@@ -4,3 +4,5 @@ export interface Group {
     isDone: boolean,
     standings: number[],
 }
+
+export type GroupsById = Record<number, Group>

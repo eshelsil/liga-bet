@@ -5,7 +5,7 @@ import specialQuestions from "./specialQuestions";
 import matches from "./matches";
 import groups from "./groups";
 import bets from "./bets";
-import users from "./users";
+import utls from "./utls";
 import currentUser from "./currentUser";
 import tournamentUser from "./tournamentUser";
 
@@ -13,12 +13,12 @@ import tournamentUser from "./tournamentUser";
 const reducer = combineReducers({
     bets: bets.reducer,
     teams: teams.reducer,
-    leaderboard: leaderboard,
+    leaderboard: leaderboard.reducer,
     specialQuestions: specialQuestions.reducer,
-    matches: matches,
-    groups: groups,
-    users: users,
-    currentUser: currentUser,
+    matches: matches.reducer,
+    groups: groups.reducer,
+    users: utls.reducer,
+    currentUser: currentUser.reducer,
     currentTournamentUser: tournamentUser.reducer,
 });
 

@@ -7,7 +7,7 @@ function fetchAndStoreTeams() {
     return (dispatch: AppDispatch, getState: GetRootState) => {
         const tournamentId = TournamentIdSelector(getState());
         return fetchTeams(tournamentId)
-            .then( data => teamsSlice.actions.set(data) );
+            .then( data => dispatch(teamsSlice.actions.set(data)) );
     }
 }
 
