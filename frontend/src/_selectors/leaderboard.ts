@@ -1,3 +1,4 @@
+import { groupBy } from 'lodash';
 import { createSelector } from 'reselect'
 import { Leaderboard } from './base';
 import { GroupStandingBetsByUserId, MatchBetsWithPositiveScores, QuestionBetsByUserQuestionId } from './modelRelations';
@@ -14,7 +15,7 @@ export const ContestantSelector = createSelector(
     GroupStandingBetsByUserId,
     QuestionBetsByUserQuestionId,
     (relevantMatchBets, groupStandingBetsByUserId, questionBetsByUserId) => {
-        const matchBetsByUserId = _.groupBy(relevantMatchBets, 'user_tournament_id');
+        const matchBetsByUserId = groupBy(relevantMatchBets, 'user_tournament_id');
         return {
             matchBetsByUserId,
             groupStandingBetsByUserId,

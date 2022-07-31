@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { OpenGroupRankBetsSelector } from '../_selectors';
+import { OpenGroupRankBetsSelector } from '../_selectors/groupStandingBets.ts';
 import OpenGroupRankBetsView from './OpenGroupRankBetsView';
 import { BetTypes } from '../_enums/betTypes';
 import { sendBetAndStore } from '../_actions/bets.ts';

@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
-import teams from "./teams";
-import leaderboard from "./leaderboard";
-import specialQuestions from "./specialQuestions";
-import matches from "./matches";
-import groups from "./groups";
-import bets from "./bets";
-import utls from "./utls";
-import currentUser from "./currentUser";
-import tournamentUser from "./tournamentUser";
+import bets from './bets';
+import currentUser from './currentUser';
+import groups from './groups';
+import leaderboard from './leaderboard';
+import matches from './matches';
+import specialQuestions from './specialQuestions';
+import teams from './teams';
+import tournamentUser from './tournamentUser';
+import utls from './utls';
 
 
 const reducer = combineReducers({

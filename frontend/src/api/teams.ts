@@ -330,7 +330,7 @@ const fakeAPI = async () => {
 
 type TeamsApiResult = TeamsById
 
-export const fetchTeams = async (tournamentId: string): Promise<TeamsApiResult> => {
+export const fetchTeams = async (tournamentId: number): Promise<TeamsApiResult> => {
   return await fakeAPI();
   // if (isDevModeTamir()) return await fakeAPI();
   // return await sendApiRequest({

@@ -6,7 +6,7 @@ import { fetchAndStoreMatches } from '../_actions/matches.ts';
 import { fetchAndStoreQuestions } from '../_actions/specialQuestions.ts';
 import { fetchAndStoreTeams } from '../_actions/teams.ts';
 import { fetchAndStoreUsers } from '../_actions/utls.ts';
-import { NoSelector } from '../_selectors';
+import { NoSelector } from '../_selectors/noSelector.ts';
 
 
 export function InitialDataFetcher({

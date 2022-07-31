@@ -1,4 +1,7 @@
-import { WinnerSide } from "./match";
+import { Group } from "./group";
+import { Match, WinnerSide } from "./match";
+import { SpecialQuestion } from "./specialQuestion";
+import { Team } from "./teams";
 
 export enum BetType {
     Match = 1,
@@ -21,12 +24,24 @@ export interface MatchBetApiModel extends BetBase {
     winner_side: WinnerSide,
 }
 
+export interface MatchBetWithRelations extends MatchBetApiModel {
+    relatedMatch: Match,
+}
+
 export interface GroupRankBetApiModel extends BetBase {
     standings: number[],
+}
+export interface GroupRankBetWithRelations extends BetBase {
+    standings: Team[],
+    relatedGroup: Group,
 }
 
 export interface QuestionBetApiModel extends BetBase {
     answer: number,
+}
+
+export interface QuestionBetWithRelations extends QuestionBetApiModel {
+    relatedQuestion: SpecialQuestion,
 }
 
 export type BetApiModel = QuestionBetApiModel | GroupRankBetApiModel | MatchBetApiModel

@@ -1,13 +1,18 @@
+import { groupBy } from 'lodash';
 import { createSelector } from 'reselect'
-import { Groups, GroupStandingBets } from './base';
+import { GroupRankBetWithRelations, GroupWithTeams } from '../types';
 import { MyGroupRankBetsById } from './logic';
-import { GroupsWithTeams } from './modelRelations';
+import { GroupStandingBetsLinked, GroupsWithTeams } from './modelRelations';
+
+export interface GroupWithABet extends GroupWithTeams {
+    bet: GroupRankBetWithRelations,
+}
 
 export const AllGroupStandingsBets = createSelector(
-    GroupStandingBets,
-    Groups,
+    GroupStandingBetsLinked,
+    GroupsWithTeams,
     (bets, groups) => {
-        const betsByGroupId = _.groupBy(bets, bet => bet.relatedGroup.id);
+        const betsByGroupId = groupBy(bets, bet => bet.relatedGroup.id);
         return {
             betsByGroupId,
             groups,
@@ -19,7 +24,7 @@ export const OpenGroupRankBetsSelector = createSelector(
     GroupsWithTeams,
     MyGroupRankBetsById,
     (groups, groupBets) => {
-        const groupsWithBet = Object.values(groups).map(group => ({
+        const groupsWithBet = Object.values(groups).map((group): GroupWithABet => ({
             ...group,
             bet: groupBets[group.id],
         }));

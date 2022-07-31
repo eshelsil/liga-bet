@@ -1,3 +1,4 @@
+import { keyBy } from 'lodash';
 import { createSelector } from 'reselect'
 import { CurrentTournamentUser } from '../base';
 import { GroupStandingBetsByUserId, MatchBetsByUserId, QuestionBetsByUserQuestionId } from '../modelRelations';
@@ -32,6 +33,6 @@ export const MyQuestionBetsSelector = createSelector(
 export const MyGroupRankBetsById = createSelector(
     MyGroupStandingsBetsSelector,
     (bets) => {
-        return _.keyBy(bets, 'type_id');
+        return keyBy(bets, 'type_id');
     }
 );

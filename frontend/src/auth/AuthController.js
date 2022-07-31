@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux'
 
 import { fetchAndStoreCurrentUser } from '../_actions/auth.ts';
-import { AuthControllerSelector } from '../_selectors';
+import { AuthControllerSelector } from '../_selectors/auth.ts';
   
 
 function AuthController({

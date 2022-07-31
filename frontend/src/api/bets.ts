@@ -332,7 +332,7 @@ const fakeAPI = async () => {
 type BetsApiResult = Record<number, BetApiModel>
 
 
-export const fetchBets = async (tournamentId: string): Promise<BetsApiResult> => {
+export const fetchBets = async (tournamentId: number): Promise<BetsApiResult> => {
     if (isDevModeTamir()) return await fakeAPI();
     return await (window as any).$.ajax({
         type: 'GET',
@@ -343,7 +343,7 @@ export const fetchBets = async (tournamentId: string): Promise<BetsApiResult> =>
 };
 
 export const sendBet = async (
-    tournamentId: string,
+    tournamentId: number,
     betType: BetTypes,
     params: object
 ): Promise<BetsApiResult> =>{

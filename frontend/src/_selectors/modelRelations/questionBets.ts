@@ -1,12 +1,14 @@
+import { groupBy, mapValues, pickBy } from 'lodash';
 import { createSelector } from 'reselect'
-import { QuestionBets, Users } from '../base';
+import { QuestionBetWithRelations } from '../../types';
+import { QuestionBets, SpecialQuestions, Users } from '../base';
 
 
 export const QuestionBetsWithUserNames = createSelector(
     QuestionBets,
     Users,
     (bets, users) => {
-        return _.mapValues(bets, bet => ({
+        return mapValues(bets, bet => ({
             ...bet,
             user_name: users[bet.user_tournament_id]?.name,
         }));
@@ -16,26 +18,26 @@ export const QuestionBetsWithUserNames = createSelector(
 
 export const QuestionBetsLinked = createSelector(
     QuestionBetsWithUserNames,
-    ()=>({}), // Questions,
+    SpecialQuestions,
     (bets, questions) => {
-        const betsWithRelatedMatch = _.mapValues(bets, bet => ({
+        const betsWithRelatedMatch = mapValues(bets, (bet): QuestionBetWithRelations => ({
             ...bet,
             relatedQuestion: questions[bet.type_id],
         }));
-        return _.pickBy(betsWithRelatedMatch, bet => bet.relatedQuestion);
+        return pickBy(betsWithRelatedMatch, bet => bet.relatedQuestion);
     }
 );
 
 export const QuestionBetsById = createSelector(
     QuestionBetsLinked,
     bets => {
-        return _.groupBy(Object.values(bets), 'type_id');
+        return groupBy(Object.values(bets), 'type_id');
     }
 );
 
 export const QuestionBetsByUserQuestionId = createSelector(
     QuestionBetsLinked,
     bets => {
-        return _.groupBy(Object.values(bets), 'user_tournament_id');
+        return groupBy(Object.values(bets), 'user_tournament_id');
     }
 );

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { ContestantSelector } from "../_selectors";
+import { ContestantSelector } from "../_selectors/leaderboard.ts";
 import { ContestantView } from "./ContestantView";
 
 

@@ -71,7 +71,7 @@ const fakeAPI = async (): Promise<MatchApiResult> => {
 
 type MatchApiResult = Record<number, MatchApiModel>
 
-export const fetchMatches = async (tournamentId: string): Promise<MatchApiResult> => {
+export const fetchMatches = async (tournamentId: number): Promise<MatchApiResult> => {
     if (isDevModeTamir()) return await fakeAPI();
     return await sendApiRequest({
         url: `/api/tournaments/${tournamentId}/games`,

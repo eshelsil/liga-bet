@@ -23,7 +23,7 @@ const fakeAPI = async ()  => {
 
 type GroupsApiResult = Record<number, Group>
 
-export const fetchGroups = async (tournamentId: string): Promise<GroupsApiResult> => {
+export const fetchGroups = async (tournamentId: number): Promise<GroupsApiResult> => {
   if (isDevModeTamir()) return await fakeAPI();
   return await (window as any).$.ajax({
     type: 'GET',
