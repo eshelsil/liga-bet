@@ -10,6 +10,7 @@ function fetchAndStoreCurrentTournamentUser() {
       .then( data => {
         const theOnlyTournament = data[0];
         dispatch(tournamentUser.actions.set(theOnlyTournament));
+        // tournamentUser.actions.set(theOnlyTournament);
       })
   }
 }

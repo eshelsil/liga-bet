@@ -1,4 +1,4 @@
-import { Team } from "../types";
+import { Team, TeamsById } from "../types";
 import { isDevModeTamir } from "../_helpers/dev";
 import { sendApiRequest } from "./common/apiRequest";
 
@@ -328,7 +328,7 @@ const fakeAPI = async () => {
 };
 }
 
-type TeamsApiResult = Record<number, Team>
+type TeamsApiResult = TeamsById
 
 export const fetchTeams = async (tournamentId: string): Promise<TeamsApiResult> => {
   return await fakeAPI();

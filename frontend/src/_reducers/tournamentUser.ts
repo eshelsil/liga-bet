@@ -1,5 +1,5 @@
 
-import { createSlice, createAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { UTL } from '../types'
 

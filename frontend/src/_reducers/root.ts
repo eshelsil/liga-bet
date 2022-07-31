@@ -11,10 +11,10 @@ import tournamentUser from "./tournamentUser";
 
 
 const reducer = combineReducers({
-    bets: bets,
-    teams: teams,
+    bets: bets.reducer,
+    teams: teams.reducer,
     leaderboard: leaderboard,
-    specialQuestions: specialQuestions,
+    specialQuestions: specialQuestions.reducer,
     matches: matches,
     groups: groups,
     users: users,

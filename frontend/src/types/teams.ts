@@ -8,3 +8,4 @@ export interface Team {
     competition_id: number,
 }
 
+export type TeamsById = Record<number, Team>

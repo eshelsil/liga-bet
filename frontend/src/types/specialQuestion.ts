@@ -3,3 +3,5 @@ export interface SpecialQuestion {
     name: string,
     answer: number,
 }
+
+export type SpecialQuestionsById = Record<number, SpecialQuestion>

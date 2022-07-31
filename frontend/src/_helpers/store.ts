@@ -3,7 +3,8 @@ import rootReducer  from '../_reducers/root';
 
 const store = configureStore({ reducer: rootReducer })
 
-export type RootState = ReturnType<typeof store.getState>
+export type GetRootState = typeof store.getState
+export type RootState = ReturnType<GetRootState>
 export type AppDispatch = typeof store.dispatch
 
 

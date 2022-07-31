@@ -30,3 +30,5 @@ export interface QuestionBetApiModel extends BetBase {
 }
 
 export type BetApiModel = QuestionBetApiModel | GroupRankBetApiModel | MatchBetApiModel
+
+export type BetsApiModelById = Record<number, BetApiModel>

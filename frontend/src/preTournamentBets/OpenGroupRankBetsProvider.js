@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { OpenGroupRankBetsSelector } from '../_selectors';
 import OpenGroupRankBetsView from './OpenGroupRankBetsView';
 import { BetTypes } from '../_enums/betTypes';
-import { sendBetAndStore } from '../_actions/bets';
+import { sendBetAndStore } from '../_actions/bets.ts';
 
 
 const OpenGroupRankBetsProvider = ({
