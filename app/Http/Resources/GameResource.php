@@ -21,8 +21,8 @@ class GameResource extends JsonResource
 
         return [
             "id"              => $game->id,
-            "home_team"       => new TeamResource($game->teamHome),
-            "away_team"       => new TeamResource($game->teamAway),
+            "home_team"       => $game->team_home_id,
+            "away_team"       => $game->team_away_id,
             "result_home"     => $game->result_home,
             "result_away"     => $game->result_away,
             "winner_side"     => $game->getKnockoutWinnerSide(),
