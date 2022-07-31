@@ -10909,7 +10909,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ClosedMatchBetsSelector": () => (/* binding */ ClosedMatchBetsSelector)
 /* harmony export */ });
 /* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
-/* harmony import */ var _utils_betValuesGenerators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/betValuesGenerators */ "./src/utils/betValuesGenerators.js");
+/* harmony import */ var _utils_betValuesGenerators_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/betValuesGenerators.ts */ "./src/utils/betValuesGenerators.ts");
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./base */ "./src/_selectors/base/index.js");
 /* harmony import */ var _modelRelations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modelRelations */ "./src/_selectors/modelRelations/index.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -10933,7 +10933,7 @@ var ClosedMatchBetsSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSel
     if (!match.closed_for_bets) continue;
     var bets = (_matchBetsByMatchId$m = matchBetsByMatchId[match.id]) !== null && _matchBetsByMatchId$m !== void 0 ? _matchBetsByMatchId$m : [];
 
-    var betsByValue = _.groupBy(bets, _utils_betValuesGenerators__WEBPACK_IMPORTED_MODULE_0__.getMatchBetValue);
+    var betsByValue = _.groupBy(bets, _utils_betValuesGenerators_ts__WEBPACK_IMPORTED_MODULE_0__.getMatchBetValue);
 
     var matchWithBetsByValue = _objectSpread(_objectSpread({}, match), {}, {
       betsByValue: betsByValue
@@ -11866,7 +11866,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _utils_betValuesGenerators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/betValuesGenerators */ "./src/utils/betValuesGenerators.js");
+/* harmony import */ var _utils_betValuesGenerators_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/betValuesGenerators.ts */ "./src/utils/betValuesGenerators.ts");
 /* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -11900,7 +11900,7 @@ function SingleGroupBets(_ref) {
   };
 
   var betsByAnswer = _.groupBy(bets, function (bet) {
-    return (0,_utils_betValuesGenerators__WEBPACK_IMPORTED_MODULE_1__.getStandingsBetValue)(bet.standings);
+    return (0,_utils_betValuesGenerators_ts__WEBPACK_IMPORTED_MODULE_1__.getStandingsBetValue)(bet.standings);
   });
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -13192,7 +13192,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _utils_timeFormats__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/timeFormats */ "./src/utils/timeFormats.js");
+/* harmony import */ var _utils_timeFormats_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/timeFormats.ts */ "./src/utils/timeFormats.ts");
 /* harmony import */ var _widgets_koWinnerInput_koWinnerInput_tsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../widgets/koWinnerInput/koWinnerInput.tsx */ "./src/widgets/koWinnerInput/koWinnerInput.tsx");
 /* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
 /* harmony import */ var _enums_winnerSide__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_enums/winnerSide */ "./src/_enums/winnerSide.js");
@@ -13293,7 +13293,7 @@ function EditMatchBet(_ref) {
     className: "admin"
   }, id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
     className: "v-align-center"
-  }, moment__WEBPACK_IMPORTED_MODULE_0___default()(start_time).format(_utils_timeFormats__WEBPACK_IMPORTED_MODULE_2__.DEFAULT_DATETIME_FORMAT)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
+  }, moment__WEBPACK_IMPORTED_MODULE_0___default()(start_time).format(_utils_timeFormats_ts__WEBPACK_IMPORTED_MODULE_2__.DEFAULT_DATETIME_FORMAT)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
     className: "open-match-teams-cell v-align-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
     crest_url: home_team.crest_url,
@@ -13368,7 +13368,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _utils_timeFormats__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/timeFormats */ "./src/utils/timeFormats.js");
+/* harmony import */ var _utils_timeFormats_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/timeFormats.ts */ "./src/utils/timeFormats.ts");
 /* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
 /* harmony import */ var _enums_winnerSide__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_enums/winnerSide */ "./src/_enums/winnerSide.js");
 
@@ -13408,7 +13408,7 @@ function MatchWithBetView(_ref) {
     className: "admin"
   }, id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
     className: "v-align-center"
-  }, moment__WEBPACK_IMPORTED_MODULE_0___default()(start_time).format(_utils_timeFormats__WEBPACK_IMPORTED_MODULE_2__.DEFAULT_DATETIME_FORMAT)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
+  }, moment__WEBPACK_IMPORTED_MODULE_0___default()(start_time).format(_utils_timeFormats_ts__WEBPACK_IMPORTED_MODULE_2__.DEFAULT_DATETIME_FORMAT)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
     className: "open-match-teams-cell v-align-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
     crest_url: home_team.crest_url,
@@ -14374,47 +14374,6 @@ var mapDispatchToProps = {
   fetchAndStoreCurrentTournamentUser: _actions_tournamentUser_ts__WEBPACK_IMPORTED_MODULE_2__.fetchAndStoreCurrentTournamentUser
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors__WEBPACK_IMPORTED_MODULE_3__.TournamentUserControllerSelector, mapDispatchToProps)(TournamentUserController));
-
-/***/ }),
-
-/***/ "./src/utils/betValuesGenerators.js":
-/*!******************************************!*\
-  !*** ./src/utils/betValuesGenerators.js ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getMatchBetValue": () => (/* binding */ getMatchBetValue),
-/* harmony export */   "getStandingsBetValue": () => (/* binding */ getStandingsBetValue)
-/* harmony export */ });
-function getStandingsBetValue(standings) {
-  return standings.map(function (team) {
-    return team.id;
-  }).concat(',');
-}
-function getMatchBetValue(matchBet) {
-  var result_away = matchBet.result_away,
-      result_home = matchBet.result_home,
-      winner_side = matchBet.winner_side;
-  return "".concat(result_home, "-").concat(result_away).concat(winner_side ? "->".concat(winner_side) : '');
-}
-
-/***/ }),
-
-/***/ "./src/utils/timeFormats.js":
-/*!**********************************!*\
-  !*** ./src/utils/timeFormats.js ***!
-  \**********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "DEFAULT_DATETIME_FORMAT": () => (/* binding */ DEFAULT_DATETIME_FORMAT)
-/* harmony export */ });
-var DEFAULT_DATETIME_FORMAT = 'HH:mm YYYY/MM/DD';
 
 /***/ }),
 
@@ -104640,6 +104599,45 @@ var UtlRole;
     UtlRole["Manager"] = "Manager";
     UtlRole["User"] = "User";
 })(UtlRole || (UtlRole = {}));
+
+
+/***/ }),
+
+/***/ "./src/utils/betValuesGenerators.ts":
+/*!******************************************!*\
+  !*** ./src/utils/betValuesGenerators.ts ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getMatchBetValue": () => (/* binding */ getMatchBetValue),
+/* harmony export */   "getStandingsBetValue": () => (/* binding */ getStandingsBetValue)
+/* harmony export */ });
+function getStandingsBetValue(standings) {
+    return standings.map(team => `${team.id}`).join(',');
+}
+function getMatchBetValue(matchBet) {
+    const { result_away, result_home, winner_side } = matchBet;
+    return `${result_home}-${result_away}${winner_side ? `->${winner_side}` : ''}`;
+}
+
+
+/***/ }),
+
+/***/ "./src/utils/timeFormats.ts":
+/*!**********************************!*\
+  !*** ./src/utils/timeFormats.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DEFAULT_DATETIME_FORMAT": () => (/* binding */ DEFAULT_DATETIME_FORMAT)
+/* harmony export */ });
+const DEFAULT_DATETIME_FORMAT = 'HH:mm YYYY/MM/DD';
 
 
 /***/ }),
