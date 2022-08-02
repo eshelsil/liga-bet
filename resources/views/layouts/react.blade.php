@@ -75,9 +75,7 @@
 </head>
 <body style="direction: rtl;" dir="rtl">
     <script>
-        window.php_data = {
-            user: @json(Auth::user()->toArray())
-        }
+        localStorage.setItem('ligaBetUserData') = @json(Auth::user()->toArray());
     </script>
     <div id="root"></div>
 </body>
