@@ -1,78 +1,63 @@
-import { User, UserRole, UTL, UtlRole } from "../types";
-import { isDevModeTamir } from "../_helpers/dev";
+import { UtlRole, MyUtlsById, UTLsById } from "../types";
 import { sendApiRequest } from "./common/apiRequest";
 
-const EXAMPLE_DATA_GET_USER = {
-    created_at: "2022-07-20T13:02:11.000000Z",
-    fcm_token: null,
-    id: 1,
-    name: "eshel",
-    role: UserRole.Admin,
-    updated_at: "2022-07-20T13:02:11.000000Z",
-    username: "eshel",
-}
 
-const EXAMPLE_DATA_GET_UTLS = [
-    {
-        "id": 20,
-        "user_id": 1,
-        "tournament_id": 1,
-        "role": UtlRole.Admin,
-    },
-];
-
-
-
-export const getUser = async (): Promise<User> => {
-    if (isDevModeTamir()) return EXAMPLE_DATA_GET_USER;
+export const getUserUTLs = async (): Promise<MyUtlsById> => {
     return await sendApiRequest({
-        url: '/user'
+        url: '/api/user/utls'
     })
 }
 
 
-export const getUserUTLs = async (): Promise<UTL[]> => {
-    if (isDevModeTamir()) return EXAMPLE_DATA_GET_UTLS;
-    return await sendApiRequest({
-        url: '/tournament-user'
-    })
-}
-
-type UtlsApiResponse = Record<number, UTL>
-
-const sendRequest = async (): Promise<UtlsApiResponse> => {
+const sendRequest = async (): Promise<UTLsById> => {
     return {
         20: {
             id: 20,
             name: "Eliyahu Hanavim",
+            role: UtlRole.Admin,
+            tournament_id: 1,
         },
         18: {
             id: 18,
             name: "Avi Siman Savir",
+            role: UtlRole.Manager,
+            tournament_id: 1,
         },
         3: {
             id: 3,
             name: "Moshe Zion Shlush",
+            role: UtlRole.Manager,
+            tournament_id: 1,
         },
         7: {
             id: 7,
             name: "Edgar Bat-Sheshet",
+            role: UtlRole.User,
+            tournament_id: 1,
         },
         23: {
             id: 23,
             name: "Simha Riff Cohen",
+            role: UtlRole.User,
+            tournament_id: 1,
         },
         1: {
             id: 1,
             name: "Isam Tuka",
+            role: UtlRole.User,
+            tournament_id: 1,
         },
         4: {
             id: 4,
             name: "Niv Dalpa Sivi",
+            role: UtlRole.User,
+            tournament_id: 1,
         },
         26: {
             id: 26,
             name: "Yaniv Catan",
+            role: UtlRole.User,
+            tournament_id: 1,
         },
     };
 }

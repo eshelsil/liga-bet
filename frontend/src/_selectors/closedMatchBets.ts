@@ -1,7 +1,7 @@
 import { groupBy } from 'lodash';
 import { createSelector } from 'reselect'
 import { Match, MatchBetApiModel, MatchBetWithRelations } from '../types';
-import { getMatchBetValue } from '../utils/betValuesGenerators';
+import { getMatchBetValue } from '../utils';
 import { Matches } from './base';
 import { MatchBetsByUserId, MatchesWithTeams } from './modelRelations';
 

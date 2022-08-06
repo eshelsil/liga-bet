@@ -1,15 +1,19 @@
-import { getUser } from '../api/users';
 import { AppDispatch } from '../_helpers/store';
 import currentUser from '../_reducers/currentUser';
 
 
-function fetchAndStoreCurrentUser() {
+function storeCurrentUser() {
   return (dispatch: AppDispatch) => {
-      return getUser()
-        .then( data => dispatch(currentUser.actions.set(data)) );
+    const user = JSON.parse(localStorage.getItem('ligaBetUserData'));
+    const userData = {
+      ...user,
+      isConfirmed: user.permissions > 0,
+      isAdmin: user.permissions >= 2,
+    };
+    dispatch(currentUser.actions.set(userData));
   }
 }
 
 export {
-  fetchAndStoreCurrentUser,
+  storeCurrentUser,
 }

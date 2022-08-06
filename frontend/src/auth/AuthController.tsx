@@ -1,22 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import { connect } from 'react-redux'
-
-import { fetchAndStoreCurrentUser } from '../_actions/auth.ts';
-import { AuthControllerSelector } from '../_selectors/auth.ts';
+import { User } from '../types';
+import { storeCurrentUser } from '../_actions/auth';
+import { AuthControllerSelector } from '../_selectors';
   
 
+interface Props {
+    storeCurrentUser: () => void,
+    user: User,
+    children: ReactNode,
+}
+
 function AuthController({
-    fetchAndStoreCurrentUser,
+    storeCurrentUser,
     user,
     children,
-}){
+}: Props){
 
 
     useEffect( ()=>{
-        fetchAndStoreCurrentUser()
-        .catch(e => {
-            console.log('FAILED to get user', e)
-        });
+        storeCurrentUser()
     }, []);
 
     return <>
@@ -29,7 +32,7 @@ function AuthController({
 }
 
 const mapDispatchToProps = {
-    fetchAndStoreCurrentUser,
+    storeCurrentUser,
 }
 
 

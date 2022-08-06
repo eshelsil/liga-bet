@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React from 'react';
-import { DEFAULT_DATETIME_FORMAT } from '../utils/timeFormats.ts';
+import { DEFAULT_DATETIME_FORMAT } from '../utils/index.ts';
 import TeamAndSymbol from '../widgets/TeamWithFlag.tsx';
 import { WINNER_SIDE } from '../_enums/winnerSide';
 

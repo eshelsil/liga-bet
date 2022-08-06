@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getStandingsBetValue } from '../utils/betValuesGenerators.ts';
+import { getStandingsBetValue } from '../utils/index.ts';
 import TeamWithFlag from '../widgets/TeamWithFlag.tsx';
 
 function SingleGroupBets({

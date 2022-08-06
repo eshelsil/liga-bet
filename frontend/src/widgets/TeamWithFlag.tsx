@@ -3,9 +3,9 @@ import React from "react";
 interface Props {
     name: string,
     crest_url: string,
-    is_ko_winner: string,
-    is_underlined: boolean,
-    is_bold: boolean,
+    is_ko_winner?: boolean,
+    is_underlined?: boolean,
+    is_bold?: boolean,
 }
 
 function TeamAndSymbol({

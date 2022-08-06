@@ -1,6 +1,6 @@
 import { fetchUsers } from '../api/users';
 import { AppDispatch } from '../_helpers/store';
-import utls from '../_reducers/utls';
+import utls from '../_reducers/contestants';
 
 
 function fetchAndStoreUsers() {

@@ -1,32 +1,29 @@
 import { keyBy } from 'lodash';
 import { createSelector } from 'reselect'
-import { CurrentTournamentUser } from '../base';
+import { CurrentTournamentUserId } from '../base';
 import { GroupStandingBetsByUserId, MatchBetsByUserId, QuestionBetsByUserQuestionId } from '../modelRelations';
 
 export const MyMatchBetsSelector = createSelector(
     MatchBetsByUserId,
-    CurrentTournamentUser,
-    (betsByUserId, tournamentUser) => {
-        const { id: userId } = tournamentUser;
-        return betsByUserId[userId] ?? [];
+    CurrentTournamentUserId,
+    (betsByUserId, utlId) => {
+        return betsByUserId[utlId] ?? [];
     }
 );
 
 export const MyGroupStandingsBetsSelector = createSelector(
     GroupStandingBetsByUserId,
-    CurrentTournamentUser,
-    (betsByUserId, tournamentUser) => {
-        const { id: userId } = tournamentUser;
-        return betsByUserId[userId] ?? [];
+    CurrentTournamentUserId,
+    (betsByUserId, utlId) => {
+        return betsByUserId[utlId] ?? [];
     }
 );
 
 export const MyQuestionBetsSelector = createSelector(
     QuestionBetsByUserQuestionId,
-    CurrentTournamentUser,
-    (betsByUserId, tournamentUser) => {
-        const { id: userId } = tournamentUser;
-        return betsByUserId[userId] ?? [];
+    CurrentTournamentUserId,
+    (betsByUserId, utlId) => {
+        return betsByUserId[utlId] ?? [];
     }
 );
 

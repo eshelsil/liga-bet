@@ -10457,221 +10457,6 @@ function createListenerMiddleware(middlewareOptions) {
 
 /***/ }),
 
-/***/ "./src/App.js":
-/*!********************!*\
-  !*** ./src/App.js ***!
-  \********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
-/* harmony import */ var history__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! history */ "./node_modules/history/esm/history.js");
-/* harmony import */ var _appHeader_AppHeader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./appHeader/AppHeader */ "./src/appHeader/AppHeader.js");
-/* harmony import */ var _contexts_user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./contexts/user */ "./src/contexts/user.js");
-/* harmony import */ var _contexts_tournament__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./contexts/tournament */ "./src/contexts/tournament.js");
-/* harmony import */ var _leaderboard_LeaderboardProvider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./leaderboard/LeaderboardProvider */ "./src/leaderboard/LeaderboardProvider.js");
-/* harmony import */ var _App_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./App.scss */ "./src/App.scss");
-/* harmony import */ var _open_matches_openMatchesProvider__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./open_matches/openMatchesProvider */ "./src/open_matches/openMatchesProvider.js");
-/* harmony import */ var _preTournamentBets_OpenGroupRankBetsProvider__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./preTournamentBets/OpenGroupRankBetsProvider */ "./src/preTournamentBets/OpenGroupRankBetsProvider.js");
-/* harmony import */ var _matches_ClosedMatchBetsProvider__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./matches/ClosedMatchBetsProvider */ "./src/matches/ClosedMatchBetsProvider.js");
-/* harmony import */ var _groupBets_GroupStandingsBetsProvider__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./groupBets/GroupStandingsBetsProvider */ "./src/groupBets/GroupStandingsBetsProvider.js");
-/* harmony import */ var _questionBets_ClosedQuestionBetsProvider__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./questionBets/ClosedQuestionBetsProvider */ "./src/questionBets/ClosedQuestionBetsProvider.js");
-/* harmony import */ var _myBets_myBetsView__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./myBets/myBetsView */ "./src/myBets/myBetsView.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _helpers_store_ts__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./_helpers/store.ts */ "./src/_helpers/store.ts");
-/* harmony import */ var _auth_AuthController__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./auth/AuthController */ "./src/auth/AuthController.js");
-/* harmony import */ var _tournamentUser_TournamentUserController__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./tournamentUser/TournamentUserController */ "./src/tournamentUser/TournamentUserController.js");
-/* harmony import */ var _initialDataFetcher_InitialDataFetcher__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./initialDataFetcher/InitialDataFetcher */ "./src/initialDataFetcher/InitialDataFetcher.js");
-/* harmony import */ var _takanon_Takanon__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./takanon/Takanon */ "./src/takanon/Takanon.js");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var customHistory = (0,history__WEBPACK_IMPORTED_MODULE_18__.createBrowserHistory)();
-
-function Content() {
-  var user = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_user__WEBPACK_IMPORTED_MODULE_2__.UserContext);
-
-  if (!user.isConfirmed) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "\u05D4\u05D0\u05EA\u05E8 \u05D9\u05D4\u05D9\u05D4 \u05D6\u05DE\u05D9\u05DF \u05DC\u05DA \u05D1\u05E8\u05D2\u05E2 \u05E9\u05EA\u05D0\u05D5\u05E9\u05E8 \u05E2\u05DC \u05D9\u05D3\u05D9 \u05D0\u05D7\u05D3 \u05DE\u05D4\u05D0\u05D3\u05DE\u05D9\u05E0\u05D9\u05DD");
-  }
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Switch, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Route, {
-    path: "/open-questions",
-    component: _preTournamentBets_OpenGroupRankBetsProvider__WEBPACK_IMPORTED_MODULE_7__["default"]
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Route, {
-    path: "/takanon",
-    component: _takanon_Takanon__WEBPACK_IMPORTED_MODULE_17__["default"]
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Route, {
-    path: "/open-group-standings",
-    component: _preTournamentBets_OpenGroupRankBetsProvider__WEBPACK_IMPORTED_MODULE_7__["default"]
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Route, {
-    path: "/open-matches",
-    component: _open_matches_openMatchesProvider__WEBPACK_IMPORTED_MODULE_6__["default"]
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Route, {
-    path: "/closed-matches",
-    component: _matches_ClosedMatchBetsProvider__WEBPACK_IMPORTED_MODULE_8__["default"]
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Route, {
-    path: "/leaderboard",
-    component: _leaderboard_LeaderboardProvider__WEBPACK_IMPORTED_MODULE_4__["default"]
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Route, {
-    path: "/all-group-standings",
-    component: _groupBets_GroupStandingsBetsProvider__WEBPACK_IMPORTED_MODULE_9__["default"]
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Route, {
-    path: "/all-questions",
-    component: _questionBets_ClosedQuestionBetsProvider__WEBPACK_IMPORTED_MODULE_10__["default"]
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Route, {
-    path: "/my-bets",
-    component: _myBets_myBetsView__WEBPACK_IMPORTED_MODULE_11__["default"]
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Route, {
-    path: "/"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Redirect, {
-    to: "/open-matches"
-  }))));
-}
-
-function AppLink(_ref) {
-  var path = _ref.path,
-      label = _ref.label;
-  var hasReactComponent = ['/takanon']; // until all views would be served by react;
-
-  var history = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_19__.useHistory)();
-
-  var onClick = function onClick(e) {
-    e.preventDefault();
-    history.push(path);
-  };
-
-  var shouldUseHistoryPush = hasReactComponent.includes(path);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", {
-    href: path,
-    onClick: shouldUseHistoryPush ? onClick : undefined
-  }, label));
-}
-
-function AppLinks(props) {
-  var isAdmin = props.isAdmin;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(AppLink, {
-    path: "/articles",
-    label: "\u05DB\u05EA\u05D1\u05D5\u05EA"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(AppLink, {
-    path: "/takanon",
-    label: "\u05EA\u05E7\u05E0\u05D5\u05DF"
-  }), isAdmin ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(AppLink, {
-    path: "/admin/index",
-    label: "Admin Tools"
-  }) : null);
-}
-
-function TournamentPrizes(props) {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
-      _useState2 = _slicedToArray(_useState, 2),
-      prizes = _useState2[0],
-      setPrizes = _useState2[1];
-
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    //get prizes from API
-    var gotFromAPI = {
-      1: {
-        id: 1,
-        label: "מקום ראשון",
-        amount: "1800 ₪"
-      },
-      2: {
-        id: 2,
-        label: "מקום שני",
-        amount: "800 ₪"
-      },
-      3: {
-        id: 3,
-        label: "מקום שלישי",
-        amount: "400 ₪"
-      },
-      4: {
-        id: 4,
-        label: "מקום רביעי",
-        amount: "200 ₪"
-      }
-    };
-    setPrizes(gotFromAPI);
-  }, []);
-
-  function renderPrize(prize) {
-    var id = prize.id,
-        label = prize.label,
-        amount = prize.amount;
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      key: id,
-      className: "well rank-".concat(id)
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, label, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), amount));
-  }
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, Object.values(prizes).map(renderPrize));
-}
-
-function App() {
-  var isAdmin = true;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_redux__WEBPACK_IMPORTED_MODULE_12__.Provider, {
-    store: _helpers_store_ts__WEBPACK_IMPORTED_MODULE_13__["default"]
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_auth_AuthController__WEBPACK_IMPORTED_MODULE_14__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_tournamentUser_TournamentUserController__WEBPACK_IMPORTED_MODULE_15__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_contexts_user__WEBPACK_IMPORTED_MODULE_2__.UserProvider, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_contexts_tournament__WEBPACK_IMPORTED_MODULE_3__.TournamentProvider, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_initialDataFetcher_InitialDataFetcher__WEBPACK_IMPORTED_MODULE_16__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_19__.Router, {
-    history: customHistory
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_appHeader_AppHeader__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    isTourStarted: false
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "container-fluid text-center"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "row content"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-sm-2 sidenav"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(AppLinks, {
-    isAdmin: isAdmin
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-sm-8 text-left"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Content, null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-sm-2 sidenav"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(TournamentPrizes, null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("footer", {
-    className: "container-fluid text-center"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null)))))))));
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
-
-/***/ }),
-
 /***/ "./src/_enums/betTypes.js":
 /*!********************************!*\
   !*** ./src/_enums/betTypes.js ***!
@@ -10706,308 +10491,6 @@ var WINNER_SIDE = {
   away: 'away',
   home: 'home'
 };
-
-/***/ }),
-
-/***/ "./src/appHeader/AppHeader.js":
-/*!************************************!*\
-  !*** ./src/appHeader/AppHeader.js ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
-/* harmony import */ var _contexts_user__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/user */ "./src/contexts/user.js");
-
-
-
-var routesMap = {
-  "leaderboard": {
-    label: "טבלת ניקוד",
-    iconClass: "podium_icon"
-  },
-  "open-matches": {
-    label: "הימורים פתוחים",
-    iconClass: "bet_icon"
-  },
-  "closed-matches": {
-    label: "צפייה בהימורים",
-    iconClass: "watch_bets_icon"
-  },
-  "open-group-standings": {
-    label: "הימורי בתים פתוחים"
-  },
-  "open-questions": {
-    label: "הימורים מיוחדים פתוחים"
-  },
-  "all-group-standings": {
-    label: "צפייה בהימורי בתים"
-  },
-  "all-questions": {
-    label: "צפייה בהימורים מיוחדים"
-  },
-  "my-bets": {
-    label: "הטופס שלי",
-    iconClass: "form_icon"
-  },
-  "set-password": {
-    label: "שנה סיסמה",
-    iconClass: "change_password_icon"
-  },
-  "logout": {
-    label: "התנתק",
-    iconClass: "logout_icon"
-  }
-};
-
-function AppHeader(props) {
-  var user = props.user,
-      isTourStarted = props.isTourStarted;
-  var userContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_user__WEBPACK_IMPORTED_MODULE_1__.UserContext);
-  var location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_2__.useLocation)();
-  var history = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_2__.useHistory)();
-  var currentRoute = location.pathname.substring(1);
-  var groupBetsRoute = isTourStarted ? "all-group-standings" : "open-group-standings";
-  var specialBetsRoute = isTourStarted ? "all-questions" : "open-questions";
-  var isPreTourActive = ["all-group-standings", "all-questions", "open-group-standings", "open-questions"].includes(currentRoute);
-
-  function renderMenuItem(route) {
-    var isActive = currentRoute === route;
-    var _routesMap$route = routesMap[route],
-        iconClass = _routesMap$route.iconClass,
-        label = _routesMap$route.label;
-
-    var onClick = function onClick(e) {
-      e.preventDefault();
-      history.push("/".concat(route));
-    };
-
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-      key: route,
-      className: isActive ? "active" : ""
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", {
-      href: "/".concat(route),
-      onClick: onClick
-    }, iconClass ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "icon ".concat(iconClass)
-    }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-      className: "menu-label"
-    }, label)));
-  }
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("nav", {
-    className: "navbar navbar-inverse"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "container-fluid"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "navbar-header",
-    style: {
-      "float": "right",
-      "textAlign": "right"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    type: "button",
-    className: "navbar-toggle",
-    "data-toggle": "collapse",
-    "data-target": "#myNavbar"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-    className: "icon-bar"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-    className: "icon-bar"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-    className: "icon-bar"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", {
-    className: "navbar-brand",
-    href: "/",
-    onClick: function onClick(e) {
-      e.preventDefault();
-      history.push('/');
-    }
-  }, "\u05D9\u05D5\u05E8\u05D5 \u05D7\u05D1\u05E8\u05D9\u05DD - ", userContext.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "collapse navbar-collapse",
-    style: {
-      "float": "right"
-    },
-    id: "myNavbar"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    className: "nav navbar-nav navbar-right"
-  }, renderMenuItem("leaderboard"), renderMenuItem("open-matches"), renderMenuItem("closed-matches"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    key: "preTourBets",
-    className: "dropdown ".concat(isPreTourActive ? "active" : "")
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", {
-    href: "#",
-    className: "dropdown-toggle",
-    "data-toggle": "dropdown",
-    role: "button",
-    "aria-haspopup": "true",
-    "aria-expanded": "false"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "icon pre_game_icon"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-    className: "menu-label"
-  }, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05E9\u05DC \u05DC\u05E4\u05E0\u05D9 \u05D4\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-    className: "caret",
-    style: {
-      "marginRight": "5px"
-    }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    className: "dropdown-menu"
-  }, renderMenuItem(groupBetsRoute), renderMenuItem(specialBetsRoute))), renderMenuItem("my-bets")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    className: "nav navbar-nav navbar-left"
-  }, renderMenuItem("set-password"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", {
-    href: "/logout"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "icon logout_icon"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-    className: "menu-label"
-  }, "\u05D4\u05EA\u05E0\u05EA\u05E7")))))));
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AppHeader);
-
-/***/ }),
-
-/***/ "./src/auth/AuthController.js":
-/*!************************************!*\
-  !*** ./src/auth/AuthController.js ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _actions_auth_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_actions/auth.ts */ "./src/_actions/auth.ts");
-/* harmony import */ var _selectors_auth_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_selectors/auth.ts */ "./src/_selectors/auth.ts");
-
-
-
-
-
-function AuthController(_ref) {
-  var fetchAndStoreCurrentUser = _ref.fetchAndStoreCurrentUser,
-      user = _ref.user,
-      children = _ref.children;
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    fetchAndStoreCurrentUser()["catch"](function (e) {
-      console.log('FAILED to get user', e);
-    });
-  }, []);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (user === null || user === void 0 ? void 0 : user.id) !== undefined && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, children));
-}
-
-var mapDispatchToProps = {
-  fetchAndStoreCurrentUser: _actions_auth_ts__WEBPACK_IMPORTED_MODULE_2__.fetchAndStoreCurrentUser
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors_auth_ts__WEBPACK_IMPORTED_MODULE_3__.AuthControllerSelector, mapDispatchToProps)(AuthController));
-
-/***/ }),
-
-/***/ "./src/contexts/tournament.js":
-/*!************************************!*\
-  !*** ./src/contexts/tournament.js ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "TournamentProvider": () => (/* binding */ TournamentProvider),
-/* harmony export */   "useTournamentContext": () => (/* binding */ useTournamentContext)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-var TournamentContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)(null);
-
-var TournamentProvider = function TournamentProvider(_ref) {
-  var children = _ref.children;
-
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
-      _useState2 = _slicedToArray(_useState, 2),
-      data = _useState2[0],
-      setData = _useState2[1];
-
-  var state = data.state;
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    //get data from API
-    var gotFromAPI = {
-      state: 'ongoing' // initial/ongoing/finished
-
-    };
-    setData(gotFromAPI);
-  }, []);
-  var isStarted = state !== 'initial';
-  var isFinished = state !== 'finished';
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(TournamentContext.Provider, {
-    value: {
-      isStarted: isStarted,
-      isFinished: isFinished
-    }
-  }, children);
-};
-
-var useTournamentContext = function useTournamentContext() {
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(TournamentContext);
-};
-
-
-/***/ }),
-
-/***/ "./src/contexts/user.js":
-/*!******************************!*\
-  !*** ./src/contexts/user.js ***!
-  \******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "UserContext": () => (/* binding */ UserContext),
-/* harmony export */   "UserProvider": () => (/* binding */ UserProvider)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-var UserContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)(null);
-
-var UserProvider = function UserProvider(_ref) {
-  var children = _ref.children;
-
-  var user = _objectSpread({}, window.php_data.user);
-
-  user.isConfirmed = true;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(UserContext.Provider, {
-    value: user
-  }, children);
-};
-
-
-
 
 /***/ }),
 
@@ -11056,7 +10539,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _utils_betValuesGenerators_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/betValuesGenerators.ts */ "./src/utils/betValuesGenerators.ts");
+/* harmony import */ var _utils_index_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/index.ts */ "./src/utils/index.ts");
 /* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -11090,7 +10573,7 @@ function SingleGroupBets(_ref) {
   };
 
   var betsByAnswer = _.groupBy(bets, function (bet) {
-    return (0,_utils_betValuesGenerators_ts__WEBPACK_IMPORTED_MODULE_1__.getStandingsBetValue)(bet.standings);
+    return (0,_utils_index_ts__WEBPACK_IMPORTED_MODULE_1__.getStandingsBetValue)(bet.standings);
   });
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -11252,395 +10735,6 @@ var mapDispatchToProps = {
   fetchAndStoreUsers: _actions_utls_ts__WEBPACK_IMPORTED_MODULE_7__.fetchAndStoreUsers
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors_noSelector_ts__WEBPACK_IMPORTED_MODULE_8__.NoSelector, mapDispatchToProps)(InitialDataFetcher));
-
-/***/ }),
-
-/***/ "./src/leaderboard/ContestantProvider.js":
-/*!***********************************************!*\
-  !*** ./src/leaderboard/ContestantProvider.js ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Contestant": () => (/* binding */ Contestant),
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _selectors_leaderboard_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_selectors/leaderboard.ts */ "./src/_selectors/leaderboard.ts");
-/* harmony import */ var _ContestantView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ContestantView */ "./src/leaderboard/ContestantView.js");
-var _excluded = ["userId", "matchBetsByUserId", "groupStandingBetsByUserId", "questionBetsByUserId"];
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
-
-
-
-
-function Contestant(_ref) {
-  var _matchBetsByUserId$us, _questionBetsByUserId, _groupStandingBetsByU;
-
-  var userId = _ref.userId,
-      matchBetsByUserId = _ref.matchBetsByUserId,
-      groupStandingBetsByUserId = _ref.groupStandingBetsByUserId,
-      questionBetsByUserId = _ref.questionBetsByUserId,
-      viewProps = _objectWithoutProperties(_ref, _excluded);
-
-  var matchBets = (_matchBetsByUserId$us = matchBetsByUserId[userId]) !== null && _matchBetsByUserId$us !== void 0 ? _matchBetsByUserId$us : [];
-  var questionBets = (_questionBetsByUserId = questionBetsByUserId[userId]) !== null && _questionBetsByUserId !== void 0 ? _questionBetsByUserId : [];
-  var groupStandingsBets = (_groupStandingBetsByU = groupStandingBetsByUserId[userId]) !== null && _groupStandingBetsByU !== void 0 ? _groupStandingBetsByU : [];
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContestantView__WEBPACK_IMPORTED_MODULE_3__.ContestantView, _objectSpread({
-    matchBets: matchBets,
-    questionBets: questionBets,
-    groupStandingsBets: groupStandingsBets
-  }, viewProps));
-}
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors_leaderboard_ts__WEBPACK_IMPORTED_MODULE_2__.ContestantSelector)(Contestant));
-
-/***/ }),
-
-/***/ "./src/leaderboard/ContestantView.js":
-/*!*******************************************!*\
-  !*** ./src/leaderboard/ContestantView.js ***!
-  \*******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ContestantView": () => (/* binding */ ContestantView),
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils */ "./src/leaderboard/utils.js");
-/* harmony import */ var _scoreViews_GroupStangingsScore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./scoreViews/GroupStangingsScore */ "./src/leaderboard/scoreViews/GroupStangingsScore.js");
-/* harmony import */ var _scoreViews_MatchBetScore__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./scoreViews/MatchBetScore */ "./src/leaderboard/scoreViews/MatchBetScore.js");
-/* harmony import */ var _scoreViews_QuestionBetScore__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./scoreViews/QuestionBetScore */ "./src/leaderboard/scoreViews/QuestionBetScore.js");
-
-
-
-
-
-
-
-function RankChange(_ref) {
-  var change = _ref.change;
-
-  if (change > 0) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("bdi", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-      className: "label label-success",
-      style: {
-        direction: "ltr"
-      },
-      dir: "RTL"
-    }, "+", change));
-  } else if (change < 0) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("bdi", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-      className: "label label-danger",
-      style: {
-        direction: "ltr"
-      },
-      dir: "RTL"
-    }, change));
-  }
-
-  return null;
-}
-
-function ContestantView(_ref2) {
-  var rank = _ref2.rank,
-      rankDisplay = _ref2.rankDisplay,
-      change = _ref2.change,
-      id = _ref2.id,
-      name = _ref2.name,
-      addedScore = _ref2.addedScore,
-      totalScore = _ref2.totalScore,
-      matchBets = _ref2.matchBets,
-      groupStandingsBets = _ref2.groupStandingsBets,
-      questionBets = _ref2.questionBets;
-  var matchesScore = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.sumBetsScore)(matchBets);
-  var groupStandingsScore = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.sumBetsScore)(groupStandingsBets);
-  var specialBetScore = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.sumBetsScore)(questionBets);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "panel-group",
-    style: {
-      marginBottom: 0
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "panel panel-default"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "panel-heading row rank-".concat(rank),
-    style: {
-      marginRight: 0,
-      marginLeft: 0
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-2 pull-right col-no-padding"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-6 col-no-padding"
-  }, rankDisplay), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-6 col-no-padding",
-    style: {
-      marginRight: "-7px",
-      marginLeft: "7px",
-      marginTop: "-2px"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(RankChange, {
-    change: change
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-8 pull-right col-no-padding",
-    style: {
-      marginTop: "2px"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", {
-    className: "panel-title"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", {
-    "data-toggle": "collapse",
-    href: "#collapserank-".concat(id)
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-    className: "admin"
-  }, id), name))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-1 pull-right col-no-padding"
-  }, addedScore > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("bdi", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-    className: "label label-success",
-    style: {
-      direction: "ltr"
-    },
-    dir: "RTL"
-  }, "+", addedScore)) : null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-1 pull-right col-no-padding",
-    style: {
-      paddingRight: "7px"
-    }
-  }, totalScore)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    id: "collapserank-".concat(id),
-    className: "panel-collapse collapse"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    className: "nav nav-tabs",
-    style: {
-      paddingRight: "0px"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    className: "active",
-    style: {
-      "float": "right"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", {
-    "data-toggle": "tab",
-    href: "#groups-".concat(id)
-  }, "\u05DE\u05E9\u05D7\u05E7\u05D9\u05DD")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    style: {
-      "float": "right"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", {
-    "data-toggle": "tab",
-    href: "#group-ranks-".concat(id)
-  }, "\u05DE\u05D9\u05E7\u05D5\u05DE\u05D9 \u05D1\u05EA\u05D9\u05DD")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    style: {
-      "float": "right"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", {
-    "data-toggle": "tab",
-    href: "#special-bets-".concat(id)
-  }, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05DE\u05D9\u05D5\u05D7\u05D3\u05D9\u05DD"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "tab-content"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    id: "groups-".concat(id),
-    className: "tab-pane fade in active",
-    style: {
-      padding: "20px"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, "\u05E1\u05D4\"\u05DB: ", matchesScore), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    className: "list-group",
-    style: {
-      paddingRight: "0px"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    className: "list-group-item row ",
-    style: {
-      background: "#d2d2d2",
-      paddingRight: "10px"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-1 pull-right col-no-padding"
-  }, "\u05E0\u05E7'"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-9 pull-right col-no-padding"
-  }, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-2 pull-right col-no-padding"
-  }, "\u05EA\u05D5\u05E6\u05D0\u05D4")), (0,lodash__WEBPACK_IMPORTED_MODULE_1__.sortBy)(matchBets, "type_id").map(function (bet) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_scoreViews_MatchBetScore__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      key: bet.id,
-      bet: bet
-    });
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    id: "group-ranks-".concat(id),
-    className: "tab-pane fade",
-    style: {
-      padding: "20px"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, "\u05E1\u05D4\"\u05DB: ", groupStandingsScore), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    className: "list-group",
-    style: {
-      paddingRight: "0px"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    className: "list-group-item row",
-    style: {
-      background: "#d2d2d2"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-2 pull-right col-no-padding"
-  }, "\u05E0\u05D9\u05E7\u05D5\u05D3"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-5 pull-right col-no-padding"
-  }, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-5 pull-right col-no-padding"
-  }, "\u05EA\u05D5\u05E6\u05D0\u05D4")), (0,lodash__WEBPACK_IMPORTED_MODULE_1__.sortBy)(groupStandingsBets, 'id').map(function (bet) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_scoreViews_GroupStangingsScore__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      key: bet.id,
-      bet: bet
-    });
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    id: "special-bets-".concat(id),
-    className: "tab-pane fade",
-    style: {
-      padding: "20px"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, "\u05E1\u05D4\"\u05DB: ", specialBetScore), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    className: "list-group",
-    style: {
-      paddingRight: "0px"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    className: "list-group-item row",
-    style: {
-      background: "#d2d2d2",
-      paddingRight: "10px"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-1 pull-right col-no-padding"
-  }, "\u05E0\u05E7'"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-3 pull-right col-no-padding"
-  }, "\u05E1\u05D5\u05D2"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-4 pull-right col-no-padding"
-  }, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-4 pull-right col-no-padding"
-  }, "\u05EA\u05D5\u05E6\u05D0\u05D4")), (0,lodash__WEBPACK_IMPORTED_MODULE_1__.sortBy)(questionBets, 'id').map(function (questionBet) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_scoreViews_QuestionBetScore__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      key: questionBet.id,
-      questionBet: questionBet
-    });
-  })))))));
-}
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ContestantView);
-
-/***/ }),
-
-/***/ "./src/leaderboard/LeaderboardProvider.js":
-/*!************************************************!*\
-  !*** ./src/leaderboard/LeaderboardProvider.js ***!
-  \************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _contexts_tournament__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../contexts/tournament */ "./src/contexts/tournament.js");
-/* harmony import */ var _actions_leaderboard_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_actions/leaderboard.ts */ "./src/_actions/leaderboard.ts");
-/* harmony import */ var _selectors_leaderboard_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_selectors/leaderboard.ts */ "./src/_selectors/leaderboard.ts");
-/* harmony import */ var _LeaderboardView__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./LeaderboardView */ "./src/leaderboard/LeaderboardView.js");
-
-
-
-
-
-
-
-function Leaderboard(_ref) {
-  var leaderboard = _ref.leaderboard,
-      fetchAndStoreLeaderboard = _ref.fetchAndStoreLeaderboard;
-  var tournament = (0,_contexts_tournament__WEBPACK_IMPORTED_MODULE_2__.useTournamentContext)();
-  var isTournamentStarted = tournament.isStarted;
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    fetchAndStoreLeaderboard();
-  }, []);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, !isTournamentStarted && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "\u05D4\u05D8\u05D1\u05DC\u05D4 \u05EA\u05D4\u05D9\u05D4 \u05D6\u05DE\u05D9\u05E0\u05D4 \u05D1\u05E8\u05D2\u05E2 \u05E9\u05D9\u05EA\u05D7\u05D9\u05DC \u05D4\u05DE\u05E9\u05D7\u05E7 \u05D4\u05E8\u05D0\u05E9\u05D5\u05DF \u05D1\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8"), isTournamentStarted && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_LeaderboardView__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    rows: leaderboard
-  }));
-}
-
-var mapDispatchToProps = {
-  fetchAndStoreLeaderboard: _actions_leaderboard_ts__WEBPACK_IMPORTED_MODULE_3__.fetchAndStoreLeaderboard
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors_leaderboard_ts__WEBPACK_IMPORTED_MODULE_4__.LeaderboardSelector, mapDispatchToProps)(Leaderboard));
-
-/***/ }),
-
-/***/ "./src/leaderboard/LeaderboardView.js":
-/*!********************************************!*\
-  !*** ./src/leaderboard/LeaderboardView.js ***!
-  \********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _ContestantProvider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ContestantProvider */ "./src/leaderboard/ContestantProvider.js");
-function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
-
-
-
-function LeaderboardView(_ref) {
-  var rows = _ref.rows;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "\u05D8\u05D1\u05DC\u05D4 \u05E2\u05D3\u05DB\u05E0\u05D9\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "row",
-    style: {
-      margin: 0,
-      padding: "5px 15px"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-2 pull-right col-no-padding",
-    style: {
-      textAlign: "center"
-    }
-  }, "\u05DE\u05D9\u05E7\u05D5\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-8 pull-right col-no-padding",
-    style: {
-      paddingRight: "7px"
-    }
-  }, "\u05E9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-2 pull-right col-no-padding",
-    style: {
-      paddingRight: "7px",
-      textAlign: "center"
-    }
-  }, "\u05E0\u05D9\u05E7\u05D5\u05D3")), Object.values(rows).map(function (row) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContestantProvider__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({
-      key: row.id
-    }, row));
-  }));
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (LeaderboardView);
 
 /***/ }),
 
@@ -12382,7 +11476,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _utils_timeFormats_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/timeFormats.ts */ "./src/utils/timeFormats.ts");
+/* harmony import */ var _utils_index_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/index.ts */ "./src/utils/index.ts");
 /* harmony import */ var _widgets_koWinnerInput_koWinnerInput_tsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../widgets/koWinnerInput/koWinnerInput.tsx */ "./src/widgets/koWinnerInput/koWinnerInput.tsx");
 /* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
 /* harmony import */ var _enums_winnerSide__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_enums/winnerSide */ "./src/_enums/winnerSide.js");
@@ -12483,7 +11577,7 @@ function EditMatchBet(_ref) {
     className: "admin"
   }, id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
     className: "v-align-center"
-  }, moment__WEBPACK_IMPORTED_MODULE_0___default()(start_time).format(_utils_timeFormats_ts__WEBPACK_IMPORTED_MODULE_2__.DEFAULT_DATETIME_FORMAT)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
+  }, moment__WEBPACK_IMPORTED_MODULE_0___default()(start_time).format(_utils_index_ts__WEBPACK_IMPORTED_MODULE_2__.DEFAULT_DATETIME_FORMAT)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
     className: "open-match-teams-cell v-align-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
     crest_url: home_team.crest_url,
@@ -12558,7 +11652,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _utils_timeFormats_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/timeFormats.ts */ "./src/utils/timeFormats.ts");
+/* harmony import */ var _utils_index_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/index.ts */ "./src/utils/index.ts");
 /* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
 /* harmony import */ var _enums_winnerSide__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_enums/winnerSide */ "./src/_enums/winnerSide.js");
 
@@ -12598,7 +11692,7 @@ function MatchWithBetView(_ref) {
     className: "admin"
   }, id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
     className: "v-align-center"
-  }, moment__WEBPACK_IMPORTED_MODULE_0___default()(start_time).format(_utils_timeFormats_ts__WEBPACK_IMPORTED_MODULE_2__.DEFAULT_DATETIME_FORMAT)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
+  }, moment__WEBPACK_IMPORTED_MODULE_0___default()(start_time).format(_utils_index_ts__WEBPACK_IMPORTED_MODULE_2__.DEFAULT_DATETIME_FORMAT)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
     className: "open-match-teams-cell v-align-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
     crest_url: home_team.crest_url,
@@ -13545,15 +12639,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function TournamentUserController(_ref) {
-  var fetchAndStoreCurrentTournamentUser = _ref.fetchAndStoreCurrentTournamentUser,
-      tournamentUser = _ref.tournamentUser,
+  var fetchAndStoreUtls = _ref.fetchAndStoreUtls,
+      hasTournamentUser = _ref.hasTournamentUser,
       children = _ref.children;
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    fetchAndStoreCurrentTournamentUser()["catch"](function (e) {
+    fetchAndStoreUtls()["catch"](function (e) {
       console.log('FAILED to get tournament-user', e);
     });
   }, []);
-  var hasTournamentUser = (tournamentUser === null || tournamentUser === void 0 ? void 0 : tournamentUser.id) !== undefined;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, hasTournamentUser && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, children), !hasTournamentUser &&
   /*#__PURE__*/
   // Tournament selection will be displayed here?
@@ -13561,7 +12654,7 @@ function TournamentUserController(_ref) {
 }
 
 var mapDispatchToProps = {
-  fetchAndStoreCurrentTournamentUser: _actions_tournamentUser_ts__WEBPACK_IMPORTED_MODULE_2__.fetchAndStoreCurrentTournamentUser
+  fetchAndStoreUtls: _actions_tournamentUser_ts__WEBPACK_IMPORTED_MODULE_2__.fetchAndStoreUtls
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors_tournaments_ts__WEBPACK_IMPORTED_MODULE_3__.TournamentUserControllerSelector, mapDispatchToProps)(TournamentUserController));
 
@@ -101975,6 +101068,57 @@ function warning(condition, message) {
 
 /***/ }),
 
+/***/ "./src/App.tsx":
+/*!*********************!*\
+  !*** ./src/App.tsx ***!
+  \*********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var history__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! history */ "./node_modules/history/esm/history.js");
+/* harmony import */ var _appHeader_AppHeaderProvider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./appHeader/AppHeaderProvider */ "./src/appHeader/AppHeaderProvider.tsx");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _helpers_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./_helpers/store */ "./src/_helpers/store.ts");
+/* harmony import */ var _auth_AuthController__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./auth/AuthController */ "./src/auth/AuthController.tsx");
+/* harmony import */ var _tournamentUser_TournamentUserController__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./tournamentUser/TournamentUserController */ "./src/tournamentUser/TournamentUserController.js");
+/* harmony import */ var _initialDataFetcher_InitialDataFetcher__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./initialDataFetcher/InitialDataFetcher */ "./src/initialDataFetcher/InitialDataFetcher.js");
+/* harmony import */ var _appContent_AppBody__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./appContent/AppBody */ "./src/appContent/AppBody.tsx");
+/* harmony import */ var _appFooter_Footer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./appFooter/Footer */ "./src/appFooter/Footer.tsx");
+/* harmony import */ var _App_scss__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./App.scss */ "./src/App.scss");
+
+
+
+
+
+
+
+
+
+
+
+
+const customHistory = (0,history__WEBPACK_IMPORTED_MODULE_10__.createBrowserHistory)();
+function App() {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_redux__WEBPACK_IMPORTED_MODULE_2__.Provider, { store: _helpers_store__WEBPACK_IMPORTED_MODULE_3__["default"] },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_auth_AuthController__WEBPACK_IMPORTED_MODULE_4__["default"], null,
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_tournamentUser_TournamentUserController__WEBPACK_IMPORTED_MODULE_5__["default"], null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_initialDataFetcher_InitialDataFetcher__WEBPACK_IMPORTED_MODULE_6__["default"], null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Router, { history: customHistory },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_appHeader_AppHeaderProvider__WEBPACK_IMPORTED_MODULE_1__["default"], null),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_appContent_AppBody__WEBPACK_IMPORTED_MODULE_7__["default"], null),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_appFooter_Footer__WEBPACK_IMPORTED_MODULE_8__["default"], null)))))));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
+
+
+/***/ }),
+
 /***/ "./src/_actions/auth.ts":
 /*!******************************!*\
   !*** ./src/_actions/auth.ts ***!
@@ -101984,16 +101128,19 @@ function warning(condition, message) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "fetchAndStoreCurrentUser": () => (/* binding */ fetchAndStoreCurrentUser)
+/* harmony export */   "storeCurrentUser": () => (/* binding */ storeCurrentUser)
 /* harmony export */ });
-/* harmony import */ var _api_users__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/users */ "./src/api/users.ts");
-/* harmony import */ var _reducers_currentUser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_reducers/currentUser */ "./src/_reducers/currentUser.ts");
+/* harmony import */ var _reducers_currentUser__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_reducers/currentUser */ "./src/_reducers/currentUser.ts");
 
-
-function fetchAndStoreCurrentUser() {
+function storeCurrentUser() {
     return (dispatch) => {
-        return (0,_api_users__WEBPACK_IMPORTED_MODULE_0__.getUser)()
-            .then(data => dispatch(_reducers_currentUser__WEBPACK_IMPORTED_MODULE_1__["default"].actions.set(data)));
+        const user = JSON.parse(localStorage.getItem('ligaBetUserData'));
+        const userData = {
+            ...user,
+            isConfirmed: user.permissions > 0,
+            isAdmin: user.permissions >= 2,
+        };
+        dispatch(_reducers_currentUser__WEBPACK_IMPORTED_MODULE_0__["default"].actions.set(userData));
     };
 }
 
@@ -102187,18 +101334,26 @@ function fetchAndStoreTeams() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "fetchAndStoreCurrentTournamentUser": () => (/* binding */ fetchAndStoreCurrentTournamentUser)
+/* harmony export */   "fetchAndStoreUtls": () => (/* binding */ fetchAndStoreUtls)
 /* harmony export */ });
 /* harmony import */ var _api_users__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/users */ "./src/api/users.ts");
 /* harmony import */ var _reducers_tournamentUser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_reducers/tournamentUser */ "./src/_reducers/tournamentUser.ts");
+/* harmony import */ var _reducers_myUtls__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_reducers/myUtls */ "./src/_reducers/myUtls.ts");
 
 
-function fetchAndStoreCurrentTournamentUser() {
+
+function selectFirstUserIfOnlyOne(utlsById, dispatch) {
+    const utls = Object.values(utlsById);
+    if (utls.length === 1) {
+        dispatch(_reducers_tournamentUser__WEBPACK_IMPORTED_MODULE_1__["default"].actions.set({ id: utls[0].id }));
+    }
+}
+function fetchAndStoreUtls() {
     return (dispatch) => {
         return (0,_api_users__WEBPACK_IMPORTED_MODULE_0__.getUserUTLs)()
-            .then(data => {
-            const theOnlyTournament = data[0];
-            dispatch(_reducers_tournamentUser__WEBPACK_IMPORTED_MODULE_1__["default"].actions.set(theOnlyTournament));
+            .then((utlsById) => {
+            dispatch(_reducers_myUtls__WEBPACK_IMPORTED_MODULE_2__["default"].actions.set(utlsById));
+            selectFirstUserIfOnlyOne(utlsById, dispatch);
         });
     };
 }
@@ -102219,13 +101374,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "fetchAndStoreUsers": () => (/* binding */ fetchAndStoreUsers)
 /* harmony export */ });
 /* harmony import */ var _api_users__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/users */ "./src/api/users.ts");
-/* harmony import */ var _reducers_utls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_reducers/utls */ "./src/_reducers/utls.ts");
+/* harmony import */ var _reducers_contestants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_reducers/contestants */ "./src/_reducers/contestants.ts");
 
 
 function fetchAndStoreUsers() {
     return (dispatch) => {
         return (0,_api_users__WEBPACK_IMPORTED_MODULE_0__.fetchUsers)()
-            .then(data => dispatch(_reducers_utls__WEBPACK_IMPORTED_MODULE_1__["default"].actions.set(data)));
+            .then(data => dispatch(_reducers_contestants__WEBPACK_IMPORTED_MODULE_1__["default"].actions.set(data)));
     };
 }
 
@@ -102301,6 +101456,31 @@ const bets = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
     },
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (bets);
+
+
+/***/ }),
+
+/***/ "./src/_reducers/contestants.ts":
+/*!**************************************!*\
+  !*** ./src/_reducers/contestants.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+
+const contestants = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
+    name: 'contestants',
+    initialState: {},
+    reducers: {
+        set: (state, action) => action.payload,
+    },
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (contestants);
 
 
 /***/ }),
@@ -102408,6 +101588,31 @@ const matches = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
 
 /***/ }),
 
+/***/ "./src/_reducers/myUtls.ts":
+/*!*********************************!*\
+  !*** ./src/_reducers/myUtls.ts ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+
+const myUtls = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
+    name: 'myUtls',
+    initialState: {},
+    reducers: {
+        set: (state, action) => action.payload,
+    },
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (myUtls);
+
+
+/***/ }),
+
 /***/ "./src/_reducers/root.ts":
 /*!*******************************!*\
   !*** ./src/_reducers/root.ts ***!
@@ -102419,16 +101624,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _bets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bets */ "./src/_reducers/bets.ts");
 /* harmony import */ var _currentUser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./currentUser */ "./src/_reducers/currentUser.ts");
 /* harmony import */ var _groups__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./groups */ "./src/_reducers/groups.ts");
 /* harmony import */ var _leaderboard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./leaderboard */ "./src/_reducers/leaderboard.ts");
 /* harmony import */ var _matches__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./matches */ "./src/_reducers/matches.ts");
-/* harmony import */ var _specialQuestions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./specialQuestions */ "./src/_reducers/specialQuestions.ts");
-/* harmony import */ var _teams__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./teams */ "./src/_reducers/teams.ts");
-/* harmony import */ var _tournamentUser__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./tournamentUser */ "./src/_reducers/tournamentUser.ts");
-/* harmony import */ var _utls__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./utls */ "./src/_reducers/utls.ts");
+/* harmony import */ var _myUtls__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./myUtls */ "./src/_reducers/myUtls.ts");
+/* harmony import */ var _specialQuestions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./specialQuestions */ "./src/_reducers/specialQuestions.ts");
+/* harmony import */ var _teams__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./teams */ "./src/_reducers/teams.ts");
+/* harmony import */ var _tournamentUser__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./tournamentUser */ "./src/_reducers/tournamentUser.ts");
+/* harmony import */ var _contestants__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./contestants */ "./src/_reducers/contestants.ts");
 
 
 
@@ -102439,16 +101645,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const reducer = (0,redux__WEBPACK_IMPORTED_MODULE_9__.combineReducers)({
+
+const reducer = (0,redux__WEBPACK_IMPORTED_MODULE_10__.combineReducers)({
     bets: _bets__WEBPACK_IMPORTED_MODULE_0__["default"].reducer,
-    teams: _teams__WEBPACK_IMPORTED_MODULE_6__["default"].reducer,
+    teams: _teams__WEBPACK_IMPORTED_MODULE_7__["default"].reducer,
     leaderboard: _leaderboard__WEBPACK_IMPORTED_MODULE_3__["default"].reducer,
-    specialQuestions: _specialQuestions__WEBPACK_IMPORTED_MODULE_5__["default"].reducer,
+    specialQuestions: _specialQuestions__WEBPACK_IMPORTED_MODULE_6__["default"].reducer,
     matches: _matches__WEBPACK_IMPORTED_MODULE_4__["default"].reducer,
     groups: _groups__WEBPACK_IMPORTED_MODULE_2__["default"].reducer,
-    users: _utls__WEBPACK_IMPORTED_MODULE_8__["default"].reducer,
     currentUser: _currentUser__WEBPACK_IMPORTED_MODULE_1__["default"].reducer,
-    currentTournamentUser: _tournamentUser__WEBPACK_IMPORTED_MODULE_7__["default"].reducer,
+    contestants: _contestants__WEBPACK_IMPORTED_MODULE_9__["default"].reducer,
+    myUtls: _myUtls__WEBPACK_IMPORTED_MODULE_5__["default"].reducer,
+    currentTournamentUser: _tournamentUser__WEBPACK_IMPORTED_MODULE_8__["default"].reducer,
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (reducer);
 
@@ -102530,27 +101738,25 @@ const tournamentUser = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSl
 
 /***/ }),
 
-/***/ "./src/_reducers/utls.ts":
-/*!*******************************!*\
-  !*** ./src/_reducers/utls.ts ***!
-  \*******************************/
+/***/ "./src/_selectors/appHeader.ts":
+/*!*************************************!*\
+  !*** ./src/_selectors/appHeader.ts ***!
+  \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "AppHeaderSelector": () => (/* binding */ AppHeaderSelector)
 /* harmony export */ });
-/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./base */ "./src/_selectors/base/index.ts");
 
-const utls = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
-    name: 'utls',
-    initialState: {},
-    reducers: {
-        set: (state, action) => action.payload,
-    },
-});
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (utls);
+
+const AppHeaderSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_1__.createSelector)(_base__WEBPACK_IMPORTED_MODULE_0__.CurrentUserName, _base__WEBPACK_IMPORTED_MODULE_0__.IsTournamentStarted, (currentUserName, isTournamentStarted) => ({
+    currentUserName,
+    isTournamentStarted,
+}));
 
 
 /***/ }),
@@ -102585,19 +101791,25 @@ const AuthControllerSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_1__.createSe
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Bets": () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_0__.Bets),
+/* harmony export */   "Contestants": () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_0__.Contestants),
+/* harmony export */   "CurrentTournament": () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_0__.CurrentTournament),
 /* harmony export */   "CurrentTournamentUser": () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_0__.CurrentTournamentUser),
+/* harmony export */   "CurrentTournamentUserId": () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_0__.CurrentTournamentUserId),
 /* harmony export */   "CurrentUser": () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_0__.CurrentUser),
+/* harmony export */   "CurrentUserName": () => (/* reexport safe */ _singleModel__WEBPACK_IMPORTED_MODULE_1__.CurrentUserName),
 /* harmony export */   "GroupStandingBets": () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_0__.GroupStandingBets),
 /* harmony export */   "Groups": () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_0__.Groups),
+/* harmony export */   "IsAdmin": () => (/* reexport safe */ _singleModel__WEBPACK_IMPORTED_MODULE_1__.IsAdmin),
+/* harmony export */   "IsTournamentStarted": () => (/* reexport safe */ _singleModel__WEBPACK_IMPORTED_MODULE_1__.IsTournamentStarted),
 /* harmony export */   "Leaderboard": () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_0__.Leaderboard),
 /* harmony export */   "MatchBets": () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_0__.MatchBets),
 /* harmony export */   "Matches": () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_0__.Matches),
+/* harmony export */   "MyUtls": () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_0__.MyUtls),
 /* harmony export */   "QuestionBets": () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_0__.QuestionBets),
 /* harmony export */   "SpecialQuestions": () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_0__.SpecialQuestions),
 /* harmony export */   "Teams": () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_0__.Teams),
 /* harmony export */   "TeamsByGroupId": () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_0__.TeamsByGroupId),
-/* harmony export */   "TournamentIdSelector": () => (/* reexport safe */ _singleModel__WEBPACK_IMPORTED_MODULE_1__.TournamentIdSelector),
-/* harmony export */   "Users": () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_0__.Users)
+/* harmony export */   "TournamentIdSelector": () => (/* reexport safe */ _singleModel__WEBPACK_IMPORTED_MODULE_1__.TournamentIdSelector)
 /* harmony export */ });
 /* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./models */ "./src/_selectors/base/models.ts");
 /* harmony import */ var _singleModel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./singleModel */ "./src/_selectors/base/singleModel.ts");
@@ -102617,18 +101829,21 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Bets": () => (/* binding */ Bets),
+/* harmony export */   "Contestants": () => (/* binding */ Contestants),
+/* harmony export */   "CurrentTournament": () => (/* binding */ CurrentTournament),
 /* harmony export */   "CurrentTournamentUser": () => (/* binding */ CurrentTournamentUser),
+/* harmony export */   "CurrentTournamentUserId": () => (/* binding */ CurrentTournamentUserId),
 /* harmony export */   "CurrentUser": () => (/* binding */ CurrentUser),
 /* harmony export */   "GroupStandingBets": () => (/* binding */ GroupStandingBets),
 /* harmony export */   "Groups": () => (/* binding */ Groups),
 /* harmony export */   "Leaderboard": () => (/* binding */ Leaderboard),
 /* harmony export */   "MatchBets": () => (/* binding */ MatchBets),
 /* harmony export */   "Matches": () => (/* binding */ Matches),
+/* harmony export */   "MyUtls": () => (/* binding */ MyUtls),
 /* harmony export */   "QuestionBets": () => (/* binding */ QuestionBets),
 /* harmony export */   "SpecialQuestions": () => (/* binding */ SpecialQuestions),
 /* harmony export */   "Teams": () => (/* binding */ Teams),
-/* harmony export */   "TeamsByGroupId": () => (/* binding */ TeamsByGroupId),
-/* harmony export */   "Users": () => (/* binding */ Users)
+/* harmony export */   "TeamsByGroupId": () => (/* binding */ TeamsByGroupId)
 /* harmony export */ });
 /* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
 /* harmony import */ var _enums_betTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../_enums/betTypes */ "./src/_enums/betTypes.js");
@@ -102638,8 +101853,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const CurrentUser = (state) => state.currentUser;
-const CurrentTournamentUser = (state) => state.currentTournamentUser;
-const Users = (state) => state.users;
+const CurrentTournamentUserId = (state) => state.currentTournamentUser.id;
+const Contestants = (state) => state.contestants;
+const MyUtls = (state) => state.myUtls;
 const Bets = (state) => state.bets;
 const Leaderboard = (state) => state.leaderboard;
 const Matches = (state) => state.matches;
@@ -102647,6 +101863,12 @@ const Teams = (state) => state.teams;
 const Groups = (state) => state.groups;
 const SpecialQuestions = (state) => state.specialQuestions;
 // export const Players = (state: RootState) => state.players;
+const CurrentTournamentUser = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(CurrentTournamentUserId, MyUtls, (utlId, utls) => {
+    return utls[utlId];
+});
+const CurrentTournament = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(CurrentTournamentUser, (utl) => {
+    return utl.tournament;
+});
 const GroupStandingBets = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(Bets, (bets) => {
     const groupRankBets = (0,lodash__WEBPACK_IMPORTED_MODULE_1__.pickBy)(bets, bet => bet.type === _enums_betTypes__WEBPACK_IMPORTED_MODULE_0__.BetTypes.GroupsRank);
     return groupRankBets;
@@ -102675,13 +101897,21 @@ const TeamsByGroupId = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CurrentUserName": () => (/* binding */ CurrentUserName),
+/* harmony export */   "IsAdmin": () => (/* binding */ IsAdmin),
+/* harmony export */   "IsTournamentStarted": () => (/* binding */ IsTournamentStarted),
 /* harmony export */   "TournamentIdSelector": () => (/* binding */ TournamentIdSelector)
 /* harmony export */ });
-/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
-/* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./models */ "./src/_selectors/base/models.ts");
+/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils */ "./src/utils/index.ts");
+/* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./models */ "./src/_selectors/base/models.ts");
 
 
-const TournamentIdSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_1__.createSelector)(_models__WEBPACK_IMPORTED_MODULE_0__.CurrentTournamentUser, utl => utl.tournament_id);
+
+const TournamentIdSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(_models__WEBPACK_IMPORTED_MODULE_1__.CurrentTournament, tournament => tournament.id);
+const IsTournamentStarted = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(_models__WEBPACK_IMPORTED_MODULE_1__.CurrentTournament, tournament => (0,_utils__WEBPACK_IMPORTED_MODULE_0__.isTournamentStarted)(tournament));
+const IsAdmin = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(_models__WEBPACK_IMPORTED_MODULE_1__.CurrentUser, user => user.isAdmin);
+const CurrentUserName = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(_models__WEBPACK_IMPORTED_MODULE_1__.CurrentUser, user => user.name);
 // export const CurentTournamentSelector = createSelector(
 //     CurrentTournamentUser,
 //     currentTournamentUser => currentTournamentUser.tournament ?? {}
@@ -102708,7 +101938,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
-/* harmony import */ var _utils_betValuesGenerators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/betValuesGenerators */ "./src/utils/betValuesGenerators.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
 /* harmony import */ var _modelRelations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modelRelations */ "./src/_selectors/modelRelations/index.ts");
 
 
@@ -102721,7 +101951,7 @@ const ClosedMatchBetsSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createS
         if (!match.closed_for_bets)
             continue;
         const bets = matchBetsByMatchId[match.id] ?? [];
-        const betsByValue = (0,lodash__WEBPACK_IMPORTED_MODULE_0__.groupBy)(bets, _utils_betValuesGenerators__WEBPACK_IMPORTED_MODULE_1__.getMatchBetValue);
+        const betsByValue = (0,lodash__WEBPACK_IMPORTED_MODULE_0__.groupBy)(bets, _utils__WEBPACK_IMPORTED_MODULE_1__.getMatchBetValue);
         const matchWithBetsByValue = {
             ...match,
             betsByValue,
@@ -102781,6 +102011,74 @@ const OpenGroupRankBetsSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.creat
 
 /***/ }),
 
+/***/ "./src/_selectors/index.ts":
+/*!*********************************!*\
+  !*** ./src/_selectors/index.ts ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "AllGroupStandingsBets": () => (/* reexport safe */ _groupStandingBets__WEBPACK_IMPORTED_MODULE_3__.AllGroupStandingsBets),
+/* harmony export */   "AppHeaderSelector": () => (/* reexport safe */ _appHeader__WEBPACK_IMPORTED_MODULE_0__.AppHeaderSelector),
+/* harmony export */   "AuthControllerSelector": () => (/* reexport safe */ _auth__WEBPACK_IMPORTED_MODULE_1__.AuthControllerSelector),
+/* harmony export */   "Bets": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.Bets),
+/* harmony export */   "ClosedMatchBetsSelector": () => (/* reexport safe */ _closedMatchBets__WEBPACK_IMPORTED_MODULE_2__.ClosedMatchBetsSelector),
+/* harmony export */   "ClosedQuestionBetsSelector": () => (/* reexport safe */ _questionBets__WEBPACK_IMPORTED_MODULE_8__.ClosedQuestionBetsSelector),
+/* harmony export */   "ContestantSelector": () => (/* reexport safe */ _leaderboard__WEBPACK_IMPORTED_MODULE_4__.ContestantSelector),
+/* harmony export */   "Contestants": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.Contestants),
+/* harmony export */   "CurrentTournament": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.CurrentTournament),
+/* harmony export */   "CurrentTournamentUser": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.CurrentTournamentUser),
+/* harmony export */   "CurrentTournamentUserId": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.CurrentTournamentUserId),
+/* harmony export */   "CurrentUser": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.CurrentUser),
+/* harmony export */   "CurrentUserName": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.CurrentUserName),
+/* harmony export */   "GroupStandingBets": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.GroupStandingBets),
+/* harmony export */   "Groups": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.Groups),
+/* harmony export */   "IsAdmin": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.IsAdmin),
+/* harmony export */   "IsTournamentStarted": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.IsTournamentStarted),
+/* harmony export */   "Leaderboard": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.Leaderboard),
+/* harmony export */   "LeaderboardSelector": () => (/* reexport safe */ _leaderboard__WEBPACK_IMPORTED_MODULE_4__.LeaderboardSelector),
+/* harmony export */   "MatchBets": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.MatchBets),
+/* harmony export */   "Matches": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.Matches),
+/* harmony export */   "MyBetsSelector": () => (/* reexport safe */ _myBets__WEBPACK_IMPORTED_MODULE_5__.MyBetsSelector),
+/* harmony export */   "MyOpenMatchBetsSelector": () => (/* reexport safe */ _openMatches__WEBPACK_IMPORTED_MODULE_7__.MyOpenMatchBetsSelector),
+/* harmony export */   "MyUtls": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.MyUtls),
+/* harmony export */   "NoSelector": () => (/* reexport safe */ _noSelector__WEBPACK_IMPORTED_MODULE_6__.NoSelector),
+/* harmony export */   "OpenGroupRankBetsSelector": () => (/* reexport safe */ _groupStandingBets__WEBPACK_IMPORTED_MODULE_3__.OpenGroupRankBetsSelector),
+/* harmony export */   "QuestionBets": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.QuestionBets),
+/* harmony export */   "SpecialQuestions": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.SpecialQuestions),
+/* harmony export */   "Teams": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.Teams),
+/* harmony export */   "TeamsByGroupId": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.TeamsByGroupId),
+/* harmony export */   "TournamentIdSelector": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.TournamentIdSelector),
+/* harmony export */   "TournamentUserControllerSelector": () => (/* reexport safe */ _tournaments__WEBPACK_IMPORTED_MODULE_9__.TournamentUserControllerSelector)
+/* harmony export */ });
+/* harmony import */ var _appHeader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./appHeader */ "./src/_selectors/appHeader.ts");
+/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./auth */ "./src/_selectors/auth.ts");
+/* harmony import */ var _closedMatchBets__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./closedMatchBets */ "./src/_selectors/closedMatchBets.ts");
+/* harmony import */ var _groupStandingBets__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./groupStandingBets */ "./src/_selectors/groupStandingBets.ts");
+/* harmony import */ var _leaderboard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./leaderboard */ "./src/_selectors/leaderboard.ts");
+/* harmony import */ var _myBets__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./myBets */ "./src/_selectors/myBets.ts");
+/* harmony import */ var _noSelector__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./noSelector */ "./src/_selectors/noSelector.ts");
+/* harmony import */ var _openMatches__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./openMatches */ "./src/_selectors/openMatches.ts");
+/* harmony import */ var _questionBets__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./questionBets */ "./src/_selectors/questionBets.ts");
+/* harmony import */ var _tournaments__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./tournaments */ "./src/_selectors/tournaments.ts");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./base */ "./src/_selectors/base/index.ts");
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+
 /***/ "./src/_selectors/leaderboard.ts":
 /*!***************************************!*\
   !*** ./src/_selectors/leaderboard.ts ***!
@@ -102802,7 +102100,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const LeaderboardSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(_base__WEBPACK_IMPORTED_MODULE_1__.Leaderboard, leaderboard => ({ leaderboard }));
+const LeaderboardSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(_base__WEBPACK_IMPORTED_MODULE_1__.Leaderboard, _base__WEBPACK_IMPORTED_MODULE_1__.IsTournamentStarted, (leaderboard, hasTournamentStarted) => ({
+    leaderboard,
+    hasTournamentStarted,
+}));
 const ContestantSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(_modelRelations__WEBPACK_IMPORTED_MODULE_2__.MatchBetsWithPositiveScores, _modelRelations__WEBPACK_IMPORTED_MODULE_2__.GroupStandingBetsByUserId, _modelRelations__WEBPACK_IMPORTED_MODULE_2__.QuestionBetsByUserQuestionId, (relevantMatchBets, groupStandingBetsByUserId, questionBetsByUserId) => {
     const matchBetsByUserId = (0,lodash__WEBPACK_IMPORTED_MODULE_0__.groupBy)(relevantMatchBets, 'user_tournament_id');
     return {
@@ -102858,17 +102159,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const MyMatchBetsSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(_modelRelations__WEBPACK_IMPORTED_MODULE_2__.MatchBetsByUserId, _base__WEBPACK_IMPORTED_MODULE_1__.CurrentTournamentUser, (betsByUserId, tournamentUser) => {
-    const { id: userId } = tournamentUser;
-    return betsByUserId[userId] ?? [];
+const MyMatchBetsSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(_modelRelations__WEBPACK_IMPORTED_MODULE_2__.MatchBetsByUserId, _base__WEBPACK_IMPORTED_MODULE_1__.CurrentTournamentUserId, (betsByUserId, utlId) => {
+    return betsByUserId[utlId] ?? [];
 });
-const MyGroupStandingsBetsSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(_modelRelations__WEBPACK_IMPORTED_MODULE_2__.GroupStandingBetsByUserId, _base__WEBPACK_IMPORTED_MODULE_1__.CurrentTournamentUser, (betsByUserId, tournamentUser) => {
-    const { id: userId } = tournamentUser;
-    return betsByUserId[userId] ?? [];
+const MyGroupStandingsBetsSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(_modelRelations__WEBPACK_IMPORTED_MODULE_2__.GroupStandingBetsByUserId, _base__WEBPACK_IMPORTED_MODULE_1__.CurrentTournamentUserId, (betsByUserId, utlId) => {
+    return betsByUserId[utlId] ?? [];
 });
-const MyQuestionBetsSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(_modelRelations__WEBPACK_IMPORTED_MODULE_2__.QuestionBetsByUserQuestionId, _base__WEBPACK_IMPORTED_MODULE_1__.CurrentTournamentUser, (betsByUserId, tournamentUser) => {
-    const { id: userId } = tournamentUser;
-    return betsByUserId[userId] ?? [];
+const MyQuestionBetsSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(_modelRelations__WEBPACK_IMPORTED_MODULE_2__.QuestionBetsByUserQuestionId, _base__WEBPACK_IMPORTED_MODULE_1__.CurrentTournamentUserId, (betsByUserId, utlId) => {
+    return betsByUserId[utlId] ?? [];
 });
 const MyGroupRankBetsById = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(MyGroupStandingsBetsSelector, (bets) => {
     return (0,lodash__WEBPACK_IMPORTED_MODULE_0__.keyBy)(bets, 'type_id');
@@ -102898,7 +102196,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const GroupStandingBetsWithUserNames = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(_base__WEBPACK_IMPORTED_MODULE_0__.GroupStandingBets, _base__WEBPACK_IMPORTED_MODULE_0__.Users, (bets, users) => {
+const GroupStandingBetsWithUserNames = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(_base__WEBPACK_IMPORTED_MODULE_0__.GroupStandingBets, _base__WEBPACK_IMPORTED_MODULE_0__.Contestants, (bets, users) => {
     return (0,lodash__WEBPACK_IMPORTED_MODULE_1__.mapValues)(bets, bet => ({
         ...bet,
         user_name: users[bet.user_tournament_id]?.name,
@@ -103016,7 +102314,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const MatchBetsWithUserNames = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(_base__WEBPACK_IMPORTED_MODULE_1__.MatchBets, _base__WEBPACK_IMPORTED_MODULE_1__.Users, (bets, users) => {
+const MatchBetsWithUserNames = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(_base__WEBPACK_IMPORTED_MODULE_1__.MatchBets, _base__WEBPACK_IMPORTED_MODULE_1__.Contestants, (bets, users) => {
     return (0,lodash__WEBPACK_IMPORTED_MODULE_0__.mapValues)(bets, bet => ({
         ...bet,
         user_name: users[bet.user_tournament_id]?.name,
@@ -103093,7 +102391,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const QuestionBetsWithUserNames = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(_base__WEBPACK_IMPORTED_MODULE_1__.QuestionBets, _base__WEBPACK_IMPORTED_MODULE_1__.Users, (bets, users) => {
+const QuestionBetsWithUserNames = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(_base__WEBPACK_IMPORTED_MODULE_1__.QuestionBets, _base__WEBPACK_IMPORTED_MODULE_1__.Contestants, (bets, users) => {
     return (0,lodash__WEBPACK_IMPORTED_MODULE_0__.mapValues)(bets, bet => ({
         ...bet,
         user_name: users[bet.user_tournament_id]?.name,
@@ -103240,7 +102538,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./base */ "./src/_selectors/base/index.ts");
 
 
-const TournamentUserControllerSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_1__.createSelector)(_base__WEBPACK_IMPORTED_MODULE_0__.CurrentTournamentUser, currentTournamentUser => ({ tournamentUser: currentTournamentUser }));
+const TournamentUserControllerSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_1__.createSelector)(_base__WEBPACK_IMPORTED_MODULE_0__.CurrentTournamentUser, currentTournamentUser => ({ hasTournamentUser: !!currentTournamentUser }));
 
 
 /***/ }),
@@ -103633,6 +102931,7 @@ const sendApiRequest = async ({ type = 'GET', url, data, }) => {
         dataType: 'json',
         data: data ? JSON.stringify(data) : undefined,
         error: function (data) {
+            console.error(data);
             window.toastr["error"](data.responseJSON.message);
         }
     });
@@ -104233,44 +103532,15 @@ const fetchTeams = async (tournamentId) => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fetchUsers": () => (/* binding */ fetchUsers),
-/* harmony export */   "getUser": () => (/* binding */ getUser),
 /* harmony export */   "getUserUTLs": () => (/* binding */ getUserUTLs)
 /* harmony export */ });
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../types */ "./src/types/index.ts");
-/* harmony import */ var _helpers_dev__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_helpers/dev */ "./src/_helpers/dev.ts");
-/* harmony import */ var _common_apiRequest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common/apiRequest */ "./src/api/common/apiRequest.ts");
+/* harmony import */ var _common_apiRequest__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./common/apiRequest */ "./src/api/common/apiRequest.ts");
 
 
-
-const EXAMPLE_DATA_GET_USER = {
-    created_at: "2022-07-20T13:02:11.000000Z",
-    fcm_token: null,
-    id: 1,
-    name: "eshel",
-    role: _types__WEBPACK_IMPORTED_MODULE_0__.UserRole.Admin,
-    updated_at: "2022-07-20T13:02:11.000000Z",
-    username: "eshel",
-};
-const EXAMPLE_DATA_GET_UTLS = [
-    {
-        "id": 20,
-        "user_id": 1,
-        "tournament_id": 1,
-        "role": _types__WEBPACK_IMPORTED_MODULE_0__.UtlRole.Admin,
-    },
-];
-const getUser = async () => {
-    if ((0,_helpers_dev__WEBPACK_IMPORTED_MODULE_1__.isDevModeTamir)())
-        return EXAMPLE_DATA_GET_USER;
-    return await (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_2__.sendApiRequest)({
-        url: '/user'
-    });
-};
 const getUserUTLs = async () => {
-    if ((0,_helpers_dev__WEBPACK_IMPORTED_MODULE_1__.isDevModeTamir)())
-        return EXAMPLE_DATA_GET_UTLS;
-    return await (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_2__.sendApiRequest)({
-        url: '/tournament-user'
+    return await (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_1__.sendApiRequest)({
+        url: '/api/user/utls'
     });
 };
 const sendRequest = async () => {
@@ -104278,38 +103548,758 @@ const sendRequest = async () => {
         20: {
             id: 20,
             name: "Eliyahu Hanavim",
+            role: _types__WEBPACK_IMPORTED_MODULE_0__.UtlRole.Admin,
+            tournament_id: 1,
         },
         18: {
             id: 18,
             name: "Avi Siman Savir",
+            role: _types__WEBPACK_IMPORTED_MODULE_0__.UtlRole.Manager,
+            tournament_id: 1,
         },
         3: {
             id: 3,
             name: "Moshe Zion Shlush",
+            role: _types__WEBPACK_IMPORTED_MODULE_0__.UtlRole.Manager,
+            tournament_id: 1,
         },
         7: {
             id: 7,
             name: "Edgar Bat-Sheshet",
+            role: _types__WEBPACK_IMPORTED_MODULE_0__.UtlRole.User,
+            tournament_id: 1,
         },
         23: {
             id: 23,
             name: "Simha Riff Cohen",
+            role: _types__WEBPACK_IMPORTED_MODULE_0__.UtlRole.User,
+            tournament_id: 1,
         },
         1: {
             id: 1,
             name: "Isam Tuka",
+            role: _types__WEBPACK_IMPORTED_MODULE_0__.UtlRole.User,
+            tournament_id: 1,
         },
         4: {
             id: 4,
             name: "Niv Dalpa Sivi",
+            role: _types__WEBPACK_IMPORTED_MODULE_0__.UtlRole.User,
+            tournament_id: 1,
         },
         26: {
             id: 26,
             name: "Yaniv Catan",
+            role: _types__WEBPACK_IMPORTED_MODULE_0__.UtlRole.User,
+            tournament_id: 1,
         },
     };
 };
 const fetchUsers = sendRequest;
+
+
+/***/ }),
+
+/***/ "./src/appContent/AppBody.tsx":
+/*!************************************!*\
+  !*** ./src/appContent/AppBody.tsx ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _appContent_AppContent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../appContent/AppContent */ "./src/appContent/AppContent.tsx");
+/* harmony import */ var _appLinks_AppLinksProvider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../appLinks/AppLinksProvider */ "./src/appLinks/AppLinksProvider.tsx");
+/* harmony import */ var _prizes_Prizes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../prizes/Prizes */ "./src/prizes/Prizes.tsx");
+
+
+
+
+function AppBody() {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "container-fluid text-center" },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "row content" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-sm-2 sidenav" },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_appLinks_AppLinksProvider__WEBPACK_IMPORTED_MODULE_2__["default"], null)),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-sm-8 text-left" },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_appContent_AppContent__WEBPACK_IMPORTED_MODULE_1__["default"], null)),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-sm-2 sidenav" },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_prizes_Prizes__WEBPACK_IMPORTED_MODULE_3__["default"], null)))));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AppBody);
+
+
+/***/ }),
+
+/***/ "./src/appContent/AppContent.tsx":
+/*!***************************************!*\
+  !*** ./src/appContent/AppContent.tsx ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var _leaderboard_LeaderboardProvider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../leaderboard/LeaderboardProvider */ "./src/leaderboard/LeaderboardProvider.tsx");
+/* harmony import */ var _open_matches_openMatchesProvider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../open_matches/openMatchesProvider */ "./src/open_matches/openMatchesProvider.js");
+/* harmony import */ var _preTournamentBets_OpenGroupRankBetsProvider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../preTournamentBets/OpenGroupRankBetsProvider */ "./src/preTournamentBets/OpenGroupRankBetsProvider.js");
+/* harmony import */ var _matches_ClosedMatchBetsProvider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../matches/ClosedMatchBetsProvider */ "./src/matches/ClosedMatchBetsProvider.js");
+/* harmony import */ var _groupBets_GroupStandingsBetsProvider__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../groupBets/GroupStandingsBetsProvider */ "./src/groupBets/GroupStandingsBetsProvider.js");
+/* harmony import */ var _questionBets_ClosedQuestionBetsProvider__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../questionBets/ClosedQuestionBetsProvider */ "./src/questionBets/ClosedQuestionBetsProvider.js");
+/* harmony import */ var _myBets_myBetsView__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../myBets/myBetsView */ "./src/myBets/myBetsView.js");
+/* harmony import */ var _takanon_Takanon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../takanon/Takanon */ "./src/takanon/Takanon.js");
+
+
+
+
+
+
+
+
+
+
+
+function AppContent() {
+    // if (!user.isConfirmed){
+    // 	return <h2>האתר יהיה זמין לך ברגע שתאושר על ידי אחד מהאדמינים</h2>
+    // }
+    // TODO: Handle unconfirmed user
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Switch, null,
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, { path: '/open-questions', component: _preTournamentBets_OpenGroupRankBetsProvider__WEBPACK_IMPORTED_MODULE_3__["default"] }),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, { path: '/takanon', component: _takanon_Takanon__WEBPACK_IMPORTED_MODULE_8__["default"] }),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, { path: '/open-group-standings', component: _preTournamentBets_OpenGroupRankBetsProvider__WEBPACK_IMPORTED_MODULE_3__["default"] }),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, { path: '/open-matches', component: _open_matches_openMatchesProvider__WEBPACK_IMPORTED_MODULE_2__["default"] }),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, { path: '/closed-matches', component: _matches_ClosedMatchBetsProvider__WEBPACK_IMPORTED_MODULE_4__["default"] }),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, { path: '/leaderboard', component: _leaderboard_LeaderboardProvider__WEBPACK_IMPORTED_MODULE_1__["default"] }),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, { path: '/all-group-standings', component: _groupBets_GroupStandingsBetsProvider__WEBPACK_IMPORTED_MODULE_5__["default"] }),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, { path: '/all-questions', component: _questionBets_ClosedQuestionBetsProvider__WEBPACK_IMPORTED_MODULE_6__["default"] }),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, { path: '/my-bets', component: _myBets_myBetsView__WEBPACK_IMPORTED_MODULE_7__["default"] }),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, { path: '/' },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Redirect, { to: '/open-matches' })))));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AppContent);
+
+
+/***/ }),
+
+/***/ "./src/appFooter/Footer.tsx":
+/*!**********************************!*\
+  !*** ./src/appFooter/Footer.tsx ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+function AppFooter() {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("footer", { className: "container-fluid text-center" },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null)));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AppFooter);
+
+
+/***/ }),
+
+/***/ "./src/appHeader/AppHeaderProvider.tsx":
+/*!*********************************************!*\
+  !*** ./src/appHeader/AppHeaderProvider.tsx ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var _AppHeaderView__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AppHeaderView */ "./src/appHeader/AppHeaderView.tsx");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_selectors */ "./src/_selectors/index.ts");
+
+
+
+
+
+function AppHeaderProvider() {
+    const location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useLocation)();
+    const { isTournamentStarted, currentUserName } = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(_selectors__WEBPACK_IMPORTED_MODULE_3__.AppHeaderSelector);
+    const currentRoute = location.pathname.substring(1);
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_AppHeaderView__WEBPACK_IMPORTED_MODULE_2__["default"], { ...{
+            currentUserName,
+            isTournamentStarted,
+            currentRoute,
+        } }));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AppHeaderProvider);
+
+
+/***/ }),
+
+/***/ "./src/appHeader/AppHeaderView.tsx":
+/*!*****************************************!*\
+  !*** ./src/appHeader/AppHeaderView.tsx ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var _MenuItem__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MenuItem */ "./src/appHeader/MenuItem.tsx");
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./routes */ "./src/appHeader/routes.ts");
+
+
+
+
+function AppHeader({ isTournamentStarted, currentUserName, currentRoute, }) {
+    const history = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useHistory)();
+    const groupBetsRoute = isTournamentStarted ? "all-group-standings" : "open-group-standings";
+    const specialBetsRoute = isTournamentStarted ? "all-questions" : "open-questions";
+    const isPreTourActive = ["all-group-standings", "all-questions", "open-group-standings", "open-questions"].includes(currentRoute);
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("nav", { className: "navbar navbar-inverse" },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "container-fluid" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "navbar-header", style: { "float": "right", "textAlign": "right" } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", { type: "button", className: "navbar-toggle", "data-toggle": "collapse", "data-target": "#myNavbar" },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: "icon-bar" }),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: "icon-bar" }),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: "icon-bar" })),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", { className: "navbar-brand", href: "/", onClick: e => {
+                        e.preventDefault();
+                        history.push('/');
+                    } },
+                    "Liga '\u05D1 - ",
+                    currentUserName)),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "collapse navbar-collapse", style: { "float": "right" }, id: "myNavbar" },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { className: "nav navbar-nav navbar-right" },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_MenuItem__WEBPACK_IMPORTED_MODULE_1__["default"], { route: _routes__WEBPACK_IMPORTED_MODULE_2__.routesMap.leaderboard, currentPath: currentRoute }),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_MenuItem__WEBPACK_IMPORTED_MODULE_1__["default"], { route: _routes__WEBPACK_IMPORTED_MODULE_2__.routesMap["open-matches"], currentPath: currentRoute }),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_MenuItem__WEBPACK_IMPORTED_MODULE_1__["default"], { route: _routes__WEBPACK_IMPORTED_MODULE_2__.routesMap["closed-matches"], currentPath: currentRoute }),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", { key: "preTourBets", className: `dropdown ${isPreTourActive ? "active" : ""}` },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", { href: "#", className: "dropdown-toggle", "data-toggle": "dropdown", role: "button", "aria-haspopup": "true", "aria-expanded": "false" },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "icon pre_game_icon" }),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: "menu-label" }, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05E9\u05DC \u05DC\u05E4\u05E0\u05D9 \u05D4\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8"),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: "caret", style: { "marginRight": "5px" } })),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { className: "dropdown-menu" },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_MenuItem__WEBPACK_IMPORTED_MODULE_1__["default"], { route: _routes__WEBPACK_IMPORTED_MODULE_2__.routesMap[groupBetsRoute], currentPath: currentRoute }),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_MenuItem__WEBPACK_IMPORTED_MODULE_1__["default"], { route: _routes__WEBPACK_IMPORTED_MODULE_2__.routesMap[specialBetsRoute], currentPath: currentRoute }))),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_MenuItem__WEBPACK_IMPORTED_MODULE_1__["default"], { route: _routes__WEBPACK_IMPORTED_MODULE_2__.routesMap["my-bets"], currentPath: currentRoute })),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { className: "nav navbar-nav navbar-left" },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_MenuItem__WEBPACK_IMPORTED_MODULE_1__["default"], { route: _routes__WEBPACK_IMPORTED_MODULE_2__.routesMap["set-password"], currentPath: currentRoute }),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", { href: '/logout' },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: 'icon logout_icon' }),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: "menu-label" }, "\u05D4\u05EA\u05E0\u05EA\u05E7"))))))));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AppHeader);
+
+
+/***/ }),
+
+/***/ "./src/appHeader/MenuItem.tsx":
+/*!************************************!*\
+  !*** ./src/appHeader/MenuItem.tsx ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+
+
+function MenuItem({ route, currentPath, }) {
+    const history = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_1__.useHistory)();
+    const { iconClass, label, path } = route;
+    const isActive = currentPath === path;
+    const onClick = (e) => {
+        e.preventDefault();
+        history.push(`/${path}`);
+    };
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", { className: isActive ? "active" : "" },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", { href: `/${route}`, onClick: onClick },
+            iconClass ? react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: `icon ${iconClass}` }) : null,
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: "menu-label" }, label)));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MenuItem);
+
+
+/***/ }),
+
+/***/ "./src/appHeader/routes.ts":
+/*!*********************************!*\
+  !*** ./src/appHeader/routes.ts ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "routesMap": () => (/* binding */ routesMap)
+/* harmony export */ });
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+
+const routes = [
+    {
+        path: "leaderboard",
+        label: "טבלת ניקוד",
+        iconClass: "podium_icon"
+    },
+    {
+        path: "open-matches",
+        label: "הימורים פתוחים",
+        iconClass: "bet_icon"
+    },
+    {
+        path: "closed-matches",
+        label: "צפייה בהימורים",
+        iconClass: "watch_bets_icon"
+    },
+    {
+        path: "open-group-standings",
+        label: "הימורי בתים פתוחים",
+    },
+    {
+        path: "open-questions",
+        label: "הימורים מיוחדים פתוחים",
+    },
+    {
+        path: "all-group-standings",
+        label: "צפייה בהימורי בתים",
+    },
+    {
+        path: "all-questions",
+        label: "צפייה בהימורים מיוחדים",
+    },
+    {
+        path: "my-bets",
+        label: "הטופס שלי",
+        iconClass: "form_icon",
+    },
+    {
+        path: "set-password",
+        label: "שנה סיסמה",
+        iconClass: "change_password_icon",
+    },
+    {
+        path: "logout",
+        label: "התנתק",
+        iconClass: "logout_icon",
+    },
+];
+const routesMap = (0,lodash__WEBPACK_IMPORTED_MODULE_0__.keyBy)(routes, 'path');
+
+
+/***/ }),
+
+/***/ "./src/appLinks/AppLink.tsx":
+/*!**********************************!*\
+  !*** ./src/appLinks/AppLink.tsx ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+
+
+function AppLink({ path, label, hasReactComponent = false }) {
+    const history = (0,react_router__WEBPACK_IMPORTED_MODULE_1__.useHistory)();
+    const onClick = (e) => {
+        e.preventDefault();
+        history.push(path);
+    };
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null,
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", { href: path, onClick: hasReactComponent ? onClick : undefined }, label)));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AppLink);
+
+
+/***/ }),
+
+/***/ "./src/appLinks/AppLinksProvider.tsx":
+/*!*******************************************!*\
+  !*** ./src/appLinks/AppLinksProvider.tsx ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_selectors */ "./src/_selectors/index.ts");
+/* harmony import */ var _AppLinksView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AppLinksView */ "./src/appLinks/AppLinksView.tsx");
+
+
+
+
+function AppLinksProvider() {
+    const isAdmin = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(_selectors__WEBPACK_IMPORTED_MODULE_2__.IsAdmin);
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_AppLinksView__WEBPACK_IMPORTED_MODULE_3__["default"], { isAdmin: isAdmin }));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AppLinksProvider);
+
+
+/***/ }),
+
+/***/ "./src/appLinks/AppLinksView.tsx":
+/*!***************************************!*\
+  !*** ./src/appLinks/AppLinksView.tsx ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _AppLink__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AppLink */ "./src/appLinks/AppLink.tsx");
+
+
+const appLinks = {
+    articles: {
+        id: 'articles',
+        path: '/articles',
+        label: 'כתבות',
+    },
+    takanon: {
+        id: 'takanon',
+        path: '/takanon',
+        label: 'תקנון',
+        hasReactComponent: true,
+    },
+    adminTools: {
+        id: 'adminTools',
+        path: '/admin/index',
+        label: 'Admin Tools',
+        isAdminView: true,
+    },
+};
+function AppLinksView({ isAdmin }) {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, Object.values(appLinks).map(({ id, isAdminView, ...appLinkProps }) => {
+        const hidden = isAdminView && !isAdmin;
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, { key: id }, !hidden && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_AppLink__WEBPACK_IMPORTED_MODULE_1__["default"], { ...appLinkProps }))));
+    })));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AppLinksView);
+
+
+/***/ }),
+
+/***/ "./src/auth/AuthController.tsx":
+/*!*************************************!*\
+  !*** ./src/auth/AuthController.tsx ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_actions/auth */ "./src/_actions/auth.ts");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_selectors */ "./src/_selectors/index.ts");
+
+
+
+
+function AuthController({ storeCurrentUser, user, children, }) {
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        storeCurrentUser();
+    }, []);
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, user?.id !== undefined && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, children)));
+}
+const mapDispatchToProps = {
+    storeCurrentUser: _actions_auth__WEBPACK_IMPORTED_MODULE_2__.storeCurrentUser,
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors__WEBPACK_IMPORTED_MODULE_3__.AuthControllerSelector, mapDispatchToProps)(AuthController));
+
+
+/***/ }),
+
+/***/ "./src/leaderboard/ContestantProvider.tsx":
+/*!************************************************!*\
+  !*** ./src/leaderboard/ContestantProvider.tsx ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Contestant": () => (/* binding */ Contestant),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _selectors_leaderboard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_selectors/leaderboard */ "./src/_selectors/leaderboard.ts");
+/* harmony import */ var _ContestantView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ContestantView */ "./src/leaderboard/ContestantView.tsx");
+
+
+
+
+function Contestant({ matchBetsByUserId, groupStandingBetsByUserId, questionBetsByUserId, scoreboardRow, }) {
+    const { userId } = scoreboardRow;
+    const matchBets = matchBetsByUserId[userId] ?? [];
+    const questionBets = questionBetsByUserId[userId] ?? [];
+    const groupStandingsBets = groupStandingBetsByUserId[userId] ?? [];
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContestantView__WEBPACK_IMPORTED_MODULE_3__.ContestantView, { ...{
+            matchBets,
+            questionBets,
+            groupStandingsBets,
+            scoreboardRow,
+        } }));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors_leaderboard__WEBPACK_IMPORTED_MODULE_2__.ContestantSelector)(Contestant));
+
+
+/***/ }),
+
+/***/ "./src/leaderboard/ContestantView.tsx":
+/*!********************************************!*\
+  !*** ./src/leaderboard/ContestantView.tsx ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ContestantView": () => (/* binding */ ContestantView),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils */ "./src/leaderboard/utils.js");
+/* harmony import */ var _scoreViews_GroupStangingsScore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./scoreViews/GroupStangingsScore */ "./src/leaderboard/scoreViews/GroupStangingsScore.js");
+/* harmony import */ var _scoreViews_MatchBetScore__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./scoreViews/MatchBetScore */ "./src/leaderboard/scoreViews/MatchBetScore.js");
+/* harmony import */ var _scoreViews_QuestionBetScore__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./scoreViews/QuestionBetScore */ "./src/leaderboard/scoreViews/QuestionBetScore.js");
+
+
+
+
+
+
+function RankChange({ change, }) {
+    if (change > 0) {
+        return react__WEBPACK_IMPORTED_MODULE_0__.createElement("bdi", null,
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: "label label-success", style: { direction: "ltr" }, dir: "RTL" },
+                "+",
+                change));
+    }
+    else if (change < 0) {
+        return react__WEBPACK_IMPORTED_MODULE_0__.createElement("bdi", null,
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: "label label-danger", style: { direction: "ltr" }, dir: "RTL" }, change));
+    }
+    return null;
+}
+function ContestantView({ scoreboardRow: { rank, rankDisplay, change, id, name, addedScore, totalScore, }, matchBets, groupStandingsBets, questionBets, }) {
+    const matchesScore = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.sumBetsScore)(matchBets);
+    const groupStandingsScore = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.sumBetsScore)(groupStandingsBets);
+    const specialBetScore = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.sumBetsScore)(questionBets);
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "panel-group", style: { marginBottom: 0 } },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "panel panel-default" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: `panel-heading row rank-${rank}`, style: { marginRight: 0, marginLeft: 0 } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-2 pull-right col-no-padding" },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-6 col-no-padding" }, rankDisplay),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-6 col-no-padding", style: { marginRight: "-7px", marginLeft: "7px", marginTop: "-2px" } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(RankChange, { change: change }))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-8 pull-right col-no-padding", style: { marginTop: "2px" } },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", { className: "panel-title" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", { "data-toggle": "collapse", href: `#collapserank-${id}` },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: "admin" }, id),
+                            name))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-1 pull-right col-no-padding" }, addedScore > 0 ? react__WEBPACK_IMPORTED_MODULE_0__.createElement("bdi", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: "label label-success", style: { direction: "ltr" }, dir: "RTL" },
+                        "+",
+                        addedScore)) : null),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-1 pull-right col-no-padding", style: { paddingRight: "7px" } }, totalScore)),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { id: `collapserank-${id}`, className: "panel-collapse collapse" },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { className: "nav nav-tabs", style: { paddingRight: "0px" } },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", { className: "active", style: { float: "right" } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", { "data-toggle": "tab", href: `#groups-${id}` }, "\u05DE\u05E9\u05D7\u05E7\u05D9\u05DD")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", { style: { float: "right" } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", { "data-toggle": "tab", href: `#group-ranks-${id}` }, "\u05DE\u05D9\u05E7\u05D5\u05DE\u05D9 \u05D1\u05EA\u05D9\u05DD")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", { style: { float: "right" } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", { "data-toggle": "tab", href: `#special-bets-${id}` }, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05DE\u05D9\u05D5\u05D7\u05D3\u05D9\u05DD"))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "tab-content" },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { id: `groups-${id}`, className: "tab-pane fade in active", style: { padding: "20px" } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null,
+                            "\u05E1\u05D4\"\u05DB: ",
+                            matchesScore),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { className: "list-group", style: { paddingRight: "0px" } },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", { className: "list-group-item row ", style: { background: "#d2d2d2", paddingRight: "10px" } },
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-1 pull-right col-no-padding" }, "\u05E0\u05E7'"),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-9 pull-right col-no-padding" }, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-2 pull-right col-no-padding" }, "\u05EA\u05D5\u05E6\u05D0\u05D4")),
+                            (0,lodash__WEBPACK_IMPORTED_MODULE_1__.sortBy)(matchBets, "type_id").map(bet => react__WEBPACK_IMPORTED_MODULE_0__.createElement(_scoreViews_MatchBetScore__WEBPACK_IMPORTED_MODULE_4__["default"], { key: bet.id, bet: bet })))),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { id: `group-ranks-${id}`, className: "tab-pane fade", style: { padding: "20px" } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null,
+                            "\u05E1\u05D4\"\u05DB: ",
+                            groupStandingsScore),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { className: "list-group", style: { paddingRight: "0px" } },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", { className: "list-group-item row", style: { background: "#d2d2d2" } },
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-2 pull-right col-no-padding" }, "\u05E0\u05D9\u05E7\u05D5\u05D3"),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-5 pull-right col-no-padding" }, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-5 pull-right col-no-padding" }, "\u05EA\u05D5\u05E6\u05D0\u05D4")),
+                            (0,lodash__WEBPACK_IMPORTED_MODULE_1__.sortBy)(groupStandingsBets, 'id').map(bet => react__WEBPACK_IMPORTED_MODULE_0__.createElement(_scoreViews_GroupStangingsScore__WEBPACK_IMPORTED_MODULE_3__["default"], { key: bet.id, bet: bet })))),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { id: `special-bets-${id}`, className: "tab-pane fade", style: { padding: "20px" } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null,
+                            "\u05E1\u05D4\"\u05DB: ",
+                            specialBetScore),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { className: "list-group", style: { paddingRight: "0px" } },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", { className: "list-group-item row", style: { background: "#d2d2d2", paddingRight: "10px" } },
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-1 pull-right col-no-padding" }, "\u05E0\u05E7'"),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-3 pull-right col-no-padding" }, "\u05E1\u05D5\u05D2"),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-4 pull-right col-no-padding" }, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-4 pull-right col-no-padding" }, "\u05EA\u05D5\u05E6\u05D0\u05D4")),
+                            (0,lodash__WEBPACK_IMPORTED_MODULE_1__.sortBy)(questionBets, 'id').map(questionBet => react__WEBPACK_IMPORTED_MODULE_0__.createElement(_scoreViews_QuestionBetScore__WEBPACK_IMPORTED_MODULE_5__["default"], { key: questionBet.id, questionBet: questionBet }))))))));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ContestantView);
+
+
+/***/ }),
+
+/***/ "./src/leaderboard/LeaderboardProvider.tsx":
+/*!*************************************************!*\
+  !*** ./src/leaderboard/LeaderboardProvider.tsx ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_leaderboard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_actions/leaderboard */ "./src/_actions/leaderboard.ts");
+/* harmony import */ var _selectors_leaderboard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_selectors/leaderboard */ "./src/_selectors/leaderboard.ts");
+/* harmony import */ var _LeaderboardView__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./LeaderboardView */ "./src/leaderboard/LeaderboardView.tsx");
+
+
+
+
+
+function Leaderboard({ leaderboard, hasTournamentStarted, fetchAndStoreLeaderboard, }) {
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        fetchAndStoreLeaderboard();
+    }, []);
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
+        !hasTournamentStarted && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "\u05D4\u05D8\u05D1\u05DC\u05D4 \u05EA\u05D4\u05D9\u05D4 \u05D6\u05DE\u05D9\u05E0\u05D4 \u05D1\u05E8\u05D2\u05E2 \u05E9\u05D9\u05EA\u05D7\u05D9\u05DC \u05D4\u05DE\u05E9\u05D7\u05E7 \u05D4\u05E8\u05D0\u05E9\u05D5\u05DF \u05D1\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8")),
+        hasTournamentStarted && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_LeaderboardView__WEBPACK_IMPORTED_MODULE_4__["default"], { rows: leaderboard }))));
+}
+const mapDispatchToProps = {
+    fetchAndStoreLeaderboard: _actions_leaderboard__WEBPACK_IMPORTED_MODULE_2__.fetchAndStoreLeaderboard,
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors_leaderboard__WEBPACK_IMPORTED_MODULE_3__.LeaderboardSelector, mapDispatchToProps)(Leaderboard));
+
+
+/***/ }),
+
+/***/ "./src/leaderboard/LeaderboardView.tsx":
+/*!*********************************************!*\
+  !*** ./src/leaderboard/LeaderboardView.tsx ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _ContestantProvider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ContestantProvider */ "./src/leaderboard/ContestantProvider.tsx");
+
+
+function LeaderboardView({ rows, }) {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "\u05D8\u05D1\u05DC\u05D4 \u05E2\u05D3\u05DB\u05E0\u05D9\u05EA"),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "row", style: { margin: 0, padding: "5px 15px" } },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-2 pull-right col-no-padding", style: { textAlign: "center" } }, "\u05DE\u05D9\u05E7\u05D5\u05DD"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-8 pull-right col-no-padding", style: { paddingRight: "7px" } }, "\u05E9\u05DD"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-2 pull-right col-no-padding", style: { paddingRight: "7px", textAlign: "center" } }, "\u05E0\u05D9\u05E7\u05D5\u05D3")),
+        Object.values(rows).map((row) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContestantProvider__WEBPACK_IMPORTED_MODULE_1__["default"], { key: row.id, scoreboardRow: row })))));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (LeaderboardView);
+
+
+/***/ }),
+
+/***/ "./src/prizes/Prizes.tsx":
+/*!*******************************!*\
+  !*** ./src/prizes/Prizes.tsx ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+const fakePrizes = {
+    1: {
+        id: 1,
+        label: "מקום ראשון",
+        amount: "1800 ₪",
+    },
+    2: {
+        id: 2,
+        label: "מקום שני",
+        amount: "800 ₪",
+    },
+    3: {
+        id: 3,
+        label: "מקום שלישי",
+        amount: "400 ₪",
+    },
+    4: {
+        id: 4,
+        label: "מקום רביעי",
+        amount: "200 ₪",
+    },
+};
+function PrizeBlock({ prize: { label, amount, id, }, }) {
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: `well rank-${id}` },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null,
+            label,
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null),
+            amount));
+}
+function Prizes() {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, Object.values(fakePrizes).map(prize => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(PrizeBlock, { key: prize.id, prize: prize })))));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Prizes);
 
 
 /***/ }),
@@ -104358,8 +104348,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "BetType": () => (/* reexport safe */ _bet__WEBPACK_IMPORTED_MODULE_0__.BetType),
-/* harmony export */   "UserRole": () => (/* reexport safe */ _user__WEBPACK_IMPORTED_MODULE_6__.UserRole),
-/* harmony export */   "UtlRole": () => (/* reexport safe */ _utl__WEBPACK_IMPORTED_MODULE_7__.UtlRole),
+/* harmony export */   "TournamentStatus": () => (/* reexport safe */ _tournament__WEBPACK_IMPORTED_MODULE_6__.TournamentStatus),
+/* harmony export */   "UserRole": () => (/* reexport safe */ _user__WEBPACK_IMPORTED_MODULE_7__.UserRole),
+/* harmony export */   "UtlRole": () => (/* reexport safe */ _utl__WEBPACK_IMPORTED_MODULE_8__.UtlRole),
 /* harmony export */   "WinnerSide": () => (/* reexport safe */ _match__WEBPACK_IMPORTED_MODULE_1__.WinnerSide)
 /* harmony export */ });
 /* harmony import */ var _bet__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bet */ "./src/types/bet.ts");
@@ -104368,8 +104359,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _group__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./group */ "./src/types/group.ts");
 /* harmony import */ var _leaderboard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./leaderboard */ "./src/types/leaderboard.ts");
 /* harmony import */ var _specialQuestion__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./specialQuestion */ "./src/types/specialQuestion.ts");
-/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./user */ "./src/types/user.ts");
-/* harmony import */ var _utl__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utl */ "./src/types/utl.ts");
+/* harmony import */ var _tournament__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./tournament */ "./src/types/tournament.ts");
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./user */ "./src/types/user.ts");
+/* harmony import */ var _utl__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./utl */ "./src/types/utl.ts");
+
 
 
 
@@ -104441,6 +104434,27 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/types/tournament.ts":
+/*!*********************************!*\
+  !*** ./src/types/tournament.ts ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "TournamentStatus": () => (/* binding */ TournamentStatus)
+/* harmony export */ });
+var TournamentStatus;
+(function (TournamentStatus) {
+    TournamentStatus["Initial"] = "intial";
+    TournamentStatus["Ongoing"] = "ongoing";
+    TournamentStatus["Finished"] = "finished";
+})(TournamentStatus || (TournamentStatus = {}));
+
+
+/***/ }),
+
 /***/ "./src/types/user.ts":
 /*!***************************!*\
   !*** ./src/types/user.ts ***!
@@ -104506,6 +104520,30 @@ function getMatchBetValue(matchBet) {
 
 /***/ }),
 
+/***/ "./src/utils/index.ts":
+/*!****************************!*\
+  !*** ./src/utils/index.ts ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DEFAULT_DATETIME_FORMAT": () => (/* reexport safe */ _timeFormats__WEBPACK_IMPORTED_MODULE_1__.DEFAULT_DATETIME_FORMAT),
+/* harmony export */   "getMatchBetValue": () => (/* reexport safe */ _betValuesGenerators__WEBPACK_IMPORTED_MODULE_0__.getMatchBetValue),
+/* harmony export */   "getStandingsBetValue": () => (/* reexport safe */ _betValuesGenerators__WEBPACK_IMPORTED_MODULE_0__.getStandingsBetValue),
+/* harmony export */   "isTournamentStarted": () => (/* reexport safe */ _tournament__WEBPACK_IMPORTED_MODULE_2__.isTournamentStarted)
+/* harmony export */ });
+/* harmony import */ var _betValuesGenerators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./betValuesGenerators */ "./src/utils/betValuesGenerators.ts");
+/* harmony import */ var _timeFormats__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./timeFormats */ "./src/utils/timeFormats.ts");
+/* harmony import */ var _tournament__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./tournament */ "./src/utils/tournament.ts");
+
+
+
+
+
+/***/ }),
+
 /***/ "./src/utils/timeFormats.ts":
 /*!**********************************!*\
   !*** ./src/utils/timeFormats.ts ***!
@@ -104518,6 +104556,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "DEFAULT_DATETIME_FORMAT": () => (/* binding */ DEFAULT_DATETIME_FORMAT)
 /* harmony export */ });
 const DEFAULT_DATETIME_FORMAT = 'HH:mm YYYY/MM/DD';
+
+
+/***/ }),
+
+/***/ "./src/utils/tournament.ts":
+/*!*********************************!*\
+  !*** ./src/utils/tournament.ts ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "isTournamentStarted": () => (/* binding */ isTournamentStarted)
+/* harmony export */ });
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../types */ "./src/types/index.ts");
+
+function isTournamentStarted(tournament) {
+    return tournament.status !== _types__WEBPACK_IMPORTED_MODULE_0__.TournamentStatus.Initial;
+}
 
 
 /***/ }),
@@ -106690,7 +106748,7 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./App */ "./src/App.js");
+/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./App */ "./src/App.tsx");
 
 
 

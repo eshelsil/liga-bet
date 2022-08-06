@@ -2,12 +2,13 @@ import { createSelector } from 'reselect';
 import { BetTypes } from "../../_enums/betTypes";
 import { RootState } from '../../_helpers/store';
 import { pickBy, groupBy } from 'lodash';
-import { BetsApiModelById, GroupRankBetApiModel, MatchBetApiModel, QuestionBetApiModel } from '../../types';
+import { GroupRankBetApiModel, MatchBetApiModel, QuestionBetApiModel } from '../../types';
 
 
 export const CurrentUser = (state: RootState) => state.currentUser;
-export const CurrentTournamentUser = (state: RootState) => state.currentTournamentUser;
-export const Users = (state: RootState) => state.users;
+export const CurrentTournamentUserId = (state: RootState) => state.currentTournamentUser.id;
+export const Contestants = (state: RootState) => state.contestants;
+export const MyUtls = (state: RootState) => state.myUtls;
 export const Bets = (state: RootState) => state.bets;
 export const Leaderboard = (state: RootState) => state.leaderboard;
 export const Matches = (state: RootState) => state.matches;
@@ -15,6 +16,23 @@ export const Teams = (state: RootState) => state.teams;
 export const Groups = (state: RootState) => state.groups;
 export const SpecialQuestions = (state: RootState) => state.specialQuestions;
 // export const Players = (state: RootState) => state.players;
+
+export const CurrentTournamentUser = createSelector(
+    CurrentTournamentUserId,
+    MyUtls,
+    (utlId, utls) => {
+        return utls[utlId];
+    }
+);
+
+export const CurrentTournament = createSelector(
+    CurrentTournamentUser,
+    (utl) => {
+        return utl.tournament;
+    }
+);
+    
+
 
 export const GroupStandingBets = createSelector(
     Bets,

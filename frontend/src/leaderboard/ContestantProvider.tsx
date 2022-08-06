@@ -1,16 +1,25 @@
+import { Dictionary } from "lodash";
 import React from "react";
 import { connect } from "react-redux";
-import { ContestantSelector } from "../_selectors/leaderboard.ts";
+import { GroupRankBetWithRelations, MatchBetWithRelations, QuestionBetWithRelations, ScoreboardRow } from "../types";
+import { ContestantSelector } from "../_selectors/leaderboard";
 import { ContestantView } from "./ContestantView";
 
 
+interface Props {
+    matchBetsByUserId: Dictionary<MatchBetWithRelations[]>,
+    groupStandingBetsByUserId: Dictionary<GroupRankBetWithRelations[]>,
+    questionBetsByUserId: Dictionary<QuestionBetWithRelations[]>,
+    scoreboardRow: ScoreboardRow,
+}
+
 export function Contestant({
-    userId,
     matchBetsByUserId,
     groupStandingBetsByUserId,
     questionBetsByUserId,
-    ...viewProps
-}){
+    scoreboardRow,
+}: Props){
+    const { userId } = scoreboardRow;
     const matchBets = matchBetsByUserId[userId] ?? [];
     const questionBets = questionBetsByUserId[userId] ?? [];
     const groupStandingsBets = groupStandingBetsByUserId[userId] ?? [];
@@ -21,7 +30,7 @@ export function Contestant({
                 matchBets,
                 questionBets,
                 groupStandingsBets,
-                ...viewProps,
+                scoreboardRow,
             }}
         />
     );

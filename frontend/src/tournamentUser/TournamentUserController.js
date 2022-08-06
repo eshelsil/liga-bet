@@ -1,25 +1,24 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux'
 
-import {fetchAndStoreCurrentTournamentUser} from '../_actions/tournamentUser.ts';
+import {fetchAndStoreUtls} from '../_actions/tournamentUser.ts';
 import {TournamentUserControllerSelector} from '../_selectors/tournaments.ts';
   
 
 function TournamentUserController({
-    fetchAndStoreCurrentTournamentUser,
-    tournamentUser,
+    fetchAndStoreUtls,
+    hasTournamentUser,
     children,
 }){
 
 
     useEffect( ()=>{
-        fetchAndStoreCurrentTournamentUser()
+        fetchAndStoreUtls()
         .catch(e => {
             console.log('FAILED to get tournament-user', e)
         });
     }, []);
 
-    const hasTournamentUser = tournamentUser?.id !== undefined;
 
     return <>
         {hasTournamentUser && (
@@ -38,7 +37,7 @@ function TournamentUserController({
 }
 
 const mapDispatchToProps = {
-    fetchAndStoreCurrentTournamentUser,
+    fetchAndStoreUtls,
 }
 
 

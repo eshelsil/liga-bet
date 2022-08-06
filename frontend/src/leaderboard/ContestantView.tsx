@@ -4,10 +4,13 @@ import { sumBetsScore } from './utils';
 import GroupRankScore from './scoreViews/GroupStangingsScore';
 import MatchBetScore from './scoreViews/MatchBetScore';
 import QuestionBetScore from './scoreViews/QuestionBetScore';
+import { GroupRankBetWithRelations, MatchBetWithRelations, QuestionBetWithRelations, ScoreboardRow } from '../types';
 
 
 function RankChange({
     change,
+}: {
+    change: number,
 }){
     if (change > 0){
         return <bdi><span className="label label-success" style={{direction: "ltr"}} dir="RTL">+{change}</span></bdi>
@@ -18,18 +21,27 @@ function RankChange({
 }
 
 
+interface Props {
+    scoreboardRow: ScoreboardRow,
+    matchBets: MatchBetWithRelations[],
+    groupStandingsBets: GroupRankBetWithRelations[],
+    questionBets: QuestionBetWithRelations[],
+}
+
 export function ContestantView({
-    rank,
-    rankDisplay,
-    change,
-    id,
-    name,
-    addedScore,
-    totalScore,
+    scoreboardRow: {
+        rank,
+        rankDisplay,
+        change,
+        id,
+        name,
+        addedScore,
+        totalScore,
+    },
     matchBets,
     groupStandingsBets,
     questionBets,
-}){
+}: Props){
     const matchesScore = sumBetsScore(matchBets);
     const groupStandingsScore = sumBetsScore(groupStandingsBets);
     const specialBetScore = sumBetsScore(questionBets);

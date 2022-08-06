@@ -1,12 +1,12 @@
 import { groupBy, mapValues, pickBy } from 'lodash';
 import { createSelector } from 'reselect'
 import { QuestionBetWithRelations } from '../../types';
-import { QuestionBets, SpecialQuestions, Users } from '../base';
+import { QuestionBets, SpecialQuestions, Contestants } from '../base';
 
 
 export const QuestionBetsWithUserNames = createSelector(
     QuestionBets,
-    Users,
+    Contestants,
     (bets, users) => {
         return mapValues(bets, bet => ({
             ...bet,

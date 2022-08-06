@@ -4,10 +4,11 @@ import currentUser from './currentUser';
 import groups from './groups';
 import leaderboard from './leaderboard';
 import matches from './matches';
+import myUtls from './myUtls';
 import specialQuestions from './specialQuestions';
 import teams from './teams';
 import tournamentUser from './tournamentUser';
-import utls from './utls';
+import contestants from './contestants';
 
 
 const reducer = combineReducers({
@@ -17,8 +18,9 @@ const reducer = combineReducers({
     specialQuestions: specialQuestions.reducer,
     matches: matches.reducer,
     groups: groups.reducer,
-    users: utls.reducer,
     currentUser: currentUser.reducer,
+    contestants: contestants.reducer,
+    myUtls: myUtls.reducer,
     currentTournamentUser: tournamentUser.reducer,
 });
 

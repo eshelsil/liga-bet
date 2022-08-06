@@ -1,12 +1,12 @@
 import { createSelector } from 'reselect'
-import { Groups, GroupStandingBets, Teams, Users } from '../base';
+import { Groups, GroupStandingBets, Teams, Contestants } from '../base';
 import { mapValues, groupBy, pickBy } from 'lodash';
 import { GroupRankBetWithRelations } from '../../types';
 
 
 export const GroupStandingBetsWithUserNames = createSelector(
     GroupStandingBets,
-    Users,
+    Contestants,
     (bets, users) => {
         return mapValues(bets, bet => ({
             ...bet,

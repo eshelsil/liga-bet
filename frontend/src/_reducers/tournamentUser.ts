@@ -1,14 +1,13 @@
 
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { UTL } from '../types'
 
 
 const tournamentUser = createSlice({
   name: 'currentUtl',
-  initialState: {} as UTL,
+  initialState: {} as {id: number},
   reducers: {
-    set: (state, action: PayloadAction<UTL>) => action.payload,
+    set: (state, action: PayloadAction<{id: number}>) => action.payload,
   },
 })
 

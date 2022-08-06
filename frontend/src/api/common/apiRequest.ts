@@ -16,6 +16,7 @@ export const sendApiRequest = async ({
         dataType: 'json',
         data: data ? JSON.stringify(data) : undefined,
         error: function(data) {
+            console.error(data);
             (window as any).toastr["error"](data.responseJSON.message);
         }
     })

@@ -12,4 +12,5 @@ export interface User {
     name: string,
     role: UserRole,
     username: string,
+    isAdmin?: boolean,
 }

@@ -1,10 +1,15 @@
 import React from 'react';
+import { ScoreboardRow } from '../types';
 import Contestant from './ContestantProvider';
 
 
+interface Props {
+	rows: ScoreboardRow[],
+}
+
 function LeaderboardView({
 	rows,
-}){
+}: Props){
 	return (<>
 		<h1>טבלה עדכנית</h1>
 		<div className="row" style={{margin: 0, padding: "5px 15px"}}>
@@ -13,7 +18,7 @@ function LeaderboardView({
 			<div className="col-xs-2 pull-right col-no-padding" style={{paddingRight: "7px", textAlign: "center"}}>ניקוד</div>
 		</div>
 		{Object.values(rows).map((row)=>(
-			<Contestant key={row.id} {...row}/>
+			<Contestant key={row.id} scoreboardRow={row} />
 		))}
 	</>);
 }
