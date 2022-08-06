@@ -95,8 +95,8 @@ Route::post('/api/tournaments/{tournamentId}/bets', [BetsController::class, 'sub
 Route::get('/api/tournaments/{tournamentId}/bets', [BetsController::class, 'index'])->middleware("confirmed_user");
 Route::get('/api/tournaments/{tournamentId}/groups', [GroupsController::class, 'index'])->middleware("confirmed_user");
 Route::get('/api/tournaments/{tournamentId}/games', [\App\Http\Controllers\GamesController::class, 'index'])->middleware("confirmed_user");
-Route::get('/user', [\App\Http\Controllers\UserController::class, 'getUser']);
-Route::get('/tournament-user', [\App\Http\Controllers\UserController::class, 'getUserUTLs']);
+Route::get('/api/user', [\App\Http\Controllers\UserController::class, 'getUser']);
+Route::get('/api/user/utls', [\App\Http\Controllers\UserController::class, 'getUserUTLs']);
 
 Route::fallback(function () {
     return view('react-app.index');

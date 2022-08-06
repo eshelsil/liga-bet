@@ -21,6 +21,9 @@
             }
         });
     </script>
+    <script>
+        localStorage.setItem('ligaBetUserData', JSON.stringify(@json(Auth::user()->toArray())) );
+    </script>
     <style>
         /* Remove the navbar's default margin-bottom and rounded borders */
         .navbar {
@@ -75,16 +78,6 @@
     </style>
 </head>
 <body style="direction: rtl;" dir="rtl">
-    <script>
-        window.php_data = {
-            user: {
-                id: 1,
-                username: "asfdsadf",
-                name: "AMIRT",
-                permissions: 2,
-            }
-        }
-    </script>
     <div id="root"></div>
 </body>
 <script src="/js/main.js"></script>

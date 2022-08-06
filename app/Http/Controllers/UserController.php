@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UtlResource;
+use App\TournamentUser;
 use App\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -20,10 +23,15 @@ class UserController extends Controller
         return $user;
     }
 
-    public function getUserUTLs()
+    public function getUserUTLs(Request $request)
     {
         $user = Auth::user();
-        return $user->utls;
+        $data = $user->utls
+            ->map(
+                fn(TournamentUser $utl) => (new UtlResource($utl))->toArray($request)
+            )
+            ->keyBy("id");
+        return new JsonResponse($data, 200);
     }
 
 
