@@ -1,11 +1,17 @@
-import React from "react";
-import TeamWithFlag from '../../widgets/TeamWithFlag.tsx';
+import React from 'react';
+import { GroupRankBetWithRelations, Team } from '../../types';
+import TeamWithFlag from '../../widgets/TeamWithFlag';
 
+
+interface PositionProps {
+    position: number,
+    team: Team,
+}
 
 function Position({
     position,
     team,
-}){
+}: PositionProps){
     if (!team){
         return
     }
@@ -18,11 +24,15 @@ function Position({
 }
 
 
+interface Props {
+    bet: GroupRankBetWithRelations,
+}
+
 function GroupStangingsScore({
     bet,
-}){
-    const {id, score, standings, relatedGroup = {}} = bet;
-    const {standings: finalStandings, isDone} = relatedGroup;
+}: Props){
+    const {id, score, standings, relatedGroup} = bet;
+    const {standings: finalStandings, isDone} = relatedGroup || {};
     if (!isDone){
         return null;
     }
@@ -31,7 +41,7 @@ function GroupStangingsScore({
         <div className="col-xs-5 pull-right col-no-padding">
             {Object.entries(standings).map(
                 ([rank, team])=> (
-                    <Position key={rank} {...{rank, team}} />
+                    <Position key={rank} {...{position: Number(rank), team}} />
                 )
             )}
         </div>
@@ -39,7 +49,7 @@ function GroupStangingsScore({
             {isDone && (
                 Object.entries(finalStandings).map(
                     ([rank, team])=> (
-                        <Position key={rank} {...{rank, team}} />
+                        <Position key={rank} position={Number(rank)} team={team} />
                     )
                 )
             )}
