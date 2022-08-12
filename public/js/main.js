@@ -10457,39 +10457,6 @@ function createListenerMiddleware(middlewareOptions) {
 
 /***/ }),
 
-/***/ "./src/matches/ClosedMatchBetsProvider.js":
-/*!************************************************!*\
-  !*** ./src/matches/ClosedMatchBetsProvider.js ***!
-  \************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _matchesView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./matchesView */ "./src/matches/matchesView.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _selectors_closedMatchBets_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_selectors/closedMatchBets.ts */ "./src/_selectors/closedMatchBets.ts");
-
-
-
-
-
-var ClosedMatchBets = function ClosedMatchBets(_ref) {
-  var done_matches = _ref.done_matches,
-      live_matches = _ref.live_matches;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_matchesView__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    done_matches: done_matches,
-    live_matches: live_matches
-  });
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_2__.connect)(_selectors_closedMatchBets_ts__WEBPACK_IMPORTED_MODULE_3__.ClosedMatchBetsSelector)(ClosedMatchBets));
-
-/***/ }),
-
 /***/ "./src/matches/matchesView.js":
 /*!************************************!*\
   !*** ./src/matches/matchesView.js ***!
@@ -99448,6 +99415,7 @@ function storeCurrentUser() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "BetFetchType": () => (/* binding */ BetFetchType),
 /* harmony export */   "fetchAndStoreBets": () => (/* binding */ fetchAndStoreBets),
 /* harmony export */   "sendBetAndStore": () => (/* binding */ sendBetAndStore)
 /* harmony export */ });
@@ -99457,11 +99425,25 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function fetchAndStoreBets() {
+var BetFetchType;
+(function (BetFetchType) {
+    BetFetchType["UserBets"] = "userBets";
+    BetFetchType["MyBets"] = "myBets";
+    BetFetchType["GameBets"] = "gameBets";
+    BetFetchType["GroupBets"] = "groupBets";
+})(BetFetchType || (BetFetchType = {}));
+function fetchAndStoreBets(fetchType, params) {
     return (dispatch, getState) => {
         const tournamentId = (0,_selectors_base__WEBPACK_IMPORTED_MODULE_2__.TournamentIdSelector)(getState());
-        return (0,_api_bets__WEBPACK_IMPORTED_MODULE_0__.fetchBets)(tournamentId)
-            .then(data => dispatch(_reducers_bets__WEBPACK_IMPORTED_MODULE_1__["default"].actions.updateMany(data)));
+        const storeFunc = (data) => dispatch(_reducers_bets__WEBPACK_IMPORTED_MODULE_1__["default"].actions.updateMany(data));
+        if (fetchType === BetFetchType.MyBets) {
+            return (0,_api_bets__WEBPACK_IMPORTED_MODULE_0__.fetchMyBets)(tournamentId).then(storeFunc);
+        }
+        if (fetchType === BetFetchType.GameBets) {
+            return (0,_api_bets__WEBPACK_IMPORTED_MODULE_0__.fetchOpenMatchBets)(tournamentId).then(storeFunc);
+        }
+        // return fetchBets(tournamentId)
+        //   .then(storeFunc);
     };
 }
 function sendBetAndStore(params) {
@@ -100852,7 +100834,8 @@ const TournamentUserControllerSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_1_
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fetchBets": () => (/* binding */ fetchBets),
-/* harmony export */   "fetchGroupRankBets": () => (/* binding */ fetchGroupRankBets),
+/* harmony export */   "fetchMyBets": () => (/* binding */ fetchMyBets),
+/* harmony export */   "fetchOpenMatchBets": () => (/* binding */ fetchOpenMatchBets),
 /* harmony export */   "sendBet": () => (/* binding */ sendBet)
 /* harmony export */ });
 /* harmony import */ var _common_apiRequest__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common/apiRequest */ "./src/api/common/apiRequest.ts");
@@ -100865,14 +100848,32 @@ const fetchBets = async (tournamentId) => {
         dataType: 'json',
     });
 };
-const fetchGroupRankBets = async (tournamentId) => {
-    return await window.$.ajax({
-        type: 'GET',
-        url: `/api/tournaments/${tournamentId}/bets`,
-        contentType: 'application/json',
-        dataType: 'json',
+// export const fetchGroupRankBets = async (tournamentId: number): Promise<BetsApiResult> => {
+//     return await (window as any).$.ajax({
+//         type: 'GET',
+//         url: `/api/tournaments/${tournamentId}/bets/group`,
+//         contentType: 'application/json',
+//         dataType: 'json',
+//     });
+// };
+const fetchMyBets = async (tournamentId) => {
+    return await (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_0__.sendApiRequest)({
+        url: `/api/tournaments/${tournamentId}/bets`
     });
 };
+const fetchOpenMatchBets = async (tournamentId) => {
+    return await (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_0__.sendApiRequest)({
+        url: `/api/tournaments/${tournamentId}/bets/open-games`
+    });
+};
+// export const fetchMatchBets = async (tournamentId: number): Promise<BetsApiResult> => {
+//     return await (window as any).$.ajax({
+//         type: 'GET',
+//         url: `/api/tournaments/${tournamentId}/bets/open-games`,
+//         contentType: 'application/json',
+//         dataType: 'json',
+//     });
+// };
 const sendBet = async (tournamentId, betType, params) => {
     const { bets = {} } = await (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_0__.sendApiRequest)({
         type: 'POST',
@@ -101631,7 +101632,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _leaderboard_LeaderboardProvider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../leaderboard/LeaderboardProvider */ "./src/leaderboard/LeaderboardProvider.tsx");
 /* harmony import */ var _open_matches_openMatchesProvider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../open_matches/openMatchesProvider */ "./src/open_matches/openMatchesProvider.tsx");
 /* harmony import */ var _preTournamentBets_OpenGroupRankBetsProvider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../preTournamentBets/OpenGroupRankBetsProvider */ "./src/preTournamentBets/OpenGroupRankBetsProvider.tsx");
-/* harmony import */ var _matches_ClosedMatchBetsProvider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../matches/ClosedMatchBetsProvider */ "./src/matches/ClosedMatchBetsProvider.js");
+/* harmony import */ var _matches_ClosedMatchBetsProvider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../matches/ClosedMatchBetsProvider */ "./src/matches/ClosedMatchBetsProvider.tsx");
 /* harmony import */ var _groupBets_GroupStandingsBetsProvider__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../groupBets/GroupStandingsBetsProvider */ "./src/groupBets/GroupStandingsBetsProvider.tsx");
 /* harmony import */ var _questionBets_ClosedQuestionBetsProvider__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../questionBets/ClosedQuestionBetsProvider */ "./src/questionBets/ClosedQuestionBetsProvider.tsx");
 /* harmony import */ var _myBets_myBetsView__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../myBets/myBetsView */ "./src/myBets/myBetsView.js");
@@ -102160,7 +102161,7 @@ function InitialDataFetcher({ children, fetchAndStoreMatches, fetchAndStoreBets,
         fetchAndStoreMatches();
         fetchAndStoreQuestions();
         fetchAndStoreUsers();
-        fetchAndStoreBets();
+        fetchAndStoreBets(_actions_bets__WEBPACK_IMPORTED_MODULE_2__.BetFetchType.MyBets);
     }, []);
     return (children);
 }
@@ -102548,6 +102549,41 @@ function sumBetsScore(bets) {
 
 /***/ }),
 
+/***/ "./src/matches/ClosedMatchBetsProvider.tsx":
+/*!*************************************************!*\
+  !*** ./src/matches/ClosedMatchBetsProvider.tsx ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _matchesView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./matchesView */ "./src/matches/matchesView.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _selectors_closedMatchBets__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_selectors/closedMatchBets */ "./src/_selectors/closedMatchBets.ts");
+/* harmony import */ var _actions_bets__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_actions/bets */ "./src/_actions/bets.ts");
+
+
+
+
+
+const ClosedMatchBets = ({ done_matches, live_matches, fetchAndStoreBets, }) => {
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        fetchAndStoreBets(_actions_bets__WEBPACK_IMPORTED_MODULE_4__.BetFetchType.GameBets);
+    }, []);
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_matchesView__WEBPACK_IMPORTED_MODULE_1__["default"], { done_matches: done_matches, live_matches: live_matches });
+};
+const mapDispatchToProps = {
+    fetchAndStoreBets: _actions_bets__WEBPACK_IMPORTED_MODULE_4__.fetchAndStoreBets,
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_2__.connect)(_selectors_closedMatchBets__WEBPACK_IMPORTED_MODULE_3__.ClosedMatchBetsSelector, mapDispatchToProps)(ClosedMatchBets));
+
+
+/***/ }),
+
 /***/ "./src/open_matches/MatchBet.tsx":
 /*!***************************************!*\
   !*** ./src/open_matches/MatchBet.tsx ***!
@@ -102766,7 +102802,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const OpenMatchesProvider = ({ matches, sendBetAndStore, }) => {
+const OpenMatchesProvider = ({ matches, sendBetAndStore, fetchAndStoreBets, }) => {
     async function sendMatchBet({ matchId, is_knockout, homeScore, awayScore, koWinner, }) {
         const valid_input_vals = [...Array(21).keys()];
         if (homeScore === "" || valid_input_vals.indexOf(Number(homeScore)) === -1) {
@@ -102804,6 +102840,7 @@ const OpenMatchesProvider = ({ matches, sendBetAndStore, }) => {
 };
 const mapDispatchToProps = {
     sendBetAndStore: _actions_bets__WEBPACK_IMPORTED_MODULE_3__.sendBetAndStore,
+    fetchAndStoreBets: _actions_bets__WEBPACK_IMPORTED_MODULE_3__.fetchAndStoreBets,
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors_openMatches__WEBPACK_IMPORTED_MODULE_2__.MyOpenMatchBetsSelector, mapDispatchToProps)(OpenMatchesProvider));
 

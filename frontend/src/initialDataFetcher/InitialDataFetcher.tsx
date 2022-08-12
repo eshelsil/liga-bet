@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchAndStoreBets } from '../_actions/bets';
+import { BetFetchType, fetchAndStoreBets } from '../_actions/bets';
 import { fetchAndStoreGroups } from '../_actions/groups';
 import { fetchAndStoreMatches } from '../_actions/matches';
 import { fetchAndStoreQuestions } from '../_actions/specialQuestions';
@@ -24,7 +24,7 @@ export function InitialDataFetcher({
         fetchAndStoreMatches();
         fetchAndStoreQuestions();
         fetchAndStoreUsers();
-        fetchAndStoreBets();
+        fetchAndStoreBets(BetFetchType.MyBets);
     }, []);
     return (
         children
