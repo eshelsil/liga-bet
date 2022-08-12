@@ -10946,311 +10946,6 @@ var SpecialBetsTable = function SpecialBetsTable(_ref) {
 
 /***/ }),
 
-/***/ "./src/preTournamentBets/DraggableStandings.js":
-/*!*****************************************************!*\
-  !*** ./src/preTournamentBets/DraggableStandings.js ***!
-  \*****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _widgets_draggableList_DraggableList_tsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/draggableList/DraggableList.tsx */ "./src/widgets/draggableList/DraggableList.tsx");
-/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-
-
-
-
-function RanksView(_ref) {
-  var count = _ref.count;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: ""
-  }, _toConsumableArray(Array(count).keys()).map(function (index) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      key: index,
-      style: {
-        height: 36,
-        width: 40,
-        marginTop: 6,
-        marginBottom: 6
-      }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-      style: {
-        fontSize: 24,
-        lineHeight: 1.5
-      }
-    }, index + 1, "."));
-  }));
-}
-
-function TeamStanding(_ref2) {
-  var crest_url = _ref2.crest_url,
-      name = _ref2.name;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "team_row bg-info",
-    style: {
-      padding: 8,
-      width: '100%'
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    name: name,
-    crest_url: crest_url
-  }));
-}
-
-function DraggableStandings(_ref3) {
-  var items = _ref3.items,
-      setItems = _ref3.setItems;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "DraggableStandings"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(RanksView, {
-    count: items.length
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    style: {
-      flex: '1 auto'
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_draggableList_DraggableList_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    items: items,
-    setItems: setItems,
-    Component: TeamStanding
-  })));
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DraggableStandings);
-
-/***/ }),
-
-/***/ "./src/preTournamentBets/OpenGroupRankBetsProvider.js":
-/*!************************************************************!*\
-  !*** ./src/preTournamentBets/OpenGroupRankBetsProvider.js ***!
-  \************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _selectors_groupStandingBets_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_selectors/groupStandingBets.ts */ "./src/_selectors/groupStandingBets.ts");
-/* harmony import */ var _OpenGroupRankBetsView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./OpenGroupRankBetsView */ "./src/preTournamentBets/OpenGroupRankBetsView.js");
-/* harmony import */ var _enums_betTypes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_enums/betTypes */ "./src/_enums/betTypes.js");
-/* harmony import */ var _actions_bets_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_actions/bets.ts */ "./src/_actions/bets.ts");
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-
-
-
-
-
-
-
-var OpenGroupRankBetsProvider = function OpenGroupRankBetsProvider(_ref) {
-  var groupsWithBet = _ref.groupsWithBet,
-      sendBetAndStore = _ref.sendBetAndStore;
-
-  function sendGroupRankBet(_x) {
-    return _sendGroupRankBet.apply(this, arguments);
-  }
-
-  function _sendGroupRankBet() {
-    _sendGroupRankBet = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(_ref2) {
-      var groupId, standings, params;
-      return _regeneratorRuntime().wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              groupId = _ref2.groupId, standings = _ref2.standings;
-              params = {
-                betType: _enums_betTypes__WEBPACK_IMPORTED_MODULE_4__.BetTypes.GroupsRank,
-                type_id: groupId,
-                value: standings.map(function (team) {
-                  return team.id;
-                })
-              };
-              _context.next = 4;
-              return sendBetAndStore(params).then(function (data) {
-                toastr["success"]("ההימור נשלח");
-              })["catch"](function (error) {
-                console.log("FAILED sending bet", error);
-                toastr["error"](error.responseJSON.message);
-              });
-
-            case 4:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee);
-    }));
-    return _sendGroupRankBet.apply(this, arguments);
-  }
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_OpenGroupRankBetsView__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    groupsWithBet: groupsWithBet,
-    sendGroupRankBet: sendGroupRankBet
-  });
-};
-
-var mapDispatchToProps = {
-  sendBetAndStore: _actions_bets_ts__WEBPACK_IMPORTED_MODULE_5__.sendBetAndStore
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors_groupStandingBets_ts__WEBPACK_IMPORTED_MODULE_2__.OpenGroupRankBetsSelector, mapDispatchToProps)(OpenGroupRankBetsProvider));
-
-/***/ }),
-
-/***/ "./src/preTournamentBets/OpenGroupRankBetsView.js":
-/*!********************************************************!*\
-  !*** ./src/preTournamentBets/OpenGroupRankBetsView.js ***!
-  \********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
-/* harmony import */ var _DraggableStandings__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DraggableStandings */ "./src/preTournamentBets/DraggableStandings.js");
-/* harmony import */ var _openGroupRankBets_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./openGroupRankBets.scss */ "./src/preTournamentBets/openGroupRankBets.scss");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-
-
-function GroupRankBetView(_ref) {
-  var groupWithBet = _ref.groupWithBet,
-      sendGroupRankBet = _ref.sendGroupRankBet;
-  var name = groupWithBet.name,
-      id = groupWithBet.id,
-      bet = groupWithBet.bet,
-      teams = groupWithBet.teams;
-
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
-      _useState2 = _slicedToArray(_useState, 2),
-      standingsInput = _useState2[0],
-      setStandingsInput = _useState2[1];
-
-  var teamsByRank = (bet === null || bet === void 0 ? void 0 : bet.standings) || teams;
-  var groupStandings = standingsInput || teamsByRank;
-
-  var sendBet = function sendBet() {
-    sendGroupRankBet({
-      groupId: id,
-      standings: groupStandings
-    });
-  };
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "GroupRankBetView col-xs-12 col-md-9 col-lg-7",
-    style: {
-      "float": 'right',
-      borderRadius: 5,
-      border: '#000 1px solid',
-      marginBottom: 25,
-      padding: 10
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
-    style: {
-      textAlign: 'center'
-    }
-  }, name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    id: "current-bet-".concat(id, "-position"),
-    className: "col-xs-4"
-  }, bet && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", null, "\u05D4\u05D9\u05DE\u05D5\u05E8 \u05E0\u05D5\u05DB\u05D7\u05D9:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ol", {
-    className: "currentBet",
-    style: {
-      paddingRight: 10
-    }
-  }, bet.standings.map(function (team, index) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-      key: index,
-      style: {
-        fontSize: '80%'
-      },
-      "data-pos": index + 1
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      name: team.name,
-      crest_url: team.crest_url
-    }));
-  }))), !bet && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", null, "\u05DC\u05D0 \u05E7\u05D9\u05D9\u05DD \u05D4\u05D9\u05DE\u05D5\u05E8 \u05E0\u05D5\u05DB\u05D7\u05D9")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    id: "set-bet-table-".concat(id),
-    className: "".concat(bet ? 'col-xs-8' : 'col-xs-12')
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_DraggableStandings__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    items: groupStandings,
-    setItems: setStandingsInput
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    style: {
-      paddingRight: 40,
-      marginTop: 16
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    onClick: sendBet,
-    type: "button",
-    className: "btn btn-primary"
-  }, "\u05E9\u05DC\u05D7")))));
-}
-
-var OpenGroupRankBetsView = function OpenGroupRankBetsView(_ref2) {
-  var groupsWithBet = _ref2.groupsWithBet,
-      sendGroupRankBet = _ref2.sendGroupRankBet;
-  var isAvaiable = true;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, isAvaiable && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "row",
-    style: {
-      marginRight: -10,
-      marginLeft: -10
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9 \u05D1\u05EA\u05D9\u05DD \u05E4\u05EA\u05D5\u05D7\u05D9\u05DD"), groupsWithBet.map(function (groupWithBet) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(GroupRankBetView, {
-      key: groupWithBet.id,
-      groupWithBet: groupWithBet,
-      sendGroupRankBet: sendGroupRankBet
-    });
-  })), !isAvaiable && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "\u05E0\u05E1\u05D2\u05E8\u05D5 \u05D4\u05D9\u05DE\u05D5\u05E8\u05D9 \u05D4\u05D1\u05EA\u05D9\u05DD! \u05DC\u05D0 \u05E0\u05D9\u05EA\u05DF \u05DC\u05E2\u05D3\u05DB\u05DF \u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05D0\u05DC\u05D4"));
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (OpenGroupRankBetsView);
-
-/***/ }),
-
 /***/ "./src/tournamentUser/TournamentUserController.js":
 /*!********************************************************!*\
   !*** ./src/tournamentUser/TournamentUserController.js ***!
@@ -102293,7 +101988,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _leaderboard_LeaderboardProvider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../leaderboard/LeaderboardProvider */ "./src/leaderboard/LeaderboardProvider.tsx");
 /* harmony import */ var _open_matches_openMatchesProvider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../open_matches/openMatchesProvider */ "./src/open_matches/openMatchesProvider.tsx");
-/* harmony import */ var _preTournamentBets_OpenGroupRankBetsProvider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../preTournamentBets/OpenGroupRankBetsProvider */ "./src/preTournamentBets/OpenGroupRankBetsProvider.js");
+/* harmony import */ var _preTournamentBets_OpenGroupRankBetsProvider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../preTournamentBets/OpenGroupRankBetsProvider */ "./src/preTournamentBets/OpenGroupRankBetsProvider.tsx");
 /* harmony import */ var _matches_ClosedMatchBetsProvider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../matches/ClosedMatchBetsProvider */ "./src/matches/ClosedMatchBetsProvider.js");
 /* harmony import */ var _groupBets_GroupStandingsBetsProvider__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../groupBets/GroupStandingsBetsProvider */ "./src/groupBets/GroupStandingsBetsProvider.tsx");
 /* harmony import */ var _questionBets_ClosedQuestionBetsProvider__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../questionBets/ClosedQuestionBetsProvider */ "./src/questionBets/ClosedQuestionBetsProvider.tsx");
@@ -103514,6 +103209,176 @@ const OpenMatchesView = ({ matches = [], sendBet, }) => {
 
 /***/ }),
 
+/***/ "./src/preTournamentBets/DraggableStandings.tsx":
+/*!******************************************************!*\
+  !*** ./src/preTournamentBets/DraggableStandings.tsx ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _widgets_draggableList_DraggableList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/draggableList/DraggableList */ "./src/widgets/draggableList/DraggableList.tsx");
+/* harmony import */ var _TeamStanding__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TeamStanding */ "./src/preTournamentBets/TeamStanding.tsx");
+
+
+
+function RanksView({ count, }) {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "" }, [...Array(count).keys()].map(index => (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { key: index, style: {
+            height: 36,
+            width: 40,
+            marginTop: 6,
+            marginBottom: 6,
+        } },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { style: { fontSize: 24, lineHeight: 1.5 } },
+            index + 1,
+            "."))))));
+}
+function DraggableStandings({ items, setItems, }) {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: 'DraggableStandings' },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(RanksView, { count: items.length }),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { style: { flex: '1 auto' } },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_draggableList_DraggableList__WEBPACK_IMPORTED_MODULE_1__["default"], { items: items, setItems: setItems, Component: _TeamStanding__WEBPACK_IMPORTED_MODULE_2__["default"] }))));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DraggableStandings);
+
+
+/***/ }),
+
+/***/ "./src/preTournamentBets/OpenGroupRankBetsProvider.tsx":
+/*!*************************************************************!*\
+  !*** ./src/preTournamentBets/OpenGroupRankBetsProvider.tsx ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _selectors_groupStandingBets__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_selectors/groupStandingBets */ "./src/_selectors/groupStandingBets.ts");
+/* harmony import */ var _OpenGroupRankBetsView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./OpenGroupRankBetsView */ "./src/preTournamentBets/OpenGroupRankBetsView.tsx");
+/* harmony import */ var _actions_bets__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_actions/bets */ "./src/_actions/bets.ts");
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../types */ "./src/types/index.ts");
+
+
+
+
+
+
+const OpenGroupRankBetsProvider = ({ groupsWithBet, sendBetAndStore, }) => {
+    async function sendGroupRankBet({ groupId, standings, }) {
+        const params = {
+            betType: _types__WEBPACK_IMPORTED_MODULE_5__.BetType.GroupsRank,
+            type_id: groupId,
+            value: standings.map(team => team.id),
+        };
+        await sendBetAndStore(params)
+            .then(function (data) {
+            window['toastr']["success"]("ההימור נשלח");
+        })
+            .catch(function (error) {
+            console.log("FAILED sending bet", error);
+            window['toastr']["error"](error.responseJSON.message);
+        });
+    }
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_OpenGroupRankBetsView__WEBPACK_IMPORTED_MODULE_3__["default"], { groupsWithBet: groupsWithBet, sendGroupRankBet: sendGroupRankBet });
+};
+const mapDispatchToProps = {
+    sendBetAndStore: _actions_bets__WEBPACK_IMPORTED_MODULE_4__.sendBetAndStore,
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors_groupStandingBets__WEBPACK_IMPORTED_MODULE_2__.OpenGroupRankBetsSelector, mapDispatchToProps)(OpenGroupRankBetsProvider));
+
+
+/***/ }),
+
+/***/ "./src/preTournamentBets/OpenGroupRankBetsView.tsx":
+/*!*********************************************************!*\
+  !*** ./src/preTournamentBets/OpenGroupRankBetsView.tsx ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.tsx");
+/* harmony import */ var _DraggableStandings__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DraggableStandings */ "./src/preTournamentBets/DraggableStandings.tsx");
+/* harmony import */ var _openGroupRankBets_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./openGroupRankBets.scss */ "./src/preTournamentBets/openGroupRankBets.scss");
+
+
+
+
+function GroupRankBetView({ groupWithBet, sendGroupRankBet, }) {
+    const { name, id, bet, teams } = groupWithBet;
+    const [standingsInput, setStandingsInput] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+    const teamsByRank = bet?.standings || teams;
+    const groupStandings = standingsInput || teamsByRank;
+    const sendBet = () => {
+        sendGroupRankBet({ groupId: id, standings: groupStandings });
+    };
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "GroupRankBetView col-xs-12 col-md-9 col-lg-7", style: { float: 'right', borderRadius: 5, border: '#000 1px solid', marginBottom: 25, padding: 10 } },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", { style: { textAlign: 'center' } }, name),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "row" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { id: `current-bet-${id}-position`, className: "col-xs-4" },
+                bet && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", null, "\u05D4\u05D9\u05DE\u05D5\u05E8 \u05E0\u05D5\u05DB\u05D7\u05D9:"),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("ol", { className: "currentBet", style: { paddingRight: 10 } }, bet.standings.map((team, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", { key: index, style: { fontSize: '80%' }, "data-pos": index + 1 },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], { name: team.name, crest_url: team.crest_url }))))))),
+                !bet && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", null, "\u05DC\u05D0 \u05E7\u05D9\u05D9\u05DD \u05D4\u05D9\u05DE\u05D5\u05E8 \u05E0\u05D5\u05DB\u05D7\u05D9"))),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { id: `set-bet-table-${id}`, className: `${bet ? 'col-xs-8' : 'col-xs-12'}` },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_DraggableStandings__WEBPACK_IMPORTED_MODULE_2__["default"], { items: groupStandings, setItems: setStandingsInput }),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { style: { paddingRight: 40, marginTop: 16 } },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", { onClick: sendBet, type: "button", className: "btn btn-primary" }, "\u05E9\u05DC\u05D7"))))));
+}
+const OpenGroupRankBetsView = ({ groupsWithBet, sendGroupRankBet, }) => {
+    const isAvaiable = true;
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
+        isAvaiable && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "row", style: { marginRight: -10, marginLeft: -10 } },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9 \u05D1\u05EA\u05D9\u05DD \u05E4\u05EA\u05D5\u05D7\u05D9\u05DD"),
+            groupsWithBet.map(groupWithBet => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(GroupRankBetView, { key: groupWithBet.id, groupWithBet: groupWithBet, sendGroupRankBet: sendGroupRankBet }))))),
+        !isAvaiable && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "\u05E0\u05E1\u05D2\u05E8\u05D5 \u05D4\u05D9\u05DE\u05D5\u05E8\u05D9 \u05D4\u05D1\u05EA\u05D9\u05DD! \u05DC\u05D0 \u05E0\u05D9\u05EA\u05DF \u05DC\u05E2\u05D3\u05DB\u05DF \u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05D0\u05DC\u05D4"))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (OpenGroupRankBetsView);
+
+
+/***/ }),
+
+/***/ "./src/preTournamentBets/TeamStanding.tsx":
+/*!************************************************!*\
+  !*** ./src/preTournamentBets/TeamStanding.tsx ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.tsx");
+
+
+function TeamStanding(team) {
+    const { crest_url, name, } = team;
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "team_row bg-info", style: {
+            padding: 8,
+            width: '100%'
+        } },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], { name: name, crest_url: crest_url })));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TeamStanding);
+
+
+/***/ }),
+
 /***/ "./src/prizes/Prizes.tsx":
 /*!*******************************!*\
   !*** ./src/prizes/Prizes.tsx ***!
@@ -104127,7 +103992,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var TournamentStatus;
 (function (TournamentStatus) {
-    TournamentStatus["Initial"] = "intial";
+    TournamentStatus["Initial"] = "initial";
     TournamentStatus["Ongoing"] = "ongoing";
     TournamentStatus["Finished"] = "finished";
 })(TournamentStatus || (TournamentStatus = {}));
@@ -104421,7 +104286,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const DraggableListItem = ({ item, index, Component, }) => {
-    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__.Draggable, { draggableId: item.id, index: index }, (provided, snapshot) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_ListItem__WEBPACK_IMPORTED_MODULE_2__["default"], { ref: provided.innerRef, ...provided.draggableProps, ...provided.dragHandleProps, className: `${snapshot.isDragging ? 'draggingItem' : ''}`, sx: {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__.Draggable, { draggableId: `${item.id}`, index: index }, (provided, snapshot) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_ListItem__WEBPACK_IMPORTED_MODULE_2__["default"], { ref: provided.innerRef, ...provided.draggableProps, ...provided.dragHandleProps, className: `${snapshot.isDragging ? 'draggingItem' : ''}`, sx: {
             padding: 0,
             marginTop: 0.75,
             marginBottom: 0.75,

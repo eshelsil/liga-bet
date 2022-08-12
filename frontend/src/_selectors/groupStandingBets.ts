@@ -1,12 +1,9 @@
 import { groupBy } from 'lodash';
 import { createSelector } from 'reselect'
-import { GroupRankBetWithRelations, GroupWithTeams } from '../types';
+import { GroupWithABet } from '../types';
 import { MyGroupRankBetsById } from './logic';
 import { GroupStandingBetsLinked, GroupsWithTeams } from './modelRelations';
 
-export interface GroupWithABet extends GroupWithTeams {
-    bet: GroupRankBetWithRelations,
-}
 
 export const AllGroupStandingsBets = createSelector(
     GroupStandingBetsLinked,

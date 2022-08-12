@@ -53,3 +53,6 @@ export type BetsApiModelById = Record<number, BetApiModel>
 export interface MatchWithABet extends Match {
     bet: MatchBetWithRelations
 }
+export interface GroupWithABet extends GroupWithTeams {
+    bet: GroupRankBetWithRelations,
+}

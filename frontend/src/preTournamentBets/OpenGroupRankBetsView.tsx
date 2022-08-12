@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import TeamWithFlag from '../widgets/TeamWithFlag.tsx';
+import TeamWithFlag from '../widgets/TeamWithFlag';
+import { GroupWithABet } from '../types';
 import DraggableStandings from './DraggableStandings';
 import './openGroupRankBets.scss';
 
@@ -49,15 +50,20 @@ function GroupRankBetView({
     );
 }
 
+
+interface Props {
+    groupsWithBet:  GroupWithABet[],
+    sendGroupRankBet: (...args: any) => Promise<void>,
+}
+
 const OpenGroupRankBetsView = ({
     groupsWithBet,
     sendGroupRankBet,
-}) => {
+}: Props) => {
     const isAvaiable = true;
     return (<>
         {isAvaiable && (
             <div className="row" style={{marginRight: -10, marginLeft: -10}}>
-                {/* <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> */}
                 <h2>הימורי בתים פתוחים</h2>
                 {groupsWithBet.map( groupWithBet =>(
                     <GroupRankBetView
