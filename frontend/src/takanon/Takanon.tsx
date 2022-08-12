@@ -2,7 +2,7 @@ import React from 'react';
 import './style.scss';
 
 
-function Takanon(props) {
+function Takanon() {
     return (
         <div className="all-ltr" style={{marginBottom: 30}}>
             <h2 style={{textAlign: 'center'}}>תקנון משחק יורו חברים 2021</h2>
@@ -192,7 +192,7 @@ function Takanon(props) {
                     </thead>
                 <tbody>
                     <tr>
-                        <td rowSpan="4" className="preline v-align-center">1. ווילס
+                        <td rowSpan={4} className="preline v-align-center">1. ווילס
                             2. שוויץ
                             3. טורקיה
                             4. איטליה

@@ -1,10 +1,13 @@
 import React from 'react';
-import DraggableList from '../widgets/draggableList/DraggableList.tsx';
-import TeamWithFlag from '../widgets/TeamWithFlag.tsx';
+import { Team } from '../types';
+import DraggableList from '../widgets/draggableList/DraggableList';
+import TeamStanding from './TeamStanding';
 
 
 function RanksView({
     count,
+}: {
+    count: number
 }){
     return (
         <div className="">
@@ -24,24 +27,16 @@ function RanksView({
     );
 }
 
-function TeamStanding({
-    crest_url,
-    name,
-}){
-    return (
-        <div className="team_row bg-info" style={{
-            padding: 8,
-            width: '100%'
-        }}>
-            <TeamWithFlag name={name} crest_url={crest_url} />
-        </div>
-    );
+
+interface Props {
+    items: Team[],
+    setItems: (teams: Team[]) => void,
 }
 
 function DraggableStandings({
     items,
     setItems,
-}){
+}:  Props){
     return (
         <div className='DraggableStandings'>
             <RanksView count={items.length} />

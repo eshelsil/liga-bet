@@ -1,20 +1,22 @@
+import React, { ReactNode } from "react";
+
 export interface ItemBase {
-    id: string | number,
+	id: string | number,
 }
 
 export interface Item {
-    id: string | number,
-    data: ItemBase,
+	id: string | number,
+	data: ItemBase,
 }
 
-export interface DraggableListProps {
-    items: ItemBase[],
-    setItems: (items: ItemBase[]) => void,
-    Component: React.FC,
+export interface DraggableListProps<T extends ItemBase> {
+	items: T[],
+	setItems: (items: ItemBase[]) => void,
+	Component: React.FunctionComponent<T>,
 }
 
-export interface DraggableItemProps {
-  item: any,
+export interface DraggableItemProps<T> {
+  item: T,
   index: number,
-  Component: React.FC,
+	Component: React.FunctionComponent<T>,
 }

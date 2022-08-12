@@ -27,7 +27,7 @@ const DraggableList = React.memo(
     items,
     setItems,
     Component,
-}: DraggableListProps) => {
+}: DraggableListProps<ItemBase>) => {
     const id = gen_id();
     const listItems = listFromItems(items);
     const onDragEnd = ({ destination, source }: DropResult) => {

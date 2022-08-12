@@ -10457,408 +10457,6 @@ function createListenerMiddleware(middlewareOptions) {
 
 /***/ }),
 
-/***/ "./src/_enums/betTypes.js":
-/*!********************************!*\
-  !*** ./src/_enums/betTypes.js ***!
-  \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "BetTypes": () => (/* binding */ BetTypes)
-/* harmony export */ });
-var BetTypes = {
-  Match: 1,
-  GroupsRank: 2,
-  SpecialBet: 3
-};
-
-/***/ }),
-
-/***/ "./src/_enums/winnerSide.js":
-/*!**********************************!*\
-  !*** ./src/_enums/winnerSide.js ***!
-  \**********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "WINNER_SIDE": () => (/* binding */ WINNER_SIDE)
-/* harmony export */ });
-var WINNER_SIDE = {
-  away: 'away',
-  home: 'home'
-};
-
-/***/ }),
-
-/***/ "./src/initialDataFetcher/InitialDataFetcher.js":
-/*!******************************************************!*\
-  !*** ./src/initialDataFetcher/InitialDataFetcher.js ***!
-  \******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "InitialDataFetcher": () => (/* binding */ InitialDataFetcher),
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _actions_bets_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_actions/bets.ts */ "./src/_actions/bets.ts");
-/* harmony import */ var _actions_groups_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_actions/groups.ts */ "./src/_actions/groups.ts");
-/* harmony import */ var _actions_matches_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_actions/matches.ts */ "./src/_actions/matches.ts");
-/* harmony import */ var _actions_specialQuestions_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_actions/specialQuestions.ts */ "./src/_actions/specialQuestions.ts");
-/* harmony import */ var _actions_teams_ts__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../_actions/teams.ts */ "./src/_actions/teams.ts");
-/* harmony import */ var _actions_utls_ts__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../_actions/utls.ts */ "./src/_actions/utls.ts");
-/* harmony import */ var _selectors_noSelector_ts__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../_selectors/noSelector.ts */ "./src/_selectors/noSelector.ts");
-
-
-
-
-
-
-
-
-
-function InitialDataFetcher(_ref) {
-  var children = _ref.children,
-      fetchAndStoreMatches = _ref.fetchAndStoreMatches,
-      fetchAndStoreBets = _ref.fetchAndStoreBets,
-      fetchAndStoreTeams = _ref.fetchAndStoreTeams,
-      fetchAndStoreGroups = _ref.fetchAndStoreGroups,
-      fetchAndStoreQuestions = _ref.fetchAndStoreQuestions,
-      fetchAndStoreUsers = _ref.fetchAndStoreUsers;
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    fetchAndStoreTeams();
-    fetchAndStoreGroups();
-    fetchAndStoreMatches();
-    fetchAndStoreQuestions();
-    fetchAndStoreUsers();
-    fetchAndStoreBets();
-  }, []);
-  return children;
-}
-var mapDispatchToProps = {
-  fetchAndStoreMatches: _actions_matches_ts__WEBPACK_IMPORTED_MODULE_4__.fetchAndStoreMatches,
-  fetchAndStoreBets: _actions_bets_ts__WEBPACK_IMPORTED_MODULE_2__.fetchAndStoreBets,
-  fetchAndStoreTeams: _actions_teams_ts__WEBPACK_IMPORTED_MODULE_6__.fetchAndStoreTeams,
-  fetchAndStoreGroups: _actions_groups_ts__WEBPACK_IMPORTED_MODULE_3__.fetchAndStoreGroups,
-  fetchAndStoreQuestions: _actions_specialQuestions_ts__WEBPACK_IMPORTED_MODULE_5__.fetchAndStoreQuestions,
-  fetchAndStoreUsers: _actions_utls_ts__WEBPACK_IMPORTED_MODULE_7__.fetchAndStoreUsers
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors_noSelector_ts__WEBPACK_IMPORTED_MODULE_8__.NoSelector, mapDispatchToProps)(InitialDataFetcher));
-
-/***/ }),
-
-/***/ "./src/leaderboard/scoreViews/GroupStangingsScore.js":
-/*!***********************************************************!*\
-  !*** ./src/leaderboard/scoreViews/GroupStangingsScore.js ***!
-  \***********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-function Position(_ref) {
-  var position = _ref.position,
-      team = _ref.team;
-
-  if (!team) {
-    return;
-  }
-
-  var crest_url = team.crest_url,
-      name = team.name;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    key: position,
-    className: "flex-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "(", position, ") "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    name: name,
-    crest_url: crest_url
-  }));
-}
-
-function GroupStangingsScore(_ref2) {
-  var bet = _ref2.bet;
-  var id = bet.id,
-      score = bet.score,
-      standings = bet.standings,
-      _bet$relatedGroup = bet.relatedGroup,
-      relatedGroup = _bet$relatedGroup === void 0 ? {} : _bet$relatedGroup;
-  var finalStandings = relatedGroup.standings,
-      isDone = relatedGroup.isDone;
-
-  if (!isDone) {
-    return null;
-  }
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    key: id,
-    className: "list-group-item row flex-row  col-no-padding"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-2 pull-right col-no-padding",
-    style: {
-      paddingRight: "15px"
-    }
-  }, score), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-5 pull-right col-no-padding"
-  }, Object.entries(standings).map(function (_ref3) {
-    var _ref4 = _slicedToArray(_ref3, 2),
-        rank = _ref4[0],
-        team = _ref4[1];
-
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Position, {
-      key: rank,
-      rank: rank,
-      team: team
-    });
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-5 pull-right col-no-padding"
-  }, isDone && Object.entries(finalStandings).map(function (_ref5) {
-    var _ref6 = _slicedToArray(_ref5, 2),
-        rank = _ref6[0],
-        team = _ref6[1];
-
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Position, {
-      key: rank,
-      rank: rank,
-      team: team
-    });
-  })));
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GroupStangingsScore);
-
-/***/ }),
-
-/***/ "./src/leaderboard/scoreViews/MatchBetScore.js":
-/*!*****************************************************!*\
-  !*** ./src/leaderboard/scoreViews/MatchBetScore.js ***!
-  \*****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
-/* harmony import */ var _widgets_MatchResult_tsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../widgets/MatchResult.tsx */ "./src/widgets/MatchResult.tsx");
-
-
-
-
-function MatchBetScore(_ref) {
-  var bet = _ref.bet;
-  var id = bet.id,
-      score = bet.score,
-      result_home = bet.result_home,
-      result_away = bet.result_away,
-      winner_side = bet.winner_side,
-      relatedMatch = bet.relatedMatch;
-
-  if (!relatedMatch) {
-    return null;
-  }
-
-  var home_team = relatedMatch.home_team,
-      away_team = relatedMatch.away_team;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    key: id,
-    className: "list-group-item row flex-row center-items col-no-padding",
-    style: {
-      paddingLeft: "0px",
-      paddingRight: "10px"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-1 pull-right col-no-padding"
-  }, score), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-9 pull-right col-no-padding"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "flex-row",
-    style: {
-      alignItems: "center"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "flex-row dir-ltr"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    name: home_team.name,
-    crest_url: home_team.crest_url,
-    is_underlined: winner_side === "home",
-    is_bold: relatedMatch.winner_side === "home"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "(", result_home, ")")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    style: {
-      padding: "5px"
-    }
-  }, "-"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "flex-row dir-ltr"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    name: away_team.name,
-    crest_url: away_team.crest_url,
-    is_underlined: winner_side === "away",
-    is_bold: relatedMatch.winner_side === "away"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "(", result_away, ")")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-2 pull-right col-no-padding"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_MatchResult_tsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    winner_class: "bolded",
-    matchData: relatedMatch
-  })));
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MatchBetScore);
-
-/***/ }),
-
-/***/ "./src/leaderboard/scoreViews/QuestionBetScore.js":
-/*!********************************************************!*\
-  !*** ./src/leaderboard/scoreViews/QuestionBetScore.js ***!
-  \********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
-
-
-
-function SpecialQuestionAnswer(specialQuestionType, answer) {
-  switch (specialQuestionType) {
-    case 1: // winner
-
-    case 5: // offensive_team
-
-    case 4:
-      // top scorer
-      var name = answer.name,
-          crest_url = answer.crest_url;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        name: name,
-        crest_url: crest_url
-      });
-
-    case 2:
-      // mvp
-      return answer;
-
-    default:
-      return null;
-  }
-}
-
-function QuestionBetScore(_ref) {
-  var questionBet = _ref.questionBet;
-  var id = questionBet.id,
-      score = questionBet.score,
-      answer = questionBet.answer,
-      relatedQuestion = questionBet.relatedQuestion;
-  var questionId = relatedQuestion.id,
-      name = relatedQuestion.name,
-      finalAnswer = relatedQuestion.answer;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    className: "list-group-item row flex-row col-no-padding",
-    style: {
-      paddingRight: "10px"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-1 pull-right col-no-padding"
-  }, score), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-3 pull-right col-no-padding"
-  }, name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-4 pull-right col-no-padding"
-  }, SpecialQuestionAnswer(questionId, answer)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-4 pull-right col-no-padding"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(SpecialQuestionAnswer, {
-    questionId: questionId,
-    finalAnswer: finalAnswer
-  }))));
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (QuestionBetScore);
-
-/***/ }),
-
-/***/ "./src/leaderboard/utils.js":
-/*!**********************************!*\
-  !*** ./src/leaderboard/utils.js ***!
-  \**********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "sumBetsScore": () => (/* binding */ sumBetsScore)
-/* harmony export */ });
-function sumBetsScore(bets) {
-  return bets.reduce(function (sum, bet) {
-    var _bet$score;
-
-    return sum + ((_bet$score = bet.score) !== null && _bet$score !== void 0 ? _bet$score : 0);
-  }, 0);
-}
-
-/***/ }),
-
-/***/ "./src/matches/ClosedMatchBetsProvider.js":
-/*!************************************************!*\
-  !*** ./src/matches/ClosedMatchBetsProvider.js ***!
-  \************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _matchesView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./matchesView */ "./src/matches/matchesView.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _selectors_closedMatchBets_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_selectors/closedMatchBets.ts */ "./src/_selectors/closedMatchBets.ts");
-
-
-
-
-
-var ClosedMatchBets = function ClosedMatchBets(_ref) {
-  var done_matches = _ref.done_matches,
-      live_matches = _ref.live_matches;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_matchesView__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    done_matches: done_matches,
-    live_matches: live_matches
-  });
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_2__.connect)(_selectors_closedMatchBets_ts__WEBPACK_IMPORTED_MODULE_3__.ClosedMatchBetsSelector)(ClosedMatchBets));
-
-/***/ }),
-
 /***/ "./src/matches/matchesView.js":
 /*!************************************!*\
   !*** ./src/matches/matchesView.js ***!
@@ -11275,1162 +10873,6 @@ var SpecialBetsTable = function SpecialBetsTable(_ref) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SpecialBetsTable);
-
-/***/ }),
-
-/***/ "./src/open_matches/editBet.js":
-/*!*************************************!*\
-  !*** ./src/open_matches/editBet.js ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _utils_index_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/index.ts */ "./src/utils/index.ts");
-/* harmony import */ var _widgets_koWinnerInput_koWinnerInput_tsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../widgets/koWinnerInput/koWinnerInput.tsx */ "./src/widgets/koWinnerInput/koWinnerInput.tsx");
-/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
-/* harmony import */ var _enums_winnerSide__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_enums/winnerSide */ "./src/_enums/winnerSide.js");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-
-
-
-
-function EditMatchBet(_ref) {
-  var _bet$winner_side, _bet$result_home, _bet$result_away;
-
-  var match = _ref.match,
-      onCancel = _ref.onCancel,
-      onSave = _ref.onSave;
-  var id = match.id,
-      start_time = match.start_time,
-      home_team = match.home_team,
-      away_team = match.away_team,
-      is_knockout = match.is_knockout,
-      _match$bet = match.bet,
-      bet = _match$bet === void 0 ? {} : _match$bet;
-
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)((_bet$winner_side = bet.winner_side) !== null && _bet$winner_side !== void 0 ? _bet$winner_side : null),
-      _useState2 = _slicedToArray(_useState, 2),
-      koWinner = _useState2[0],
-      setKoWinner = _useState2[1];
-
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)((_bet$result_home = bet.result_home) !== null && _bet$result_home !== void 0 ? _bet$result_home : ''),
-      _useState4 = _slicedToArray(_useState3, 2),
-      homeScore = _useState4[0],
-      setHomeScore = _useState4[1];
-
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)((_bet$result_away = bet.result_away) !== null && _bet$result_away !== void 0 ? _bet$result_away : ''),
-      _useState6 = _slicedToArray(_useState5, 2),
-      awayScore = _useState6[0],
-      setAwayScore = _useState6[1];
-
-  var winnerSide;
-  var hasHomeScore = homeScore !== '';
-  var hasAwayScore = awayScore !== '';
-
-  if (hasHomeScore && hasAwayScore) {
-    if (homeScore > awayScore) {
-      winnerSide = _enums_winnerSide__WEBPACK_IMPORTED_MODULE_5__.WINNER_SIDE.home;
-    } else if (homeScore < awayScore) {
-      winnerSide = _enums_winnerSide__WEBPACK_IMPORTED_MODULE_5__.WINNER_SIDE.away;
-    } else {
-      winnerSide = koWinner;
-    }
-  }
-
-  var showKoWinnerInput = is_knockout && hasAwayScore && hasHomeScore && homeScore === awayScore;
-
-  var koWinnerChange = function koWinnerChange(value) {
-    setKoWinner(value);
-  };
-
-  var homeScoreChange = function homeScoreChange(e) {
-    var value = parseInt(e.target.value);
-    var score = isNaN(value) ? '' : value;
-    setHomeScore(score >= 0 ? score : 0);
-  };
-
-  var awayScoreChange = function awayScoreChange(e) {
-    var value = parseInt(e.target.value);
-    var score = isNaN(value) ? '' : value;
-    setAwayScore(score >= 0 ? score : 0);
-  };
-
-  var isHomeWinner = winnerSide === _enums_winnerSide__WEBPACK_IMPORTED_MODULE_5__.WINNER_SIDE.home;
-  var isAwayWinner = winnerSide === _enums_winnerSide__WEBPACK_IMPORTED_MODULE_5__.WINNER_SIDE.away;
-
-  var saveBet = function saveBet() {
-    onSave({
-      homeScore: homeScore,
-      awayScore: awayScore,
-      koWinner: koWinner
-    });
-  };
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("tr", {
-    id: "row_match_".concat(id)
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
-    className: "admin"
-  }, id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
-    className: "v-align-center"
-  }, moment__WEBPACK_IMPORTED_MODULE_0___default()(start_time).format(_utils_index_ts__WEBPACK_IMPORTED_MODULE_2__.DEFAULT_DATETIME_FORMAT)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
-    className: "open-match-teams-cell v-align-center"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    crest_url: home_team.crest_url,
-    name: home_team.name,
-    is_ko_winner: isHomeWinner
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    crest_url: away_team.crest_url,
-    name: away_team.name,
-    is_ko_winner: isAwayWinner
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
-    className: "open-matches-bet-cell"
-  }, showKoWinnerInput && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_koWinnerInput_koWinnerInput_tsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    value: koWinner,
-    setValue: koWinnerChange
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
-    className: "row full-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
-    className: "spaced-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("input", {
-    onChange: homeScoreChange,
-    className: "form-control open-match-input",
-    type: "number",
-    value: homeScore
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
-    className: "row full-row",
-    style: {
-      height: 16,
-      fontSize: 11
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("span", {
-    hidden: true
-  }, "\u05DE\u05E2\u05E4\u05D9\u05DC\u05D4:")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
-    className: "spaced-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("input", {
-    onChange: awayScoreChange,
-    className: "form-control open-match-input",
-    type: "number",
-    value: awayScore
-  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
-    className: "v-align-center"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
-    style: {
-      display: 'flex',
-      justifyContent: 'space-between'
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("button", {
-    className: "btn btn-sm btn-primary",
-    onClick: saveBet
-  }, "\u05E9\u05DC\u05D7"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("span", {
-    style: {
-      cursor: 'pointer'
-    },
-    onClick: onCancel
-  }, "(X)"))));
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (EditMatchBet);
-
-/***/ }),
-
-/***/ "./src/open_matches/matchView.js":
-/*!***************************************!*\
-  !*** ./src/open_matches/matchView.js ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _utils_index_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/index.ts */ "./src/utils/index.ts");
-/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
-/* harmony import */ var _enums_winnerSide__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_enums/winnerSide */ "./src/_enums/winnerSide.js");
-
-
-
-
-
-
-function MatchWithBetView(_ref) {
-  var match = _ref.match,
-      onEdit = _ref.onEdit;
-  var id = match.id,
-      start_time = match.start_time,
-      home_team = match.home_team,
-      away_team = match.away_team,
-      is_knockout = match.is_knockout,
-      _match$bet = match.bet,
-      bet = _match$bet === void 0 ? {} : _match$bet;
-  var hasBet = bet.id !== undefined;
-  var winnerSide;
-
-  if (bet.id !== undefined && is_knockout) {
-    if (bet.result_home > bet.result_away) {
-      winnerSide = _enums_winnerSide__WEBPACK_IMPORTED_MODULE_4__.WINNER_SIDE.home;
-    } else if (bet.result_home < bet.result_away) {
-      winnerSide = _enums_winnerSide__WEBPACK_IMPORTED_MODULE_4__.WINNER_SIDE.away;
-    } else {
-      winnerSide = bet.winner_side;
-    }
-  }
-
-  var isHomeKoWinner = winnerSide === _enums_winnerSide__WEBPACK_IMPORTED_MODULE_4__.WINNER_SIDE.home;
-  var isAwayKoWinner = winnerSide === _enums_winnerSide__WEBPACK_IMPORTED_MODULE_4__.WINNER_SIDE.away;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("tr", {
-    id: "row_match_".concat(id)
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
-    className: "admin"
-  }, id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
-    className: "v-align-center"
-  }, moment__WEBPACK_IMPORTED_MODULE_0___default()(start_time).format(_utils_index_ts__WEBPACK_IMPORTED_MODULE_2__.DEFAULT_DATETIME_FORMAT)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
-    className: "open-match-teams-cell v-align-center"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    crest_url: home_team.crest_url,
-    name: home_team.name,
-    is_ko_winner: isHomeKoWinner
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    crest_url: away_team.crest_url,
-    name: away_team.name,
-    is_ko_winner: isAwayKoWinner
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
-    className: "open-matches-bet-cell"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, hasBet && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
-    className: "spaced-row",
-    style: {
-      flexDirection: 'column',
-      justifyContent: 'space-between'
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("p", null, bet.result_home), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("p", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("p", null, bet.result_away)), !hasBet && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("button", {
-    className: "btn btn-sm btn-primary",
-    onClick: onEdit
-  }, "\u05D4\u05D5\u05E1\u05E3"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
-    className: "v-align-center"
-  }, hasBet && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("button", {
-    className: "btn btn-sm btn-primary",
-    onClick: onEdit
-  }, "\u05E2\u05E8\u05D5\u05DA")));
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MatchWithBetView);
-
-/***/ }),
-
-/***/ "./src/open_matches/openMatchesProvider.js":
-/*!*************************************************!*\
-  !*** ./src/open_matches/openMatchesProvider.js ***!
-  \*************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _selectors_openMatches_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_selectors/openMatches.ts */ "./src/_selectors/openMatches.ts");
-/* harmony import */ var _actions_bets_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_actions/bets.ts */ "./src/_actions/bets.ts");
-/* harmony import */ var _openMatchesView__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./openMatchesView */ "./src/open_matches/openMatchesView.js");
-/* harmony import */ var _enums_betTypes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_enums/betTypes */ "./src/_enums/betTypes.js");
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-
-
-
-
-
-
-
-var OpenMatchesProvider = function OpenMatchesProvider(_ref) {
-  var matches = _ref.matches,
-      sendBetAndStore = _ref.sendBetAndStore;
-
-  function sendMatchBet(_x) {
-    return _sendMatchBet.apply(this, arguments);
-  }
-
-  function _sendMatchBet() {
-    _sendMatchBet = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(_ref2) {
-      var matchId, is_knockout, homeScore, awayScore, koWinner, valid_input_vals, params;
-      return _regeneratorRuntime().wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              matchId = _ref2.matchId, is_knockout = _ref2.is_knockout, homeScore = _ref2.homeScore, awayScore = _ref2.awayScore, koWinner = _ref2.koWinner;
-              valid_input_vals = _toConsumableArray(Array(21).keys());
-
-              if (!(homeScore === "" || valid_input_vals.indexOf(Number(homeScore)) === -1)) {
-                _context.next = 5;
-                break;
-              }
-
-              toastr["error"]("\u05DB\u05DE\u05D5\u05EA \u05E9\u05E2\u05E8\u05D9\u05DD \u05DC\u05E7\u05D1\u05D5\u05E6\u05D4 \u05D7\u05D9\u05D9\u05D1\u05EA \u05DC\u05D4\u05D9\u05D5\u05EA \u05DE\u05E1\u05E4\u05E8 \u05E9\u05DC\u05DD \u05D1\u05D9\u05DF 0 \u05DC-20. \u05D4\u05E2\u05E8\u05DA \u05E9\u05D4\u05EA\u05E7\u05D1\u05DC \u05DC\u05E7\u05D1\u05D5\u05E6\u05EA \u05D4\u05D1\u05D9\u05EA: ".concat(home_val));
-              return _context.abrupt("return");
-
-            case 5:
-              if (!(awayScore === "" || valid_input_vals.indexOf(Number(awayScore)) === -1)) {
-                _context.next = 8;
-                break;
-              }
-
-              toastr["error"]("\u05DB\u05DE\u05D5\u05EA \u05E9\u05E2\u05E8\u05D9\u05DD \u05DC\u05E7\u05D1\u05D5\u05E6\u05D4 \u05D7\u05D9\u05D9\u05D1\u05EA \u05DC\u05D4\u05D9\u05D5\u05EA \u05DE\u05E1\u05E4\u05E8 \u05E9\u05DC\u05DD \u05D1\u05D9\u05DF 0 \u05DC-20. \u05D4\u05E2\u05E8\u05DA \u05E9\u05D4\u05EA\u05E7\u05D1\u05DC \u05DC\u05E7\u05D1\u05D5\u05E6\u05EA \u05D4\u05D7\u05D5\u05E5: ".concat(away_val));
-              return _context.abrupt("return");
-
-            case 8:
-              params = {
-                type_id: matchId,
-                "result-home": homeScore,
-                "result-away": awayScore
-              };
-
-              if (!(is_knockout && homeScore == awayScore)) {
-                _context.next = 14;
-                break;
-              }
-
-              params['winner_side'] = koWinner;
-
-              if (koWinner) {
-                _context.next = 14;
-                break;
-              }
-
-              toastr["error"]("\u05E2\u05DC\u05D9\u05D9\u05DA \u05DC\u05D1\u05D7\u05D5\u05E8 \u05DE\u05E2\u05E4\u05D9\u05DC\u05D4 (\u05DE\u05DB\u05D9\u05D5\u05D5\u05DF \u05E9\u05E1\u05D9\u05DE\u05E0\u05EA \u05DE\u05E9\u05D7\u05E7 \u05E0\u05D5\u05E7\u05D0\u05D0\u05D5\u05D8 \u05E9\u05D9\u05D9\u05D2\u05DE\u05E8 \u05D1\u05EA\u05D9\u05E7\u05D5)");
-              return _context.abrupt("return");
-
-            case 14:
-              _context.next = 16;
-              return sendBetAndStore(_objectSpread(_objectSpread({}, params), {}, {
-                betType: _enums_betTypes__WEBPACK_IMPORTED_MODULE_5__.BetTypes.Match
-              })).then(function (data) {
-                toastr["success"]("ההימור נשלח");
-              })["catch"](function (error) {
-                console.log('FAILED updating bet', error);
-              });
-
-            case 16:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee);
-    }));
-    return _sendMatchBet.apply(this, arguments);
-  }
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_openMatchesView__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    matches: matches,
-    sendBet: sendMatchBet
-  });
-};
-
-var mapDispatchToProps = {
-  sendBetAndStore: _actions_bets_ts__WEBPACK_IMPORTED_MODULE_3__.sendBetAndStore
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors_openMatches_ts__WEBPACK_IMPORTED_MODULE_2__.MyOpenMatchBetsSelector, mapDispatchToProps)(OpenMatchesProvider));
-
-/***/ }),
-
-/***/ "./src/open_matches/openMatchesView.js":
-/*!*********************************************!*\
-  !*** ./src/open_matches/openMatchesView.js ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _editBet__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./editBet */ "./src/open_matches/editBet.js");
-/* harmony import */ var _matchView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./matchView */ "./src/open_matches/matchView.js");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-
-
-function MatchBet(_ref) {
-  var match = _ref.match,
-      sendBet = _ref.sendBet;
-  var id = match.id,
-      is_knockout = match.is_knockout;
-
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
-      _useState2 = _slicedToArray(_useState, 2),
-      edit = _useState2[0],
-      setEdit = _useState2[1];
-
-  var goToEditMode = function goToEditMode() {
-    return setEdit(true);
-  };
-
-  var cancelEditMode = function cancelEditMode() {
-    return setEdit(false);
-  };
-
-  var saveBet = function saveBet(_ref2) {
-    var homeScore = _ref2.homeScore,
-        awayScore = _ref2.awayScore,
-        koWinner = _ref2.koWinner;
-    sendBet({
-      matchId: id,
-      is_knockout: is_knockout,
-      homeScore: homeScore,
-      awayScore: awayScore,
-      koWinner: koWinner
-    }).then(function () {
-      cancelEditMode();
-    });
-  };
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, edit && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_editBet__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    match: match,
-    onCancel: cancelEditMode,
-    onSave: saveBet
-  }), !edit && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_matchView__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    match: match,
-    onEdit: goToEditMode
-  }));
-}
-
-var OpenMatchesView = function OpenMatchesView(_ref3) {
-  var _ref3$matches = _ref3.matches,
-      matches = _ref3$matches === void 0 ? [] : _ref3$matches,
-      sendBet = _ref3.sendBet;
-  var hasMatches = matches.length > 0;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("h1", null, "\u05E8\u05E9\u05D9\u05DE\u05EA \u05DE\u05E9\u05D7\u05E7\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("span", {
-    className: "admin"
-  }, moment__WEBPACK_IMPORTED_MODULE_0___default()().format('HH:mm  YYYY/MM/DD')), !hasMatches && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("h3", null, "\u05D0\u05D9\u05DF \u05DE\u05E9\u05D7\u05E7\u05D9\u05DD \u05E4\u05EA\u05D5\u05D7\u05D9\u05DD"), hasMatches && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("table", {
-    className: "table table-striped"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("th", {
-    className: "admin"
-  }, "\u05DE\u05D6\u05D4\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("th", {
-    className: "open-matches-date-header"
-  }, "\u05EA\u05D0\u05E8\u05D9\u05DA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("th", null, "\u05DE\u05E9\u05D7\u05E7"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("th", {
-    className: "open-matches-bet-header",
-    style: {
-      paddingLeft: 30
-    }
-  }, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("th", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("tbody", null, matches.map(function (match) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(MatchBet, {
-      key: match.id,
-      match: match,
-      sendBet: sendBet
-    });
-  }))));
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (OpenMatchesView);
-
-/***/ }),
-
-/***/ "./src/preTournamentBets/DraggableStandings.js":
-/*!*****************************************************!*\
-  !*** ./src/preTournamentBets/DraggableStandings.js ***!
-  \*****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _widgets_draggableList_DraggableList_tsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/draggableList/DraggableList.tsx */ "./src/widgets/draggableList/DraggableList.tsx");
-/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-
-
-
-
-function RanksView(_ref) {
-  var count = _ref.count;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: ""
-  }, _toConsumableArray(Array(count).keys()).map(function (index) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      key: index,
-      style: {
-        height: 36,
-        width: 40,
-        marginTop: 6,
-        marginBottom: 6
-      }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-      style: {
-        fontSize: 24,
-        lineHeight: 1.5
-      }
-    }, index + 1, "."));
-  }));
-}
-
-function TeamStanding(_ref2) {
-  var crest_url = _ref2.crest_url,
-      name = _ref2.name;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "team_row bg-info",
-    style: {
-      padding: 8,
-      width: '100%'
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    name: name,
-    crest_url: crest_url
-  }));
-}
-
-function DraggableStandings(_ref3) {
-  var items = _ref3.items,
-      setItems = _ref3.setItems;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "DraggableStandings"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(RanksView, {
-    count: items.length
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    style: {
-      flex: '1 auto'
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_draggableList_DraggableList_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    items: items,
-    setItems: setItems,
-    Component: TeamStanding
-  })));
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DraggableStandings);
-
-/***/ }),
-
-/***/ "./src/preTournamentBets/OpenGroupRankBetsProvider.js":
-/*!************************************************************!*\
-  !*** ./src/preTournamentBets/OpenGroupRankBetsProvider.js ***!
-  \************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _selectors_groupStandingBets_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_selectors/groupStandingBets.ts */ "./src/_selectors/groupStandingBets.ts");
-/* harmony import */ var _OpenGroupRankBetsView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./OpenGroupRankBetsView */ "./src/preTournamentBets/OpenGroupRankBetsView.js");
-/* harmony import */ var _enums_betTypes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_enums/betTypes */ "./src/_enums/betTypes.js");
-/* harmony import */ var _actions_bets_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_actions/bets.ts */ "./src/_actions/bets.ts");
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-
-
-
-
-
-
-
-var OpenGroupRankBetsProvider = function OpenGroupRankBetsProvider(_ref) {
-  var groupsWithBet = _ref.groupsWithBet,
-      sendBetAndStore = _ref.sendBetAndStore;
-
-  function sendGroupRankBet(_x) {
-    return _sendGroupRankBet.apply(this, arguments);
-  }
-
-  function _sendGroupRankBet() {
-    _sendGroupRankBet = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(_ref2) {
-      var groupId, standings, params;
-      return _regeneratorRuntime().wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              groupId = _ref2.groupId, standings = _ref2.standings;
-              params = {
-                betType: _enums_betTypes__WEBPACK_IMPORTED_MODULE_4__.BetTypes.GroupsRank,
-                type_id: groupId,
-                value: standings.map(function (team) {
-                  return team.id;
-                })
-              };
-              _context.next = 4;
-              return sendBetAndStore(params).then(function (data) {
-                toastr["success"]("ההימור נשלח");
-              })["catch"](function (error) {
-                console.log("FAILED sending bet", error);
-                toastr["error"](error.responseJSON.message);
-              });
-
-            case 4:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee);
-    }));
-    return _sendGroupRankBet.apply(this, arguments);
-  }
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_OpenGroupRankBetsView__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    groupsWithBet: groupsWithBet,
-    sendGroupRankBet: sendGroupRankBet
-  });
-};
-
-var mapDispatchToProps = {
-  sendBetAndStore: _actions_bets_ts__WEBPACK_IMPORTED_MODULE_5__.sendBetAndStore
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors_groupStandingBets_ts__WEBPACK_IMPORTED_MODULE_2__.OpenGroupRankBetsSelector, mapDispatchToProps)(OpenGroupRankBetsProvider));
-
-/***/ }),
-
-/***/ "./src/preTournamentBets/OpenGroupRankBetsView.js":
-/*!********************************************************!*\
-  !*** ./src/preTournamentBets/OpenGroupRankBetsView.js ***!
-  \********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
-/* harmony import */ var _DraggableStandings__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DraggableStandings */ "./src/preTournamentBets/DraggableStandings.js");
-/* harmony import */ var _openGroupRankBets_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./openGroupRankBets.scss */ "./src/preTournamentBets/openGroupRankBets.scss");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-
-
-function GroupRankBetView(_ref) {
-  var groupWithBet = _ref.groupWithBet,
-      sendGroupRankBet = _ref.sendGroupRankBet;
-  var name = groupWithBet.name,
-      id = groupWithBet.id,
-      bet = groupWithBet.bet,
-      teams = groupWithBet.teams;
-
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
-      _useState2 = _slicedToArray(_useState, 2),
-      standingsInput = _useState2[0],
-      setStandingsInput = _useState2[1];
-
-  var teamsByRank = (bet === null || bet === void 0 ? void 0 : bet.standings) || teams;
-  var groupStandings = standingsInput || teamsByRank;
-
-  var sendBet = function sendBet() {
-    sendGroupRankBet({
-      groupId: id,
-      standings: groupStandings
-    });
-  };
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "GroupRankBetView col-xs-12 col-md-9 col-lg-7",
-    style: {
-      "float": 'right',
-      borderRadius: 5,
-      border: '#000 1px solid',
-      marginBottom: 25,
-      padding: 10
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
-    style: {
-      textAlign: 'center'
-    }
-  }, name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    id: "current-bet-".concat(id, "-position"),
-    className: "col-xs-4"
-  }, bet && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", null, "\u05D4\u05D9\u05DE\u05D5\u05E8 \u05E0\u05D5\u05DB\u05D7\u05D9:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ol", {
-    className: "currentBet",
-    style: {
-      paddingRight: 10
-    }
-  }, bet.standings.map(function (team, index) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-      key: index,
-      style: {
-        fontSize: '80%'
-      },
-      "data-pos": index + 1
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      name: team.name,
-      crest_url: team.crest_url
-    }));
-  }))), !bet && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", null, "\u05DC\u05D0 \u05E7\u05D9\u05D9\u05DD \u05D4\u05D9\u05DE\u05D5\u05E8 \u05E0\u05D5\u05DB\u05D7\u05D9")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    id: "set-bet-table-".concat(id),
-    className: "".concat(bet ? 'col-xs-8' : 'col-xs-12')
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_DraggableStandings__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    items: groupStandings,
-    setItems: setStandingsInput
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    style: {
-      paddingRight: 40,
-      marginTop: 16
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    onClick: sendBet,
-    type: "button",
-    className: "btn btn-primary"
-  }, "\u05E9\u05DC\u05D7")))));
-}
-
-var OpenGroupRankBetsView = function OpenGroupRankBetsView(_ref2) {
-  var groupsWithBet = _ref2.groupsWithBet,
-      sendGroupRankBet = _ref2.sendGroupRankBet;
-  var isAvaiable = true;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, isAvaiable && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "row",
-    style: {
-      marginRight: -10,
-      marginLeft: -10
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9 \u05D1\u05EA\u05D9\u05DD \u05E4\u05EA\u05D5\u05D7\u05D9\u05DD"), groupsWithBet.map(function (groupWithBet) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(GroupRankBetView, {
-      key: groupWithBet.id,
-      groupWithBet: groupWithBet,
-      sendGroupRankBet: sendGroupRankBet
-    });
-  })), !isAvaiable && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "\u05E0\u05E1\u05D2\u05E8\u05D5 \u05D4\u05D9\u05DE\u05D5\u05E8\u05D9 \u05D4\u05D1\u05EA\u05D9\u05DD! \u05DC\u05D0 \u05E0\u05D9\u05EA\u05DF \u05DC\u05E2\u05D3\u05DB\u05DF \u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05D0\u05DC\u05D4"));
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (OpenGroupRankBetsView);
-
-/***/ }),
-
-/***/ "./src/questionBets/ClosedQuestionBetsProvider.js":
-/*!********************************************************!*\
-  !*** ./src/questionBets/ClosedQuestionBetsProvider.js ***!
-  \********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _QuestionBetsView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuestionBetsView */ "./src/questionBets/QuestionBetsView.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _selectors_questionBets_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_selectors/questionBets.ts */ "./src/_selectors/questionBets.ts");
-
-
-
-
-
-var ClosedQuestionBets = function ClosedQuestionBets(_ref) {
-  var questions = _ref.questions,
-      betsByQuestionId = _ref.betsByQuestionId;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_QuestionBetsView__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    questions: questions,
-    betsByQuestionId: betsByQuestionId
-  });
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_2__.connect)(_selectors_questionBets_ts__WEBPACK_IMPORTED_MODULE_3__.ClosedQuestionBetsSelector)(ClosedQuestionBets));
-
-/***/ }),
-
-/***/ "./src/questionBets/QuestionBetsView.js":
-/*!**********************************************!*\
-  !*** ./src/questionBets/QuestionBetsView.js ***!
-  \**********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
-
-
-
-function QuestionBetRow(_ref) {
-  var name = _ref.name,
-      crest_url = _ref.crest_url,
-      gumblers = _ref.gumblers;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    className: "list-group-item row full-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-5 pull-right"
-  }, crest_url && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    name: name,
-    crest_url: crest_url
-  }), !crest_url && name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-5 pull-right"
-  }, gumblers.map(function (name) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      key: name
-    }, name);
-  })));
-}
-
-function QuestionBetsList(_ref2) {
-  var name = _ref2.name,
-      id = _ref2.id,
-      bets = _ref2.bets;
-
-  var betsByAnswer = _.groupBy(bets, function (bet) {
-    return bet.answer.id;
-  });
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    id: "special-bet-wrapper-".concat(id),
-    className: "tab-pane fade",
-    style: {
-      padding: 10
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", {
-    className: "text-center"
-  }, name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    style: {
-      paddingTop: 35
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    className: "list-group",
-    style: {
-      paddingRight: 0
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    className: "list-group-item row full-row",
-    style: {
-      background: '#d2d2d2'
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-5 pull-right"
-  }, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-5 pull-right"
-  }, "\u05DE\u05D4\u05DE\u05E8\u05D9\u05DD")), Object.values(betsByAnswer).map(function (bets) {
-    var answer = bets[0].answer;
-    var name = answer.name,
-        crest_url = answer.crest_url,
-        id = answer.id;
-    var gumblers = bets.map(function (bet) {
-      return bet.utlName;
-    });
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(QuestionBetRow, {
-      key: id,
-      name: name,
-      crest_url: crest_url,
-      gumblers: gumblers
-    });
-  }))));
-}
-
-function QuestionTab(_ref3) {
-  var name = _ref3.name,
-      id = _ref3.id;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    className: "float-right "
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", {
-    "data-toggle": "tab",
-    href: "#special-bet-wrapper-".concat(id)
-  }, name));
-}
-
-var QuestionBetsView = function QuestionBetsView(_ref4) {
-  var questions = _ref4.questions,
-      betsByQuestionId = _ref4.betsByQuestionId;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05DE\u05D9\u05D5\u05D7\u05D3\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "float-right"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    className: "nav nav-tabs",
-    style: {
-      paddingRight: 0
-    }
-  }, Object.values(questions).map(function (question) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(QuestionTab, {
-      key: question.id,
-      name: question.name,
-      id: question.id
-    });
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "tab-content",
-    style: {
-      marginTop: 25
-    }
-  }, Object.values(questions).map(function (question, i) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(QuestionBetsList, {
-      key: question.id,
-      name: question.name,
-      id: question.id,
-      bets: betsByQuestionId[question.id]
-    });
-  }))));
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (QuestionBetsView);
-
-/***/ }),
-
-/***/ "./src/takanon/Takanon.js":
-/*!********************************!*\
-  !*** ./src/takanon/Takanon.js ***!
-  \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/takanon/style.scss");
-
-
-
-function Takanon(props) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "all-ltr",
-    style: {
-      marginBottom: 30
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", {
-    style: {
-      textAlign: 'center'
-    }
-  }, "\u05EA\u05E7\u05E0\u05D5\u05DF \u05DE\u05E9\u05D7\u05E7 \u05D9\u05D5\u05E8\u05D5 \u05D7\u05D1\u05E8\u05D9\u05DD 2021"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", {
-    style: {
-      marginBottom: 20
-    }
-  }, "\u05E9\u05DC\u05D9\u05D7\u05EA \u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "text-part"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9 \u05DE\u05E9\u05D7\u05E7\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "\u05DB\u05DC \u05DE\u05E9\u05D7\u05E7 \u05E4\u05EA\u05D5\u05D7 \u05DC\u05D4\u05D9\u05DE\u05D5\u05E8 \u05E2\u05D3 \u05DC\u05E9\u05E2\u05EA \u05EA\u05D7\u05D9\u05DC\u05EA \u05D4\u05DE\u05E9\u05D7\u05E7.", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), "\u05DB\u05DC\u05DC \u05D4\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05E0\u05D7\u05E9\u05E4\u05D9\u05DD \u05D1\u05EA\u05D7\u05D9\u05DC\u05EA \u05D4\u05DE\u05E9\u05D7\u05E7 \u05D5\u05E0\u05D9\u05EA\u05E0\u05D9\u05DD \u05DC\u05E6\u05E4\u05D9\u05D9\u05D4 \u05D1\u05DC\u05E9\u05D5\u05E0\u05D9\u05EA \"\u05E6\u05E4\u05D9\u05D9\u05D4 \u05D1\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD\".", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), "\u05D9\u05E9 \u05DC\u05D1\u05D7\u05D5\u05E8 \u05D0\u05EA \u05D4\u05EA\u05D5\u05E6\u05D0\u05D4 \u05D5\u05DC\u05DC\u05D7\u05D5\u05E5 \u05E2\u05DC \"\u05E9\u05DC\u05D7\" \u05D1\u05E1\u05D9\u05D5\u05DD")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "text-part"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05DE\u05D9\u05D5\u05D7\u05D3\u05D9\u05DD \u05D5\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9 \u05D1\u05EA\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "\u05D9\u05E9 \u05DC\u05DE\u05DC\u05D0 \u05D0\u05EA \u05DB\u05DC\u05DC \u05D4\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05D4\u05DE\u05D9\u05D5\u05D7\u05D3\u05D9\u05DD \u05D5\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9 \u05D4\u05D1\u05EA\u05D9\u05DD \u05E2\u05D3 \u05DC\u05E9\u05E8\u05D9\u05E7\u05EA \u05D4\u05E4\u05EA\u05D9\u05D7\u05D4 \u05E9\u05DC \u05D4\u05DE\u05E9\u05D7\u05E7 \u05D4\u05E8\u05D0\u05E9\u05D5\u05DF \u05D1\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8.", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), "\u05DC\u05D0 \u05E0\u05D9\u05EA\u05DF \u05D9\u05D4\u05D9\u05D4 \u05DC\u05E2\u05E8\u05D5\u05DA \u05D0\u05D5 \u05DC\u05E9\u05E0\u05D5\u05EA \u05D0\u05EA \u05D4\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05D1\u05DE\u05D4\u05DC\u05DA \u05D4\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", {
-    style: {
-      marginBottom: 20
-    }
-  }, "\u05E0\u05D9\u05E7\u05D5\u05D3"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "text-part"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05E9\u05DC\u05D1 \u05D4\u05D1\u05EA\u05D9\u05DD \u2013 36 \u05DE\u05E9\u05D7\u05E7\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "bold"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "1X2"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "1")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "bold"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05EA\u05D5\u05E6\u05D0\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "2")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "divide"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E1\u05DB\u05D5\u05DD \u05DC\u05DE\u05E9\u05D7\u05E7"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "3")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DE\u05E7\u05E1\u05D9\u05DE\u05D5\u05DD \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "108"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "text-part"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05E9\u05DC\u05D1 \u05D4\u05E0\u05D5\u05E7\u05D0\u05D0\u05D5\u05D8 \u2013 15 \u05DE\u05E9\u05D7\u05E7\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "bold"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DE\u05E2\u05E4\u05D9\u05DC\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "2")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "bold"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "1X2"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "1")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "bold"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05EA\u05D5\u05E6\u05D0\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "6")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "divide"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E1\u05DB\u05D5\u05DD \u05DC\u05DE\u05E9\u05D7\u05E7"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "9")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DE\u05E7\u05E1\u05D9\u05DE\u05D5\u05DD \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "108")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    style: {
-      marginTop: 8
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D1\u05DE\u05D9\u05D3\u05D4 \u05D5\u05E1\u05D5\u05DE\u05E0\u05D4 \u05EA\u05D5\u05E6\u05D0\u05EA \u05EA\u05D9\u05E7\u05D5, \u05D9\u05D4\u05D9\u05D4 \u05E2\u05DC\u05D9\u05D9\u05DA \u05DC\u05D1\u05D7\u05D5\u05E8 \u05DE\u05E2\u05E4\u05D9\u05DC\u05D4. \u05D0\u05D7\u05E8\u05EA \u05D4\u05DE\u05E2\u05E4\u05D9\u05DC\u05D4 \u05E0\u05E7\u05D1\u05E2\u05EA \u05DC\u05E4\u05D9 \u05D4\u05EA\u05D5\u05E6\u05D0\u05D4."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D4\u05D9\u05DE\u05D5\u05E8 1X2 - \u05DE\u05D7\u05D5\u05E9\u05D1 \u05DC\u05E4\u05D9 \u05EA\u05D5\u05E6\u05D0\u05D4 \u05D1\u05EA\u05D5\u05DD 90 \u05D3\u05E7' (\u05DB\u05DC\u05D5\u05DE\u05E8 \u05DC\u05E4\u05E0\u05D9 \u05D4\u05D0\u05E8\u05DB\u05D4)")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
-    className: "underlined"
-  }, "\u05D3\u05D5\u05D2\u05DE\u05D0\u05D5\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05EA\u05D5\u05E6\u05D0\u05D4 \u05D1\u05E4\u05D5\u05E2\u05DC"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05E1\u05D1\u05E8"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E6\u05E8\u05E4\u05EA(1) - \u05E1\u05E4\u05E8\u05D3(2)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "1-1 \u05D1\u05EA\u05D5\u05DD 90 \u05D3\u05E7\u05D5\u05EA \u05D5\u05D0\u05D7\u05E8\u05D9 \u05D4\u05D0\u05E8\u05DB\u05D4 \u05E1\u05E4\u05E8\u05D3 \u05DE\u05E0\u05E6\u05D7\u05EA 2-1."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "2"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "- 2 \u05E0\u05E7' \u05E2\u05DC \u05DE\u05E2\u05E4\u05D9\u05DC\u05D4 - 0 \u05E0\u05E7' \u05E2\u05DC 1X2 - 0 \u05E2\u05DC \u05EA\u05D5\u05E6\u05D0\u05D4")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "\u05E6\u05E8\u05E4\u05EA(1) - \u05E1\u05E4\u05E8\u05D3(1) \u05D5\u05E6\u05E8\u05E4\u05EA \u05E2\u05D5\u05DC\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "1-1 \u05D1\u05EA\u05D5\u05DD 90 \u05D3\u05E7\u05D5\u05EA \u05D5\u05D0\u05D7\u05E8\u05D9 \u05D4\u05D0\u05E8\u05DB\u05D4 \u05E1\u05E4\u05E8\u05D3 \u05DE\u05E0\u05E6\u05D7\u05EA 2-1."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "7"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "- 1 \u05E0\u05E7' \u05E2\u05DC 1X2 - 6 \u05E0\u05E7' \u05E2\u05DC \u05EA\u05D5\u05E6\u05D0\u05D4 \u05DE\u05D3\u05D5\u05D9\u05E7\u05EA - 0 \u05E0\u05E7' \u05E2\u05DC \u05DE\u05E2\u05E4\u05D9\u05DC\u05D4")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E6\u05E8\u05E4\u05EA(1) - \u05E1\u05E4\u05E8\u05D3(0)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "\u05E6\u05E8\u05E4\u05EA \u05DE\u05E0\u05E6\u05D7\u05EA 4-3"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "3"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "- 1 \u05E0\u05E7' \u05E2\u05DC 1X2 - 2 \u05E0\u05E7' \u05E2\u05DC \u05DE\u05E2\u05E4\u05D9\u05DC\u05D4 - 0 \u05E0\u05E7' \u05E2\u05DC \u05EA\u05D5\u05E6\u05D0\u05D4")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E6\u05E8\u05E4\u05EA(1) - \u05E1\u05E4\u05E8\u05D3(0)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "\u05E6\u05E8\u05E4\u05EA \u05DE\u05E0\u05E6\u05D7\u05EA 1-0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "9"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "- 1 \u05E0\u05E7' \u05E2\u05DC 1X2 - 2 \u05E0\u05E7' \u05E2\u05DC \u05DE\u05E2\u05E4\u05D9\u05DC\u05D4 - 6 \u05E0\u05E7' \u05E2\u05DC \u05EA\u05D5\u05E6\u05D0\u05D4 \u05DE\u05D3\u05D5\u05D9\u05E7\u05EA"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "text-part"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05D3\u05D9\u05E8\u05D5\u05D2 \u05D1\u05EA\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "bold"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E1\u05D9\u05D3\u05D5\u05E8 \u05DE\u05D5\u05E9\u05DC\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "6")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "bold"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05D8\u05E2\u05D5\u05EA \u05DE\u05D9\u05E0\u05D9\u05DE\u05DC\u05D9\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "3")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "divide"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DE\u05E7\u05E1\u05D9\u05DE\u05D5\u05DD \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "36")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    style: {
-      marginTop: 8
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D8\u05E2\u05D5\u05EA \u05DE\u05D9\u05E0\u05D9\u05DE\u05DC\u05D9\u05EA = \u05D4\u05D9\u05E4\u05D5\u05DA \u05D1\u05D9\u05DF \u05DE\u05E7\u05D5\u05DE\u05D5\u05EA \u05E6\u05DE\u05D5\u05D3\u05D9\u05DD (\u05D8\u05E2\u05D5\u05EA \u05D0\u05D7\u05EA \u05D1\u05D9\u05DF \u05DE\u05E7\u05D5\u05DE\u05D5\u05EA 1,2 \u05D0\u05D5 2,3 \u05D0\u05D5 3,4)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "* \u05D1\u05DE\u05E7\u05E8\u05D4 \u05D4\u05E0\u05D3\u05D9\u05E8 \u05D1\u05D5 2 \u05E7\u05D1\u05D5\u05E6\u05D5\u05EA (\u05D0\u05D5 \u05D9\u05D5\u05EA\u05E8) \u05E1\u05D9\u05D9\u05DE\u05D5 \u05D1\u05DE\u05E7\u05D5\u05DD \u05D6\u05D4\u05D4 (\u05E9\u05D5\u05D5\u05D9\u05D5\u05DF \u05DB\u05D5\u05DC\u05DC \u05E9\u05DC \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA \u05D5\u05E9\u05E2\u05E8\u05D9\u05DD \u05DB\u05DA \u05E9\u05D4\u05DE\u05D9\u05E7\u05D5\u05DD \u05E9\u05DC\u05D4\u05DD \u05DE\u05D5\u05DB\u05E8\u05E2 \u05D1\u05D4\u05D8\u05DC\u05EA \u05DE\u05D8\u05D1\u05E2) \u05D4\u05D7\u05D9\u05E9\u05D5\u05D1 \u05D9\u05EA\u05D1\u05E6\u05E2 \u05DC\u05D8\u05D5\u05D1\u05EA \u05D4\u05DE\u05D4\u05DE\u05E8\u05D9\u05DD")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
-    className: "underlined"
-  }, "\u05D3\u05D5\u05D2\u05DE\u05D0\u05D5\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05EA\u05D5\u05E6\u05D0\u05D4 \u05D1\u05E4\u05D5\u05E2\u05DC"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05E1\u05D1\u05E8"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    rowSpan: "4",
-    className: "preline v-align-center"
-  }, "1. \u05D5\u05D5\u05D9\u05DC\u05E1 2. \u05E9\u05D5\u05D5\u05D9\u05E5 3. \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 4. \u05D0\u05D9\u05D8\u05DC\u05D9\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "1. \u05D5\u05D5\u05D9\u05DC\u05E1 2. \u05E9\u05D5\u05D5\u05D9\u05E5 3. \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 4. \u05D0\u05D9\u05D8\u05DC\u05D9\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "6"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "1. \u05D5\u05D5\u05D9\u05DC\u05E1 2. \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 3. \u05E9\u05D5\u05D5\u05D9\u05E5 4. \u05D0\u05D9\u05D8\u05DC\u05D9\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "3"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "1. \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 2. \u05D5\u05D5\u05D9\u05DC\u05E1 3. \u05E9\u05D5\u05D5\u05D9\u05E5 4. \u05D0\u05D9\u05D8\u05DC\u05D9\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "1. \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 (\u05D1\u05E9\u05D5\u05D5\u05D9\u05D5\u05DF \u05DB\u05D5\u05DC\u05DC \u05D9\u05D7\u05D3 \u05E2\u05DD \u05D5\u05D5\u05D9\u05D9\u05DC\u05E1) 1. \u05D5\u05D5\u05D9\u05DC\u05E1 (\u05D1\u05E9\u05D5\u05D5\u05D9\u05D5\u05DF \u05DB\u05D5\u05DC\u05DC \u05D9\u05D7\u05D3 \u05E2\u05DD \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4) 3. \u05E9\u05D5\u05D5\u05D9\u05E5 4. \u05D0\u05D9\u05D8\u05DC\u05D9\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "3"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "\u05D1\u05DE\u05E7\u05E8\u05D4 \u05D1\u05D5 2 \u05E7\u05D1\u05D5\u05E6\u05D5\u05EA \u05E1\u05D9\u05D9\u05DE\u05D5 \u05D1\u05DE\u05D9\u05E7\u05D5\u05DD \u05D6\u05D4\u05D4 - \u05D4\u05D7\u05D9\u05E9\u05D5\u05D1 \u05DE\u05EA\u05D1\u05E6\u05E2 \u05DC\u05D8\u05D5\u05D1\u05EA \u05D4\u05DE\u05D4\u05DE\u05E8. \u05DB\u05DC\u05D5\u05DE\u05E8 \u05D1\u05D1\u05D9\u05EA \u05D4\u05E0\"\u05DC \u05D9\u05D9\u05D1\u05D3\u05E7 \u05DB\u05DE\u05D4 \u05E0\u05E7' \u05D9\u05E7\u05D1\u05DC \u05D4\u05DE\u05E9\u05EA\u05DE\u05E9 \u05E2\u05DC \u05D4\u05D4\u05D9\u05DE\u05D5\u05E8 \u05DB\u05E9\u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 \u05D4\u05D9\u05D0 \u05D1\u05DE\u05E7\u05D5\u05DD 1 \u05D5-\u05D5\u05D5\u05D9\u05DC\u05E1 \u05D1\u05DE\u05E7\u05D5\u05DD 2 (0 \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA) \u05D5\u05D9\u05D9\u05D1\u05D3\u05E7 \u05DB\u05DE\u05D4 \u05E0\u05E7' \u05D9\u05E7\u05D1\u05DC \u05D4\u05DE\u05E9\u05EA\u05DE\u05E9 \u05E2\u05DC \u05D4\u05D4\u05D9\u05DE\u05D5\u05E8 \u05DB\u05E9-\u05D5\u05D5\u05D9\u05DC\u05E1 \u05D1\u05DE\u05E7\u05D5\u05DD 1 \u05D5\u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 \u05D1\u05DE\u05E7\u05D5\u05DD 2 (3 \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA). \u05D4\u05DE\u05E9\u05EA\u05DE\u05E9 \u05D9\u05E7\u05D1\u05DC \u05D0\u05EA \u05D4\u05E0\u05D9\u05E7\u05D5\u05D3 \u05D4\u05D2\u05D1\u05D5\u05D4 \u05DE\u05D1\u05D9\u05DF \u05D4\u05D0\u05D5\u05E4\u05E6\u05D9\u05D5\u05EA \u05D4\u05E0\"\u05DC. \u05DC\u05DB\u05DF \u05D1\u05DE\u05E7\u05E8\u05D4 \u05D6\u05D4 \u05D9\u05E7\u05D1\u05DC \u05DC3 \u05E0\u05E7'."))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "text-part"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05DE\u05D9\u05D5\u05D7\u05D3\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
-    className: "underlined"
-  }, "\u05D6\u05D5\u05DB\u05D4 \u05D5\u05E1\u05D2\u05E0\u05D9\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "bold"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05D4\u05E2\u05E4\u05DC\u05EA \u05E9\u05DC\u05D1"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "5")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "bold"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05D6\u05DB\u05D9\u05D9\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "15")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "divide"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DE\u05E7\u05E1\u05D9\u05DE\u05D5\u05DD \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "45")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D2\u05E2\u05D4 \u05DC"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E8\u05D1\u05E2 \u05D2\u05DE\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D7\u05E6\u05D9 \u05D2\u05DE\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D2\u05DE\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D6\u05DB\u05D9\u05D9\u05D4"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "bold"
-  }, "\u05D6\u05D5\u05DB\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "5"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "10"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "15"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "30")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "bold"
-  }, "\u05E1\u05D2\u05E0\u05D9\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "5"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "10"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "15"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
-    className: "underlined"
-  }, "\u05DE\u05DC\u05DA \u05E9\u05E2\u05E8\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DC\u05DB\u05DC \u05D2\u05D5\u05DC"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "2")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05D6\u05DB\u05D9\u05D9\u05D4 \u05D1\u05EA\u05D5\u05D0\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "4")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    style: {
-      marginTop: 8
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05DB\u05D3\u05D9 \u05DC\u05D4\u05DE\u05E8 \u05E2\u05DC \u05E9\u05D7\u05E7\u05DF \u05E9\u05DC\u05D0 \u05DE\u05D5\u05E4\u05D9\u05E2 \u05D1\u05E8\u05E9\u05D9\u05DE\u05D4 - \u05D0\u05E0\u05D0 \u05E4\u05E0\u05D5 \u05DC\u05D0\u05D7\u05D3 \u05D4\u05DE\u05E0\u05D4\u05DC\u05D9\u05DD \u05DB\u05D3\u05D9 \u05E9\u05D9\u05D5\u05E1\u05D9\u05E3 \u05D0\u05EA \u05D4\u05E9\u05D7\u05E7\u05DF \u05DC\u05E8\u05E9\u05D9\u05DE\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05DC\u05D0 \u05E0\u05D9\u05EA\u05DF \u05DC\u05D4\u05D7\u05DC\u05D9\u05E3 \u05DE\u05DC\u05DA \u05E9\u05E2\u05E8\u05D9\u05DD \u05D1\u05DE\u05D4\u05DC\u05DA \u05D4\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8 (\u05D2\u05DD \u05D0\u05DD \u05E9\u05D7\u05E7\u05DF \u05E0\u05E4\u05E6\u05E2)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D1\u05DE\u05D9\u05D3\u05D4 \u05D5\u05D9\u05E9 \u05EA\u05D9\u05E7\u05D5 \u05D1\u05DE\u05DC\u05DA \u05E9\u05E2\u05E8\u05D9\u05DD - \u05DB\u05DC \u05D4\u05D9\u05DE\u05D5\u05E8 \u05E2\u05DC \u05D0\u05D7\u05D3 \u05DE\u05D4\u05E9\u05D7\u05E7\u05E0\u05D9\u05DD \u05D9\u05D6\u05DB\u05D4 \u05D0\u05EA \u05D4\u05DE\u05D4\u05DE\u05E8 \u05D14 \u05D4\u05E0\u05E7' \u05E2\u05DC \u05D6\u05DB\u05D9\u05D9\u05D4 \u05D1\u05EA\u05D5\u05D0\u05E8")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
-    className: "underlined"
-  }, "\u05DE\u05DC\u05DA \u05D1\u05D9\u05E9\u05D5\u05DC\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", null, "10 \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    style: {
-      marginTop: 8
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D9\u05E9 \u05DC\u05DE\u05DC\u05D0 \u05E9\u05DD \u05DE\u05DC\u05D0 \u05E2\u05DC \u05DE\u05E0\u05EA \u05E9\u05D9\u05D4\u05D9\u05D4 \u05D1\u05E8\u05D5\u05E8 \u05E2\u05DC \u05DE\u05D9 \u05DE\u05D4\u05DE\u05E8\u05D9\u05DD (\u05DC\u05D3\u05D5\u05D2\u05DE\u05D4: \u05DC\u05D0 \u05DC\u05DB\u05EA\u05D5\u05D1 \u05E8\u05E7 \"\u05E1\u05D9\u05DC\u05D1\u05D4\")"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D1\u05DE\u05E7\u05E8\u05D4 \u05E9\u05DC \u05EA\u05D9\u05E7\u05D5 - \u05DB\u05DC \u05D4\u05D9\u05DE\u05D5\u05E8 \u05E2\u05DC \u05D0\u05D7\u05D3 \u05DE\u05D4\u05E9\u05D7\u05E7\u05E0\u05D9\u05DD \u05D9\u05D6\u05DB\u05D4 \u05D0\u05EA \u05D4\u05DE\u05D4\u05DE\u05E8 \u05D1\u05DE\u05DC\u05D5\u05D0 10 \u05D4\u05E0\u05E7\u05D5\u05D3\u05D5\u05EA")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
-    className: "underlined"
-  }, "\u05DE\u05E6\u05D8\u05D9\u05D9\u05DF \u05D4\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", null, "10 \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    style: {
-      marginTop: 8
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D9\u05E9 \u05DC\u05DE\u05DC\u05D0 \u05E9\u05DD \u05DE\u05DC\u05D0 \u05E2\u05DC \u05DE\u05E0\u05EA \u05E9\u05D9\u05D4\u05D9\u05D4 \u05D1\u05E8\u05D5\u05E8 \u05E2\u05DC \u05DE\u05D9 \u05DE\u05D4\u05DE\u05E8\u05D9\u05DD (\u05DC\u05D3\u05D5\u05D2\u05DE\u05D4: \u05DC\u05D0 \u05DC\u05DB\u05EA\u05D5\u05D1 \u05E8\u05E7 \"\u05E1\u05D9\u05DC\u05D1\u05D4\")")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
-    className: "underlined"
-  }, "\u05D4\u05D4\u05EA\u05E7\u05E4\u05D4 \u05D4\u05D7\u05D6\u05E7\u05D4 \u05D1\u05D1\u05EA\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", null, "5 \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", null, "\u05D4\u05E7\u05D1\u05D5\u05E6\u05D4 \u05E9\u05D4\u05D1\u05E7\u05D9\u05E2\u05D4 \u05D4\u05DB\u05D9 \u05D4\u05E8\u05D1\u05D4 \u05E9\u05E2\u05E8\u05D9\u05DD \u05D1\u05D1\u05EA\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    style: {
-      marginTop: 8
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D1\u05DE\u05E7\u05E8\u05D4 \u05E9\u05DC \u05EA\u05D9\u05E7\u05D5 - \u05DB\u05DC \u05D4\u05D9\u05DE\u05D5\u05E8 \u05E2\u05DC \u05D0\u05D7\u05EA \u05DE\u05D4\u05E7\u05D1\u05D5\u05E6\u05D5\u05EA \u05D9\u05D6\u05DB\u05D4 \u05D0\u05EA \u05D4\u05DE\u05D4\u05DE\u05E8 \u05D1\u05DE\u05DC\u05D5\u05D0 \u05D4\u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", {
-    style: {
-      marginBottom: 20
-    }
-  }, "\u05E4\u05E8\u05E1\u05D9\u05DD \u05D5\u05DB\u05E1\u05E4\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "text-part"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", {
-    className: "underlined"
-  }, "\u05D3\u05DE\u05D9 \u05DB\u05E0\u05D9\u05E1\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "200")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "text-part"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", {
-    className: "underlined"
-  }, "\u05E1\u05DB\u05D5\u05DE\u05D9 \u05D6\u05DB\u05D9\u05D9\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    style: {
-      marginTop: 8
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("u", null, "\u05DE\u05E7\u05D5\u05DD \u05E8\u05D0\u05E9\u05D5\u05DF:"), " 1800"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("u", null, "\u05DE\u05E7\u05D5\u05DD \u05E9\u05E0\u05D9:"), " 800"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("u", null, "\u05DE\u05E7\u05D5\u05DD \u05E9\u05DC\u05D9\u05E9\u05D9:"), " 400"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("u", null, "\u05DE\u05E7\u05D5\u05DD \u05E8\u05D1\u05D9\u05E2\u05D9:"), " \u05D6\u05D5\u05DB\u05D4 \u05D1\u05D3\u05DE\u05D9 \u05D4\u05DB\u05E0\u05D9\u05E1\u05D4 (200 \u05E9\"\u05D7)"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", {
-    style: {
-      marginBottom: 20
-    }
-  }, "\u05DB\u05DC\u05DC\u05D9"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D1\u05DE\u05D9\u05D3\u05D4 \u05D5\u05D9\u05E9 \u05E9\u05D0\u05DC\u05D5\u05EA / \u05DE\u05E7\u05E8\u05D9\u05DD \u05E9\u05DC\u05D0 \u05D4\u05D5\u05E1\u05D1\u05E8\u05D5 \u05D1\u05EA\u05E7\u05E0\u05D5\u05DF - \u05D0\u05E0\u05D0 \u05E4\u05E0\u05D5 \u05DC\u05D0\u05D7\u05D3 \u05D4\u05DE\u05E0\u05D4\u05DC\u05D9\u05DD \u05DB\u05D3\u05D9 \u05E9\u05D9\u05E2\u05D3\u05DB\u05DF \u05D0\u05EA \u05D4\u05EA\u05E7\u05E0\u05D5\u05DF"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D0\u05DD \u05D9\u05E9 \u05E0\u05D5\u05E9\u05D0 \u05E9\u05D0\u05D9\u05E0\u05D5 \u05DE\u05E4\u05D5\u05E8\u05D8 \u05D1\u05EA\u05E7\u05E0\u05D5\u05DF - \u05D4\u05D7\u05DC\u05D8\u05D4 \u05D1\u05E0\u05D5\u05E9\u05D0 \u05EA\u05E7\u05D1\u05E2 \u05DC\u05E4\u05D9 \u05E9\u05D9\u05E7\u05D5\u05DC \u05D3\u05E2\u05EA \u05DE\u05E0\u05D4\u05DC\u05D9 \u05D4\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8")));
-}
-
-;
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Takanon);
 
 /***/ }),
 
@@ -100903,7 +99345,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./_helpers/store */ "./src/_helpers/store.ts");
 /* harmony import */ var _auth_AuthController__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./auth/AuthController */ "./src/auth/AuthController.tsx");
 /* harmony import */ var _tournamentUser_TournamentUserController__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./tournamentUser/TournamentUserController */ "./src/tournamentUser/TournamentUserController.js");
-/* harmony import */ var _initialDataFetcher_InitialDataFetcher__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./initialDataFetcher/InitialDataFetcher */ "./src/initialDataFetcher/InitialDataFetcher.js");
+/* harmony import */ var _initialDataFetcher_InitialDataFetcher__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./initialDataFetcher/InitialDataFetcher */ "./src/initialDataFetcher/InitialDataFetcher.tsx");
 /* harmony import */ var _appContent_AppBody__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./appContent/AppBody */ "./src/appContent/AppBody.tsx");
 /* harmony import */ var _appFooter_Footer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./appFooter/Footer */ "./src/appFooter/Footer.tsx");
 /* harmony import */ var _App_scss__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./App.scss */ "./src/App.scss");
@@ -100973,6 +99415,7 @@ function storeCurrentUser() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "BetFetchType": () => (/* binding */ BetFetchType),
 /* harmony export */   "fetchAndStoreBets": () => (/* binding */ fetchAndStoreBets),
 /* harmony export */   "sendBetAndStore": () => (/* binding */ sendBetAndStore)
 /* harmony export */ });
@@ -100982,11 +99425,25 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function fetchAndStoreBets() {
+var BetFetchType;
+(function (BetFetchType) {
+    BetFetchType["UserBets"] = "userBets";
+    BetFetchType["MyBets"] = "myBets";
+    BetFetchType["GameBets"] = "gameBets";
+    BetFetchType["GroupBets"] = "groupBets";
+})(BetFetchType || (BetFetchType = {}));
+function fetchAndStoreBets(fetchType, params) {
     return (dispatch, getState) => {
         const tournamentId = (0,_selectors_base__WEBPACK_IMPORTED_MODULE_2__.TournamentIdSelector)(getState());
-        return (0,_api_bets__WEBPACK_IMPORTED_MODULE_0__.fetchBets)(tournamentId)
-            .then(data => dispatch(_reducers_bets__WEBPACK_IMPORTED_MODULE_1__["default"].actions.updateMany(data)));
+        const storeFunc = (data) => dispatch(_reducers_bets__WEBPACK_IMPORTED_MODULE_1__["default"].actions.updateMany(data));
+        if (fetchType === BetFetchType.MyBets) {
+            return (0,_api_bets__WEBPACK_IMPORTED_MODULE_0__.fetchMyBets)(tournamentId).then(storeFunc);
+        }
+        if (fetchType === BetFetchType.GameBets) {
+            return (0,_api_bets__WEBPACK_IMPORTED_MODULE_0__.fetchOpenMatchBets)(tournamentId).then(storeFunc);
+        }
+        // return fetchBets(tournamentId)
+        //   .then(storeFunc);
     };
 }
 function sendBetAndStore(params) {
@@ -101662,9 +100119,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "TeamsByGroupId": () => (/* binding */ TeamsByGroupId)
 /* harmony export */ });
 /* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
-/* harmony import */ var _enums_betTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../_enums/betTypes */ "./src/_enums/betTypes.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types */ "./src/types/index.ts");
 
 
 
@@ -101686,19 +100143,19 @@ const CurrentTournament = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelecto
     return utl.tournament;
 });
 const GroupStandingBets = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(Bets, (bets) => {
-    const groupRankBets = (0,lodash__WEBPACK_IMPORTED_MODULE_1__.pickBy)(bets, bet => bet.type === _enums_betTypes__WEBPACK_IMPORTED_MODULE_0__.BetTypes.GroupsRank);
+    const groupRankBets = (0,lodash__WEBPACK_IMPORTED_MODULE_0__.pickBy)(bets, bet => bet.type === _types__WEBPACK_IMPORTED_MODULE_1__.BetType.GroupsRank);
     return groupRankBets;
 });
 const MatchBets = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(Bets, (bets) => {
-    const matchBets = (0,lodash__WEBPACK_IMPORTED_MODULE_1__.pickBy)(bets, bet => bet.type === _enums_betTypes__WEBPACK_IMPORTED_MODULE_0__.BetTypes.Match);
+    const matchBets = (0,lodash__WEBPACK_IMPORTED_MODULE_0__.pickBy)(bets, bet => bet.type === _types__WEBPACK_IMPORTED_MODULE_1__.BetType.Match);
     return matchBets;
 });
 const QuestionBets = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(Bets, (bets) => {
-    const questionBets = (0,lodash__WEBPACK_IMPORTED_MODULE_1__.pickBy)(bets, bet => bet.type === _enums_betTypes__WEBPACK_IMPORTED_MODULE_0__.BetTypes.SpecialBet);
+    const questionBets = (0,lodash__WEBPACK_IMPORTED_MODULE_0__.pickBy)(bets, bet => bet.type === _types__WEBPACK_IMPORTED_MODULE_1__.BetType.Question);
     return questionBets;
 });
 const TeamsByGroupId = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(Teams, (teams) => {
-    return (0,lodash__WEBPACK_IMPORTED_MODULE_1__.groupBy)(teams, 'group_id');
+    return (0,lodash__WEBPACK_IMPORTED_MODULE_0__.groupBy)(teams, 'group_id');
 });
 
 
@@ -102005,20 +100462,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "GroupStandingBetsLinked": () => (/* binding */ GroupStandingBetsLinked),
 /* harmony export */   "GroupStandingBetsWithUserNames": () => (/* binding */ GroupStandingBetsWithUserNames)
 /* harmony export */ });
-/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
+/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../base */ "./src/_selectors/base/index.ts");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _groups__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./groups */ "./src/_selectors/modelRelations/groups.ts");
 
 
 
-const GroupStandingBetsWithUserNames = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(_base__WEBPACK_IMPORTED_MODULE_0__.GroupStandingBets, _base__WEBPACK_IMPORTED_MODULE_0__.Contestants, (bets, users) => {
+
+const GroupStandingBetsWithUserNames = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(_base__WEBPACK_IMPORTED_MODULE_0__.GroupStandingBets, _base__WEBPACK_IMPORTED_MODULE_0__.Contestants, (bets, users) => {
     return (0,lodash__WEBPACK_IMPORTED_MODULE_1__.mapValues)(bets, bet => ({
         ...bet,
         utlName: users[bet.user_tournament_id]?.name,
     }));
 });
-const GroupStandingBetsLinked = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(GroupStandingBetsWithUserNames, _base__WEBPACK_IMPORTED_MODULE_0__.Groups, _base__WEBPACK_IMPORTED_MODULE_0__.Teams, (groupRankBets, groups, teams) => {
+const GroupStandingBetsLinked = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(GroupStandingBetsWithUserNames, _groups__WEBPACK_IMPORTED_MODULE_2__.GroupsWithTeams, _base__WEBPACK_IMPORTED_MODULE_0__.Teams, (groupRankBets, groups, teams) => {
     const betsWithRelations = (0,lodash__WEBPACK_IMPORTED_MODULE_1__.mapValues)(groupRankBets, (bet) => ({
         ...bet,
         standings: bet.standings?.map(teamId => ({
@@ -102028,10 +100487,10 @@ const GroupStandingBetsLinked = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createS
     }));
     return (0,lodash__WEBPACK_IMPORTED_MODULE_1__.pickBy)(betsWithRelations, bet => bet.relatedGroup);
 });
-const GroupStandingBetsByGroupId = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(GroupStandingBetsLinked, bets => {
+const GroupStandingBetsByGroupId = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(GroupStandingBetsLinked, bets => {
     return (0,lodash__WEBPACK_IMPORTED_MODULE_1__.groupBy)(Object.values(bets), 'type_id');
 });
-const GroupStandingBetsByUserId = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(GroupStandingBetsLinked, bets => {
+const GroupStandingBetsByUserId = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(GroupStandingBetsLinked, bets => {
     return (0,lodash__WEBPACK_IMPORTED_MODULE_1__.groupBy)(Object.values(bets), 'user_tournament_id');
 });
 
@@ -102375,341 +100834,13 @@ const TournamentUserControllerSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_1_
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fetchBets": () => (/* binding */ fetchBets),
+/* harmony export */   "fetchMyBets": () => (/* binding */ fetchMyBets),
+/* harmony export */   "fetchOpenMatchBets": () => (/* binding */ fetchOpenMatchBets),
 /* harmony export */   "sendBet": () => (/* binding */ sendBet)
 /* harmony export */ });
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../types */ "./src/types/index.ts");
-/* harmony import */ var _helpers_dev__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_helpers/dev */ "./src/_helpers/dev.ts");
-/* harmony import */ var _common_apiRequest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common/apiRequest */ "./src/api/common/apiRequest.ts");
+/* harmony import */ var _common_apiRequest__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common/apiRequest */ "./src/api/common/apiRequest.ts");
 
-
-
-const EXAMPLE_DATA = {
-    // betId
-    10: {
-        type: 1,
-        type_id: 4,
-        user_tournament_id: 23,
-        result_home: 0,
-        result_away: 1,
-        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Away,
-        relatedMatch: {
-            home_team: {
-                name: "Belgium",
-                id: 10,
-                crest_url: "https://crests.football-data.org/805.svg"
-            },
-            away_team: {
-                name: "Nethelands",
-                id: 6,
-                crest_url: "https://crests.football-data.org/8601.svg"
-            },
-            result_home: null,
-            result_away: null,
-            winner_side: null,
-            id: 4,
-        },
-        id: 10,
-        score: null,
-    },
-    11: {
-        type: 1,
-        type_id: 4,
-        user_tournament_id: 7,
-        result_home: 0,
-        result_away: 1,
-        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Away,
-        relatedMatch: {
-            home_team: {
-                name: "Belgium",
-                id: 10,
-                crest_url: "https://crests.football-data.org/805.svg"
-            },
-            away_team: {
-                name: "Nethelands",
-                id: 6,
-                crest_url: "https://crests.football-data.org/8601.svg"
-            },
-            result_home: null,
-            result_away: null,
-            winner_side: null,
-            id: 4,
-        },
-        id: 11,
-        score: null,
-    },
-    12: {
-        type: 1,
-        type_id: 4,
-        user_tournament_id: 1,
-        result_home: 0,
-        result_away: 2,
-        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Away,
-        relatedMatch: {
-            home_team: {
-                name: "Belgium",
-                id: 10,
-                crest_url: "https://crests.football-data.org/805.svg"
-            },
-            away_team: {
-                name: "Nethelands",
-                id: 6,
-                crest_url: "https://crests.football-data.org/8601.svg"
-            },
-            result_home: null,
-            result_away: null,
-            winner_side: null,
-            id: 4,
-        },
-        id: 12,
-        score: null,
-    },
-    1: {
-        type: 1,
-        type_id: 3,
-        user_tournament_id: 23,
-        result_home: 0,
-        result_away: 0,
-        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
-        relatedMatch: {
-            home_team: {
-                name: "Belgium",
-                id: 10,
-                crest_url: "https://crests.football-data.org/805.svg"
-            },
-            away_team: {
-                name: "Switzerland",
-                id: 9,
-                crest_url: "https://crests.football-data.org/788.svg"
-            },
-            result_home: 3,
-            result_away: 1,
-            winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
-            id: 3,
-        },
-        id: 1,
-        score: 0,
-    },
-    2: {
-        type: 1,
-        type_id: 3,
-        user_tournament_id: 7,
-        result_home: 3,
-        result_away: 2,
-        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
-        relatedMatch: {
-            home_team: {
-                name: "Belgium",
-                id: 10,
-                crest_url: "https://crests.football-data.org/805.svg"
-            },
-            away_team: {
-                name: "Switzerland",
-                id: 9,
-                crest_url: "https://crests.football-data.org/788.svg"
-            },
-            result_home: 3,
-            result_away: 1,
-            winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
-            id: 3,
-        },
-        id: 2,
-        score: 1,
-    },
-    3: {
-        type: 1,
-        type_id: 3,
-        user_tournament_id: 20,
-        result_home: 5,
-        result_away: 2,
-        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
-        relatedMatch: {
-            home_team: {
-                name: "Belgium",
-                id: 10,
-                crest_url: "https://crests.football-data.org/805.svg"
-            },
-            away_team: {
-                name: "Switzerland",
-                id: 9,
-                crest_url: "https://crests.football-data.org/788.svg"
-            },
-            result_home: 3,
-            result_away: 1,
-            winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
-            id: 3,
-        },
-        id: 3,
-        score: 3,
-    },
-    4432: {
-        type: 1,
-        type_id: 3,
-        user_tournament_id: 18,
-        result_home: 5,
-        result_away: 2,
-        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
-        relatedMatch: {
-            home_team: {
-                name: "Belgium",
-                id: 10,
-                crest_url: "https://crests.football-data.org/805.svg"
-            },
-            away_team: {
-                name: "Switzerland",
-                id: 9,
-                crest_url: "https://crests.football-data.org/788.svg"
-            },
-            result_home: 3,
-            result_away: 1,
-            winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
-            id: 3,
-        },
-        id: 4432,
-        score: 3,
-    },
-    145: {
-        type: 1,
-        type_id: 2,
-        user_tournament_id: 20,
-        result_home: 1,
-        result_away: 3,
-        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Away,
-        relatedMatch: {
-            home_team: {
-                name: "Austria",
-                id: 5,
-                crest_url: "https://crests.football-data.org/816.svg",
-            },
-            away_team: {
-                name: "Nethelands",
-                id: 6,
-                crest_url: "https://crests.football-data.org/8601.svg",
-            },
-            result_home: 1,
-            result_away: 3,
-            winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Away,
-            id: 2,
-        },
-        id: 145,
-        score: 9,
-    },
-    4: {
-        type: 3,
-        type_id: 4,
-        user_tournament_id: 20,
-        isDone: true,
-        answer: 5,
-        relatedQuestion: {
-            name: "Top Scroer",
-            answer: {
-                id: 5,
-                name: 'David Vialla',
-                crest_url: 'https://crests.football-data.org/760.svg',
-            },
-            id: 4,
-        },
-        id: 4,
-        score: 5,
-    },
-    49: {
-        type: 3,
-        type_id: 4,
-        user_tournament_id: 1,
-        isDone: true,
-        answer: 2,
-        relatedQuestion: {
-            name: "Top Scroer",
-            answer: {
-                id: 5,
-                name: 'David Vialla',
-                crest_url: 'https://crests.football-data.org/760.svg',
-            },
-            id: 4,
-        },
-        id: 49,
-        score: 0,
-    },
-    50: {
-        type: 3,
-        type_id: 4,
-        user_tournament_id: 23,
-        isDone: true,
-        answer: 2,
-        relatedQuestion: {
-            name: "Top Scroer",
-            answer: {
-                id: 5,
-                name: 'David Vialla',
-                crest_url: 'https://crests.football-data.org/760.svg',
-            },
-            id: 4,
-        },
-        id: 50,
-        score: 0,
-    },
-    40: {
-        type: 3,
-        type_id: 1,
-        user_tournament_id: 23,
-        isDone: true,
-        answer: 7,
-        relatedQuestion: {
-            name: "Winner",
-            answer: 8,
-            id: 1,
-        },
-        id: 40,
-        score: 0,
-    },
-    41: {
-        type: 3,
-        type_id: 5,
-        user_tournament_id: 4,
-        isDone: false,
-        answer: 9,
-        relatedQuestion: {
-            name: "Top Scroer",
-            answer: null,
-            id: 5,
-        },
-        id: 41,
-        score: 5,
-    },
-    5: {
-        type: 2,
-        type_id: 1,
-        user_tournament_id: 20,
-        standings: [12, 11, 9, 10],
-        relatedGroup: {
-            name: "Group A",
-            id: 1,
-            isDone: true,
-            standings: [10, 9, 11, 12]
-        },
-        id: 5,
-        score: 3,
-    },
-    6: {
-        type: 2,
-        type_id: 2,
-        user_tournament_id: 20,
-        standings: [5, 6, 7, 8],
-        relatedGroup: {
-            name: "Group B",
-            id: 2,
-            isDone: true,
-            standings: [7, 8, 6, 5],
-        },
-        id: 6,
-        score: 6,
-    },
-};
-const fakeAPI = async () => {
-    return EXAMPLE_DATA;
-};
 const fetchBets = async (tournamentId) => {
-    if ((0,_helpers_dev__WEBPACK_IMPORTED_MODULE_1__.isDevModeTamir)())
-        return await fakeAPI();
     return await window.$.ajax({
         type: 'GET',
         url: `/api/tournaments/${tournamentId}/bets`,
@@ -102717,8 +100848,34 @@ const fetchBets = async (tournamentId) => {
         dataType: 'json',
     });
 };
+// export const fetchGroupRankBets = async (tournamentId: number): Promise<BetsApiResult> => {
+//     return await (window as any).$.ajax({
+//         type: 'GET',
+//         url: `/api/tournaments/${tournamentId}/bets/group`,
+//         contentType: 'application/json',
+//         dataType: 'json',
+//     });
+// };
+const fetchMyBets = async (tournamentId) => {
+    return await (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_0__.sendApiRequest)({
+        url: `/api/tournaments/${tournamentId}/bets`
+    });
+};
+const fetchOpenMatchBets = async (tournamentId) => {
+    return await (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_0__.sendApiRequest)({
+        url: `/api/tournaments/${tournamentId}/bets/open-games`
+    });
+};
+// export const fetchMatchBets = async (tournamentId: number): Promise<BetsApiResult> => {
+//     return await (window as any).$.ajax({
+//         type: 'GET',
+//         url: `/api/tournaments/${tournamentId}/bets/open-games`,
+//         contentType: 'application/json',
+//         dataType: 'json',
+//     });
+// };
 const sendBet = async (tournamentId, betType, params) => {
-    const { bets = {} } = await (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_2__.sendApiRequest)({
+    const { bets = {} } = await (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_0__.sendApiRequest)({
         type: 'POST',
         url: `/api/tournaments/${tournamentId}/bets`,
         data: {
@@ -102978,17 +101135,20 @@ const sendRequest = async () => {
             // name: "top_scorer",
             name: "Top Scroer",
             answer: 5,
+            type: 4,
             id: 4,
         },
         5: {
             // name: "offensive_team",
             name: "Team with most goals on groups stage",
             answer: 5,
+            type: 5,
             id: 5,
         },
         1: {
             name: "winner",
             answer: null,
+            type: 1,
             id: 1,
         },
     };
@@ -103470,13 +101630,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _leaderboard_LeaderboardProvider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../leaderboard/LeaderboardProvider */ "./src/leaderboard/LeaderboardProvider.tsx");
-/* harmony import */ var _open_matches_openMatchesProvider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../open_matches/openMatchesProvider */ "./src/open_matches/openMatchesProvider.js");
-/* harmony import */ var _preTournamentBets_OpenGroupRankBetsProvider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../preTournamentBets/OpenGroupRankBetsProvider */ "./src/preTournamentBets/OpenGroupRankBetsProvider.js");
-/* harmony import */ var _matches_ClosedMatchBetsProvider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../matches/ClosedMatchBetsProvider */ "./src/matches/ClosedMatchBetsProvider.js");
+/* harmony import */ var _open_matches_openMatchesProvider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../open_matches/openMatchesProvider */ "./src/open_matches/openMatchesProvider.tsx");
+/* harmony import */ var _preTournamentBets_OpenGroupRankBetsProvider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../preTournamentBets/OpenGroupRankBetsProvider */ "./src/preTournamentBets/OpenGroupRankBetsProvider.tsx");
+/* harmony import */ var _matches_ClosedMatchBetsProvider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../matches/ClosedMatchBetsProvider */ "./src/matches/ClosedMatchBetsProvider.tsx");
 /* harmony import */ var _groupBets_GroupStandingsBetsProvider__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../groupBets/GroupStandingsBetsProvider */ "./src/groupBets/GroupStandingsBetsProvider.tsx");
-/* harmony import */ var _questionBets_ClosedQuestionBetsProvider__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../questionBets/ClosedQuestionBetsProvider */ "./src/questionBets/ClosedQuestionBetsProvider.js");
+/* harmony import */ var _questionBets_ClosedQuestionBetsProvider__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../questionBets/ClosedQuestionBetsProvider */ "./src/questionBets/ClosedQuestionBetsProvider.tsx");
 /* harmony import */ var _myBets_myBetsView__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../myBets/myBetsView */ "./src/myBets/myBetsView.js");
-/* harmony import */ var _takanon_Takanon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../takanon/Takanon */ "./src/takanon/Takanon.js");
+/* harmony import */ var _takanon_Takanon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../takanon/Takanon */ "./src/takanon/Takanon.tsx");
 
 
 
@@ -103964,6 +102124,60 @@ const GroupStandingsBetsView = ({ groups, betsByGroupId, }) => {
 
 /***/ }),
 
+/***/ "./src/initialDataFetcher/InitialDataFetcher.tsx":
+/*!*******************************************************!*\
+  !*** ./src/initialDataFetcher/InitialDataFetcher.tsx ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "InitialDataFetcher": () => (/* binding */ InitialDataFetcher),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_bets__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_actions/bets */ "./src/_actions/bets.ts");
+/* harmony import */ var _actions_groups__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_actions/groups */ "./src/_actions/groups.ts");
+/* harmony import */ var _actions_matches__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_actions/matches */ "./src/_actions/matches.ts");
+/* harmony import */ var _actions_specialQuestions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_actions/specialQuestions */ "./src/_actions/specialQuestions.ts");
+/* harmony import */ var _actions_teams__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../_actions/teams */ "./src/_actions/teams.ts");
+/* harmony import */ var _actions_utls__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../_actions/utls */ "./src/_actions/utls.ts");
+/* harmony import */ var _selectors_noSelector__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../_selectors/noSelector */ "./src/_selectors/noSelector.ts");
+
+
+
+
+
+
+
+
+
+function InitialDataFetcher({ children, fetchAndStoreMatches, fetchAndStoreBets, fetchAndStoreTeams, fetchAndStoreGroups, fetchAndStoreQuestions, fetchAndStoreUsers, }) {
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        fetchAndStoreTeams();
+        fetchAndStoreGroups();
+        fetchAndStoreMatches();
+        fetchAndStoreQuestions();
+        fetchAndStoreUsers();
+        fetchAndStoreBets(_actions_bets__WEBPACK_IMPORTED_MODULE_2__.BetFetchType.MyBets);
+    }, []);
+    return (children);
+}
+const mapDispatchToProps = {
+    fetchAndStoreMatches: _actions_matches__WEBPACK_IMPORTED_MODULE_4__.fetchAndStoreMatches,
+    fetchAndStoreBets: _actions_bets__WEBPACK_IMPORTED_MODULE_2__.fetchAndStoreBets,
+    fetchAndStoreTeams: _actions_teams__WEBPACK_IMPORTED_MODULE_6__.fetchAndStoreTeams,
+    fetchAndStoreGroups: _actions_groups__WEBPACK_IMPORTED_MODULE_3__.fetchAndStoreGroups,
+    fetchAndStoreQuestions: _actions_specialQuestions__WEBPACK_IMPORTED_MODULE_5__.fetchAndStoreQuestions,
+    fetchAndStoreUsers: _actions_utls__WEBPACK_IMPORTED_MODULE_7__.fetchAndStoreUsers,
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors_noSelector__WEBPACK_IMPORTED_MODULE_8__.NoSelector, mapDispatchToProps)(InitialDataFetcher));
+
+
+/***/ }),
+
 /***/ "./src/leaderboard/ContestantProvider.tsx":
 /*!************************************************!*\
   !*** ./src/leaderboard/ContestantProvider.tsx ***!
@@ -104016,10 +102230,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils */ "./src/leaderboard/utils.js");
-/* harmony import */ var _scoreViews_GroupStangingsScore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./scoreViews/GroupStangingsScore */ "./src/leaderboard/scoreViews/GroupStangingsScore.js");
-/* harmony import */ var _scoreViews_MatchBetScore__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./scoreViews/MatchBetScore */ "./src/leaderboard/scoreViews/MatchBetScore.js");
-/* harmony import */ var _scoreViews_QuestionBetScore__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./scoreViews/QuestionBetScore */ "./src/leaderboard/scoreViews/QuestionBetScore.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils */ "./src/leaderboard/utils.ts");
+/* harmony import */ var _scoreViews_GroupStangingsScore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./scoreViews/GroupStangingsScore */ "./src/leaderboard/scoreViews/GroupStangingsScore.tsx");
+/* harmony import */ var _scoreViews_MatchBetScore__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./scoreViews/MatchBetScore */ "./src/leaderboard/scoreViews/MatchBetScore.tsx");
+/* harmony import */ var _scoreViews_QuestionBetScore__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./scoreViews/QuestionBetScore */ "./src/leaderboard/scoreViews/QuestionBetScore.tsx");
 
 
 
@@ -104172,6 +102386,676 @@ function LeaderboardView({ rows, }) {
 
 /***/ }),
 
+/***/ "./src/leaderboard/scoreViews/GroupStangingsScore.tsx":
+/*!************************************************************!*\
+  !*** ./src/leaderboard/scoreViews/GroupStangingsScore.tsx ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.tsx");
+
+
+function Position({ position, team, }) {
+    if (!team) {
+        return;
+    }
+    const { crest_url, name } = team;
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { key: position, className: "flex-row" },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null,
+            "(",
+            position,
+            ") "),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], { name: name, crest_url: crest_url }));
+}
+function GroupStangingsScore({ bet, }) {
+    const { id, score, standings, relatedGroup } = bet;
+    const { standings: finalStandings, isDone } = relatedGroup || {};
+    if (!isDone) {
+        return null;
+    }
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", { key: id, className: "list-group-item row flex-row  col-no-padding" },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-2 pull-right col-no-padding", style: { paddingRight: "15px" } }, score),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-5 pull-right col-no-padding" }, Object.entries(standings).map(([rank, team]) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(Position, { key: rank, ...{ position: Number(rank), team } })))),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-5 pull-right col-no-padding" }, isDone && (Object.entries(finalStandings).map(([rank, team]) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(Position, { key: rank, position: Number(rank), team: team }))))));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GroupStangingsScore);
+
+
+/***/ }),
+
+/***/ "./src/leaderboard/scoreViews/MatchBetScore.tsx":
+/*!******************************************************!*\
+  !*** ./src/leaderboard/scoreViews/MatchBetScore.tsx ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.tsx");
+/* harmony import */ var _widgets_MatchResult__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../widgets/MatchResult */ "./src/widgets/MatchResult.tsx");
+
+
+
+function MatchBetScore({ bet, }) {
+    const { id, score, result_home, result_away, winner_side, relatedMatch } = bet;
+    if (!relatedMatch) {
+        return null;
+    }
+    const { home_team, away_team } = relatedMatch;
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", { key: id, className: "list-group-item row flex-row center-items col-no-padding", style: { paddingLeft: "0px", paddingRight: "10px" } },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-1 pull-right col-no-padding" }, score),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-9 pull-right col-no-padding" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "flex-row", style: { alignItems: "center" } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "flex-row dir-ltr" },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], { name: home_team.name, crest_url: home_team.crest_url, is_underlined: winner_side === "home", is_bold: relatedMatch.winner_side === "home" }),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null,
+                                "(",
+                                result_home,
+                                ")")),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { style: { padding: "5px" } }, "-"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "flex-row dir-ltr" },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], { name: away_team.name, crest_url: away_team.crest_url, is_underlined: winner_side === "away", is_bold: relatedMatch.winner_side === "away" }),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null,
+                                "(",
+                                result_away,
+                                ")")))))),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-2 pull-right col-no-padding" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_MatchResult__WEBPACK_IMPORTED_MODULE_2__["default"], { winner_class: "bolded", matchData: relatedMatch })));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MatchBetScore);
+
+
+/***/ }),
+
+/***/ "./src/leaderboard/scoreViews/QuestionBetScore.tsx":
+/*!*********************************************************!*\
+  !*** ./src/leaderboard/scoreViews/QuestionBetScore.tsx ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.tsx");
+
+
+
+function SpecialQuestionAnswer({ answer, }) {
+    if (!(0,lodash__WEBPACK_IMPORTED_MODULE_0__.isObject)(answer)) {
+        return answer;
+    }
+    const { name, crest_url } = answer;
+    return react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_2__["default"], { name: name, crest_url: crest_url });
+    // switch (specialQuestionType){
+    //     case 1: // winner
+    //     case 5: // offensive_team
+    //     case 4: // top scorer
+    //         const {name, crest_url} = answer;
+    //     case 2: // mvp
+    //         return answer;
+    //     default:
+    //         return null;
+    // }
+}
+function QuestionBetScore({ questionBet }) {
+    const { score, answer, relatedQuestion } = questionBet;
+    const { name, answer: finalAnswer } = relatedQuestion;
+    return react__WEBPACK_IMPORTED_MODULE_1__.createElement("li", { className: "list-group-item row flex-row col-no-padding", style: { paddingRight: "10px" } },
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { className: "col-xs-1 pull-right col-no-padding" }, score),
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { className: "col-xs-3 pull-right col-no-padding" }, name),
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { className: "col-xs-4 pull-right col-no-padding" },
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement(SpecialQuestionAnswer, { answer: answer })),
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { className: "col-xs-4 pull-right col-no-padding" },
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", null,
+                react__WEBPACK_IMPORTED_MODULE_1__.createElement(SpecialQuestionAnswer, { answer: finalAnswer }))));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (QuestionBetScore);
+
+
+/***/ }),
+
+/***/ "./src/leaderboard/utils.ts":
+/*!**********************************!*\
+  !*** ./src/leaderboard/utils.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "sumBetsScore": () => (/* binding */ sumBetsScore)
+/* harmony export */ });
+function sumBetsScore(bets) {
+    return bets.reduce((sum, bet) => (sum + (bet.score ?? 0)), 0);
+}
+
+
+/***/ }),
+
+/***/ "./src/matches/ClosedMatchBetsProvider.tsx":
+/*!*************************************************!*\
+  !*** ./src/matches/ClosedMatchBetsProvider.tsx ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _matchesView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./matchesView */ "./src/matches/matchesView.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _selectors_closedMatchBets__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_selectors/closedMatchBets */ "./src/_selectors/closedMatchBets.ts");
+/* harmony import */ var _actions_bets__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_actions/bets */ "./src/_actions/bets.ts");
+
+
+
+
+
+const ClosedMatchBets = ({ done_matches, live_matches, fetchAndStoreBets, }) => {
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        fetchAndStoreBets(_actions_bets__WEBPACK_IMPORTED_MODULE_4__.BetFetchType.GameBets);
+    }, []);
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_matchesView__WEBPACK_IMPORTED_MODULE_1__["default"], { done_matches: done_matches, live_matches: live_matches });
+};
+const mapDispatchToProps = {
+    fetchAndStoreBets: _actions_bets__WEBPACK_IMPORTED_MODULE_4__.fetchAndStoreBets,
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_2__.connect)(_selectors_closedMatchBets__WEBPACK_IMPORTED_MODULE_3__.ClosedMatchBetsSelector, mapDispatchToProps)(ClosedMatchBets));
+
+
+/***/ }),
+
+/***/ "./src/open_matches/MatchBet.tsx":
+/*!***************************************!*\
+  !*** ./src/open_matches/MatchBet.tsx ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _editBet__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./editBet */ "./src/open_matches/editBet.tsx");
+/* harmony import */ var _matchView__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./matchView */ "./src/open_matches/matchView.tsx");
+
+
+
+function MatchBet({ match, sendBet, }) {
+    const { id, is_knockout } = match;
+    const [edit, setEdit] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+    const goToEditMode = () => setEdit(true);
+    const cancelEditMode = () => setEdit(false);
+    const saveBet = ({ homeScore, awayScore, koWinner, }) => {
+        sendBet({
+            matchId: id,
+            is_knockout,
+            homeScore,
+            awayScore,
+            koWinner,
+        })
+            .then(() => {
+            cancelEditMode();
+        });
+    };
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
+        edit && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_editBet__WEBPACK_IMPORTED_MODULE_1__["default"], { match: match, onCancel: cancelEditMode, onSave: saveBet })),
+        !edit && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_matchView__WEBPACK_IMPORTED_MODULE_2__["default"], { match: match, onEdit: goToEditMode }))));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MatchBet);
+
+
+/***/ }),
+
+/***/ "./src/open_matches/editBet.tsx":
+/*!**************************************!*\
+  !*** ./src/open_matches/editBet.tsx ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../types */ "./src/types/index.ts");
+/* harmony import */ var _utils_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/index */ "./src/utils/index.ts");
+/* harmony import */ var _widgets_koWinnerInput_koWinnerInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../widgets/koWinnerInput/koWinnerInput */ "./src/widgets/koWinnerInput/koWinnerInput.tsx");
+/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.tsx");
+
+
+
+
+
+
+function EditMatchBet({ match, onCancel, onSave, }) {
+    const { id, start_time, home_team, away_team, is_knockout, bet } = match;
+    const [koWinner, setKoWinner] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(bet?.winner_side ?? null);
+    const [homeScore, setHomeScore] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(bet?.result_home ?? '');
+    const [awayScore, setAwayScore] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(bet?.result_away ?? '');
+    let winnerSide;
+    const hasHomeScore = homeScore !== '';
+    const hasAwayScore = awayScore !== '';
+    if (hasHomeScore && hasAwayScore) {
+        if (homeScore > awayScore) {
+            winnerSide = _types__WEBPACK_IMPORTED_MODULE_2__.WinnerSide.Home;
+        }
+        else if (homeScore < awayScore) {
+            winnerSide = _types__WEBPACK_IMPORTED_MODULE_2__.WinnerSide.Away;
+        }
+        else {
+            winnerSide = koWinner;
+        }
+    }
+    const showKoWinnerInput = is_knockout && hasAwayScore && hasHomeScore && homeScore === awayScore;
+    const koWinnerChange = (value) => {
+        setKoWinner(value);
+    };
+    const homeScoreChange = (e) => {
+        const value = parseInt(e.target.value);
+        const score = isNaN(value) ? '' : value;
+        setHomeScore(score >= 0 ? score : 0);
+    };
+    const awayScoreChange = (e) => {
+        const value = parseInt(e.target.value);
+        const score = isNaN(value) ? '' : value;
+        setAwayScore(score >= 0 ? score : 0);
+    };
+    const isHomeWinner = winnerSide === _types__WEBPACK_IMPORTED_MODULE_2__.WinnerSide.Home;
+    const isAwayWinner = winnerSide === _types__WEBPACK_IMPORTED_MODULE_2__.WinnerSide.Away;
+    const saveBet = () => {
+        onSave({
+            homeScore,
+            awayScore,
+            koWinner,
+        });
+    };
+    return (react__WEBPACK_IMPORTED_MODULE_1__.createElement("tr", { id: `row_match_${id}` },
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", { className: "admin" }, id),
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", { className: "v-align-center" }, moment__WEBPACK_IMPORTED_MODULE_0___default()(start_time).format(_utils_index__WEBPACK_IMPORTED_MODULE_3__.DEFAULT_DATETIME_FORMAT)),
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", { className: "open-match-teams-cell v-align-center" },
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_5__["default"], { crest_url: home_team.crest_url, name: home_team.name, is_ko_winner: isHomeWinner }),
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement("br", null),
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_5__["default"], { crest_url: away_team.crest_url, name: away_team.name, is_ko_winner: isAwayWinner })),
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", { className: "open-matches-bet-cell" },
+            showKoWinnerInput && (react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_koWinnerInput_koWinnerInput__WEBPACK_IMPORTED_MODULE_4__["default"], { value: koWinner, setValue: koWinnerChange })),
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { className: "row full-row" },
+                react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { className: "spaced-row" },
+                    react__WEBPACK_IMPORTED_MODULE_1__.createElement("input", { onChange: homeScoreChange, className: `form-control open-match-input`, type: "number", value: homeScore })),
+                react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { className: "row full-row", style: { height: 16, fontSize: 11 } },
+                    react__WEBPACK_IMPORTED_MODULE_1__.createElement("span", { hidden: true }, "\u05DE\u05E2\u05E4\u05D9\u05DC\u05D4:")),
+                react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { className: "spaced-row" },
+                    react__WEBPACK_IMPORTED_MODULE_1__.createElement("input", { onChange: awayScoreChange, className: `form-control open-match-input`, type: "number", value: awayScore })))),
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", { className: "v-align-center" },
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { style: { display: 'flex', justifyContent: 'space-between' } },
+                react__WEBPACK_IMPORTED_MODULE_1__.createElement("button", { className: `btn btn-sm btn-primary`, onClick: saveBet }, "\u05E9\u05DC\u05D7"),
+                react__WEBPACK_IMPORTED_MODULE_1__.createElement("span", { style: { cursor: 'pointer' }, onClick: onCancel }, "(X)")))));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (EditMatchBet);
+
+
+/***/ }),
+
+/***/ "./src/open_matches/matchView.tsx":
+/*!****************************************!*\
+  !*** ./src/open_matches/matchView.tsx ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../types */ "./src/types/index.ts");
+/* harmony import */ var _utils_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/index */ "./src/utils/index.ts");
+/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.tsx");
+
+
+
+
+
+function MatchWithBetView({ match, onEdit, }) {
+    const { id, start_time, home_team, away_team, is_knockout, bet } = match;
+    const hasBet = bet?.id !== undefined;
+    let winnerSide;
+    if (hasBet && is_knockout) {
+        if (bet.result_home > bet.result_away) {
+            winnerSide = _types__WEBPACK_IMPORTED_MODULE_2__.WinnerSide.Home;
+        }
+        else if (bet.result_home < bet.result_away) {
+            winnerSide = _types__WEBPACK_IMPORTED_MODULE_2__.WinnerSide.Away;
+        }
+        else {
+            winnerSide = bet.winner_side;
+        }
+    }
+    const isHomeKoWinner = winnerSide === _types__WEBPACK_IMPORTED_MODULE_2__.WinnerSide.Home;
+    const isAwayKoWinner = winnerSide === _types__WEBPACK_IMPORTED_MODULE_2__.WinnerSide.Away;
+    return (react__WEBPACK_IMPORTED_MODULE_1__.createElement("tr", { id: `row_match_${id}` },
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", { className: "admin" }, id),
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", { className: "v-align-center" }, moment__WEBPACK_IMPORTED_MODULE_0___default()(start_time).format(_utils_index__WEBPACK_IMPORTED_MODULE_3__.DEFAULT_DATETIME_FORMAT)),
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", { className: "open-match-teams-cell v-align-center" },
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_4__["default"], { crest_url: home_team.crest_url, name: home_team.name, is_ko_winner: isHomeKoWinner }),
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement("br", null),
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_4__["default"], { crest_url: away_team.crest_url, name: away_team.name, is_ko_winner: isAwayKoWinner })),
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", { className: "open-matches-bet-cell" },
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null,
+                hasBet && (react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { className: "spaced-row", style: { flexDirection: 'column', justifyContent: 'space-between' } },
+                    react__WEBPACK_IMPORTED_MODULE_1__.createElement("p", null, bet.result_home),
+                    react__WEBPACK_IMPORTED_MODULE_1__.createElement("p", null),
+                    react__WEBPACK_IMPORTED_MODULE_1__.createElement("p", null, bet.result_away))),
+                !hasBet && (react__WEBPACK_IMPORTED_MODULE_1__.createElement("button", { className: `btn btn-sm btn-primary`, onClick: onEdit }, "\u05D4\u05D5\u05E1\u05E3")))),
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", { className: "v-align-center" }, hasBet && (react__WEBPACK_IMPORTED_MODULE_1__.createElement("button", { className: `btn btn-sm btn-primary`, onClick: onEdit }, "\u05E2\u05E8\u05D5\u05DA")))));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MatchWithBetView);
+
+
+/***/ }),
+
+/***/ "./src/open_matches/openMatchesProvider.tsx":
+/*!**************************************************!*\
+  !*** ./src/open_matches/openMatchesProvider.tsx ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _selectors_openMatches__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_selectors/openMatches */ "./src/_selectors/openMatches.ts");
+/* harmony import */ var _actions_bets__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_actions/bets */ "./src/_actions/bets.ts");
+/* harmony import */ var _openMatchesView__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./openMatchesView */ "./src/open_matches/openMatchesView.tsx");
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../types */ "./src/types/index.ts");
+
+
+
+
+
+
+const OpenMatchesProvider = ({ matches, sendBetAndStore, fetchAndStoreBets, }) => {
+    async function sendMatchBet({ matchId, is_knockout, homeScore, awayScore, koWinner, }) {
+        const valid_input_vals = [...Array(21).keys()];
+        if (homeScore === "" || valid_input_vals.indexOf(Number(homeScore)) === -1) {
+            window['toastr']["error"](`כמות שערים לקבוצה חייבת להיות מספר שלם בין 0 ל-20. הערך שהתקבל לקבוצת הבית: ${homeScore}`);
+            return;
+        }
+        if (awayScore === "" || valid_input_vals.indexOf(Number(awayScore)) === -1) {
+            window['toastr']["error"](`כמות שערים לקבוצה חייבת להיות מספר שלם בין 0 ל-20. הערך שהתקבל לקבוצת החוץ: ${awayScore}`);
+            return;
+        }
+        let params = {
+            type_id: matchId,
+            "result-home": homeScore,
+            "result-away": awayScore
+        };
+        if (is_knockout && homeScore == awayScore) {
+            params['winner_side'] = koWinner;
+            if (!koWinner) {
+                window['toastr']["error"](`עלייך לבחור מעפילה (מכיוון שסימנת משחק נוקאאוט שייגמר בתיקו)`);
+                return;
+            }
+        }
+        await sendBetAndStore({
+            ...params,
+            betType: _types__WEBPACK_IMPORTED_MODULE_5__.BetType.Match,
+        })
+            .then(function (data) {
+            window['toastr']["success"]("ההימור נשלח");
+        })
+            .catch(function (error) {
+            console.log('FAILED updating bet', error);
+        });
+    }
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_openMatchesView__WEBPACK_IMPORTED_MODULE_4__["default"], { matches: matches, sendBet: sendMatchBet });
+};
+const mapDispatchToProps = {
+    sendBetAndStore: _actions_bets__WEBPACK_IMPORTED_MODULE_3__.sendBetAndStore,
+    fetchAndStoreBets: _actions_bets__WEBPACK_IMPORTED_MODULE_3__.fetchAndStoreBets,
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors_openMatches__WEBPACK_IMPORTED_MODULE_2__.MyOpenMatchBetsSelector, mapDispatchToProps)(OpenMatchesProvider));
+
+
+/***/ }),
+
+/***/ "./src/open_matches/openMatchesView.tsx":
+/*!**********************************************!*\
+  !*** ./src/open_matches/openMatchesView.tsx ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _MatchBet__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MatchBet */ "./src/open_matches/MatchBet.tsx");
+
+
+
+const OpenMatchesView = ({ matches = [], sendBet, }) => {
+    const hasMatches = matches.length > 0;
+    return (react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", null,
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("h1", null, "\u05E8\u05E9\u05D9\u05DE\u05EA \u05DE\u05E9\u05D7\u05E7\u05D9\u05DD"),
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("span", { className: "admin" }, moment__WEBPACK_IMPORTED_MODULE_0___default()().format('HH:mm  YYYY/MM/DD')),
+        !hasMatches && (react__WEBPACK_IMPORTED_MODULE_1__.createElement("h3", null, "\u05D0\u05D9\u05DF \u05DE\u05E9\u05D7\u05E7\u05D9\u05DD \u05E4\u05EA\u05D5\u05D7\u05D9\u05DD")),
+        hasMatches && (react__WEBPACK_IMPORTED_MODULE_1__.createElement("table", { className: "table table-striped" },
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement("thead", null,
+                react__WEBPACK_IMPORTED_MODULE_1__.createElement("tr", null,
+                    react__WEBPACK_IMPORTED_MODULE_1__.createElement("th", { className: "admin" }, "\u05DE\u05D6\u05D4\u05D4"),
+                    react__WEBPACK_IMPORTED_MODULE_1__.createElement("th", { className: "open-matches-date-header" }, "\u05EA\u05D0\u05E8\u05D9\u05DA"),
+                    react__WEBPACK_IMPORTED_MODULE_1__.createElement("th", null, "\u05DE\u05E9\u05D7\u05E7"),
+                    react__WEBPACK_IMPORTED_MODULE_1__.createElement("th", { className: "open-matches-bet-header", style: { paddingLeft: 30 } }, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                    react__WEBPACK_IMPORTED_MODULE_1__.createElement("th", null))),
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement("tbody", null, matches.map(match => (react__WEBPACK_IMPORTED_MODULE_1__.createElement(_MatchBet__WEBPACK_IMPORTED_MODULE_2__["default"], { key: match.id, match: match, sendBet: sendBet }))))))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (OpenMatchesView);
+
+
+/***/ }),
+
+/***/ "./src/preTournamentBets/DraggableStandings.tsx":
+/*!******************************************************!*\
+  !*** ./src/preTournamentBets/DraggableStandings.tsx ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _widgets_draggableList_DraggableList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/draggableList/DraggableList */ "./src/widgets/draggableList/DraggableList.tsx");
+/* harmony import */ var _TeamStanding__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TeamStanding */ "./src/preTournamentBets/TeamStanding.tsx");
+
+
+
+function RanksView({ count, }) {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "" }, [...Array(count).keys()].map(index => (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { key: index, style: {
+            height: 36,
+            width: 40,
+            marginTop: 6,
+            marginBottom: 6,
+        } },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { style: { fontSize: 24, lineHeight: 1.5 } },
+            index + 1,
+            "."))))));
+}
+function DraggableStandings({ items, setItems, }) {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: 'DraggableStandings' },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(RanksView, { count: items.length }),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { style: { flex: '1 auto' } },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_draggableList_DraggableList__WEBPACK_IMPORTED_MODULE_1__["default"], { items: items, setItems: setItems, Component: _TeamStanding__WEBPACK_IMPORTED_MODULE_2__["default"] }))));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DraggableStandings);
+
+
+/***/ }),
+
+/***/ "./src/preTournamentBets/OpenGroupRankBetsProvider.tsx":
+/*!*************************************************************!*\
+  !*** ./src/preTournamentBets/OpenGroupRankBetsProvider.tsx ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _selectors_groupStandingBets__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_selectors/groupStandingBets */ "./src/_selectors/groupStandingBets.ts");
+/* harmony import */ var _OpenGroupRankBetsView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./OpenGroupRankBetsView */ "./src/preTournamentBets/OpenGroupRankBetsView.tsx");
+/* harmony import */ var _actions_bets__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_actions/bets */ "./src/_actions/bets.ts");
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../types */ "./src/types/index.ts");
+
+
+
+
+
+
+const OpenGroupRankBetsProvider = ({ groupsWithBet, sendBetAndStore, }) => {
+    async function sendGroupRankBet({ groupId, standings, }) {
+        const params = {
+            betType: _types__WEBPACK_IMPORTED_MODULE_5__.BetType.GroupsRank,
+            type_id: groupId,
+            value: standings.map(team => team.id),
+        };
+        await sendBetAndStore(params)
+            .then(function (data) {
+            window['toastr']["success"]("ההימור נשלח");
+        })
+            .catch(function (error) {
+            console.log("FAILED sending bet", error);
+            window['toastr']["error"](error.responseJSON.message);
+        });
+    }
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_OpenGroupRankBetsView__WEBPACK_IMPORTED_MODULE_3__["default"], { groupsWithBet: groupsWithBet, sendGroupRankBet: sendGroupRankBet });
+};
+const mapDispatchToProps = {
+    sendBetAndStore: _actions_bets__WEBPACK_IMPORTED_MODULE_4__.sendBetAndStore,
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors_groupStandingBets__WEBPACK_IMPORTED_MODULE_2__.OpenGroupRankBetsSelector, mapDispatchToProps)(OpenGroupRankBetsProvider));
+
+
+/***/ }),
+
+/***/ "./src/preTournamentBets/OpenGroupRankBetsView.tsx":
+/*!*********************************************************!*\
+  !*** ./src/preTournamentBets/OpenGroupRankBetsView.tsx ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.tsx");
+/* harmony import */ var _DraggableStandings__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DraggableStandings */ "./src/preTournamentBets/DraggableStandings.tsx");
+/* harmony import */ var _openGroupRankBets_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./openGroupRankBets.scss */ "./src/preTournamentBets/openGroupRankBets.scss");
+
+
+
+
+function GroupRankBetView({ groupWithBet, sendGroupRankBet, }) {
+    const { name, id, bet, teams } = groupWithBet;
+    const [standingsInput, setStandingsInput] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+    const teamsByRank = bet?.standings || teams;
+    const groupStandings = standingsInput || teamsByRank;
+    const sendBet = () => {
+        sendGroupRankBet({ groupId: id, standings: groupStandings });
+    };
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "GroupRankBetView col-xs-12 col-md-9 col-lg-7", style: { float: 'right', borderRadius: 5, border: '#000 1px solid', marginBottom: 25, padding: 10 } },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", { style: { textAlign: 'center' } }, name),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "row" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { id: `current-bet-${id}-position`, className: "col-xs-4" },
+                bet && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", null, "\u05D4\u05D9\u05DE\u05D5\u05E8 \u05E0\u05D5\u05DB\u05D7\u05D9:"),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("ol", { className: "currentBet", style: { paddingRight: 10 } }, bet.standings.map((team, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", { key: index, style: { fontSize: '80%' }, "data-pos": index + 1 },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], { name: team.name, crest_url: team.crest_url }))))))),
+                !bet && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", null, "\u05DC\u05D0 \u05E7\u05D9\u05D9\u05DD \u05D4\u05D9\u05DE\u05D5\u05E8 \u05E0\u05D5\u05DB\u05D7\u05D9"))),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { id: `set-bet-table-${id}`, className: `${bet ? 'col-xs-8' : 'col-xs-12'}` },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_DraggableStandings__WEBPACK_IMPORTED_MODULE_2__["default"], { items: groupStandings, setItems: setStandingsInput }),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { style: { paddingRight: 40, marginTop: 16 } },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", { onClick: sendBet, type: "button", className: "btn btn-primary" }, "\u05E9\u05DC\u05D7"))))));
+}
+const OpenGroupRankBetsView = ({ groupsWithBet, sendGroupRankBet, }) => {
+    const isAvaiable = true;
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
+        isAvaiable && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "row", style: { marginRight: -10, marginLeft: -10 } },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9 \u05D1\u05EA\u05D9\u05DD \u05E4\u05EA\u05D5\u05D7\u05D9\u05DD"),
+            groupsWithBet.map(groupWithBet => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(GroupRankBetView, { key: groupWithBet.id, groupWithBet: groupWithBet, sendGroupRankBet: sendGroupRankBet }))))),
+        !isAvaiable && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "\u05E0\u05E1\u05D2\u05E8\u05D5 \u05D4\u05D9\u05DE\u05D5\u05E8\u05D9 \u05D4\u05D1\u05EA\u05D9\u05DD! \u05DC\u05D0 \u05E0\u05D9\u05EA\u05DF \u05DC\u05E2\u05D3\u05DB\u05DF \u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05D0\u05DC\u05D4"))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (OpenGroupRankBetsView);
+
+
+/***/ }),
+
+/***/ "./src/preTournamentBets/TeamStanding.tsx":
+/*!************************************************!*\
+  !*** ./src/preTournamentBets/TeamStanding.tsx ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.tsx");
+
+
+function TeamStanding(team) {
+    const { crest_url, name, } = team;
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "team_row bg-info", style: {
+            padding: 8,
+            width: '100%'
+        } },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], { name: name, crest_url: crest_url })));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TeamStanding);
+
+
+/***/ }),
+
 /***/ "./src/prizes/Prizes.tsx":
 /*!*******************************!*\
   !*** ./src/prizes/Prizes.tsx ***!
@@ -104222,6 +103106,414 @@ function Prizes() {
 
 /***/ }),
 
+/***/ "./src/questionBets/ClosedQuestionBetsProvider.tsx":
+/*!*********************************************************!*\
+  !*** ./src/questionBets/ClosedQuestionBetsProvider.tsx ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _selectors_questionBets__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_selectors/questionBets */ "./src/_selectors/questionBets.ts");
+/* harmony import */ var _QuestionBetsView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./QuestionBetsView */ "./src/questionBets/QuestionBetsView.tsx");
+
+
+
+
+const ClosedQuestionBets = () => {
+    const { questions, betsByQuestionId } = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(_selectors_questionBets__WEBPACK_IMPORTED_MODULE_2__.ClosedQuestionBetsSelector);
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_QuestionBetsView__WEBPACK_IMPORTED_MODULE_3__["default"], { questions: questions, betsByQuestionId: betsByQuestionId });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ClosedQuestionBets);
+
+
+/***/ }),
+
+/***/ "./src/questionBets/QuestionBetList.tsx":
+/*!**********************************************!*\
+  !*** ./src/questionBets/QuestionBetList.tsx ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _QuestionBetRow__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./QuestionBetRow */ "./src/questionBets/QuestionBetRow.tsx");
+
+
+
+function QuestionBetsList({ name, id, bets: betsOriginal, }) {
+    const bets = betsOriginal;
+    const betsByAnswer = (0,lodash__WEBPACK_IMPORTED_MODULE_0__.groupBy)(bets, bet => bet.answerModel.id);
+    return (react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { id: `special-bet-wrapper-${id}`, className: "tab-pane fade", style: { padding: 10 } },
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("h3", { className: "text-center" }, name),
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { style: { paddingTop: 35 } },
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement("ul", { className: "list-group", style: { paddingRight: 0 } },
+                react__WEBPACK_IMPORTED_MODULE_1__.createElement("li", { className: "list-group-item row full-row", style: { background: '#d2d2d2' } },
+                    react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { className: "col-xs-5 pull-right" }, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                    react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { className: "col-xs-5 pull-right" }, "\u05DE\u05D4\u05DE\u05E8\u05D9\u05DD")),
+                Object.values(betsByAnswer).map(bets => {
+                    const answer = bets[0].answerModel;
+                    const { name, crest_url, id } = answer;
+                    const gumblers = bets.map(bet => bet.utlName);
+                    return react__WEBPACK_IMPORTED_MODULE_1__.createElement(_QuestionBetRow__WEBPACK_IMPORTED_MODULE_2__["default"], { key: id, name: name, crest_url: crest_url, gumblers: gumblers });
+                })))));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (QuestionBetsList);
+
+
+/***/ }),
+
+/***/ "./src/questionBets/QuestionBetRow.tsx":
+/*!*********************************************!*\
+  !*** ./src/questionBets/QuestionBetRow.tsx ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.tsx");
+
+
+function QuestionBetRow({ name, crest_url, gumblers, }) {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", { className: "list-group-item row full-row" },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-5 pull-right" },
+            crest_url && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], { name: name, crest_url: crest_url })),
+            !crest_url && (name)),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-5 pull-right" }, gumblers.map((name) => react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { key: name }, name)))));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (QuestionBetRow);
+
+
+/***/ }),
+
+/***/ "./src/questionBets/QuestionBetsView.tsx":
+/*!***********************************************!*\
+  !*** ./src/questionBets/QuestionBetsView.tsx ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _QuestionBetList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuestionBetList */ "./src/questionBets/QuestionBetList.tsx");
+/* harmony import */ var _QuestionTab__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./QuestionTab */ "./src/questionBets/QuestionTab.tsx");
+
+
+
+const QuestionBetsView = ({ questions, betsByQuestionId }) => {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null,
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05DE\u05D9\u05D5\u05D7\u05D3\u05D9\u05DD"),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "float-right" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { className: "nav nav-tabs", style: { paddingRight: 0 } }, Object.values(questions).map(question => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_QuestionTab__WEBPACK_IMPORTED_MODULE_2__["default"], { key: question.id, name: question.name, id: question.id })))),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "tab-content", style: { marginTop: 25 } }, Object.values(questions).map((question, i) => react__WEBPACK_IMPORTED_MODULE_0__.createElement(_QuestionBetList__WEBPACK_IMPORTED_MODULE_1__["default"], { key: question.id, name: question.name, id: question.id, bets: betsByQuestionId[question.id] }))))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (QuestionBetsView);
+
+
+/***/ }),
+
+/***/ "./src/questionBets/QuestionTab.tsx":
+/*!******************************************!*\
+  !*** ./src/questionBets/QuestionTab.tsx ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+function QuestionTab({ name, id, }) {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", { className: "float-right " },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", { "data-toggle": "tab", href: `#special-bet-wrapper-${id}` }, name)));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (QuestionTab);
+
+
+/***/ }),
+
+/***/ "./src/takanon/Takanon.tsx":
+/*!*********************************!*\
+  !*** ./src/takanon/Takanon.tsx ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/takanon/style.scss");
+
+
+function Takanon() {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "all-ltr", style: { marginBottom: 30 } },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", { style: { textAlign: 'center' } }, "\u05EA\u05E7\u05E0\u05D5\u05DF \u05DE\u05E9\u05D7\u05E7 \u05D9\u05D5\u05E8\u05D5 \u05D7\u05D1\u05E8\u05D9\u05DD 2021"),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", { style: { marginBottom: 20 } }, "\u05E9\u05DC\u05D9\u05D7\u05EA \u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD"),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "text-part" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9 \u05DE\u05E9\u05D7\u05E7\u05D9\u05DD"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null,
+                "\u05DB\u05DC \u05DE\u05E9\u05D7\u05E7 \u05E4\u05EA\u05D5\u05D7 \u05DC\u05D4\u05D9\u05DE\u05D5\u05E8 \u05E2\u05D3 \u05DC\u05E9\u05E2\u05EA \u05EA\u05D7\u05D9\u05DC\u05EA \u05D4\u05DE\u05E9\u05D7\u05E7.",
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null),
+                "\u05DB\u05DC\u05DC \u05D4\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05E0\u05D7\u05E9\u05E4\u05D9\u05DD \u05D1\u05EA\u05D7\u05D9\u05DC\u05EA \u05D4\u05DE\u05E9\u05D7\u05E7 \u05D5\u05E0\u05D9\u05EA\u05E0\u05D9\u05DD \u05DC\u05E6\u05E4\u05D9\u05D9\u05D4 \u05D1\u05DC\u05E9\u05D5\u05E0\u05D9\u05EA \"\u05E6\u05E4\u05D9\u05D9\u05D4 \u05D1\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD\".",
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null),
+                "\u05D9\u05E9 \u05DC\u05D1\u05D7\u05D5\u05E8 \u05D0\u05EA \u05D4\u05EA\u05D5\u05E6\u05D0\u05D4 \u05D5\u05DC\u05DC\u05D7\u05D5\u05E5 \u05E2\u05DC \"\u05E9\u05DC\u05D7\" \u05D1\u05E1\u05D9\u05D5\u05DD")),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "text-part" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05DE\u05D9\u05D5\u05D7\u05D3\u05D9\u05DD \u05D5\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9 \u05D1\u05EA\u05D9\u05DD"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null,
+                "\u05D9\u05E9 \u05DC\u05DE\u05DC\u05D0 \u05D0\u05EA \u05DB\u05DC\u05DC \u05D4\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05D4\u05DE\u05D9\u05D5\u05D7\u05D3\u05D9\u05DD \u05D5\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9 \u05D4\u05D1\u05EA\u05D9\u05DD \u05E2\u05D3 \u05DC\u05E9\u05E8\u05D9\u05E7\u05EA \u05D4\u05E4\u05EA\u05D9\u05D7\u05D4 \u05E9\u05DC \u05D4\u05DE\u05E9\u05D7\u05E7 \u05D4\u05E8\u05D0\u05E9\u05D5\u05DF \u05D1\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8.",
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null),
+                "\u05DC\u05D0 \u05E0\u05D9\u05EA\u05DF \u05D9\u05D4\u05D9\u05D4 \u05DC\u05E2\u05E8\u05D5\u05DA \u05D0\u05D5 \u05DC\u05E9\u05E0\u05D5\u05EA \u05D0\u05EA \u05D4\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05D1\u05DE\u05D4\u05DC\u05DA \u05D4\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8.")),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", { style: { marginBottom: 20 } }, "\u05E0\u05D9\u05E7\u05D5\u05D3"),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "text-part" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05E9\u05DC\u05D1 \u05D4\u05D1\u05EA\u05D9\u05DD \u2013 36 \u05DE\u05E9\u05D7\u05E7\u05D9\u05DD"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "bold" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "1X2"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "1")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "bold" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05EA\u05D5\u05E6\u05D0\u05D4"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "2")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "divide" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E1\u05DB\u05D5\u05DD \u05DC\u05DE\u05E9\u05D7\u05E7"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "3")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DE\u05E7\u05E1\u05D9\u05DE\u05D5\u05DD \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "108"))))),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "text-part" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05E9\u05DC\u05D1 \u05D4\u05E0\u05D5\u05E7\u05D0\u05D0\u05D5\u05D8 \u2013 15 \u05DE\u05E9\u05D7\u05E7\u05D9\u05DD"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "bold" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DE\u05E2\u05E4\u05D9\u05DC\u05D4"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "2")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "bold" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "1X2"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "1")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "bold" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05EA\u05D5\u05E6\u05D0\u05D4"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "6")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "divide" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E1\u05DB\u05D5\u05DD \u05DC\u05DE\u05E9\u05D7\u05E7"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "9")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DE\u05E7\u05E1\u05D9\u05DE\u05D5\u05DD \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "108")))),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { style: { marginTop: 8 } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D1\u05DE\u05D9\u05D3\u05D4 \u05D5\u05E1\u05D5\u05DE\u05E0\u05D4 \u05EA\u05D5\u05E6\u05D0\u05EA \u05EA\u05D9\u05E7\u05D5, \u05D9\u05D4\u05D9\u05D4 \u05E2\u05DC\u05D9\u05D9\u05DA \u05DC\u05D1\u05D7\u05D5\u05E8 \u05DE\u05E2\u05E4\u05D9\u05DC\u05D4. \u05D0\u05D7\u05E8\u05EA \u05D4\u05DE\u05E2\u05E4\u05D9\u05DC\u05D4 \u05E0\u05E7\u05D1\u05E2\u05EA \u05DC\u05E4\u05D9 \u05D4\u05EA\u05D5\u05E6\u05D0\u05D4."),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D4\u05D9\u05DE\u05D5\u05E8 1X2 - \u05DE\u05D7\u05D5\u05E9\u05D1 \u05DC\u05E4\u05D9 \u05EA\u05D5\u05E6\u05D0\u05D4 \u05D1\u05EA\u05D5\u05DD 90 \u05D3\u05E7' (\u05DB\u05DC\u05D5\u05DE\u05E8 \u05DC\u05E4\u05E0\u05D9 \u05D4\u05D0\u05E8\u05DB\u05D4)")),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", { className: "underlined" }, "\u05D3\u05D5\u05D2\u05DE\u05D0\u05D5\u05EA"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05EA\u05D5\u05E6\u05D0\u05D4 \u05D1\u05E4\u05D5\u05E2\u05DC"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05E1\u05D1\u05E8"))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E6\u05E8\u05E4\u05EA(1) - \u05E1\u05E4\u05E8\u05D3(2)"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "1-1 \u05D1\u05EA\u05D5\u05DD 90 \u05D3\u05E7\u05D5\u05EA \u05D5\u05D0\u05D7\u05E8\u05D9 \u05D4\u05D0\u05E8\u05DB\u05D4 \u05E1\u05E4\u05E8\u05D3 \u05DE\u05E0\u05E6\u05D7\u05EA 2-1."),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "2"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "- 2 \u05E0\u05E7' \u05E2\u05DC \u05DE\u05E2\u05E4\u05D9\u05DC\u05D4 - 0 \u05E0\u05E7' \u05E2\u05DC 1X2 - 0 \u05E2\u05DC \u05EA\u05D5\u05E6\u05D0\u05D4")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "\u05E6\u05E8\u05E4\u05EA(1) - \u05E1\u05E4\u05E8\u05D3(1) \u05D5\u05E6\u05E8\u05E4\u05EA \u05E2\u05D5\u05DC\u05D4"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "1-1 \u05D1\u05EA\u05D5\u05DD 90 \u05D3\u05E7\u05D5\u05EA \u05D5\u05D0\u05D7\u05E8\u05D9 \u05D4\u05D0\u05E8\u05DB\u05D4 \u05E1\u05E4\u05E8\u05D3 \u05DE\u05E0\u05E6\u05D7\u05EA 2-1."),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "7"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "- 1 \u05E0\u05E7' \u05E2\u05DC 1X2 - 6 \u05E0\u05E7' \u05E2\u05DC \u05EA\u05D5\u05E6\u05D0\u05D4 \u05DE\u05D3\u05D5\u05D9\u05E7\u05EA - 0 \u05E0\u05E7' \u05E2\u05DC \u05DE\u05E2\u05E4\u05D9\u05DC\u05D4")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E6\u05E8\u05E4\u05EA(1) - \u05E1\u05E4\u05E8\u05D3(0)"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "\u05E6\u05E8\u05E4\u05EA \u05DE\u05E0\u05E6\u05D7\u05EA 4-3"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "3"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "- 1 \u05E0\u05E7' \u05E2\u05DC 1X2 - 2 \u05E0\u05E7' \u05E2\u05DC \u05DE\u05E2\u05E4\u05D9\u05DC\u05D4 - 0 \u05E0\u05E7' \u05E2\u05DC \u05EA\u05D5\u05E6\u05D0\u05D4")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E6\u05E8\u05E4\u05EA(1) - \u05E1\u05E4\u05E8\u05D3(0)"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "\u05E6\u05E8\u05E4\u05EA \u05DE\u05E0\u05E6\u05D7\u05EA 1-0"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "9"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "- 1 \u05E0\u05E7' \u05E2\u05DC 1X2 - 2 \u05E0\u05E7' \u05E2\u05DC \u05DE\u05E2\u05E4\u05D9\u05DC\u05D4 - 6 \u05E0\u05E7' \u05E2\u05DC \u05EA\u05D5\u05E6\u05D0\u05D4 \u05DE\u05D3\u05D5\u05D9\u05E7\u05EA"))))),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "text-part" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05D3\u05D9\u05E8\u05D5\u05D2 \u05D1\u05EA\u05D9\u05DD"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "bold" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E1\u05D9\u05D3\u05D5\u05E8 \u05DE\u05D5\u05E9\u05DC\u05DD"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "6")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "bold" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05D8\u05E2\u05D5\u05EA \u05DE\u05D9\u05E0\u05D9\u05DE\u05DC\u05D9\u05EA"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "3")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "divide" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DE\u05E7\u05E1\u05D9\u05DE\u05D5\u05DD \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "36")))),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { style: { marginTop: 8 } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D8\u05E2\u05D5\u05EA \u05DE\u05D9\u05E0\u05D9\u05DE\u05DC\u05D9\u05EA = \u05D4\u05D9\u05E4\u05D5\u05DA \u05D1\u05D9\u05DF \u05DE\u05E7\u05D5\u05DE\u05D5\u05EA \u05E6\u05DE\u05D5\u05D3\u05D9\u05DD (\u05D8\u05E2\u05D5\u05EA \u05D0\u05D7\u05EA \u05D1\u05D9\u05DF \u05DE\u05E7\u05D5\u05DE\u05D5\u05EA 1,2 \u05D0\u05D5 2,3 \u05D0\u05D5 3,4)"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "* \u05D1\u05DE\u05E7\u05E8\u05D4 \u05D4\u05E0\u05D3\u05D9\u05E8 \u05D1\u05D5 2 \u05E7\u05D1\u05D5\u05E6\u05D5\u05EA (\u05D0\u05D5 \u05D9\u05D5\u05EA\u05E8) \u05E1\u05D9\u05D9\u05DE\u05D5 \u05D1\u05DE\u05E7\u05D5\u05DD \u05D6\u05D4\u05D4 (\u05E9\u05D5\u05D5\u05D9\u05D5\u05DF \u05DB\u05D5\u05DC\u05DC \u05E9\u05DC \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA \u05D5\u05E9\u05E2\u05E8\u05D9\u05DD \u05DB\u05DA \u05E9\u05D4\u05DE\u05D9\u05E7\u05D5\u05DD \u05E9\u05DC\u05D4\u05DD \u05DE\u05D5\u05DB\u05E8\u05E2 \u05D1\u05D4\u05D8\u05DC\u05EA \u05DE\u05D8\u05D1\u05E2) \u05D4\u05D7\u05D9\u05E9\u05D5\u05D1 \u05D9\u05EA\u05D1\u05E6\u05E2 \u05DC\u05D8\u05D5\u05D1\u05EA \u05D4\u05DE\u05D4\u05DE\u05E8\u05D9\u05DD")),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", { className: "underlined" }, "\u05D3\u05D5\u05D2\u05DE\u05D0\u05D5\u05EA"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05EA\u05D5\u05E6\u05D0\u05D4 \u05D1\u05E4\u05D5\u05E2\u05DC"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05E1\u05D1\u05E8"))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { rowSpan: 4, className: "preline v-align-center" }, "1. \u05D5\u05D5\u05D9\u05DC\u05E1 2. \u05E9\u05D5\u05D5\u05D9\u05E5 3. \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 4. \u05D0\u05D9\u05D8\u05DC\u05D9\u05D4"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "1. \u05D5\u05D5\u05D9\u05DC\u05E1 2. \u05E9\u05D5\u05D5\u05D9\u05E5 3. \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 4. \u05D0\u05D9\u05D8\u05DC\u05D9\u05D4"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "6"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null)),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "1. \u05D5\u05D5\u05D9\u05DC\u05E1 2. \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 3. \u05E9\u05D5\u05D5\u05D9\u05E5 4. \u05D0\u05D9\u05D8\u05DC\u05D9\u05D4"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "3"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null)),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "1. \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 2. \u05D5\u05D5\u05D9\u05DC\u05E1 3. \u05E9\u05D5\u05D5\u05D9\u05E5 4. \u05D0\u05D9\u05D8\u05DC\u05D9\u05D4"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "0"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null)),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "1. \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 (\u05D1\u05E9\u05D5\u05D5\u05D9\u05D5\u05DF \u05DB\u05D5\u05DC\u05DC \u05D9\u05D7\u05D3 \u05E2\u05DD \u05D5\u05D5\u05D9\u05D9\u05DC\u05E1) 1. \u05D5\u05D5\u05D9\u05DC\u05E1 (\u05D1\u05E9\u05D5\u05D5\u05D9\u05D5\u05DF \u05DB\u05D5\u05DC\u05DC \u05D9\u05D7\u05D3 \u05E2\u05DD \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4) 3. \u05E9\u05D5\u05D5\u05D9\u05E5 4. \u05D0\u05D9\u05D8\u05DC\u05D9\u05D4"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "3"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "\u05D1\u05DE\u05E7\u05E8\u05D4 \u05D1\u05D5 2 \u05E7\u05D1\u05D5\u05E6\u05D5\u05EA \u05E1\u05D9\u05D9\u05DE\u05D5 \u05D1\u05DE\u05D9\u05E7\u05D5\u05DD \u05D6\u05D4\u05D4 - \u05D4\u05D7\u05D9\u05E9\u05D5\u05D1 \u05DE\u05EA\u05D1\u05E6\u05E2 \u05DC\u05D8\u05D5\u05D1\u05EA \u05D4\u05DE\u05D4\u05DE\u05E8. \u05DB\u05DC\u05D5\u05DE\u05E8 \u05D1\u05D1\u05D9\u05EA \u05D4\u05E0\"\u05DC \u05D9\u05D9\u05D1\u05D3\u05E7 \u05DB\u05DE\u05D4 \u05E0\u05E7' \u05D9\u05E7\u05D1\u05DC \u05D4\u05DE\u05E9\u05EA\u05DE\u05E9 \u05E2\u05DC \u05D4\u05D4\u05D9\u05DE\u05D5\u05E8 \u05DB\u05E9\u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 \u05D4\u05D9\u05D0 \u05D1\u05DE\u05E7\u05D5\u05DD 1 \u05D5-\u05D5\u05D5\u05D9\u05DC\u05E1 \u05D1\u05DE\u05E7\u05D5\u05DD 2 (0 \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA) \u05D5\u05D9\u05D9\u05D1\u05D3\u05E7 \u05DB\u05DE\u05D4 \u05E0\u05E7' \u05D9\u05E7\u05D1\u05DC \u05D4\u05DE\u05E9\u05EA\u05DE\u05E9 \u05E2\u05DC \u05D4\u05D4\u05D9\u05DE\u05D5\u05E8 \u05DB\u05E9-\u05D5\u05D5\u05D9\u05DC\u05E1 \u05D1\u05DE\u05E7\u05D5\u05DD 1 \u05D5\u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 \u05D1\u05DE\u05E7\u05D5\u05DD 2 (3 \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA). \u05D4\u05DE\u05E9\u05EA\u05DE\u05E9 \u05D9\u05E7\u05D1\u05DC \u05D0\u05EA \u05D4\u05E0\u05D9\u05E7\u05D5\u05D3 \u05D4\u05D2\u05D1\u05D5\u05D4 \u05DE\u05D1\u05D9\u05DF \u05D4\u05D0\u05D5\u05E4\u05E6\u05D9\u05D5\u05EA \u05D4\u05E0\"\u05DC. \u05DC\u05DB\u05DF \u05D1\u05DE\u05E7\u05E8\u05D4 \u05D6\u05D4 \u05D9\u05E7\u05D1\u05DC \u05DC3 \u05E0\u05E7'."))))),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "text-part" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05DE\u05D9\u05D5\u05D7\u05D3\u05D9\u05DD"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", { className: "underlined" }, "\u05D6\u05D5\u05DB\u05D4 \u05D5\u05E1\u05D2\u05E0\u05D9\u05EA"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "bold" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05D4\u05E2\u05E4\u05DC\u05EA \u05E9\u05DC\u05D1"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "5")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "bold" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05D6\u05DB\u05D9\u05D9\u05D4"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "15")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "divide" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DE\u05E7\u05E1\u05D9\u05DE\u05D5\u05DD \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "45")))),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D2\u05E2\u05D4 \u05DC"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E8\u05D1\u05E2 \u05D2\u05DE\u05E8"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D7\u05E6\u05D9 \u05D2\u05DE\u05E8"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D2\u05DE\u05E8"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D6\u05DB\u05D9\u05D9\u05D4"))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "bold" }, "\u05D6\u05D5\u05DB\u05D4"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "5"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "10"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "15"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "30")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "bold" }, "\u05E1\u05D2\u05E0\u05D9\u05EA"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "5"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "10"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "15"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null)))),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", { className: "underlined" }, "\u05DE\u05DC\u05DA \u05E9\u05E2\u05E8\u05D9\u05DD"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DC\u05DB\u05DC \u05D2\u05D5\u05DC"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "2")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05D6\u05DB\u05D9\u05D9\u05D4 \u05D1\u05EA\u05D5\u05D0\u05E8"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "4")))),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { style: { marginTop: 8 } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05DB\u05D3\u05D9 \u05DC\u05D4\u05DE\u05E8 \u05E2\u05DC \u05E9\u05D7\u05E7\u05DF \u05E9\u05DC\u05D0 \u05DE\u05D5\u05E4\u05D9\u05E2 \u05D1\u05E8\u05E9\u05D9\u05DE\u05D4 - \u05D0\u05E0\u05D0 \u05E4\u05E0\u05D5 \u05DC\u05D0\u05D7\u05D3 \u05D4\u05DE\u05E0\u05D4\u05DC\u05D9\u05DD \u05DB\u05D3\u05D9 \u05E9\u05D9\u05D5\u05E1\u05D9\u05E3 \u05D0\u05EA \u05D4\u05E9\u05D7\u05E7\u05DF \u05DC\u05E8\u05E9\u05D9\u05DE\u05D4"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05DC\u05D0 \u05E0\u05D9\u05EA\u05DF \u05DC\u05D4\u05D7\u05DC\u05D9\u05E3 \u05DE\u05DC\u05DA \u05E9\u05E2\u05E8\u05D9\u05DD \u05D1\u05DE\u05D4\u05DC\u05DA \u05D4\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8 (\u05D2\u05DD \u05D0\u05DD \u05E9\u05D7\u05E7\u05DF \u05E0\u05E4\u05E6\u05E2)"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D1\u05DE\u05D9\u05D3\u05D4 \u05D5\u05D9\u05E9 \u05EA\u05D9\u05E7\u05D5 \u05D1\u05DE\u05DC\u05DA \u05E9\u05E2\u05E8\u05D9\u05DD - \u05DB\u05DC \u05D4\u05D9\u05DE\u05D5\u05E8 \u05E2\u05DC \u05D0\u05D7\u05D3 \u05DE\u05D4\u05E9\u05D7\u05E7\u05E0\u05D9\u05DD \u05D9\u05D6\u05DB\u05D4 \u05D0\u05EA \u05D4\u05DE\u05D4\u05DE\u05E8 \u05D14 \u05D4\u05E0\u05E7' \u05E2\u05DC \u05D6\u05DB\u05D9\u05D9\u05D4 \u05D1\u05EA\u05D5\u05D0\u05E8")),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", { className: "underlined" }, "\u05DE\u05DC\u05DA \u05D1\u05D9\u05E9\u05D5\u05DC\u05D9\u05DD"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", null, "10 \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { style: { marginTop: 8 } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D9\u05E9 \u05DC\u05DE\u05DC\u05D0 \u05E9\u05DD \u05DE\u05DC\u05D0 \u05E2\u05DC \u05DE\u05E0\u05EA \u05E9\u05D9\u05D4\u05D9\u05D4 \u05D1\u05E8\u05D5\u05E8 \u05E2\u05DC \u05DE\u05D9 \u05DE\u05D4\u05DE\u05E8\u05D9\u05DD (\u05DC\u05D3\u05D5\u05D2\u05DE\u05D4: \u05DC\u05D0 \u05DC\u05DB\u05EA\u05D5\u05D1 \u05E8\u05E7 \"\u05E1\u05D9\u05DC\u05D1\u05D4\")"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D1\u05DE\u05E7\u05E8\u05D4 \u05E9\u05DC \u05EA\u05D9\u05E7\u05D5 - \u05DB\u05DC \u05D4\u05D9\u05DE\u05D5\u05E8 \u05E2\u05DC \u05D0\u05D7\u05D3 \u05DE\u05D4\u05E9\u05D7\u05E7\u05E0\u05D9\u05DD \u05D9\u05D6\u05DB\u05D4 \u05D0\u05EA \u05D4\u05DE\u05D4\u05DE\u05E8 \u05D1\u05DE\u05DC\u05D5\u05D0 10 \u05D4\u05E0\u05E7\u05D5\u05D3\u05D5\u05EA")),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", { className: "underlined" }, "\u05DE\u05E6\u05D8\u05D9\u05D9\u05DF \u05D4\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", null, "10 \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { style: { marginTop: 8 } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D9\u05E9 \u05DC\u05DE\u05DC\u05D0 \u05E9\u05DD \u05DE\u05DC\u05D0 \u05E2\u05DC \u05DE\u05E0\u05EA \u05E9\u05D9\u05D4\u05D9\u05D4 \u05D1\u05E8\u05D5\u05E8 \u05E2\u05DC \u05DE\u05D9 \u05DE\u05D4\u05DE\u05E8\u05D9\u05DD (\u05DC\u05D3\u05D5\u05D2\u05DE\u05D4: \u05DC\u05D0 \u05DC\u05DB\u05EA\u05D5\u05D1 \u05E8\u05E7 \"\u05E1\u05D9\u05DC\u05D1\u05D4\")")),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", { className: "underlined" }, "\u05D4\u05D4\u05EA\u05E7\u05E4\u05D4 \u05D4\u05D7\u05D6\u05E7\u05D4 \u05D1\u05D1\u05EA\u05D9\u05DD"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", null, "5 \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", null, "\u05D4\u05E7\u05D1\u05D5\u05E6\u05D4 \u05E9\u05D4\u05D1\u05E7\u05D9\u05E2\u05D4 \u05D4\u05DB\u05D9 \u05D4\u05E8\u05D1\u05D4 \u05E9\u05E2\u05E8\u05D9\u05DD \u05D1\u05D1\u05EA\u05D9\u05DD"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { style: { marginTop: 8 } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D1\u05DE\u05E7\u05E8\u05D4 \u05E9\u05DC \u05EA\u05D9\u05E7\u05D5 - \u05DB\u05DC \u05D4\u05D9\u05DE\u05D5\u05E8 \u05E2\u05DC \u05D0\u05D7\u05EA \u05DE\u05D4\u05E7\u05D1\u05D5\u05E6\u05D5\u05EA \u05D9\u05D6\u05DB\u05D4 \u05D0\u05EA \u05D4\u05DE\u05D4\u05DE\u05E8 \u05D1\u05DE\u05DC\u05D5\u05D0 \u05D4\u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"))),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", { style: { marginBottom: 20 } }, "\u05E4\u05E8\u05E1\u05D9\u05DD \u05D5\u05DB\u05E1\u05E4\u05D9\u05DD"),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "text-part" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", { className: "underlined" }, "\u05D3\u05DE\u05D9 \u05DB\u05E0\u05D9\u05E1\u05D4"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "200")),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "text-part" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", { className: "underlined" }, "\u05E1\u05DB\u05D5\u05DE\u05D9 \u05D6\u05DB\u05D9\u05D9\u05D4"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { style: { marginTop: 8 } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("u", null, "\u05DE\u05E7\u05D5\u05DD \u05E8\u05D0\u05E9\u05D5\u05DF:"),
+                    " 1800"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("u", null, "\u05DE\u05E7\u05D5\u05DD \u05E9\u05E0\u05D9:"),
+                    " 800"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("u", null, "\u05DE\u05E7\u05D5\u05DD \u05E9\u05DC\u05D9\u05E9\u05D9:"),
+                    " 400"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("u", null, "\u05DE\u05E7\u05D5\u05DD \u05E8\u05D1\u05D9\u05E2\u05D9:"),
+                    " \u05D6\u05D5\u05DB\u05D4 \u05D1\u05D3\u05DE\u05D9 \u05D4\u05DB\u05E0\u05D9\u05E1\u05D4 (200 \u05E9\"\u05D7)"))),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", { style: { marginBottom: 20 } }, "\u05DB\u05DC\u05DC\u05D9"),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", null,
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D1\u05DE\u05D9\u05D3\u05D4 \u05D5\u05D9\u05E9 \u05E9\u05D0\u05DC\u05D5\u05EA / \u05DE\u05E7\u05E8\u05D9\u05DD \u05E9\u05DC\u05D0 \u05D4\u05D5\u05E1\u05D1\u05E8\u05D5 \u05D1\u05EA\u05E7\u05E0\u05D5\u05DF - \u05D0\u05E0\u05D0 \u05E4\u05E0\u05D5 \u05DC\u05D0\u05D7\u05D3 \u05D4\u05DE\u05E0\u05D4\u05DC\u05D9\u05DD \u05DB\u05D3\u05D9 \u05E9\u05D9\u05E2\u05D3\u05DB\u05DF \u05D0\u05EA \u05D4\u05EA\u05E7\u05E0\u05D5\u05DF"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D0\u05DD \u05D9\u05E9 \u05E0\u05D5\u05E9\u05D0 \u05E9\u05D0\u05D9\u05E0\u05D5 \u05DE\u05E4\u05D5\u05E8\u05D8 \u05D1\u05EA\u05E7\u05E0\u05D5\u05DF - \u05D4\u05D7\u05DC\u05D8\u05D4 \u05D1\u05E0\u05D5\u05E9\u05D0 \u05EA\u05E7\u05D1\u05E2 \u05DC\u05E4\u05D9 \u05E9\u05D9\u05E7\u05D5\u05DC \u05D3\u05E2\u05EA \u05DE\u05E0\u05D4\u05DC\u05D9 \u05D4\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8"))));
+}
+;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Takanon);
+
+
+/***/ }),
+
 /***/ "./src/types/bet.ts":
 /*!**************************!*\
   !*** ./src/types/bet.ts ***!
@@ -104266,6 +103558,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "BetType": () => (/* reexport safe */ _bet__WEBPACK_IMPORTED_MODULE_0__.BetType),
+/* harmony export */   "SpecialQuestionType": () => (/* reexport safe */ _specialQuestion__WEBPACK_IMPORTED_MODULE_5__.SpecialQuestionType),
 /* harmony export */   "TournamentStatus": () => (/* reexport safe */ _tournament__WEBPACK_IMPORTED_MODULE_6__.TournamentStatus),
 /* harmony export */   "UserRole": () => (/* reexport safe */ _user__WEBPACK_IMPORTED_MODULE_7__.UserRole),
 /* harmony export */   "UtlRole": () => (/* reexport safe */ _utl__WEBPACK_IMPORTED_MODULE_8__.UtlRole),
@@ -104334,7 +103627,18 @@ var WinnerSide;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "SpecialQuestionType": () => (/* binding */ SpecialQuestionType)
+/* harmony export */ });
+var SpecialQuestionType;
+(function (SpecialQuestionType) {
+    SpecialQuestionType[SpecialQuestionType["Winner"] = 1] = "Winner";
+    SpecialQuestionType[SpecialQuestionType["MVP"] = 2] = "MVP";
+    SpecialQuestionType[SpecialQuestionType["RunnerUp"] = 3] = "RunnerUp";
+    SpecialQuestionType[SpecialQuestionType["TopScorer"] = 4] = "TopScorer";
+    SpecialQuestionType[SpecialQuestionType["OffensiveTeamGroupStage"] = 5] = "OffensiveTeamGroupStage";
+    SpecialQuestionType[SpecialQuestionType["TopAssists"] = 6] = "TopAssists";
+})(SpecialQuestionType || (SpecialQuestionType = {}));
 
 
 /***/ }),
@@ -104365,7 +103669,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var TournamentStatus;
 (function (TournamentStatus) {
-    TournamentStatus["Initial"] = "intial";
+    TournamentStatus["Initial"] = "initial";
     TournamentStatus["Ongoing"] = "ongoing";
     TournamentStatus["Finished"] = "finished";
 })(TournamentStatus || (TournamentStatus = {}));
@@ -104659,7 +103963,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const DraggableListItem = ({ item, index, Component, }) => {
-    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__.Draggable, { draggableId: item.id, index: index }, (provided, snapshot) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_ListItem__WEBPACK_IMPORTED_MODULE_2__["default"], { ref: provided.innerRef, ...provided.draggableProps, ...provided.dragHandleProps, className: `${snapshot.isDragging ? 'draggingItem' : ''}`, sx: {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__.Draggable, { draggableId: `${item.id}`, index: index }, (provided, snapshot) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_ListItem__WEBPACK_IMPORTED_MODULE_2__["default"], { ref: provided.innerRef, ...provided.draggableProps, ...provided.dragHandleProps, className: `${snapshot.isDragging ? 'draggingItem' : ''}`, sx: {
             padding: 0,
             marginTop: 0.75,
             marginBottom: 0.75,

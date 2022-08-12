@@ -1,4 +1,4 @@
-import { Group } from "./group";
+import { Group, GroupWithTeams } from "./group";
 import { Match, WinnerSide } from "./match";
 import { SpecialQuestion } from "./specialQuestion";
 import { Team } from "./teams";
@@ -34,7 +34,7 @@ export interface GroupRankBetApiModel extends BetBase {
 }
 export interface GroupRankBetWithRelations extends BetBase {
     standings: Team[],
-    relatedGroup: Group,
+    relatedGroup: GroupWithTeams,
 }
 
 export interface QuestionBetApiModel extends BetBase {
@@ -43,8 +43,16 @@ export interface QuestionBetApiModel extends BetBase {
 
 export interface QuestionBetWithRelations extends QuestionBetApiModel {
     relatedQuestion: SpecialQuestion,
+    // answer?: any,
 }
 
 export type BetApiModel = QuestionBetApiModel | GroupRankBetApiModel | MatchBetApiModel
 
 export type BetsApiModelById = Record<number, BetApiModel>
+
+export interface MatchWithABet extends Match {
+    bet: MatchBetWithRelations
+}
+export interface GroupWithABet extends GroupWithTeams {
+    bet: GroupRankBetWithRelations,
+}

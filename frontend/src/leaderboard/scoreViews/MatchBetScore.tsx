@@ -1,11 +1,16 @@
 import React from "react";
-import TeamWithFlag from '../../widgets/TeamWithFlag.tsx';
-import MatchResult from "../../widgets/MatchResult.tsx";
+import TeamWithFlag from '../../widgets/TeamWithFlag';
+import MatchResult from "../../widgets/MatchResult";
+import { MatchBetWithRelations } from "../../types";
 
+
+interface Props {
+    bet: MatchBetWithRelations,
+}
 
 function MatchBetScore({
     bet,
-}){
+}: Props){
     const {id, score, result_home, result_away, winner_side, relatedMatch} = bet;
     if (!relatedMatch){
         return null;

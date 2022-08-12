@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import ListItem from '@mui/material/ListItem';
-import { DraggableItemProps } from './types';
+import { DraggableItemProps, ItemBase } from './types';
 
 
 const DraggableListItem = ({
     item,
     index,
     Component,
-}: DraggableItemProps) => {
+}: DraggableItemProps<any>) => {
   return (
-    <Draggable draggableId={item.id} index={index}>
+    <Draggable draggableId={`${item.id}`} index={index}>
       {(provided, snapshot) => (
         
         <ListItem

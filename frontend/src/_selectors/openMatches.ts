@@ -1,13 +1,9 @@
 import { keyBy, sortBy } from 'lodash';
 import { createSelector } from 'reselect'
-import { Match, MatchBetWithRelations } from '../types';
-import { Matches } from './base';
+import { MatchWithABet } from '../types';
 import { MyMatchBetsSelector } from './logic';
 import { MatchesWithTeams } from './modelRelations';
 
-export interface MatchWithABet extends Match {
-    bet: MatchBetWithRelations
-}
 
 export const MyOpenMatchBetsSelector = createSelector(
     MyMatchBetsSelector,

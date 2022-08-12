@@ -1,32 +1,37 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { OpenGroupRankBetsSelector } from '../_selectors/groupStandingBets.ts';
+import { OpenGroupRankBetsSelector } from '../_selectors/groupStandingBets';
 import OpenGroupRankBetsView from './OpenGroupRankBetsView';
-import { BetTypes } from '../_enums/betTypes';
-import { sendBetAndStore } from '../_actions/bets.ts';
+import { sendBetAndStore } from '../_actions/bets';
+import { GroupWithABet, BetType } from '../types';
 
+
+interface Props {
+    groupsWithBet: GroupWithABet[],
+    sendBetAndStore: any,
+}
 
 const OpenGroupRankBetsProvider = ({
     groupsWithBet,
     sendBetAndStore,
-}) => {
+}: Props) => {
     async function sendGroupRankBet({
         groupId,
         standings,
     }) {
         const params = {
-            betType: BetTypes.GroupsRank,
+            betType: BetType.GroupsRank,
             type_id: groupId,
             value: standings.map(team => team.id),
         }
 
         await sendBetAndStore(params)
             .then(function (data) {
-                toastr["success"]("ההימור נשלח");
+                window['toastr']["success"]("ההימור נשלח");
             })
             .catch(function(error) {
                 console.log("FAILED sending bet", error)
-                toastr["error"](error.responseJSON.message);
+                window['toastr']["error"](error.responseJSON.message);
             });
     }
     
