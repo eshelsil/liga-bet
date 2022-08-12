@@ -38,7 +38,6 @@ class UpdateLeaderboards
     {
         $betsScoreSum = $tournament->bets()
                      ->select(["user_tournament_id", DB::raw("COALESCE(sum(bets.score), 0) as total_score")])
-                     ->where('permissions', '<>>', 0)
                      ->groupBy(["user_tournament_id"])
                      ->orderBy("total_score", "desc")
                      ->get();

@@ -15,7 +15,7 @@ class UtlResource extends JsonResource
      */
     public function toArray($request)
     {
-        /** @var TournamentUser $game */
+        /** @var TournamentUser $utl */
         $utl = $this->resource;
         return [
             "id"              => $utl->id,

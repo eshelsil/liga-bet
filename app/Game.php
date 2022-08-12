@@ -34,6 +34,7 @@ use Illuminate\Support\Arr;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $competition_id
+ * @property-read \App\Competition|null $competition
  * @property-read mixed $is_done
  * @property-read \App\Team|null $teamAway
  * @property-read \App\Team|null $teamHome
@@ -164,6 +165,11 @@ protected $table = 'matches';
     public function teamAway(): BelongsTo
     {
         return $this->belongsTo(Team::class, "team_away_id");
+    }
+
+    public function competition(): BelongsTo
+    {
+        return $this->belongsTo(Competition::class, "competition_id");
     }
 
     public function isClosedToBets()

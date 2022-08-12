@@ -35,7 +35,6 @@ Route::get('/admin', function () {
 Auth::routes();
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
-// Route::get("/leaderboard", [LeaderboardController::class, 'index']);
 
 Route::post('register-token', [HomeController::class, 'registerFCMToken'])->middleware("auth");
 
@@ -91,11 +90,15 @@ Route::get('/debug/scorers-simple-data', [DebugController::class, 'getScorersInt
 Route::get('/debug/special-bets-values/{name}', [DebugController::class, 'getSpecialBetsData']);
 
 // Route::post('/user/update', [BetsController::class, 'submitBets'])->middleware("confirmed_user");
-Route::post('/api/tournaments/{tournamentId}/bets', [BetsController::class, 'submitBets'])->middleware("confirmed_user");
-Route::get('/api/tournaments/{tournamentId}/bets', [BetsController::class, 'index'])->middleware("confirmed_user");
-Route::get('/api/tournaments/{tournamentId}/bets/open-games', [BetsController::class, 'openGames'])->middleware("confirmed_user");
-Route::get('/api/tournaments/{tournamentId}/groups', [GroupsController::class, 'index'])->middleware("confirmed_user");
-Route::get('/api/tournaments/{tournamentId}/games', [\App\Http\Controllers\GamesController::class, 'index'])->middleware("confirmed_user");
+Route::prefix("/api/tournaments/{tournamentId}/")->middleware("confirmed_user")
+     ->group(function () {
+         Route::post('bets', [BetsController::class, 'submitBets']);
+         Route::get('bets', [BetsController::class, 'index']);
+         Route::get('bets/open-games', [BetsController::class, 'openGames']);
+         Route::get('groups', [GroupsController::class, 'index']);
+         Route::get('games', [\App\Http\Controllers\GamesController::class, 'index']);
+         Route::get("leaderboards", [LeaderboardController::class, 'index']);
+    });
 Route::get('/api/user', [\App\Http\Controllers\UserController::class, 'getUser']);
 Route::get('/api/user/utls', [\App\Http\Controllers\UserController::class, 'getUserUTLs']);
 

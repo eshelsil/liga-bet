@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Leaderboard[] $leaderboards
+ * @property-read int|null $leaderboards_count
  * @method static \Illuminate\Database\Eloquent\Builder|LeaderboardsVersion newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|LeaderboardsVersion newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|LeaderboardsVersion query()
@@ -26,4 +28,9 @@ use Illuminate\Database\Eloquent\Model;
 class LeaderboardsVersion extends Model
 {
     use HasFactory;
+
+    public function leaderboards(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Leaderboard::class, "version_id");
+    }
 }

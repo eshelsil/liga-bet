@@ -9,13 +9,7 @@
 namespace App\Actions;
 
 use App\Competition;
-use App\DataCrawler\Crawler;
-use App\Group;
 use App\Game;
-use App\Ranks;
-use App\Scorer;
-use App\SpecialBets\SpecialBet;
-use App\Team;
 use App\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
@@ -38,8 +32,8 @@ class UpdateCompetition
         $games = $c->getCrawler()->fetchGames();
         $games[1] = array_merge($games[1], [
             "is_done" => true,
-            "result_home" => 2,
-            "result_away" => 1
+            "result_home" => 1,
+            "result_away" => 2
         ]);
 
         /** @var static $u */
@@ -147,7 +141,7 @@ class UpdateCompetition
             $hasNewGames = true;
             Log::debug("Saving Result of Game: ext_id - " . $game->external_id . " | id - " . $game->id . "-> " . $game->result_home . " - " . $game->result_away);
             $game->completeBets();
-            $this->updateLeaderboards->handle($game->competition_id);
+            $this->updateLeaderboards->handle($game->competition);
             if ($game->isKnockout()) {
                 $this->calculateSpecialBets->execute($game->competition_id, ['winner', 'runner_up']);
             }

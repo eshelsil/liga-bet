@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Bet[] $bets
  * @property-read int|null $bets_count
  * @property-read \App\Competition|null $competition
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\LeaderboardsVersion[] $leaderboardVersions
+ * @property-read int|null $leaderboard_versions_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\TournamentUser[] $utls
  * @property-read int|null $utls_count
  * @method static \Illuminate\Database\Eloquent\Builder|Tournament newModelQuery()
@@ -48,5 +50,10 @@ class Tournament extends Model
     public function utls(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(TournamentUser::class);
+    }
+
+    public function leaderboardVersions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(LeaderboardsVersion::class);
     }
 }

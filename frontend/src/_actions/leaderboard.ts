@@ -1,11 +1,13 @@
 import { fetchLeaderboard } from '../api/leaderboard';
-import { AppDispatch } from '../_helpers/store';
+import {AppDispatch, GetRootState} from '../_helpers/store';
 import leaderboard from '../_reducers/leaderboard';
+import {TournamentIdSelector} from "../_selectors";
 
 
 function fetchAndStoreLeaderboard() {
-  return (dispatch: AppDispatch) => {
-    return fetchLeaderboard()
+  return (dispatch: AppDispatch, getState: GetRootState) => {
+    const tournamentId = TournamentIdSelector(getState());
+    return fetchLeaderboard(tournamentId)
     .then( data => dispatch(leaderboard.actions.set(data)) );
   }
 }

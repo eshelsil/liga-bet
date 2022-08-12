@@ -1,10 +1,6 @@
 export interface ScoreboardRow {
-    rank: number,
-    rankDisplay: string,
-    change: number,
     id: number,
-    userId: number,
-    name: string,
-    addedScore: number,
-    totalScore: number,
+    user_tournament_id: number,
+    rank: number,
+    score: number
 }

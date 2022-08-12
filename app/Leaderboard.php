@@ -16,6 +16,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $score
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\LeaderboardsVersion|null $leaderboardVersions
+ * @property-read \App\Tournament|null $tournament
+ * @property-read \App\TournamentUser|null $tournamentUser
  * @method static \Illuminate\Database\Eloquent\Builder|Leaderboard newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Leaderboard newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Leaderboard query()
@@ -32,4 +35,19 @@ use Illuminate\Database\Eloquent\Model;
 class Leaderboard extends Model
 {
     use HasFactory;
+
+    public function leaderboardVersions(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(LeaderboardsVersion::class, "version_id");
+    }
+
+    public function tournament(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Tournament::class);
+    }
+
+    public function tournamentUser(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(TournamentUser::class, "user_tournament_id");
+    }
 }
