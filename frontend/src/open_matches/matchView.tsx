@@ -3,7 +3,6 @@ import React from 'react';
 import { MatchWithABet, WinnerSide } from '../types';
 import { DEFAULT_DATETIME_FORMAT } from '../utils/index';
 import TeamAndSymbol from '../widgets/TeamWithFlag';
-import { WINNER_SIDE } from '../_enums/winnerSide';
 
 function MatchWithBetView ({
     match,
@@ -26,8 +25,8 @@ function MatchWithBetView ({
         }
     }
 
-    const isHomeKoWinner = winnerSide === WINNER_SIDE.home;
-    const isAwayKoWinner = winnerSide === WINNER_SIDE.away;
+    const isHomeKoWinner = winnerSide === WinnerSide.Home;
+    const isAwayKoWinner = winnerSide === WinnerSide.Away;
 
     
     return (

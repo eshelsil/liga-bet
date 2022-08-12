@@ -10457,43 +10457,6 @@ function createListenerMiddleware(middlewareOptions) {
 
 /***/ }),
 
-/***/ "./src/_enums/betTypes.js":
-/*!********************************!*\
-  !*** ./src/_enums/betTypes.js ***!
-  \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "BetTypes": () => (/* binding */ BetTypes)
-/* harmony export */ });
-var BetTypes = {
-  Match: 1,
-  GroupsRank: 2,
-  SpecialBet: 3
-};
-
-/***/ }),
-
-/***/ "./src/_enums/winnerSide.js":
-/*!**********************************!*\
-  !*** ./src/_enums/winnerSide.js ***!
-  \**********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "WINNER_SIDE": () => (/* binding */ WINNER_SIDE)
-/* harmony export */ });
-var WINNER_SIDE = {
-  away: 'away',
-  home: 'home'
-};
-
-/***/ }),
-
 /***/ "./src/matches/ClosedMatchBetsProvider.js":
 /*!************************************************!*\
   !*** ./src/matches/ClosedMatchBetsProvider.js ***!
@@ -100174,9 +100137,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "TeamsByGroupId": () => (/* binding */ TeamsByGroupId)
 /* harmony export */ });
 /* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
-/* harmony import */ var _enums_betTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../_enums/betTypes */ "./src/_enums/betTypes.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types */ "./src/types/index.ts");
 
 
 
@@ -100198,19 +100161,19 @@ const CurrentTournament = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelecto
     return utl.tournament;
 });
 const GroupStandingBets = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(Bets, (bets) => {
-    const groupRankBets = (0,lodash__WEBPACK_IMPORTED_MODULE_1__.pickBy)(bets, bet => bet.type === _enums_betTypes__WEBPACK_IMPORTED_MODULE_0__.BetTypes.GroupsRank);
+    const groupRankBets = (0,lodash__WEBPACK_IMPORTED_MODULE_0__.pickBy)(bets, bet => bet.type === _types__WEBPACK_IMPORTED_MODULE_1__.BetType.GroupsRank);
     return groupRankBets;
 });
 const MatchBets = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(Bets, (bets) => {
-    const matchBets = (0,lodash__WEBPACK_IMPORTED_MODULE_1__.pickBy)(bets, bet => bet.type === _enums_betTypes__WEBPACK_IMPORTED_MODULE_0__.BetTypes.Match);
+    const matchBets = (0,lodash__WEBPACK_IMPORTED_MODULE_0__.pickBy)(bets, bet => bet.type === _types__WEBPACK_IMPORTED_MODULE_1__.BetType.Match);
     return matchBets;
 });
 const QuestionBets = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(Bets, (bets) => {
-    const questionBets = (0,lodash__WEBPACK_IMPORTED_MODULE_1__.pickBy)(bets, bet => bet.type === _enums_betTypes__WEBPACK_IMPORTED_MODULE_0__.BetTypes.SpecialBet);
+    const questionBets = (0,lodash__WEBPACK_IMPORTED_MODULE_0__.pickBy)(bets, bet => bet.type === _types__WEBPACK_IMPORTED_MODULE_1__.BetType.Question);
     return questionBets;
 });
 const TeamsByGroupId = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(Teams, (teams) => {
-    return (0,lodash__WEBPACK_IMPORTED_MODULE_1__.groupBy)(teams, 'group_id');
+    return (0,lodash__WEBPACK_IMPORTED_MODULE_0__.groupBy)(teams, 'group_id');
 });
 
 
@@ -100889,341 +100852,20 @@ const TournamentUserControllerSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_1_
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fetchBets": () => (/* binding */ fetchBets),
+/* harmony export */   "fetchGroupRankBets": () => (/* binding */ fetchGroupRankBets),
 /* harmony export */   "sendBet": () => (/* binding */ sendBet)
 /* harmony export */ });
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../types */ "./src/types/index.ts");
-/* harmony import */ var _helpers_dev__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_helpers/dev */ "./src/_helpers/dev.ts");
-/* harmony import */ var _common_apiRequest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common/apiRequest */ "./src/api/common/apiRequest.ts");
+/* harmony import */ var _common_apiRequest__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common/apiRequest */ "./src/api/common/apiRequest.ts");
 
-
-
-const EXAMPLE_DATA = {
-    // betId
-    10: {
-        type: 1,
-        type_id: 4,
-        user_tournament_id: 23,
-        result_home: 0,
-        result_away: 1,
-        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Away,
-        relatedMatch: {
-            home_team: {
-                name: "Belgium",
-                id: 10,
-                crest_url: "https://crests.football-data.org/805.svg"
-            },
-            away_team: {
-                name: "Nethelands",
-                id: 6,
-                crest_url: "https://crests.football-data.org/8601.svg"
-            },
-            result_home: null,
-            result_away: null,
-            winner_side: null,
-            id: 4,
-        },
-        id: 10,
-        score: null,
-    },
-    11: {
-        type: 1,
-        type_id: 4,
-        user_tournament_id: 7,
-        result_home: 0,
-        result_away: 1,
-        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Away,
-        relatedMatch: {
-            home_team: {
-                name: "Belgium",
-                id: 10,
-                crest_url: "https://crests.football-data.org/805.svg"
-            },
-            away_team: {
-                name: "Nethelands",
-                id: 6,
-                crest_url: "https://crests.football-data.org/8601.svg"
-            },
-            result_home: null,
-            result_away: null,
-            winner_side: null,
-            id: 4,
-        },
-        id: 11,
-        score: null,
-    },
-    12: {
-        type: 1,
-        type_id: 4,
-        user_tournament_id: 1,
-        result_home: 0,
-        result_away: 2,
-        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Away,
-        relatedMatch: {
-            home_team: {
-                name: "Belgium",
-                id: 10,
-                crest_url: "https://crests.football-data.org/805.svg"
-            },
-            away_team: {
-                name: "Nethelands",
-                id: 6,
-                crest_url: "https://crests.football-data.org/8601.svg"
-            },
-            result_home: null,
-            result_away: null,
-            winner_side: null,
-            id: 4,
-        },
-        id: 12,
-        score: null,
-    },
-    1: {
-        type: 1,
-        type_id: 3,
-        user_tournament_id: 23,
-        result_home: 0,
-        result_away: 0,
-        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
-        relatedMatch: {
-            home_team: {
-                name: "Belgium",
-                id: 10,
-                crest_url: "https://crests.football-data.org/805.svg"
-            },
-            away_team: {
-                name: "Switzerland",
-                id: 9,
-                crest_url: "https://crests.football-data.org/788.svg"
-            },
-            result_home: 3,
-            result_away: 1,
-            winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
-            id: 3,
-        },
-        id: 1,
-        score: 0,
-    },
-    2: {
-        type: 1,
-        type_id: 3,
-        user_tournament_id: 7,
-        result_home: 3,
-        result_away: 2,
-        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
-        relatedMatch: {
-            home_team: {
-                name: "Belgium",
-                id: 10,
-                crest_url: "https://crests.football-data.org/805.svg"
-            },
-            away_team: {
-                name: "Switzerland",
-                id: 9,
-                crest_url: "https://crests.football-data.org/788.svg"
-            },
-            result_home: 3,
-            result_away: 1,
-            winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
-            id: 3,
-        },
-        id: 2,
-        score: 1,
-    },
-    3: {
-        type: 1,
-        type_id: 3,
-        user_tournament_id: 20,
-        result_home: 5,
-        result_away: 2,
-        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
-        relatedMatch: {
-            home_team: {
-                name: "Belgium",
-                id: 10,
-                crest_url: "https://crests.football-data.org/805.svg"
-            },
-            away_team: {
-                name: "Switzerland",
-                id: 9,
-                crest_url: "https://crests.football-data.org/788.svg"
-            },
-            result_home: 3,
-            result_away: 1,
-            winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
-            id: 3,
-        },
-        id: 3,
-        score: 3,
-    },
-    4432: {
-        type: 1,
-        type_id: 3,
-        user_tournament_id: 18,
-        result_home: 5,
-        result_away: 2,
-        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
-        relatedMatch: {
-            home_team: {
-                name: "Belgium",
-                id: 10,
-                crest_url: "https://crests.football-data.org/805.svg"
-            },
-            away_team: {
-                name: "Switzerland",
-                id: 9,
-                crest_url: "https://crests.football-data.org/788.svg"
-            },
-            result_home: 3,
-            result_away: 1,
-            winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Home,
-            id: 3,
-        },
-        id: 4432,
-        score: 3,
-    },
-    145: {
-        type: 1,
-        type_id: 2,
-        user_tournament_id: 20,
-        result_home: 1,
-        result_away: 3,
-        winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Away,
-        relatedMatch: {
-            home_team: {
-                name: "Austria",
-                id: 5,
-                crest_url: "https://crests.football-data.org/816.svg",
-            },
-            away_team: {
-                name: "Nethelands",
-                id: 6,
-                crest_url: "https://crests.football-data.org/8601.svg",
-            },
-            result_home: 1,
-            result_away: 3,
-            winner_side: _types__WEBPACK_IMPORTED_MODULE_0__.WinnerSide.Away,
-            id: 2,
-        },
-        id: 145,
-        score: 9,
-    },
-    4: {
-        type: 3,
-        type_id: 4,
-        user_tournament_id: 20,
-        isDone: true,
-        answer: 5,
-        relatedQuestion: {
-            name: "Top Scroer",
-            answer: {
-                id: 5,
-                name: 'David Vialla',
-                crest_url: 'https://crests.football-data.org/760.svg',
-            },
-            id: 4,
-        },
-        id: 4,
-        score: 5,
-    },
-    49: {
-        type: 3,
-        type_id: 4,
-        user_tournament_id: 1,
-        isDone: true,
-        answer: 2,
-        relatedQuestion: {
-            name: "Top Scroer",
-            answer: {
-                id: 5,
-                name: 'David Vialla',
-                crest_url: 'https://crests.football-data.org/760.svg',
-            },
-            id: 4,
-        },
-        id: 49,
-        score: 0,
-    },
-    50: {
-        type: 3,
-        type_id: 4,
-        user_tournament_id: 23,
-        isDone: true,
-        answer: 2,
-        relatedQuestion: {
-            name: "Top Scroer",
-            answer: {
-                id: 5,
-                name: 'David Vialla',
-                crest_url: 'https://crests.football-data.org/760.svg',
-            },
-            id: 4,
-        },
-        id: 50,
-        score: 0,
-    },
-    40: {
-        type: 3,
-        type_id: 1,
-        user_tournament_id: 23,
-        isDone: true,
-        answer: 7,
-        relatedQuestion: {
-            name: "Winner",
-            answer: 8,
-            id: 1,
-        },
-        id: 40,
-        score: 0,
-    },
-    41: {
-        type: 3,
-        type_id: 5,
-        user_tournament_id: 4,
-        isDone: false,
-        answer: 9,
-        relatedQuestion: {
-            name: "Top Scroer",
-            answer: null,
-            id: 5,
-        },
-        id: 41,
-        score: 5,
-    },
-    5: {
-        type: 2,
-        type_id: 1,
-        user_tournament_id: 20,
-        standings: [12, 11, 9, 10],
-        relatedGroup: {
-            name: "Group A",
-            id: 1,
-            isDone: true,
-            standings: [10, 9, 11, 12]
-        },
-        id: 5,
-        score: 3,
-    },
-    6: {
-        type: 2,
-        type_id: 2,
-        user_tournament_id: 20,
-        standings: [5, 6, 7, 8],
-        relatedGroup: {
-            name: "Group B",
-            id: 2,
-            isDone: true,
-            standings: [7, 8, 6, 5],
-        },
-        id: 6,
-        score: 6,
-    },
-};
-const fakeAPI = async () => {
-    return EXAMPLE_DATA;
-};
 const fetchBets = async (tournamentId) => {
-    if ((0,_helpers_dev__WEBPACK_IMPORTED_MODULE_1__.isDevModeTamir)())
-        return await fakeAPI();
+    return await window.$.ajax({
+        type: 'GET',
+        url: `/api/tournaments/${tournamentId}/bets`,
+        contentType: 'application/json',
+        dataType: 'json',
+    });
+};
+const fetchGroupRankBets = async (tournamentId) => {
     return await window.$.ajax({
         type: 'GET',
         url: `/api/tournaments/${tournamentId}/bets`,
@@ -101232,7 +100874,7 @@ const fetchBets = async (tournamentId) => {
     });
 };
 const sendBet = async (tournamentId, betType, params) => {
-    const { bets = {} } = await (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_2__.sendApiRequest)({
+    const { bets = {} } = await (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_0__.sendApiRequest)({
         type: 'POST',
         url: `/api/tournaments/${tournamentId}/bets`,
         data: {
@@ -103058,8 +102700,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../types */ "./src/types/index.ts");
 /* harmony import */ var _utils_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/index */ "./src/utils/index.ts");
 /* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.tsx");
-/* harmony import */ var _enums_winnerSide__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_enums/winnerSide */ "./src/_enums/winnerSide.js");
-
 
 
 
@@ -103080,8 +102720,8 @@ function MatchWithBetView({ match, onEdit, }) {
             winnerSide = bet.winner_side;
         }
     }
-    const isHomeKoWinner = winnerSide === _enums_winnerSide__WEBPACK_IMPORTED_MODULE_5__.WINNER_SIDE.home;
-    const isAwayKoWinner = winnerSide === _enums_winnerSide__WEBPACK_IMPORTED_MODULE_5__.WINNER_SIDE.away;
+    const isHomeKoWinner = winnerSide === _types__WEBPACK_IMPORTED_MODULE_2__.WinnerSide.Home;
+    const isAwayKoWinner = winnerSide === _types__WEBPACK_IMPORTED_MODULE_2__.WinnerSide.Away;
     return (react__WEBPACK_IMPORTED_MODULE_1__.createElement("tr", { id: `row_match_${id}` },
         react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", { className: "admin" }, id),
         react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", { className: "v-align-center" }, moment__WEBPACK_IMPORTED_MODULE_0___default()(start_time).format(_utils_index__WEBPACK_IMPORTED_MODULE_3__.DEFAULT_DATETIME_FORMAT)),
@@ -103119,7 +102759,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _selectors_openMatches__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_selectors/openMatches */ "./src/_selectors/openMatches.ts");
 /* harmony import */ var _actions_bets__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_actions/bets */ "./src/_actions/bets.ts");
 /* harmony import */ var _openMatchesView__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./openMatchesView */ "./src/open_matches/openMatchesView.tsx");
-/* harmony import */ var _enums_betTypes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_enums/betTypes */ "./src/_enums/betTypes.js");
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../types */ "./src/types/index.ts");
 
 
 
@@ -103151,7 +102791,7 @@ const OpenMatchesProvider = ({ matches, sendBetAndStore, }) => {
         }
         await sendBetAndStore({
             ...params,
-            betType: _enums_betTypes__WEBPACK_IMPORTED_MODULE_5__.BetTypes.Match,
+            betType: _types__WEBPACK_IMPORTED_MODULE_5__.BetType.Match,
         })
             .then(function (data) {
             window['toastr']["success"]("ההימור נשלח");

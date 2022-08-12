@@ -1,8 +1,7 @@
 import { createSelector } from 'reselect';
-import { BetTypes } from "../../_enums/betTypes";
 import { RootState } from '../../_helpers/store';
 import { pickBy, groupBy } from 'lodash';
-import { GroupRankBetApiModel, MatchBetApiModel, QuestionBetApiModel } from '../../types';
+import { BetType, GroupRankBetApiModel, MatchBetApiModel, QuestionBetApiModel } from '../../types';
 
 
 export const CurrentUser = (state: RootState) => state.currentUser;
@@ -37,7 +36,7 @@ export const CurrentTournament = createSelector(
 export const GroupStandingBets = createSelector(
     Bets,
     (bets) => {
-        const groupRankBets = pickBy(bets, bet => bet.type === BetTypes.GroupsRank);
+        const groupRankBets = pickBy(bets, bet => bet.type === BetType.GroupsRank);
         return groupRankBets as Record<number, GroupRankBetApiModel>;
     }
 );
@@ -45,7 +44,7 @@ export const GroupStandingBets = createSelector(
 export const MatchBets = createSelector(
     Bets,
     (bets) => {
-        const matchBets = pickBy(bets, bet => bet.type === BetTypes.Match);
+        const matchBets = pickBy(bets, bet => bet.type === BetType.Match);
         return matchBets as Record<number, MatchBetApiModel>;
     }
 );
@@ -53,7 +52,7 @@ export const MatchBets = createSelector(
 export const QuestionBets = createSelector(
     Bets,
     (bets) => {
-        const questionBets = pickBy(bets, bet => bet.type === BetTypes.SpecialBet);
+        const questionBets = pickBy(bets, bet => bet.type === BetType.Question);
         return questionBets as Record<number, QuestionBetApiModel>;
     }
 );

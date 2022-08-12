@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { MyOpenMatchBetsSelector } from '../_selectors/openMatches';
 import { sendBetAndStore } from '../_actions/bets';
 import OpenMatchesView from './openMatchesView';
-import { BetTypes } from '../_enums/betTypes';
-import { MatchWithABet } from '../types';
+import { BetType, MatchWithABet } from '../types';
 
 
 
@@ -46,7 +45,7 @@ const OpenMatchesProvider = ({
         }
         await sendBetAndStore({
             ...params,
-            betType: BetTypes.Match,
+            betType: BetType.Match,
         })
             .then(function (data) {
                 window['toastr']["success"]("ההימור נשלח");
