@@ -15,7 +15,7 @@ export const AllGroupStandingsBets = createSelector(
         const betsByGroupId = groupBy(bets, bet => bet.relatedGroup.id);
         return {
             betsByGroupId,
-            groups,
+            groups: Object.values(groups),
         };
     }
 );

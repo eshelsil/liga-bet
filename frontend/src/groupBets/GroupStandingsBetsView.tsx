@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
-import { getStandingsBetValue } from '../utils/index.ts';
-import TeamWithFlag from '../widgets/TeamWithFlag.tsx';
+import { getStandingsBetValue } from '../utils/index';
+import TeamWithFlag from '../widgets/TeamWithFlag';
+import { GroupRankBetWithRelations, GroupWithTeams } from '../types';
+import { groupBy } from 'lodash';
+
+
+interface SingleGroupBetsProps {
+	group: GroupWithTeams,
+	bets: GroupRankBetWithRelations[],
+}
 
 function SingleGroupBets({
     group,
     bets,
-}){
-	const {standings: teams = []} = group;
+}: SingleGroupBetsProps){
+	const {teams = []} = group;
 	const [open, setOpen] = useState(false);
 	const toggleOpen = () => setOpen(!open);
-    const betsByAnswer = _.groupBy(bets, bet => getStandingsBetValue(bet.standings));
+    const betsByAnswer = groupBy(bets, bet => getStandingsBetValue(bet.standings));
     return (
     <div className="panel-group" style={{marginBottom: 0}}>
         <div className="panel panel-default">
@@ -53,7 +61,7 @@ function SingleGroupBets({
 								{Object.entries(betsByAnswer).map(([value, bets]) => {
 									const betSample = bets[0];
 									const { standings, score } = betSample;
-									const gumblers = bets.map(bet => bet.user_name);
+									const gumblers = bets.map(bet => bet.utlName);
 									return (
 										<tr key={value}>
 											<td>
@@ -84,10 +92,15 @@ function SingleGroupBets({
     );
 }
 
+interface Props {
+	groups: GroupWithTeams[],
+	betsByGroupId: Record<number, GroupRankBetWithRelations[]>,
+}
+
 const GroupStandingsBetsView = ({
 	groups,
 	betsByGroupId,
-}) => {
+}: Props) => {
     return (
     <div>
         <h1>הימורי בתים</h1>

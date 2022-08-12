@@ -10,7 +10,7 @@ export const GroupStandingBetsWithUserNames = createSelector(
     (bets, users) => {
         return mapValues(bets, bet => ({
             ...bet,
-            user_name: users[bet.user_tournament_id]?.name,
+            utlName: users[bet.user_tournament_id]?.name,
         }));
     }
 );

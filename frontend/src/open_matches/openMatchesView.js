@@ -29,10 +29,6 @@ function MatchBet ({
             cancelEditMode();
         });
     }
-
-
-    
-    
     return (<>
         {edit && (
             <EditMatchBet
@@ -60,10 +56,10 @@ const OpenMatchesView = ({
         <div>
             <h1>רשימת משחקים</h1>
             <span className="admin">{moment().format('HH:mm  YYYY/MM/DD')}</span>
-            {!hasMatches&& (
+            {!hasMatches && (
                 <h3>אין משחקים פתוחים</h3>
             )}
-            {hasMatches&& (
+            {hasMatches && (
                 <table className="table table-striped">
                     <thead>
                     <tr>

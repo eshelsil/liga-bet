@@ -66,7 +66,7 @@ function MatchGumblesList({
                         .map(([betVal, bets]) => {
                             const betSample = bets[0];
                             const {winner_side, result_home, result_away} = betSample;
-                            const gumblers = bets.map(bet => bet.user_name);
+                            const gumblers = bets.map(bet => bet.utlName);
                             return (
                                 <tr key={betVal}>
                                     <td className="admin">match-id: {match.id}</td>

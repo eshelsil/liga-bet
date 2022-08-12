@@ -7,8 +7,9 @@ export interface Group {
     standings: number[],
 }
 
-export interface GroupWithTeams extends Group {
+export interface GroupWithTeams extends Omit<Group, 'standings'> {
     teams: Team[],
+    standings: Team[],
 }
 
 export type GroupsById = Record<number, Group>

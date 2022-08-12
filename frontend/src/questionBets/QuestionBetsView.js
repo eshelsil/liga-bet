@@ -48,7 +48,7 @@ function QuestionBetsList({
                     {Object.values(betsByAnswer).map(bets =>{
                         const answer = bets[0].answer;
                         const {name, crest_url, id} = answer;
-                        const gumblers = bets.map(bet => bet.user_name);
+                        const gumblers = bets.map(bet => bet.utlName);
                         return <QuestionBetRow key={id} name={name} crest_url={crest_url} gumblers={gumblers} />
                     })}
                 </ul>

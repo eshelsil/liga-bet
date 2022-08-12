@@ -10494,190 +10494,6 @@ var WINNER_SIDE = {
 
 /***/ }),
 
-/***/ "./src/groupBets/GroupStandingsBetsProvider.js":
-/*!*****************************************************!*\
-  !*** ./src/groupBets/GroupStandingsBetsProvider.js ***!
-  \*****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _GroupStandingsBetsView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GroupStandingsBetsView */ "./src/groupBets/GroupStandingsBetsView.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _selectors_groupStandingBets_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_selectors/groupStandingBets.ts */ "./src/_selectors/groupStandingBets.ts");
-
-
-
-
-
-var GroupStandingsBets = function GroupStandingsBets(_ref) {
-  var groups = _ref.groups,
-      betsByGroupId = _ref.betsByGroupId;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_GroupStandingsBetsView__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    groups: Object.values(groups),
-    betsByGroupId: betsByGroupId
-  });
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_2__.connect)(_selectors_groupStandingBets_ts__WEBPACK_IMPORTED_MODULE_3__.AllGroupStandingsBets)(GroupStandingsBets));
-
-/***/ }),
-
-/***/ "./src/groupBets/GroupStandingsBetsView.js":
-/*!*************************************************!*\
-  !*** ./src/groupBets/GroupStandingsBetsView.js ***!
-  \*************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _utils_index_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/index.ts */ "./src/utils/index.ts");
-/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-
-function SingleGroupBets(_ref) {
-  var group = _ref.group,
-      bets = _ref.bets;
-  var _group$standings = group.standings,
-      teams = _group$standings === void 0 ? [] : _group$standings;
-
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState2 = _slicedToArray(_useState, 2),
-      open = _useState2[0],
-      setOpen = _useState2[1];
-
-  var toggleOpen = function toggleOpen() {
-    return setOpen(!open);
-  };
-
-  var betsByAnswer = _.groupBy(bets, function (bet) {
-    return (0,_utils_index_ts__WEBPACK_IMPORTED_MODULE_1__.getStandingsBetValue)(bet.standings);
-  });
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "panel-group",
-    style: {
-      marginBottom: 0
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "panel panel-default"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "panel-heading row",
-    style: {
-      marginRight: 0,
-      marginLeft: 0,
-      cursor: 'pointer'
-    },
-    onClick: toggleOpen
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-4 pull-right"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", {
-    className: "panel-title"
-  }, group.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-7 pull-right"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    style: {
-      display: 'flex'
-    }
-  }, teams.map(function (team) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      key: team.id,
-      style: {
-        width: 30,
-        display: 'flex',
-        justifyContent: 'center'
-      }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
-      className: "team_flag",
-      src: team.crest_url
-    }));
-  })))), open && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "tab-content",
-    style: {
-      marginTop: 25
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", {
-    className: "table"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", {
-    className: "col-xs-4"
-  }, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", {
-    className: "col-xs-7"
-  }, "\u05DE\u05D4\u05DE\u05E8\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", {
-    className: "col-xs-1"
-  }, "\u05E0\u05E7'"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, Object.entries(betsByAnswer).map(function (_ref2) {
-    var _ref3 = _slicedToArray(_ref2, 2),
-        value = _ref3[0],
-        bets = _ref3[1];
-
-    var betSample = bets[0];
-    var standings = betSample.standings,
-        score = betSample.score;
-    var gumblers = bets.map(function (bet) {
-      return bet.user_name;
-    });
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-      key: value
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, standings.map(function (team, i) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        key: i,
-        className: "flex-row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "(", i + 1, ") "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        key: team.id,
-        name: team.name,
-        crest_url: team.crest_url
-      }));
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, gumblers.map(function (name) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        key: name
-      }, name);
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, score));
-  }))))));
-}
-
-var GroupStandingsBetsView = function GroupStandingsBetsView(_ref4) {
-  var groups = _ref4.groups,
-      betsByGroupId = _ref4.betsByGroupId;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9 \u05D1\u05EA\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-4 pull-right"
-  }, "\u05D1\u05D9\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-7 pull-right"
-  }, "\u05E7\u05D1\u05D5\u05E6\u05D5\u05EA")), groups.map(function (group) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(SingleGroupBets, {
-      key: group.id,
-      group: group,
-      bets: betsByGroupId[group.id]
-    });
-  }));
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GroupStandingsBetsView);
-
-/***/ }),
-
 /***/ "./src/initialDataFetcher/InitialDataFetcher.js":
 /*!******************************************************!*\
   !*** ./src/initialDataFetcher/InitialDataFetcher.js ***!
@@ -11166,7 +10982,7 @@ function MatchGumblesList(_ref) {
         result_home = betSample.result_home,
         result_away = betSample.result_away;
     var gumblers = bets.map(function (bet) {
-      return bet.user_name;
+      return bet.utlName;
     });
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("tr", {
       key: betVal
@@ -12388,7 +12204,7 @@ function QuestionBetsList(_ref2) {
         crest_url = answer.crest_url,
         id = answer.id;
     var gumblers = bets.map(function (bet) {
-      return bet.user_name;
+      return bet.utlName;
     });
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(QuestionBetRow, {
       key: id,
@@ -101997,7 +101813,7 @@ const AllGroupStandingsBets = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSel
     const betsByGroupId = (0,lodash__WEBPACK_IMPORTED_MODULE_0__.groupBy)(bets, bet => bet.relatedGroup.id);
     return {
         betsByGroupId,
-        groups,
+        groups: Object.values(groups),
     };
 });
 const OpenGroupRankBetsSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(_modelRelations__WEBPACK_IMPORTED_MODULE_2__.GroupsWithTeams, _logic__WEBPACK_IMPORTED_MODULE_1__.MyGroupRankBetsById, (groups, groupBets) => {
@@ -102199,7 +102015,7 @@ __webpack_require__.r(__webpack_exports__);
 const GroupStandingBetsWithUserNames = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(_base__WEBPACK_IMPORTED_MODULE_0__.GroupStandingBets, _base__WEBPACK_IMPORTED_MODULE_0__.Contestants, (bets, users) => {
     return (0,lodash__WEBPACK_IMPORTED_MODULE_1__.mapValues)(bets, bet => ({
         ...bet,
-        user_name: users[bet.user_tournament_id]?.name,
+        utlName: users[bet.user_tournament_id]?.name,
     }));
 });
 const GroupStandingBetsLinked = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(GroupStandingBetsWithUserNames, _base__WEBPACK_IMPORTED_MODULE_0__.Groups, _base__WEBPACK_IMPORTED_MODULE_0__.Teams, (groupRankBets, groups, teams) => {
@@ -102240,11 +102056,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const GroupsWithTeams = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(_base__WEBPACK_IMPORTED_MODULE_1__.Groups, _base__WEBPACK_IMPORTED_MODULE_1__.TeamsByGroupId, (groups, teamsByGroupId) => {
-    const groupsWithTemas = (0,lodash__WEBPACK_IMPORTED_MODULE_0__.mapValues)(groups, (group) => ({
-        ...group,
-        teams: teamsByGroupId[group.id],
-    }));
+const GroupsWithTeams = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(_base__WEBPACK_IMPORTED_MODULE_1__.Groups, _base__WEBPACK_IMPORTED_MODULE_1__.TeamsByGroupId, _base__WEBPACK_IMPORTED_MODULE_1__.Teams, (groups, teamsByGroupId, teamsById) => {
+    const groupsWithTemas = (0,lodash__WEBPACK_IMPORTED_MODULE_0__.mapValues)(groups, (group) => {
+        const standings = (group.isDone && Object.keys(teamsById).length > 0)
+            ? group.standings.map((teamId) => teamsById[teamId])
+            : null;
+        return {
+            ...group,
+            standings,
+            teams: teamsByGroupId[group.id],
+        };
+    });
     return (0,lodash__WEBPACK_IMPORTED_MODULE_0__.pickBy)(groupsWithTemas, group => group.teams);
 });
 
@@ -102317,7 +102139,7 @@ __webpack_require__.r(__webpack_exports__);
 const MatchBetsWithUserNames = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(_base__WEBPACK_IMPORTED_MODULE_1__.MatchBets, _base__WEBPACK_IMPORTED_MODULE_1__.Contestants, (bets, users) => {
     return (0,lodash__WEBPACK_IMPORTED_MODULE_0__.mapValues)(bets, bet => ({
         ...bet,
-        user_name: users[bet.user_tournament_id]?.name,
+        utlName: users[bet.user_tournament_id]?.name,
     }));
 });
 const MatchBetsLinked = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(MatchBetsWithUserNames, _matches__WEBPACK_IMPORTED_MODULE_2__.MatchesWithTeams, (matchBets, matches) => {
@@ -102394,7 +102216,7 @@ __webpack_require__.r(__webpack_exports__);
 const QuestionBetsWithUserNames = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(_base__WEBPACK_IMPORTED_MODULE_1__.QuestionBets, _base__WEBPACK_IMPORTED_MODULE_1__.Contestants, (bets, users) => {
     return (0,lodash__WEBPACK_IMPORTED_MODULE_0__.mapValues)(bets, bet => ({
         ...bet,
-        user_name: users[bet.user_tournament_id]?.name,
+        utlName: users[bet.user_tournament_id]?.name,
     }));
 });
 const QuestionBetsLinked = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(QuestionBetsWithUserNames, _base__WEBPACK_IMPORTED_MODULE_1__.SpecialQuestions, (bets, questions) => {
@@ -103651,7 +103473,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _open_matches_openMatchesProvider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../open_matches/openMatchesProvider */ "./src/open_matches/openMatchesProvider.js");
 /* harmony import */ var _preTournamentBets_OpenGroupRankBetsProvider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../preTournamentBets/OpenGroupRankBetsProvider */ "./src/preTournamentBets/OpenGroupRankBetsProvider.js");
 /* harmony import */ var _matches_ClosedMatchBetsProvider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../matches/ClosedMatchBetsProvider */ "./src/matches/ClosedMatchBetsProvider.js");
-/* harmony import */ var _groupBets_GroupStandingsBetsProvider__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../groupBets/GroupStandingsBetsProvider */ "./src/groupBets/GroupStandingsBetsProvider.js");
+/* harmony import */ var _groupBets_GroupStandingsBetsProvider__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../groupBets/GroupStandingsBetsProvider */ "./src/groupBets/GroupStandingsBetsProvider.tsx");
 /* harmony import */ var _questionBets_ClosedQuestionBetsProvider__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../questionBets/ClosedQuestionBetsProvider */ "./src/questionBets/ClosedQuestionBetsProvider.js");
 /* harmony import */ var _myBets_myBetsView__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../myBets/myBetsView */ "./src/myBets/myBetsView.js");
 /* harmony import */ var _takanon_Takanon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../takanon/Takanon */ "./src/takanon/Takanon.js");
@@ -104042,6 +103864,102 @@ const mapDispatchToProps = {
     storeCurrentUser: _actions_auth__WEBPACK_IMPORTED_MODULE_2__.storeCurrentUser,
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors__WEBPACK_IMPORTED_MODULE_3__.AuthControllerSelector, mapDispatchToProps)(AuthController));
+
+
+/***/ }),
+
+/***/ "./src/groupBets/GroupStandingsBetsProvider.tsx":
+/*!******************************************************!*\
+  !*** ./src/groupBets/GroupStandingsBetsProvider.tsx ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _GroupStandingsBetsView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GroupStandingsBetsView */ "./src/groupBets/GroupStandingsBetsView.tsx");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _selectors_groupStandingBets__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_selectors/groupStandingBets */ "./src/_selectors/groupStandingBets.ts");
+
+
+
+
+const GroupStandingsBets = () => {
+    const { groups, betsByGroupId } = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(_selectors_groupStandingBets__WEBPACK_IMPORTED_MODULE_3__.AllGroupStandingsBets);
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_GroupStandingsBetsView__WEBPACK_IMPORTED_MODULE_1__["default"], { groups: groups, betsByGroupId: betsByGroupId });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GroupStandingsBets);
+
+
+/***/ }),
+
+/***/ "./src/groupBets/GroupStandingsBetsView.tsx":
+/*!**************************************************!*\
+  !*** ./src/groupBets/GroupStandingsBetsView.tsx ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _utils_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/index */ "./src/utils/index.ts");
+/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.tsx");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+function SingleGroupBets({ group, bets, }) {
+    const { teams = [] } = group;
+    const [open, setOpen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+    const toggleOpen = () => setOpen(!open);
+    const betsByAnswer = (0,lodash__WEBPACK_IMPORTED_MODULE_3__.groupBy)(bets, bet => (0,_utils_index__WEBPACK_IMPORTED_MODULE_1__.getStandingsBetValue)(bet.standings));
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "panel-group", style: { marginBottom: 0 } },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "panel panel-default" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "panel-heading row", style: { marginRight: 0, marginLeft: 0, cursor: 'pointer' }, onClick: toggleOpen },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-4 pull-right" },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", { className: "panel-title" }, group.name)),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-7 pull-right" },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { style: { display: 'flex' } }, teams.map(team => (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { key: team.id, style: { width: 30, display: 'flex', justifyContent: 'center' } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { className: "team_flag", src: team.crest_url }))))))),
+            open && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "tab-content", style: { marginTop: 25 } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", { className: "table" },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", { className: "col-xs-4" }, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", { className: "col-xs-7" }, "\u05DE\u05D4\u05DE\u05E8\u05D9\u05DD"),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", { className: "col-xs-1" }, "\u05E0\u05E7'"))),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, Object.entries(betsByAnswer).map(([value, bets]) => {
+                        const betSample = bets[0];
+                        const { standings, score } = betSample;
+                        const gumblers = bets.map(bet => bet.utlName);
+                        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { key: value },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, standings.map((team, i) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { key: i, className: "flex-row" },
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null,
+                                    "(",
+                                    i + 1,
+                                    ") "),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_2__["default"], { key: team.id, name: team.name, crest_url: team.crest_url }))))),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, gumblers.map(name => (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { key: name }, name)))),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, score)));
+                    }))))))));
+}
+const GroupStandingsBetsView = ({ groups, betsByGroupId, }) => {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null,
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9 \u05D1\u05EA\u05D9\u05DD"),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "row" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-4 pull-right" }, "\u05D1\u05D9\u05EA"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-7 pull-right" }, "\u05E7\u05D1\u05D5\u05E6\u05D5\u05EA")),
+        groups.map(group => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(SingleGroupBets, { key: group.id, group: group, bets: betsByGroupId[group.id] })))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GroupStandingsBetsView);
 
 
 /***/ }),

@@ -16,6 +16,7 @@ export interface BetBase {
     type: BetType,
     type_id: number,
     score: number,
+    utlName?: string,
 }
 
 export interface MatchBetApiModel extends BetBase {
