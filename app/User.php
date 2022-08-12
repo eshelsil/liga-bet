@@ -100,40 +100,24 @@ class User extends Authenticatable
         return $this->hasMany(TournamentUser::class);
     }
 
-    public static function create($params) : User {
+    public static function create($params): User
+    {
         $user = new static($params);
         $user->save();
 
         return $user;
     }
 
-    public function getOpenMatches() {
-        $matches = Game::query()->whereNotNull("team_home_id")
-            ->whereNotNull("team_away_id")
-            ->where("start_time", ">", time())
-            ->get();
+    public function linkTournament(Tournament $tournament): TournamentUser
+    {
+        /** @var TournamentUser $utl */
+        $utl = $this->utls()->save(new TournamentUser([
+            "tournament_id" => $tournament->id,
+            "role" => User::TYPE_MONKEY,
+        ]));
 
-        $bets = Bet::query()
-            ->whereIn("type_id", $matches->pluck("id")->all())
-            ->where("type", BetTypes::Game)
-            ->where("user_id", $this->id)
-            ->get();
-
-        foreach ($matches as $match) {
-            $match->bet = $bets->first(function ($bet) use ($match) { return $bet->type_id == $match->id; });
-        }
-
-        return $matches;
+        return $utl;
     }
-
-
-    public function getBets(){
-        $bets = Bet::query()
-            ->where("user_id", $this->id)
-            ->get();
-        return $bets;
-    }
-
 
     public function getGroupBetsById() {
         $groups = Group::all();
@@ -148,15 +132,6 @@ class User extends Authenticatable
             $output[$group->id] = $group;
         }
         return $output;
-    }
-
-    public function getBet(Game $match)
-    {
-        return Bet::query()
-                  ->where("user_id", $this->id)
-                  ->where("type", BetTypes::Game)
-                  ->where("type_id", $match->id)
-                  ->first();
     }
 
     public function getTournamentUser($tournamentId): ?TournamentUser
@@ -189,43 +164,6 @@ class User extends Authenticatable
     public static function getMonkeyUsers(){
         return static::where('permissions', static::TYPE_MONKEY)->get();
     }
-
-    private function autoGenerateBet($type, $type_id, $data){
-        if (!$this->isMonkey()){
-            throw new \InvalidArgumentException("Cannot auto-generate bets for a user who is not a monkey");
-        }
-        $bet = new Bet();
-        $bet->user_id = $this->id;
-        $bet->type = $type;
-        $bet->type_id = $type_id;
-        $bet->data = $data;
-        $bet->save();
-    }
-
-    public function autoBetPreTournament(){
-        if (!$this->isMonkey()){
-            throw new \InvalidArgumentException("Cannot auto-generate bets for a user who is not a monkey");
-        }
-        Group::all()->each(function($group){
-            $type = BetTypes::GroupsRank;
-            $type_id = $group->getID();
-            $data = $group->generateRandomBetData();
-            $this->autoGenerateBet($type, $type_id, $data);
-        });
-        Game::all()->each(function($match){
-            $type = BetTypes::Game;
-            $type_id = $match->getID();
-            $data = $match->generateRandomBetData();
-            $this->autoGenerateBet($type, $type_id, $data);
-        });
-        SpecialBet::all()->each(function($specialBet){
-            $type = BetTypes::SpecialBet;
-            $type_id = $specialBet->getID();
-            $data = $specialBet->generateRandomBetData();
-            $this->autoGenerateBet($type, $type_id, $data);
-        });
-    }
-
 
     public function sendNotifications($title, $body){
         if (!$this->fcm_token) {

@@ -34,6 +34,8 @@ class TournamentUser extends Model
 {
     protected $table = 'user_tournament_links';
 
+    protected static $unguarded = true;
+
     public function tournament(): BelongsTo
     {
         return $this->belongsTo(Tournament::class);

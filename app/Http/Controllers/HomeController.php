@@ -141,29 +141,6 @@ class HomeController extends Controller
         ]);
     }
 
-
-
-    /**
-     * Return Matches with no user's bet
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function showOpenMatches()
-    {
-        /** @var User $user */
-        $user = Auth::user();
-        $matches = $user->getOpenMatches();
-        $teamsByExtId = Team::getTeamsByExternalId();
-
-
-        return view("open-matches-view")->with([
-            "matches" => $matches,
-            "user" => $user,
-            "teamsByExtId" => $teamsByExtId
-        ]);
-
-    }
-
     /**
      * Return Open Special Bets
      *

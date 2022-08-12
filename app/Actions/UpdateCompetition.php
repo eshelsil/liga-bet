@@ -25,6 +25,7 @@ class UpdateCompetition
     private CalculateSpecialBets $calculateSpecialBets;
     private UpdateCompetitionScorers $updateScorers;
     private UpdateCompetitionStandings $updateStandings;
+    private UpdateLeaderboards $updateLeaderboards;
 
     public static function aaa()
     {
@@ -49,17 +50,18 @@ class UpdateCompetition
     public function __construct(
         CalculateSpecialBets $calculateSpecialBets,
         UpdateCompetitionScorers $updateScorers,
-        UpdateCompetitionStandings $updateStandings
+        UpdateCompetitionStandings $updateStandings,
+        UpdateLeaderboards $updateLeaderboards
     ) {
         $this->calculateSpecialBets = $calculateSpecialBets;
         $this->updateScorers = $updateScorers;
         $this->updateStandings = $updateStandings;
+        $this->updateLeaderboards = $updateLeaderboards;
     }
 
     public function handle(Competition $competition, ?\Illuminate\Support\Collection $crawlerGames = null)
     {
-        $crawler = $competition->getCrawler();
-        $crawlerGames ??= $crawler->fetchGames();
+        $crawlerGames ??= $competition->getCrawler()->fetchGames();
         $existingGames = $competition->games;
 
         $this->saveNewGames($competition, $crawlerGames, $existingGames);
@@ -82,7 +84,6 @@ class UpdateCompetition
             if ($competition->isGroupStageDone()) {
                 $this->calculateSpecialBets->execute($competition->id, ['offensive_team']);
             }
-            Ranks::updateRanks();
         }
 
         return $hasNewGames;
@@ -146,6 +147,7 @@ class UpdateCompetition
             $hasNewGames = true;
             Log::debug("Saving Result of Game: ext_id - " . $game->external_id . " | id - " . $game->id . "-> " . $game->result_home . " - " . $game->result_away);
             $game->completeBets();
+            $this->updateLeaderboards->handle($game->competition_id);
             if ($game->isKnockout()) {
                 $this->calculateSpecialBets->execute($game->competition_id, ['winner', 'runner_up']);
             }

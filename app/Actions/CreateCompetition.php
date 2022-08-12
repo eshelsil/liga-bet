@@ -105,9 +105,7 @@ class CreateCompetition
 
     private function saveGames(Collection $games): Collection
     {
-        $autoBet = (new MonkeyAutoBetCompetitionGames());
-
-        return $this->games = $games->map(function ($gameData) use ($autoBet) {
+        return $this->games = $games->map(function ($gameData) {
             $game = new Game();
             $game->competition_id = $this->competition->id;
             $game->external_id  = $gameData['external_id'];
@@ -119,8 +117,6 @@ class CreateCompetition
             $game->save();
 
             Log::debug("Saving Game: {$game->team_home_id} {$this->teams->get($gameData['team_home_external_id'])->name} vs. {$game->team_away_id} {$this->teams->get($gameData['team_away_external_id'])->name}");
-
-            User::getMonkeyUsers()->each(fn(User $monkey) => $autoBet->handle($monkey, $game));
 
             return $game;
         })->keyBy("external_id");

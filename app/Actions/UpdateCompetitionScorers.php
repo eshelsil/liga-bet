@@ -40,13 +40,15 @@ class UpdateCompetitionScorers
             if (!$relevantScorers->pluck('external_id')->contains($id)) {
                 if (!$saveFirstAnyway) {
                     continue;
-                };
+                }
+
                 if ($index == 0){
                     $mostGoals = data_get($scorer, 'numberOfGoals');
-                } else if (data_get($scorer, 'numberOfGoals') !== $mostGoals){
+                } else if (data_get($scorer, 'numberOfGoals') !== $mostGoals) {
                     $saveFirstAnyway = false;
                     continue;
                 }
+
                 $scorerModel = new Scorer();
                 $scorerModel->competition_id = $competition->id;
                 $scorerModel->external_id = $id;

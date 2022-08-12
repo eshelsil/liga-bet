@@ -9,6 +9,7 @@ use App\Bets\BetGroupsRank\BetGroupRankRequest;
 use App\Bets\BetGroupsRank\BetGroupRank;
 use App\Bets\BetSpecialBets\BetSpecialBetsRequest;
 use App\Bets\BetSpecialBets\BetSpecialBets;
+use App\Competition;
 use App\Enums\BetTypes;
 use App\Game;
 use App\Http\Resources\GroupResource;
@@ -40,53 +41,29 @@ class BetsController extends Controller
         $utl = $user->getTournamentUser($tournamentId);
         $competition = $utl->tournament->competition;
 
-        $betsByType = $utl->bets->groupBy("type");
-        $formattedBets = collect();
-        foreach ($betsByType as $type => $bets) {
-            if ($type == BetTypes::GroupsRank) {
-                $groups = $competition->groups->keyBy("id");
-                /** @var Bet $bet */
-                foreach ($bets as $bet) {
-                    /** @var Group $group */
-                    $group = $groups->get($bet->type_id);
-                    $teams = $group->teams->keyBy("id");
+        $bets = $utl->bets;
+        $formattedBets = $this->formatBets($bets, $competition, $request);
 
-                    $standings = collect($bet->getData())->sortKeys()->map(function ($teamId) use ($group, $teams) {
-                        return $teams->get($teamId)->only(["name","id","crest_url"]);
-                    })->values();
+        return new JsonResponse($formattedBets->keyBy('id'), 200);
+    }
 
-                    $formattedBets[] = $bet->export_data() + [
-                        "standings" => $standings,
-                        "relatedGroup" => (new GroupResource($group))->toArray($request)
-                    ];
-                }
-            } elseif ($type == BetTypes::Game) {
-                $games = $competition->games->whereIn("id", $bets->pluck("type_id"))
-                                            ->keyBy("id");
-                $teams = $competition->teams->keyBy("id");
-                /** @var Bet $bet */
-                foreach ($bets as $bet) {
-                    /** @var Game $game */
-                    $game = $games->get($bet->type_id);
+    public function openGames(\Illuminate\Http\Request $request, $tournamentId)
+    {
+        $utl = $this->getUser()->getTournamentUser($tournamentId);
+        $tournament = $utl->tournament;
 
-                    $formattedBets[] = $bet->export_data() + [
-                        "relatedMatch" => [
-                            "home_team" => $teams->get($game->team_home_id)->only(["id", "name", "crest_url"]),
-                            "away_team" => $teams->get($game->team_home_id)->only(["id", "name", "crest_url"]),
-                            "result_home" => $game->result_home,
-                            "result_away" => $game->result_away,
-                            "winner_side" => $game->getWinnerSide(),
-                            "id" => $game->id,
-                        ]
-                    ];
-                }
-            }
-            else {
-                foreach ($bets as $bet) {
-                    $formattedBets[] = $bet->export_data();
-                }
-            }
-        }
+        $openGameIds = $tournament->competition
+            ->games()
+            ->where("start_time", "<", time() + config("bets.lockBeforeSeconds"))
+            ->pluck("id");
+
+        $bets = Bet::query()
+            ->where("tournament_id", $tournament->id)
+            ->where("type", BetTypes::Game)
+            ->whereIn("type_id", $openGameIds)
+            ->get();
+
+        $formattedBets = $this->formatBets($bets, $tournament->competition, $request);
 
         return new JsonResponse($formattedBets->keyBy('id'), 200);
     }
@@ -195,5 +172,97 @@ class BetsController extends Controller
         }
 
 
+    }
+
+    protected function formatBets(
+        \Illuminate\Database\Eloquent\Collection $bets,
+        Competition $competition,
+        \Illuminate\Http\Request $request
+    ): Collection {
+        $betsByType    = $bets->groupBy("type");
+        $formattedBets = collect();
+        foreach ($betsByType as $type => $bets) {
+            if ($type == BetTypes::GroupsRank) {
+                $formattedBets = $this->formatGroupRank($competition, $bets, $request, $formattedBets);
+            } elseif ($type == BetTypes::Game) {
+                $formattedBets = $this->formatGameBets($competition, $bets, $formattedBets);
+            } else {
+                foreach ($bets as $bet) {
+                    $formattedBets[] = $bet->export_data();
+                }
+            }
+        }
+
+        return $formattedBets;
+    }
+
+
+    protected function formatGroupRank(
+        Competition $competition,
+        \Illuminate\Database\Eloquent\Collection $bets,
+        \Illuminate\Http\Request $request,
+        Collection $formattedBets
+    ): Collection {
+        $groups = $competition->groups->keyBy("id");
+        /** @var Bet $bet */
+        foreach ($bets as $bet) {
+            /** @var Group $group */
+            $group = $groups->get($bet->type_id);
+            $teams = $group->teams->keyBy("id");
+
+            $standings = collect($bet->getData())->sortKeys()
+                 ->map(function ($teamId) use ($group, $teams) {
+                     return $teams->get($teamId)
+                          ->only([
+                              "name",
+                              "id",
+                              "crest_url"
+                          ]);
+                 })->values();
+
+            $formattedBets[] = $bet->export_data() + [
+                    "standings"    => $standings,
+                    "relatedGroup" => (new GroupResource($group))->toArray($request)
+                ];
+        }
+
+        return $formattedBets;
+    }
+
+    protected function formatGameBets(
+        Competition $competition,
+        \Illuminate\Database\Eloquent\Collection $bets,
+        Collection $formattedBets
+    ): Collection {
+        $games = $competition->games->whereIn("id", $bets->pluck("type_id"))->keyBy("id");
+        $teams = $competition->teams->keyBy("id");
+        /** @var Bet $bet */
+        foreach ($bets as $bet) {
+            /** @var Game $game */
+            $game = $games->get($bet->type_id);
+
+            $formattedBets[] = $bet->export_data() + [
+                    "relatedMatch" => [
+                        "home_team" => $teams->get($game->team_home_id)
+                                             ->only([
+                                                 "id",
+                                                 "name",
+                                                 "crest_url"
+                                             ]),
+                        "away_team" => $teams->get($game->team_home_id)
+                                             ->only([
+                                                 "id",
+                                                 "name",
+                                                 "crest_url"
+                                             ]),
+                        "result_home" => $game->result_home,
+                        "result_away" => $game->result_away,
+                        "winner_side" => $game->getWinnerSide(),
+                        "id" => $game->id,
+                    ]
+                ];
+        }
+
+        return $formattedBets;
     }
 }

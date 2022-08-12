@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $external_id
  * @property string $name
  * @property string $crest_url
- * @property string $group_id
+ * @property int $group_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $competition_id
