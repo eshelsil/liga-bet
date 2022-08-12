@@ -11762,346 +11762,6 @@ var OpenGroupRankBetsView = function OpenGroupRankBetsView(_ref2) {
 
 /***/ }),
 
-/***/ "./src/questionBets/ClosedQuestionBetsProvider.js":
-/*!********************************************************!*\
-  !*** ./src/questionBets/ClosedQuestionBetsProvider.js ***!
-  \********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _QuestionBetsView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuestionBetsView */ "./src/questionBets/QuestionBetsView.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _selectors_questionBets_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_selectors/questionBets.ts */ "./src/_selectors/questionBets.ts");
-
-
-
-
-
-var ClosedQuestionBets = function ClosedQuestionBets(_ref) {
-  var questions = _ref.questions,
-      betsByQuestionId = _ref.betsByQuestionId;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_QuestionBetsView__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    questions: questions,
-    betsByQuestionId: betsByQuestionId
-  });
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_2__.connect)(_selectors_questionBets_ts__WEBPACK_IMPORTED_MODULE_3__.ClosedQuestionBetsSelector)(ClosedQuestionBets));
-
-/***/ }),
-
-/***/ "./src/questionBets/QuestionBetsView.js":
-/*!**********************************************!*\
-  !*** ./src/questionBets/QuestionBetsView.js ***!
-  \**********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
-
-
-
-function QuestionBetRow(_ref) {
-  var name = _ref.name,
-      crest_url = _ref.crest_url,
-      gumblers = _ref.gumblers;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    className: "list-group-item row full-row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-5 pull-right"
-  }, crest_url && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    name: name,
-    crest_url: crest_url
-  }), !crest_url && name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-5 pull-right"
-  }, gumblers.map(function (name) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      key: name
-    }, name);
-  })));
-}
-
-function QuestionBetsList(_ref2) {
-  var name = _ref2.name,
-      id = _ref2.id,
-      bets = _ref2.bets;
-
-  var betsByAnswer = _.groupBy(bets, function (bet) {
-    return bet.answer.id;
-  });
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    id: "special-bet-wrapper-".concat(id),
-    className: "tab-pane fade",
-    style: {
-      padding: 10
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", {
-    className: "text-center"
-  }, name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    style: {
-      paddingTop: 35
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    className: "list-group",
-    style: {
-      paddingRight: 0
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    className: "list-group-item row full-row",
-    style: {
-      background: '#d2d2d2'
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-5 pull-right"
-  }, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-xs-5 pull-right"
-  }, "\u05DE\u05D4\u05DE\u05E8\u05D9\u05DD")), Object.values(betsByAnswer).map(function (bets) {
-    var answer = bets[0].answer;
-    var name = answer.name,
-        crest_url = answer.crest_url,
-        id = answer.id;
-    var gumblers = bets.map(function (bet) {
-      return bet.utlName;
-    });
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(QuestionBetRow, {
-      key: id,
-      name: name,
-      crest_url: crest_url,
-      gumblers: gumblers
-    });
-  }))));
-}
-
-function QuestionTab(_ref3) {
-  var name = _ref3.name,
-      id = _ref3.id;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    className: "float-right "
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", {
-    "data-toggle": "tab",
-    href: "#special-bet-wrapper-".concat(id)
-  }, name));
-}
-
-var QuestionBetsView = function QuestionBetsView(_ref4) {
-  var questions = _ref4.questions,
-      betsByQuestionId = _ref4.betsByQuestionId;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05DE\u05D9\u05D5\u05D7\u05D3\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "float-right"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    className: "nav nav-tabs",
-    style: {
-      paddingRight: 0
-    }
-  }, Object.values(questions).map(function (question) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(QuestionTab, {
-      key: question.id,
-      name: question.name,
-      id: question.id
-    });
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "tab-content",
-    style: {
-      marginTop: 25
-    }
-  }, Object.values(questions).map(function (question, i) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(QuestionBetsList, {
-      key: question.id,
-      name: question.name,
-      id: question.id,
-      bets: betsByQuestionId[question.id]
-    });
-  }))));
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (QuestionBetsView);
-
-/***/ }),
-
-/***/ "./src/takanon/Takanon.js":
-/*!********************************!*\
-  !*** ./src/takanon/Takanon.js ***!
-  \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/takanon/style.scss");
-
-
-
-function Takanon(props) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "all-ltr",
-    style: {
-      marginBottom: 30
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", {
-    style: {
-      textAlign: 'center'
-    }
-  }, "\u05EA\u05E7\u05E0\u05D5\u05DF \u05DE\u05E9\u05D7\u05E7 \u05D9\u05D5\u05E8\u05D5 \u05D7\u05D1\u05E8\u05D9\u05DD 2021"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", {
-    style: {
-      marginBottom: 20
-    }
-  }, "\u05E9\u05DC\u05D9\u05D7\u05EA \u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "text-part"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9 \u05DE\u05E9\u05D7\u05E7\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "\u05DB\u05DC \u05DE\u05E9\u05D7\u05E7 \u05E4\u05EA\u05D5\u05D7 \u05DC\u05D4\u05D9\u05DE\u05D5\u05E8 \u05E2\u05D3 \u05DC\u05E9\u05E2\u05EA \u05EA\u05D7\u05D9\u05DC\u05EA \u05D4\u05DE\u05E9\u05D7\u05E7.", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), "\u05DB\u05DC\u05DC \u05D4\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05E0\u05D7\u05E9\u05E4\u05D9\u05DD \u05D1\u05EA\u05D7\u05D9\u05DC\u05EA \u05D4\u05DE\u05E9\u05D7\u05E7 \u05D5\u05E0\u05D9\u05EA\u05E0\u05D9\u05DD \u05DC\u05E6\u05E4\u05D9\u05D9\u05D4 \u05D1\u05DC\u05E9\u05D5\u05E0\u05D9\u05EA \"\u05E6\u05E4\u05D9\u05D9\u05D4 \u05D1\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD\".", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), "\u05D9\u05E9 \u05DC\u05D1\u05D7\u05D5\u05E8 \u05D0\u05EA \u05D4\u05EA\u05D5\u05E6\u05D0\u05D4 \u05D5\u05DC\u05DC\u05D7\u05D5\u05E5 \u05E2\u05DC \"\u05E9\u05DC\u05D7\" \u05D1\u05E1\u05D9\u05D5\u05DD")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "text-part"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05DE\u05D9\u05D5\u05D7\u05D3\u05D9\u05DD \u05D5\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9 \u05D1\u05EA\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "\u05D9\u05E9 \u05DC\u05DE\u05DC\u05D0 \u05D0\u05EA \u05DB\u05DC\u05DC \u05D4\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05D4\u05DE\u05D9\u05D5\u05D7\u05D3\u05D9\u05DD \u05D5\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9 \u05D4\u05D1\u05EA\u05D9\u05DD \u05E2\u05D3 \u05DC\u05E9\u05E8\u05D9\u05E7\u05EA \u05D4\u05E4\u05EA\u05D9\u05D7\u05D4 \u05E9\u05DC \u05D4\u05DE\u05E9\u05D7\u05E7 \u05D4\u05E8\u05D0\u05E9\u05D5\u05DF \u05D1\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8.", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), "\u05DC\u05D0 \u05E0\u05D9\u05EA\u05DF \u05D9\u05D4\u05D9\u05D4 \u05DC\u05E2\u05E8\u05D5\u05DA \u05D0\u05D5 \u05DC\u05E9\u05E0\u05D5\u05EA \u05D0\u05EA \u05D4\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05D1\u05DE\u05D4\u05DC\u05DA \u05D4\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", {
-    style: {
-      marginBottom: 20
-    }
-  }, "\u05E0\u05D9\u05E7\u05D5\u05D3"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "text-part"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05E9\u05DC\u05D1 \u05D4\u05D1\u05EA\u05D9\u05DD \u2013 36 \u05DE\u05E9\u05D7\u05E7\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "bold"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "1X2"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "1")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "bold"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05EA\u05D5\u05E6\u05D0\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "2")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "divide"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E1\u05DB\u05D5\u05DD \u05DC\u05DE\u05E9\u05D7\u05E7"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "3")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DE\u05E7\u05E1\u05D9\u05DE\u05D5\u05DD \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "108"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "text-part"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05E9\u05DC\u05D1 \u05D4\u05E0\u05D5\u05E7\u05D0\u05D0\u05D5\u05D8 \u2013 15 \u05DE\u05E9\u05D7\u05E7\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "bold"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DE\u05E2\u05E4\u05D9\u05DC\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "2")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "bold"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "1X2"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "1")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "bold"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05EA\u05D5\u05E6\u05D0\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "6")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "divide"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E1\u05DB\u05D5\u05DD \u05DC\u05DE\u05E9\u05D7\u05E7"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "9")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DE\u05E7\u05E1\u05D9\u05DE\u05D5\u05DD \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "108")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    style: {
-      marginTop: 8
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D1\u05DE\u05D9\u05D3\u05D4 \u05D5\u05E1\u05D5\u05DE\u05E0\u05D4 \u05EA\u05D5\u05E6\u05D0\u05EA \u05EA\u05D9\u05E7\u05D5, \u05D9\u05D4\u05D9\u05D4 \u05E2\u05DC\u05D9\u05D9\u05DA \u05DC\u05D1\u05D7\u05D5\u05E8 \u05DE\u05E2\u05E4\u05D9\u05DC\u05D4. \u05D0\u05D7\u05E8\u05EA \u05D4\u05DE\u05E2\u05E4\u05D9\u05DC\u05D4 \u05E0\u05E7\u05D1\u05E2\u05EA \u05DC\u05E4\u05D9 \u05D4\u05EA\u05D5\u05E6\u05D0\u05D4."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D4\u05D9\u05DE\u05D5\u05E8 1X2 - \u05DE\u05D7\u05D5\u05E9\u05D1 \u05DC\u05E4\u05D9 \u05EA\u05D5\u05E6\u05D0\u05D4 \u05D1\u05EA\u05D5\u05DD 90 \u05D3\u05E7' (\u05DB\u05DC\u05D5\u05DE\u05E8 \u05DC\u05E4\u05E0\u05D9 \u05D4\u05D0\u05E8\u05DB\u05D4)")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
-    className: "underlined"
-  }, "\u05D3\u05D5\u05D2\u05DE\u05D0\u05D5\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05EA\u05D5\u05E6\u05D0\u05D4 \u05D1\u05E4\u05D5\u05E2\u05DC"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05E1\u05D1\u05E8"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E6\u05E8\u05E4\u05EA(1) - \u05E1\u05E4\u05E8\u05D3(2)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "1-1 \u05D1\u05EA\u05D5\u05DD 90 \u05D3\u05E7\u05D5\u05EA \u05D5\u05D0\u05D7\u05E8\u05D9 \u05D4\u05D0\u05E8\u05DB\u05D4 \u05E1\u05E4\u05E8\u05D3 \u05DE\u05E0\u05E6\u05D7\u05EA 2-1."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "2"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "- 2 \u05E0\u05E7' \u05E2\u05DC \u05DE\u05E2\u05E4\u05D9\u05DC\u05D4 - 0 \u05E0\u05E7' \u05E2\u05DC 1X2 - 0 \u05E2\u05DC \u05EA\u05D5\u05E6\u05D0\u05D4")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "\u05E6\u05E8\u05E4\u05EA(1) - \u05E1\u05E4\u05E8\u05D3(1) \u05D5\u05E6\u05E8\u05E4\u05EA \u05E2\u05D5\u05DC\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "1-1 \u05D1\u05EA\u05D5\u05DD 90 \u05D3\u05E7\u05D5\u05EA \u05D5\u05D0\u05D7\u05E8\u05D9 \u05D4\u05D0\u05E8\u05DB\u05D4 \u05E1\u05E4\u05E8\u05D3 \u05DE\u05E0\u05E6\u05D7\u05EA 2-1."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "7"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "- 1 \u05E0\u05E7' \u05E2\u05DC 1X2 - 6 \u05E0\u05E7' \u05E2\u05DC \u05EA\u05D5\u05E6\u05D0\u05D4 \u05DE\u05D3\u05D5\u05D9\u05E7\u05EA - 0 \u05E0\u05E7' \u05E2\u05DC \u05DE\u05E2\u05E4\u05D9\u05DC\u05D4")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E6\u05E8\u05E4\u05EA(1) - \u05E1\u05E4\u05E8\u05D3(0)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "\u05E6\u05E8\u05E4\u05EA \u05DE\u05E0\u05E6\u05D7\u05EA 4-3"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "3"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "- 1 \u05E0\u05E7' \u05E2\u05DC 1X2 - 2 \u05E0\u05E7' \u05E2\u05DC \u05DE\u05E2\u05E4\u05D9\u05DC\u05D4 - 0 \u05E0\u05E7' \u05E2\u05DC \u05EA\u05D5\u05E6\u05D0\u05D4")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E6\u05E8\u05E4\u05EA(1) - \u05E1\u05E4\u05E8\u05D3(0)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "\u05E6\u05E8\u05E4\u05EA \u05DE\u05E0\u05E6\u05D7\u05EA 1-0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "9"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "- 1 \u05E0\u05E7' \u05E2\u05DC 1X2 - 2 \u05E0\u05E7' \u05E2\u05DC \u05DE\u05E2\u05E4\u05D9\u05DC\u05D4 - 6 \u05E0\u05E7' \u05E2\u05DC \u05EA\u05D5\u05E6\u05D0\u05D4 \u05DE\u05D3\u05D5\u05D9\u05E7\u05EA"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "text-part"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05D3\u05D9\u05E8\u05D5\u05D2 \u05D1\u05EA\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "bold"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E1\u05D9\u05D3\u05D5\u05E8 \u05DE\u05D5\u05E9\u05DC\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "6")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "bold"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05D8\u05E2\u05D5\u05EA \u05DE\u05D9\u05E0\u05D9\u05DE\u05DC\u05D9\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "3")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "divide"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DE\u05E7\u05E1\u05D9\u05DE\u05D5\u05DD \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "36")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    style: {
-      marginTop: 8
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D8\u05E2\u05D5\u05EA \u05DE\u05D9\u05E0\u05D9\u05DE\u05DC\u05D9\u05EA = \u05D4\u05D9\u05E4\u05D5\u05DA \u05D1\u05D9\u05DF \u05DE\u05E7\u05D5\u05DE\u05D5\u05EA \u05E6\u05DE\u05D5\u05D3\u05D9\u05DD (\u05D8\u05E2\u05D5\u05EA \u05D0\u05D7\u05EA \u05D1\u05D9\u05DF \u05DE\u05E7\u05D5\u05DE\u05D5\u05EA 1,2 \u05D0\u05D5 2,3 \u05D0\u05D5 3,4)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "* \u05D1\u05DE\u05E7\u05E8\u05D4 \u05D4\u05E0\u05D3\u05D9\u05E8 \u05D1\u05D5 2 \u05E7\u05D1\u05D5\u05E6\u05D5\u05EA (\u05D0\u05D5 \u05D9\u05D5\u05EA\u05E8) \u05E1\u05D9\u05D9\u05DE\u05D5 \u05D1\u05DE\u05E7\u05D5\u05DD \u05D6\u05D4\u05D4 (\u05E9\u05D5\u05D5\u05D9\u05D5\u05DF \u05DB\u05D5\u05DC\u05DC \u05E9\u05DC \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA \u05D5\u05E9\u05E2\u05E8\u05D9\u05DD \u05DB\u05DA \u05E9\u05D4\u05DE\u05D9\u05E7\u05D5\u05DD \u05E9\u05DC\u05D4\u05DD \u05DE\u05D5\u05DB\u05E8\u05E2 \u05D1\u05D4\u05D8\u05DC\u05EA \u05DE\u05D8\u05D1\u05E2) \u05D4\u05D7\u05D9\u05E9\u05D5\u05D1 \u05D9\u05EA\u05D1\u05E6\u05E2 \u05DC\u05D8\u05D5\u05D1\u05EA \u05D4\u05DE\u05D4\u05DE\u05E8\u05D9\u05DD")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
-    className: "underlined"
-  }, "\u05D3\u05D5\u05D2\u05DE\u05D0\u05D5\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05EA\u05D5\u05E6\u05D0\u05D4 \u05D1\u05E4\u05D5\u05E2\u05DC"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05E1\u05D1\u05E8"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    rowSpan: "4",
-    className: "preline v-align-center"
-  }, "1. \u05D5\u05D5\u05D9\u05DC\u05E1 2. \u05E9\u05D5\u05D5\u05D9\u05E5 3. \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 4. \u05D0\u05D9\u05D8\u05DC\u05D9\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "1. \u05D5\u05D5\u05D9\u05DC\u05E1 2. \u05E9\u05D5\u05D5\u05D9\u05E5 3. \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 4. \u05D0\u05D9\u05D8\u05DC\u05D9\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "6"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "1. \u05D5\u05D5\u05D9\u05DC\u05E1 2. \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 3. \u05E9\u05D5\u05D5\u05D9\u05E5 4. \u05D0\u05D9\u05D8\u05DC\u05D9\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "3"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "1. \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 2. \u05D5\u05D5\u05D9\u05DC\u05E1 3. \u05E9\u05D5\u05D5\u05D9\u05E5 4. \u05D0\u05D9\u05D8\u05DC\u05D9\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "1. \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 (\u05D1\u05E9\u05D5\u05D5\u05D9\u05D5\u05DF \u05DB\u05D5\u05DC\u05DC \u05D9\u05D7\u05D3 \u05E2\u05DD \u05D5\u05D5\u05D9\u05D9\u05DC\u05E1) 1. \u05D5\u05D5\u05D9\u05DC\u05E1 (\u05D1\u05E9\u05D5\u05D5\u05D9\u05D5\u05DF \u05DB\u05D5\u05DC\u05DC \u05D9\u05D7\u05D3 \u05E2\u05DD \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4) 3. \u05E9\u05D5\u05D5\u05D9\u05E5 4. \u05D0\u05D9\u05D8\u05DC\u05D9\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "3"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "preline"
-  }, "\u05D1\u05DE\u05E7\u05E8\u05D4 \u05D1\u05D5 2 \u05E7\u05D1\u05D5\u05E6\u05D5\u05EA \u05E1\u05D9\u05D9\u05DE\u05D5 \u05D1\u05DE\u05D9\u05E7\u05D5\u05DD \u05D6\u05D4\u05D4 - \u05D4\u05D7\u05D9\u05E9\u05D5\u05D1 \u05DE\u05EA\u05D1\u05E6\u05E2 \u05DC\u05D8\u05D5\u05D1\u05EA \u05D4\u05DE\u05D4\u05DE\u05E8. \u05DB\u05DC\u05D5\u05DE\u05E8 \u05D1\u05D1\u05D9\u05EA \u05D4\u05E0\"\u05DC \u05D9\u05D9\u05D1\u05D3\u05E7 \u05DB\u05DE\u05D4 \u05E0\u05E7' \u05D9\u05E7\u05D1\u05DC \u05D4\u05DE\u05E9\u05EA\u05DE\u05E9 \u05E2\u05DC \u05D4\u05D4\u05D9\u05DE\u05D5\u05E8 \u05DB\u05E9\u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 \u05D4\u05D9\u05D0 \u05D1\u05DE\u05E7\u05D5\u05DD 1 \u05D5-\u05D5\u05D5\u05D9\u05DC\u05E1 \u05D1\u05DE\u05E7\u05D5\u05DD 2 (0 \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA) \u05D5\u05D9\u05D9\u05D1\u05D3\u05E7 \u05DB\u05DE\u05D4 \u05E0\u05E7' \u05D9\u05E7\u05D1\u05DC \u05D4\u05DE\u05E9\u05EA\u05DE\u05E9 \u05E2\u05DC \u05D4\u05D4\u05D9\u05DE\u05D5\u05E8 \u05DB\u05E9-\u05D5\u05D5\u05D9\u05DC\u05E1 \u05D1\u05DE\u05E7\u05D5\u05DD 1 \u05D5\u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 \u05D1\u05DE\u05E7\u05D5\u05DD 2 (3 \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA). \u05D4\u05DE\u05E9\u05EA\u05DE\u05E9 \u05D9\u05E7\u05D1\u05DC \u05D0\u05EA \u05D4\u05E0\u05D9\u05E7\u05D5\u05D3 \u05D4\u05D2\u05D1\u05D5\u05D4 \u05DE\u05D1\u05D9\u05DF \u05D4\u05D0\u05D5\u05E4\u05E6\u05D9\u05D5\u05EA \u05D4\u05E0\"\u05DC. \u05DC\u05DB\u05DF \u05D1\u05DE\u05E7\u05E8\u05D4 \u05D6\u05D4 \u05D9\u05E7\u05D1\u05DC \u05DC3 \u05E0\u05E7'."))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "text-part"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05DE\u05D9\u05D5\u05D7\u05D3\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
-    className: "underlined"
-  }, "\u05D6\u05D5\u05DB\u05D4 \u05D5\u05E1\u05D2\u05E0\u05D9\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "bold"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05D4\u05E2\u05E4\u05DC\u05EA \u05E9\u05DC\u05D1"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "5")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "bold"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05D6\u05DB\u05D9\u05D9\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "15")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-    className: "divide"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DE\u05E7\u05E1\u05D9\u05DE\u05D5\u05DD \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "45")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D2\u05E2\u05D4 \u05DC"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E8\u05D1\u05E2 \u05D2\u05DE\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D7\u05E6\u05D9 \u05D2\u05DE\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D2\u05DE\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D6\u05DB\u05D9\u05D9\u05D4"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "bold"
-  }, "\u05D6\u05D5\u05DB\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "5"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "10"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "15"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "30")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-    className: "bold"
-  }, "\u05E1\u05D2\u05E0\u05D9\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "5"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "10"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "15"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
-    className: "underlined"
-  }, "\u05DE\u05DC\u05DA \u05E9\u05E2\u05E8\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DC\u05DB\u05DC \u05D2\u05D5\u05DC"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "2")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05D6\u05DB\u05D9\u05D9\u05D4 \u05D1\u05EA\u05D5\u05D0\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "4")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    style: {
-      marginTop: 8
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05DB\u05D3\u05D9 \u05DC\u05D4\u05DE\u05E8 \u05E2\u05DC \u05E9\u05D7\u05E7\u05DF \u05E9\u05DC\u05D0 \u05DE\u05D5\u05E4\u05D9\u05E2 \u05D1\u05E8\u05E9\u05D9\u05DE\u05D4 - \u05D0\u05E0\u05D0 \u05E4\u05E0\u05D5 \u05DC\u05D0\u05D7\u05D3 \u05D4\u05DE\u05E0\u05D4\u05DC\u05D9\u05DD \u05DB\u05D3\u05D9 \u05E9\u05D9\u05D5\u05E1\u05D9\u05E3 \u05D0\u05EA \u05D4\u05E9\u05D7\u05E7\u05DF \u05DC\u05E8\u05E9\u05D9\u05DE\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05DC\u05D0 \u05E0\u05D9\u05EA\u05DF \u05DC\u05D4\u05D7\u05DC\u05D9\u05E3 \u05DE\u05DC\u05DA \u05E9\u05E2\u05E8\u05D9\u05DD \u05D1\u05DE\u05D4\u05DC\u05DA \u05D4\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8 (\u05D2\u05DD \u05D0\u05DD \u05E9\u05D7\u05E7\u05DF \u05E0\u05E4\u05E6\u05E2)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D1\u05DE\u05D9\u05D3\u05D4 \u05D5\u05D9\u05E9 \u05EA\u05D9\u05E7\u05D5 \u05D1\u05DE\u05DC\u05DA \u05E9\u05E2\u05E8\u05D9\u05DD - \u05DB\u05DC \u05D4\u05D9\u05DE\u05D5\u05E8 \u05E2\u05DC \u05D0\u05D7\u05D3 \u05DE\u05D4\u05E9\u05D7\u05E7\u05E0\u05D9\u05DD \u05D9\u05D6\u05DB\u05D4 \u05D0\u05EA \u05D4\u05DE\u05D4\u05DE\u05E8 \u05D14 \u05D4\u05E0\u05E7' \u05E2\u05DC \u05D6\u05DB\u05D9\u05D9\u05D4 \u05D1\u05EA\u05D5\u05D0\u05E8")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
-    className: "underlined"
-  }, "\u05DE\u05DC\u05DA \u05D1\u05D9\u05E9\u05D5\u05DC\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", null, "10 \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    style: {
-      marginTop: 8
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D9\u05E9 \u05DC\u05DE\u05DC\u05D0 \u05E9\u05DD \u05DE\u05DC\u05D0 \u05E2\u05DC \u05DE\u05E0\u05EA \u05E9\u05D9\u05D4\u05D9\u05D4 \u05D1\u05E8\u05D5\u05E8 \u05E2\u05DC \u05DE\u05D9 \u05DE\u05D4\u05DE\u05E8\u05D9\u05DD (\u05DC\u05D3\u05D5\u05D2\u05DE\u05D4: \u05DC\u05D0 \u05DC\u05DB\u05EA\u05D5\u05D1 \u05E8\u05E7 \"\u05E1\u05D9\u05DC\u05D1\u05D4\")"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D1\u05DE\u05E7\u05E8\u05D4 \u05E9\u05DC \u05EA\u05D9\u05E7\u05D5 - \u05DB\u05DC \u05D4\u05D9\u05DE\u05D5\u05E8 \u05E2\u05DC \u05D0\u05D7\u05D3 \u05DE\u05D4\u05E9\u05D7\u05E7\u05E0\u05D9\u05DD \u05D9\u05D6\u05DB\u05D4 \u05D0\u05EA \u05D4\u05DE\u05D4\u05DE\u05E8 \u05D1\u05DE\u05DC\u05D5\u05D0 10 \u05D4\u05E0\u05E7\u05D5\u05D3\u05D5\u05EA")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
-    className: "underlined"
-  }, "\u05DE\u05E6\u05D8\u05D9\u05D9\u05DF \u05D4\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", null, "10 \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    style: {
-      marginTop: 8
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D9\u05E9 \u05DC\u05DE\u05DC\u05D0 \u05E9\u05DD \u05DE\u05DC\u05D0 \u05E2\u05DC \u05DE\u05E0\u05EA \u05E9\u05D9\u05D4\u05D9\u05D4 \u05D1\u05E8\u05D5\u05E8 \u05E2\u05DC \u05DE\u05D9 \u05DE\u05D4\u05DE\u05E8\u05D9\u05DD (\u05DC\u05D3\u05D5\u05D2\u05DE\u05D4: \u05DC\u05D0 \u05DC\u05DB\u05EA\u05D5\u05D1 \u05E8\u05E7 \"\u05E1\u05D9\u05DC\u05D1\u05D4\")")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
-    className: "underlined"
-  }, "\u05D4\u05D4\u05EA\u05E7\u05E4\u05D4 \u05D4\u05D7\u05D6\u05E7\u05D4 \u05D1\u05D1\u05EA\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", null, "5 \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", null, "\u05D4\u05E7\u05D1\u05D5\u05E6\u05D4 \u05E9\u05D4\u05D1\u05E7\u05D9\u05E2\u05D4 \u05D4\u05DB\u05D9 \u05D4\u05E8\u05D1\u05D4 \u05E9\u05E2\u05E8\u05D9\u05DD \u05D1\u05D1\u05EA\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    style: {
-      marginTop: 8
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D1\u05DE\u05E7\u05E8\u05D4 \u05E9\u05DC \u05EA\u05D9\u05E7\u05D5 - \u05DB\u05DC \u05D4\u05D9\u05DE\u05D5\u05E8 \u05E2\u05DC \u05D0\u05D7\u05EA \u05DE\u05D4\u05E7\u05D1\u05D5\u05E6\u05D5\u05EA \u05D9\u05D6\u05DB\u05D4 \u05D0\u05EA \u05D4\u05DE\u05D4\u05DE\u05E8 \u05D1\u05DE\u05DC\u05D5\u05D0 \u05D4\u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", {
-    style: {
-      marginBottom: 20
-    }
-  }, "\u05E4\u05E8\u05E1\u05D9\u05DD \u05D5\u05DB\u05E1\u05E4\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "text-part"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", {
-    className: "underlined"
-  }, "\u05D3\u05DE\u05D9 \u05DB\u05E0\u05D9\u05E1\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "200")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "text-part"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", {
-    className: "underlined"
-  }, "\u05E1\u05DB\u05D5\u05DE\u05D9 \u05D6\u05DB\u05D9\u05D9\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    style: {
-      marginTop: 8
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("u", null, "\u05DE\u05E7\u05D5\u05DD \u05E8\u05D0\u05E9\u05D5\u05DF:"), " 1800"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("u", null, "\u05DE\u05E7\u05D5\u05DD \u05E9\u05E0\u05D9:"), " 800"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("u", null, "\u05DE\u05E7\u05D5\u05DD \u05E9\u05DC\u05D9\u05E9\u05D9:"), " 400"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("u", null, "\u05DE\u05E7\u05D5\u05DD \u05E8\u05D1\u05D9\u05E2\u05D9:"), " \u05D6\u05D5\u05DB\u05D4 \u05D1\u05D3\u05DE\u05D9 \u05D4\u05DB\u05E0\u05D9\u05E1\u05D4 (200 \u05E9\"\u05D7)"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", {
-    style: {
-      marginBottom: 20
-    }
-  }, "\u05DB\u05DC\u05DC\u05D9"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D1\u05DE\u05D9\u05D3\u05D4 \u05D5\u05D9\u05E9 \u05E9\u05D0\u05DC\u05D5\u05EA / \u05DE\u05E7\u05E8\u05D9\u05DD \u05E9\u05DC\u05D0 \u05D4\u05D5\u05E1\u05D1\u05E8\u05D5 \u05D1\u05EA\u05E7\u05E0\u05D5\u05DF - \u05D0\u05E0\u05D0 \u05E4\u05E0\u05D5 \u05DC\u05D0\u05D7\u05D3 \u05D4\u05DE\u05E0\u05D4\u05DC\u05D9\u05DD \u05DB\u05D3\u05D9 \u05E9\u05D9\u05E2\u05D3\u05DB\u05DF \u05D0\u05EA \u05D4\u05EA\u05E7\u05E0\u05D5\u05DF"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D0\u05DD \u05D9\u05E9 \u05E0\u05D5\u05E9\u05D0 \u05E9\u05D0\u05D9\u05E0\u05D5 \u05DE\u05E4\u05D5\u05E8\u05D8 \u05D1\u05EA\u05E7\u05E0\u05D5\u05DF - \u05D4\u05D7\u05DC\u05D8\u05D4 \u05D1\u05E0\u05D5\u05E9\u05D0 \u05EA\u05E7\u05D1\u05E2 \u05DC\u05E4\u05D9 \u05E9\u05D9\u05E7\u05D5\u05DC \u05D3\u05E2\u05EA \u05DE\u05E0\u05D4\u05DC\u05D9 \u05D4\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8")));
-}
-
-;
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Takanon);
-
-/***/ }),
-
 /***/ "./src/tournamentUser/TournamentUserController.js":
 /*!********************************************************!*\
   !*** ./src/tournamentUser/TournamentUserController.js ***!
@@ -103147,9 +102807,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _preTournamentBets_OpenGroupRankBetsProvider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../preTournamentBets/OpenGroupRankBetsProvider */ "./src/preTournamentBets/OpenGroupRankBetsProvider.js");
 /* harmony import */ var _matches_ClosedMatchBetsProvider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../matches/ClosedMatchBetsProvider */ "./src/matches/ClosedMatchBetsProvider.js");
 /* harmony import */ var _groupBets_GroupStandingsBetsProvider__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../groupBets/GroupStandingsBetsProvider */ "./src/groupBets/GroupStandingsBetsProvider.tsx");
-/* harmony import */ var _questionBets_ClosedQuestionBetsProvider__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../questionBets/ClosedQuestionBetsProvider */ "./src/questionBets/ClosedQuestionBetsProvider.js");
+/* harmony import */ var _questionBets_ClosedQuestionBetsProvider__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../questionBets/ClosedQuestionBetsProvider */ "./src/questionBets/ClosedQuestionBetsProvider.tsx");
 /* harmony import */ var _myBets_myBetsView__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../myBets/myBetsView */ "./src/myBets/myBetsView.js");
-/* harmony import */ var _takanon_Takanon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../takanon/Takanon */ "./src/takanon/Takanon.js");
+/* harmony import */ var _takanon_Takanon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../takanon/Takanon */ "./src/takanon/Takanon.tsx");
 
 
 
@@ -104108,6 +103768,414 @@ function Prizes() {
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, Object.values(fakePrizes).map(prize => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(PrizeBlock, { key: prize.id, prize: prize })))));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Prizes);
+
+
+/***/ }),
+
+/***/ "./src/questionBets/ClosedQuestionBetsProvider.tsx":
+/*!*********************************************************!*\
+  !*** ./src/questionBets/ClosedQuestionBetsProvider.tsx ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _selectors_questionBets__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_selectors/questionBets */ "./src/_selectors/questionBets.ts");
+/* harmony import */ var _QuestionBetsView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./QuestionBetsView */ "./src/questionBets/QuestionBetsView.tsx");
+
+
+
+
+const ClosedQuestionBets = () => {
+    const { questions, betsByQuestionId } = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(_selectors_questionBets__WEBPACK_IMPORTED_MODULE_2__.ClosedQuestionBetsSelector);
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_QuestionBetsView__WEBPACK_IMPORTED_MODULE_3__["default"], { questions: questions, betsByQuestionId: betsByQuestionId });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ClosedQuestionBets);
+
+
+/***/ }),
+
+/***/ "./src/questionBets/QuestionBetList.tsx":
+/*!**********************************************!*\
+  !*** ./src/questionBets/QuestionBetList.tsx ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _QuestionBetRow__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./QuestionBetRow */ "./src/questionBets/QuestionBetRow.tsx");
+
+
+
+function QuestionBetsList({ name, id, bets: betsOriginal, }) {
+    const bets = betsOriginal;
+    const betsByAnswer = (0,lodash__WEBPACK_IMPORTED_MODULE_0__.groupBy)(bets, bet => bet.answerModel.id);
+    return (react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { id: `special-bet-wrapper-${id}`, className: "tab-pane fade", style: { padding: 10 } },
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("h3", { className: "text-center" }, name),
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { style: { paddingTop: 35 } },
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement("ul", { className: "list-group", style: { paddingRight: 0 } },
+                react__WEBPACK_IMPORTED_MODULE_1__.createElement("li", { className: "list-group-item row full-row", style: { background: '#d2d2d2' } },
+                    react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { className: "col-xs-5 pull-right" }, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                    react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { className: "col-xs-5 pull-right" }, "\u05DE\u05D4\u05DE\u05E8\u05D9\u05DD")),
+                Object.values(betsByAnswer).map(bets => {
+                    const answer = bets[0].answerModel;
+                    const { name, crest_url, id } = answer;
+                    const gumblers = bets.map(bet => bet.utlName);
+                    return react__WEBPACK_IMPORTED_MODULE_1__.createElement(_QuestionBetRow__WEBPACK_IMPORTED_MODULE_2__["default"], { key: id, name: name, crest_url: crest_url, gumblers: gumblers });
+                })))));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (QuestionBetsList);
+
+
+/***/ }),
+
+/***/ "./src/questionBets/QuestionBetRow.tsx":
+/*!*********************************************!*\
+  !*** ./src/questionBets/QuestionBetRow.tsx ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.tsx");
+
+
+function QuestionBetRow({ name, crest_url, gumblers, }) {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", { className: "list-group-item row full-row" },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-5 pull-right" },
+            crest_url && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], { name: name, crest_url: crest_url })),
+            !crest_url && (name)),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-5 pull-right" }, gumblers.map((name) => react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { key: name }, name)))));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (QuestionBetRow);
+
+
+/***/ }),
+
+/***/ "./src/questionBets/QuestionBetsView.tsx":
+/*!***********************************************!*\
+  !*** ./src/questionBets/QuestionBetsView.tsx ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _QuestionBetList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuestionBetList */ "./src/questionBets/QuestionBetList.tsx");
+/* harmony import */ var _QuestionTab__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./QuestionTab */ "./src/questionBets/QuestionTab.tsx");
+
+
+
+const QuestionBetsView = ({ questions, betsByQuestionId }) => {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null,
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05DE\u05D9\u05D5\u05D7\u05D3\u05D9\u05DD"),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "float-right" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { className: "nav nav-tabs", style: { paddingRight: 0 } }, Object.values(questions).map(question => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_QuestionTab__WEBPACK_IMPORTED_MODULE_2__["default"], { key: question.id, name: question.name, id: question.id })))),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "tab-content", style: { marginTop: 25 } }, Object.values(questions).map((question, i) => react__WEBPACK_IMPORTED_MODULE_0__.createElement(_QuestionBetList__WEBPACK_IMPORTED_MODULE_1__["default"], { key: question.id, name: question.name, id: question.id, bets: betsByQuestionId[question.id] }))))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (QuestionBetsView);
+
+
+/***/ }),
+
+/***/ "./src/questionBets/QuestionTab.tsx":
+/*!******************************************!*\
+  !*** ./src/questionBets/QuestionTab.tsx ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+function QuestionTab({ name, id, }) {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", { className: "float-right " },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", { "data-toggle": "tab", href: `#special-bet-wrapper-${id}` }, name)));
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (QuestionTab);
+
+
+/***/ }),
+
+/***/ "./src/takanon/Takanon.tsx":
+/*!*********************************!*\
+  !*** ./src/takanon/Takanon.tsx ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/takanon/style.scss");
+
+
+function Takanon() {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "all-ltr", style: { marginBottom: 30 } },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", { style: { textAlign: 'center' } }, "\u05EA\u05E7\u05E0\u05D5\u05DF \u05DE\u05E9\u05D7\u05E7 \u05D9\u05D5\u05E8\u05D5 \u05D7\u05D1\u05E8\u05D9\u05DD 2021"),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", { style: { marginBottom: 20 } }, "\u05E9\u05DC\u05D9\u05D7\u05EA \u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD"),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "text-part" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9 \u05DE\u05E9\u05D7\u05E7\u05D9\u05DD"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null,
+                "\u05DB\u05DC \u05DE\u05E9\u05D7\u05E7 \u05E4\u05EA\u05D5\u05D7 \u05DC\u05D4\u05D9\u05DE\u05D5\u05E8 \u05E2\u05D3 \u05DC\u05E9\u05E2\u05EA \u05EA\u05D7\u05D9\u05DC\u05EA \u05D4\u05DE\u05E9\u05D7\u05E7.",
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null),
+                "\u05DB\u05DC\u05DC \u05D4\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05E0\u05D7\u05E9\u05E4\u05D9\u05DD \u05D1\u05EA\u05D7\u05D9\u05DC\u05EA \u05D4\u05DE\u05E9\u05D7\u05E7 \u05D5\u05E0\u05D9\u05EA\u05E0\u05D9\u05DD \u05DC\u05E6\u05E4\u05D9\u05D9\u05D4 \u05D1\u05DC\u05E9\u05D5\u05E0\u05D9\u05EA \"\u05E6\u05E4\u05D9\u05D9\u05D4 \u05D1\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD\".",
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null),
+                "\u05D9\u05E9 \u05DC\u05D1\u05D7\u05D5\u05E8 \u05D0\u05EA \u05D4\u05EA\u05D5\u05E6\u05D0\u05D4 \u05D5\u05DC\u05DC\u05D7\u05D5\u05E5 \u05E2\u05DC \"\u05E9\u05DC\u05D7\" \u05D1\u05E1\u05D9\u05D5\u05DD")),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "text-part" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05DE\u05D9\u05D5\u05D7\u05D3\u05D9\u05DD \u05D5\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9 \u05D1\u05EA\u05D9\u05DD"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null,
+                "\u05D9\u05E9 \u05DC\u05DE\u05DC\u05D0 \u05D0\u05EA \u05DB\u05DC\u05DC \u05D4\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05D4\u05DE\u05D9\u05D5\u05D7\u05D3\u05D9\u05DD \u05D5\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9 \u05D4\u05D1\u05EA\u05D9\u05DD \u05E2\u05D3 \u05DC\u05E9\u05E8\u05D9\u05E7\u05EA \u05D4\u05E4\u05EA\u05D9\u05D7\u05D4 \u05E9\u05DC \u05D4\u05DE\u05E9\u05D7\u05E7 \u05D4\u05E8\u05D0\u05E9\u05D5\u05DF \u05D1\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8.",
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null),
+                "\u05DC\u05D0 \u05E0\u05D9\u05EA\u05DF \u05D9\u05D4\u05D9\u05D4 \u05DC\u05E2\u05E8\u05D5\u05DA \u05D0\u05D5 \u05DC\u05E9\u05E0\u05D5\u05EA \u05D0\u05EA \u05D4\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05D1\u05DE\u05D4\u05DC\u05DA \u05D4\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8.")),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", { style: { marginBottom: 20 } }, "\u05E0\u05D9\u05E7\u05D5\u05D3"),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "text-part" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05E9\u05DC\u05D1 \u05D4\u05D1\u05EA\u05D9\u05DD \u2013 36 \u05DE\u05E9\u05D7\u05E7\u05D9\u05DD"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "bold" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "1X2"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "1")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "bold" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05EA\u05D5\u05E6\u05D0\u05D4"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "2")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "divide" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E1\u05DB\u05D5\u05DD \u05DC\u05DE\u05E9\u05D7\u05E7"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "3")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DE\u05E7\u05E1\u05D9\u05DE\u05D5\u05DD \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "108"))))),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "text-part" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05E9\u05DC\u05D1 \u05D4\u05E0\u05D5\u05E7\u05D0\u05D0\u05D5\u05D8 \u2013 15 \u05DE\u05E9\u05D7\u05E7\u05D9\u05DD"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "bold" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DE\u05E2\u05E4\u05D9\u05DC\u05D4"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "2")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "bold" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "1X2"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "1")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "bold" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05EA\u05D5\u05E6\u05D0\u05D4"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "6")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "divide" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E1\u05DB\u05D5\u05DD \u05DC\u05DE\u05E9\u05D7\u05E7"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "9")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DE\u05E7\u05E1\u05D9\u05DE\u05D5\u05DD \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "108")))),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { style: { marginTop: 8 } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D1\u05DE\u05D9\u05D3\u05D4 \u05D5\u05E1\u05D5\u05DE\u05E0\u05D4 \u05EA\u05D5\u05E6\u05D0\u05EA \u05EA\u05D9\u05E7\u05D5, \u05D9\u05D4\u05D9\u05D4 \u05E2\u05DC\u05D9\u05D9\u05DA \u05DC\u05D1\u05D7\u05D5\u05E8 \u05DE\u05E2\u05E4\u05D9\u05DC\u05D4. \u05D0\u05D7\u05E8\u05EA \u05D4\u05DE\u05E2\u05E4\u05D9\u05DC\u05D4 \u05E0\u05E7\u05D1\u05E2\u05EA \u05DC\u05E4\u05D9 \u05D4\u05EA\u05D5\u05E6\u05D0\u05D4."),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D4\u05D9\u05DE\u05D5\u05E8 1X2 - \u05DE\u05D7\u05D5\u05E9\u05D1 \u05DC\u05E4\u05D9 \u05EA\u05D5\u05E6\u05D0\u05D4 \u05D1\u05EA\u05D5\u05DD 90 \u05D3\u05E7' (\u05DB\u05DC\u05D5\u05DE\u05E8 \u05DC\u05E4\u05E0\u05D9 \u05D4\u05D0\u05E8\u05DB\u05D4)")),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", { className: "underlined" }, "\u05D3\u05D5\u05D2\u05DE\u05D0\u05D5\u05EA"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05EA\u05D5\u05E6\u05D0\u05D4 \u05D1\u05E4\u05D5\u05E2\u05DC"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05E1\u05D1\u05E8"))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E6\u05E8\u05E4\u05EA(1) - \u05E1\u05E4\u05E8\u05D3(2)"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "1-1 \u05D1\u05EA\u05D5\u05DD 90 \u05D3\u05E7\u05D5\u05EA \u05D5\u05D0\u05D7\u05E8\u05D9 \u05D4\u05D0\u05E8\u05DB\u05D4 \u05E1\u05E4\u05E8\u05D3 \u05DE\u05E0\u05E6\u05D7\u05EA 2-1."),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "2"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "- 2 \u05E0\u05E7' \u05E2\u05DC \u05DE\u05E2\u05E4\u05D9\u05DC\u05D4 - 0 \u05E0\u05E7' \u05E2\u05DC 1X2 - 0 \u05E2\u05DC \u05EA\u05D5\u05E6\u05D0\u05D4")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "\u05E6\u05E8\u05E4\u05EA(1) - \u05E1\u05E4\u05E8\u05D3(1) \u05D5\u05E6\u05E8\u05E4\u05EA \u05E2\u05D5\u05DC\u05D4"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "1-1 \u05D1\u05EA\u05D5\u05DD 90 \u05D3\u05E7\u05D5\u05EA \u05D5\u05D0\u05D7\u05E8\u05D9 \u05D4\u05D0\u05E8\u05DB\u05D4 \u05E1\u05E4\u05E8\u05D3 \u05DE\u05E0\u05E6\u05D7\u05EA 2-1."),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "7"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "- 1 \u05E0\u05E7' \u05E2\u05DC 1X2 - 6 \u05E0\u05E7' \u05E2\u05DC \u05EA\u05D5\u05E6\u05D0\u05D4 \u05DE\u05D3\u05D5\u05D9\u05E7\u05EA - 0 \u05E0\u05E7' \u05E2\u05DC \u05DE\u05E2\u05E4\u05D9\u05DC\u05D4")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E6\u05E8\u05E4\u05EA(1) - \u05E1\u05E4\u05E8\u05D3(0)"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "\u05E6\u05E8\u05E4\u05EA \u05DE\u05E0\u05E6\u05D7\u05EA 4-3"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "3"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "- 1 \u05E0\u05E7' \u05E2\u05DC 1X2 - 2 \u05E0\u05E7' \u05E2\u05DC \u05DE\u05E2\u05E4\u05D9\u05DC\u05D4 - 0 \u05E0\u05E7' \u05E2\u05DC \u05EA\u05D5\u05E6\u05D0\u05D4")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E6\u05E8\u05E4\u05EA(1) - \u05E1\u05E4\u05E8\u05D3(0)"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "\u05E6\u05E8\u05E4\u05EA \u05DE\u05E0\u05E6\u05D7\u05EA 1-0"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "9"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "- 1 \u05E0\u05E7' \u05E2\u05DC 1X2 - 2 \u05E0\u05E7' \u05E2\u05DC \u05DE\u05E2\u05E4\u05D9\u05DC\u05D4 - 6 \u05E0\u05E7' \u05E2\u05DC \u05EA\u05D5\u05E6\u05D0\u05D4 \u05DE\u05D3\u05D5\u05D9\u05E7\u05EA"))))),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "text-part" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05D3\u05D9\u05E8\u05D5\u05D2 \u05D1\u05EA\u05D9\u05DD"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "bold" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05E1\u05D9\u05D3\u05D5\u05E8 \u05DE\u05D5\u05E9\u05DC\u05DD"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "6")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "bold" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05D8\u05E2\u05D5\u05EA \u05DE\u05D9\u05E0\u05D9\u05DE\u05DC\u05D9\u05EA"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "3")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "divide" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DE\u05E7\u05E1\u05D9\u05DE\u05D5\u05DD \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "36")))),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { style: { marginTop: 8 } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D8\u05E2\u05D5\u05EA \u05DE\u05D9\u05E0\u05D9\u05DE\u05DC\u05D9\u05EA = \u05D4\u05D9\u05E4\u05D5\u05DA \u05D1\u05D9\u05DF \u05DE\u05E7\u05D5\u05DE\u05D5\u05EA \u05E6\u05DE\u05D5\u05D3\u05D9\u05DD (\u05D8\u05E2\u05D5\u05EA \u05D0\u05D7\u05EA \u05D1\u05D9\u05DF \u05DE\u05E7\u05D5\u05DE\u05D5\u05EA 1,2 \u05D0\u05D5 2,3 \u05D0\u05D5 3,4)"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "* \u05D1\u05DE\u05E7\u05E8\u05D4 \u05D4\u05E0\u05D3\u05D9\u05E8 \u05D1\u05D5 2 \u05E7\u05D1\u05D5\u05E6\u05D5\u05EA (\u05D0\u05D5 \u05D9\u05D5\u05EA\u05E8) \u05E1\u05D9\u05D9\u05DE\u05D5 \u05D1\u05DE\u05E7\u05D5\u05DD \u05D6\u05D4\u05D4 (\u05E9\u05D5\u05D5\u05D9\u05D5\u05DF \u05DB\u05D5\u05DC\u05DC \u05E9\u05DC \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA \u05D5\u05E9\u05E2\u05E8\u05D9\u05DD \u05DB\u05DA \u05E9\u05D4\u05DE\u05D9\u05E7\u05D5\u05DD \u05E9\u05DC\u05D4\u05DD \u05DE\u05D5\u05DB\u05E8\u05E2 \u05D1\u05D4\u05D8\u05DC\u05EA \u05DE\u05D8\u05D1\u05E2) \u05D4\u05D7\u05D9\u05E9\u05D5\u05D1 \u05D9\u05EA\u05D1\u05E6\u05E2 \u05DC\u05D8\u05D5\u05D1\u05EA \u05D4\u05DE\u05D4\u05DE\u05E8\u05D9\u05DD")),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", { className: "underlined" }, "\u05D3\u05D5\u05D2\u05DE\u05D0\u05D5\u05EA"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05EA\u05D5\u05E6\u05D0\u05D4 \u05D1\u05E4\u05D5\u05E2\u05DC"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05E1\u05D1\u05E8"))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { rowSpan: 4, className: "preline v-align-center" }, "1. \u05D5\u05D5\u05D9\u05DC\u05E1 2. \u05E9\u05D5\u05D5\u05D9\u05E5 3. \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 4. \u05D0\u05D9\u05D8\u05DC\u05D9\u05D4"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "1. \u05D5\u05D5\u05D9\u05DC\u05E1 2. \u05E9\u05D5\u05D5\u05D9\u05E5 3. \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 4. \u05D0\u05D9\u05D8\u05DC\u05D9\u05D4"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "6"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null)),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "1. \u05D5\u05D5\u05D9\u05DC\u05E1 2. \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 3. \u05E9\u05D5\u05D5\u05D9\u05E5 4. \u05D0\u05D9\u05D8\u05DC\u05D9\u05D4"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "3"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null)),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "1. \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 2. \u05D5\u05D5\u05D9\u05DC\u05E1 3. \u05E9\u05D5\u05D5\u05D9\u05E5 4. \u05D0\u05D9\u05D8\u05DC\u05D9\u05D4"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "0"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null)),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "1. \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 (\u05D1\u05E9\u05D5\u05D5\u05D9\u05D5\u05DF \u05DB\u05D5\u05DC\u05DC \u05D9\u05D7\u05D3 \u05E2\u05DD \u05D5\u05D5\u05D9\u05D9\u05DC\u05E1) 1. \u05D5\u05D5\u05D9\u05DC\u05E1 (\u05D1\u05E9\u05D5\u05D5\u05D9\u05D5\u05DF \u05DB\u05D5\u05DC\u05DC \u05D9\u05D7\u05D3 \u05E2\u05DD \u05D8\u05D5\u05E8\u05E7\u05D9\u05D4) 3. \u05E9\u05D5\u05D5\u05D9\u05E5 4. \u05D0\u05D9\u05D8\u05DC\u05D9\u05D4"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "3"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "preline" }, "\u05D1\u05DE\u05E7\u05E8\u05D4 \u05D1\u05D5 2 \u05E7\u05D1\u05D5\u05E6\u05D5\u05EA \u05E1\u05D9\u05D9\u05DE\u05D5 \u05D1\u05DE\u05D9\u05E7\u05D5\u05DD \u05D6\u05D4\u05D4 - \u05D4\u05D7\u05D9\u05E9\u05D5\u05D1 \u05DE\u05EA\u05D1\u05E6\u05E2 \u05DC\u05D8\u05D5\u05D1\u05EA \u05D4\u05DE\u05D4\u05DE\u05E8. \u05DB\u05DC\u05D5\u05DE\u05E8 \u05D1\u05D1\u05D9\u05EA \u05D4\u05E0\"\u05DC \u05D9\u05D9\u05D1\u05D3\u05E7 \u05DB\u05DE\u05D4 \u05E0\u05E7' \u05D9\u05E7\u05D1\u05DC \u05D4\u05DE\u05E9\u05EA\u05DE\u05E9 \u05E2\u05DC \u05D4\u05D4\u05D9\u05DE\u05D5\u05E8 \u05DB\u05E9\u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 \u05D4\u05D9\u05D0 \u05D1\u05DE\u05E7\u05D5\u05DD 1 \u05D5-\u05D5\u05D5\u05D9\u05DC\u05E1 \u05D1\u05DE\u05E7\u05D5\u05DD 2 (0 \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA) \u05D5\u05D9\u05D9\u05D1\u05D3\u05E7 \u05DB\u05DE\u05D4 \u05E0\u05E7' \u05D9\u05E7\u05D1\u05DC \u05D4\u05DE\u05E9\u05EA\u05DE\u05E9 \u05E2\u05DC \u05D4\u05D4\u05D9\u05DE\u05D5\u05E8 \u05DB\u05E9-\u05D5\u05D5\u05D9\u05DC\u05E1 \u05D1\u05DE\u05E7\u05D5\u05DD 1 \u05D5\u05D8\u05D5\u05E8\u05E7\u05D9\u05D4 \u05D1\u05DE\u05E7\u05D5\u05DD 2 (3 \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA). \u05D4\u05DE\u05E9\u05EA\u05DE\u05E9 \u05D9\u05E7\u05D1\u05DC \u05D0\u05EA \u05D4\u05E0\u05D9\u05E7\u05D5\u05D3 \u05D4\u05D2\u05D1\u05D5\u05D4 \u05DE\u05D1\u05D9\u05DF \u05D4\u05D0\u05D5\u05E4\u05E6\u05D9\u05D5\u05EA \u05D4\u05E0\"\u05DC. \u05DC\u05DB\u05DF \u05D1\u05DE\u05E7\u05E8\u05D4 \u05D6\u05D4 \u05D9\u05E7\u05D1\u05DC \u05DC3 \u05E0\u05E7'."))))),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "text-part" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "\u05D4\u05D9\u05DE\u05D5\u05E8\u05D9\u05DD \u05DE\u05D9\u05D5\u05D7\u05D3\u05D9\u05DD"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", { className: "underlined" }, "\u05D6\u05D5\u05DB\u05D4 \u05D5\u05E1\u05D2\u05E0\u05D9\u05EA"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "bold" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05D4\u05E2\u05E4\u05DC\u05EA \u05E9\u05DC\u05D1"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "5")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "bold" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05D6\u05DB\u05D9\u05D9\u05D4"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "15")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { className: "divide" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DE\u05E7\u05E1\u05D9\u05DE\u05D5\u05DD \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "45")))),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D2\u05E2\u05D4 \u05DC"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E8\u05D1\u05E2 \u05D2\u05DE\u05E8"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D7\u05E6\u05D9 \u05D2\u05DE\u05E8"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D2\u05DE\u05E8"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D6\u05DB\u05D9\u05D9\u05D4"))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "bold" }, "\u05D6\u05D5\u05DB\u05D4"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "5"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "10"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "15"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "30")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "bold" }, "\u05E1\u05D2\u05E0\u05D9\u05EA"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "5"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "10"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "15"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null)))),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", { className: "underlined" }, "\u05DE\u05DC\u05DA \u05E9\u05E2\u05E8\u05D9\u05DD"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E0\u05D9\u05E7\u05D5\u05D3"))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05DC\u05DB\u05DC \u05D2\u05D5\u05DC"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "2")),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "\u05D6\u05DB\u05D9\u05D9\u05D4 \u05D1\u05EA\u05D5\u05D0\u05E8"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, "4")))),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { style: { marginTop: 8 } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05DB\u05D3\u05D9 \u05DC\u05D4\u05DE\u05E8 \u05E2\u05DC \u05E9\u05D7\u05E7\u05DF \u05E9\u05DC\u05D0 \u05DE\u05D5\u05E4\u05D9\u05E2 \u05D1\u05E8\u05E9\u05D9\u05DE\u05D4 - \u05D0\u05E0\u05D0 \u05E4\u05E0\u05D5 \u05DC\u05D0\u05D7\u05D3 \u05D4\u05DE\u05E0\u05D4\u05DC\u05D9\u05DD \u05DB\u05D3\u05D9 \u05E9\u05D9\u05D5\u05E1\u05D9\u05E3 \u05D0\u05EA \u05D4\u05E9\u05D7\u05E7\u05DF \u05DC\u05E8\u05E9\u05D9\u05DE\u05D4"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05DC\u05D0 \u05E0\u05D9\u05EA\u05DF \u05DC\u05D4\u05D7\u05DC\u05D9\u05E3 \u05DE\u05DC\u05DA \u05E9\u05E2\u05E8\u05D9\u05DD \u05D1\u05DE\u05D4\u05DC\u05DA \u05D4\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8 (\u05D2\u05DD \u05D0\u05DD \u05E9\u05D7\u05E7\u05DF \u05E0\u05E4\u05E6\u05E2)"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D1\u05DE\u05D9\u05D3\u05D4 \u05D5\u05D9\u05E9 \u05EA\u05D9\u05E7\u05D5 \u05D1\u05DE\u05DC\u05DA \u05E9\u05E2\u05E8\u05D9\u05DD - \u05DB\u05DC \u05D4\u05D9\u05DE\u05D5\u05E8 \u05E2\u05DC \u05D0\u05D7\u05D3 \u05DE\u05D4\u05E9\u05D7\u05E7\u05E0\u05D9\u05DD \u05D9\u05D6\u05DB\u05D4 \u05D0\u05EA \u05D4\u05DE\u05D4\u05DE\u05E8 \u05D14 \u05D4\u05E0\u05E7' \u05E2\u05DC \u05D6\u05DB\u05D9\u05D9\u05D4 \u05D1\u05EA\u05D5\u05D0\u05E8")),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", { className: "underlined" }, "\u05DE\u05DC\u05DA \u05D1\u05D9\u05E9\u05D5\u05DC\u05D9\u05DD"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", null, "10 \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { style: { marginTop: 8 } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D9\u05E9 \u05DC\u05DE\u05DC\u05D0 \u05E9\u05DD \u05DE\u05DC\u05D0 \u05E2\u05DC \u05DE\u05E0\u05EA \u05E9\u05D9\u05D4\u05D9\u05D4 \u05D1\u05E8\u05D5\u05E8 \u05E2\u05DC \u05DE\u05D9 \u05DE\u05D4\u05DE\u05E8\u05D9\u05DD (\u05DC\u05D3\u05D5\u05D2\u05DE\u05D4: \u05DC\u05D0 \u05DC\u05DB\u05EA\u05D5\u05D1 \u05E8\u05E7 \"\u05E1\u05D9\u05DC\u05D1\u05D4\")"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D1\u05DE\u05E7\u05E8\u05D4 \u05E9\u05DC \u05EA\u05D9\u05E7\u05D5 - \u05DB\u05DC \u05D4\u05D9\u05DE\u05D5\u05E8 \u05E2\u05DC \u05D0\u05D7\u05D3 \u05DE\u05D4\u05E9\u05D7\u05E7\u05E0\u05D9\u05DD \u05D9\u05D6\u05DB\u05D4 \u05D0\u05EA \u05D4\u05DE\u05D4\u05DE\u05E8 \u05D1\u05DE\u05DC\u05D5\u05D0 10 \u05D4\u05E0\u05E7\u05D5\u05D3\u05D5\u05EA")),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", { className: "underlined" }, "\u05DE\u05E6\u05D8\u05D9\u05D9\u05DF \u05D4\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", null, "10 \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { style: { marginTop: 8 } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D9\u05E9 \u05DC\u05DE\u05DC\u05D0 \u05E9\u05DD \u05DE\u05DC\u05D0 \u05E2\u05DC \u05DE\u05E0\u05EA \u05E9\u05D9\u05D4\u05D9\u05D4 \u05D1\u05E8\u05D5\u05E8 \u05E2\u05DC \u05DE\u05D9 \u05DE\u05D4\u05DE\u05E8\u05D9\u05DD (\u05DC\u05D3\u05D5\u05D2\u05DE\u05D4: \u05DC\u05D0 \u05DC\u05DB\u05EA\u05D5\u05D1 \u05E8\u05E7 \"\u05E1\u05D9\u05DC\u05D1\u05D4\")")),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", { className: "underlined" }, "\u05D4\u05D4\u05EA\u05E7\u05E4\u05D4 \u05D4\u05D7\u05D6\u05E7\u05D4 \u05D1\u05D1\u05EA\u05D9\u05DD"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", null, "5 \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", null, "\u05D4\u05E7\u05D1\u05D5\u05E6\u05D4 \u05E9\u05D4\u05D1\u05E7\u05D9\u05E2\u05D4 \u05D4\u05DB\u05D9 \u05D4\u05E8\u05D1\u05D4 \u05E9\u05E2\u05E8\u05D9\u05DD \u05D1\u05D1\u05EA\u05D9\u05DD"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { style: { marginTop: 8 } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D1\u05DE\u05E7\u05E8\u05D4 \u05E9\u05DC \u05EA\u05D9\u05E7\u05D5 - \u05DB\u05DC \u05D4\u05D9\u05DE\u05D5\u05E8 \u05E2\u05DC \u05D0\u05D7\u05EA \u05DE\u05D4\u05E7\u05D1\u05D5\u05E6\u05D5\u05EA \u05D9\u05D6\u05DB\u05D4 \u05D0\u05EA \u05D4\u05DE\u05D4\u05DE\u05E8 \u05D1\u05DE\u05DC\u05D5\u05D0 \u05D4\u05E0\u05E7\u05D5\u05D3\u05D5\u05EA"))),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", { style: { marginBottom: 20 } }, "\u05E4\u05E8\u05E1\u05D9\u05DD \u05D5\u05DB\u05E1\u05E4\u05D9\u05DD"),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "text-part" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", { className: "underlined" }, "\u05D3\u05DE\u05D9 \u05DB\u05E0\u05D9\u05E1\u05D4"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "200")),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "text-part" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", { className: "underlined" }, "\u05E1\u05DB\u05D5\u05DE\u05D9 \u05D6\u05DB\u05D9\u05D9\u05D4"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { style: { marginTop: 8 } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("u", null, "\u05DE\u05E7\u05D5\u05DD \u05E8\u05D0\u05E9\u05D5\u05DF:"),
+                    " 1800"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("u", null, "\u05DE\u05E7\u05D5\u05DD \u05E9\u05E0\u05D9:"),
+                    " 800"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("u", null, "\u05DE\u05E7\u05D5\u05DD \u05E9\u05DC\u05D9\u05E9\u05D9:"),
+                    " 400"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("u", null, "\u05DE\u05E7\u05D5\u05DD \u05E8\u05D1\u05D9\u05E2\u05D9:"),
+                    " \u05D6\u05D5\u05DB\u05D4 \u05D1\u05D3\u05DE\u05D9 \u05D4\u05DB\u05E0\u05D9\u05E1\u05D4 (200 \u05E9\"\u05D7)"))),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", { style: { marginBottom: 20 } }, "\u05DB\u05DC\u05DC\u05D9"),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", null,
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D1\u05DE\u05D9\u05D3\u05D4 \u05D5\u05D9\u05E9 \u05E9\u05D0\u05DC\u05D5\u05EA / \u05DE\u05E7\u05E8\u05D9\u05DD \u05E9\u05DC\u05D0 \u05D4\u05D5\u05E1\u05D1\u05E8\u05D5 \u05D1\u05EA\u05E7\u05E0\u05D5\u05DF - \u05D0\u05E0\u05D0 \u05E4\u05E0\u05D5 \u05DC\u05D0\u05D7\u05D3 \u05D4\u05DE\u05E0\u05D4\u05DC\u05D9\u05DD \u05DB\u05D3\u05D9 \u05E9\u05D9\u05E2\u05D3\u05DB\u05DF \u05D0\u05EA \u05D4\u05EA\u05E7\u05E0\u05D5\u05DF"),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "\u05D0\u05DD \u05D9\u05E9 \u05E0\u05D5\u05E9\u05D0 \u05E9\u05D0\u05D9\u05E0\u05D5 \u05DE\u05E4\u05D5\u05E8\u05D8 \u05D1\u05EA\u05E7\u05E0\u05D5\u05DF - \u05D4\u05D7\u05DC\u05D8\u05D4 \u05D1\u05E0\u05D5\u05E9\u05D0 \u05EA\u05E7\u05D1\u05E2 \u05DC\u05E4\u05D9 \u05E9\u05D9\u05E7\u05D5\u05DC \u05D3\u05E2\u05EA \u05DE\u05E0\u05D4\u05DC\u05D9 \u05D4\u05D8\u05D5\u05E8\u05E0\u05D9\u05E8"))));
+}
+;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Takanon);
 
 
 /***/ }),
