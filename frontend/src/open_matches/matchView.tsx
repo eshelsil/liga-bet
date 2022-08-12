@@ -1,23 +1,26 @@
 import moment from 'moment';
 import React from 'react';
-import { DEFAULT_DATETIME_FORMAT } from '../utils/index.ts';
-import TeamAndSymbol from '../widgets/TeamWithFlag.tsx';
+import { MatchWithABet, WinnerSide } from '../types';
+import { DEFAULT_DATETIME_FORMAT } from '../utils/index';
+import TeamAndSymbol from '../widgets/TeamWithFlag';
 import { WINNER_SIDE } from '../_enums/winnerSide';
 
 function MatchWithBetView ({
     match,
     onEdit,
+}: {
+    match: MatchWithABet,
+    onEdit: () => void,
 }){
-    const {id, start_time, home_team, away_team, is_knockout, bet = {}} = match;
+    const {id, start_time, home_team, away_team, is_knockout, bet} = match;
 
-
-    const hasBet = bet.id !== undefined;
-    let winnerSide;
-    if (bet.id !== undefined && is_knockout){
+    const hasBet = bet?.id !== undefined;
+    let winnerSide: WinnerSide;
+    if (hasBet && is_knockout){
         if (bet.result_home > bet.result_away){
-            winnerSide = WINNER_SIDE.home;
+            winnerSide = WinnerSide.Home;
         } else if (bet.result_home < bet.result_away){
-            winnerSide = WINNER_SIDE.away;
+            winnerSide = WinnerSide.Away;
         } else {
             winnerSide = bet.winner_side;
         }

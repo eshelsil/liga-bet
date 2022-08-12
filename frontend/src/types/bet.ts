@@ -49,3 +49,7 @@ export interface QuestionBetWithRelations extends QuestionBetApiModel {
 export type BetApiModel = QuestionBetApiModel | GroupRankBetApiModel | MatchBetApiModel
 
 export type BetsApiModelById = Record<number, BetApiModel>
+
+export interface MatchWithABet extends Match {
+    bet: MatchBetWithRelations
+}

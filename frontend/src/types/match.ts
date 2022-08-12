@@ -13,6 +13,7 @@ interface MatchCommonBase {
     is_done: boolean,
     closed_for_bets: boolean,
     start_time: Date,
+    is_knockout?: boolean,
 }
 
 export interface MatchApiModel extends MatchCommonBase {

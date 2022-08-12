@@ -1,56 +1,18 @@
 import moment from 'moment';
 import React, { useState } from 'react';
-import EditMatchBet from './editBet';
-import MatchWithBetView from './matchView';
+import { MatchWithABet } from '../types';
+import MatchBet from './MatchBet';
 
 
-function MatchBet ({
-    match,
-    sendBet,
-}){
-    const {id, is_knockout} = match;
-    const [edit, setEdit] = useState(false);
-
-    const goToEditMode = () => setEdit(true);
-    const cancelEditMode = () => setEdit(false);
-    const saveBet = ({
-        homeScore,
-        awayScore,
-        koWinner,
-    }) => {
-        sendBet({
-            matchId: id,
-            is_knockout,
-            homeScore,
-            awayScore,
-            koWinner,
-        })
-        .then(()=>{
-            cancelEditMode();
-        });
-    }
-    return (<>
-        {edit && (
-            <EditMatchBet
-                match={match}
-                onCancel={cancelEditMode}
-                onSave={saveBet}
-            />
-        )}
-        {!edit && (
-            <MatchWithBetView
-                match={match}
-                onEdit={goToEditMode}
-            />
-        )}
-    </>
-    );
+interface Props {
+    matches: MatchWithABet[],
+    sendBet: (...args: any) => Promise<any>,
 }
 
 const OpenMatchesView = ({
     matches = [],
-    sendBet,
-}) => {
+    sendBet, 
+}: Props) => {
     const hasMatches = matches.length > 0;
     return (
         <div>
