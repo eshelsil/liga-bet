@@ -17,7 +17,7 @@ class CalculateSpecialBets
         // TODO: SpecialBet -> Eloquent. add competitionId
         // ->where("competition_id", $competition->id)
         SpecialBet::all()->each(function(SpecialBet $specialBet) use ($types, $competitionId) {
-            if ($types && !in_array($specialBet->getName(), $types)) {
+            if ($types && !in_array($specialBet->type, $types)) {
                 return;
             }
             $specialBet->calculateBets($competitionId);

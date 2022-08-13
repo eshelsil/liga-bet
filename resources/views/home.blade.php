@@ -127,7 +127,7 @@
                                     @if ($group->isComplete())
                                         <?php
                                             $positions = range(1,4);
-                                            $teamsById = $group->getGroupTeamsById();
+                                            $teamsById = $group->teams->keyBy("id");
                                         ?>
                                         <li class="list-group-item row flex-row  col-no-padding">
                                             <div class="col-xs-2 pull-right col-no-padding" style="padding-right: 15px;">{{ $bet->score }}</div>
@@ -182,7 +182,7 @@
                                     ?>
                                     <li class="list-group-item row flex-row col-no-padding" style="padding-right: 10px;">
                                         <div class="col-xs-1 pull-right col-no-padding">{{ $bet->score }}</div>
-                                        <div class="col-xs-3 pull-right col-no-padding">{{ $specialBet->getTitle() }}</div>
+                                        <div class="col-xs-3 pull-right col-no-padding">{{ $specialBet->title }}</div>
                                         <div class="col-xs-4 pull-right col-no-padding">{!! $betDescription !!}</div>
                                         <div class="col-xs-4 pull-right col-no-padding">
                                             <div>{!! $resultDescription !!}</div>

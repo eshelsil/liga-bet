@@ -98,19 +98,23 @@ class Competition extends Model
         return $this->getGroupStageGamesIfStageDone() !== null;
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection<Game>|Game[]
+     */
     public function getGroupStageGamesIfStageDone(){
         $games = $this->getGroupStageGames();
 
-        if ($games->count() < config('tournamentData.groupStageGamesCount')) {
+        $unfinishedGame = $games->first(fn(Game $game) => is_null($game->result_home) || is_null($game->result_away));
+        if ($unfinishedGame) {
             return null;
-        };
+        }
+
         return $games;
     }
 
-    public function getGroupStageGames(){
-        return $this->games->whereNotNull("result_home")
-                           ->whereNotNull("result_away")
-                           ->where('type', 'group_stage');
+    public function getGroupStageGames()
+    {
+        return $this->games->where('type', 'group_stage');
     }
 
     public function getTournamentStartTime()

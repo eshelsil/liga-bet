@@ -76,7 +76,8 @@ class Group extends Model implements BetableInterface
         return collect(json_decode($this->standings))->pluck('team_id', 'position')->toArray();
     }
 
-    public static function findByExternalId($ext_id){
+    public static function findByExternalId($ext_id): Group
+    {
         return static::where('external_id', $ext_id)->first();
     }
 
@@ -98,13 +99,6 @@ class Group extends Model implements BetableInterface
     public function competition(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Competition::class);
-    }
-
-    public function getGroupTeamsById()
-    {
-        return static::getTeamsCollection()->where('group_id', $this->external_id)->groupBy('id')->map(function($arr){
-            return $arr->first();
-        });
     }
 
     public function calculateBets()

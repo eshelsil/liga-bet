@@ -12,6 +12,7 @@ use App\Competition;
 use App\DataCrawler\Crawler;
 use App\Group;
 use App\Game;
+use App\SpecialBets\SpecialBet;
 use App\Team;
 use App\User;
 use Illuminate\Support\Collection;

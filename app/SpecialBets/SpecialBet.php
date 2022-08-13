@@ -6,6 +6,8 @@ use App\Bets\BetableInterface;
 use App\Competition;
 use App\Tournament;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use \Illuminate\Support\Collection;
 use App\Game;
 use App\Bet;
@@ -14,65 +16,84 @@ use App\Scorer;
 use App\Bets\BetSpecialBets\BetSpecialBetsRequest;
 use App\Enums\BetTypes;
 
-class SpecialBet implements BetableInterface
+/**
+ * App\SpecialBets\SpecialBet
+ *
+ * @property int $id
+ * @property int $tournament_id
+ * @property string $type
+ * @property string $title
+ * @property string|null $answer
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read Tournament|null $tournament
+ * @method static \Illuminate\Database\Eloquent\Builder|SpecialBet newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|SpecialBet newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|SpecialBet query()
+ * @method static \Illuminate\Database\Eloquent\Builder|SpecialBet whereAnswer($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SpecialBet whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SpecialBet whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SpecialBet whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SpecialBet whereTournamentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SpecialBet whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SpecialBet whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
+class SpecialBet extends Model implements BetableInterface
 {
 
-    protected $id = null;
-    protected Competition $competition;
-    protected $name = null;
-    protected $title = null;
-    static $teamsColl = null;
+    const TYPE_WINNER = "winner";
+    const TYPE_RUNNER_UP   = "runner_up";
+    const TYPE_TOP_SCORRER = "top_scorer";
+    const TYPE_MOST_ASSISTS = "most_assists";
+    const TYPE_MVP = "mvp";
+    const TYPE_OFFENSIVE_TEAM = "offensive_team";
 
 
-    private static $source = [
-        "1" => ["name" => "winner", "title" => "זוכה"],
-        "2" => ["name" => "runner_up", "title" => "סגנית"],
-        "3" => ["name" => "top_scorer", "title" => "מלך השערים"],
-        "4" => ["name" => "most_assists", "title" => "מלך הבישולים"],
-        "5" => ["name" => "mvp", "title" => "מצטיין הטורניר"],
-        "6" => ["name" => "offensive_team", "title" => "ההתקפה החזקה בבתים"],
-    ];
+    /**
+     * @return BelongsTo
+     */
+    public function tournament(): BelongsTo
+    {
+        return $this->belongsTo(Tournament::class);
+    }
 
     public function getOffensiveTeams(){
-        $matches = Game::getGroupStageGamesIfStageDone();
-        if (!$matches){
+        $matches = $this->tournament->competition->getGroupStageGamesIfStageDone();
+        if (!$matches) {
             return null;
         }
+
         $gsByTeamId = [];
-        foreach($matches as $match){
-            $goals_data = $match->getGoalsData();
-            foreach($goals_data as $teamId => $gs){
+        foreach ($matches as $match) {
+            foreach($match->getGoalsData() as $teamId => $gs){
                 if (!array_key_exists($teamId, $gsByTeamId)){
                     $gsByTeamId[$teamId] = 0;
                 }
                 $gsByTeamId[$teamId] += $gs;
             }
         }
-        $gs_values = array_values($gsByTeamId);
-        $max_gs = max($gs_values);
-        $best_offensive_teams = [];
-        foreach($gsByTeamId as $teamId => $goalsScored){
-            if ($goalsScored == $max_gs){
-                array_push($best_offensive_teams, $teamId);
-            }
-        }
-        
-        $teamExtIdToId = Team::getExternalIdToIdMap();
-        return array_map(function($ext_team_id) use($teamExtIdToId){
-            return $teamExtIdToId[$ext_team_id];
-        }, $best_offensive_teams);
+
+        $maxGoals = max(array_values($gsByTeamId));
+
+        return collect($gsByTeamId)
+            ->filter(fn($goalsScored, $teamId) => $goalsScored == $maxGoals)
+            ->keys();
     }
 
-    public function calculateOffensiveTeam($team_id){
+    public function calculateOffensiveTeam($team_id)
+    {
         $score = 5;
         
         $best_offensive_teams = $this->getOffensiveTeams();
         if ($best_offensive_teams == null){
             return null;
         }
-        if (in_array($team_id, $best_offensive_teams)){
+
+        if ($best_offensive_teams->contains($team_id)){
             return $score;
         }
+
         return 0;
     }
 
@@ -104,44 +125,37 @@ class SpecialBet implements BetableInterface
         return in_array($player_name, $topAssitsPlayers) ? $score : 0;
     }
 
-    private static function getTeamId($team_ext_id){
-        $teams = static::getTeamsCollection();
-        $team = $teams->where('external_id', $team_ext_id)->first();
-        return $team->id;
-    }
-
     public function getChampions(){
-        $final = $this->competition->getFinalGame();
+        $final = $this->tournament->competition->getFinalGame();
         if (!$final || !$final->is_done){
             return null;
         }
-        return self::getTeamId($final->getKnockoutWinner());
+        return $final->getKnockoutWinner();
     }
 
     public function getRunnerUp(){
-        $final = $this->competition->getFinalGame();
+        $final = $this->tournament->competition->getFinalGame();
         if (!$final || !$final->is_done){
             return null;
         }
 
-        return self::getTeamId($final->getKnockoutLoser());
+        return $final->getKnockoutLoser();
     }
 
-
-    public function calcRoadToFinal($team_id){
+    public function calcRoadToFinal($teamId){
         $score_for_stage = 5;
 
         $score = 0;
-        $team_ext_id = Team::find($team_id)->external_id;
-        $ko_games = Game::getTeamKnockoutGames($team_ext_id);
+        $ko_games = Game::getTeamKnockoutGames($teamId);
         if ($ko_games->count() == 0){
             return null;
         }
+        /** @var Game $game */
         foreach($ko_games as $game){
             if ($game->sub_type == 'FINAL'){
                 continue;
             }
-            if ($game->getKnockoutWinner() == $team_ext_id){
+            if ($game->getKnockoutWinner() == $teamId){
                 $score += $score_for_stage;
             }
         }
@@ -152,12 +166,12 @@ class SpecialBet implements BetableInterface
         $score_for_winning_final = 15;
 
         $score = $this->calcRoadToFinal($team_id);
-        $final = $this->competition->getFinalGame();
-        if (!$final || !$final->is_done){
+        $final = $this->tournament->competition->getFinalGame();
+        if (!$final || !$final->is_done) {
             return null;
         }
 
-        if (self::getTeamId($final->getKnockoutWinner()) == $team_id){
+        if ($final->getKnockoutWinner() == $team_id){
             $score += $score_for_winning_final;
         }
         return $score;
@@ -214,208 +228,99 @@ class SpecialBet implements BetableInterface
         return "OK";
     }
 
-
-
-    /**
-     * Group constructor.
-     *
-     * @param null  $id
-     * @param array $data
-     */
-    public function __construct($id, Competition $competition, array $data)
-    {
-        $this->id           = $id;
-        $this->competition  = $competition;
-        $this->title        = $data["title"];
-        $this->name         = $data["name"];
-    }
-
     public function getID()
     {
         return $this->id;
     }
 
-    public function getTitle()
+    public static function getByType(string $type): SpecialBet
     {
-        return $this->title;
+        return SpecialBet::query()->where("type", $type)->first();
     }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public static function getBetTypeIdByName($name)
-    {
-        foreach(self::$source as $typeId => $data){
-            if ($data['name'] == $name){
-                return $typeId;
-            }
-        }
-    }
-
 
     public function calculateScore($bet_answer)
     {
-        switch ($this->name) {
-            case "mvp":
+        switch ($this->type) {
+            case SpecialBet::TYPE_MVP:
                 return $this->calcMVP($bet_answer);
                 break;
-            case "most_assists":
+            case SpecialBet::TYPE_MOST_ASSISTS:
                 return $this->calcTopAssists($bet_answer);
                 break;
-            case "offensive_team":
+            case SpecialBet::TYPE_OFFENSIVE_TEAM:
                 return $this->calculateOffensiveTeam($bet_answer);
                 break;
-            case "winner":
+            case SpecialBet::TYPE_WINNER:
                 return $this->calcChampions($bet_answer);
                 break;
-            case "runner_up":
+            case SpecialBet::TYPE_RUNNER_UP:
                 return $this->calcRoadToFinal($bet_answer);
                 break;
-            case "top_scorer":
+            case SpecialBet::TYPE_TOP_SCORRER:
                 return $this->calcTopScorer($bet_answer);
                 break;
             default:
-                throw new InvalidArgumentException("Invalid SpecialBet name \"$this->name\"");
-        };
+                throw new InvalidArgumentException("Invalid SpecialBet name \"{$this->name}\"");
+        }
     }
 
     public function getAnswer()
     {
-        switch ($this->name) {
-            case "mvp":
+        switch ($this->type) {
+            case SpecialBet::TYPE_MVP:
                 return config('bets.mvp');
                 break;
-            case "most_assists":
+            case SpecialBet::TYPE_MOST_ASSISTS:
                 return $this->getTopAssists();
                 break;
-            case "offensive_team":
+            case SpecialBet::TYPE_OFFENSIVE_TEAM:
                 return $this->getOffensiveTeams();
                 break;
-            case "winner":
+            case SpecialBet::TYPE_WINNER:
                 return $this->getChampions();
                 break;
-            case "runner_up":
+            case SpecialBet::TYPE_RUNNER_UP:
                 return $this->getRunnerUp();
                 break;
-            case "top_scorer":
+            case SpecialBet::TYPE_TOP_SCORRER:
                 return $this->getTopScorers()->map(function($player){
                     return $player->external_id;
                 })->toArray();
                 break;
             default:
-                throw new InvalidArgumentException("Invalid SpecialBet name \"$this->name\"");
-        };
+                throw new InvalidArgumentException("Invalid SpecialBet type \"{$this->type}\"");
+        }
     }
 
     public static function hasAllCustomAnswers(){
         return !is_null(config('bets.topAssists')) && !is_null(config('bets.mvp'));
     }
 
-    private function formatTeamDescription($answer){
-        $teams = static::getTeamsCollection();
-        $team = $teams->find($answer);
-        if (!$team){
-            return "Invalid Bet team_id ". $answer;
-        }
-        return view('widgets.teamWithFlag')->with($team->toArray());
-    }
-
-    public function formatDescription($answer){
-        if ($answer == null){
-            return null;
-        }
-        if (!is_array($answer)){
-            $answer = [$answer];
-        }
-        $res = implode('<br>', array_map(
-            function ($ans){
-                switch ($this->name) {
-                    case "top_scorer":
-                        $scorer = Scorer::findByExternalId($ans);
-                        $teams = static::getTeamsCollection();
-                        $team = $teams->find($scorer->team_id);
-                        return view('widgets.teamWithFlag')->with([
-                            "name" => $scorer->name,
-                            "crest_url" => $team->crest_url
-                        ]);
-                        break;
-                    case "winner":
-                        return $this->formatTeamDescription($ans);
-                        break;
-                    case "runner_up":
-                        return $this->formatTeamDescription($ans);
-                        break;
-                    case "offensive_team":
-                        return $this->formatTeamDescription($ans);
-                        break;
-                    default:
-                        return $ans;
-                };
-            }
-        , $answer));
-        return $res;
-    }
-
-    public static function getTeamsCollection()
-    {
-        if (static::$teamsColl) {
-            return static::$teamsColl;
-        }
-        return static::$teamsColl = Team::all();
-    }
-
     public function generateRandomBetData()
     {
         $answer = null;
-        switch ($this->name) {
-            case "mvp":
+        switch ($this->type) {
+            case SpecialBet::TYPE_MVP:
                 $answer = Scorer::all()->random()->name;
                 break;
-            case "most_assists":
+            case SpecialBet::TYPE_MOST_ASSISTS:
                 $answer = Scorer::all()->random()->name;
                 break;
-            case "offensive_team":
+            case SpecialBet::TYPE_OFFENSIVE_TEAM:
                 $answer = Team::all()->random()->id;
                 break;
-            case "winner":
+            case SpecialBet::TYPE_WINNER:
                 $answer = Team::all()->random()->id;
                 break;
-            case "runner_up":
+            case SpecialBet::TYPE_RUNNER_UP:
                 $answer = Team::all()->random()->id;
                 break;
-            case "top_scorer":
+            case SpecialBet::TYPE_TOP_SCORRER:
                 $answer = Scorer::all()->random()->external_id;
                 break;
             default:
-                throw new InvalidArgumentException("Invalid SpecialBet name \"$name\"");
-        };
-        return json_encode(["answer" => $answer]);
-    }
-
-
-    /**
-     * @return Collection|static[]
-     */
-    public static function all()
-    {
-        $specialBets = [];
-        foreach (self::$source as $id => $data) {
-            $specialBets[] = new self($id, $data);
+                throw new InvalidArgumentException("Invalid SpecialBet type \"{$this->type}\"");
         }
-
-        return Collection::make($specialBets);
-    }
-
-    /**
-     * @param $id
-     *
-     * @return static
-     */
-    public static function find($id)
-    {
-        $data = array_get(self::$source, $id);
-        return new self($id, $data);
+        return json_encode(["answer" => $answer]);
     }
 }

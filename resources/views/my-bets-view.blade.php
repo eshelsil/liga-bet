@@ -25,7 +25,7 @@
                 <td class="admin">{{ $specialBet->getID() }}</td>
 
                 <td>
-                    {!! $specialBet->getTitle() !!}
+                    {!! $specialBet->title !!}
                 </td>
                 <td>
                     {!! $specialBet->formatDescription($specialBet->bet->getAnswer()) !!}

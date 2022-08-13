@@ -118,14 +118,17 @@ class AdminController extends Controller
         if (Group::areBetsOpen()){
             throw new JsonException("Removing players from scorers table is not allowed when specia_bets are still open", 403);
         }
-        $specialBetId = SpecialBet::getBetTypeIdByName('top_scorer');
+        $specialBet = SpecialBet::getByType(SpecialBet::TYPE_TOP_SCORRER);
         $relevantBets = Bet::where("type", BetTypes::SpecialBet)
-            ->where('type_id', $specialBetId)
+            ->where('type_id', $specialBet->id)
             ->get();
+
         $relevantPlayerIds = $relevantBets->map(function($bet){
             return $bet->getData('answer');
-        })->toArray();
+        });
+
         Scorer::whereNotIn('external_id', $relevantPlayerIds)->delete();
+
         return 'DONE';
     }
 
@@ -210,7 +213,7 @@ class AdminController extends Controller
     public function formatSpecialBetsCustomAnswer(Request $request) {
         $from_name = $request->from_name;
         $to_name = $request->to_name;
-        $custom_special_bet_ids = [SpecialBet::getBetTypeIdByName('mvp'), SpecialBet::getBetTypeIdByName('most_assists')];
+        $custom_special_bet_ids = [SpecialBet::getByType(SpecialBet::TYPE_MVP)->id, SpecialBet::getByType(SpecialBet::TYPE_MOST_ASSISTS)->id];
         $bets = Bet::where('type', BetTypes::SpecialBet)
                 ->whereIn('type_id', $custom_special_bet_ids)
                 ->get();
@@ -292,8 +295,8 @@ class AdminController extends Controller
             throw new \InvalidArgumentException("Could not find a group with exernal id {{$external_id_b}}");
         }
         echo "Switch groups: {$group_a->getName()} & {$group_b->getName()}...<br><br>";
-        $group_a_teams = $group_a->getGroupTeamsById();
-        $group_b_teams = $group_b->getGroupTeamsById();
+        $group_a_teams = $group_a->teams->keyBy("id");
+        $group_b_teams = $group_b->teams->keyBy("id");
         echo "<br>Changeing group_id of Teams:";
         foreach($group_a_teams as $team_id => $team){
             $curr_g_id = $team->group_id;

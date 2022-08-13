@@ -60,10 +60,10 @@ class DebugController extends Controller
     }
 
     public function getSpecialBetsData($name){
-        $type_id = SpecialBet::getBetTypeIdByName($name);
+        $specialBey = SpecialBet::getByType($name);
         $rows = Bet::select('id', 'user_id', 'data')
                 ->where('type', BetTypes::SpecialBet)
-                ->where('type_id', $type_id)
+                ->where('type_id', $specialBey->id)
                 ->get()->toArray();
         echo "{$name} Bets:";
         foreach ($rows as $row){

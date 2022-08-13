@@ -56,34 +56,34 @@ class BetSpecialBetsRequest extends AbstractBetRequest
     }
 
     protected function validateAnswer($specialBet, $answer) {
-        switch ($specialBet->getName()) {
-            case "mvp":
+        switch ($specialBet->type) {
+            case SpecialBet::TYPE_MVP:
                 $this->validateCustomInput($answer);
                 break;
-            case "most_assists":
+            case SpecialBet::TYPE_MOST_ASSISTS:
                 $this->validateCustomInput($answer);
                 break;
-            case "offensive_team":
+            case SpecialBet::TYPE_OFFENSIVE_TEAM:
                 $this->validateTeamSelection($answer);
                 break;
-            case "winner":
+            case SpecialBet::TYPE_WINNER:
                 $this->validateTeamSelection($answer);
-                if ($this->hasUserBet('runner_up', $answer)){
+                if ($this->hasUserBet(SpecialBet::TYPE_RUNNER_UP, $answer)){
                     throw new \InvalidArgumentException("Could not bet \"winner\" as {{$answer}} because user has already bet \"runner_up\" as {{$answer}}. 'winner' & 'runner_up' bets cannot be the same");
                 }
                 break;
-            case "runner_up":
+            case SpecialBet::TYPE_RUNNER_UP:
                 $this->validateTeamSelection($answer);
-                if ($this->hasUserBet('winner', $answer)){
+                if ($this->hasUserBet(SpecialBet::TYPE_WINNER, $answer)){
                     throw new \InvalidArgumentException("Could not bet \"runner_up\" as {{$answer}} because user has already bet \"winner\" as {{$answer}}. 'winner' & 'runner_up' bets cannot be the same");
                 }
                 break;
-            case "top_scorer":
+            case SpecialBet::TYPE_TOP_SCORRER:
                 $this->validateTopScorer($answer);
                 break;
             default:
-                throw new InvalidArgumentException("Invalid SpecialBet name \"$this->name\"");
-        };
+                throw new InvalidArgumentException("Invalid SpecialBet name \"{$this->name}\"");
+        }
     }
 
     protected function validateCustomInput($answer) {
@@ -104,18 +104,12 @@ class BetSpecialBetsRequest extends AbstractBetRequest
     }
 
     protected function hasUserBet($betName, $answer) {
-        $specialBetId = SpecialBet::getBetTypeIdByName($betName);
-        $utl = $this->utl;
-        if (!$utl) {
-            return false;
-        }
-
-        $bet = Bet::where('type', BetTypes::SpecialBet)
-            ->where('type_id', $specialBetId)
-            ->where('user_id', $utl->id)
+        $bet = $this->utl->bets
+            ->where('type', BetTypes::SpecialBet)
+            ->where('type_id', SpecialBet::getByType($betName)->id)
             ->first();
 
-        if (!$bet){
+        if (!$bet) {
             return false;
         }
 

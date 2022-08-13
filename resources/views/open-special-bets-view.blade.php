@@ -73,10 +73,10 @@
 
 
     function sendBet(betId) {
-        const top_scorer_bet_id = "{{ \App\SpecialBets\SpecialBet::getBetTypeIdByName('top_scorer') }}";
-        const offensive_team_bet_id = "{{ \App\SpecialBets\SpecialBet::getBetTypeIdByName('offensive_team') }}";
-        const champions_bet_id = "{{ \App\SpecialBets\SpecialBet::getBetTypeIdByName('winner') }}";
-        const runner_up_scorer_bet_id = "{{ \App\SpecialBets\SpecialBet::getBetTypeIdByName('runner_up') }}";
+        const top_scorer_bet_id = "{{ \App\SpecialBets\SpecialBet::getByType('top_scorer')->id }}";
+        const offensive_team_bet_id = "{{ \App\SpecialBets\SpecialBet::getByType('offensive_team')->id }}";
+        const champions_bet_id = "{{ \App\SpecialBets\SpecialBet::getByType('winner')->id }}";
+        const runner_up_scorer_bet_id = "{{ \App\SpecialBets\SpecialBet::getByType('runner_up')->id }}";
         const teamSelectionBetIds = [runner_up_scorer_bet_id, champions_bet_id, offensive_team_bet_id]
         const selectionBetIds = [
             ...teamSelectionBetIds,
@@ -165,12 +165,12 @@
             @php
                 $bet = $specialBet->bet;
                 $specialBetId = $specialBet->getID();
-                $betName = $specialBet->getName();
+                $betName = $specialBet->type;
                 $inputAttrs = $inputAttrMap[$betName];
                 $playerCustomInputNote = "נא להכניס את השם המלא של השחקן";
             @endphp
             <div class="col-xs-12 col-md-9 col-lg-7" style="float: right; border-radius: 5px; border: #000 1px solid; margin-bottom: 25px; padding: 10px;">
-                <h3 style="text-align: center;">{{$specialBet->getTitle()}}</h3>
+                <h3 style="text-align: center;">{{$specialBet->title}}</h3>
                 <span style="position: absolute; top: 10px; right: 15px;">{{$specialBetId}}</span>
                 <div class="betContent">
                     <div class="inputWrapper">

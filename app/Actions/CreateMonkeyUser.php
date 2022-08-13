@@ -38,7 +38,7 @@ class CreateMonkeyUser
             ->each(fn(Game $game) => $this->betGame($game, $utl));
 
         // TODO: from tournament
-        // SpecialBet::all()->each(fn($specialBet) => $this->betSpecialBet($specialBet, $utl));
+        $tournament->specialBets->each(fn(SpecialBet $specialBet) => $this->betSpecialBet($specialBet, $utl));
     }
 
     /**
@@ -97,7 +97,7 @@ class CreateMonkeyUser
      *
      * @return void
      */
-    function betSpecialBet($specialBet, $utl): void
+    function betSpecialBet(SpecialBet $specialBet, $utl): void
     {
         $type_id = $specialBet->getID();
         $data    = $specialBet->generateRandomBetData();

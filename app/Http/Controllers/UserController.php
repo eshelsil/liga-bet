@@ -34,6 +34,18 @@ class UserController extends Controller
         return new JsonResponse($data, 200);
     }
 
+    public function getTournamentUTLs(Request $request, string $tournamentId)
+    {
+        $utl = $this->getUser()->getTournamentUser($tournamentId);
+
+        $data = $utl->tournament->utls
+            ->map(
+                fn(TournamentUser $utl) => (new UtlResource($utl))->toArray($request)
+            )
+            ->keyBy("id");
+
+        return new JsonResponse($data, 200);
+    }
 
     public function setPassword(Request $request){
         $user = Auth::user();

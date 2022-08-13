@@ -290,15 +290,7 @@ protected $table = 'matches';
         return static::$groupStageGames = Game::query()->isDone(true)
             ->where('type', 'group_stage')->get();
     }
-    
-    public static function getGroupStageGamesIfStageDone(){
-        $games = static::getGroupStageGames();
-        
-        if ($games->count() < config('tournamentData.groupStageGamesCount')){
-            return null;
-        };
-        return $games;
-    }
+
 
     public static function getKnockoutGames(){
         if (static::$knockoutGames){
@@ -306,10 +298,6 @@ protected $table = 'matches';
         }
         return static::$knockoutGames = Game::query()->isDone(true)
             ->where('type', 'knockout')->get();
-    }
-
-    public static function isGroupStageDone(){
-        return Game::getGroupStageGamesIfStageDone() !== null;
     }
     
     public static function isTournamentDone() {

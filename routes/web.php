@@ -18,6 +18,7 @@ use App\Http\Controllers\DebugController;
 use App\Http\Controllers\GroupsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeaderboardController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -42,14 +43,11 @@ Route::post('register-token', [HomeController::class, 'registerFCMToken'])->midd
 // Route::get("/today-matches", [HomeController::class, 'showTodayMatches'])->middleware("auth")->middleware("confirmed_user")->name('match-list');
 // Route::get("/my-bets", [HomeController::class, 'showMyBets'])->middleware("auth")->middleware("confirmed_user")->name('my-bets');
 // Route::get('/open-matches', [HomeController::class, 'showOpenMatches'])->middleware("auth")->middleware("confirmed_user")->name('open-matches');
-// Route::get('/open-group-bets', [HomeController::class, 'showOpenGroupBets'])->middleware("auth")->middleware("confirmed_user")->name('open-group-bets');
-// Route::get('/open-special-bets', [HomeController::class, 'showOpenSpecialBets'])->middleware("auth")->middleware("confirmed_user")->name('open-special-bets');
 // Route::get('/all-group-bets', [HomeController::class, 'showAllGroupBets'])->middleware("auth")->middleware("confirmed_user")->middleware("group_bets_closed")->name('all-group-bets');
-// Route::get('/all-special-bets', [HomeController::class, 'showAllSpecialBets'])->middleware("auth")->middleware("confirmed_user")->middleware("group_bets_closed")->name('all-special-bets');
 Route::get('/terms', [HomeController::class, 'showTerms'])->middleware("auth");
 Route::get('/articles', [HomeController::class, 'showArticles'])->middleware("auth");
-Route::get('/set-password', [\App\Http\Controllers\UserController::class, 'showSetPassword']);
-Route::put('/set-password', [\App\Http\Controllers\UserController::class, 'setPassword']);
+Route::get('/set-password', [UserController::class, 'showSetPassword']);
+Route::put('/set-password', [UserController::class, 'setPassword']);
 Route::get('/api-fetch-games', [\App\Http\Controllers\ApiFetchController::class, 'userUpdateGames']);
 Route::post('/summary-msg-seen', [HomeController::class, 'summaryMessageSeen'])->middleware("auth");
 
@@ -98,9 +96,10 @@ Route::prefix("/api/tournaments/{tournamentId}/")->middleware("confirmed_user")
          Route::get('groups', [GroupsController::class, 'index']);
          Route::get('games', [\App\Http\Controllers\GamesController::class, 'index']);
          Route::get("leaderboards", [LeaderboardController::class, 'index']);
+         Route::get("utls", [UserController::class, 'getTournamentUTLs']);
     });
-Route::get('/api/user', [\App\Http\Controllers\UserController::class, 'getUser']);
-Route::get('/api/user/utls', [\App\Http\Controllers\UserController::class, 'getUserUTLs']);
+Route::get('/api/user', [UserController::class, 'getUser']);
+Route::get('/api/user/utls', [UserController::class, 'getUserUTLs']);
 
 Route::fallback(function () {
     return view('react-app.index');

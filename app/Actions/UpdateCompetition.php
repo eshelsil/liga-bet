@@ -10,8 +10,10 @@ namespace App\Actions;
 
 use App\Competition;
 use App\Game;
+use App\SpecialBets\SpecialBet;
 use App\User;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
 class UpdateCompetition
@@ -27,9 +29,7 @@ class UpdateCompetition
         $game->forceFill(["result_home" => null, "result_away" => null])->save();
         $game->getBets()->toQuery()->update(["score" => 0]);
 
-        /** @var Competition $c */
-        $c = Competition::find(1);
-        $games = $c->getCrawler()->fetchGames();
+        $games = $game->competition->getCrawler()->fetchGames();
         $games[1] = array_merge($games[1], [
             "is_done" => true,
             "result_home" => 1,
@@ -38,7 +38,7 @@ class UpdateCompetition
 
         /** @var static $u */
         $u = app()->make(static::class);
-        $u->handle($c, $games);
+        $u->handle($game->competition, $games);
     }
 
     public function __construct(
@@ -53,7 +53,7 @@ class UpdateCompetition
         $this->updateLeaderboards = $updateLeaderboards;
     }
 
-    public function handle(Competition $competition, ?\Illuminate\Support\Collection $crawlerGames = null)
+    public function handle(Competition $competition, ?Collection $crawlerGames = null): void
     {
         $crawlerGames ??= $competition->getCrawler()->fetchGames();
         $existingGames = $competition->games;
@@ -63,40 +63,37 @@ class UpdateCompetition
         $existingGamesWithNoScore = $existingGames->where("is_done", false)
             ->keyBy("external_id");
 
-        $newScores = $crawlerGames->filter(function($crawlerGame) use ($existingGamesWithNoScore){
+        $gamesWithScore = $crawlerGames->filter(function($crawlerGame) use ($existingGamesWithNoScore){
             return $crawlerGame['is_done'] && $existingGamesWithNoScore->has($crawlerGame['external_id']);
         });
 
-        $hasNewGames = $this->saveNewScores($newScores, $existingGamesWithNoScore);
+        $this->updateGames($gamesWithScore, $existingGamesWithNoScore);
 
-        if (!$newScores){
+        if ($gamesWithScore->isNotEmpty()) {
             $this->updateScorers->handle($competition);
 
             if (!$competition->hasAllGroupsStandings()) {
                 $this->updateStandings->handle($competition);
             }
             if ($competition->isGroupStageDone()) {
-                $this->calculateSpecialBets->execute($competition->id, ['offensive_team']);
+                $this->calculateSpecialBets->execute($competition->id, [SpecialBet::TYPE_OFFENSIVE_TEAM]);
             }
         }
-
-        return $hasNewGames;
     }
 
     /**
-     * @param \Illuminate\Support\Collection $games
-     * @param                                $existingMatches
+     * @param Competition        $competition
+     * @param Collection         $games
+     * @param EloquentCollection $existingGames
      *
      * @return void
      */
     protected function saveNewGames(
         Competition $competition,
-        \Illuminate\Support\Collection $games,
-        $existingMatches
+        Collection $games,
+        EloquentCollection $existingGames
     ): void {
-        $newGames = $games->filter(function ($game) use ($existingMatches) {
-            return ! in_array($game['external_id'], $existingMatches->pluck('external_id')->toArray());
-        });
+        $newGames = $games->filter(fn ($game) => !$existingGames->contains('external_id', $game['external_id']));
 
         $autoBet = (new MonkeyAutoBetCompetitionGames());
 
@@ -120,17 +117,16 @@ class UpdateCompetition
     }
 
     /**
-     * @param \Illuminate\Support\Collection $newScores
-     * @param Collection                          $gamesWithNoScore
+     * @param Collection $gamesWithScore
+     * @param EloquentCollection             $gamesWithNoScore
      *
-     * @return bool
+     * @return void
      */
-    protected function saveNewScores(
-        \Illuminate\Support\Collection $newScores,
-        Collection $gamesWithNoScore
-    ): bool {
-        $hasNewGames = false;
-        foreach ($newScores as $gameData) {
+    protected function updateGames(
+        Collection $gamesWithScore,
+        EloquentCollection $gamesWithNoScore
+    ): void {
+        foreach ($gamesWithScore as $gameData) {
             /** @var Game $game */
             $game = $gamesWithNoScore->get($gameData['external_id']);
             $game->result_home = $gameData['result_home'];
@@ -138,15 +134,12 @@ class UpdateCompetition
             $game->ko_winner   = $gameData['ko_winner'];
             $game->save();
 
-            $hasNewGames = true;
             Log::debug("Saving Result of Game: ext_id - " . $game->external_id . " | id - " . $game->id . "-> " . $game->result_home . " - " . $game->result_away);
             $game->completeBets();
             $this->updateLeaderboards->handle($game->competition);
             if ($game->isKnockout()) {
-                $this->calculateSpecialBets->execute($game->competition_id, ['winner', 'runner_up']);
+                $this->calculateSpecialBets->execute($game->competition_id, [SpecialBet::TYPE_WINNER, SpecialBet::TYPE_RUNNER_UP]);
             }
         }
-
-        return $hasNewGames;
     }
 }

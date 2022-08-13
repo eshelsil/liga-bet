@@ -13,6 +13,7 @@ use App\Competition;
 use App\Enums\BetTypes;
 use App\Game;
 use App\Scorer;
+use App\SpecialBets\SpecialBet;
 use App\Team;
 use App\Tournament;
 use App\TournamentUser;
@@ -66,6 +67,6 @@ class UpdateCompetitionScorers
             }
         }
 
-        $this->calculateSpecialBets->execute($competition->id, ['top_scorer']);
+        $this->calculateSpecialBets->execute($competition->id, [SpecialBet::TYPE_TOP_SCORRER]);
     }
 }
