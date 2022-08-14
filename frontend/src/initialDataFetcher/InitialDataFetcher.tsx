@@ -5,7 +5,7 @@ import { fetchAndStoreGroups } from '../_actions/groups';
 import { fetchAndStoreMatches } from '../_actions/matches';
 import { fetchAndStoreQuestions } from '../_actions/specialQuestions';
 import { fetchAndStoreTeams } from '../_actions/teams';
-import { fetchAndStoreUsers } from '../_actions/utls';
+import { fetchAndStoreContestants } from '../_actions/contestants';
 import { NoSelector } from '../_selectors/noSelector';
 
 
@@ -16,15 +16,16 @@ export function InitialDataFetcher({
     fetchAndStoreTeams,
     fetchAndStoreGroups,
     fetchAndStoreQuestions,
-    fetchAndStoreUsers,
+    fetchAndStoreContestants,
 }) {
     useEffect(()=> {
         fetchAndStoreTeams();
         fetchAndStoreGroups();
         fetchAndStoreMatches();
         fetchAndStoreQuestions();
-        fetchAndStoreUsers();
+        fetchAndStoreContestants();
         fetchAndStoreBets(BetFetchType.MyBets);
+        fetchAndStoreBets(BetFetchType.GameBets);
     }, []);
     return (
         children
@@ -37,7 +38,7 @@ const mapDispatchToProps = {
     fetchAndStoreTeams,
     fetchAndStoreGroups,
     fetchAndStoreQuestions,
-    fetchAndStoreUsers,
+    fetchAndStoreContestants,
 }
 
 export default connect(NoSelector, mapDispatchToProps)(InitialDataFetcher);

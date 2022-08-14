@@ -8,7 +8,7 @@ function fetchAndStoreLeaderboard() {
   return (dispatch: AppDispatch, getState: GetRootState) => {
     const tournamentId = TournamentIdSelector(getState());
     return fetchLeaderboard(tournamentId)
-    .then( data => dispatch(leaderboard.actions.set(data)) );
+    .then( data => dispatch(leaderboard.actions.setRows(data)) );
   }
 }
 

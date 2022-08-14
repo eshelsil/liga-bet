@@ -33,9 +33,9 @@ function GroupStangingsScore({
 }: Props){
     const {id, score, standings, relatedGroup} = bet;
     const {standings: finalStandings, isDone} = relatedGroup || {};
-    if (!isDone){
-        return null;
-    }
+    // if (!isDone){
+    //     return null;
+    // }
     return <li key={id} className="list-group-item row flex-row  col-no-padding">
         <div className="col-xs-2 pull-right col-no-padding" style={{paddingRight: "15px"}}>{score}</div>
         <div className="col-xs-5 pull-right col-no-padding">

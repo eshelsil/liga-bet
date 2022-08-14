@@ -9,7 +9,7 @@ export const CurrentTournamentUserId = (state: RootState) => state.currentTourna
 export const Contestants = (state: RootState) => state.contestants;
 export const MyUtls = (state: RootState) => state.myUtls;
 export const Bets = (state: RootState) => state.bets;
-export const Leaderboard = (state: RootState) => state.leaderboard;
+export const LeaderboardVersions = (state: RootState) => state.leaderboardVersions;
 export const Matches = (state: RootState) => state.matches;
 export const Teams = (state: RootState) => state.teams;
 export const Groups = (state: RootState) => state.groups;

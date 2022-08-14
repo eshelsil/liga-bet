@@ -4,7 +4,7 @@ import { sumBetsScore } from './utils';
 import GroupRankScore from './scoreViews/GroupStangingsScore';
 import MatchBetScore from './scoreViews/MatchBetScore';
 import QuestionBetScore from './scoreViews/QuestionBetScore';
-import {GroupRankBetWithRelations, MatchBetWithRelations, QuestionBetWithRelations, ScoreboardRow, UTL} from '../types';
+import {GroupRankBetWithRelations, MatchBetWithRelations, QuestionBetWithRelations, ScoreboardRow, ScoreboardRowDetailed, UTL} from '../types';
 
 
 function RankChange({
@@ -22,30 +22,27 @@ function RankChange({
 
 
 interface Props {
-    scoreboardRow: ScoreboardRow,
+    rankDisplay: string,
+    scoreboardRow: ScoreboardRowDetailed,
     matchBets: MatchBetWithRelations[],
     groupStandingsBets: GroupRankBetWithRelations[],
     questionBets: QuestionBetWithRelations[],
-    utl: UTL
 }
 
 export function ContestantView({
+    rankDisplay,
     scoreboardRow: {
         rank,
-        // rankDisplay,
-        // change,
+        change,
         id,
-        // name,
-        // addedScore,
+        name,
+        addedScore,
         score,
-        user_tournament_id
     },
     matchBets,
     groupStandingsBets,
     questionBets,
-    utl
 }: Props){
-    console.log(id, rank, user_tournament_id)
     const matchesScore = sumBetsScore(matchBets);
     const groupStandingsScore = sumBetsScore(groupStandingsBets);
     const specialBetScore = sumBetsScore(questionBets);
@@ -55,19 +52,19 @@ export function ContestantView({
                 <div className={`panel-heading row rank-${rank}`} style={{marginRight: 0, marginLeft: 0}}>
                 <div className="col-xs-2 pull-right col-no-padding">
                     <div className="col-xs-6 col-no-padding">
-                        {rank}
+                        {rankDisplay}
                     </div>
                     <div className="col-xs-6 col-no-padding" style={{marginRight: "-7px", marginLeft: "7px", marginTop: "-2px"}}>
-                        {/*<RankChange change={change} />*/}
+                        <RankChange change={change} />
                     </div>
                 </div>
                 <div className="col-xs-8 pull-right col-no-padding" style={{marginTop: "2px"}}>
                     <h4 className="panel-title">
-                        <a data-toggle="collapse" href={`#collapserank-${id}`}><span className="admin">{id}</span>{utl.name}</a>
+                        <a data-toggle="collapse" href={`#collapserank-${id}`}><span className="admin">{id}</span>{name}</a>
                     </h4>
                 </div>
                 <div className="col-xs-1 pull-right col-no-padding">
-                    {/*{addedScore > 0 ? <bdi><span className="label label-success" style={{direction: "ltr"}} dir="RTL">+{addedScore}</span></bdi> : null}*/}
+                    {addedScore > 0 ? <bdi><span className="label label-success" style={{direction: "ltr"}} dir="RTL">+{addedScore}</span></bdi> : null}
                 </div>
                 <div className="col-xs-1 pull-right col-no-padding" style={{paddingRight: "7px"}}>
                     {score}

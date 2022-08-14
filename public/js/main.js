@@ -3143,7 +3143,7 @@ const TouchRipple = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.forwardRef(f
     stop
   }), [pulsate, start, stop]);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(TouchRippleRoot, (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    className: (0,clsx__WEBPACK_IMPORTED_MODULE_3__["default"])(_touchRippleClasses__WEBPACK_IMPORTED_MODULE_8__["default"].root, classes.root, className),
+    className: (0,clsx__WEBPACK_IMPORTED_MODULE_3__["default"])(classes.root, _touchRippleClasses__WEBPACK_IMPORTED_MODULE_8__["default"].root, className),
     ref: container
   }, other, {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_transition_group__WEBPACK_IMPORTED_MODULE_10__["default"], {
@@ -4556,7 +4556,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _zIndex__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./zIndex */ "./node_modules/@mui/material/styles/zIndex.js");
 
 
-
 const _excluded = ["breakpoints", "mixins", "spacing", "palette", "transitions", "typography", "shape"];
 
 
@@ -4576,11 +4575,6 @@ function createTheme(options = {}, ...args) {
     typography: typographyInput = {}
   } = options,
         other = (0,_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(options, _excluded);
-
-  if (options.vars) {
-    throw new Error( true ? `MUI: \`vars\` is a private field used for CSS variables support.
-Please use another name.` : 0);
-  }
 
   const palette = (0,_createPalette__WEBPACK_IMPORTED_MODULE_2__["default"])(paletteInput);
   const systemTheme = (0,_mui_system__WEBPACK_IMPORTED_MODULE_3__["default"])(options);
@@ -5243,7 +5237,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ThemeContext": () => (/* reexport safe */ _emotion_react__WEBPACK_IMPORTED_MODULE_1__.T),
 /* harmony export */   "css": () => (/* reexport safe */ _emotion_react__WEBPACK_IMPORTED_MODULE_2__.css),
 /* harmony export */   "default": () => (/* binding */ styled),
-/* harmony export */   "internal_processStyles": () => (/* binding */ internal_processStyles),
 /* harmony export */   "keyframes": () => (/* reexport safe */ _emotion_react__WEBPACK_IMPORTED_MODULE_2__.keyframes)
 /* harmony export */ });
 /* harmony import */ var _emotion_styled__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @emotion/styled */ "./node_modules/@emotion/styled/dist/emotion-styled.browser.esm.js");
@@ -5251,12 +5244,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _emotion_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @emotion/react */ "./node_modules/@emotion/react/dist/emotion-react.browser.esm.js");
 /* harmony import */ var _StyledEngineProvider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./StyledEngineProvider */ "./node_modules/@mui/styled-engine/StyledEngineProvider/StyledEngineProvider.js");
 /* harmony import */ var _GlobalStyles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GlobalStyles */ "./node_modules/@mui/styled-engine/GlobalStyles/GlobalStyles.js");
-/** @license MUI v5.10.0
+/** @license MUI v5.8.7
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-/* eslint-disable no-underscore-dangle */
 
 function styled(tag, options) {
   const stylesFactory = (0,_emotion_styled__WEBPACK_IMPORTED_MODULE_0__["default"])(tag, options);
@@ -5276,15 +5268,7 @@ function styled(tag, options) {
   }
 
   return stylesFactory;
-} // eslint-disable-next-line @typescript-eslint/naming-convention
-
-const internal_processStyles = (tag, processor) => {
-  // Emotion attaches all the styles as `__emotion_styles`.
-  // Ref: https://github.com/emotion-js/emotion/blob/16d971d0da229596d6bcc39d282ba9753c9ee7cf/packages/styled/src/base.js#L186
-  if (Array.isArray(tag.__emotion_styles)) {
-    tag.__emotion_styles = processor(tag.__emotion_styles);
-  }
-};
+}
 
 
 
@@ -5976,8 +5960,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "shouldForwardProp": () => (/* binding */ shouldForwardProp),
 /* harmony export */   "systemDefaultTheme": () => (/* binding */ systemDefaultTheme)
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js");
-/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js");
 /* harmony import */ var _mui_styled_engine__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @mui/styled-engine */ "./node_modules/@mui/styled-engine/index.js");
 /* harmony import */ var _mui_utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @mui/utils */ "./node_modules/@mui/utils/esm/getDisplayName.js");
 /* harmony import */ var _createTheme__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./createTheme */ "./node_modules/@mui/system/esm/createTheme/createTheme.js");
@@ -5989,8 +5973,6 @@ const _excluded = ["name", "slot", "skipVariantsResolver", "skipSx", "overridesR
       _excluded2 = ["theme"],
       _excluded3 = ["theme"];
 
-/* eslint-disable no-underscore-dangle */
-
 
 
 
@@ -5998,14 +5980,6 @@ const _excluded = ["name", "slot", "skipVariantsResolver", "skipSx", "overridesR
 
 function isEmpty(obj) {
   return Object.keys(obj).length === 0;
-} // https://github.com/emotion-js/emotion/blob/26ded6109fcd8ca9875cc2ce4564fee678a3f3c5/packages/styled/src/utils.js#L40
-
-
-function isStringTag(tag) {
-  return typeof tag === 'string' && // 96 is one less than the char code
-  // for "a" so this is checking that
-  // it's a lowercase character
-  tag.charCodeAt(0) > 96;
 }
 
 const getStyleOverrides = (name, theme) => {
@@ -6075,19 +6049,7 @@ function createStyled(input = {}) {
     slotShouldForwardProp = shouldForwardProp,
     styleFunctionSx = _styleFunctionSx__WEBPACK_IMPORTED_MODULE_4__["default"]
   } = input;
-
-  const systemSx = props => {
-    const theme = isEmpty(props.theme) ? defaultTheme : props.theme;
-    return styleFunctionSx((0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__["default"])({}, props, {
-      theme
-    }));
-  };
-
-  systemSx.__mui_systemSx = true;
   return (tag, inputOptions = {}) => {
-    // Filter out the `sx` style function from the previous styled component to prevent unnecessary styles generated by the composite components.
-    (0,_mui_styled_engine__WEBPACK_IMPORTED_MODULE_5__.internal_processStyles)(tag, styles => styles.filter(style => !(style != null && style.__mui_systemSx)));
-
     const {
       name: componentName,
       slot: componentSlot,
@@ -6095,7 +6057,7 @@ function createStyled(input = {}) {
       skipSx: inputSkipSx,
       overridesResolver
     } = inputOptions,
-          options = (0,_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(inputOptions, _excluded); // if skipVariantsResolver option is defined, take the value, otherwise, true for root and false for other slots.
+          options = (0,_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(inputOptions, _excluded); // if skipVariantsResolver option is defined, take the value, otherwise, true for root and false for other slots.
 
 
     const skipVariantsResolver = inputSkipVariantsResolver !== undefined ? inputSkipVariantsResolver : componentSlot && componentSlot !== 'Root' || false;
@@ -6115,12 +6077,9 @@ function createStyled(input = {}) {
     } else if (componentSlot) {
       // any other slot specified
       shouldForwardPropOption = slotShouldForwardProp;
-    } else if (isStringTag(tag)) {
-      // for string (html) tag, preserve the behavior in emotion & styled-components.
-      shouldForwardPropOption = undefined;
     }
 
-    const defaultStyledResolver = (0,_mui_styled_engine__WEBPACK_IMPORTED_MODULE_5__["default"])(tag, (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__["default"])({
+    const defaultStyledResolver = (0,_mui_styled_engine__WEBPACK_IMPORTED_MODULE_5__["default"])(tag, (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
       shouldForwardProp: shouldForwardPropOption,
       label
     }, options));
@@ -6130,13 +6089,14 @@ function createStyled(input = {}) {
         // On the server Emotion doesn't use React.forwardRef for creating components, so the created
         // component stays as a function. This condition makes sure that we do not interpolate functions
         // which are basically components used as a selectors.
+        // eslint-disable-next-line no-underscore-dangle
         return typeof stylesArg === 'function' && stylesArg.__emotion_real !== stylesArg ? _ref => {
           let {
             theme: themeInput
           } = _ref,
-              other = (0,_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(_ref, _excluded2);
+              other = (0,_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(_ref, _excluded2);
 
-          return stylesArg((0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__["default"])({
+          return stylesArg((0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
             theme: isEmpty(themeInput) ? defaultTheme : themeInput
           }, other));
         } : stylesArg;
@@ -6151,7 +6111,7 @@ function createStyled(input = {}) {
           if (styleOverrides) {
             const resolvedStyleOverrides = {};
             Object.entries(styleOverrides).forEach(([slotKey, slotStyle]) => {
-              resolvedStyleOverrides[slotKey] = typeof slotStyle === 'function' ? slotStyle((0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__["default"])({}, props, {
+              resolvedStyleOverrides[slotKey] = typeof slotStyle === 'function' ? slotStyle((0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, props, {
                 theme
               })) : slotStyle;
             });
@@ -6170,7 +6130,12 @@ function createStyled(input = {}) {
       }
 
       if (!skipSx) {
-        expressionsWithDefaultTheme.push(systemSx);
+        expressionsWithDefaultTheme.push(props => {
+          const theme = isEmpty(props.theme) ? defaultTheme : props.theme;
+          return styleFunctionSx((0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, props, {
+            theme
+          }));
+        });
       }
 
       const numOfCustomFnsApplied = expressionsWithDefaultTheme.length - expressions.length;
@@ -6183,15 +6148,16 @@ function createStyled(input = {}) {
       } else if (typeof styleArg === 'function' && // On the server Emotion doesn't use React.forwardRef for creating components, so the created
       // component stays as a function. This condition makes sure that we do not interpolate functions
       // which are basically components used as a selectors.
+      // eslint-disable-next-line no-underscore-dangle
       styleArg.__emotion_real !== styleArg) {
         // If the type is function, we need to define the default theme.
         transformedStyleArg = _ref2 => {
           let {
             theme: themeInput
           } = _ref2,
-              other = (0,_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(_ref2, _excluded3);
+              other = (0,_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(_ref2, _excluded3);
 
-          return styleArg((0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__["default"])({
+          return styleArg((0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
             theme: isEmpty(themeInput) ? defaultTheme : themeInput
           }, other));
         };
@@ -7778,11 +7744,11 @@ function composeClasses(slots, getUtilityClass, classes) {
   slot => {
     output[slot] = slots[slot].reduce((acc, key) => {
       if (key) {
-        acc.push(getUtilityClass(key));
-
         if (classes && classes[key]) {
           acc.push(classes[key]);
         }
+
+        acc.push(getUtilityClass(key));
       }
 
       return acc;
@@ -7966,7 +7932,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ getDisplayName),
 /* harmony export */   "getFunctionName": () => (/* binding */ getFunctionName)
 /* harmony export */ });
-/* harmony import */ var react_is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-is */ "./node_modules/react-is/index.js");
+/* harmony import */ var react_is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-is */ "./node_modules/@mui/utils/node_modules/react-is/index.js");
  // Simplified polyfill for IE11 support
 // https://github.com/JamesMGreene/Function.name/blob/58b314d4a983110c3682f1228f845d39ccca1817/Function.name.js#L3
 
@@ -8403,6 +8369,254 @@ function useIsFocusVisible() {
     ref
   };
 }
+
+/***/ }),
+
+/***/ "./node_modules/@mui/utils/node_modules/react-is/cjs/react-is.development.js":
+/*!***********************************************************************************!*\
+  !*** ./node_modules/@mui/utils/node_modules/react-is/cjs/react-is.development.js ***!
+  \***********************************************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+/**
+ * @license React
+ * react-is.development.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+if (true) {
+  (function() {
+'use strict';
+
+// ATTENTION
+// When adding new symbols to this file,
+// Please consider also adding to 'react-devtools-shared/src/backend/ReactSymbols'
+// The Symbol used to tag the ReactElement-like types.
+var REACT_ELEMENT_TYPE = Symbol.for('react.element');
+var REACT_PORTAL_TYPE = Symbol.for('react.portal');
+var REACT_FRAGMENT_TYPE = Symbol.for('react.fragment');
+var REACT_STRICT_MODE_TYPE = Symbol.for('react.strict_mode');
+var REACT_PROFILER_TYPE = Symbol.for('react.profiler');
+var REACT_PROVIDER_TYPE = Symbol.for('react.provider');
+var REACT_CONTEXT_TYPE = Symbol.for('react.context');
+var REACT_SERVER_CONTEXT_TYPE = Symbol.for('react.server_context');
+var REACT_FORWARD_REF_TYPE = Symbol.for('react.forward_ref');
+var REACT_SUSPENSE_TYPE = Symbol.for('react.suspense');
+var REACT_SUSPENSE_LIST_TYPE = Symbol.for('react.suspense_list');
+var REACT_MEMO_TYPE = Symbol.for('react.memo');
+var REACT_LAZY_TYPE = Symbol.for('react.lazy');
+var REACT_OFFSCREEN_TYPE = Symbol.for('react.offscreen');
+
+// -----------------------------------------------------------------------------
+
+var enableScopeAPI = false; // Experimental Create Event Handle API.
+var enableCacheElement = false;
+var enableTransitionTracing = false; // No known bugs, but needs performance testing
+
+var enableLegacyHidden = false; // Enables unstable_avoidThisFallback feature in Fiber
+// stuff. Intended to enable React core members to more easily debug scheduling
+// issues in DEV builds.
+
+var enableDebugTracing = false; // Track which Fiber(s) schedule render work.
+
+var REACT_MODULE_REFERENCE;
+
+{
+  REACT_MODULE_REFERENCE = Symbol.for('react.module.reference');
+}
+
+function isValidElementType(type) {
+  if (typeof type === 'string' || typeof type === 'function') {
+    return true;
+  } // Note: typeof might be other than 'symbol' or 'number' (e.g. if it's a polyfill).
+
+
+  if (type === REACT_FRAGMENT_TYPE || type === REACT_PROFILER_TYPE || enableDebugTracing  || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || enableLegacyHidden  || type === REACT_OFFSCREEN_TYPE || enableScopeAPI  || enableCacheElement  || enableTransitionTracing ) {
+    return true;
+  }
+
+  if (typeof type === 'object' && type !== null) {
+    if (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || // This needs to include all possible module reference object
+    // types supported by any Flight configuration anywhere since
+    // we don't know which Flight build this will end up being used
+    // with.
+    type.$$typeof === REACT_MODULE_REFERENCE || type.getModuleId !== undefined) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function typeOf(object) {
+  if (typeof object === 'object' && object !== null) {
+    var $$typeof = object.$$typeof;
+
+    switch ($$typeof) {
+      case REACT_ELEMENT_TYPE:
+        var type = object.type;
+
+        switch (type) {
+          case REACT_FRAGMENT_TYPE:
+          case REACT_PROFILER_TYPE:
+          case REACT_STRICT_MODE_TYPE:
+          case REACT_SUSPENSE_TYPE:
+          case REACT_SUSPENSE_LIST_TYPE:
+            return type;
+
+          default:
+            var $$typeofType = type && type.$$typeof;
+
+            switch ($$typeofType) {
+              case REACT_SERVER_CONTEXT_TYPE:
+              case REACT_CONTEXT_TYPE:
+              case REACT_FORWARD_REF_TYPE:
+              case REACT_LAZY_TYPE:
+              case REACT_MEMO_TYPE:
+              case REACT_PROVIDER_TYPE:
+                return $$typeofType;
+
+              default:
+                return $$typeof;
+            }
+
+        }
+
+      case REACT_PORTAL_TYPE:
+        return $$typeof;
+    }
+  }
+
+  return undefined;
+}
+var ContextConsumer = REACT_CONTEXT_TYPE;
+var ContextProvider = REACT_PROVIDER_TYPE;
+var Element = REACT_ELEMENT_TYPE;
+var ForwardRef = REACT_FORWARD_REF_TYPE;
+var Fragment = REACT_FRAGMENT_TYPE;
+var Lazy = REACT_LAZY_TYPE;
+var Memo = REACT_MEMO_TYPE;
+var Portal = REACT_PORTAL_TYPE;
+var Profiler = REACT_PROFILER_TYPE;
+var StrictMode = REACT_STRICT_MODE_TYPE;
+var Suspense = REACT_SUSPENSE_TYPE;
+var SuspenseList = REACT_SUSPENSE_LIST_TYPE;
+var hasWarnedAboutDeprecatedIsAsyncMode = false;
+var hasWarnedAboutDeprecatedIsConcurrentMode = false; // AsyncMode should be deprecated
+
+function isAsyncMode(object) {
+  {
+    if (!hasWarnedAboutDeprecatedIsAsyncMode) {
+      hasWarnedAboutDeprecatedIsAsyncMode = true; // Using console['warn'] to evade Babel and ESLint
+
+      console['warn']('The ReactIs.isAsyncMode() alias has been deprecated, ' + 'and will be removed in React 18+.');
+    }
+  }
+
+  return false;
+}
+function isConcurrentMode(object) {
+  {
+    if (!hasWarnedAboutDeprecatedIsConcurrentMode) {
+      hasWarnedAboutDeprecatedIsConcurrentMode = true; // Using console['warn'] to evade Babel and ESLint
+
+      console['warn']('The ReactIs.isConcurrentMode() alias has been deprecated, ' + 'and will be removed in React 18+.');
+    }
+  }
+
+  return false;
+}
+function isContextConsumer(object) {
+  return typeOf(object) === REACT_CONTEXT_TYPE;
+}
+function isContextProvider(object) {
+  return typeOf(object) === REACT_PROVIDER_TYPE;
+}
+function isElement(object) {
+  return typeof object === 'object' && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
+}
+function isForwardRef(object) {
+  return typeOf(object) === REACT_FORWARD_REF_TYPE;
+}
+function isFragment(object) {
+  return typeOf(object) === REACT_FRAGMENT_TYPE;
+}
+function isLazy(object) {
+  return typeOf(object) === REACT_LAZY_TYPE;
+}
+function isMemo(object) {
+  return typeOf(object) === REACT_MEMO_TYPE;
+}
+function isPortal(object) {
+  return typeOf(object) === REACT_PORTAL_TYPE;
+}
+function isProfiler(object) {
+  return typeOf(object) === REACT_PROFILER_TYPE;
+}
+function isStrictMode(object) {
+  return typeOf(object) === REACT_STRICT_MODE_TYPE;
+}
+function isSuspense(object) {
+  return typeOf(object) === REACT_SUSPENSE_TYPE;
+}
+function isSuspenseList(object) {
+  return typeOf(object) === REACT_SUSPENSE_LIST_TYPE;
+}
+
+exports.ContextConsumer = ContextConsumer;
+exports.ContextProvider = ContextProvider;
+exports.Element = Element;
+exports.ForwardRef = ForwardRef;
+exports.Fragment = Fragment;
+exports.Lazy = Lazy;
+exports.Memo = Memo;
+exports.Portal = Portal;
+exports.Profiler = Profiler;
+exports.StrictMode = StrictMode;
+exports.Suspense = Suspense;
+exports.SuspenseList = SuspenseList;
+exports.isAsyncMode = isAsyncMode;
+exports.isConcurrentMode = isConcurrentMode;
+exports.isContextConsumer = isContextConsumer;
+exports.isContextProvider = isContextProvider;
+exports.isElement = isElement;
+exports.isForwardRef = isForwardRef;
+exports.isFragment = isFragment;
+exports.isLazy = isLazy;
+exports.isMemo = isMemo;
+exports.isPortal = isPortal;
+exports.isProfiler = isProfiler;
+exports.isStrictMode = isStrictMode;
+exports.isSuspense = isSuspense;
+exports.isSuspenseList = isSuspenseList;
+exports.isValidElementType = isValidElementType;
+exports.typeOf = typeOf;
+  })();
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@mui/utils/node_modules/react-is/index.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@mui/utils/node_modules/react-is/index.js ***!
+  \****************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+if (false) {} else {
+  module.exports = __webpack_require__(/*! ./cjs/react-is.development.js */ "./node_modules/@mui/utils/node_modules/react-is/cjs/react-is.development.js");
+}
+
 
 /***/ }),
 
@@ -9338,7 +9552,7 @@ function createUnsortedStateAdapter(selectId) {
         if (didMutateEntities) {
             var didMutateIds = updates.filter(function (update) { return takeNewKey(newKeys, update, state); }).length > 0;
             if (didMutateIds) {
-                state.ids = Object.keys(state.entities);
+                state.ids = state.ids.map(function (id) { return newKeys[id] || id; });
             }
         }
     }
@@ -10240,212 +10454,6 @@ function createListenerMiddleware(middlewareOptions) {
 (0,immer__WEBPACK_IMPORTED_MODULE_2__.enableES5)();
 
 //# sourceMappingURL=redux-toolkit.esm.js.map
-
-/***/ }),
-
-/***/ "./src/matches/matchesView.js":
-/*!************************************!*\
-  !*** ./src/matches/matchesView.js ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _api_matches_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../api/matches.ts */ "./src/api/matches.ts");
-/* harmony import */ var _widgets_MatchResult_tsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../widgets/MatchResult.tsx */ "./src/widgets/MatchResult.tsx");
-/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-
-
-
-function MatchGumblesList(_ref) {
-  var match = _ref.match;
-  var home_team = match.home_team,
-      away_team = match.away_team,
-      start_time = match.start_time,
-      is_done = match.is_done,
-      betsByValue = match.betsByValue;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("h3", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("table", {
-    style: {
-      marginBottom: 5
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("tr", {
-    className: "flex-row center-items"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
-    className: "around-huge-flag"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    crest_url: home_team.crest_url,
-    name: home_team.name
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
-    style: {
-      padding: 5
-    }
-  }, "-"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
-    className: "around-huge-flag"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    crest_url: away_team.crest_url,
-    name: away_team.name
-  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
-    style: {
-      fontSize: '75%'
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
-    style: {
-      marginBottom: 5
-    }
-  }, moment__WEBPACK_IMPORTED_MODULE_0___default()(start_time).format('HH:mm  YYYY/MM/DD')), is_done && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
-    className: "flex-row center-items",
-    style: {
-      marginBottom: 5
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("span", {
-    className: "label label-success",
-    style: {
-      marginLeft: 5,
-      fontSize: 12
-    }
-  }, "\u05D4\u05E1\u05EA\u05D9\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("span", null, match.result_home, " - ", match.result_away, " ")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
-    style: {
-      padding: 20
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("table", {
-    className: "table"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("tr", null, is_done && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
-    className: "admin"
-  }, "\u05DE\u05D6\u05D4\u05D4 \u05DE\u05D5\u05DB\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("th", {
-    className: "col-xs-3"
-  }, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("th", {
-    className: "col-xs-6"
-  }, "\u05DE\u05D4\u05DE\u05E8\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("th", {
-    className: "col-xs-3"
-  }, "\u05E0\u05D9\u05E7\u05D5\u05D3")), !is_done && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
-    className: "admin"
-  }, "\u05DE\u05D6\u05D4\u05D4 \u05DE\u05D5\u05DB\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("th", {
-    className: "col-xs-6"
-  }, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("th", {
-    className: "col-xs-6"
-  }, "\u05DE\u05D4\u05DE\u05E8\u05D9\u05DD")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("tbody", null, Object.entries(betsByValue).sort(function (_ref2, _ref3) {
-    var _ref4 = _slicedToArray(_ref2, 2),
-        betVal1 = _ref4[0],
-        bets1 = _ref4[1];
-
-    var _ref5 = _slicedToArray(_ref3, 2),
-        betVal2 = _ref5[0],
-        bets2 = _ref5[1];
-
-    var score1 = bets1[0].score;
-    var score2 = bets2[0].score;
-    return score2 - score1;
-  }).map(function (_ref6) {
-    var _ref7 = _slicedToArray(_ref6, 2),
-        betVal = _ref7[0],
-        bets = _ref7[1];
-
-    var betSample = bets[0];
-    var winner_side = betSample.winner_side,
-        result_home = betSample.result_home,
-        result_away = betSample.result_away;
-    var gumblers = bets.map(function (bet) {
-      return bet.utlName;
-    });
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("tr", {
-      key: betVal
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", {
-      className: "admin"
-    }, "match-id: ", match.id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_MatchResult_tsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      matchData: {
-        winner_side: winner_side,
-        result_home: result_home,
-        result_away: result_away
-      },
-      winner_class: 'bolded'
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", null, gumblers.map(function (name) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
-        key: name
-      }, name);
-    })), is_done && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", null, betSample.score));
-  })))));
-}
-
-var MatchesView = function MatchesView(_ref8) {
-  var done_matches = _ref8.done_matches,
-      live_matches = _ref8.live_matches;
-  var hasLiveMatches = live_matches.length > 0;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("h1", null, "\u05E8\u05E9\u05D9\u05DE\u05EA \u05DE\u05E9\u05D7\u05E7\u05D9\u05DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
-    className: "float-right"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("ul", {
-    className: "nav nav-tabs float-right",
-    style: {
-      paddingRight: 0
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("li", {
-    className: "float-right active"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("a", {
-    "data-toggle": "tab",
-    href: "#ongoing-games"
-  }, "\u05DE\u05E9\u05D7\u05E7\u05D9\u05DD \u05E0\u05D5\u05DB\u05D7\u05D9\u05D9\u05DD")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("li", {
-    className: "float-right"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("a", {
-    "data-toggle": "tab",
-    href: "#done-games"
-  }, "\u05DE\u05E9\u05D7\u05E7\u05D9\u05DD \u05E9\u05E0\u05D2\u05DE\u05E8\u05D5")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
-    className: "tab-content",
-    style: {
-      marginTop: 25
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
-    id: "ongoing-games",
-    className: "tab-pane fade active in",
-    style: {
-      paddingTop: 35
-    }
-  }, hasLiveMatches && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("button", {
-    className: "btn btn-primary",
-    onClick: _api_matches_ts__WEBPACK_IMPORTED_MODULE_2__.updateScoresFromApi,
-    style: {
-      marginRight: 10,
-      marginTop: 15
-    }
-  }, "\u05E2\u05D3\u05DB\u05DF \u05EA\u05D5\u05E6\u05D0\u05D5\u05EA"), live_matches.map(function (match) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(MatchGumblesList, {
-      key: match.id,
-      match: match
-    });
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
-    id: "done-games",
-    className: "tab-pane fade",
-    style: {
-      paddingTop: 35
-    }
-  }, done_matches.map(function (match) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(MatchGumblesList, {
-      key: match.id,
-      match: match
-    });
-  }))));
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MatchesView);
 
 /***/ }),
 
@@ -12106,7 +12114,7 @@ function createMemoryHistory(props) {
 "use strict";
 
 
-var reactIs = __webpack_require__(/*! react-is */ "./node_modules/hoist-non-react-statics/node_modules/react-is/index.js");
+var reactIs = __webpack_require__(/*! react-is */ "./node_modules/react-is/index.js");
 
 /**
  * Copyright 2015, Yahoo! Inc.
@@ -12207,227 +12215,6 @@ function hoistNonReactStatics(targetComponent, sourceComponent, blacklist) {
 }
 
 module.exports = hoistNonReactStatics;
-
-
-/***/ }),
-
-/***/ "./node_modules/hoist-non-react-statics/node_modules/react-is/cjs/react-is.development.js":
-/*!************************************************************************************************!*\
-  !*** ./node_modules/hoist-non-react-statics/node_modules/react-is/cjs/react-is.development.js ***!
-  \************************************************************************************************/
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-/** @license React v16.13.1
- * react-is.development.js
- *
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-
-
-
-
-if (true) {
-  (function() {
-'use strict';
-
-// The Symbol used to tag the ReactElement-like types. If there is no native Symbol
-// nor polyfill, then a plain number is used for performance.
-var hasSymbol = typeof Symbol === 'function' && Symbol.for;
-var REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for('react.element') : 0xeac7;
-var REACT_PORTAL_TYPE = hasSymbol ? Symbol.for('react.portal') : 0xeaca;
-var REACT_FRAGMENT_TYPE = hasSymbol ? Symbol.for('react.fragment') : 0xeacb;
-var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for('react.strict_mode') : 0xeacc;
-var REACT_PROFILER_TYPE = hasSymbol ? Symbol.for('react.profiler') : 0xead2;
-var REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for('react.provider') : 0xeacd;
-var REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for('react.context') : 0xeace; // TODO: We don't use AsyncMode or ConcurrentMode anymore. They were temporary
-// (unstable) APIs that have been removed. Can we remove the symbols?
-
-var REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol.for('react.async_mode') : 0xeacf;
-var REACT_CONCURRENT_MODE_TYPE = hasSymbol ? Symbol.for('react.concurrent_mode') : 0xeacf;
-var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for('react.forward_ref') : 0xead0;
-var REACT_SUSPENSE_TYPE = hasSymbol ? Symbol.for('react.suspense') : 0xead1;
-var REACT_SUSPENSE_LIST_TYPE = hasSymbol ? Symbol.for('react.suspense_list') : 0xead8;
-var REACT_MEMO_TYPE = hasSymbol ? Symbol.for('react.memo') : 0xead3;
-var REACT_LAZY_TYPE = hasSymbol ? Symbol.for('react.lazy') : 0xead4;
-var REACT_BLOCK_TYPE = hasSymbol ? Symbol.for('react.block') : 0xead9;
-var REACT_FUNDAMENTAL_TYPE = hasSymbol ? Symbol.for('react.fundamental') : 0xead5;
-var REACT_RESPONDER_TYPE = hasSymbol ? Symbol.for('react.responder') : 0xead6;
-var REACT_SCOPE_TYPE = hasSymbol ? Symbol.for('react.scope') : 0xead7;
-
-function isValidElementType(type) {
-  return typeof type === 'string' || typeof type === 'function' || // Note: its typeof might be other than 'symbol' or 'number' if it's a polyfill.
-  type === REACT_FRAGMENT_TYPE || type === REACT_CONCURRENT_MODE_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || typeof type === 'object' && type !== null && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || type.$$typeof === REACT_FUNDAMENTAL_TYPE || type.$$typeof === REACT_RESPONDER_TYPE || type.$$typeof === REACT_SCOPE_TYPE || type.$$typeof === REACT_BLOCK_TYPE);
-}
-
-function typeOf(object) {
-  if (typeof object === 'object' && object !== null) {
-    var $$typeof = object.$$typeof;
-
-    switch ($$typeof) {
-      case REACT_ELEMENT_TYPE:
-        var type = object.type;
-
-        switch (type) {
-          case REACT_ASYNC_MODE_TYPE:
-          case REACT_CONCURRENT_MODE_TYPE:
-          case REACT_FRAGMENT_TYPE:
-          case REACT_PROFILER_TYPE:
-          case REACT_STRICT_MODE_TYPE:
-          case REACT_SUSPENSE_TYPE:
-            return type;
-
-          default:
-            var $$typeofType = type && type.$$typeof;
-
-            switch ($$typeofType) {
-              case REACT_CONTEXT_TYPE:
-              case REACT_FORWARD_REF_TYPE:
-              case REACT_LAZY_TYPE:
-              case REACT_MEMO_TYPE:
-              case REACT_PROVIDER_TYPE:
-                return $$typeofType;
-
-              default:
-                return $$typeof;
-            }
-
-        }
-
-      case REACT_PORTAL_TYPE:
-        return $$typeof;
-    }
-  }
-
-  return undefined;
-} // AsyncMode is deprecated along with isAsyncMode
-
-var AsyncMode = REACT_ASYNC_MODE_TYPE;
-var ConcurrentMode = REACT_CONCURRENT_MODE_TYPE;
-var ContextConsumer = REACT_CONTEXT_TYPE;
-var ContextProvider = REACT_PROVIDER_TYPE;
-var Element = REACT_ELEMENT_TYPE;
-var ForwardRef = REACT_FORWARD_REF_TYPE;
-var Fragment = REACT_FRAGMENT_TYPE;
-var Lazy = REACT_LAZY_TYPE;
-var Memo = REACT_MEMO_TYPE;
-var Portal = REACT_PORTAL_TYPE;
-var Profiler = REACT_PROFILER_TYPE;
-var StrictMode = REACT_STRICT_MODE_TYPE;
-var Suspense = REACT_SUSPENSE_TYPE;
-var hasWarnedAboutDeprecatedIsAsyncMode = false; // AsyncMode should be deprecated
-
-function isAsyncMode(object) {
-  {
-    if (!hasWarnedAboutDeprecatedIsAsyncMode) {
-      hasWarnedAboutDeprecatedIsAsyncMode = true; // Using console['warn'] to evade Babel and ESLint
-
-      console['warn']('The ReactIs.isAsyncMode() alias has been deprecated, ' + 'and will be removed in React 17+. Update your code to use ' + 'ReactIs.isConcurrentMode() instead. It has the exact same API.');
-    }
-  }
-
-  return isConcurrentMode(object) || typeOf(object) === REACT_ASYNC_MODE_TYPE;
-}
-function isConcurrentMode(object) {
-  return typeOf(object) === REACT_CONCURRENT_MODE_TYPE;
-}
-function isContextConsumer(object) {
-  return typeOf(object) === REACT_CONTEXT_TYPE;
-}
-function isContextProvider(object) {
-  return typeOf(object) === REACT_PROVIDER_TYPE;
-}
-function isElement(object) {
-  return typeof object === 'object' && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
-}
-function isForwardRef(object) {
-  return typeOf(object) === REACT_FORWARD_REF_TYPE;
-}
-function isFragment(object) {
-  return typeOf(object) === REACT_FRAGMENT_TYPE;
-}
-function isLazy(object) {
-  return typeOf(object) === REACT_LAZY_TYPE;
-}
-function isMemo(object) {
-  return typeOf(object) === REACT_MEMO_TYPE;
-}
-function isPortal(object) {
-  return typeOf(object) === REACT_PORTAL_TYPE;
-}
-function isProfiler(object) {
-  return typeOf(object) === REACT_PROFILER_TYPE;
-}
-function isStrictMode(object) {
-  return typeOf(object) === REACT_STRICT_MODE_TYPE;
-}
-function isSuspense(object) {
-  return typeOf(object) === REACT_SUSPENSE_TYPE;
-}
-
-exports.AsyncMode = AsyncMode;
-exports.ConcurrentMode = ConcurrentMode;
-exports.ContextConsumer = ContextConsumer;
-exports.ContextProvider = ContextProvider;
-exports.Element = Element;
-exports.ForwardRef = ForwardRef;
-exports.Fragment = Fragment;
-exports.Lazy = Lazy;
-exports.Memo = Memo;
-exports.Portal = Portal;
-exports.Profiler = Profiler;
-exports.StrictMode = StrictMode;
-exports.Suspense = Suspense;
-exports.isAsyncMode = isAsyncMode;
-exports.isConcurrentMode = isConcurrentMode;
-exports.isContextConsumer = isContextConsumer;
-exports.isContextProvider = isContextProvider;
-exports.isElement = isElement;
-exports.isForwardRef = isForwardRef;
-exports.isFragment = isFragment;
-exports.isLazy = isLazy;
-exports.isMemo = isMemo;
-exports.isPortal = isPortal;
-exports.isProfiler = isProfiler;
-exports.isStrictMode = isStrictMode;
-exports.isSuspense = isSuspense;
-exports.isValidElementType = isValidElementType;
-exports.typeOf = typeOf;
-  })();
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/hoist-non-react-statics/node_modules/react-is/index.js":
-/*!*****************************************************************************!*\
-  !*** ./node_modules/hoist-non-react-statics/node_modules/react-is/index.js ***!
-  \*****************************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-
-
-if (false) {} else {
-  module.exports = __webpack_require__(/*! ./cjs/react-is.development.js */ "./node_modules/hoist-non-react-statics/node_modules/react-is/cjs/react-is.development.js");
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/isarray/index.js":
-/*!***************************************!*\
-  !*** ./node_modules/isarray/index.js ***!
-  \***************************************/
-/***/ ((module) => {
-
-module.exports = Array.isArray || function (arr) {
-  return Object.prototype.toString.call(arr) == '[object Array]';
-};
 
 
 /***/ }),
@@ -51595,442 +51382,6 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 /***/ }),
 
-/***/ "./node_modules/path-to-regexp/index.js":
-/*!**********************************************!*\
-  !*** ./node_modules/path-to-regexp/index.js ***!
-  \**********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var isarray = __webpack_require__(/*! isarray */ "./node_modules/isarray/index.js")
-
-/**
- * Expose `pathToRegexp`.
- */
-module.exports = pathToRegexp
-module.exports.parse = parse
-module.exports.compile = compile
-module.exports.tokensToFunction = tokensToFunction
-module.exports.tokensToRegExp = tokensToRegExp
-
-/**
- * The main path matching regexp utility.
- *
- * @type {RegExp}
- */
-var PATH_REGEXP = new RegExp([
-  // Match escaped characters that would otherwise appear in future matches.
-  // This allows the user to escape special characters that won't transform.
-  '(\\\\.)',
-  // Match Express-style parameters and un-named parameters with a prefix
-  // and optional suffixes. Matches appear as:
-  //
-  // "/:test(\\d+)?" => ["/", "test", "\d+", undefined, "?", undefined]
-  // "/route(\\d+)"  => [undefined, undefined, undefined, "\d+", undefined, undefined]
-  // "/*"            => ["/", undefined, undefined, undefined, undefined, "*"]
-  '([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^\\\\()])+)\\))?|\\(((?:\\\\.|[^\\\\()])+)\\))([+*?])?|(\\*))'
-].join('|'), 'g')
-
-/**
- * Parse a string for the raw tokens.
- *
- * @param  {string}  str
- * @param  {Object=} options
- * @return {!Array}
- */
-function parse (str, options) {
-  var tokens = []
-  var key = 0
-  var index = 0
-  var path = ''
-  var defaultDelimiter = options && options.delimiter || '/'
-  var res
-
-  while ((res = PATH_REGEXP.exec(str)) != null) {
-    var m = res[0]
-    var escaped = res[1]
-    var offset = res.index
-    path += str.slice(index, offset)
-    index = offset + m.length
-
-    // Ignore already escaped sequences.
-    if (escaped) {
-      path += escaped[1]
-      continue
-    }
-
-    var next = str[index]
-    var prefix = res[2]
-    var name = res[3]
-    var capture = res[4]
-    var group = res[5]
-    var modifier = res[6]
-    var asterisk = res[7]
-
-    // Push the current path onto the tokens.
-    if (path) {
-      tokens.push(path)
-      path = ''
-    }
-
-    var partial = prefix != null && next != null && next !== prefix
-    var repeat = modifier === '+' || modifier === '*'
-    var optional = modifier === '?' || modifier === '*'
-    var delimiter = res[2] || defaultDelimiter
-    var pattern = capture || group
-
-    tokens.push({
-      name: name || key++,
-      prefix: prefix || '',
-      delimiter: delimiter,
-      optional: optional,
-      repeat: repeat,
-      partial: partial,
-      asterisk: !!asterisk,
-      pattern: pattern ? escapeGroup(pattern) : (asterisk ? '.*' : '[^' + escapeString(delimiter) + ']+?')
-    })
-  }
-
-  // Match any characters still remaining.
-  if (index < str.length) {
-    path += str.substr(index)
-  }
-
-  // If the path exists, push it onto the end.
-  if (path) {
-    tokens.push(path)
-  }
-
-  return tokens
-}
-
-/**
- * Compile a string to a template function for the path.
- *
- * @param  {string}             str
- * @param  {Object=}            options
- * @return {!function(Object=, Object=)}
- */
-function compile (str, options) {
-  return tokensToFunction(parse(str, options), options)
-}
-
-/**
- * Prettier encoding of URI path segments.
- *
- * @param  {string}
- * @return {string}
- */
-function encodeURIComponentPretty (str) {
-  return encodeURI(str).replace(/[\/?#]/g, function (c) {
-    return '%' + c.charCodeAt(0).toString(16).toUpperCase()
-  })
-}
-
-/**
- * Encode the asterisk parameter. Similar to `pretty`, but allows slashes.
- *
- * @param  {string}
- * @return {string}
- */
-function encodeAsterisk (str) {
-  return encodeURI(str).replace(/[?#]/g, function (c) {
-    return '%' + c.charCodeAt(0).toString(16).toUpperCase()
-  })
-}
-
-/**
- * Expose a method for transforming tokens into the path function.
- */
-function tokensToFunction (tokens, options) {
-  // Compile all the tokens into regexps.
-  var matches = new Array(tokens.length)
-
-  // Compile all the patterns before compilation.
-  for (var i = 0; i < tokens.length; i++) {
-    if (typeof tokens[i] === 'object') {
-      matches[i] = new RegExp('^(?:' + tokens[i].pattern + ')$', flags(options))
-    }
-  }
-
-  return function (obj, opts) {
-    var path = ''
-    var data = obj || {}
-    var options = opts || {}
-    var encode = options.pretty ? encodeURIComponentPretty : encodeURIComponent
-
-    for (var i = 0; i < tokens.length; i++) {
-      var token = tokens[i]
-
-      if (typeof token === 'string') {
-        path += token
-
-        continue
-      }
-
-      var value = data[token.name]
-      var segment
-
-      if (value == null) {
-        if (token.optional) {
-          // Prepend partial segment prefixes.
-          if (token.partial) {
-            path += token.prefix
-          }
-
-          continue
-        } else {
-          throw new TypeError('Expected "' + token.name + '" to be defined')
-        }
-      }
-
-      if (isarray(value)) {
-        if (!token.repeat) {
-          throw new TypeError('Expected "' + token.name + '" to not repeat, but received `' + JSON.stringify(value) + '`')
-        }
-
-        if (value.length === 0) {
-          if (token.optional) {
-            continue
-          } else {
-            throw new TypeError('Expected "' + token.name + '" to not be empty')
-          }
-        }
-
-        for (var j = 0; j < value.length; j++) {
-          segment = encode(value[j])
-
-          if (!matches[i].test(segment)) {
-            throw new TypeError('Expected all "' + token.name + '" to match "' + token.pattern + '", but received `' + JSON.stringify(segment) + '`')
-          }
-
-          path += (j === 0 ? token.prefix : token.delimiter) + segment
-        }
-
-        continue
-      }
-
-      segment = token.asterisk ? encodeAsterisk(value) : encode(value)
-
-      if (!matches[i].test(segment)) {
-        throw new TypeError('Expected "' + token.name + '" to match "' + token.pattern + '", but received "' + segment + '"')
-      }
-
-      path += token.prefix + segment
-    }
-
-    return path
-  }
-}
-
-/**
- * Escape a regular expression string.
- *
- * @param  {string} str
- * @return {string}
- */
-function escapeString (str) {
-  return str.replace(/([.+*?=^!:${}()[\]|\/\\])/g, '\\$1')
-}
-
-/**
- * Escape the capturing group by escaping special characters and meaning.
- *
- * @param  {string} group
- * @return {string}
- */
-function escapeGroup (group) {
-  return group.replace(/([=!:$\/()])/g, '\\$1')
-}
-
-/**
- * Attach the keys as a property of the regexp.
- *
- * @param  {!RegExp} re
- * @param  {Array}   keys
- * @return {!RegExp}
- */
-function attachKeys (re, keys) {
-  re.keys = keys
-  return re
-}
-
-/**
- * Get the flags for a regexp from the options.
- *
- * @param  {Object} options
- * @return {string}
- */
-function flags (options) {
-  return options && options.sensitive ? '' : 'i'
-}
-
-/**
- * Pull out keys from a regexp.
- *
- * @param  {!RegExp} path
- * @param  {!Array}  keys
- * @return {!RegExp}
- */
-function regexpToRegexp (path, keys) {
-  // Use a negative lookahead to match only capturing groups.
-  var groups = path.source.match(/\((?!\?)/g)
-
-  if (groups) {
-    for (var i = 0; i < groups.length; i++) {
-      keys.push({
-        name: i,
-        prefix: null,
-        delimiter: null,
-        optional: false,
-        repeat: false,
-        partial: false,
-        asterisk: false,
-        pattern: null
-      })
-    }
-  }
-
-  return attachKeys(path, keys)
-}
-
-/**
- * Transform an array into a regexp.
- *
- * @param  {!Array}  path
- * @param  {Array}   keys
- * @param  {!Object} options
- * @return {!RegExp}
- */
-function arrayToRegexp (path, keys, options) {
-  var parts = []
-
-  for (var i = 0; i < path.length; i++) {
-    parts.push(pathToRegexp(path[i], keys, options).source)
-  }
-
-  var regexp = new RegExp('(?:' + parts.join('|') + ')', flags(options))
-
-  return attachKeys(regexp, keys)
-}
-
-/**
- * Create a path regexp from string input.
- *
- * @param  {string}  path
- * @param  {!Array}  keys
- * @param  {!Object} options
- * @return {!RegExp}
- */
-function stringToRegexp (path, keys, options) {
-  return tokensToRegExp(parse(path, options), keys, options)
-}
-
-/**
- * Expose a function for taking tokens and returning a RegExp.
- *
- * @param  {!Array}          tokens
- * @param  {(Array|Object)=} keys
- * @param  {Object=}         options
- * @return {!RegExp}
- */
-function tokensToRegExp (tokens, keys, options) {
-  if (!isarray(keys)) {
-    options = /** @type {!Object} */ (keys || options)
-    keys = []
-  }
-
-  options = options || {}
-
-  var strict = options.strict
-  var end = options.end !== false
-  var route = ''
-
-  // Iterate over the tokens and create our regexp string.
-  for (var i = 0; i < tokens.length; i++) {
-    var token = tokens[i]
-
-    if (typeof token === 'string') {
-      route += escapeString(token)
-    } else {
-      var prefix = escapeString(token.prefix)
-      var capture = '(?:' + token.pattern + ')'
-
-      keys.push(token)
-
-      if (token.repeat) {
-        capture += '(?:' + prefix + capture + ')*'
-      }
-
-      if (token.optional) {
-        if (!token.partial) {
-          capture = '(?:' + prefix + '(' + capture + '))?'
-        } else {
-          capture = prefix + '(' + capture + ')?'
-        }
-      } else {
-        capture = prefix + '(' + capture + ')'
-      }
-
-      route += capture
-    }
-  }
-
-  var delimiter = escapeString(options.delimiter || '/')
-  var endsWithDelimiter = route.slice(-delimiter.length) === delimiter
-
-  // In non-strict mode we allow a slash at the end of match. If the path to
-  // match already ends with a slash, we remove it for consistency. The slash
-  // is valid at the end of a path match, not in the middle. This is important
-  // in non-ending mode, where "/test/" shouldn't match "/test//route".
-  if (!strict) {
-    route = (endsWithDelimiter ? route.slice(0, -delimiter.length) : route) + '(?:' + delimiter + '(?=$))?'
-  }
-
-  if (end) {
-    route += '$'
-  } else {
-    // In non-ending mode, we need the capturing groups to match as much as
-    // possible by using a positive lookahead to the end or next path segment.
-    route += strict && endsWithDelimiter ? '' : '(?=' + delimiter + '|$)'
-  }
-
-  return attachKeys(new RegExp('^' + route, flags(options)), keys)
-}
-
-/**
- * Normalize the given path string, returning a regular expression.
- *
- * An empty array can be passed in for the keys, which will hold the
- * placeholder key descriptions. For example, using `/user/:id`, `keys` will
- * contain `[{ name: 'id', delimiter: '/', optional: false, repeat: false }]`.
- *
- * @param  {(string|RegExp|Array)} path
- * @param  {(Array|Object)=}       keys
- * @param  {Object=}               options
- * @return {!RegExp}
- */
-function pathToRegexp (path, keys, options) {
-  if (!isarray(keys)) {
-    options = /** @type {!Object} */ (keys || options)
-    keys = []
-  }
-
-  options = options || {}
-
-  if (path instanceof RegExp) {
-    return regexpToRegexp(path, /** @type {!Array} */ (keys))
-  }
-
-  if (isarray(path)) {
-    return arrayToRegexp(/** @type {!Array} */ (path), /** @type {!Array} */ (keys), options)
-  }
-
-  return stringToRegexp(/** @type {string} */ (path), /** @type {!Array} */ (keys), options)
-}
-
-
-/***/ }),
-
 /***/ "./node_modules/prop-types/checkPropTypes.js":
 /*!***************************************************!*\
   !*** ./node_modules/prop-types/checkPropTypes.js ***!
@@ -52161,7 +51512,7 @@ module.exports = checkPropTypes;
 
 
 
-var ReactIs = __webpack_require__(/*! react-is */ "./node_modules/prop-types/node_modules/react-is/index.js");
+var ReactIs = __webpack_require__(/*! react-is */ "./node_modules/react-is/index.js");
 var assign = __webpack_require__(/*! object-assign */ "./node_modules/object-assign/index.js");
 
 var ReactPropTypesSecret = __webpack_require__(/*! ./lib/ReactPropTypesSecret */ "./node_modules/prop-types/lib/ReactPropTypesSecret.js");
@@ -52780,7 +52131,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
  */
 
 if (true) {
-  var ReactIs = __webpack_require__(/*! react-is */ "./node_modules/prop-types/node_modules/react-is/index.js");
+  var ReactIs = __webpack_require__(/*! react-is */ "./node_modules/react-is/index.js");
 
   // By explicitly using `prop-types` you are opting into new development behavior.
   // http://fb.me/prop-types-in-prod
@@ -52821,214 +52172,6 @@ module.exports = ReactPropTypesSecret;
 /***/ ((module) => {
 
 module.exports = Function.call.bind(Object.prototype.hasOwnProperty);
-
-
-/***/ }),
-
-/***/ "./node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js":
-/*!***********************************************************************************!*\
-  !*** ./node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js ***!
-  \***********************************************************************************/
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-/** @license React v16.13.1
- * react-is.development.js
- *
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-
-
-
-
-if (true) {
-  (function() {
-'use strict';
-
-// The Symbol used to tag the ReactElement-like types. If there is no native Symbol
-// nor polyfill, then a plain number is used for performance.
-var hasSymbol = typeof Symbol === 'function' && Symbol.for;
-var REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for('react.element') : 0xeac7;
-var REACT_PORTAL_TYPE = hasSymbol ? Symbol.for('react.portal') : 0xeaca;
-var REACT_FRAGMENT_TYPE = hasSymbol ? Symbol.for('react.fragment') : 0xeacb;
-var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for('react.strict_mode') : 0xeacc;
-var REACT_PROFILER_TYPE = hasSymbol ? Symbol.for('react.profiler') : 0xead2;
-var REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for('react.provider') : 0xeacd;
-var REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for('react.context') : 0xeace; // TODO: We don't use AsyncMode or ConcurrentMode anymore. They were temporary
-// (unstable) APIs that have been removed. Can we remove the symbols?
-
-var REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol.for('react.async_mode') : 0xeacf;
-var REACT_CONCURRENT_MODE_TYPE = hasSymbol ? Symbol.for('react.concurrent_mode') : 0xeacf;
-var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for('react.forward_ref') : 0xead0;
-var REACT_SUSPENSE_TYPE = hasSymbol ? Symbol.for('react.suspense') : 0xead1;
-var REACT_SUSPENSE_LIST_TYPE = hasSymbol ? Symbol.for('react.suspense_list') : 0xead8;
-var REACT_MEMO_TYPE = hasSymbol ? Symbol.for('react.memo') : 0xead3;
-var REACT_LAZY_TYPE = hasSymbol ? Symbol.for('react.lazy') : 0xead4;
-var REACT_BLOCK_TYPE = hasSymbol ? Symbol.for('react.block') : 0xead9;
-var REACT_FUNDAMENTAL_TYPE = hasSymbol ? Symbol.for('react.fundamental') : 0xead5;
-var REACT_RESPONDER_TYPE = hasSymbol ? Symbol.for('react.responder') : 0xead6;
-var REACT_SCOPE_TYPE = hasSymbol ? Symbol.for('react.scope') : 0xead7;
-
-function isValidElementType(type) {
-  return typeof type === 'string' || typeof type === 'function' || // Note: its typeof might be other than 'symbol' or 'number' if it's a polyfill.
-  type === REACT_FRAGMENT_TYPE || type === REACT_CONCURRENT_MODE_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || typeof type === 'object' && type !== null && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || type.$$typeof === REACT_FUNDAMENTAL_TYPE || type.$$typeof === REACT_RESPONDER_TYPE || type.$$typeof === REACT_SCOPE_TYPE || type.$$typeof === REACT_BLOCK_TYPE);
-}
-
-function typeOf(object) {
-  if (typeof object === 'object' && object !== null) {
-    var $$typeof = object.$$typeof;
-
-    switch ($$typeof) {
-      case REACT_ELEMENT_TYPE:
-        var type = object.type;
-
-        switch (type) {
-          case REACT_ASYNC_MODE_TYPE:
-          case REACT_CONCURRENT_MODE_TYPE:
-          case REACT_FRAGMENT_TYPE:
-          case REACT_PROFILER_TYPE:
-          case REACT_STRICT_MODE_TYPE:
-          case REACT_SUSPENSE_TYPE:
-            return type;
-
-          default:
-            var $$typeofType = type && type.$$typeof;
-
-            switch ($$typeofType) {
-              case REACT_CONTEXT_TYPE:
-              case REACT_FORWARD_REF_TYPE:
-              case REACT_LAZY_TYPE:
-              case REACT_MEMO_TYPE:
-              case REACT_PROVIDER_TYPE:
-                return $$typeofType;
-
-              default:
-                return $$typeof;
-            }
-
-        }
-
-      case REACT_PORTAL_TYPE:
-        return $$typeof;
-    }
-  }
-
-  return undefined;
-} // AsyncMode is deprecated along with isAsyncMode
-
-var AsyncMode = REACT_ASYNC_MODE_TYPE;
-var ConcurrentMode = REACT_CONCURRENT_MODE_TYPE;
-var ContextConsumer = REACT_CONTEXT_TYPE;
-var ContextProvider = REACT_PROVIDER_TYPE;
-var Element = REACT_ELEMENT_TYPE;
-var ForwardRef = REACT_FORWARD_REF_TYPE;
-var Fragment = REACT_FRAGMENT_TYPE;
-var Lazy = REACT_LAZY_TYPE;
-var Memo = REACT_MEMO_TYPE;
-var Portal = REACT_PORTAL_TYPE;
-var Profiler = REACT_PROFILER_TYPE;
-var StrictMode = REACT_STRICT_MODE_TYPE;
-var Suspense = REACT_SUSPENSE_TYPE;
-var hasWarnedAboutDeprecatedIsAsyncMode = false; // AsyncMode should be deprecated
-
-function isAsyncMode(object) {
-  {
-    if (!hasWarnedAboutDeprecatedIsAsyncMode) {
-      hasWarnedAboutDeprecatedIsAsyncMode = true; // Using console['warn'] to evade Babel and ESLint
-
-      console['warn']('The ReactIs.isAsyncMode() alias has been deprecated, ' + 'and will be removed in React 17+. Update your code to use ' + 'ReactIs.isConcurrentMode() instead. It has the exact same API.');
-    }
-  }
-
-  return isConcurrentMode(object) || typeOf(object) === REACT_ASYNC_MODE_TYPE;
-}
-function isConcurrentMode(object) {
-  return typeOf(object) === REACT_CONCURRENT_MODE_TYPE;
-}
-function isContextConsumer(object) {
-  return typeOf(object) === REACT_CONTEXT_TYPE;
-}
-function isContextProvider(object) {
-  return typeOf(object) === REACT_PROVIDER_TYPE;
-}
-function isElement(object) {
-  return typeof object === 'object' && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
-}
-function isForwardRef(object) {
-  return typeOf(object) === REACT_FORWARD_REF_TYPE;
-}
-function isFragment(object) {
-  return typeOf(object) === REACT_FRAGMENT_TYPE;
-}
-function isLazy(object) {
-  return typeOf(object) === REACT_LAZY_TYPE;
-}
-function isMemo(object) {
-  return typeOf(object) === REACT_MEMO_TYPE;
-}
-function isPortal(object) {
-  return typeOf(object) === REACT_PORTAL_TYPE;
-}
-function isProfiler(object) {
-  return typeOf(object) === REACT_PROFILER_TYPE;
-}
-function isStrictMode(object) {
-  return typeOf(object) === REACT_STRICT_MODE_TYPE;
-}
-function isSuspense(object) {
-  return typeOf(object) === REACT_SUSPENSE_TYPE;
-}
-
-exports.AsyncMode = AsyncMode;
-exports.ConcurrentMode = ConcurrentMode;
-exports.ContextConsumer = ContextConsumer;
-exports.ContextProvider = ContextProvider;
-exports.Element = Element;
-exports.ForwardRef = ForwardRef;
-exports.Fragment = Fragment;
-exports.Lazy = Lazy;
-exports.Memo = Memo;
-exports.Portal = Portal;
-exports.Profiler = Profiler;
-exports.StrictMode = StrictMode;
-exports.Suspense = Suspense;
-exports.isAsyncMode = isAsyncMode;
-exports.isConcurrentMode = isConcurrentMode;
-exports.isContextConsumer = isContextConsumer;
-exports.isContextProvider = isContextProvider;
-exports.isElement = isElement;
-exports.isForwardRef = isForwardRef;
-exports.isFragment = isFragment;
-exports.isLazy = isLazy;
-exports.isMemo = isMemo;
-exports.isPortal = isPortal;
-exports.isProfiler = isProfiler;
-exports.isStrictMode = isStrictMode;
-exports.isSuspense = isSuspense;
-exports.isValidElementType = isValidElementType;
-exports.typeOf = typeOf;
-  })();
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/prop-types/node_modules/react-is/index.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/prop-types/node_modules/react-is/index.js ***!
-  \****************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-
-
-if (false) {} else {
-  module.exports = __webpack_require__(/*! ./cjs/react-is.development.js */ "./node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js");
-}
 
 
 /***/ }),
@@ -89950,8 +89093,7 @@ if (false) {} else {
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
-/**
- * @license React
+/** @license React v16.13.1
  * react-is.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -89962,68 +89104,39 @@ if (false) {} else {
 
 
 
+
+
 if (true) {
   (function() {
 'use strict';
 
-// ATTENTION
-// When adding new symbols to this file,
-// Please consider also adding to 'react-devtools-shared/src/backend/ReactSymbols'
-// The Symbol used to tag the ReactElement-like types.
-var REACT_ELEMENT_TYPE = Symbol.for('react.element');
-var REACT_PORTAL_TYPE = Symbol.for('react.portal');
-var REACT_FRAGMENT_TYPE = Symbol.for('react.fragment');
-var REACT_STRICT_MODE_TYPE = Symbol.for('react.strict_mode');
-var REACT_PROFILER_TYPE = Symbol.for('react.profiler');
-var REACT_PROVIDER_TYPE = Symbol.for('react.provider');
-var REACT_CONTEXT_TYPE = Symbol.for('react.context');
-var REACT_SERVER_CONTEXT_TYPE = Symbol.for('react.server_context');
-var REACT_FORWARD_REF_TYPE = Symbol.for('react.forward_ref');
-var REACT_SUSPENSE_TYPE = Symbol.for('react.suspense');
-var REACT_SUSPENSE_LIST_TYPE = Symbol.for('react.suspense_list');
-var REACT_MEMO_TYPE = Symbol.for('react.memo');
-var REACT_LAZY_TYPE = Symbol.for('react.lazy');
-var REACT_OFFSCREEN_TYPE = Symbol.for('react.offscreen');
+// The Symbol used to tag the ReactElement-like types. If there is no native Symbol
+// nor polyfill, then a plain number is used for performance.
+var hasSymbol = typeof Symbol === 'function' && Symbol.for;
+var REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for('react.element') : 0xeac7;
+var REACT_PORTAL_TYPE = hasSymbol ? Symbol.for('react.portal') : 0xeaca;
+var REACT_FRAGMENT_TYPE = hasSymbol ? Symbol.for('react.fragment') : 0xeacb;
+var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for('react.strict_mode') : 0xeacc;
+var REACT_PROFILER_TYPE = hasSymbol ? Symbol.for('react.profiler') : 0xead2;
+var REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for('react.provider') : 0xeacd;
+var REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for('react.context') : 0xeace; // TODO: We don't use AsyncMode or ConcurrentMode anymore. They were temporary
+// (unstable) APIs that have been removed. Can we remove the symbols?
 
-// -----------------------------------------------------------------------------
-
-var enableScopeAPI = false; // Experimental Create Event Handle API.
-var enableCacheElement = false;
-var enableTransitionTracing = false; // No known bugs, but needs performance testing
-
-var enableLegacyHidden = false; // Enables unstable_avoidThisFallback feature in Fiber
-// stuff. Intended to enable React core members to more easily debug scheduling
-// issues in DEV builds.
-
-var enableDebugTracing = false; // Track which Fiber(s) schedule render work.
-
-var REACT_MODULE_REFERENCE;
-
-{
-  REACT_MODULE_REFERENCE = Symbol.for('react.module.reference');
-}
+var REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol.for('react.async_mode') : 0xeacf;
+var REACT_CONCURRENT_MODE_TYPE = hasSymbol ? Symbol.for('react.concurrent_mode') : 0xeacf;
+var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for('react.forward_ref') : 0xead0;
+var REACT_SUSPENSE_TYPE = hasSymbol ? Symbol.for('react.suspense') : 0xead1;
+var REACT_SUSPENSE_LIST_TYPE = hasSymbol ? Symbol.for('react.suspense_list') : 0xead8;
+var REACT_MEMO_TYPE = hasSymbol ? Symbol.for('react.memo') : 0xead3;
+var REACT_LAZY_TYPE = hasSymbol ? Symbol.for('react.lazy') : 0xead4;
+var REACT_BLOCK_TYPE = hasSymbol ? Symbol.for('react.block') : 0xead9;
+var REACT_FUNDAMENTAL_TYPE = hasSymbol ? Symbol.for('react.fundamental') : 0xead5;
+var REACT_RESPONDER_TYPE = hasSymbol ? Symbol.for('react.responder') : 0xead6;
+var REACT_SCOPE_TYPE = hasSymbol ? Symbol.for('react.scope') : 0xead7;
 
 function isValidElementType(type) {
-  if (typeof type === 'string' || typeof type === 'function') {
-    return true;
-  } // Note: typeof might be other than 'symbol' or 'number' (e.g. if it's a polyfill).
-
-
-  if (type === REACT_FRAGMENT_TYPE || type === REACT_PROFILER_TYPE || enableDebugTracing  || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || enableLegacyHidden  || type === REACT_OFFSCREEN_TYPE || enableScopeAPI  || enableCacheElement  || enableTransitionTracing ) {
-    return true;
-  }
-
-  if (typeof type === 'object' && type !== null) {
-    if (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || // This needs to include all possible module reference object
-    // types supported by any Flight configuration anywhere since
-    // we don't know which Flight build this will end up being used
-    // with.
-    type.$$typeof === REACT_MODULE_REFERENCE || type.getModuleId !== undefined) {
-      return true;
-    }
-  }
-
-  return false;
+  return typeof type === 'string' || typeof type === 'function' || // Note: its typeof might be other than 'symbol' or 'number' if it's a polyfill.
+  type === REACT_FRAGMENT_TYPE || type === REACT_CONCURRENT_MODE_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || typeof type === 'object' && type !== null && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || type.$$typeof === REACT_FUNDAMENTAL_TYPE || type.$$typeof === REACT_RESPONDER_TYPE || type.$$typeof === REACT_SCOPE_TYPE || type.$$typeof === REACT_BLOCK_TYPE);
 }
 
 function typeOf(object) {
@@ -90035,18 +89148,18 @@ function typeOf(object) {
         var type = object.type;
 
         switch (type) {
+          case REACT_ASYNC_MODE_TYPE:
+          case REACT_CONCURRENT_MODE_TYPE:
           case REACT_FRAGMENT_TYPE:
           case REACT_PROFILER_TYPE:
           case REACT_STRICT_MODE_TYPE:
           case REACT_SUSPENSE_TYPE:
-          case REACT_SUSPENSE_LIST_TYPE:
             return type;
 
           default:
             var $$typeofType = type && type.$$typeof;
 
             switch ($$typeofType) {
-              case REACT_SERVER_CONTEXT_TYPE:
               case REACT_CONTEXT_TYPE:
               case REACT_FORWARD_REF_TYPE:
               case REACT_LAZY_TYPE:
@@ -90066,7 +89179,10 @@ function typeOf(object) {
   }
 
   return undefined;
-}
+} // AsyncMode is deprecated along with isAsyncMode
+
+var AsyncMode = REACT_ASYNC_MODE_TYPE;
+var ConcurrentMode = REACT_CONCURRENT_MODE_TYPE;
 var ContextConsumer = REACT_CONTEXT_TYPE;
 var ContextProvider = REACT_PROVIDER_TYPE;
 var Element = REACT_ELEMENT_TYPE;
@@ -90078,31 +89194,21 @@ var Portal = REACT_PORTAL_TYPE;
 var Profiler = REACT_PROFILER_TYPE;
 var StrictMode = REACT_STRICT_MODE_TYPE;
 var Suspense = REACT_SUSPENSE_TYPE;
-var SuspenseList = REACT_SUSPENSE_LIST_TYPE;
-var hasWarnedAboutDeprecatedIsAsyncMode = false;
-var hasWarnedAboutDeprecatedIsConcurrentMode = false; // AsyncMode should be deprecated
+var hasWarnedAboutDeprecatedIsAsyncMode = false; // AsyncMode should be deprecated
 
 function isAsyncMode(object) {
   {
     if (!hasWarnedAboutDeprecatedIsAsyncMode) {
       hasWarnedAboutDeprecatedIsAsyncMode = true; // Using console['warn'] to evade Babel and ESLint
 
-      console['warn']('The ReactIs.isAsyncMode() alias has been deprecated, ' + 'and will be removed in React 18+.');
+      console['warn']('The ReactIs.isAsyncMode() alias has been deprecated, ' + 'and will be removed in React 17+. Update your code to use ' + 'ReactIs.isConcurrentMode() instead. It has the exact same API.');
     }
   }
 
-  return false;
+  return isConcurrentMode(object) || typeOf(object) === REACT_ASYNC_MODE_TYPE;
 }
 function isConcurrentMode(object) {
-  {
-    if (!hasWarnedAboutDeprecatedIsConcurrentMode) {
-      hasWarnedAboutDeprecatedIsConcurrentMode = true; // Using console['warn'] to evade Babel and ESLint
-
-      console['warn']('The ReactIs.isConcurrentMode() alias has been deprecated, ' + 'and will be removed in React 18+.');
-    }
-  }
-
-  return false;
+  return typeOf(object) === REACT_CONCURRENT_MODE_TYPE;
 }
 function isContextConsumer(object) {
   return typeOf(object) === REACT_CONTEXT_TYPE;
@@ -90137,10 +89243,9 @@ function isStrictMode(object) {
 function isSuspense(object) {
   return typeOf(object) === REACT_SUSPENSE_TYPE;
 }
-function isSuspenseList(object) {
-  return typeOf(object) === REACT_SUSPENSE_LIST_TYPE;
-}
 
+exports.AsyncMode = AsyncMode;
+exports.ConcurrentMode = ConcurrentMode;
 exports.ContextConsumer = ContextConsumer;
 exports.ContextProvider = ContextProvider;
 exports.Element = Element;
@@ -90152,7 +89257,6 @@ exports.Portal = Portal;
 exports.Profiler = Profiler;
 exports.StrictMode = StrictMode;
 exports.Suspense = Suspense;
-exports.SuspenseList = SuspenseList;
 exports.isAsyncMode = isAsyncMode;
 exports.isConcurrentMode = isConcurrentMode;
 exports.isContextConsumer = isContextConsumer;
@@ -90166,7 +89270,6 @@ exports.isPortal = isPortal;
 exports.isProfiler = isProfiler;
 exports.isStrictMode = isStrictMode;
 exports.isSuspense = isSuspense;
-exports.isSuspenseList = isSuspenseList;
 exports.isValidElementType = isValidElementType;
 exports.typeOf = typeOf;
   })();
@@ -90294,7 +89397,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! hoist-non-react-statics */ "./node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js");
 /* harmony import */ var hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_is__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-is */ "./node_modules/react-is/index.js");
+/* harmony import */ var react_is__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-is */ "./node_modules/react-redux/node_modules/react-is/index.js");
 /* harmony import */ var _connect_selectorFactory__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../connect/selectorFactory */ "./node_modules/react-redux/es/connect/selectorFactory.js");
 /* harmony import */ var _connect_mapDispatchToProps__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../connect/mapDispatchToProps */ "./node_modules/react-redux/es/connect/mapDispatchToProps.js");
 /* harmony import */ var _connect_mapStateToProps__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../connect/mapStateToProps */ "./node_modules/react-redux/es/connect/mapStateToProps.js");
@@ -91791,6 +90894,254 @@ function warning(message) {
 
 /***/ }),
 
+/***/ "./node_modules/react-redux/node_modules/react-is/cjs/react-is.development.js":
+/*!************************************************************************************!*\
+  !*** ./node_modules/react-redux/node_modules/react-is/cjs/react-is.development.js ***!
+  \************************************************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+/**
+ * @license React
+ * react-is.development.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+if (true) {
+  (function() {
+'use strict';
+
+// ATTENTION
+// When adding new symbols to this file,
+// Please consider also adding to 'react-devtools-shared/src/backend/ReactSymbols'
+// The Symbol used to tag the ReactElement-like types.
+var REACT_ELEMENT_TYPE = Symbol.for('react.element');
+var REACT_PORTAL_TYPE = Symbol.for('react.portal');
+var REACT_FRAGMENT_TYPE = Symbol.for('react.fragment');
+var REACT_STRICT_MODE_TYPE = Symbol.for('react.strict_mode');
+var REACT_PROFILER_TYPE = Symbol.for('react.profiler');
+var REACT_PROVIDER_TYPE = Symbol.for('react.provider');
+var REACT_CONTEXT_TYPE = Symbol.for('react.context');
+var REACT_SERVER_CONTEXT_TYPE = Symbol.for('react.server_context');
+var REACT_FORWARD_REF_TYPE = Symbol.for('react.forward_ref');
+var REACT_SUSPENSE_TYPE = Symbol.for('react.suspense');
+var REACT_SUSPENSE_LIST_TYPE = Symbol.for('react.suspense_list');
+var REACT_MEMO_TYPE = Symbol.for('react.memo');
+var REACT_LAZY_TYPE = Symbol.for('react.lazy');
+var REACT_OFFSCREEN_TYPE = Symbol.for('react.offscreen');
+
+// -----------------------------------------------------------------------------
+
+var enableScopeAPI = false; // Experimental Create Event Handle API.
+var enableCacheElement = false;
+var enableTransitionTracing = false; // No known bugs, but needs performance testing
+
+var enableLegacyHidden = false; // Enables unstable_avoidThisFallback feature in Fiber
+// stuff. Intended to enable React core members to more easily debug scheduling
+// issues in DEV builds.
+
+var enableDebugTracing = false; // Track which Fiber(s) schedule render work.
+
+var REACT_MODULE_REFERENCE;
+
+{
+  REACT_MODULE_REFERENCE = Symbol.for('react.module.reference');
+}
+
+function isValidElementType(type) {
+  if (typeof type === 'string' || typeof type === 'function') {
+    return true;
+  } // Note: typeof might be other than 'symbol' or 'number' (e.g. if it's a polyfill).
+
+
+  if (type === REACT_FRAGMENT_TYPE || type === REACT_PROFILER_TYPE || enableDebugTracing  || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || enableLegacyHidden  || type === REACT_OFFSCREEN_TYPE || enableScopeAPI  || enableCacheElement  || enableTransitionTracing ) {
+    return true;
+  }
+
+  if (typeof type === 'object' && type !== null) {
+    if (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || // This needs to include all possible module reference object
+    // types supported by any Flight configuration anywhere since
+    // we don't know which Flight build this will end up being used
+    // with.
+    type.$$typeof === REACT_MODULE_REFERENCE || type.getModuleId !== undefined) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function typeOf(object) {
+  if (typeof object === 'object' && object !== null) {
+    var $$typeof = object.$$typeof;
+
+    switch ($$typeof) {
+      case REACT_ELEMENT_TYPE:
+        var type = object.type;
+
+        switch (type) {
+          case REACT_FRAGMENT_TYPE:
+          case REACT_PROFILER_TYPE:
+          case REACT_STRICT_MODE_TYPE:
+          case REACT_SUSPENSE_TYPE:
+          case REACT_SUSPENSE_LIST_TYPE:
+            return type;
+
+          default:
+            var $$typeofType = type && type.$$typeof;
+
+            switch ($$typeofType) {
+              case REACT_SERVER_CONTEXT_TYPE:
+              case REACT_CONTEXT_TYPE:
+              case REACT_FORWARD_REF_TYPE:
+              case REACT_LAZY_TYPE:
+              case REACT_MEMO_TYPE:
+              case REACT_PROVIDER_TYPE:
+                return $$typeofType;
+
+              default:
+                return $$typeof;
+            }
+
+        }
+
+      case REACT_PORTAL_TYPE:
+        return $$typeof;
+    }
+  }
+
+  return undefined;
+}
+var ContextConsumer = REACT_CONTEXT_TYPE;
+var ContextProvider = REACT_PROVIDER_TYPE;
+var Element = REACT_ELEMENT_TYPE;
+var ForwardRef = REACT_FORWARD_REF_TYPE;
+var Fragment = REACT_FRAGMENT_TYPE;
+var Lazy = REACT_LAZY_TYPE;
+var Memo = REACT_MEMO_TYPE;
+var Portal = REACT_PORTAL_TYPE;
+var Profiler = REACT_PROFILER_TYPE;
+var StrictMode = REACT_STRICT_MODE_TYPE;
+var Suspense = REACT_SUSPENSE_TYPE;
+var SuspenseList = REACT_SUSPENSE_LIST_TYPE;
+var hasWarnedAboutDeprecatedIsAsyncMode = false;
+var hasWarnedAboutDeprecatedIsConcurrentMode = false; // AsyncMode should be deprecated
+
+function isAsyncMode(object) {
+  {
+    if (!hasWarnedAboutDeprecatedIsAsyncMode) {
+      hasWarnedAboutDeprecatedIsAsyncMode = true; // Using console['warn'] to evade Babel and ESLint
+
+      console['warn']('The ReactIs.isAsyncMode() alias has been deprecated, ' + 'and will be removed in React 18+.');
+    }
+  }
+
+  return false;
+}
+function isConcurrentMode(object) {
+  {
+    if (!hasWarnedAboutDeprecatedIsConcurrentMode) {
+      hasWarnedAboutDeprecatedIsConcurrentMode = true; // Using console['warn'] to evade Babel and ESLint
+
+      console['warn']('The ReactIs.isConcurrentMode() alias has been deprecated, ' + 'and will be removed in React 18+.');
+    }
+  }
+
+  return false;
+}
+function isContextConsumer(object) {
+  return typeOf(object) === REACT_CONTEXT_TYPE;
+}
+function isContextProvider(object) {
+  return typeOf(object) === REACT_PROVIDER_TYPE;
+}
+function isElement(object) {
+  return typeof object === 'object' && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
+}
+function isForwardRef(object) {
+  return typeOf(object) === REACT_FORWARD_REF_TYPE;
+}
+function isFragment(object) {
+  return typeOf(object) === REACT_FRAGMENT_TYPE;
+}
+function isLazy(object) {
+  return typeOf(object) === REACT_LAZY_TYPE;
+}
+function isMemo(object) {
+  return typeOf(object) === REACT_MEMO_TYPE;
+}
+function isPortal(object) {
+  return typeOf(object) === REACT_PORTAL_TYPE;
+}
+function isProfiler(object) {
+  return typeOf(object) === REACT_PROFILER_TYPE;
+}
+function isStrictMode(object) {
+  return typeOf(object) === REACT_STRICT_MODE_TYPE;
+}
+function isSuspense(object) {
+  return typeOf(object) === REACT_SUSPENSE_TYPE;
+}
+function isSuspenseList(object) {
+  return typeOf(object) === REACT_SUSPENSE_LIST_TYPE;
+}
+
+exports.ContextConsumer = ContextConsumer;
+exports.ContextProvider = ContextProvider;
+exports.Element = Element;
+exports.ForwardRef = ForwardRef;
+exports.Fragment = Fragment;
+exports.Lazy = Lazy;
+exports.Memo = Memo;
+exports.Portal = Portal;
+exports.Profiler = Profiler;
+exports.StrictMode = StrictMode;
+exports.Suspense = Suspense;
+exports.SuspenseList = SuspenseList;
+exports.isAsyncMode = isAsyncMode;
+exports.isConcurrentMode = isConcurrentMode;
+exports.isContextConsumer = isContextConsumer;
+exports.isContextProvider = isContextProvider;
+exports.isElement = isElement;
+exports.isForwardRef = isForwardRef;
+exports.isFragment = isFragment;
+exports.isLazy = isLazy;
+exports.isMemo = isMemo;
+exports.isPortal = isPortal;
+exports.isProfiler = isProfiler;
+exports.isStrictMode = isStrictMode;
+exports.isSuspense = isSuspense;
+exports.isSuspenseList = isSuspenseList;
+exports.isValidElementType = isValidElementType;
+exports.typeOf = typeOf;
+  })();
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/react-redux/node_modules/react-is/index.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/react-redux/node_modules/react-is/index.js ***!
+  \*****************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+if (false) {} else {
+  module.exports = __webpack_require__(/*! ./cjs/react-is.development.js */ "./node_modules/react-redux/node_modules/react-is/cjs/react-is.development.js");
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/react-router/esm/react-router.js":
 /*!*******************************************************!*\
   !*** ./node_modules/react-router/esm/react-router.js ***!
@@ -91826,9 +91177,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var mini_create_react_context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! mini-create-react-context */ "./node_modules/mini-create-react-context/dist/esm/index.js");
 /* harmony import */ var tiny_invariant__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! tiny-invariant */ "./node_modules/tiny-invariant/dist/tiny-invariant.esm.js");
 /* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var path_to_regexp__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! path-to-regexp */ "./node_modules/path-to-regexp/index.js");
+/* harmony import */ var path_to_regexp__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! path-to-regexp */ "./node_modules/react-router/node_modules/path-to-regexp/index.js");
 /* harmony import */ var path_to_regexp__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(path_to_regexp__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var react_is__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-is */ "./node_modules/react-router/node_modules/react-is/index.js");
+/* harmony import */ var react_is__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-is */ "./node_modules/react-is/index.js");
 /* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js");
 /* harmony import */ var hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! hoist-non-react-statics */ "./node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js");
 /* harmony import */ var hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(hoist_non_react_statics__WEBPACK_IMPORTED_MODULE_7__);
@@ -92598,209 +91949,450 @@ if (true) {
 
 /***/ }),
 
-/***/ "./node_modules/react-router/node_modules/react-is/cjs/react-is.development.js":
-/*!*************************************************************************************!*\
-  !*** ./node_modules/react-router/node_modules/react-is/cjs/react-is.development.js ***!
-  \*************************************************************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ "./node_modules/react-router/node_modules/isarray/index.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/react-router/node_modules/isarray/index.js ***!
+  \*****************************************************************/
+/***/ ((module) => {
 
-"use strict";
-/** @license React v16.13.1
- * react-is.development.js
- *
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-
-
-
-
-if (true) {
-  (function() {
-'use strict';
-
-// The Symbol used to tag the ReactElement-like types. If there is no native Symbol
-// nor polyfill, then a plain number is used for performance.
-var hasSymbol = typeof Symbol === 'function' && Symbol.for;
-var REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for('react.element') : 0xeac7;
-var REACT_PORTAL_TYPE = hasSymbol ? Symbol.for('react.portal') : 0xeaca;
-var REACT_FRAGMENT_TYPE = hasSymbol ? Symbol.for('react.fragment') : 0xeacb;
-var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for('react.strict_mode') : 0xeacc;
-var REACT_PROFILER_TYPE = hasSymbol ? Symbol.for('react.profiler') : 0xead2;
-var REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for('react.provider') : 0xeacd;
-var REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for('react.context') : 0xeace; // TODO: We don't use AsyncMode or ConcurrentMode anymore. They were temporary
-// (unstable) APIs that have been removed. Can we remove the symbols?
-
-var REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol.for('react.async_mode') : 0xeacf;
-var REACT_CONCURRENT_MODE_TYPE = hasSymbol ? Symbol.for('react.concurrent_mode') : 0xeacf;
-var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for('react.forward_ref') : 0xead0;
-var REACT_SUSPENSE_TYPE = hasSymbol ? Symbol.for('react.suspense') : 0xead1;
-var REACT_SUSPENSE_LIST_TYPE = hasSymbol ? Symbol.for('react.suspense_list') : 0xead8;
-var REACT_MEMO_TYPE = hasSymbol ? Symbol.for('react.memo') : 0xead3;
-var REACT_LAZY_TYPE = hasSymbol ? Symbol.for('react.lazy') : 0xead4;
-var REACT_BLOCK_TYPE = hasSymbol ? Symbol.for('react.block') : 0xead9;
-var REACT_FUNDAMENTAL_TYPE = hasSymbol ? Symbol.for('react.fundamental') : 0xead5;
-var REACT_RESPONDER_TYPE = hasSymbol ? Symbol.for('react.responder') : 0xead6;
-var REACT_SCOPE_TYPE = hasSymbol ? Symbol.for('react.scope') : 0xead7;
-
-function isValidElementType(type) {
-  return typeof type === 'string' || typeof type === 'function' || // Note: its typeof might be other than 'symbol' or 'number' if it's a polyfill.
-  type === REACT_FRAGMENT_TYPE || type === REACT_CONCURRENT_MODE_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || typeof type === 'object' && type !== null && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || type.$$typeof === REACT_FUNDAMENTAL_TYPE || type.$$typeof === REACT_RESPONDER_TYPE || type.$$typeof === REACT_SCOPE_TYPE || type.$$typeof === REACT_BLOCK_TYPE);
-}
-
-function typeOf(object) {
-  if (typeof object === 'object' && object !== null) {
-    var $$typeof = object.$$typeof;
-
-    switch ($$typeof) {
-      case REACT_ELEMENT_TYPE:
-        var type = object.type;
-
-        switch (type) {
-          case REACT_ASYNC_MODE_TYPE:
-          case REACT_CONCURRENT_MODE_TYPE:
-          case REACT_FRAGMENT_TYPE:
-          case REACT_PROFILER_TYPE:
-          case REACT_STRICT_MODE_TYPE:
-          case REACT_SUSPENSE_TYPE:
-            return type;
-
-          default:
-            var $$typeofType = type && type.$$typeof;
-
-            switch ($$typeofType) {
-              case REACT_CONTEXT_TYPE:
-              case REACT_FORWARD_REF_TYPE:
-              case REACT_LAZY_TYPE:
-              case REACT_MEMO_TYPE:
-              case REACT_PROVIDER_TYPE:
-                return $$typeofType;
-
-              default:
-                return $$typeof;
-            }
-
-        }
-
-      case REACT_PORTAL_TYPE:
-        return $$typeof;
-    }
-  }
-
-  return undefined;
-} // AsyncMode is deprecated along with isAsyncMode
-
-var AsyncMode = REACT_ASYNC_MODE_TYPE;
-var ConcurrentMode = REACT_CONCURRENT_MODE_TYPE;
-var ContextConsumer = REACT_CONTEXT_TYPE;
-var ContextProvider = REACT_PROVIDER_TYPE;
-var Element = REACT_ELEMENT_TYPE;
-var ForwardRef = REACT_FORWARD_REF_TYPE;
-var Fragment = REACT_FRAGMENT_TYPE;
-var Lazy = REACT_LAZY_TYPE;
-var Memo = REACT_MEMO_TYPE;
-var Portal = REACT_PORTAL_TYPE;
-var Profiler = REACT_PROFILER_TYPE;
-var StrictMode = REACT_STRICT_MODE_TYPE;
-var Suspense = REACT_SUSPENSE_TYPE;
-var hasWarnedAboutDeprecatedIsAsyncMode = false; // AsyncMode should be deprecated
-
-function isAsyncMode(object) {
-  {
-    if (!hasWarnedAboutDeprecatedIsAsyncMode) {
-      hasWarnedAboutDeprecatedIsAsyncMode = true; // Using console['warn'] to evade Babel and ESLint
-
-      console['warn']('The ReactIs.isAsyncMode() alias has been deprecated, ' + 'and will be removed in React 17+. Update your code to use ' + 'ReactIs.isConcurrentMode() instead. It has the exact same API.');
-    }
-  }
-
-  return isConcurrentMode(object) || typeOf(object) === REACT_ASYNC_MODE_TYPE;
-}
-function isConcurrentMode(object) {
-  return typeOf(object) === REACT_CONCURRENT_MODE_TYPE;
-}
-function isContextConsumer(object) {
-  return typeOf(object) === REACT_CONTEXT_TYPE;
-}
-function isContextProvider(object) {
-  return typeOf(object) === REACT_PROVIDER_TYPE;
-}
-function isElement(object) {
-  return typeof object === 'object' && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
-}
-function isForwardRef(object) {
-  return typeOf(object) === REACT_FORWARD_REF_TYPE;
-}
-function isFragment(object) {
-  return typeOf(object) === REACT_FRAGMENT_TYPE;
-}
-function isLazy(object) {
-  return typeOf(object) === REACT_LAZY_TYPE;
-}
-function isMemo(object) {
-  return typeOf(object) === REACT_MEMO_TYPE;
-}
-function isPortal(object) {
-  return typeOf(object) === REACT_PORTAL_TYPE;
-}
-function isProfiler(object) {
-  return typeOf(object) === REACT_PROFILER_TYPE;
-}
-function isStrictMode(object) {
-  return typeOf(object) === REACT_STRICT_MODE_TYPE;
-}
-function isSuspense(object) {
-  return typeOf(object) === REACT_SUSPENSE_TYPE;
-}
-
-exports.AsyncMode = AsyncMode;
-exports.ConcurrentMode = ConcurrentMode;
-exports.ContextConsumer = ContextConsumer;
-exports.ContextProvider = ContextProvider;
-exports.Element = Element;
-exports.ForwardRef = ForwardRef;
-exports.Fragment = Fragment;
-exports.Lazy = Lazy;
-exports.Memo = Memo;
-exports.Portal = Portal;
-exports.Profiler = Profiler;
-exports.StrictMode = StrictMode;
-exports.Suspense = Suspense;
-exports.isAsyncMode = isAsyncMode;
-exports.isConcurrentMode = isConcurrentMode;
-exports.isContextConsumer = isContextConsumer;
-exports.isContextProvider = isContextProvider;
-exports.isElement = isElement;
-exports.isForwardRef = isForwardRef;
-exports.isFragment = isFragment;
-exports.isLazy = isLazy;
-exports.isMemo = isMemo;
-exports.isPortal = isPortal;
-exports.isProfiler = isProfiler;
-exports.isStrictMode = isStrictMode;
-exports.isSuspense = isSuspense;
-exports.isValidElementType = isValidElementType;
-exports.typeOf = typeOf;
-  })();
-}
+module.exports = Array.isArray || function (arr) {
+  return Object.prototype.toString.call(arr) == '[object Array]';
+};
 
 
 /***/ }),
 
-/***/ "./node_modules/react-router/node_modules/react-is/index.js":
-/*!******************************************************************!*\
-  !*** ./node_modules/react-router/node_modules/react-is/index.js ***!
-  \******************************************************************/
+/***/ "./node_modules/react-router/node_modules/path-to-regexp/index.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/react-router/node_modules/path-to-regexp/index.js ***!
+  \************************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-"use strict";
+var isarray = __webpack_require__(/*! isarray */ "./node_modules/react-router/node_modules/isarray/index.js")
 
+/**
+ * Expose `pathToRegexp`.
+ */
+module.exports = pathToRegexp
+module.exports.parse = parse
+module.exports.compile = compile
+module.exports.tokensToFunction = tokensToFunction
+module.exports.tokensToRegExp = tokensToRegExp
 
-if (false) {} else {
-  module.exports = __webpack_require__(/*! ./cjs/react-is.development.js */ "./node_modules/react-router/node_modules/react-is/cjs/react-is.development.js");
+/**
+ * The main path matching regexp utility.
+ *
+ * @type {RegExp}
+ */
+var PATH_REGEXP = new RegExp([
+  // Match escaped characters that would otherwise appear in future matches.
+  // This allows the user to escape special characters that won't transform.
+  '(\\\\.)',
+  // Match Express-style parameters and un-named parameters with a prefix
+  // and optional suffixes. Matches appear as:
+  //
+  // "/:test(\\d+)?" => ["/", "test", "\d+", undefined, "?", undefined]
+  // "/route(\\d+)"  => [undefined, undefined, undefined, "\d+", undefined, undefined]
+  // "/*"            => ["/", undefined, undefined, undefined, undefined, "*"]
+  '([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^\\\\()])+)\\))?|\\(((?:\\\\.|[^\\\\()])+)\\))([+*?])?|(\\*))'
+].join('|'), 'g')
+
+/**
+ * Parse a string for the raw tokens.
+ *
+ * @param  {string}  str
+ * @param  {Object=} options
+ * @return {!Array}
+ */
+function parse (str, options) {
+  var tokens = []
+  var key = 0
+  var index = 0
+  var path = ''
+  var defaultDelimiter = options && options.delimiter || '/'
+  var res
+
+  while ((res = PATH_REGEXP.exec(str)) != null) {
+    var m = res[0]
+    var escaped = res[1]
+    var offset = res.index
+    path += str.slice(index, offset)
+    index = offset + m.length
+
+    // Ignore already escaped sequences.
+    if (escaped) {
+      path += escaped[1]
+      continue
+    }
+
+    var next = str[index]
+    var prefix = res[2]
+    var name = res[3]
+    var capture = res[4]
+    var group = res[5]
+    var modifier = res[6]
+    var asterisk = res[7]
+
+    // Push the current path onto the tokens.
+    if (path) {
+      tokens.push(path)
+      path = ''
+    }
+
+    var partial = prefix != null && next != null && next !== prefix
+    var repeat = modifier === '+' || modifier === '*'
+    var optional = modifier === '?' || modifier === '*'
+    var delimiter = res[2] || defaultDelimiter
+    var pattern = capture || group
+
+    tokens.push({
+      name: name || key++,
+      prefix: prefix || '',
+      delimiter: delimiter,
+      optional: optional,
+      repeat: repeat,
+      partial: partial,
+      asterisk: !!asterisk,
+      pattern: pattern ? escapeGroup(pattern) : (asterisk ? '.*' : '[^' + escapeString(delimiter) + ']+?')
+    })
+  }
+
+  // Match any characters still remaining.
+  if (index < str.length) {
+    path += str.substr(index)
+  }
+
+  // If the path exists, push it onto the end.
+  if (path) {
+    tokens.push(path)
+  }
+
+  return tokens
+}
+
+/**
+ * Compile a string to a template function for the path.
+ *
+ * @param  {string}             str
+ * @param  {Object=}            options
+ * @return {!function(Object=, Object=)}
+ */
+function compile (str, options) {
+  return tokensToFunction(parse(str, options), options)
+}
+
+/**
+ * Prettier encoding of URI path segments.
+ *
+ * @param  {string}
+ * @return {string}
+ */
+function encodeURIComponentPretty (str) {
+  return encodeURI(str).replace(/[\/?#]/g, function (c) {
+    return '%' + c.charCodeAt(0).toString(16).toUpperCase()
+  })
+}
+
+/**
+ * Encode the asterisk parameter. Similar to `pretty`, but allows slashes.
+ *
+ * @param  {string}
+ * @return {string}
+ */
+function encodeAsterisk (str) {
+  return encodeURI(str).replace(/[?#]/g, function (c) {
+    return '%' + c.charCodeAt(0).toString(16).toUpperCase()
+  })
+}
+
+/**
+ * Expose a method for transforming tokens into the path function.
+ */
+function tokensToFunction (tokens, options) {
+  // Compile all the tokens into regexps.
+  var matches = new Array(tokens.length)
+
+  // Compile all the patterns before compilation.
+  for (var i = 0; i < tokens.length; i++) {
+    if (typeof tokens[i] === 'object') {
+      matches[i] = new RegExp('^(?:' + tokens[i].pattern + ')$', flags(options))
+    }
+  }
+
+  return function (obj, opts) {
+    var path = ''
+    var data = obj || {}
+    var options = opts || {}
+    var encode = options.pretty ? encodeURIComponentPretty : encodeURIComponent
+
+    for (var i = 0; i < tokens.length; i++) {
+      var token = tokens[i]
+
+      if (typeof token === 'string') {
+        path += token
+
+        continue
+      }
+
+      var value = data[token.name]
+      var segment
+
+      if (value == null) {
+        if (token.optional) {
+          // Prepend partial segment prefixes.
+          if (token.partial) {
+            path += token.prefix
+          }
+
+          continue
+        } else {
+          throw new TypeError('Expected "' + token.name + '" to be defined')
+        }
+      }
+
+      if (isarray(value)) {
+        if (!token.repeat) {
+          throw new TypeError('Expected "' + token.name + '" to not repeat, but received `' + JSON.stringify(value) + '`')
+        }
+
+        if (value.length === 0) {
+          if (token.optional) {
+            continue
+          } else {
+            throw new TypeError('Expected "' + token.name + '" to not be empty')
+          }
+        }
+
+        for (var j = 0; j < value.length; j++) {
+          segment = encode(value[j])
+
+          if (!matches[i].test(segment)) {
+            throw new TypeError('Expected all "' + token.name + '" to match "' + token.pattern + '", but received `' + JSON.stringify(segment) + '`')
+          }
+
+          path += (j === 0 ? token.prefix : token.delimiter) + segment
+        }
+
+        continue
+      }
+
+      segment = token.asterisk ? encodeAsterisk(value) : encode(value)
+
+      if (!matches[i].test(segment)) {
+        throw new TypeError('Expected "' + token.name + '" to match "' + token.pattern + '", but received "' + segment + '"')
+      }
+
+      path += token.prefix + segment
+    }
+
+    return path
+  }
+}
+
+/**
+ * Escape a regular expression string.
+ *
+ * @param  {string} str
+ * @return {string}
+ */
+function escapeString (str) {
+  return str.replace(/([.+*?=^!:${}()[\]|\/\\])/g, '\\$1')
+}
+
+/**
+ * Escape the capturing group by escaping special characters and meaning.
+ *
+ * @param  {string} group
+ * @return {string}
+ */
+function escapeGroup (group) {
+  return group.replace(/([=!:$\/()])/g, '\\$1')
+}
+
+/**
+ * Attach the keys as a property of the regexp.
+ *
+ * @param  {!RegExp} re
+ * @param  {Array}   keys
+ * @return {!RegExp}
+ */
+function attachKeys (re, keys) {
+  re.keys = keys
+  return re
+}
+
+/**
+ * Get the flags for a regexp from the options.
+ *
+ * @param  {Object} options
+ * @return {string}
+ */
+function flags (options) {
+  return options && options.sensitive ? '' : 'i'
+}
+
+/**
+ * Pull out keys from a regexp.
+ *
+ * @param  {!RegExp} path
+ * @param  {!Array}  keys
+ * @return {!RegExp}
+ */
+function regexpToRegexp (path, keys) {
+  // Use a negative lookahead to match only capturing groups.
+  var groups = path.source.match(/\((?!\?)/g)
+
+  if (groups) {
+    for (var i = 0; i < groups.length; i++) {
+      keys.push({
+        name: i,
+        prefix: null,
+        delimiter: null,
+        optional: false,
+        repeat: false,
+        partial: false,
+        asterisk: false,
+        pattern: null
+      })
+    }
+  }
+
+  return attachKeys(path, keys)
+}
+
+/**
+ * Transform an array into a regexp.
+ *
+ * @param  {!Array}  path
+ * @param  {Array}   keys
+ * @param  {!Object} options
+ * @return {!RegExp}
+ */
+function arrayToRegexp (path, keys, options) {
+  var parts = []
+
+  for (var i = 0; i < path.length; i++) {
+    parts.push(pathToRegexp(path[i], keys, options).source)
+  }
+
+  var regexp = new RegExp('(?:' + parts.join('|') + ')', flags(options))
+
+  return attachKeys(regexp, keys)
+}
+
+/**
+ * Create a path regexp from string input.
+ *
+ * @param  {string}  path
+ * @param  {!Array}  keys
+ * @param  {!Object} options
+ * @return {!RegExp}
+ */
+function stringToRegexp (path, keys, options) {
+  return tokensToRegExp(parse(path, options), keys, options)
+}
+
+/**
+ * Expose a function for taking tokens and returning a RegExp.
+ *
+ * @param  {!Array}          tokens
+ * @param  {(Array|Object)=} keys
+ * @param  {Object=}         options
+ * @return {!RegExp}
+ */
+function tokensToRegExp (tokens, keys, options) {
+  if (!isarray(keys)) {
+    options = /** @type {!Object} */ (keys || options)
+    keys = []
+  }
+
+  options = options || {}
+
+  var strict = options.strict
+  var end = options.end !== false
+  var route = ''
+
+  // Iterate over the tokens and create our regexp string.
+  for (var i = 0; i < tokens.length; i++) {
+    var token = tokens[i]
+
+    if (typeof token === 'string') {
+      route += escapeString(token)
+    } else {
+      var prefix = escapeString(token.prefix)
+      var capture = '(?:' + token.pattern + ')'
+
+      keys.push(token)
+
+      if (token.repeat) {
+        capture += '(?:' + prefix + capture + ')*'
+      }
+
+      if (token.optional) {
+        if (!token.partial) {
+          capture = '(?:' + prefix + '(' + capture + '))?'
+        } else {
+          capture = prefix + '(' + capture + ')?'
+        }
+      } else {
+        capture = prefix + '(' + capture + ')'
+      }
+
+      route += capture
+    }
+  }
+
+  var delimiter = escapeString(options.delimiter || '/')
+  var endsWithDelimiter = route.slice(-delimiter.length) === delimiter
+
+  // In non-strict mode we allow a slash at the end of match. If the path to
+  // match already ends with a slash, we remove it for consistency. The slash
+  // is valid at the end of a path match, not in the middle. This is important
+  // in non-ending mode, where "/test/" shouldn't match "/test//route".
+  if (!strict) {
+    route = (endsWithDelimiter ? route.slice(0, -delimiter.length) : route) + '(?:' + delimiter + '(?=$))?'
+  }
+
+  if (end) {
+    route += '$'
+  } else {
+    // In non-ending mode, we need the capturing groups to match as much as
+    // possible by using a positive lookahead to the end or next path segment.
+    route += strict && endsWithDelimiter ? '' : '(?=' + delimiter + '|$)'
+  }
+
+  return attachKeys(new RegExp('^' + route, flags(options)), keys)
+}
+
+/**
+ * Normalize the given path string, returning a regular expression.
+ *
+ * An empty array can be passed in for the keys, which will hold the
+ * placeholder key descriptions. For example, using `/user/:id`, `keys` will
+ * contain `[{ name: 'id', delimiter: '/', optional: false, repeat: false }]`.
+ *
+ * @param  {(string|RegExp|Array)} path
+ * @param  {(Array|Object)=}       keys
+ * @param  {Object=}               options
+ * @return {!RegExp}
+ */
+function pathToRegexp (path, keys, options) {
+  if (!isarray(keys)) {
+    options = /** @type {!Object} */ (keys || options)
+    keys = []
+  }
+
+  options = options || {}
+
+  if (path instanceof RegExp) {
+    return regexpToRegexp(path, /** @type {!Array} */ (keys))
+  }
+
+  if (isarray(path)) {
+    return arrayToRegexp(/** @type {!Array} */ (path), /** @type {!Array} */ (keys), options)
+  }
+
+  return stringToRegexp(/** @type {string} */ (path), /** @type {!Array} */ (keys), options)
 }
 
 
@@ -99642,7 +99234,7 @@ function fetchAndStoreBets(fetchType, params) {
             return (0,_api_bets__WEBPACK_IMPORTED_MODULE_0__.fetchMyBets)(tournamentId).then(storeFunc);
         }
         if (fetchType === BetFetchType.GameBets) {
-            return (0,_api_bets__WEBPACK_IMPORTED_MODULE_0__.fetchOpenMatchBets)(tournamentId).then(storeFunc);
+            return (0,_api_bets__WEBPACK_IMPORTED_MODULE_0__.fetchClosedMatchBets)(tournamentId).then(storeFunc);
         }
         // return fetchBets(tournamentId)
         //   .then(storeFunc);
@@ -99654,6 +99246,37 @@ function sendBetAndStore(params) {
         const tournamentId = (0,_selectors_base__WEBPACK_IMPORTED_MODULE_2__.TournamentIdSelector)(getState());
         return (0,_api_bets__WEBPACK_IMPORTED_MODULE_0__.sendBet)(tournamentId, betType, restParams)
             .then(data => dispatch(_reducers_bets__WEBPACK_IMPORTED_MODULE_1__["default"].actions.updateMany(data)));
+    };
+}
+
+
+
+/***/ }),
+
+/***/ "./src/_actions/contestants.ts":
+/*!*************************************!*\
+  !*** ./src/_actions/contestants.ts ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fetchAndStoreContestants": () => (/* binding */ fetchAndStoreContestants)
+/* harmony export */ });
+/* harmony import */ var _reducers_contestants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_reducers/contestants */ "./src/_reducers/contestants.ts");
+/* harmony import */ var _api_contestants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../api/contestants */ "./src/api/contestants.ts");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_selectors */ "./src/_selectors/index.ts");
+
+
+
+function fetchAndStoreContestants() {
+    return (dispatch, getState) => {
+        const tournamentId = (0,_selectors__WEBPACK_IMPORTED_MODULE_2__.TournamentIdSelector)(getState());
+        return (0,_api_contestants__WEBPACK_IMPORTED_MODULE_1__.fetchContestants)(tournamentId)
+            .then((utls) => {
+            dispatch(_reducers_contestants__WEBPACK_IMPORTED_MODULE_0__["default"].actions.set(utls));
+        });
     };
 }
 
@@ -99711,7 +99334,7 @@ function fetchAndStoreLeaderboard() {
     return (dispatch, getState) => {
         const tournamentId = (0,_selectors__WEBPACK_IMPORTED_MODULE_2__.TournamentIdSelector)(getState());
         return (0,_api_leaderboard__WEBPACK_IMPORTED_MODULE_0__.fetchLeaderboard)(tournamentId)
-            .then(data => dispatch(_reducers_leaderboard__WEBPACK_IMPORTED_MODULE_1__["default"].actions.set(data)));
+            .then(data => dispatch(_reducers_leaderboard__WEBPACK_IMPORTED_MODULE_1__["default"].actions.setRows(data)));
     };
 }
 
@@ -99840,32 +99463,6 @@ function fetchAndStoreUtls() {
 
 /***/ }),
 
-/***/ "./src/_actions/utls.ts":
-/*!******************************!*\
-  !*** ./src/_actions/utls.ts ***!
-  \******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "fetchAndStoreUsers": () => (/* binding */ fetchAndStoreUsers)
-/* harmony export */ });
-/* harmony import */ var _api_users__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/users */ "./src/api/users.ts");
-/* harmony import */ var _reducers_contestants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_reducers/contestants */ "./src/_reducers/contestants.ts");
-
-
-function fetchAndStoreUsers() {
-    return (dispatch) => {
-        return (0,_api_users__WEBPACK_IMPORTED_MODULE_0__.fetchUsers)()
-            .then(data => dispatch(_reducers_contestants__WEBPACK_IMPORTED_MODULE_1__["default"].actions.set(data)));
-    };
-}
-
-
-
-/***/ }),
-
 /***/ "./src/_helpers/dev.ts":
 /*!*****************************!*\
   !*** ./src/_helpers/dev.ts ***!
@@ -99949,13 +99546,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 
-const contestants = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
+
+const contestants = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
     name: 'contestants',
     initialState: {},
     reducers: {
-        set: (state, action) => action.payload,
+        set: (state, action) => {
+            return (0,lodash__WEBPACK_IMPORTED_MODULE_0__.keyBy)(action.payload, 'id');
+        },
     },
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (contestants);
@@ -100024,13 +99626,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 
-const leaderboard = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
-    name: 'leaderboard',
-    initialState: [],
+
+const leaderboard = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
+    name: 'leaderboardVersions',
+    initialState: {},
     reducers: {
-        set: (state, action) => action.payload[0].leaderboard,
+        setRows: (state, action) => {
+            for (const version of action.payload) {
+                state[version.id] = {
+                    ...version,
+                    leaderboard: (0,lodash__WEBPACK_IMPORTED_MODULE_0__.keyBy)(version.leaderboard, 'user_tournament_id'),
+                };
+            }
+        },
     },
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (leaderboard);
@@ -100127,7 +99739,7 @@ __webpack_require__.r(__webpack_exports__);
 const reducer = (0,redux__WEBPACK_IMPORTED_MODULE_10__.combineReducers)({
     bets: _bets__WEBPACK_IMPORTED_MODULE_0__["default"].reducer,
     teams: _teams__WEBPACK_IMPORTED_MODULE_7__["default"].reducer,
-    leaderboard: _leaderboard__WEBPACK_IMPORTED_MODULE_3__["default"].reducer,
+    leaderboardVersions: _leaderboard__WEBPACK_IMPORTED_MODULE_3__["default"].reducer,
     specialQuestions: _specialQuestions__WEBPACK_IMPORTED_MODULE_6__["default"].reducer,
     matches: _matches__WEBPACK_IMPORTED_MODULE_4__["default"].reducer,
     groups: _groups__WEBPACK_IMPORTED_MODULE_2__["default"].reducer,
@@ -100279,7 +99891,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Groups": () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_0__.Groups),
 /* harmony export */   "IsAdmin": () => (/* reexport safe */ _singleModel__WEBPACK_IMPORTED_MODULE_1__.IsAdmin),
 /* harmony export */   "IsTournamentStarted": () => (/* reexport safe */ _singleModel__WEBPACK_IMPORTED_MODULE_1__.IsTournamentStarted),
-/* harmony export */   "Leaderboard": () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_0__.Leaderboard),
+/* harmony export */   "LeaderboardVersions": () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_0__.LeaderboardVersions),
 /* harmony export */   "MatchBets": () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_0__.MatchBets),
 /* harmony export */   "Matches": () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_0__.Matches),
 /* harmony export */   "MyUtls": () => (/* reexport safe */ _models__WEBPACK_IMPORTED_MODULE_0__.MyUtls),
@@ -100314,7 +99926,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "CurrentUser": () => (/* binding */ CurrentUser),
 /* harmony export */   "GroupStandingBets": () => (/* binding */ GroupStandingBets),
 /* harmony export */   "Groups": () => (/* binding */ Groups),
-/* harmony export */   "Leaderboard": () => (/* binding */ Leaderboard),
+/* harmony export */   "LeaderboardVersions": () => (/* binding */ LeaderboardVersions),
 /* harmony export */   "MatchBets": () => (/* binding */ MatchBets),
 /* harmony export */   "Matches": () => (/* binding */ Matches),
 /* harmony export */   "MyUtls": () => (/* binding */ MyUtls),
@@ -100335,7 +99947,7 @@ const CurrentTournamentUserId = (state) => state.currentTournamentUser.id;
 const Contestants = (state) => state.contestants;
 const MyUtls = (state) => state.myUtls;
 const Bets = (state) => state.bets;
-const Leaderboard = (state) => state.leaderboard;
+const LeaderboardVersions = (state) => state.leaderboardVersions;
 const Matches = (state) => state.matches;
 const Teams = (state) => state.teams;
 const Groups = (state) => state.groups;
@@ -100380,16 +99992,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "IsTournamentStarted": () => (/* binding */ IsTournamentStarted),
 /* harmony export */   "TournamentIdSelector": () => (/* binding */ TournamentIdSelector)
 /* harmony export */ });
-/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils */ "./src/utils/index.ts");
-/* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./models */ "./src/_selectors/base/models.ts");
+/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
+/* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./models */ "./src/_selectors/base/models.ts");
 
 
-
-const TournamentIdSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(_models__WEBPACK_IMPORTED_MODULE_1__.CurrentTournament, tournament => tournament.id);
-const IsTournamentStarted = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(_models__WEBPACK_IMPORTED_MODULE_1__.CurrentTournament, tournament => (0,_utils__WEBPACK_IMPORTED_MODULE_0__.isTournamentStarted)(tournament));
-const IsAdmin = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(_models__WEBPACK_IMPORTED_MODULE_1__.CurrentUser, user => user.isAdmin);
-const CurrentUserName = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(_models__WEBPACK_IMPORTED_MODULE_1__.CurrentUser, user => user.name);
+const TournamentIdSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_1__.createSelector)(_models__WEBPACK_IMPORTED_MODULE_0__.CurrentTournament, tournament => tournament.id);
+const IsTournamentStarted = (0,reselect__WEBPACK_IMPORTED_MODULE_1__.createSelector)(_models__WEBPACK_IMPORTED_MODULE_0__.CurrentTournament, tournament => true);
+const IsAdmin = (0,reselect__WEBPACK_IMPORTED_MODULE_1__.createSelector)(_models__WEBPACK_IMPORTED_MODULE_0__.CurrentUser, user => user.isAdmin);
+const CurrentUserName = (0,reselect__WEBPACK_IMPORTED_MODULE_1__.createSelector)(_models__WEBPACK_IMPORTED_MODULE_0__.CurrentUser, user => user.name);
 // export const CurentTournamentSelector = createSelector(
 //     CurrentTournamentUser,
 //     currentTournamentUser => currentTournamentUser.tournament ?? {}
@@ -100422,12 +100032,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const ClosedMatchBetsSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(_modelRelations__WEBPACK_IMPORTED_MODULE_2__.MatchBetsByUserId, _modelRelations__WEBPACK_IMPORTED_MODULE_2__.MatchesWithTeams, (matchBetsByMatchId, matches) => {
+const ClosedMatchBetsSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(_modelRelations__WEBPACK_IMPORTED_MODULE_2__.MatchBetsByMatchId, _modelRelations__WEBPACK_IMPORTED_MODULE_2__.MatchesWithTeams, (matchBetsByMatchId, matches) => {
     const done_matches = [];
     const live_matches = [];
     for (const match of Object.values(matches)) {
-        if (!match.closed_for_bets)
-            continue;
+        // if (!match.closed_for_bets) continue;
         const bets = matchBetsByMatchId[match.id] ?? [];
         const betsByValue = (0,lodash__WEBPACK_IMPORTED_MODULE_0__.groupBy)(bets, _utils__WEBPACK_IMPORTED_MODULE_1__.getMatchBetValue);
         const matchWithBetsByValue = {
@@ -100515,8 +100124,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Groups": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.Groups),
 /* harmony export */   "IsAdmin": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.IsAdmin),
 /* harmony export */   "IsTournamentStarted": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.IsTournamentStarted),
-/* harmony export */   "Leaderboard": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.Leaderboard),
 /* harmony export */   "LeaderboardSelector": () => (/* reexport safe */ _leaderboard__WEBPACK_IMPORTED_MODULE_4__.LeaderboardSelector),
+/* harmony export */   "LeaderboardVersions": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.LeaderboardVersions),
 /* harmony export */   "MatchBets": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.MatchBets),
 /* harmony export */   "Matches": () => (/* reexport safe */ _base__WEBPACK_IMPORTED_MODULE_10__.Matches),
 /* harmony export */   "MyBetsSelector": () => (/* reexport safe */ _myBets__WEBPACK_IMPORTED_MODULE_5__.MyBetsSelector),
@@ -100571,18 +100180,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
+/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./base */ "./src/_selectors/base/index.ts");
-/* harmony import */ var _modelRelations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modelRelations */ "./src/_selectors/modelRelations/index.ts");
+/* harmony import */ var _logic_scoreboard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./logic/scoreboard */ "./src/_selectors/logic/scoreboard.ts");
+/* harmony import */ var _modelRelations__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modelRelations */ "./src/_selectors/modelRelations/index.ts");
 
 
 
 
-const LeaderboardSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(_base__WEBPACK_IMPORTED_MODULE_1__.Leaderboard, _base__WEBPACK_IMPORTED_MODULE_1__.IsTournamentStarted, (leaderboard, hasTournamentStarted) => ({
-    leaderboard,
-    hasTournamentStarted,
-}));
-const ContestantSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(_modelRelations__WEBPACK_IMPORTED_MODULE_2__.MatchBetsWithPositiveScores, _modelRelations__WEBPACK_IMPORTED_MODULE_2__.GroupStandingBetsByUserId, _modelRelations__WEBPACK_IMPORTED_MODULE_2__.QuestionBetsByUserQuestionId, (relevantMatchBets, groupStandingBetsByUserId, questionBetsByUserId) => {
+
+const LeaderboardSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_4__.createSelector)(_logic_scoreboard__WEBPACK_IMPORTED_MODULE_2__.LatestLeaderboard, _base__WEBPACK_IMPORTED_MODULE_1__.IsTournamentStarted, _base__WEBPACK_IMPORTED_MODULE_1__.Contestants, (leaderboard, hasTournamentStarted, contestants) => {
+    const leaderBoardWithNames = Object.values(leaderboard).map(scoreboardRow => ({
+        ...scoreboardRow,
+        name: contestants[scoreboardRow.user_tournament_id]?.name ?? '',
+    }));
+    const sortedScoreboard = (0,lodash__WEBPACK_IMPORTED_MODULE_0__.orderBy)(leaderBoardWithNames, 'rank');
+    return {
+        leaderboard: sortedScoreboard,
+        hasTournamentStarted,
+    };
+});
+const ContestantSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_4__.createSelector)(_modelRelations__WEBPACK_IMPORTED_MODULE_3__.MatchBetsWithPositiveScores, _modelRelations__WEBPACK_IMPORTED_MODULE_3__.GroupStandingBetsByUserId, _modelRelations__WEBPACK_IMPORTED_MODULE_3__.QuestionBetsByUserQuestionId, (relevantMatchBets, groupStandingBetsByUserId, questionBetsByUserId) => {
     const matchBetsByUserId = (0,lodash__WEBPACK_IMPORTED_MODULE_0__.groupBy)(relevantMatchBets, 'user_tournament_id');
     return {
         matchBetsByUserId,
@@ -100648,6 +100266,50 @@ const MyQuestionBetsSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSe
 });
 const MyGroupRankBetsById = (0,reselect__WEBPACK_IMPORTED_MODULE_3__.createSelector)(MyGroupStandingsBetsSelector, (bets) => {
     return (0,lodash__WEBPACK_IMPORTED_MODULE_0__.keyBy)(bets, 'type_id');
+});
+
+
+/***/ }),
+
+/***/ "./src/_selectors/logic/scoreboard.ts":
+/*!********************************************!*\
+  !*** ./src/_selectors/logic/scoreboard.ts ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "LatestLeaderboard": () => (/* binding */ LatestLeaderboard),
+/* harmony export */   "LeaderboardVersionsDesc": () => (/* binding */ LeaderboardVersionsDesc)
+/* harmony export */ });
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../base */ "./src/_selectors/base/index.ts");
+
+
+
+const LeaderboardVersionsDesc = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(_base__WEBPACK_IMPORTED_MODULE_1__.LeaderboardVersions, (versions) => {
+    return (0,lodash__WEBPACK_IMPORTED_MODULE_0__.orderBy)(Object.values(versions), 'created_at', 'desc');
+});
+const LatestLeaderboard = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelector)(LeaderboardVersionsDesc, (versions) => {
+    const latestVersion = versions[0];
+    if (!latestVersion)
+        return {};
+    const prevVersion = versions[1];
+    const prevVersionContestantsById = prevVersion.leaderboard ?? {};
+    const constestantsById = latestVersion.leaderboard;
+    return (0,lodash__WEBPACK_IMPORTED_MODULE_0__.mapValues)(constestantsById, (contestant) => {
+        const contestantOnPrevVersion = prevVersionContestantsById[contestant.id];
+        const { rank, score } = contestant;
+        const { rank: prevRank, score: prevScore } = contestantOnPrevVersion ?? {};
+        return {
+            ...contestant,
+            addedScore: score - (prevScore ?? 0),
+            change: prevRank ? prevRank - score : 0,
+        };
+    });
 });
 
 
@@ -101039,8 +100701,8 @@ const TournamentUserControllerSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_1_
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fetchBets": () => (/* binding */ fetchBets),
+/* harmony export */   "fetchClosedMatchBets": () => (/* binding */ fetchClosedMatchBets),
 /* harmony export */   "fetchMyBets": () => (/* binding */ fetchMyBets),
-/* harmony export */   "fetchOpenMatchBets": () => (/* binding */ fetchOpenMatchBets),
 /* harmony export */   "sendBet": () => (/* binding */ sendBet)
 /* harmony export */ });
 /* harmony import */ var _common_apiRequest__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common/apiRequest */ "./src/api/common/apiRequest.ts");
@@ -101066,9 +100728,9 @@ const fetchMyBets = async (tournamentId) => {
         url: `/api/tournaments/${tournamentId}/bets`
     });
 };
-const fetchOpenMatchBets = async (tournamentId) => {
+const fetchClosedMatchBets = async (tournamentId) => {
     return await (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_0__.sendApiRequest)({
-        url: `/api/tournaments/${tournamentId}/bets/open-games`
+        url: `/api/tournaments/${tournamentId}/bets/closed-games`
     });
 };
 // export const fetchMatchBets = async (tournamentId: number): Promise<BetsApiResult> => {
@@ -101118,6 +100780,28 @@ const sendApiRequest = async ({ type = 'GET', url, data, }) => {
             console.error(data);
             window.toastr["error"](data.responseJSON.message);
         }
+    });
+};
+
+
+/***/ }),
+
+/***/ "./src/api/contestants.ts":
+/*!********************************!*\
+  !*** ./src/api/contestants.ts ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fetchContestants": () => (/* binding */ fetchContestants)
+/* harmony export */ });
+/* harmony import */ var _common_apiRequest__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common/apiRequest */ "./src/api/common/apiRequest.ts");
+
+const fetchContestants = async (tournamentId) => {
+    return await (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_0__.sendApiRequest)({
+        url: `/api/tournaments/${tournamentId}/utls`,
     });
 };
 
@@ -101409,336 +101093,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fetchTeams": () => (/* binding */ fetchTeams)
 /* harmony export */ });
-const fakeAPI = async () => {
-    return {
-        "1": {
-            "id": 1,
-            "external_id": "791",
-            "name": "Ecuador",
-            "crest_url": "https://crests.football-data.org/791.svg",
-            "group_id": "1",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "2": {
-            "id": 2,
-            "external_id": "8601",
-            "name": "Netherlands",
-            "crest_url": "https://crests.football-data.org/8601.svg",
-            "group_id": "1",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "3": {
-            "id": 3,
-            "external_id": "8030",
-            "name": "Qatar",
-            "crest_url": "https://crests.football-data.org/8030.svg",
-            "group_id": "1",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "4": {
-            "id": 4,
-            "external_id": "804",
-            "name": "Senegal",
-            "crest_url": "https://crests.football-data.org/senegal.svg",
-            "group_id": "1",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "5": {
-            "id": 5,
-            "external_id": "770",
-            "name": "England",
-            "crest_url": "https://crests.football-data.org/770.svg",
-            "group_id": "2",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "6": {
-            "id": 6,
-            "external_id": "840",
-            "name": "Iran",
-            "crest_url": "https://crests.football-data.org/iran.svg",
-            "group_id": "2",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "7": {
-            "id": 7,
-            "external_id": "771",
-            "name": "United States",
-            "crest_url": "https://crests.football-data.org/usa.svg",
-            "group_id": "2",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "8": {
-            "id": 8,
-            "external_id": "833",
-            "name": "Wales",
-            "crest_url": "https://crests.football-data.org/833.svg",
-            "group_id": "2",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "9": {
-            "id": 9,
-            "external_id": "762",
-            "name": "Argentina",
-            "crest_url": "https://crests.football-data.org/762.png",
-            "group_id": "3",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "10": {
-            "id": 10,
-            "external_id": "769",
-            "name": "Mexico",
-            "crest_url": "https://crests.football-data.org/769.svg",
-            "group_id": "3",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "11": {
-            "id": 11,
-            "external_id": "794",
-            "name": "Poland",
-            "crest_url": "https://crests.football-data.org/794.svg",
-            "group_id": "3",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "12": {
-            "id": 12,
-            "external_id": "801",
-            "name": "Saudi Arabia",
-            "crest_url": "https://crests.football-data.org/saudi_arabia.svg",
-            "group_id": "3",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "13": {
-            "id": 13,
-            "external_id": "779",
-            "name": "Australia",
-            "crest_url": "https://crests.football-data.org/779.svg",
-            "group_id": "4",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "14": {
-            "id": 14,
-            "external_id": "782",
-            "name": "Denmark",
-            "crest_url": "https://crests.football-data.org/782.svg",
-            "group_id": "4",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "15": {
-            "id": 15,
-            "external_id": "773",
-            "name": "France",
-            "crest_url": "https://crests.football-data.org/773.svg",
-            "group_id": "4",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "16": {
-            "id": 16,
-            "external_id": "802",
-            "name": "Tunisia",
-            "crest_url": "https://crests.football-data.org/tunisia.svg",
-            "group_id": "4",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "17": {
-            "id": 17,
-            "external_id": "793",
-            "name": "Costa Rica",
-            "crest_url": "https://crests.football-data.org/costa_rica.svg",
-            "group_id": "5",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "18": {
-            "id": 18,
-            "external_id": "759",
-            "name": "Germany",
-            "crest_url": "https://crests.football-data.org/759.svg",
-            "group_id": "5",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "19": {
-            "id": 19,
-            "external_id": "766",
-            "name": "Japan",
-            "crest_url": "https://crests.football-data.org/766.svg",
-            "group_id": "5",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "20": {
-            "id": 20,
-            "external_id": "760",
-            "name": "Spain",
-            "crest_url": "https://crests.football-data.org/760.svg",
-            "group_id": "5",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "21": {
-            "id": 21,
-            "external_id": "805",
-            "name": "Belgium",
-            "crest_url": "https://crests.football-data.org/805.svg",
-            "group_id": "6",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "22": {
-            "id": 22,
-            "external_id": "828",
-            "name": "Canada",
-            "crest_url": "https://crests.football-data.org/canada.svg",
-            "group_id": "6",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "23": {
-            "id": 23,
-            "external_id": "799",
-            "name": "Croatia",
-            "crest_url": "https://crests.football-data.org/799.svg",
-            "group_id": "6",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "24": {
-            "id": 24,
-            "external_id": "815",
-            "name": "Morocco",
-            "crest_url": "https://crests.football-data.org/morocco.svg",
-            "group_id": "6",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "25": {
-            "id": 25,
-            "external_id": "764",
-            "name": "Brazil",
-            "crest_url": "https://crests.football-data.org/764.svg",
-            "group_id": "7",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "26": {
-            "id": 26,
-            "external_id": "781",
-            "name": "Cameroon",
-            "crest_url": "https://crests.football-data.org/cameroon.svg",
-            "group_id": "7",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "27": {
-            "id": 27,
-            "external_id": "780",
-            "name": "Serbia",
-            "crest_url": "https://crests.football-data.org/780.svg",
-            "group_id": "7",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "28": {
-            "id": 28,
-            "external_id": "788",
-            "name": "Switzerland",
-            "crest_url": "https://crests.football-data.org/788.svg",
-            "group_id": "7",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "29": {
-            "id": 29,
-            "external_id": "763",
-            "name": "Ghana",
-            "crest_url": "https://crests.football-data.org/ghana.svg",
-            "group_id": "8",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "30": {
-            "id": 30,
-            "external_id": "765",
-            "name": "Portugal",
-            "crest_url": "https://crests.football-data.org/765.svg",
-            "group_id": "8",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "31": {
-            "id": 31,
-            "external_id": "772",
-            "name": "South Korea",
-            "crest_url": "https://crests.football-data.org/772.png",
-            "group_id": "8",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        },
-        "32": {
-            "id": 32,
-            "external_id": "758",
-            "name": "Uruguay",
-            "crest_url": "https://crests.football-data.org/758.svg",
-            "group_id": "8",
-            "created_at": "2022-07-24T19:54:34.000000Z",
-            "updated_at": "2022-07-24T19:54:34.000000Z",
-            "competition_id": 2
-        }
-    };
-};
+/* harmony import */ var _common_apiRequest__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common/apiRequest */ "./src/api/common/apiRequest.ts");
+
 const fetchTeams = async (tournamentId) => {
-    return await fakeAPI();
-    // if (isDevModeTamir()) return await fakeAPI();
-    // return await sendApiRequest({
-    //   url: `/api/tournaments/${tournamentId}/teams`,
-    // });
+    return await (0,_common_apiRequest__WEBPACK_IMPORTED_MODULE_0__.sendApiRequest)({
+        url: `/api/tournaments/${tournamentId}/teams`,
+    });
 };
 
 
@@ -102383,7 +101743,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_matches__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_actions/matches */ "./src/_actions/matches.ts");
 /* harmony import */ var _actions_specialQuestions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_actions/specialQuestions */ "./src/_actions/specialQuestions.ts");
 /* harmony import */ var _actions_teams__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../_actions/teams */ "./src/_actions/teams.ts");
-/* harmony import */ var _actions_utls__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../_actions/utls */ "./src/_actions/utls.ts");
+/* harmony import */ var _actions_contestants__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../_actions/contestants */ "./src/_actions/contestants.ts");
 /* harmony import */ var _selectors_noSelector__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../_selectors/noSelector */ "./src/_selectors/noSelector.ts");
 
 
@@ -102394,14 +101754,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function InitialDataFetcher({ children, fetchAndStoreMatches, fetchAndStoreBets, fetchAndStoreTeams, fetchAndStoreGroups, fetchAndStoreQuestions, fetchAndStoreUsers, }) {
+function InitialDataFetcher({ children, fetchAndStoreMatches, fetchAndStoreBets, fetchAndStoreTeams, fetchAndStoreGroups, fetchAndStoreQuestions, fetchAndStoreContestants, }) {
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         fetchAndStoreTeams();
         fetchAndStoreGroups();
         fetchAndStoreMatches();
         fetchAndStoreQuestions();
-        fetchAndStoreUsers();
+        fetchAndStoreContestants();
         fetchAndStoreBets(_actions_bets__WEBPACK_IMPORTED_MODULE_2__.BetFetchType.MyBets);
+        fetchAndStoreBets(_actions_bets__WEBPACK_IMPORTED_MODULE_2__.BetFetchType.GameBets);
     }, []);
     return (children);
 }
@@ -102411,7 +101772,7 @@ const mapDispatchToProps = {
     fetchAndStoreTeams: _actions_teams__WEBPACK_IMPORTED_MODULE_6__.fetchAndStoreTeams,
     fetchAndStoreGroups: _actions_groups__WEBPACK_IMPORTED_MODULE_3__.fetchAndStoreGroups,
     fetchAndStoreQuestions: _actions_specialQuestions__WEBPACK_IMPORTED_MODULE_5__.fetchAndStoreQuestions,
-    fetchAndStoreUsers: _actions_utls__WEBPACK_IMPORTED_MODULE_7__.fetchAndStoreUsers,
+    fetchAndStoreContestants: _actions_contestants__WEBPACK_IMPORTED_MODULE_7__.fetchAndStoreContestants,
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors_noSelector__WEBPACK_IMPORTED_MODULE_8__.NoSelector, mapDispatchToProps)(InitialDataFetcher));
 
@@ -102432,35 +101793,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../types */ "./src/types/index.ts");
-/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_selectors */ "./src/_selectors/index.ts");
-/* harmony import */ var _ContestantView__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ContestantView */ "./src/leaderboard/ContestantView.tsx");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_selectors */ "./src/_selectors/index.ts");
+/* harmony import */ var _ContestantView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ContestantView */ "./src/leaderboard/ContestantView.tsx");
 
 
 
 
-
-function Contestant({ matchBetsByUserId, groupStandingBetsByUserId, questionBetsByUserId, scoreboardRow, }) {
+function Contestant({ matchBetsByUserId, groupStandingBetsByUserId, questionBetsByUserId, scoreboardRow, rankDisplay, }) {
     const { user_tournament_id } = scoreboardRow;
     const matchBets = matchBetsByUserId[user_tournament_id] ?? [];
     const questionBets = questionBetsByUserId[user_tournament_id] ?? [];
     const groupStandingsBets = groupStandingBetsByUserId[user_tournament_id] ?? [];
-    // TODO: const utl = utlsById[user_tournament_id] ?? [];
-    const utl = {
-        id: 1,
-        name: "bla",
-        role: _types__WEBPACK_IMPORTED_MODULE_2__.UtlRole.User,
-        tournament_id: 5,
-    };
-    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContestantView__WEBPACK_IMPORTED_MODULE_4__.ContestantView, { ...{
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContestantView__WEBPACK_IMPORTED_MODULE_3__.ContestantView, { ...{
+            rankDisplay,
             matchBets,
             questionBets,
             groupStandingsBets,
             scoreboardRow,
-            utl,
         } }));
 }
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors__WEBPACK_IMPORTED_MODULE_3__.ContestantSelector)(Contestant));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(_selectors__WEBPACK_IMPORTED_MODULE_2__.ContestantSelector)(Contestant));
 
 
 /***/ }),
@@ -102503,14 +101855,7 @@ function RankChange({ change, }) {
     }
     return null;
 }
-function ContestantView({ scoreboardRow: { rank, 
-// rankDisplay,
-// change,
-id, 
-// name,
-// addedScore,
-score, user_tournament_id }, matchBets, groupStandingsBets, questionBets, utl }) {
-    console.log(id, rank, user_tournament_id);
+function ContestantView({ rankDisplay, scoreboardRow: { rank, change, id, name, addedScore, score, }, matchBets, groupStandingsBets, questionBets, }) {
     const matchesScore = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.sumBetsScore)(matchBets);
     const groupStandingsScore = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.sumBetsScore)(groupStandingsBets);
     const specialBetScore = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.sumBetsScore)(questionBets);
@@ -102518,14 +101863,18 @@ score, user_tournament_id }, matchBets, groupStandingsBets, questionBets, utl })
         react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "panel panel-default" },
             react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: `panel-heading row rank-${rank}`, style: { marginRight: 0, marginLeft: 0 } },
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-2 pull-right col-no-padding" },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-6 col-no-padding" }, rank),
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-6 col-no-padding", style: { marginRight: "-7px", marginLeft: "7px", marginTop: "-2px" } })),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-6 col-no-padding" }, rankDisplay),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-6 col-no-padding", style: { marginRight: "-7px", marginLeft: "7px", marginTop: "-2px" } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(RankChange, { change: change }))),
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-8 pull-right col-no-padding", style: { marginTop: "2px" } },
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", { className: "panel-title" },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", { "data-toggle": "collapse", href: `#collapserank-${id}` },
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: "admin" }, id),
-                            utl.name))),
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-1 pull-right col-no-padding" }),
+                            name))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-1 pull-right col-no-padding" }, addedScore > 0 ? react__WEBPACK_IMPORTED_MODULE_0__.createElement("bdi", null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: "label label-success", style: { direction: "ltr" }, dir: "RTL" },
+                        "+",
+                        addedScore)) : null),
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-1 pull-right col-no-padding", style: { paddingRight: "7px" } }, score)),
             react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { id: `collapserank-${id}`, className: "panel-collapse collapse" },
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", { className: "nav nav-tabs", style: { paddingRight: "0px" } },
@@ -102625,14 +101974,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ContestantProvider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ContestantProvider */ "./src/leaderboard/ContestantProvider.tsx");
 
 
+function getRankDisplayById(rows) {
+    const rankDisplayById = {};
+    let lastRank = 0;
+    for (const row of rows) {
+        const { rank, id } = row;
+        if (lastRank === row.rank) {
+            rankDisplayById[id] = '-';
+        }
+        else {
+            lastRank = rank;
+            rankDisplayById[id] = `${rank}`;
+        }
+    }
+    return rankDisplayById;
+}
 function LeaderboardView({ rows, }) {
+    const rankDisplayById = getRankDisplayById(rows);
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
         react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "\u05D8\u05D1\u05DC\u05D4 \u05E2\u05D3\u05DB\u05E0\u05D9\u05EA"),
         react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "row", style: { margin: 0, padding: "5px 15px" } },
             react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-2 pull-right col-no-padding", style: { textAlign: "center" } }, "\u05DE\u05D9\u05E7\u05D5\u05DD"),
             react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-8 pull-right col-no-padding", style: { paddingRight: "7px" } }, "\u05E9\u05DD"),
             react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-2 pull-right col-no-padding", style: { paddingRight: "7px", textAlign: "center" } }, "\u05E0\u05D9\u05E7\u05D5\u05D3")),
-        Object.values(rows).map((row) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContestantProvider__WEBPACK_IMPORTED_MODULE_1__["default"], { key: row.id, scoreboardRow: row })))));
+        Object.values(rows).map((row) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ContestantProvider__WEBPACK_IMPORTED_MODULE_1__["default"], { key: row.id, scoreboardRow: row, rankDisplay: rankDisplayById[row.id] })))));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (LeaderboardView);
 
@@ -102669,9 +102034,9 @@ function Position({ position, team, }) {
 function GroupStangingsScore({ bet, }) {
     const { id, score, standings, relatedGroup } = bet;
     const { standings: finalStandings, isDone } = relatedGroup || {};
-    if (!isDone) {
-        return null;
-    }
+    // if (!isDone){
+    //     return null;
+    // }
     return react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", { key: id, className: "list-group-item row flex-row  col-no-padding" },
         react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-2 pull-right col-no-padding", style: { paddingRight: "15px" } }, score),
         react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col-xs-5 pull-right col-no-padding" }, Object.entries(standings).map(([rank, team]) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(Position, { key: rank, ...{ position: Number(rank), team } })))),
@@ -102814,9 +102179,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _matchesView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./matchesView */ "./src/matches/matchesView.js");
+/* harmony import */ var _MatchesView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MatchesView */ "./src/matches/MatchesView.tsx");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _selectors_closedMatchBets__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_selectors/closedMatchBets */ "./src/_selectors/closedMatchBets.ts");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_selectors */ "./src/_selectors/index.ts");
 /* harmony import */ var _actions_bets__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_actions/bets */ "./src/_actions/bets.ts");
 
 
@@ -102824,15 +102189,116 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const ClosedMatchBets = ({ done_matches, live_matches, fetchAndStoreBets, }) => {
-    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        fetchAndStoreBets(_actions_bets__WEBPACK_IMPORTED_MODULE_4__.BetFetchType.GameBets);
-    }, []);
-    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_matchesView__WEBPACK_IMPORTED_MODULE_1__["default"], { done_matches: done_matches, live_matches: live_matches });
+    // useEffect(()=>{
+    //     fetchAndStoreBets(BetFetchType.GameBets);
+    // }, [])
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_MatchesView__WEBPACK_IMPORTED_MODULE_1__["default"], { done_matches: done_matches, live_matches: live_matches });
 };
 const mapDispatchToProps = {
     fetchAndStoreBets: _actions_bets__WEBPACK_IMPORTED_MODULE_4__.fetchAndStoreBets,
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_2__.connect)(_selectors_closedMatchBets__WEBPACK_IMPORTED_MODULE_3__.ClosedMatchBetsSelector, mapDispatchToProps)(ClosedMatchBets));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_2__.connect)(_selectors__WEBPACK_IMPORTED_MODULE_3__.ClosedMatchBetsSelector, mapDispatchToProps)(ClosedMatchBets));
+
+
+/***/ }),
+
+/***/ "./src/matches/MatchesView.tsx":
+/*!*************************************!*\
+  !*** ./src/matches/MatchesView.tsx ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _api_matches__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../api/matches */ "./src/api/matches.ts");
+/* harmony import */ var _widgets_MatchResult__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../widgets/MatchResult */ "./src/widgets/MatchResult.tsx");
+/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.tsx");
+
+
+
+
+
+function MatchGumblesList({ match, }) {
+    const { home_team, away_team, start_time, is_done, betsByValue } = match;
+    return (react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", null,
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("h3", null,
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement("table", { style: { marginBottom: 5 } },
+                react__WEBPACK_IMPORTED_MODULE_1__.createElement("tbody", null,
+                    react__WEBPACK_IMPORTED_MODULE_1__.createElement("tr", { className: "flex-row center-items" },
+                        react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", { className: "around-huge-flag" },
+                            react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_4__["default"], { crest_url: home_team.crest_url, name: home_team.name })),
+                        react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", { style: { padding: 5 } }, "-"),
+                        react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", { className: "around-huge-flag" },
+                            react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_4__["default"], { crest_url: away_team.crest_url, name: away_team.name }))))),
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { style: { fontSize: '75%' } },
+                react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { style: { marginBottom: 5 } }, moment__WEBPACK_IMPORTED_MODULE_0___default()(start_time).format('HH:mm  YYYY/MM/DD')),
+                is_done && (react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { className: "flex-row center-items", style: { marginBottom: 5 } },
+                    react__WEBPACK_IMPORTED_MODULE_1__.createElement("span", { className: "label label-success", style: { marginLeft: 5, fontSize: 12 } }, "\u05D4\u05E1\u05EA\u05D9\u05D9\u05DD"),
+                    react__WEBPACK_IMPORTED_MODULE_1__.createElement("span", null,
+                        match.result_home,
+                        " - ",
+                        match.result_away,
+                        " "))))),
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { style: { padding: 20 } },
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement("table", { className: "table" },
+                react__WEBPACK_IMPORTED_MODULE_1__.createElement("thead", null,
+                    react__WEBPACK_IMPORTED_MODULE_1__.createElement("tr", null,
+                        is_done && (react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null,
+                            react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", { className: "admin" }, "\u05DE\u05D6\u05D4\u05D4 \u05DE\u05D5\u05DB\u05E8"),
+                            react__WEBPACK_IMPORTED_MODULE_1__.createElement("th", { className: "col-xs-3" }, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                            react__WEBPACK_IMPORTED_MODULE_1__.createElement("th", { className: "col-xs-6" }, "\u05DE\u05D4\u05DE\u05E8\u05D9\u05DD"),
+                            react__WEBPACK_IMPORTED_MODULE_1__.createElement("th", { className: "col-xs-3" }, "\u05E0\u05D9\u05E7\u05D5\u05D3"))),
+                        !is_done && (react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null,
+                            react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", { className: "admin" }, "\u05DE\u05D6\u05D4\u05D4 \u05DE\u05D5\u05DB\u05E8"),
+                            react__WEBPACK_IMPORTED_MODULE_1__.createElement("th", { className: "col-xs-6" }, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                            react__WEBPACK_IMPORTED_MODULE_1__.createElement("th", { className: "col-xs-6" }, "\u05DE\u05D4\u05DE\u05E8\u05D9\u05DD"))))),
+                react__WEBPACK_IMPORTED_MODULE_1__.createElement("tbody", null, Object.entries(betsByValue)
+                    .sort(([betVal1, bets1], [betVal2, bets2]) => {
+                    const score1 = bets1[0].score;
+                    const score2 = bets2[0].score;
+                    return score2 - score1;
+                })
+                    .map(([betVal, bets]) => {
+                    const betSample = bets[0];
+                    const { winner_side, result_home, result_away } = betSample;
+                    const gumblers = bets.map(bet => bet.utlName);
+                    return (react__WEBPACK_IMPORTED_MODULE_1__.createElement("tr", { key: betVal },
+                        react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", { className: "admin" },
+                            "match-id: ",
+                            match.id),
+                        react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", null,
+                            react__WEBPACK_IMPORTED_MODULE_1__.createElement(_widgets_MatchResult__WEBPACK_IMPORTED_MODULE_3__["default"], { matchData: {
+                                    winner_side,
+                                    result_home,
+                                    result_away,
+                                }, winner_class: 'bolded' })),
+                        react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", { style: { whiteSpace: 'pre' } }, gumblers.join('\n')),
+                        is_done && (react__WEBPACK_IMPORTED_MODULE_1__.createElement("td", null, betSample.score))));
+                }))))));
+}
+const MatchesView = ({ done_matches, live_matches, }) => {
+    const hasLiveMatches = live_matches.length > 0;
+    return (react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", null,
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("h1", null, "\u05E8\u05E9\u05D9\u05DE\u05EA \u05DE\u05E9\u05D7\u05E7\u05D9\u05DD"),
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { className: "float-right" },
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement("ul", { className: "nav nav-tabs float-right", style: { paddingRight: 0 } },
+                react__WEBPACK_IMPORTED_MODULE_1__.createElement("li", { className: "float-right active" },
+                    react__WEBPACK_IMPORTED_MODULE_1__.createElement("a", { "data-toggle": "tab", href: "#ongoing-games" }, "\u05DE\u05E9\u05D7\u05E7\u05D9\u05DD \u05E0\u05D5\u05DB\u05D7\u05D9\u05D9\u05DD")),
+                react__WEBPACK_IMPORTED_MODULE_1__.createElement("li", { className: "float-right" },
+                    react__WEBPACK_IMPORTED_MODULE_1__.createElement("a", { "data-toggle": "tab", href: "#done-games" }, "\u05DE\u05E9\u05D7\u05E7\u05D9\u05DD \u05E9\u05E0\u05D2\u05DE\u05E8\u05D5")))),
+        react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { className: "tab-content", style: { marginTop: 25 } },
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { id: "ongoing-games", className: "tab-pane fade active in", style: { paddingTop: 35 } },
+                hasLiveMatches && (react__WEBPACK_IMPORTED_MODULE_1__.createElement("button", { className: "btn btn-primary", onClick: _api_matches__WEBPACK_IMPORTED_MODULE_2__.updateScoresFromApi, style: { marginRight: 10, marginTop: 15 } }, "\u05E2\u05D3\u05DB\u05DF \u05EA\u05D5\u05E6\u05D0\u05D5\u05EA")),
+                live_matches.map(match => react__WEBPACK_IMPORTED_MODULE_1__.createElement(MatchGumblesList, { key: match.id, match: match }))),
+            react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { id: "done-games", className: "tab-pane fade", style: { paddingTop: 35 } }, done_matches.map(match => react__WEBPACK_IMPORTED_MODULE_1__.createElement(MatchGumblesList, { key: match.id, match: match }))))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MatchesView);
 
 
 /***/ }),

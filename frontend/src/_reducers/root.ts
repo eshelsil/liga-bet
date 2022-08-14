@@ -14,7 +14,7 @@ import contestants from './contestants';
 const reducer = combineReducers({
     bets: bets.reducer,
     teams: teams.reducer,
-    leaderboard: leaderboard.reducer,
+    leaderboardVersions: leaderboard.reducer,
     specialQuestions: specialQuestions.reducer,
     matches: matches.reducer,
     groups: groups.reducer,

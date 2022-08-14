@@ -1,13 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { UTLsById } from '../types';
+import { UTL, UTLsById } from '../types';
+import { keyBy } from 'lodash';
 
 
 const contestants = createSlice({
   name: 'contestants',
   initialState: {} as UTLsById,
   reducers: {
-    set: (state, action: PayloadAction<UTLsById>) => action.payload,
+    set: (state, action: PayloadAction<UTL[]>) => {
+      return keyBy(action.payload, 'id');
+    },
   },
 });
 

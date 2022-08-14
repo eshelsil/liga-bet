@@ -1,5 +1,5 @@
 import { Dictionary } from '@reduxjs/toolkit';
-import { fetchBets, fetchMyBets, fetchOpenMatchBets, sendBet } from '../api/bets';
+import { fetchBets, fetchMyBets, fetchClosedMatchBets, sendBet } from '../api/bets';
 import { BetApiModel } from '../types';
 import { AppDispatch, GetRootState } from '../_helpers/store';
 import bets from '../_reducers/bets';
@@ -25,7 +25,7 @@ function fetchAndStoreBets(fetchType: BetFetchType, params?: FetchBetsParams) {
       return fetchMyBets(tournamentId).then(storeFunc);
     }
     if (fetchType === BetFetchType.GameBets){
-      return fetchOpenMatchBets(tournamentId).then(storeFunc);
+      return fetchClosedMatchBets(tournamentId).then(storeFunc);
     }
     // return fetchBets(tournamentId)
     //   .then(storeFunc);

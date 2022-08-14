@@ -1,22 +1,22 @@
+import { Dictionary } from '@reduxjs/toolkit';
 import { groupBy } from 'lodash';
 import { createSelector } from 'reselect'
-import { Match, MatchBetApiModel, MatchBetWithRelations } from '../types';
+import { Match, MatchBetApiModel } from '../types';
 import { getMatchBetValue } from '../utils';
-import { Matches } from './base';
-import { MatchBetsByUserId, MatchesWithTeams } from './modelRelations';
+import { MatchBetsByMatchId, MatchesWithTeams } from './modelRelations';
 
 export interface MatchWithBets extends Match {
-    betsByValue: Record<string, MatchBetApiModel[]>
+    betsByValue: Dictionary<MatchBetApiModel[]>
 }
 
 export const ClosedMatchBetsSelector = createSelector(
-    MatchBetsByUserId,
+    MatchBetsByMatchId,
     MatchesWithTeams,
     (matchBetsByMatchId, matches) => {
         const done_matches: MatchWithBets[] = [];
         const live_matches: MatchWithBets[] = [];
         for (const match of Object.values(matches)){
-            if (!match.closed_for_bets) continue;
+            // if (!match.closed_for_bets) continue;
             const bets = matchBetsByMatchId[match.id] ?? [];
             const betsByValue = groupBy(bets, getMatchBetValue);
             const matchWithBetsByValue = {

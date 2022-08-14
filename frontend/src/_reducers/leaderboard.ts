@@ -1,14 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { ScoreboardRow } from '../types';
-import { LeaderboardVersion } from '../types';
+import { LeaderboardVersionById } from '../types';
+import { LeaderboardVersionApiModel } from '../types';
+import { keyBy } from 'lodash';
 
 
 const leaderboard = createSlice({
-  name: 'leaderboard',
-  initialState: [] as ScoreboardRow[],
+  name: 'leaderboardVersions',
+  initialState: {} as LeaderboardVersionById,
   reducers: {
-    set: (state, action: PayloadAction<LeaderboardVersion[]>) => action.payload[0].leaderboard,
+    setRows: (state, action: PayloadAction<LeaderboardVersionApiModel[]>) => {
+      for (const version of action.payload){
+        state[version.id] = {
+          ...version,
+          leaderboard: keyBy(version.leaderboard, 'user_tournament_id'),
+        }
+      }
+    },
   },
 });
 

@@ -1,12 +1,15 @@
 import moment from 'moment';
 import React from 'react';
-import { updateScoresFromApi } from '../api/matches.ts';
-import MatchResult from '../widgets/MatchResult.tsx';
-import TeamWithFlag from '../widgets/TeamWithFlag.tsx';
+import { updateScoresFromApi } from '../api/matches';
+import MatchResult from '../widgets/MatchResult';
+import TeamWithFlag from '../widgets/TeamWithFlag';
+import { MatchWithBets } from '../_selectors';
 
 
 function MatchGumblesList({
     match,
+}: {
+    match: MatchWithBets,
 }){
     const {home_team, away_team, start_time, is_done, betsByValue} = match;
     return (
@@ -80,12 +83,8 @@ function MatchGumblesList({
                                             winner_class={'bolded'}
                                         />
                                     </td>
-                                    <td>
-                                    {gumblers.map(
-                                        (name) => <div key={name}>
-                                            {name}
-                                        </div>
-                                    )}
+                                    <td style={{whiteSpace: 'pre'}}>
+                                        {gumblers.join('\n')}
                                     </td>
                                     {is_done && (
 
@@ -104,6 +103,9 @@ function MatchGumblesList({
 const MatchesView = ({
     done_matches,
     live_matches,
+}: {
+    done_matches: MatchWithBets[],
+    live_matches: MatchWithBets[],
 }) => {
     const hasLiveMatches = live_matches.length > 0;
     return (

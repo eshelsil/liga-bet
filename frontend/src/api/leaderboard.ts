@@ -1,10 +1,9 @@
-import { ScoreboardRow } from "../types";
-import { LeaderboardVersion } from "../types";
+import { LeaderboardVersionApiModel } from "../types";
 import {isDevModeTamir} from "../_helpers/dev";
 import {sendApiRequest} from "./common/apiRequest";
 
 
-type LeaderboardApiResult = LeaderboardVersion[]
+type LeaderboardApiResult = LeaderboardVersionApiModel[]
 
 const EXAMPLE_DATA = [
     {

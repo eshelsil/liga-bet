@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { ScoreboardRow } from '../types';
+import { ScoreboardRowDetailed } from '../types';
 import { fetchAndStoreLeaderboard } from '../_actions/leaderboard'
 import { LeaderboardSelector } from '../_selectors/leaderboard';
 import LeaderboardView from './LeaderboardView';
 
 
 interface Props {
-	leaderboard: ScoreboardRow[],
+	leaderboard: ScoreboardRowDetailed[],
 	hasTournamentStarted: boolean,
 	fetchAndStoreLeaderboard: () => void,
 }

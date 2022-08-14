@@ -27,9 +27,9 @@ export const fetchMyBets = async (tournamentId: number): Promise<BetsApiResult> 
     });
 };
 
-export const fetchOpenMatchBets = async (tournamentId: number): Promise<BetsApiResult> => {
+export const fetchClosedMatchBets = async (tournamentId: number): Promise<BetsApiResult> => {
     return await sendApiRequest({
-        url: `/api/tournaments/${tournamentId}/bets/open-games`
+        url: `/api/tournaments/${tournamentId}/bets/closed-games`
     });
 };
 
