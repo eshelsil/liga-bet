@@ -1,5 +1,7 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import { HasCurrentUtl } from '../_selectors';
 
 
 export interface AppLinkProps {
@@ -9,10 +11,14 @@ export interface AppLinkProps {
 }
 
 function AppLink({path, label, hasReactComponent = false}: AppLinkProps){
+	const hasCurrentUtl = useSelector(HasCurrentUtl);
 	const history = useHistory();
 	const onClick = (e) =>{
 		e.preventDefault();
 		history.push(path);
+	}
+	if (!hasCurrentUtl){
+		return null;
 	}
 	return (
 		<p>

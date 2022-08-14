@@ -1,15 +1,22 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux'
+import React, { ReactNode, useEffect } from 'react';
+import { connect } from 'react-redux';
 
-import {fetchAndStoreUtls} from '../_actions/tournamentUser.ts';
-import {TournamentUserControllerSelector} from '../_selectors/tournaments.ts';
-  
+import { fetchAndStoreUtls } from '../_actions/tournamentUser';
+import { TournamentUserControllerSelector } from '../_selectors/tournaments';
+import ChooseYourUtl from './ChooseYourUtl';
+
+
+interface Props {
+    fetchAndStoreUtls: () => Promise<void>,
+    hasTournamentUser: boolean,
+    children: ReactNode,
+}
 
 function TournamentUserController({
     fetchAndStoreUtls,
     hasTournamentUser,
     children,
-}){
+}: Props){
 
 
     useEffect( ()=>{
@@ -27,10 +34,7 @@ function TournamentUserController({
             </>
         )}
         {!hasTournamentUser && (
-            // Tournament selection will be displayed here?
-            <div>
-                Loading tournaments...
-            </div>
+            <ChooseYourUtl />
         )}
 
     </>

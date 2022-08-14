@@ -1,5 +1,7 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom'
+import { HasCurrentUtl } from '../_selectors';
 import MenuItem from './MenuItem'
 import { routesMap } from './routes'
 
@@ -20,7 +22,7 @@ function AppHeader({
 	const groupBetsRoute = isTournamentStarted ? "all-group-standings" : "open-group-standings";
 	const specialBetsRoute = isTournamentStarted ? "all-questions" : "open-questions";
 	const isPreTourActive = ["all-group-standings", "all-questions", "open-group-standings", "open-questions"].includes(currentRoute);
-	
+	const hasCurrentUtl = useSelector(HasCurrentUtl);
 
 	return (
 		<nav className="navbar navbar-inverse">
@@ -40,6 +42,7 @@ function AppHeader({
 						}}
 					>Liga 'ב - {currentUserName}</a>
 				</div>
+				{hasCurrentUtl && (
 				<div className="collapse navbar-collapse" style={{"float": "right"}} id="myNavbar">
 					<ul className="nav navbar-nav navbar-right">
 						<MenuItem route={routesMap['leaderboard']} currentPath={currentRoute} />
@@ -67,6 +70,7 @@ function AppHeader({
 						</li>
 					</ul>
 				</div>
+				)}
 			</div>
 		</nav>
 	);

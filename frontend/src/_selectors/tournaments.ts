@@ -1,8 +1,13 @@
 import { createSelector } from 'reselect'
-import { CurrentTournamentUser } from './base';
+import { HasCurrentUtl, MyUtls } from './base';
 
 
 export const TournamentUserControllerSelector = createSelector(
-    CurrentTournamentUser,
-    currentTournamentUser => ({ hasTournamentUser: !!currentTournamentUser })
+    HasCurrentUtl,
+    hasCurrentUtl => ({ hasTournamentUser: hasCurrentUtl })
+);
+
+export const MyUtlsSelector = createSelector(
+    MyUtls,
+    myUtls => ({ myUtls })
 );

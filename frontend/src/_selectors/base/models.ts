@@ -24,10 +24,15 @@ export const CurrentTournamentUser = createSelector(
     }
 );
 
+export const HasCurrentUtl = createSelector(
+    CurrentTournamentUser,
+    (utl) => !!utl
+);
+
 export const CurrentTournament = createSelector(
     CurrentTournamentUser,
     (utl) => {
-        return utl.tournament;
+        return utl?.tournament;
     }
 );
     

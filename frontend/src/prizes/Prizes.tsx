@@ -1,4 +1,6 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { HasCurrentUtl } from '../_selectors';
 
 
 const fakePrizes: Record<number, Prize> = {
@@ -45,7 +47,10 @@ function PrizeBlock({
 }
 
 function Prizes(){
-	
+	const hasCurrentUtl = useSelector(HasCurrentUtl);
+	if (!hasCurrentUtl) {
+		return null;
+	}
 	return (<>
 		{Object.values(fakePrizes).map(prize => (
 			<PrizeBlock key={prize.id} prize={prize} />

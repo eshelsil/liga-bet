@@ -16,6 +16,11 @@ function selectFirstUserIfOnlyOne(
 }
 
 
+
+function selectUtl(utlId: number) {
+  return tournamentUser.actions.set({id: utlId});
+}
+
 function fetchAndStoreUtls() {
   return (dispatch: AppDispatch) => {
       return getUserUTLs()
@@ -29,4 +34,5 @@ function fetchAndStoreUtls() {
 
 export {
   fetchAndStoreUtls,
+  selectUtl,
 }
