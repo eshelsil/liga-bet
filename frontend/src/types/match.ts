@@ -29,7 +29,7 @@ export interface Match extends MatchCommonBase {
 export interface MatchResult {
     result_home: number,
     result_away: number,
-    winner_side: WinnerSide,
+    winner_side?: WinnerSide,
 }
 
 export type MatchApiModelById = Record<number, MatchApiModel>

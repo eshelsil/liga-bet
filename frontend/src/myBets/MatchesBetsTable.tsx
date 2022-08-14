@@ -1,9 +1,14 @@
 import React from 'react';
-import TeamAndSymbol from "../widgets/TeamWithFlag.tsx";
-import MatchResult from "../widgets/MatchResult.tsx";
+import TeamAndSymbol from "../widgets/TeamWithFlag";
+import MatchResult from "../widgets/MatchResult";
+import { MatchBetWithRelations, WinnerSide } from '../types';
 
 
-const MatchesBetsTable = ({bets}) => {
+const MatchesBetsTable = ({
+    bets
+}: {
+    bets: MatchBetWithRelations[]
+}) => {
     return (
         <table className="table table-striped">
             <thead>
@@ -47,7 +52,7 @@ const MatchesBetsTable = ({bets}) => {
                             <MatchResult
                                 winner_class="underlined"
                                 matchData={{
-                                    winner_side: bet.result_home > bet.result_away ? "home" : bet.result_home < bet.result_away ? "away" : "",
+                                    winner_side: bet.winner_side,
                                     result_home: bet.result_home,
                                     result_away: bet.result_away,
                                 }}
@@ -57,7 +62,7 @@ const MatchesBetsTable = ({bets}) => {
                             <MatchResult
                                 winner_class="bolded"
                                 matchData={{
-                                    winner_side: bet.relatedMatch.result_home > bet.relatedMatch.result_away ? "home" : bet.relatedMatch.result_home < bet.relatedMatch.result_away ? "away" : "",
+                                    winner_side: bet.winner_side,
                                     result_home: bet.relatedMatch.result_home,
                                     result_away: bet.relatedMatch.result_away,
                                 }}

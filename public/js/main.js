@@ -10457,219 +10457,6 @@ function createListenerMiddleware(middlewareOptions) {
 
 /***/ }),
 
-/***/ "./src/myBets/groupPositionBetsTable.js":
-/*!**********************************************!*\
-  !*** ./src/myBets/groupPositionBetsTable.js ***!
-  \**********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
-
-
-
-var GroupPositionBetsTable = function GroupPositionBetsTable(_ref) {
-  var bets = _ref.bets;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", {
-    className: "table table-striped"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", {
-    className: "admin"
-  }, "\u05DE\u05D6\u05D4\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D1\u05D9\u05EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05EA\u05D5\u05E6\u05D0\u05D4"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, bets // sort alphabetically by group name
-  .sort(function (bet1, bet2) {
-    return bet1.relatedGroup.name.localeCompare(bet2.relatedGroup.name);
-  }).map(function (bet) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-      key: bet.id
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-      className: "admin"
-    }, bet.relatedGroup.id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, bet.relatedGroup.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "col pull-right"
-    }, bet.standings.map(function (team, index) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        key: index,
-        className: "flex-row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "(", index + 1, ")"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        name: team.name,
-        crest_url: team.crest_url
-      }));
-    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "col pull-right"
-    }, bet.relatedGroup.standings && bet.relatedGroup.standings.map(function (team, index) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        key: index,
-        className: "flex-row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "(", index + 1, ")"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        name: team.name,
-        crest_url: team.crest_url
-      }));
-    }), !bet.relatedGroup.standings && '-')));
-  })));
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GroupPositionBetsTable);
-
-/***/ }),
-
-/***/ "./src/myBets/matchesBetsTable.js":
-/*!****************************************!*\
-  !*** ./src/myBets/matchesBetsTable.js ***!
-  \****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
-/* harmony import */ var _widgets_MatchResult_tsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/MatchResult.tsx */ "./src/widgets/MatchResult.tsx");
-
-
-
-
-var MatchesBetsTable = function MatchesBetsTable(_ref) {
-  var bets = _ref.bets;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", {
-    className: "table table-striped"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", {
-    className: "admin"
-  }, "\u05DE\u05D6\u05D4\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05DE\u05E9\u05D7\u05E7"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05EA\u05D5\u05E6\u05D0\u05D4"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, bets.map(function (bet) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-      key: bet.id
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-      className: "admin"
-    }, bet.relatedMatch.id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-      className: "flex-row v-align-center"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      name: bet.relatedMatch.home_team.name,
-      crest_url: bet.relatedMatch.home_team.crest_url,
-      is_underlined: bet.result_home > bet.result_away,
-      is_bold: bet.relatedMatch.result_home > bet.relatedMatch.result_away
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-      className: "dash-space"
-    }, " - "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      name: bet.relatedMatch.away_team.name,
-      crest_url: bet.relatedMatch.away_team.crest_url,
-      is_underlined: bet.result_home < bet.result_away,
-      is_bold: bet.relatedMatch.result_home < bet.relatedMatch.result_away
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-      className: "v-align-center"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_MatchResult_tsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      winner_class: "underlined",
-      matchData: {
-        winner_side: bet.result_home > bet.result_away ? "home" : bet.result_home < bet.result_away ? "away" : "",
-        result_home: bet.result_home,
-        result_away: bet.result_away
-      }
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-      className: "v-align-center"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_MatchResult_tsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      winner_class: "bolded",
-      matchData: {
-        winner_side: bet.relatedMatch.result_home > bet.relatedMatch.result_away ? "home" : bet.relatedMatch.result_home < bet.relatedMatch.result_away ? "away" : "",
-        result_home: bet.relatedMatch.result_home,
-        result_away: bet.relatedMatch.result_away
-      }
-    })));
-  })));
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MatchesBetsTable);
-
-/***/ }),
-
-/***/ "./src/myBets/myBetsView.js":
-/*!**********************************!*\
-  !*** ./src/myBets/myBetsView.js ***!
-  \**********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _styles_global_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../styles/global.scss */ "./src/styles/global.scss");
-/* harmony import */ var _specialBetsTable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./specialBetsTable */ "./src/myBets/specialBetsTable.js");
-/* harmony import */ var _matchesBetsTable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./matchesBetsTable */ "./src/myBets/matchesBetsTable.js");
-/* harmony import */ var _groupPositionBetsTable__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./groupPositionBetsTable */ "./src/myBets/groupPositionBetsTable.js");
-/* harmony import */ var _selectors_myBets_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_selectors/myBets.ts */ "./src/_selectors/myBets.ts");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-
-
-
-
-
-
-
-
-var MyBetsView = function MyBetsView(_ref) {
-  var matchBets = _ref.matchBets,
-      groupRankBets = _ref.groupRankBets,
-      questionBets = _ref.questionBets;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "my-bets-container"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "\u05D4\u05D8\u05D5\u05E4\u05E1 \u05E9\u05DC\u05D9"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_specialBetsTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    bets: questionBets
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_matchesBetsTable__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    bets: matchBets
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_groupPositionBetsTable__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    bets: groupRankBets
-  }));
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_6__.connect)(_selectors_myBets_ts__WEBPACK_IMPORTED_MODULE_5__.MyBetsSelector)(MyBetsView));
-
-/***/ }),
-
-/***/ "./src/myBets/specialBetsTable.js":
-/*!****************************************!*\
-  !*** ./src/myBets/specialBetsTable.js ***!
-  \****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag.tsx */ "./src/widgets/TeamWithFlag.tsx");
-
-
-
-var SpecialBetsTable = function SpecialBetsTable(_ref) {
-  var bets = _ref.bets;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", {
-    className: "table table-striped"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", {
-    className: "admin"
-  }, "\u05DE\u05D6\u05D4\u05D4"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E1\u05D5\u05D2"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05EA\u05D5\u05E6\u05D0\u05D4"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, bets.map(function (bet) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", {
-      key: bet.id
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", {
-      className: "admin"
-    }, bet.id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, bet.relatedQuestion.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      name: bet.answer.name,
-      crest_url: bet.answer.crest_url
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag_tsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      name: bet.relatedQuestion.answer.name,
-      crest_url: bet.relatedQuestion.answer.crest_url
-    })));
-  })));
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SpecialBetsTable);
-
-/***/ }),
-
 /***/ "./src/tournamentUser/TournamentUserController.js":
 /*!********************************************************!*\
   !*** ./src/tournamentUser/TournamentUserController.js ***!
@@ -101231,7 +101018,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _matches_ClosedMatchBetsProvider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../matches/ClosedMatchBetsProvider */ "./src/matches/ClosedMatchBetsProvider.tsx");
 /* harmony import */ var _groupBets_GroupStandingsBetsProvider__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../groupBets/GroupStandingsBetsProvider */ "./src/groupBets/GroupStandingsBetsProvider.tsx");
 /* harmony import */ var _questionBets_ClosedQuestionBetsProvider__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../questionBets/ClosedQuestionBetsProvider */ "./src/questionBets/ClosedQuestionBetsProvider.tsx");
-/* harmony import */ var _myBets_myBetsView__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../myBets/myBetsView */ "./src/myBets/myBetsView.js");
+/* harmony import */ var _myBets_MyBetsView__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../myBets/MyBetsView */ "./src/myBets/MyBetsView.tsx");
 /* harmony import */ var _takanon_Takanon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../takanon/Takanon */ "./src/takanon/Takanon.tsx");
 
 
@@ -101259,7 +101046,7 @@ function AppContent() {
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, { path: '/leaderboard', component: _leaderboard_LeaderboardProvider__WEBPACK_IMPORTED_MODULE_1__["default"] }),
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, { path: '/all-group-standings', component: _groupBets_GroupStandingsBetsProvider__WEBPACK_IMPORTED_MODULE_5__["default"] }),
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, { path: '/all-questions', component: _questionBets_ClosedQuestionBetsProvider__WEBPACK_IMPORTED_MODULE_6__["default"] }),
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, { path: '/my-bets', component: _myBets_myBetsView__WEBPACK_IMPORTED_MODULE_7__["default"] }),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, { path: '/my-bets', component: _myBets_MyBetsView__WEBPACK_IMPORTED_MODULE_7__["default"] }),
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, { path: '/' },
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Redirect, { to: '/open-matches' })))));
 }
@@ -102295,6 +102082,180 @@ const MatchesView = ({ done_matches, live_matches, }) => {
             react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", { id: "done-games", className: "tab-pane fade", style: { paddingTop: 35 } }, done_matches.map(match => react__WEBPACK_IMPORTED_MODULE_1__.createElement(MatchGumblesList, { key: match.id, match: match }))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MatchesView);
+
+
+/***/ }),
+
+/***/ "./src/myBets/GroupPositionBetsTable.tsx":
+/*!***********************************************!*\
+  !*** ./src/myBets/GroupPositionBetsTable.tsx ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.tsx");
+
+
+const GroupPositionBetsTable = ({ bets }) => {
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", { className: "table table-striped" },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null,
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", { className: "admin" }, "\u05DE\u05D6\u05D4\u05D4"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D1\u05D9\u05EA"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05EA\u05D5\u05E6\u05D0\u05D4"))),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, bets
+            // sort alphabetically by group name
+            .sort((bet1, bet2) => bet1.relatedGroup.name.localeCompare(bet2.relatedGroup.name))
+            .map(bet => react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { key: bet.id },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "admin" }, bet.relatedGroup.id),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, bet.relatedGroup.name),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col pull-right" }, bet.standings.map((team, index) => react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { key: index, className: "flex-row" },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null,
+                        "(",
+                        index + 1,
+                        ")"),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], { name: team.name, crest_url: team.crest_url }))))),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "col pull-right" },
+                    bet.relatedGroup.standings && bet.relatedGroup.standings.map((team, index) => react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { key: index, className: "flex-row" },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null,
+                            "(",
+                            index + 1,
+                            ")"),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], { name: team.name, crest_url: team.crest_url }))),
+                    !bet.relatedGroup.standings && '-'))))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GroupPositionBetsTable);
+
+
+/***/ }),
+
+/***/ "./src/myBets/MatchesBetsTable.tsx":
+/*!*****************************************!*\
+  !*** ./src/myBets/MatchesBetsTable.tsx ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.tsx");
+/* harmony import */ var _widgets_MatchResult__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/MatchResult */ "./src/widgets/MatchResult.tsx");
+
+
+
+const MatchesBetsTable = ({ bets }) => {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", { className: "table table-striped" },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null,
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", { className: "admin" }, "\u05DE\u05D6\u05D4\u05D4"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05DE\u05E9\u05D7\u05E7"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05EA\u05D5\u05E6\u05D0\u05D4"))),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, bets.map(bet => react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { key: bet.id },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "admin" }, bet.relatedMatch.id),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "flex-row v-align-center" },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], { name: bet.relatedMatch.home_team.name, crest_url: bet.relatedMatch.home_team.crest_url, is_underlined: bet.result_home > bet.result_away, is_bold: bet.relatedMatch.result_home > bet.relatedMatch.result_away }),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: "dash-space" }, " - "),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], { name: bet.relatedMatch.away_team.name, crest_url: bet.relatedMatch.away_team.crest_url, is_underlined: bet.result_home < bet.result_away, is_bold: bet.relatedMatch.result_home < bet.relatedMatch.result_away })),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "v-align-center" },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_MatchResult__WEBPACK_IMPORTED_MODULE_2__["default"], { winner_class: "underlined", matchData: {
+                        winner_side: bet.winner_side,
+                        result_home: bet.result_home,
+                        result_away: bet.result_away,
+                    } })),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "v-align-center" },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_MatchResult__WEBPACK_IMPORTED_MODULE_2__["default"], { winner_class: "bolded", matchData: {
+                        winner_side: bet.winner_side,
+                        result_home: bet.relatedMatch.result_home,
+                        result_away: bet.relatedMatch.result_away,
+                    } })))))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MatchesBetsTable);
+
+
+/***/ }),
+
+/***/ "./src/myBets/MyBetsView.tsx":
+/*!***********************************!*\
+  !*** ./src/myBets/MyBetsView.tsx ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _styles_global_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../styles/global.scss */ "./src/styles/global.scss");
+/* harmony import */ var _SpecialBetsTable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SpecialBetsTable */ "./src/myBets/SpecialBetsTable.tsx");
+/* harmony import */ var _MatchesBetsTable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./MatchesBetsTable */ "./src/myBets/MatchesBetsTable.tsx");
+/* harmony import */ var _GroupPositionBetsTable__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GroupPositionBetsTable */ "./src/myBets/GroupPositionBetsTable.tsx");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_selectors */ "./src/_selectors/index.ts");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+
+
+
+
+
+
+const MyBetsView = () => {
+    const { matchBets, groupRankBets, questionBets, } = (0,react_redux__WEBPACK_IMPORTED_MODULE_6__.useSelector)(_selectors__WEBPACK_IMPORTED_MODULE_5__.MyBetsSelector);
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "my-bets-container" },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "\u05D4\u05D8\u05D5\u05E4\u05E1 \u05E9\u05DC\u05D9"),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_SpecialBetsTable__WEBPACK_IMPORTED_MODULE_2__["default"], { bets: questionBets }),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_MatchesBetsTable__WEBPACK_IMPORTED_MODULE_3__["default"], { bets: matchBets }),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_GroupPositionBetsTable__WEBPACK_IMPORTED_MODULE_4__["default"], { bets: groupRankBets })));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MyBetsView);
+
+
+/***/ }),
+
+/***/ "./src/myBets/SpecialBetsTable.tsx":
+/*!*****************************************!*\
+  !*** ./src/myBets/SpecialBetsTable.tsx ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/TeamWithFlag */ "./src/widgets/TeamWithFlag.tsx");
+
+
+const SpecialBetsTable = ({ bets, }) => {
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement("table", { className: "table table-striped" },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("thead", null,
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", { className: "admin" }, "\u05DE\u05D6\u05D4\u05D4"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05E1\u05D5\u05D2"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05D4\u05D9\u05DE\u05D5\u05E8"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("th", null, "\u05EA\u05D5\u05E6\u05D0\u05D4"))),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("tbody", null, bets.map((bet => react__WEBPACK_IMPORTED_MODULE_0__.createElement("tr", { key: bet.id },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", { className: "admin" }, bet.id),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null, bet.relatedQuestion.name),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], { name: bet.answer.name, crest_url: bet.answer.crest_url })),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("td", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_widgets_TeamWithFlag__WEBPACK_IMPORTED_MODULE_1__["default"], { name: bet.relatedQuestion.answer.name, crest_url: bet.relatedQuestion.answer.crest_url })))))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SpecialBetsTable);
 
 
 /***/ }),

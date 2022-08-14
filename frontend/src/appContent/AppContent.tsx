@@ -7,7 +7,7 @@ import OpenGroupRankBetsView from '../preTournamentBets/OpenGroupRankBetsProvide
 import MatchesView from '../matches/ClosedMatchBetsProvider';
 import GroupStandingsBetsView from '../groupBets/GroupStandingsBetsProvider';
 import AllQuestionBetsView from '../questionBets/ClosedQuestionBetsProvider';
-import MyBetsView from '../myBets/myBetsView';
+import MyBetsView from '../myBets/MyBetsView';
 import Takanon from '../takanon/Takanon';
 
 

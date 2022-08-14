@@ -1,8 +1,13 @@
 import React from 'react';
-import TeamAndSymbol from "../widgets/TeamWithFlag.tsx";
+import { GroupRankBetWithRelations } from '../types';
+import TeamAndSymbol from "../widgets/TeamWithFlag";
 
 
-const GroupPositionBetsTable = ({bets}) => {
+const GroupPositionBetsTable = ({
+    bets
+}: {
+    bets: GroupRankBetWithRelations[]
+}) => {
 
     return <table className="table table-striped">
         <thead>

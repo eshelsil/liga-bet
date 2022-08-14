@@ -1,9 +1,13 @@
 import React from 'react';
-import TeamAndSymbol from "../widgets/TeamWithFlag.tsx";
+import { QuestionBetWithRelations } from '../types';
+import TeamAndSymbol from "../widgets/TeamWithFlag";
 
 
 const SpecialBetsTable = ({
     bets,
+}: {
+    // bets: QuestionBetWithRelations[],
+    bets: any[],
 }) => {
     return <table className="table table-striped">
         <thead>
