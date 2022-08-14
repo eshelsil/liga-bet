@@ -22,6 +22,7 @@ class UtlResource extends JsonResource
             "user_id"         => $utl->user_id,
             "tournament"      => $utl->tournament,
             "role"            => $utl->role,
+            "name"            => $utl->name,
         ];
     }
 }

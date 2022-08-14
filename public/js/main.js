@@ -99546,18 +99546,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 
-
-const contestants = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
+const contestants = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
     name: 'contestants',
     initialState: {},
     reducers: {
-        set: (state, action) => {
-            return (0,lodash__WEBPACK_IMPORTED_MODULE_0__.keyBy)(action.payload, 'id');
-        },
+        set: (state, action) => action.payload,
     },
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (contestants);
@@ -100195,6 +100190,7 @@ const LeaderboardSelector = (0,reselect__WEBPACK_IMPORTED_MODULE_4__.createSelec
         name: contestants[scoreboardRow.user_tournament_id]?.name ?? '',
     }));
     const sortedScoreboard = (0,lodash__WEBPACK_IMPORTED_MODULE_0__.orderBy)(leaderBoardWithNames, 'rank');
+    console.log(sortedScoreboard);
     return {
         leaderboard: sortedScoreboard,
         hasTournamentStarted,
