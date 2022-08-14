@@ -100301,13 +100301,13 @@ const LatestLeaderboard = (0,reselect__WEBPACK_IMPORTED_MODULE_2__.createSelecto
     const prevVersionContestantsById = prevVersion.leaderboard ?? {};
     const constestantsById = latestVersion.leaderboard;
     return (0,lodash__WEBPACK_IMPORTED_MODULE_0__.mapValues)(constestantsById, (contestant) => {
-        const contestantOnPrevVersion = prevVersionContestantsById[contestant.id];
+        const contestantOnPrevVersion = prevVersionContestantsById[contestant.user_tournament_id];
         const { rank, score } = contestant;
         const { rank: prevRank, score: prevScore } = contestantOnPrevVersion ?? {};
         return {
             ...contestant,
             addedScore: score - (prevScore ?? 0),
-            change: prevRank ? prevRank - score : 0,
+            change: prevRank ? prevRank - rank : 0,
         };
     });
 });

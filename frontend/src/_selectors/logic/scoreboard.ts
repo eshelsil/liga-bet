@@ -19,13 +19,13 @@ export const LatestLeaderboard = createSelector(
         const prevVersionContestantsById = prevVersion.leaderboard ?? {};
         const constestantsById = latestVersion.leaderboard;
         return mapValues(constestantsById, (contestant: ScoreboardRow) => {
-            const contestantOnPrevVersion = prevVersionContestantsById[contestant.id];
+            const contestantOnPrevVersion = prevVersionContestantsById[contestant.user_tournament_id];
             const {rank, score} = contestant;
             const {rank: prevRank, score: prevScore} = contestantOnPrevVersion ?? {};
             return {
                 ...contestant,
                 addedScore: score - (prevScore ?? 0),
-                change: prevRank ? prevRank - score : 0,
+                change: prevRank ? prevRank - rank : 0,
             }
         });
     }
