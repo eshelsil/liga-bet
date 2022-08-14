@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { MyUtlsById } from '../types';
 
@@ -10,7 +10,7 @@ import './style.scss';
 
 
 interface Props {
-    selectUtl: (id: number) => Promise<void>,
+    selectUtl: (id: number) => any,
     myUtls: MyUtlsById,
 }
 
