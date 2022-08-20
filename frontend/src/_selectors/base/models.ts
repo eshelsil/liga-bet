@@ -14,6 +14,8 @@ export const Matches = (state: RootState) => state.matches;
 export const Teams = (state: RootState) => state.teams;
 export const Groups = (state: RootState) => state.groups;
 export const SpecialQuestions = (state: RootState) => state.specialQuestions;
+export const OwnedTournament = (state: RootState) => state.ownedTournament;
+export const Competitions = (state: RootState) => state.competitions;
 // export const Players = (state: RootState) => state.players;
 
 export const CurrentTournamentUser = createSelector(

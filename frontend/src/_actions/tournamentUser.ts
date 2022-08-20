@@ -1,7 +1,7 @@
-import { getUserUTLs } from '../api/users';
+import { getUserUTLs, joinTournament } from '../api/users';
 import tournamentUser from '../_reducers/tournamentUser';
 import {AppDispatch} from '../_helpers/store';
-import { MyUtlsById } from '../types';
+import { MyUtlsById, UtlWithTournament } from '../types';
 import utlsSlice from '../_reducers/myUtls';
 
 
@@ -21,6 +21,10 @@ function selectUtl(utlId: number) {
   return tournamentUser.actions.set({id: utlId});
 }
 
+function resetUtlSelection() {
+  return tournamentUser.actions.reset();
+}
+
 function fetchAndStoreUtls() {
   return (dispatch: AppDispatch) => {
       return getUserUTLs()
@@ -31,8 +35,26 @@ function fetchAndStoreUtls() {
   }
 }
 
+function createUtl({
+  name,
+  tournamentCode,
+}: {
+  name: string,
+  tournamentCode: string,
+}) {
+  return (dispatch: AppDispatch) => {
+      return joinTournament({name, code: tournamentCode})
+      .then( (utl: UtlWithTournament )=> {
+        dispatch(utlsSlice.actions.add(utl));
+        dispatch(selectUtl(utl.id));
+      })
+  }
+}
+
 
 export {
   fetchAndStoreUtls,
   selectUtl,
+  createUtl,
+  resetUtlSelection,
 }

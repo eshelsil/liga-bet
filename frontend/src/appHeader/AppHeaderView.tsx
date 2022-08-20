@@ -4,6 +4,10 @@ import { useHistory } from 'react-router-dom'
 import { HasCurrentUtl } from '../_selectors';
 import MenuItem from './MenuItem'
 import { routesMap } from './routes'
+import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
+import { useDispatch } from 'react-redux';
+import { resetUtlSelection } from '../_actions/tournamentUser';
+import { AppDispatch } from '../_helpers/store';
 
 
 interface Props {
@@ -18,11 +22,14 @@ function AppHeader({
 	currentRoute,
 }: Props){
 	const history = useHistory();
+	const dispatch: AppDispatch = useDispatch();
 	
 	const groupBetsRoute = isTournamentStarted ? "all-group-standings" : "open-group-standings";
 	const specialBetsRoute = isTournamentStarted ? "all-questions" : "open-questions";
 	const isPreTourActive = ["all-group-standings", "all-questions", "open-group-standings", "open-questions"].includes(currentRoute);
 	const hasCurrentUtl = useSelector(HasCurrentUtl);
+
+	const deselectUtl = () => dispatch(resetUtlSelection());
 
 	return (
 		<nav className="navbar navbar-inverse">
@@ -61,6 +68,10 @@ function AppHeader({
 						<MenuItem route={routesMap['my-bets']} currentPath={currentRoute} />
 					</ul>
 					<ul className="nav navbar-nav navbar-left">
+						<MenuItem route={routesMap['choose-utl']} currentPath={currentRoute}
+							onClick={deselectUtl}
+							icon={<EmojiEventsOutlinedIcon />}
+						/>
 						<MenuItem route={routesMap['set-password']} currentPath={currentRoute} />
 						<li>
 							<a href='/logout'>
