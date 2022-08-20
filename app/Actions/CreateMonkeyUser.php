@@ -29,7 +29,8 @@ class CreateMonkeyUser
     public function handle(Tournament $tournament)
     {
         $user = $this->createUser();
-        $utl = $user->linkTournament($tournament);
+        $name = 'monkey_' . rand(0, 9999);
+        $utl = $tournament->createUTL($user, $name);
 
         $tournament->competition->groups
             ->each(fn (Group $group) => $this->betGroup($group, $utl));

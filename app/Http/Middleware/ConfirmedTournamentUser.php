@@ -3,8 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use JsonException;
 
-class ConfirmedUser
+class ConfirmedTournamentUser
 {
     /**
      * Handle an incoming request.
@@ -15,8 +16,10 @@ class ConfirmedUser
      */
     public function handle($request, Closure $next)
     {
-        if (!\Auth::user()->isConfirmed()) {
-            return redirect('/home');
+        $tournamentId = $request->route('tournamentId');
+        if (!\Auth::user()->isConfirmed($tournamentId)) {
+            throw new JsonException("המשתמש לא אושר על ידי מנהל הטורניר", 401);
+
         }
         return $next($request);
     }

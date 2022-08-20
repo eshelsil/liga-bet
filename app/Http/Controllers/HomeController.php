@@ -24,30 +24,30 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index()
-    {
-        $user = Auth::user();
-        if (!$user->isConfirmed()){
-            return  view('home')->with(["show_table" => false]);
-        }
+    // public function index()
+    // {
+    //     $user = Auth::user();
+    //     if (!$user->isConfirmed()){
+    //         return  view('home')->with(["show_table" => false]);
+    //     }
 
-        $bets = Bet::query()->get()->groupBy("user_id");
+    //     $bets = Bet::query()->get()->groupBy("user_id");
 
-        $table = Ranks::query()->latest()->first()->getData();
-        $summary_msg = $this->getSummaryMessage($table);
-        foreach ($table as $row) {
-            $row->betsByType = $bets->get($row->id, collect())->groupBy("type");
-        }
+    //     $table = Ranks::query()->latest()->first()->getData();
+    //     $summary_msg = $this->getSummaryMessage($table);
+    //     foreach ($table as $row) {
+    //         $row->betsByType = $bets->get($row->id, collect())->groupBy("type");
+    //     }
 
-        $teamsByExtId = Team::getTeamsByExternalId();
+    //     $teamsByExtId = Team::getTeamsByExternalId();
 
-        return view('home')->with([
-            "table" => $table,
-            "matches" => Game::all(),
-            "teamsByExtId" => $teamsByExtId,
-            "summary_msg" => $summary_msg,
-        ]);
-    }
+    //     return view('home')->with([
+    //         "table" => $table,
+    //         "matches" => Game::all(),
+    //         "teamsByExtId" => $teamsByExtId,
+    //         "summary_msg" => $summary_msg,
+    //     ]);
+    // }
 
     public function summaryMessageSeen()
     {

@@ -66,8 +66,8 @@ class User extends Authenticatable
     ];
 
     const TYPE_ADMIN = 2;
-    const TYPE_CONFIRMED = 1;
-    const TYPE_NOT_CONFIRMED = 0;
+    const TYPE_TOURNAMENT_ADMIN = 1;
+    const TYPE_USER = 0;
     const TYPE_MONKEY = -1;
 
     public function isAdmin()
@@ -75,9 +75,16 @@ class User extends Authenticatable
         return $this->permissions == self::TYPE_ADMIN;
     }
 
-    public function isConfirmed()
+    public function isTournamentAdmin()
     {
-        return $this->permissions > 0;
+        return $this->permissions == self::TYPE_TOURNAMENT_ADMIN;
+    }
+
+    public function isConfirmed(int $tournamentId)
+    {
+        $utl = $this->getTournamentUser($tournamentId);
+        if (!$utl) return false;
+        return $utl->isConfirmed();
     }
 
     public function isMonkey()
@@ -95,9 +102,20 @@ class User extends Authenticatable
         return $this->belongsToMany(Tournament::class, (new TournamentUser)->getTable());
     }
 
+    public function ownedTournaments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Tournament::class, 'creator_user_id');
+    }
+
     public function utls(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(TournamentUser::class);
+    }
+
+    public function getManagedTouranemnts()
+    {
+        $utls = $this->utls->filter(fn($utl) => $utl->isTournamentAdmin());
+        return $utls->map(fn($utl) => $utl->tournament);
     }
 
     public static function create($params): User
@@ -108,16 +126,16 @@ class User extends Authenticatable
         return $user;
     }
 
-    public function linkTournament(Tournament $tournament): TournamentUser
-    {
-        /** @var TournamentUser $utl */
-        $utl = $this->utls()->save(new TournamentUser([
-            "tournament_id" => $tournament->id,
-            "role" => User::TYPE_MONKEY,
-        ]));
+    // public function linkTournament(Tournament $tournament): TournamentUser
+    // {
+    //     /** @var TournamentUser $utl */
+    //     $utl = $this->utls()->save(new TournamentUser([
+    //         "tournament_id" => $tournament->id,
+    //         "role" => User::TYPE_MONKEY,
+    //     ]));
 
-        return $utl;
-    }
+    //     return $utl;
+    // }
 
     public function getGroupBetsById() {
         $groups = Group::all();
