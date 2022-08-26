@@ -44,6 +44,10 @@ const routes: Route[] = [
 		iconClass: "change_password_icon",
 	},
 	{
+		path: "choose-utl",
+		label: "טורנירים",
+	},
+	{
 		path: "logout",
 		label: "התנתק",
 		iconClass: "logout_icon",

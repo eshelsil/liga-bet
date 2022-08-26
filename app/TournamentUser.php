@@ -36,6 +36,48 @@ class TournamentUser extends Model
 
     protected static $unguarded = true;
 
+    const ROLE_ADMIN = 'admin';
+    const ROLE_MANAGER = 'manager';
+    const ROLE_CONTESTANT = 'contestant';
+    const ROLE_NOT_CONFIRMED = 'not_confirmed';
+    const ROLE_MONKEY = 'monkey';
+
+    static function permissions(string $role)
+    {
+        if ($role == self::ROLE_ADMIN){
+            return 3;
+        } else if ($role == self::ROLE_MANAGER) {
+            return 2;
+        } else if ($role == self::ROLE_CONTESTANT) {
+            return 1;
+        } else if ($role == self::ROLE_NOT_CONFIRMED) {
+            return 0;
+        } else if ($role == self::ROLE_MONKEY) {
+            return -1;
+        }
+    }
+
+    public function isAdmin()
+    {
+        return $this->role == self::ROLE_ADMIN;
+    }
+
+    public function hasManagerPermissions()
+    {
+        return static::permissions($this->role) >= static::permissions(self::ROLE_MANAGER);
+    }
+
+    public function isConfirmed()
+    {
+        return static::permissions($this->role) > static::permissions(self::ROLE_NOT_CONFIRMED);
+    }
+
+    public function isMonkey()
+    {
+        return $this->role == self::ROLE_MONKEY;
+    }
+
+
     public function tournament(): BelongsTo
     {
         return $this->belongsTo(Tournament::class);

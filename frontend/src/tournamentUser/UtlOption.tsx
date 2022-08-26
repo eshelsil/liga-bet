@@ -1,9 +1,5 @@
-import React, { ReactNode, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { MyUtlsById, UtlWithTournament } from '../types';
-
-import { selectUtl } from '../_actions/tournamentUser';
-import { MyUtlsSelector } from '../_selectors';
+import React from 'react';
+import { UtlWithTournament } from '../types';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 

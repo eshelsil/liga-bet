@@ -1,4 +1,5 @@
 export * from './bet';
+export * from './competition';
 export * from './match';
 export * from './teams';
 export * from './group';

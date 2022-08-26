@@ -10,4 +10,5 @@ export interface Tournament {
     status: TournamentStatus,
     competitionId: number,
     config: any,
+    code: string,
 }

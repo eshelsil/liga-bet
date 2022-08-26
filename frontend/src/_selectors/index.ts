@@ -1,5 +1,6 @@
 export * from './appHeader';
 export * from './auth';
+export * from './createNewTournament';
 export * from './closedMatchBets';
 export * from './groupStandingBets';
 export * from './leaderboard';

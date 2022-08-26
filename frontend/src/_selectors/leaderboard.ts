@@ -15,7 +15,6 @@ export const LeaderboardSelector = createSelector(
             name: contestants[scoreboardRow.user_tournament_id]?.name ?? '',
         }));
         const sortedScoreboard = orderBy(leaderBoardWithNames, 'rank');
-        console.log(sortedScoreboard)
         return {
             leaderboard: sortedScoreboard,
             hasTournamentStarted,

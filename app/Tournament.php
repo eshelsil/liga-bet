@@ -40,6 +40,10 @@ use Illuminate\Database\Eloquent\Model;
 class Tournament extends Model
 {
 
+    const STATUS_DONE = 'done';
+    const STATUS_ONGOING = 'ongoing';
+    const STATUS_INITIAL = 'initial';
+
     public function competition(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Competition::class);
@@ -63,5 +67,32 @@ class Tournament extends Model
     public function leaderboardVersions(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(LeaderboardsVersion::class);
+    }
+
+    public function getUtlOfUser(User $user)
+    {
+        return $this->utls->where('user_id', $user->id)->first();
+    }
+
+    public function getCreatorUserId()
+    {
+        return $this->creator_user_id;
+    }
+
+    public function createUTL(User $user, string $name)
+    {
+        $role = TournamentUser::ROLE_NOT_CONFIRMED;
+        if ($this->getCreatorUserId() == $user->id){
+            $role = TournamentUser::ROLE_ADMIN;
+        } else if ($user->isMonkey()){
+            $role = TournamentUser::ROLE_MONKEY;
+        }
+        $utl = TournamentUser::create([
+            'user_id' => $user->id,
+            'tournament_id' => $this->id,
+            'name' => $name,
+            'role' => $role
+        ]);
+        return $utl;
     }
 }

@@ -1,13 +1,18 @@
 
-import { createSlice } from '@reduxjs/toolkit'
+import { Action, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
 
+interface CurrentUtl {
+  id: number,
+}
+
 const tournamentUser = createSlice({
   name: 'currentUtl',
-  initialState: {} as {id: number},
+  initialState: {} as CurrentUtl,
   reducers: {
-    set: (state, action: PayloadAction<{id: number}>) => action.payload,
+    set: (state, action: PayloadAction<CurrentUtl>) => action.payload,
+    reset: () => ({} as CurrentUtl),
   },
 })
 
