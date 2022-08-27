@@ -38,26 +38,30 @@ class UserController extends Controller
 
     public function joinTournament(Request $request)
     {
-        $name = $request->name;
-        if (!$name || strlen($name) < 2){
+        $name = $request->json("name");
+        if (!$name || strlen($name) < 2) {
             throw new JsonException("השם שלך בטורניר חייב להכיל לפחות 2 תווים", 400);
         }
-        $tournamentCode = $request->code;
-        if (!$tournamentCode){
+
+        $tournamentCode = $request->json("code");
+        if ( ! $tournamentCode) {
             throw new JsonException("לא הוזן קוד טורניר", 400);
         }
+
         $tournament = Tournament::where('code', $tournamentCode)->first();
-        if (!$tournament){
+        if ( ! $tournament) {
             throw new JsonException("לא נמצא טורניר עם הקוד $tournamentCode", 400);
         }
-        $user = Auth::user();
+
+        $user        = Auth::user();
         $existingUtl = $tournament->getUtlOfUser($user);
-        if ($existingUtl){
+        if ($existingUtl) {
             throw new JsonException("המשתמש כבר רשום לטורניר זה", 400);
         }
-        $utl = $tournament->createUTL($user, $name);
-        $data = (new UtlResource($utl))->toArray($request);
-        return new JsonResponse($data, 200);
+
+        $utl  = $tournament->createUTL($user, $name);
+
+        return new UtlResource($utl);
     }
 
     public function getOwnedTournaments(Request $request)

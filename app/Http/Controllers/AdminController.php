@@ -118,7 +118,7 @@ class AdminController extends Controller
         if (Group::areBetsOpen()){
             throw new JsonException("Removing players from scorers table is not allowed when specia_bets are still open", 403);
         }
-        $specialBet = SpecialBet::getByType(SpecialBet::TYPE_TOP_SCORRER);
+        $specialBet = SpecialBet::getByType(SpecialBet::TYPE_TOP_SCORER);
         $relevantBets = Bet::where("type", BetTypes::SpecialBet)
             ->where('type_id', $specialBet->id)
             ->get();

@@ -1,8 +1,10 @@
 <?php
 
+use App\Tournament;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 class TournamentAddCode extends Migration
 {
@@ -14,7 +16,14 @@ class TournamentAddCode extends Migration
     public function up()
     {
         Schema::table('tournaments', function (Blueprint $table) {
-            $table->string('code')->unique();
+            $table->string('code');
+        });
+
+        Tournament::all()
+            ->each(fn(Tournament $t) => $t->update(["code" => Str::lower(Str::random(6))]));
+
+        Schema::table('tournaments', function (Blueprint $table) {
+            $table->unique('code');
         });
     }
 

@@ -38,8 +38,6 @@ use Illuminate\Support\Facades\Log;
  */
 class Group extends Model implements BetableInterface
 {
-    static $firstMatchStartTime = null;
-
     public function isComplete(){
         return !is_null($this->standings);
     }
