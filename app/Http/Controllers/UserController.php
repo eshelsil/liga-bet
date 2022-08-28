@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ContestantResource;
 use App\Http\Resources\UtlResource;
 use App\Tournament;
 use App\TournamentUser;
@@ -75,8 +76,9 @@ class UserController extends Controller
         $utl = $this->getUser()->getTournamentUser($tournamentId);
 
         $data = $utl->tournament->utls
+            ->filter(fn($utl) => $utl->isCompeting())
             ->map(
-                fn(TournamentUser $utl) => (new UtlResource($utl))->toArray($request)
+                fn(TournamentUser $utl) => (new ContestantResource($utl))->toArray($request)
             )
             ->keyBy("id");
 

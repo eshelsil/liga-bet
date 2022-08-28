@@ -64,6 +64,21 @@ class TournamentUser extends Model
         return $this->role == self::ROLE_ADMIN;
     }
 
+    public function isManager()
+    {
+        return $this->role == self::ROLE_MANAGER;
+    }
+
+    public function isContestant()
+    {
+        return $this->role == self::ROLE_CONTESTANT;
+    }
+
+    public function isNotConfirmed()
+    {
+        return $this->role == self::ROLE_NOT_CONFIRMED;
+    }
+
     public function hasManagerPermissions()
     {
         return static::permissions($this->role) >= static::permissions(self::ROLE_MANAGER);
@@ -77,6 +92,11 @@ class TournamentUser extends Model
     public function isMonkey()
     {
         return $this->role == self::ROLE_MONKEY;
+    }
+
+    public function isCompeting()
+    {
+        return $this->isConfirmed() || $this->isMonkey();
     }
 
 
