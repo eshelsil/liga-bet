@@ -68,7 +68,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'username' => $data['username'],
             'password' => Hash::make($data['password']),
-            'permissions' => $is_first_user ? User::TYPE_ADMIN : User::TYPE_NOT_CONFIRMED
+            'permissions' => $is_first_user ? User::TYPE_ADMIN : User::TYPE_USER
         ]);
 
         $this->guard()->login($user, true);
