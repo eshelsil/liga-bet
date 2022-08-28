@@ -54,6 +54,8 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
         'confirmed_user' => \App\Http\Middleware\ConfirmedTournamentUser::class,
+        'tournament_admin' => \App\Http\Middleware\TournamentAdmin::class,
+        'tournament_manager' => \App\Http\Middleware\TournamentManager::class,
         'group_bets_closed' => \App\Http\Middleware\RankBetsClosedMiddleware::class,
         'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
