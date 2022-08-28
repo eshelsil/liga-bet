@@ -3,7 +3,7 @@
 namespace App\Http\Validations;
 
 use App\User;
-use JsonException;
+use App\Exceptions\JsonException;
 
 class EnsureTournamentAdmin
 {

@@ -7,7 +7,7 @@ use App\Tournament;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use JsonException;
+use App\Exceptions\JsonException;
 
 class TournamentController extends Controller
 {
