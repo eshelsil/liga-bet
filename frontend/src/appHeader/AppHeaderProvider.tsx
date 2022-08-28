@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import AppHeader from './AppHeaderView';
 import { AppHeaderSelector } from '../_selectors';
 
