@@ -21,8 +21,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read int|null $games_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Group[] $groups
  * @property-read int|null $groups_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Scorer[] $scorers
- * @property-read int|null $scorers_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Player[] $players
+ * @property-read int|null $players_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Team[] $teams
  * @property-read int|null $teams_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Tournament[] $tournaments
@@ -62,9 +62,9 @@ class Competition extends Model
         return $this->hasMany(Group::class);
     }
 
-    public function scorers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function players(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
     {
-        return $this->hasMany(Scorer::class);
+        return $this->hasManyThrough(Player::class, Team::class);
     }
 
     public function teams(): \Illuminate\Database\Eloquent\Relations\HasMany
@@ -81,13 +81,12 @@ class Competition extends Model
     public function getFinalGame(): ?Game
     {
         return $this->games->where('type', 'knockout')
-                           ->where('sub_type', 'FINAL')
-                           ->first();
+                           ->firstWhere('sub_type', 'FINAL');
     }
 
     public function isDone() {
         $final = $this->getFinalGame();
-        return $final && !$final->is_done;
+        return $final && $final->is_done;
     }
 
     public function hasAllGroupsStandings(){

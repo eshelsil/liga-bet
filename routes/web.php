@@ -47,15 +47,10 @@ Route::post('/admin/send-global-notification', [AdminController::class, 'sendGlo
 Route::get('/admin/users-to-confirm', [AdminController::class, 'showUsersToConfirm'])->name('users-to-confirm');
 Route::get('/admin/confirmed-users', [AdminController::class, 'showConfirmedUsers'])->name('confirmed-users');
 Route::post('/admin/set-permission', [AdminController::class, 'setPermission']);
-Route::get('/admin/download-data', [AdminController::class, 'downloadInitialData']);
 Route::get('/admin/calc-special-bets', [AdminController::class, 'calculateSpecialBets']);
 Route::get('/admin/calc-special-bet/{name}', [AdminController::class, 'calculateSpecialBet']);
 Route::get('/admin/index', [AdminController::class, 'showTools']);
 Route::put('/admin/reset-user-pass/{id}', [AdminController::class, 'resetPass']);
-Route::get('/admin/remove-irrelevant-scorers', [AdminController::class, 'removeIrrelevantScorers']);
-Route::get('/admin/add-scorer', [AdminController::class, 'showAddScorer']);
-Route::post('/admin/add-scorer', [AdminController::class, 'addScorer']);
-Route::get('/admin/init-scorers', [AdminController::class, 'saveDefaultScorers']);
 Route::put('/admin/format-custom-answers', [AdminController::class, 'formatSpecialBetsCustomAnswer']);
 Route::post('/admin/create-rank-row', [AdminController::class, 'createNewRankingRow']);
 Route::post('/admin/update-last-rank-row', [AdminController::class, 'updateLastRankingRow']);

@@ -8,17 +8,10 @@
 
 namespace App\Actions;
 
-use App\Bet;
 use App\Competition;
-use App\Enums\BetTypes;
-use App\Game;
-use App\Scorer;
+use App\Player;
 use App\SpecialBets\SpecialBet;
 use App\Team;
-use App\Tournament;
-use App\TournamentUser;
-use App\User;
-use Illuminate\Database\Eloquent\Collection;
 
 class UpdateCompetitionScorers
 {
@@ -32,7 +25,7 @@ class UpdateCompetitionScorers
     {
         $scorers = $competition->getCrawler()->fetchScorers();
 
-        $relevantScorers = $competition->scorers;
+        $relevantScorers = $competition->players;
         $saveFirstAnyway = $competition->isDone();
 
         $mostGoals = null;
@@ -50,7 +43,7 @@ class UpdateCompetitionScorers
                     continue;
                 }
 
-                $scorerModel = new Scorer();
+                $scorerModel = new Player();
                 $scorerModel->competition_id = $competition->id;
                 $scorerModel->external_id = $id;
                 $scorerModel->name = data_get($scorer, 'player.name');

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Scorer;
+use App\Player;
 use App\SpecialBets\SpecialBet;
 use App\Enums\BetTypes;
 use App\Bet;
@@ -45,7 +45,7 @@ class DebugController extends Controller
     }
 
     public function getScorersIntuitiveData(){
-        $rows = Scorer::all(['id', 'external_id', 'name'])->toArray();
+        $rows = Player::all(['id', 'external_id', 'name'])->toArray();
         echo "Scorers:";
         foreach ($rows as $row){
             echo "<br>{";

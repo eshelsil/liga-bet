@@ -6,7 +6,7 @@ use App\Bets\AbstractBetRequest;
 use App\SpecialBets\SpecialBet;
 use App\TournamentUser;
 use Illuminate\Support\Facades\Log;
-use App\Scorer;
+use App\Player;
 use App\Team;
 use App\Bet;
 use App\Enums\BetTypes;
@@ -127,7 +127,7 @@ class BetSpecialBetsRequest extends AbstractBetRequest
         if (static::$scorerIds){
             return static::$scorerIds;
         }
-        return static::$scorerIds = Scorer::all(['external_id'])->pluck('external_id')->toArray();
+        return static::$scorerIds = Player::all(['external_id'])->pluck('external_id')->toArray();
     }
 
     public static function getTeamIds() {
