@@ -1,6 +1,20 @@
-import { UtlRole, MyUtlsById, UTLsById, UTL, UtlWithTournament } from "../types";
+import { MyUtlsById, UtlWithTournament, User } from "../types";
 import { sendApiRequest } from "./common/apiRequest";
 
+
+export const getUsers = async (): Promise<User[]> => {
+    return await sendApiRequest({
+        url: '/api/users'
+    })
+}
+
+export const updateUser = async (userId: number, data: Partial<User>): Promise<User> => {
+    return await sendApiRequest({
+        url: `/api/users/${userId}`,
+        type: 'PUT',
+        data,
+    })
+}
 
 export const getUserUTLs = async (): Promise<MyUtlsById> => {
     return await sendApiRequest({
@@ -21,58 +35,3 @@ export const joinTournament = async ({
         data: {code, name},
     })
 }
-
-
-// const sendRequest = async (): Promise<UTLsById> => {
-//     return {
-//         20: {
-//             id: 20,
-//             name: "Eliyahu Hanavim",
-//             role: UtlRole.Admin,
-//             tournament_id: 1,
-//         },
-//         18: {
-//             id: 18,
-//             name: "Avi Siman Savir",
-//             role: UtlRole.Manager,
-//             tournament_id: 1,
-//         },
-//         3: {
-//             id: 3,
-//             name: "Moshe Zion Shlush",
-//             role: UtlRole.Manager,
-//             tournament_id: 1,
-//         },
-//         7: {
-//             id: 7,
-//             name: "Edgar Bat-Sheshet",
-//             role: UtlRole.User,
-//             tournament_id: 1,
-//         },
-//         23: {
-//             id: 23,
-//             name: "Simha Riff Cohen",
-//             role: UtlRole.User,
-//             tournament_id: 1,
-//         },
-//         1: {
-//             id: 1,
-//             name: "Isam Tuka",
-//             role: UtlRole.User,
-//             tournament_id: 1,
-//         },
-//         4: {
-//             id: 4,
-//             name: "Niv Dalpa Sivi",
-//             role: UtlRole.User,
-//             tournament_id: 1,
-//         },
-//         26: {
-//             id: 26,
-//             name: "Yaniv Catan",
-//             role: UtlRole.User,
-//             tournament_id: 1,
-//         },
-//     };
-// }
-// export const fetchUsers = sendRequest;

@@ -24,7 +24,7 @@ class CreateTournamentSpecialBets
     const DEFAULT_DATA = [
         ["type" => SpecialBet::TYPE_WINNER, "title" => "זוכה"],
         ["type" => SpecialBet::TYPE_RUNNER_UP, "title" => "סגנית"],
-        ["type" => SpecialBet::TYPE_TOP_SCORRER, "title" => "מלך השערים"],
+        ["type" => SpecialBet::TYPE_TOP_SCORER, "title" => "מלך השערים"],
         ["type" => SpecialBet::TYPE_MOST_ASSISTS, "title" => "מלך הבישולים"],
         ["type" => SpecialBet::TYPE_MVP, "title" => "מצטיין הטורניר"],
         ["type" => SpecialBet::TYPE_OFFENSIVE_TEAM, "title" => "ההתקפה החזקה בבתים"],

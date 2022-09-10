@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $role
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $name
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Bet[] $bets
  * @property-read int|null $bets_count
  * @property-read \App\Tournament|null $tournament
@@ -24,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|TournamentUser query()
  * @method static \Illuminate\Database\Eloquent\Builder|TournamentUser whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TournamentUser whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TournamentUser whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TournamentUser whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TournamentUser whereTournamentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TournamentUser whereUpdatedAt($value)
@@ -62,6 +64,21 @@ class TournamentUser extends Model
         return $this->role == self::ROLE_ADMIN;
     }
 
+    public function isManager()
+    {
+        return $this->role == self::ROLE_MANAGER;
+    }
+
+    public function isContestant()
+    {
+        return $this->role == self::ROLE_CONTESTANT;
+    }
+
+    public function isNotConfirmed()
+    {
+        return $this->role == self::ROLE_NOT_CONFIRMED;
+    }
+
     public function hasManagerPermissions()
     {
         return static::permissions($this->role) >= static::permissions(self::ROLE_MANAGER);
@@ -75,6 +92,11 @@ class TournamentUser extends Model
     public function isMonkey()
     {
         return $this->role == self::ROLE_MONKEY;
+    }
+
+    public function isCompeting()
+    {
+        return $this->isConfirmed() || $this->isMonkey();
     }
 
 

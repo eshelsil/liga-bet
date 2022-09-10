@@ -44,11 +44,10 @@ class SpecialBet extends Model implements BetableInterface
 
     const TYPE_WINNER = "winner";
     const TYPE_RUNNER_UP   = "runner_up";
-    const TYPE_TOP_SCORRER = "top_scorer";
+    const TYPE_TOP_SCORER = "top_scorer";
     const TYPE_MOST_ASSISTS = "most_assists";
     const TYPE_MVP = "mvp";
     const TYPE_OFFENSIVE_TEAM = "offensive_team";
-
 
     /**
      * @return BelongsTo
@@ -256,7 +255,7 @@ class SpecialBet extends Model implements BetableInterface
             case SpecialBet::TYPE_RUNNER_UP:
                 return $this->calcRoadToFinal($bet_answer);
                 break;
-            case SpecialBet::TYPE_TOP_SCORRER:
+            case SpecialBet::TYPE_TOP_SCORER:
                 return $this->calcTopScorer($bet_answer);
                 break;
             default:
@@ -282,7 +281,7 @@ class SpecialBet extends Model implements BetableInterface
             case SpecialBet::TYPE_RUNNER_UP:
                 return $this->getRunnerUp();
                 break;
-            case SpecialBet::TYPE_TOP_SCORRER:
+            case SpecialBet::TYPE_TOP_SCORER:
                 return $this->getTopScorers()->map(function($player){
                     return $player->external_id;
                 })->toArray();
@@ -315,7 +314,7 @@ class SpecialBet extends Model implements BetableInterface
             case SpecialBet::TYPE_RUNNER_UP:
                 $answer = Team::all()->random()->id;
                 break;
-            case SpecialBet::TYPE_TOP_SCORRER:
+            case SpecialBet::TYPE_TOP_SCORER:
                 $answer = Scorer::all()->random()->external_id;
                 break;
             default:

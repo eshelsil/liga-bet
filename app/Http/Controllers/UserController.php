@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ContestantResource;
 use App\Http\Resources\UtlResource;
 use App\Tournament;
 use App\TournamentUser;
@@ -10,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use JsonException;
+use App\Exceptions\JsonException;
 
 class UserController extends Controller
 {
@@ -38,26 +39,30 @@ class UserController extends Controller
 
     public function joinTournament(Request $request)
     {
-        $name = $request->name;
-        if (!$name || strlen($name) < 2){
+        $name = $request->json("name");
+        if (!$name || strlen($name) < 2) {
             throw new JsonException("השם שלך בטורניר חייב להכיל לפחות 2 תווים", 400);
         }
-        $tournamentCode = $request->code;
-        if (!$tournamentCode){
+
+        $tournamentCode = $request->json("code");
+        if ( ! $tournamentCode) {
             throw new JsonException("לא הוזן קוד טורניר", 400);
         }
+
         $tournament = Tournament::where('code', $tournamentCode)->first();
-        if (!$tournament){
+        if ( ! $tournament) {
             throw new JsonException("לא נמצא טורניר עם הקוד $tournamentCode", 400);
         }
-        $user = Auth::user();
+
+        $user        = Auth::user();
         $existingUtl = $tournament->getUtlOfUser($user);
-        if ($existingUtl){
+        if ($existingUtl) {
             throw new JsonException("המשתמש כבר רשום לטורניר זה", 400);
         }
-        $utl = $tournament->createUTL($user, $name);
-        $data = (new UtlResource($utl))->toArray($request);
-        return new JsonResponse($data, 200);
+
+        $utl  = $tournament->createUTL($user, $name);
+
+        return new UtlResource($utl);
     }
 
     public function getOwnedTournaments(Request $request)
@@ -71,8 +76,9 @@ class UserController extends Controller
         $utl = $this->getUser()->getTournamentUser($tournamentId);
 
         $data = $utl->tournament->utls
+            ->filter(fn($utl) => $utl->isCompeting())
             ->map(
-                fn(TournamentUser $utl) => (new UtlResource($utl))->toArray($request)
+                fn(TournamentUser $utl) => (new ContestantResource($utl))->toArray($request)
             )
             ->keyBy("id");
 
@@ -89,5 +95,71 @@ class UserController extends Controller
         $user->password = Hash::make($password);
         $user->save();
         return response()->json(200);
+    }
+
+
+    // Manage Users:
+
+    public function index(Request $request)
+    {
+        $roles = $request->roles;
+        $search = $request->search;
+        $users = User::query()
+        ->when($roles, function($q) use ($roles) {
+            return $q->whereIn('permissions', $roles);
+        })
+        ->when(!$roles, fn($q) =>
+            $q->where('permissions', '>=', 0)
+        )
+        ->when($search, function($q) use ($search) {
+            $searchLike = '%'.$search.'%';
+            return $q->where('username', 'like', $searchLike)
+                ->orWhere('name', 'like', $searchLike);
+        })
+        ->get();
+        return new JsonResponse($users, 200);
+    }
+
+    public function update(Request $request, string $userId)
+    {
+        $newPermissions = $request->permissions;
+        if ( !in_array($newPermissions, [User::TYPE_TOURNAMENT_ADMIN, User::TYPE_USER]) ){
+            throw new JsonException("Got unsupported permissions type \"$newPermissions\". The only permissions types allowed to be set are [".User::TYPE_TOURNAMENT_ADMIN.", ".User::TYPE_USER."]", 400);
+        }
+        $user = User::find($userId);
+        if (!$user){
+            throw new JsonException("User with id $userId does not exist", 400);
+        }
+        $permissions = $user->permissions;
+        if ($newPermissions == User::TYPE_TOURNAMENT_ADMIN){
+            if ($permissions == User::TYPE_USER){
+                $this->ensureCanGrantTournamentAdminPermissions();
+            } else {
+                throw new JsonException("Only users with TYPE_USER permissions can become tournament-admin", 400);
+            }
+        }
+        if ($newPermissions == User::TYPE_USER){
+            if ($permissions == User::TYPE_TOURNAMENT_ADMIN){
+                $this->ensureCanRemoveTournametAdminPermissions($user);
+            } else {
+                throw new JsonException("Only users with TYPE_TOURNAMENT_ADMIN permissions can become a regular-user", 400);
+            }
+        }
+        $user->permissions = $newPermissions;
+        $user->save(); 
+        return new JsonResponse($user, 200);
+    }
+
+    private function ensureCanRemoveTournametAdminPermissions(User $user){
+        $ownedTournaments = $user->ownedTournaments();
+        if ($ownedTournaments->count() > 0){
+            throw new JsonException("User \"$user->username\" (id: $user->id) has already created a tournament", 400);
+        }
+    }
+
+    private function ensureCanGrantTournamentAdminPermissions(){
+        if (Tournament::count() >= 40){
+            throw new JsonException("Cannot have more than 40 tournament-admins", 403);
+        }
     }
 }

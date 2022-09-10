@@ -7,12 +7,18 @@
  */
 
 namespace App\Exceptions;
-
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Http\JsonResponse;
 
 class JsonException extends \Exception
 {
+    protected $httpCode;
+
+    public function __construct($message = '', $httpCode = 400, $code = 0, \Throwable $previous = null ) {
+        $this->httpCode = $httpCode;
+        parent::__construct($message, $code, $previous);
+    }
+    
 
     /**
      * Convert the object to its JSON representation.
@@ -23,5 +29,6 @@ class JsonException extends \Exception
      */
     public function render($options = 0)
     {
-        return new JsonResponse(["status" => 1, "code" => $this->code, "message" => $this->message], 500);
-}}
+        return new JsonResponse(["status" => 1, "code" => $this->code, "message" => $this->message], $this->httpCode);
+    }
+}

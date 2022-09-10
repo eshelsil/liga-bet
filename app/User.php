@@ -25,6 +25,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property-read int|null $bets_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
+ * @property-read Collection|\App\Tournament[] $ownedTournaments
+ * @property-read int|null $owned_tournaments_count
  * @property-read Collection|\App\Tournament[] $tournaments
  * @property-read int|null $tournaments_count
  * @property-read Collection|\App\TournamentUser[] $utls
@@ -80,6 +82,11 @@ class User extends Authenticatable
         return $this->permissions == self::TYPE_TOURNAMENT_ADMIN;
     }
 
+    public function hasTournamentAdminPermissions()
+    {
+        return $this->permissions >= self::TYPE_TOURNAMENT_ADMIN;
+    }
+
     public function isConfirmed(int $tournamentId)
     {
         $utl = $this->getTournamentUser($tournamentId);
@@ -111,31 +118,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(TournamentUser::class);
     }
-
-    public function getManagedTouranemnts()
-    {
-        $utls = $this->utls->filter(fn($utl) => $utl->isTournamentAdmin());
-        return $utls->map(fn($utl) => $utl->tournament);
-    }
-
-    public static function create($params): User
-    {
-        $user = new static($params);
-        $user->save();
-
-        return $user;
-    }
-
-    // public function linkTournament(Tournament $tournament): TournamentUser
-    // {
-    //     /** @var TournamentUser $utl */
-    //     $utl = $this->utls()->save(new TournamentUser([
-    //         "tournament_id" => $tournament->id,
-    //         "role" => User::TYPE_MONKEY,
-    //     ]));
-
-    //     return $utl;
-    // }
 
     public function getGroupBetsById() {
         $groups = Group::all();

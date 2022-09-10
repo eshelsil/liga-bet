@@ -78,7 +78,7 @@ class BetSpecialBetsRequest extends AbstractBetRequest
                     throw new \InvalidArgumentException("Could not bet \"runner_up\" as {{$answer}} because user has already bet \"winner\" as {{$answer}}. 'winner' & 'runner_up' bets cannot be the same");
                 }
                 break;
-            case SpecialBet::TYPE_TOP_SCORRER:
+            case SpecialBet::TYPE_TOP_SCORER:
                 $this->validateTopScorer($answer);
                 break;
             default:

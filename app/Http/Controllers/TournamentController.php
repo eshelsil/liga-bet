@@ -6,45 +6,40 @@ use App\Competition;
 use App\Tournament;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use JsonException;
+use Illuminate\Support\Str;
+use App\Exceptions\JsonException;
 
 class TournamentController extends Controller
 {
-    public function createTournament(Request $request) {
+    public function createTournament(Request $request)
+    {
         $user = $this->getUser();
         $this->validateCreatePermissions();
         $this->validateCreateInputs($request);
-        $tournament = new Tournament();
-        $tournament->name = $request->name;
-        $tournament->status = Tournament::STATUS_INITIAL;
-        $tournament->config = json_encode([]);
-        $tournament->competition_id = $request->competition;
-        $tournament->code = $this->generateCode();
+        $tournament                  = new Tournament();
+        $tournament->name            = $request->name;
+        $tournament->status          = Tournament::STATUS_INITIAL;
+        $tournament->config          = json_encode([]);
+        $tournament->competition_id  = $request->competition;
+        $tournament->code            = Str::lower(Str::random(6));
         $tournament->creator_user_id = $user->id;
         $tournament->save();
+
         return new JsonResponse($tournament, 200);
     }
 
-    private function generateCode(){
-        $length = 6;
-        $characters = 'abcdefghijklmnopqrstuvwxyz';
-        $charactersCount = strlen($characters);
-        $code = '';
-        for ($i = 0; $i < $length; $i++) {
-            $code .= $characters[rand(0, $charactersCount - 1)];
-        }
-        return $code;
-    }
-
-    private function validateCreatePermissions() {
+    private function validateCreatePermissions()
+    {
         $user = $this->getUser();
-        if ($user->isAdmin()) return;
-        if ($user->isTournamentAdmin()){
-            $tournaments = $user->getManagedTouranemnts();
-            if (count($tournaments) == 0) return;
-            throw new JsonException("לא ניתן לפתוח יותר מטורניר אחד", 401);
+        if (! $user->hasTournamentAdminPermissions()) {
+            throw new JsonException("אין לך את ההרשאות הדרושות כדי לפתוח טורניר משלך", 401);
         }
-        throw new JsonException("אין לך את ההרשאות הדרושות כדי לפתוח טורניר משלך", 401);
+
+        if ($user->isTournamentAdmin()) {
+            if ($user->ownedTournaments()->count() > 0) {
+                throw new JsonException("לא ניתן לפתוח יותר מטורניר אחד", 401);
+            }
+        }
     }
 
     private function validateCreateInputs(Request $request) {

@@ -67,6 +67,6 @@ class UpdateCompetitionScorers
             }
         }
 
-        $this->calculateSpecialBets->execute($competition->id, [SpecialBet::TYPE_TOP_SCORRER]);
+        $this->calculateSpecialBets->execute($competition->id, [SpecialBet::TYPE_TOP_SCORER]);
     }
 }

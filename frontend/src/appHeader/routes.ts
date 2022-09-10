@@ -48,6 +48,10 @@ const routes: Route[] = [
 		label: "טורנירים",
 	},
 	{
+		path: "contestants",
+		label: "נהל משתתפים",
+	},
+	{
 		path: "logout",
 		label: "התנתק",
 		iconClass: "logout_icon",

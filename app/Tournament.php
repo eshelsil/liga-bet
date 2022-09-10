@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $creator_user_id
+ * @property string $code
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Bet[] $bets
  * @property-read int|null $bets_count
  * @property-read \App\Competition|null $competition
@@ -28,9 +30,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Tournament newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Tournament newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Tournament query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Tournament whereCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tournament whereCompetitionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tournament whereConfig($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tournament whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tournament whereCreatorUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tournament whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tournament whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tournament whereStatus($value)
@@ -43,6 +47,8 @@ class Tournament extends Model
     const STATUS_DONE = 'done';
     const STATUS_ONGOING = 'ongoing';
     const STATUS_INITIAL = 'initial';
+
+    protected static $unguarded = true;
 
     public function competition(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
@@ -71,28 +77,23 @@ class Tournament extends Model
 
     public function getUtlOfUser(User $user)
     {
-        return $this->utls->where('user_id', $user->id)->first();
-    }
-
-    public function getCreatorUserId()
-    {
-        return $this->creator_user_id;
+        return $this->utls->firstWhere('user_id', $user->id);
     }
 
     public function createUTL(User $user, string $name)
     {
         $role = TournamentUser::ROLE_NOT_CONFIRMED;
-        if ($this->getCreatorUserId() == $user->id){
+        if ($this->creator_user_id == $user->id){
             $role = TournamentUser::ROLE_ADMIN;
-        } else if ($user->isMonkey()){
+        } elseif ($user->isMonkey()){
             $role = TournamentUser::ROLE_MONKEY;
         }
-        $utl = TournamentUser::create([
+
+        return TournamentUser::create([
             'user_id' => $user->id,
             'tournament_id' => $this->id,
             'name' => $name,
             'role' => $role
         ]);
-        return $utl;
     }
 }

@@ -118,7 +118,7 @@ class AdminController extends Controller
         if (Group::areBetsOpen()){
             throw new JsonException("Removing players from scorers table is not allowed when specia_bets are still open", 403);
         }
-        $specialBet = SpecialBet::getByType(SpecialBet::TYPE_TOP_SCORRER);
+        $specialBet = SpecialBet::getByType(SpecialBet::TYPE_TOP_SCORER);
         $relevantBets = Bet::where("type", BetTypes::SpecialBet)
             ->where('type_id', $specialBet->id)
             ->get();
@@ -248,7 +248,7 @@ class AdminController extends Controller
     public function setPermission(Request $request){
         $request->validate([
             "user_id" => ["required", "integer", "exists:users,id"],
-            "permission" => ["required", Rule::in([User::TYPE_NOT_CONFIRMED, User::TYPE_CONFIRMED, User::TYPE_ADMIN])]
+            "permission" => ["required", Rule::in([User::TYPE_TOURNAMENT_ADMIN, User::TYPE_USER, User::TYPE_ADMIN])]
         ]);
 
         $user_id = $request->get('user_id');
