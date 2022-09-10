@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Exceptions\JsonException;
 use Closure;
 use App\User;
 
@@ -18,7 +19,7 @@ class AdminMiddleware
     {
         $user = \Auth::user();
         if ( !$user || $user->permissions !== User::TYPE_ADMIN) {
-            return redirect('/home');
+            throw new JsonException("Resource is available only for liga-bet admins", 403);
         }
         return $next($request);
     }
