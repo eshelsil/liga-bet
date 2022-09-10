@@ -98,26 +98,41 @@ class UserController extends Controller
     }
 
 
+
     // Manage Users:
 
     public function index(Request $request)
     {
         $roles = $request->roles;
         $search = $request->search;
-        $users = User::query()
-        ->when($roles, function($q) use ($roles) {
-            return $q->whereIn('permissions', $roles);
-        })
-        ->when(!$roles, fn($q) =>
-            $q->where('permissions', '>=', 0)
-        )
-        ->when($search, function($q) use ($search) {
-            $searchLike = '%'.$search.'%';
-            return $q->where('username', 'like', $searchLike)
-                ->orWhere('name', 'like', $searchLike);
-        })
-        ->get();
-        return new JsonResponse($users, 200);
+        $limit = $request->limit;
+        $offset = $request->offset;
+        $fileredQuery = User::query()
+            ->when($roles, function($q) use ($roles) {
+                return $q->whereIn('permissions', $roles);
+            })
+            ->when(!$roles, fn($q) =>
+                $q->where('permissions', '>=', 0)
+            )
+            ->when($search, function($q) use ($search) {
+                $searchLike = '%'.$search.'%';
+                return $q->where(function($q) use ($searchLike){
+                    return $q->where('username', 'like', $searchLike)
+                        ->orWhere('name', 'like', $searchLike);
+                });
+            });
+        $total = $fileredQuery->count();
+        $users = $fileredQuery
+            ->when($limit, function($q) use ($limit) {
+                return $q->take($limit);
+            })
+            ->when($offset, function($q) use ($offset) {
+                return $q->skip($offset);
+            })
+            ->get();
+        return (new JsonResponse($users, 200, [
+            'X-Total-Count' => $total
+        ]));
     }
 
     public function update(Request $request, string $userId)
