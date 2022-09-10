@@ -1,3 +1,5 @@
+import { reportApiError } from "../../utils";
+
 interface ApiRequestParams {
     type?: string,
     url: string,
@@ -17,7 +19,7 @@ export const sendApiRequest = async ({
         data: data ? JSON.stringify(data) : undefined,
         error: function(data) {
             console.error(data);
-            (window as any).toastr["error"](data.responseJSON.message);
+            reportApiError(data);
         }
     })
 }

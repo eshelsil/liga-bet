@@ -10,6 +10,7 @@ import specialQuestions from './specialQuestions';
 import teams from './teams';
 import tournamentUser from './tournamentUser';
 import contestants from './contestants';
+import users from './users';
 import ownedTournament from './ownedTournament';
 import competitions from './competitions';
 
@@ -28,6 +29,7 @@ const reducer = combineReducers({
     ownedTournament: ownedTournament.reducer,
     competitions: competitions.reducer,
     tournamentUTLs: tournamentUTLs.reducer,
+    users: users.reducer,
 });
 
 export default reducer;

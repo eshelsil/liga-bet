@@ -12,6 +12,7 @@ import Takanon from '../takanon/Takanon';
 import TournamentUserController from '../tournamentUser/TournamentUserController';
 import InitialDataFetcher from '../initialDataFetcher/InitialDataFetcher';
 import ManageContestantsProvider from '../manageContestants/ManageContestantsProvider';
+import ManageUsers from '../manageUsers';
 
 
 function AppContent(){
@@ -25,6 +26,7 @@ function AppContent(){
                 <Switch>
                     <Route path='/open-questions' component={OpenGroupRankBetsView} />
                     {/* ABOVE TBD ^--------^*/}
+                    <Route path='/admin/users' component={ManageUsers} />
                     <Route path='/contestants' component={ManageContestantsProvider} />
                     <Route path='/takanon' component={Takanon} />
                     <Route path='/open-group-standings' component={OpenGroupRankBetsView} />

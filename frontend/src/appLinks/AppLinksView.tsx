@@ -27,6 +27,13 @@ const appLinks: AppLinksConfig = {
 		label: 'Admin Tools',
 		isAdminView: true,
 	},
+	manageUsers: {
+		id: 'manageUsers',
+		path: '/admin/users',
+		label: 'Manage users',
+		hasReactComponent: true,
+		isAdminView: true,
+	},
 };
 
 interface Props {

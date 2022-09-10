@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { isTournamentStarted } from '../../utils';
+import { isAdmin } from '../../utils';
 import { CurrentTournament, CurrentUser } from './models';
 
 
@@ -16,20 +16,10 @@ export const IsTournamentStarted = createSelector(
 
 export const IsAdmin = createSelector(
     CurrentUser,
-    user => user.isAdmin,
+    user => isAdmin(user),
 );
 
 export const CurrentUserName = createSelector(
     CurrentUser,
     user => user.name,
 );
-
-// export const CurentTournamentSelector = createSelector(
-//     CurrentTournamentUser,
-//     currentTournamentUser => currentTournamentUser.tournament ?? {}
-// );
-    
-// export const CompetitionIdSelector = createSelector(
-//     CurentTournamentSelector,
-//     currentTournament => currentTournament.competition_id
-// );
