@@ -1,7 +1,9 @@
-import { getUsers, updateUser } from '../api/users';
+import { getUsers, GetUsersParams, updateUser } from '../api/users';
 import { AppDispatch } from '../_helpers/store';
 import { UserPermissions } from '../types';
+import { compactObject } from '../utils';
 import userSlice from '../_reducers/users';
+import userTotalCountSlice from '../_reducers/usersTotalCount';
 
 
 function revokeTournamentAdminPermissions(userId: number){
@@ -18,10 +20,11 @@ function makeTournamentAdmin(userId: number){
   }
 }
 
-function fetchAndStoreUsers() {
+function fetchAndStoreUsers(params?: GetUsersParams) {
   return async (dispatch: AppDispatch) => {
-    const users = await getUsers();
+    const { users, totalCount } = await getUsers(compactObject(params));
     dispatch(userSlice.actions.set(users));
+    dispatch(userTotalCountSlice.actions.set(totalCount));
   }
 }
 

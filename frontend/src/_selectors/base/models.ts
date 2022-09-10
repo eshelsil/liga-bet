@@ -18,6 +18,7 @@ export const SpecialQuestions = (state: RootState) => state.specialQuestions;
 export const OwnedTournament = (state: RootState) => state.ownedTournament;
 export const Competitions = (state: RootState) => state.competitions;
 export const Users = (state: RootState) => state.users;
+export const UsersTotalCount = (state: RootState) => state.usersTotalCount;
 // export const Players = (state: RootState) => state.players;
 
 export const CurrentTournamentUser = createSelector(
