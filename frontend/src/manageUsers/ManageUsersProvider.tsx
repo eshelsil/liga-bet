@@ -37,6 +37,7 @@ function ManageUsers({
 	return (<>
 		<ManageUserView
 			users={Object.values(usersById)}
+			fetchUsers={fetchAndStoreUsers}
 			makeTournamentAdmin={upgradeToTournamentAdmin}
 			revokeTournamentAdminPermissions={downgradeToRegularUser}
 		/>

@@ -1,6 +1,7 @@
-import { getUsers, updateUser } from '../api/users';
+import { getUsers, GetUsersParams, updateUser } from '../api/users';
 import { AppDispatch } from '../_helpers/store';
 import { UserPermissions } from '../types';
+import { compactObject } from '../utils';
 import userSlice from '../_reducers/users';
 
 
@@ -18,9 +19,9 @@ function makeTournamentAdmin(userId: number){
   }
 }
 
-function fetchAndStoreUsers() {
+function fetchAndStoreUsers(params?: GetUsersParams) {
   return async (dispatch: AppDispatch) => {
-    const users = await getUsers();
+    const users = await getUsers(compactObject(params));
     dispatch(userSlice.actions.set(users));
   }
 }

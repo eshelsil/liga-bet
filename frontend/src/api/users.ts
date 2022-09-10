@@ -1,10 +1,23 @@
-import { MyUtlsById, UtlWithTournament, User } from "../types";
+import { MyUtlsById, UtlWithTournament, User, UserPermissions } from "../types";
 import { sendApiRequest } from "./common/apiRequest";
 
 
-export const getUsers = async (): Promise<User[]> => {
+export interface GetUsersParams{
+    search?: string,
+    roles?: UserPermissions[],
+  }
+
+export const getUsers = async ({roles, ...restParams}: GetUsersParams): Promise<User[]> => {
+
+    const searchParams = new URLSearchParams({
+        ...restParams,
+    });
+    for (const role of roles ?? []){
+        searchParams.append('roles[]', `${role}`);
+    }
+    const search = searchParams.toString();
     return await sendApiRequest({
-        url: '/api/users'
+        url: `/api/users?${search}`,
     })
 }
 
