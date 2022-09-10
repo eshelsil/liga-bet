@@ -1,13 +1,15 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom'
-import { HasCurrentUtl } from '../_selectors';
+import { HasCurrentUtl, HasManagerPermissions } from '../_selectors';
 import MenuItem from './MenuItem'
 import { routesMap } from './routes'
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
+import ManageUTLsIcon from '@mui/icons-material/PeopleAltOutlined';
 import { useDispatch } from 'react-redux';
 import { resetUtlSelection } from '../_actions/tournamentUser';
 import { AppDispatch } from '../_helpers/store';
+import './style.scss';
 
 
 interface Props {
@@ -23,6 +25,7 @@ function AppHeader({
 }: Props){
 	const history = useHistory();
 	const dispatch: AppDispatch = useDispatch();
+	const hasManagerPermissions = useSelector(HasManagerPermissions);
 	
 	const groupBetsRoute = isTournamentStarted ? "all-group-standings" : "open-group-standings";
 	const specialBetsRoute = isTournamentStarted ? "all-questions" : "open-questions";
@@ -32,7 +35,7 @@ function AppHeader({
 	const deselectUtl = () => dispatch(resetUtlSelection());
 
 	return (
-		<nav className="navbar navbar-inverse">
+		<nav className="LigaBet-AppHeader navbar navbar-inverse">
 			<div className="container-fluid">
 				<div className="navbar-header" style={{"float": "right", "textAlign": "right"}}>
 					<button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -67,10 +70,19 @@ function AppHeader({
 						</li>
 						<MenuItem route={routesMap['my-bets']} currentPath={currentRoute} />
 					</ul>
+					{hasManagerPermissions && (
+						<ul className="nav navbar-nav">
+							<MenuItem
+								route={routesMap['contestants']}
+								currentPath={currentRoute}
+								icon={<ManageUTLsIcon className='headerIcon' />}
+							/>
+						</ul>
+					)}
 					<ul className="nav navbar-nav navbar-left">
 						<MenuItem route={routesMap['choose-utl']} currentPath={currentRoute}
 							onClick={deselectUtl}
-							icon={<EmojiEventsOutlinedIcon />}
+							icon={<EmojiEventsOutlinedIcon className='headerIcon' />}
 						/>
 						<MenuItem route={routesMap['set-password']} currentPath={currentRoute} />
 						<li>

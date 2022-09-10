@@ -248,7 +248,7 @@ class AdminController extends Controller
     public function setPermission(Request $request){
         $request->validate([
             "user_id" => ["required", "integer", "exists:users,id"],
-            "permission" => ["required", Rule::in([User::TYPE_NOT_CONFIRMED, User::TYPE_CONFIRMED, User::TYPE_ADMIN])]
+            "permission" => ["required", Rule::in([User::TYPE_TOURNAMENT_ADMIN, User::TYPE_USER, User::TYPE_ADMIN])]
         ]);
 
         $user_id = $request->get('user_id');

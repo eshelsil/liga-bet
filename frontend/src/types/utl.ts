@@ -1,9 +1,11 @@
 import { Tournament } from './tournament';
 
 export enum UtlRole {
-    Admin = 'Admin',
-    Manager = 'Manager',
-    User = 'User',
+    Admin = 'admin',
+    Manager = 'manager',
+    Contestant = 'contestant',
+    NotConfirmed = 'not_confirmed',
+    Monkey = 'monkey',
 }
 
 

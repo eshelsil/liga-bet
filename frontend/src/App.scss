@@ -1,3 +1,11 @@
+html {
+  font-size: 16px;
+  body {
+    direction: rtl;
+  }
+}
+
+
 .float-right{
   float: right !important;
 }
@@ -230,3 +238,4 @@ table {
 }
 
 @import "ko_switch";
+@import "oldStyling";

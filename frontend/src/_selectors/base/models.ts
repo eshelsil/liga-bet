@@ -1,12 +1,13 @@
 import { createSelector } from 'reselect';
 import { RootState } from '../../_helpers/store';
 import { pickBy, groupBy } from 'lodash';
-import { BetType, GroupRankBetApiModel, MatchBetApiModel, QuestionBetApiModel } from '../../types';
+import { BetType, GroupRankBetApiModel, MatchBetApiModel, QuestionBetApiModel, UtlRole } from '../../types';
 
 
 export const CurrentUser = (state: RootState) => state.currentUser;
 export const CurrentTournamentUserId = (state: RootState) => state.currentTournamentUser.id;
 export const Contestants = (state: RootState) => state.contestants;
+export const TournamentUTLs = (state: RootState) => state.tournamentUTLs;
 export const MyUtls = (state: RootState) => state.myUtls;
 export const Bets = (state: RootState) => state.bets;
 export const LeaderboardVersions = (state: RootState) => state.leaderboardVersions;
@@ -35,6 +36,20 @@ export const CurrentTournament = createSelector(
     CurrentTournamentUser,
     (utl) => {
         return utl?.tournament;
+    }
+);
+
+export const IsTournamentAdmin = createSelector(
+    CurrentTournamentUser,
+    (utl) => {
+        return utl?.role === UtlRole.Admin;
+    }
+);
+
+export const HasManagerPermissions = createSelector(
+    CurrentTournamentUser,
+    (utl) => {
+        return [UtlRole.Admin, UtlRole.Manager].includes(utl?.role);
     }
 );
     
