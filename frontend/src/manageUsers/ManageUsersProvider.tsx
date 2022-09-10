@@ -5,7 +5,7 @@ import {
 	makeTournamentAdmin,
 	revokeTournamentAdminPermissions
 } from '../_actions/users';
-import { NoSelector, Users } from '../_selectors';
+import { NoSelector, Users, UsersTotalCount } from '../_selectors';
 import ManageUserView from './ManageUsersView';
 
 
@@ -15,6 +15,7 @@ function ManageUsers({
   	revokeTournamentAdminPermissions,
 }){
 	const usersById = useSelector(Users);
+	const totalCount = useSelector(UsersTotalCount);
 
 	function upgradeToTournamentAdmin(userId: number){
 		makeTournamentAdmin(userId)
@@ -29,14 +30,10 @@ function ManageUsers({
 			})
 	}
 
-	
-	useEffect(()=>{
-		fetchAndStoreUsers();
-	}, [])
-
 	return (<>
 		<ManageUserView
 			users={Object.values(usersById)}
+			totalCount={totalCount}
 			fetchUsers={fetchAndStoreUsers}
 			makeTournamentAdmin={upgradeToTournamentAdmin}
 			revokeTournamentAdminPermissions={downgradeToRegularUser}

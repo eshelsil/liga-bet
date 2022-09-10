@@ -3,11 +3,13 @@ import { sendApiRequest } from "./common/apiRequest";
 
 
 export interface GetUsersParams{
+    offset?: string,
+    limit?: string,
     search?: string,
     roles?: UserPermissions[],
   }
 
-export const getUsers = async ({roles, ...restParams}: GetUsersParams): Promise<User[]> => {
+export const getUsers = async ({roles, ...restParams}: GetUsersParams): Promise<{users: User[], totalCount: number}> => {
 
     const searchParams = new URLSearchParams({
         ...restParams,
@@ -16,9 +18,11 @@ export const getUsers = async ({roles, ...restParams}: GetUsersParams): Promise<
         searchParams.append('roles[]', `${role}`);
     }
     const search = searchParams.toString();
-    return await sendApiRequest({
+    const {data: users, headers } = await sendApiRequest({
         url: `/api/users?${search}`,
-    })
+        includeResponseHeaders: ['X-Total-Count'],
+    });
+    return {users, totalCount: Number(headers['X-Total-Count'])};
 }
 
 export const updateUser = async (userId: number, data: Partial<User>): Promise<User> => {

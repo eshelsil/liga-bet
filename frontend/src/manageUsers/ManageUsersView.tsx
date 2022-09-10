@@ -1,37 +1,42 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { Paper, Table, TableBody, CircularProgress, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import { AnyFunc, User, UserPermissions } from '../types';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Paper, Pagination, Table, TableBody, CircularProgress, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { User, UserPermissions } from '../types';
 import { UserPermissionsToRoleString } from '../utils';
 import { UserAction } from './types';
 import { GetUsersParams } from '../api/users';
 import UserRow from './UserRow';
 import SearchBar from '../widgets/SearchBar/SearchBar';
 import MultipleSelect from '../widgets/Select/MultipleSelect';
-import { debounce } from 'lodash';
-
-
-interface Props {
-	users: User[],
-	fetchUsers: AnyFunc,
-	makeTournamentAdmin: UserAction,
-	revokeTournamentAdminPermissions: UserAction,
-}
 
 
 const loadingQueue = new Set();
 
+const USERS_PER_PAGE = 10;
+
+interface Props {
+	users: User[],
+	totalCount: number,
+	fetchUsers: (params: GetUsersParams) => Promise<void>,
+	makeTournamentAdmin: UserAction,
+	revokeTournamentAdminPermissions: UserAction,
+}
+
 function ManageUsersView({
 	users,
+	totalCount,
 	fetchUsers,
 	makeTournamentAdmin,
 	revokeTournamentAdminPermissions,
 }: Props){	 
+	const [page, setPage] = useState(1);
 	const [search, setSearch] = useState('');
 	const [roles, setRoles] = useState<UserPermissions[]>([]);
 	const [loading, setLoading] = useState(false);
 
-	const debouncedGetUsers = useMemo(
-		() => debounce((params: GetUsersParams) => {
+	const pagesCount = Math.ceil(totalCount / USERS_PER_PAGE);
+
+	const getUsers = useCallback(
+		(params: GetUsersParams) => {
 			setLoading(true);
 			const ts = Number(new Date());
 			loadingQueue.add(ts);
@@ -42,19 +47,18 @@ function ManageUsersView({
 						setLoading(false);
 					}
 				});
-		}, 300),
-		[fetchUsers]
+		},
+		[fetchUsers, setLoading]
 	);
 
 	useEffect(()=>{
-		debouncedGetUsers({
+		getUsers({
 			search: search.length > 0 ? search : undefined,
 			roles,
+			limit: `${USERS_PER_PAGE}`,
+			offset: `${USERS_PER_PAGE * (page - 1)}`,
 		});
-		return () => {
-			debouncedGetUsers.cancel()
-		}
-	}, [search, roles])
+	}, [search, roles, page])
 
 	return (<>
 		<div style={{
@@ -73,14 +77,20 @@ function ManageUsersView({
 				alignItems: 'flex-start',
 			}}>
 				<SearchBar
-					value={search}
-					onChange={setSearch}
+					defaultValue={search}
+					onChange={val => {
+						setSearch(val);
+						setPage(1);
+					}}
 				/>
 				<div style={{width: 250}}>
 					<MultipleSelect
 						value={roles}
 						placeholder='Roles'
-						onChange={setRoles}
+						onChange={val => {
+							setRoles(val);
+							setPage(1);
+						}}
 						items={
 							[
 								UserPermissions.Admin,
@@ -120,7 +130,14 @@ function ManageUsersView({
 					))}
 					</TableBody>
 				</Table>
-			</TableContainer>
+			</TableContainer>    
+			{pagesCount > 1 && (
+				<Pagination
+					count={pagesCount}
+					page={page}
+					onChange={(ev, page) => setPage(page)}
+				/>
+			)}
 		</Paper>
 	</>);
 }
