@@ -26,9 +26,9 @@ use App\Http\Controllers\TournamentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/admin', function () {
-    return redirect('/admin/index');
-});
+// Route::get('/admin', function () {
+//     return redirect('/admin/index');
+// });
 
 Auth::routes();
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
@@ -100,6 +100,11 @@ Route::prefix("/api/tournaments/{tournamentId}/")->middleware("confirmed_user")
             // Route::get("/config", [TournamentController::class, 'index']);
             // Route::post("/config", [TournamentController::class, 'update']);
         });
+    });
+Route::prefix("/api/users")->middleware("admin")
+    ->group(function () {
+        Route::get('/', [UserController::class, 'index']);
+        Route::put('/{userId}', [UserController::class, 'update']);
     });
 Route::post('/api/tournaments', [TournamentController::class, 'createTournament']);
 Route::post('/api/user/utls', [UserController::class, 'joinTournament']);

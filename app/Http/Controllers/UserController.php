@@ -96,4 +96,70 @@ class UserController extends Controller
         $user->save();
         return response()->json(200);
     }
+
+
+    // Manage Users:
+
+    public function index(Request $request)
+    {
+        $roles = $request->roles;
+        $search = $request->search;
+        $users = User::query()
+        ->when($roles, function($q) use ($roles) {
+            return $q->whereIn('permissions', $roles);
+        })
+        ->when(!$roles, fn($q) =>
+            $q->where('permissions', '>=', 0)
+        )
+        ->when($search, function($q) use ($search) {
+            $searchLike = '%'.$search.'%';
+            return $q->where('username', 'like', $searchLike)
+                ->orWhere('name', 'like', $searchLike);
+        })
+        ->get();
+        return new JsonResponse($users, 200);
+    }
+
+    public function update(Request $request, string $userId)
+    {
+        $newPermissions = $request->permissions;
+        if ( !in_array($newPermissions, [User::TYPE_TOURNAMENT_ADMIN, User::TYPE_USER]) ){
+            throw new JsonException("Got unsupported permissions type \"$newPermissions\". The only permissions types allowed to be set are [".User::TYPE_TOURNAMENT_ADMIN.", ".User::TYPE_USER."]", 400);
+        }
+        $user = User::find($userId);
+        if (!$user){
+            throw new JsonException("User with id $userId does not exist", 400);
+        }
+        $permissions = $user->permissions;
+        if ($newPermissions == User::TYPE_TOURNAMENT_ADMIN){
+            if ($permissions == User::TYPE_USER){
+                $this->ensureCanGrantTournamentAdminPermissions();
+            } else {
+                throw new JsonException("Only users with TYPE_USER permissions can become tournament-admin", 400);
+            }
+        }
+        if ($newPermissions == User::TYPE_USER){
+            if ($permissions == User::TYPE_TOURNAMENT_ADMIN){
+                $this->ensureCanRemoveTournametAdminPermissions($user);
+            } else {
+                throw new JsonException("Only users with TYPE_TOURNAMENT_ADMIN permissions can become a regular-user", 400);
+            }
+        }
+        $user->permissions = $newPermissions;
+        $user->save(); 
+        return new JsonResponse($user, 200);
+    }
+
+    private function ensureCanRemoveTournametAdminPermissions(User $user){
+        $ownedTournaments = $user->ownedTournaments();
+        if ($ownedTournaments->count() > 0){
+            throw new JsonException("User \"$user->username\" (id: $user->id) has already created a tournament", 400);
+        }
+    }
+
+    private function ensureCanGrantTournamentAdminPermissions(){
+        if (Tournament::count() >= 40){
+            throw new JsonException("Cannot have more than 40 tournament-admins", 403);
+        }
+    }
 }
