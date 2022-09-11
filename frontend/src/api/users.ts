@@ -52,3 +52,10 @@ export const joinTournament = async ({
         data: {code, name},
     })
 }
+
+export const leaveTournament = async (tournamentId: number): Promise<null> => {
+    return await sendApiRequest({
+        url: `/api/user/utls/${tournamentId}`,
+        type: 'DELETE',
+    })
+}

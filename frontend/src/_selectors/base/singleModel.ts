@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
-import { isAdmin } from '../../utils';
-import { CurrentTournament, CurrentUser } from './models';
+import { isAdmin, isUtlConfirmed } from '../../utils';
+import { CurrentTournament, CurrentTournamentUser, CurrentUser } from './models';
 
 
 export const TournamentIdSelector = createSelector(
@@ -22,4 +22,9 @@ export const IsAdmin = createSelector(
 export const CurrentUserName = createSelector(
     CurrentUser,
     user => user.name,
+);
+
+export const IsConfirmedUtl = createSelector(
+    CurrentTournamentUser,
+    utl => !!utl && isUtlConfirmed(utl),
 );

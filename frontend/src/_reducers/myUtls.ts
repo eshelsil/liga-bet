@@ -12,6 +12,10 @@ const myUtls = createSlice({
       const newUtl = action.payload;
       state[newUtl.id] = newUtl;
     },
+    remove: (state, action: PayloadAction<number>) => {
+      const utlId = action.payload;
+      delete state[utlId];
+    },
   },
 });
 

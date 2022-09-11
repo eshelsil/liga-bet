@@ -43,6 +43,7 @@ class TournamentUser extends Model
     const ROLE_CONTESTANT = 'contestant';
     const ROLE_NOT_CONFIRMED = 'not_confirmed';
     const ROLE_MONKEY = 'monkey';
+    const ROLE_REJECTED = 'rejected';
 
     static function permissions(string $role)
     {
@@ -54,8 +55,10 @@ class TournamentUser extends Model
             return 1;
         } else if ($role == self::ROLE_NOT_CONFIRMED) {
             return 0;
-        } else if ($role == self::ROLE_MONKEY) {
+        } else if ($role == self::ROLE_REJECTED) {
             return -1;
+        } else if ($role == self::ROLE_MONKEY) {
+            return -2;
         }
     }
 
@@ -79,6 +82,11 @@ class TournamentUser extends Model
         return $this->role == self::ROLE_NOT_CONFIRMED;
     }
 
+    public function isRejected()
+    {
+        return $this->role == self::ROLE_REJECTED;
+    }
+
     public function hasManagerPermissions()
     {
         return static::permissions($this->role) >= static::permissions(self::ROLE_MANAGER);
@@ -87,6 +95,11 @@ class TournamentUser extends Model
     public function isConfirmed()
     {
         return static::permissions($this->role) > static::permissions(self::ROLE_NOT_CONFIRMED);
+    }
+    
+    public function isRegistered()
+    {
+        return static::permissions($this->role) >= static::permissions(self::ROLE_NOT_CONFIRMED);
     }
 
     public function isMonkey()
