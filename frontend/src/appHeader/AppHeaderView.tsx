@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom'
-import { HasCurrentUtl, HasManagerPermissions } from '../_selectors';
+import { HasCurrentUtl, IsConfirmedUtl, HasManagerPermissions } from '../_selectors';
 import MenuItem from './MenuItem'
 import { routesMap } from './routes'
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
@@ -30,6 +30,7 @@ function AppHeader({
 	const groupBetsRoute = isTournamentStarted ? "all-group-standings" : "open-group-standings";
 	const specialBetsRoute = isTournamentStarted ? "all-questions" : "open-questions";
 	const isPreTourActive = ["all-group-standings", "all-questions", "open-group-standings", "open-questions"].includes(currentRoute);
+	const isConfirmedUtl = useSelector(IsConfirmedUtl);
 	const hasCurrentUtl = useSelector(HasCurrentUtl);
 
 	const deselectUtl = () => dispatch(resetUtlSelection());
@@ -52,21 +53,21 @@ function AppHeader({
 						}}
 					>Liga 'ב - {currentUserName}</a>
 				</div>
-				{hasCurrentUtl && (
 				<div className="collapse navbar-collapse" style={{"float": "right"}} id="myNavbar">
+				{isConfirmedUtl && (<>
 					<ul className="nav navbar-nav navbar-right">
 						<MenuItem route={routesMap['leaderboard']} currentPath={currentRoute} />
 						<MenuItem route={routesMap['open-matches']} currentPath={currentRoute} />
 						<MenuItem route={routesMap['closed-matches']} currentPath={currentRoute} />
 						<li key={"preTourBets"} className={`dropdown ${isPreTourActive ? "active" : ""}`}>
-						<a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-							<div className="icon pre_game_icon"></div>
-							<span className="menu-label">הימורים של לפני הטורניר</span><span className="caret" style={{"marginRight": "5px"}}></span>
-						</a>
-						<ul className="dropdown-menu">
-							<MenuItem route={routesMap[groupBetsRoute]} currentPath={currentRoute} />
-							<MenuItem route={routesMap[specialBetsRoute]} currentPath={currentRoute} />
-						</ul>
+							<a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+								<div className="icon pre_game_icon"></div>
+								<span className="menu-label">הימורים של לפני הטורניר</span><span className="caret" style={{"marginRight": "5px"}}></span>
+							</a>
+							<ul className="dropdown-menu">
+								<MenuItem route={routesMap[groupBetsRoute]} currentPath={currentRoute} />
+								<MenuItem route={routesMap[specialBetsRoute]} currentPath={currentRoute} />
+							</ul>
 						</li>
 						<MenuItem route={routesMap['my-bets']} currentPath={currentRoute} />
 					</ul>
@@ -79,11 +80,14 @@ function AppHeader({
 							/>
 						</ul>
 					)}
+				</>)}
 					<ul className="nav navbar-nav navbar-left">
-						<MenuItem route={routesMap['choose-utl']} currentPath={currentRoute}
-							onClick={deselectUtl}
-							icon={<EmojiEventsOutlinedIcon className='headerIcon' />}
-						/>
+						{hasCurrentUtl && (
+							<MenuItem route={routesMap['choose-utl']} currentPath={currentRoute}
+								onClick={deselectUtl}
+								icon={<EmojiEventsOutlinedIcon className='headerIcon' />}
+							/>
+						)}
 						<MenuItem route={routesMap['set-password']} currentPath={currentRoute} />
 						<li>
 							<a href='/logout'>
@@ -93,7 +97,6 @@ function AppHeader({
 						</li>
 					</ul>
 				</div>
-				)}
 			</div>
 		</nav>
 	);
