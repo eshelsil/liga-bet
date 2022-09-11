@@ -108,6 +108,7 @@ Route::prefix("/api/users")->middleware("admin")
     });
 Route::post('/api/tournaments', [TournamentController::class, 'createTournament']);
 Route::post('/api/user/utls', [UserController::class, 'joinTournament']);
+Route::delete('/api/user/utls/{tournamentId}', [UserController::class, 'leaveTournament']);
 Route::get('/api/competitions', [CompetitionController::class, 'index']);
 Route::get('/api/user', [UserController::class, 'getUser']);
 Route::get('/api/user/utls', [UserController::class, 'getUserUTLs']);

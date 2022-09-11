@@ -16,7 +16,8 @@ class TournamentUserController extends Controller
     {
 
         $tournament = Tournament::find($tournamentId);
-        $utls = $tournament->utls;
+        $utls = $tournament->utls
+            ->filter(fn($utl) => $utl->isRegistered());
         return new JsonResponse($utls, 200);
     }
 
@@ -50,7 +51,8 @@ class TournamentUserController extends Controller
         if ($utl->isConfirmed()){
             throw new JsonException("לא ניתן למחוק משתמש שאושר", 400);
         }
-        $utl->delete();
+        $utl->role = TournamentUser::ROLE_REJECTED;
+        $utl->save();
         return new JsonResponse([], 200);
     }
 

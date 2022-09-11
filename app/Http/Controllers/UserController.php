@@ -62,7 +62,21 @@ class UserController extends Controller
 
         $utl  = $tournament->createUTL($user, $name);
 
-        return new UtlResource($utl);
+        return (new UtlResource($utl))->toArray($request);
+    }
+
+    public function leaveTournament(Request $request, string $tournamentId)
+    {
+        $user = $this->getUser();
+        $utl = $user->getTournamentUser($tournamentId);
+        if (!$utl) {
+            throw new JsonException("אינך רשום לטורניר זה", 400);
+        }
+        if (!$utl->isRejected() && !$utl->isNotConfirmed()){
+            throw new JsonException("אינך יכול לעזוב את הטורניר לאחר שאושרת בידי אחד ממנהלי הטורניר", 400);
+        }
+        $utl->delete();
+        return new JsonResponse(null, 200);
     }
 
     public function getOwnedTournaments(Request $request)
