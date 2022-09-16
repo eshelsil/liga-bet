@@ -26,3 +26,7 @@ export function isUtlRejected(utl: UtlBase){
 export function isUtlWaitingForApproval(utl: UtlBase){
     return utl.role === UtlRole.NotConfirmed;
 }
+
+export function hasManagePermissions(utl: UtlBase){
+    return [UtlRole.Admin, UtlRole.Manager].includes(utl?.role);
+}

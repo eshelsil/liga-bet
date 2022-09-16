@@ -24,6 +24,11 @@ export const CurrentUserName = createSelector(
     user => user.name,
 );
 
+export const CurrentUserUsername = createSelector(
+    CurrentUser,
+    user => user.username,
+);
+
 export const IsConfirmedUtl = createSelector(
     CurrentTournamentUser,
     utl => !!utl && isUtlConfirmed(utl),

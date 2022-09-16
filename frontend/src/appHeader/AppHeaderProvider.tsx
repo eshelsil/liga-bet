@@ -1,22 +1,34 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom'
-import AppHeader from './AppHeaderView';
 import { AppHeaderSelector } from '../_selectors';
+import { AppDispatch } from '../_helpers/store';
+import { resetUtlSelection } from '../_actions/tournamentUser';
+import useGoTo from '../hooks/useGoTo';
+import AppHeader from './AppHeaderView';
 
 
 
 function AppHeaderProvider(){
 	const location = useLocation();
-	const { isTournamentStarted, currentUserName } = useSelector(AppHeaderSelector);
+	const { goToUserPage, goToUtlPage } = useGoTo();
+	const { isTournamentStarted, currentUsername, currentUtl } = useSelector(AppHeaderSelector);
 	const currentRoute = location.pathname.substring(1);
+
+	const dispatch: AppDispatch = useDispatch();
+	const deselectUtl = () => dispatch(resetUtlSelection());
+
 
 	return (
 		<AppHeader {
 			...{
-				currentUserName,
 				isTournamentStarted,
+				currentUsername,
 				currentRoute,
+				currentUtl,
+				deselectUtl,
+				goToUserPage,
+				goToUtlPage,
 			}
 		} />
 	);
