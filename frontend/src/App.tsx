@@ -7,6 +7,7 @@ import store from './_helpers/store';
 import AuthController from './auth/AuthController';
 import AppBody from './appContent/AppBody';
 import AppFooter from './appFooter/Footer';
+import Banner from './appBanner/AppBannerView';
 import './App.scss';
 
 
@@ -17,6 +18,7 @@ function App() {
 	<StoreProvider store={store}>
 		<AuthController>
 			<Router history={customHistory}>
+				<Banner />
 				<AppHeader />
 				<AppBody />
 				<AppFooter />
