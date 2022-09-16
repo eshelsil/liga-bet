@@ -26,6 +26,26 @@ class UserController extends Controller
         return $user;
     }
 
+    public function updateUTL(Request $request, string $tournamentId){
+        $user = $this->getUser();
+        $utl = $user->getTournamentUser($tournamentId);
+        if (!$utl) {
+            throw new JsonException("משתמש לא קיים", 404);
+        }
+        $name = $request->name;
+        $validated = $request->validate([
+            'name' => 'string|min:2'
+        ]);
+
+        $contestantWithSameName = $utl->tournament->utls->where('name', $name)->first();
+        if ($contestantWithSameName && $contestantWithSameName->id !== $utl->id){
+            throw new JsonException("בטורניר זה כבר קיים משתמש עם השם \"$name\"", 400);
+        }
+        $utl->name = $name;
+        $utl->save();
+        return (new UtlResource($utl))->toArray($request);
+    }
+
     public function getUserUTLs(Request $request)
     {
         $user = Auth::user();
