@@ -12,20 +12,19 @@ import Takanon from '../takanon/Takanon';
 import TournamentUserController from '../tournamentUser/TournamentUserController';
 import InitialDataFetcher from '../initialDataFetcher/InitialDataFetcher';
 import ManageContestantsProvider from '../manageContestants/ManageContestantsProvider';
+import UTLPage from '../myUTL';
 import ManageUsers from '../manageUsers';
 
 
 function AppContent(){
-	// if (!user.isConfirmed){
-	// 	return <h2>האתר יהיה זמין לך ברגע שתאושר על ידי אחד מהאדמינים</h2>
-	// }
-    // TODO: Handle unconfirmed user
 	return (
         <TournamentUserController>
             <InitialDataFetcher>
                 <Switch>
                     <Route path='/open-questions' component={OpenGroupRankBetsView} />
+                    <Route path='/user' component={UTLPage} />
                     {/* ABOVE TBD ^--------^*/}
+                    <Route path='/utl' component={UTLPage} />
                     <Route path='/admin/users' component={ManageUsers} />
                     <Route path='/contestants' component={ManageContestantsProvider} />
                     <Route path='/takanon' component={Takanon} />

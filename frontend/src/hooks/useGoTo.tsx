@@ -7,10 +7,12 @@ function useGoTo(){
 
     const goToUserPage = () => history.push('/user');
     const goToUtlPage = () => history.push('/utl');
+    const goToMyBets = () => history.push('/my-bets');
 
     return {
         goToUserPage,
         goToUtlPage,
+        goToMyBets,
     }
 }
 

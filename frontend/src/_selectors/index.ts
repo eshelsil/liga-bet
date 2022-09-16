@@ -11,3 +11,4 @@ export * from './questionBets';
 export * from './tournaments';
 export * from './manageTournamentUTLs';
 export * from './base';
+export * from './modelRelations';
