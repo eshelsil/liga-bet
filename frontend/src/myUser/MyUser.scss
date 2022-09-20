@@ -1,0 +1,20 @@
+.LigaBet-UserPage {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    align-items: center;
+    .title {
+        text-align: center;
+        margin-bottom: 30px;;
+    }
+    .UserDetailsCard {
+        max-width: 500px;
+        border: 2px solid #d2d2d2;
+        border-radius: 16px;
+        padding: 25px;
+        position: relative;
+        .property {
+            font-weight: 700;
+        }
+    }
+}

@@ -107,11 +107,13 @@ Route::prefix("/api/users")->middleware("admin")
         Route::put('/{userId}', [UserController::class, 'update']);
     });
 Route::post('/api/tournaments', [TournamentController::class, 'createTournament']);
+Route::get('/api/competitions', [CompetitionController::class, 'index']);
+Route::get('/api/user/utls', [UserController::class, 'getUserUTLs']);
 Route::post('/api/user/utls', [UserController::class, 'joinTournament']);
 Route::delete('/api/user/utls/{tournamentId}', [UserController::class, 'leaveTournament']);
-Route::get('/api/competitions', [CompetitionController::class, 'index']);
+Route::put('/api/user/utls/{tournamentId}', [UserController::class, 'updateUTL']);
 Route::get('/api/user', [UserController::class, 'getUser']);
-Route::get('/api/user/utls', [UserController::class, 'getUserUTLs']);
+Route::put('/api/user', [UserController::class, 'updateUser']);
 Route::get('/api/user/tournaments', [UserController::class, 'getOwnedTournaments']);
 
 Route::fallback(function () {

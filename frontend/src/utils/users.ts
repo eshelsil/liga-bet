@@ -10,3 +10,10 @@ export const UserPermissionsToRoleString = {
     [UserPermissions.User]: 'User',
     [UserPermissions.Monkey]: 'Monkey',
 };
+
+export const UserPermissionsToRoleStringHebrew = {
+    [UserPermissions.Admin]: 'אדמין',
+    [UserPermissions.TournamentAdmin]: 'ניהול טורניר',
+    [UserPermissions.User]: 'משתמש',
+    [UserPermissions.Monkey]: 'קוף',
+};

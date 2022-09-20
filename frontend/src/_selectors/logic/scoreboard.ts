@@ -1,14 +1,8 @@
 import { mapValues, orderBy } from 'lodash';
 import { createSelector } from 'reselect';
 import { ScoreboardRow } from '../../types';
-import { LeaderboardVersions } from '../base';
+import { LeaderboardVersionsDesc } from '../base';
 
-export const LeaderboardVersionsDesc = createSelector(
-    LeaderboardVersions,
-    (versions) => {
-        return orderBy(Object.values(versions), 'created_at', 'desc');
-    }
-);
 
 export const LatestLeaderboard = createSelector(
     LeaderboardVersionsDesc,
