@@ -42,7 +42,7 @@ function MyUTL({
 
 
 	return (
-		<div className='LigaBet-UserPage'>
+		<div className='LigaBet-UTLPage'>
 			<h1 className='title'>הפרופיל שלך</h1>
 			<div className='UserDetailsCard'>
 				{edit && (

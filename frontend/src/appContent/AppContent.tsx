@@ -22,7 +22,6 @@ function AppContent(){
             <InitialDataFetcher>
                 <Switch>
                     <Route path='/open-questions' component={OpenGroupRankBetsView} />
-                    <Route path='/user' component={UTLPage} />
                     {/* ABOVE TBD ^--------^*/}
                     <Route path='/utl' component={UTLPage} />
                     <Route path='/admin/users' component={ManageUsers} />

@@ -11,12 +11,15 @@ import AppHeader from './AppHeaderView';
 
 function AppHeaderProvider(){
 	const location = useLocation();
-	const { goToUserPage, goToUtlPage } = useGoTo();
+	const { goToUserPage, goToUtlPage, goToChooseUtl } = useGoTo();
 	const { isTournamentStarted, currentUsername, currentUtl } = useSelector(AppHeaderSelector);
 	const currentRoute = location.pathname.substring(1);
 
 	const dispatch: AppDispatch = useDispatch();
-	const deselectUtl = () => dispatch(resetUtlSelection());
+	const deselectUtl = () => {
+		dispatch(resetUtlSelection());
+		goToChooseUtl();
+	};
 
 
 	return (
