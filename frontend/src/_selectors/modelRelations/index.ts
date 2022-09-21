@@ -3,3 +3,4 @@ export * from './groups';
 export * from './matchBets';
 export * from './matches';
 export * from './questionBets';
+export * from './myUtl';

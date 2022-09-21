@@ -1,23 +1,26 @@
 import { Tournament } from './tournament';
 
 export enum UtlRole {
-    Admin = 'Admin',
-    Manager = 'Manager',
-    User = 'User',
+    Admin = 'admin',
+    Manager = 'manager',
+    Contestant = 'contestant',
+    NotConfirmed = 'not_confirmed',
+    Rejected = 'rejected',
+    Monkey = 'monkey',
 }
 
 
-export interface UTL {
+export interface UtlBase {
     id: number,
     name: string,
     role: UtlRole,
+}
+
+export interface UTL extends UtlBase{
     tournament_id: number,
 }
 
-export interface UtlWithTournament {
-    id: number,
-    name: string,
-    role: UtlRole,
+export interface UtlWithTournament extends UtlBase {
     tournament: Tournament,
 }
 

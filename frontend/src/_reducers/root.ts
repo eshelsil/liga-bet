@@ -5,10 +5,13 @@ import groups from './groups';
 import leaderboard from './leaderboard';
 import matches from './matches';
 import myUtls from './myUtls';
+import tournamentUTLs from './tournamentUTLs';
 import specialQuestions from './specialQuestions';
 import teams from './teams';
 import tournamentUser from './tournamentUser';
 import contestants from './contestants';
+import users from './users';
+import usersTotalCount from './usersTotalCount';
 import ownedTournament from './ownedTournament';
 import competitions from './competitions';
 
@@ -26,6 +29,9 @@ const reducer = combineReducers({
     currentTournamentUser: tournamentUser.reducer,
     ownedTournament: ownedTournament.reducer,
     competitions: competitions.reducer,
+    tournamentUTLs: tournamentUTLs.reducer,
+    users: users.reducer,
+    usersTotalCount: usersTotalCount.reducer,
 });
 
 export default reducer;

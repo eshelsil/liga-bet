@@ -8,9 +8,13 @@ const myUtls = createSlice({
   initialState: {} as MyUtlsById,
   reducers: {
     set: (state, action: PayloadAction<MyUtlsById>) => action.payload,
-    add: (state, action: PayloadAction<UtlWithTournament>) => {
+    setOne: (state, action: PayloadAction<UtlWithTournament>) => {
       const newUtl = action.payload;
       state[newUtl.id] = newUtl;
+    },
+    remove: (state, action: PayloadAction<number>) => {
+      const utlId = action.payload;
+      delete state[utlId];
     },
   },
 });

@@ -1,6 +1,7 @@
+import { orderBy } from 'lodash';
 import { createSelector } from 'reselect'
-import { isTournamentStarted } from '../../utils';
-import { CurrentTournament, CurrentUser } from './models';
+import { isAdmin, isUtlConfirmed } from '../../utils';
+import { CurrentTournament, CurrentTournamentUser, CurrentUser, LeaderboardVersions } from './models';
 
 
 export const TournamentIdSelector = createSelector(
@@ -16,7 +17,7 @@ export const IsTournamentStarted = createSelector(
 
 export const IsAdmin = createSelector(
     CurrentUser,
-    user => user.isAdmin,
+    user => isAdmin(user),
 );
 
 export const CurrentUserName = createSelector(
@@ -24,12 +25,26 @@ export const CurrentUserName = createSelector(
     user => user.name,
 );
 
-// export const CurentTournamentSelector = createSelector(
-//     CurrentTournamentUser,
-//     currentTournamentUser => currentTournamentUser.tournament ?? {}
-// );
-    
-// export const CompetitionIdSelector = createSelector(
-//     CurentTournamentSelector,
-//     currentTournament => currentTournament.competition_id
-// );
+export const CurrentUserUsername = createSelector(
+    CurrentUser,
+    user => user.username,
+);
+
+export const IsConfirmedUtl = createSelector(
+    CurrentTournamentUser,
+    utl => !!utl && isUtlConfirmed(utl),
+);
+
+export const LeaderboardVersionsDesc = createSelector(
+    LeaderboardVersions,
+    (versions) => {
+        return orderBy(Object.values(versions), 'created_at', 'desc');
+    }
+);
+
+export const LatestLeaderboardVersion = createSelector(
+    LeaderboardVersionsDesc,
+    (versions) => {
+        return versions[0] ?? {};
+    }
+);

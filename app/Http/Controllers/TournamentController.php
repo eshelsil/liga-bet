@@ -7,7 +7,7 @@ use App\Tournament;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use JsonException;
+use App\Exceptions\JsonException;
 
 class TournamentController extends Controller
 {
@@ -31,12 +31,12 @@ class TournamentController extends Controller
     private function validateCreatePermissions()
     {
         $user = $this->getUser();
-        if (! $user->isAdmin()) {
+        if (! $user->hasTournamentAdminPermissions()) {
             throw new JsonException("אין לך את ההרשאות הדרושות כדי לפתוח טורניר משלך", 401);
         }
 
         if ($user->isTournamentAdmin()) {
-            if ($user->getManagedTouranemnts()->isNotEmpty()) {
+            if ($user->ownedTournaments()->count() > 0) {
                 throw new JsonException("לא ניתן לפתוח יותר מטורניר אחד", 401);
             }
         }

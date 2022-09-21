@@ -1,3 +1,14 @@
+html {
+  font-size: 16px;
+  body {
+    direction: rtl;
+    .MuiPagination-ul{
+      direction: ltr;
+    }
+  }
+}
+
+
 .float-right{
   float: right !important;
 }
@@ -230,3 +241,4 @@ table {
 }
 
 @import "ko_switch";
+@import "oldStyling";

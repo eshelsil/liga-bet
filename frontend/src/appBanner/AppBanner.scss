@@ -1,0 +1,11 @@
+.AppBanner-container {
+    width: 100%;
+    background: #222;
+    display: flex;
+    .AppBanner-img {
+        height: 180px;
+        max-width: 800px;
+        width: 100%;
+        margin: auto;
+    }
+}

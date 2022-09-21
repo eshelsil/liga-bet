@@ -1,16 +1,15 @@
 
 
-export enum UserRole {
-    Admin = 'Admin',
-    TournamentManager = 'TournamentManager',
-    User = 'User',
+export enum UserPermissions {
+    Admin = 2,
+    TournamentAdmin = 1,
+    User = 0,
+    Monkey = -1,
 }
 
 export interface User {
-    fcm_token: null,
     id: number,
     name: string,
-    role: UserRole,
+    permissions: UserPermissions,
     username: string,
-    isAdmin?: boolean,
 }

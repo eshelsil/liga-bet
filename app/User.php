@@ -82,6 +82,11 @@ class User extends Authenticatable
         return $this->permissions == self::TYPE_TOURNAMENT_ADMIN;
     }
 
+    public function hasTournamentAdminPermissions()
+    {
+        return $this->permissions >= self::TYPE_TOURNAMENT_ADMIN;
+    }
+
     public function isConfirmed(int $tournamentId)
     {
         $utl = $this->getTournamentUser($tournamentId);
@@ -112,12 +117,6 @@ class User extends Authenticatable
     public function utls(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(TournamentUser::class);
-    }
-
-    public function getManagedTouranemnts()
-    {
-        return $this->utls->filter(fn($utl) => $utl->isTournamentAdmin())
-                          ->map(fn($utl) => $utl->tournament);
     }
 
     public function getGroupBetsById() {

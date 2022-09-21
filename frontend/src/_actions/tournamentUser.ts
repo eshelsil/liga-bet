@@ -1,7 +1,9 @@
-import { getUserUTLs, joinTournament } from '../api/users';
-import tournamentUser from '../_reducers/tournamentUser';
-import {AppDispatch} from '../_helpers/store';
+import { getUserUTLs, joinTournament, leaveTournament } from '../api/users';
+import { updateMyUTL, PayloadUpdateMyUTL } from '../api/utls';
+import { AppDispatch, GetRootState } from '../_helpers/store';
+import { CurrentTournamentUserId, TournamentIdSelector } from '../_selectors';
 import { MyUtlsById, UtlWithTournament } from '../types';
+import tournamentUser from '../_reducers/tournamentUser';
 import utlsSlice from '../_reducers/myUtls';
 
 
@@ -45,9 +47,25 @@ function createUtl({
   return (dispatch: AppDispatch) => {
       return joinTournament({name, code: tournamentCode})
       .then( (utl: UtlWithTournament )=> {
-        dispatch(utlsSlice.actions.add(utl));
+        dispatch(utlsSlice.actions.setOne(utl));
         dispatch(selectUtl(utl.id));
       })
+  }
+}
+
+function updateMyUTLAndStore(tournamentId: number, params: PayloadUpdateMyUTL) {
+  return async (dispatch: AppDispatch) => {
+      const utl = await updateMyUTL(tournamentId, params);
+      dispatch(utlsSlice.actions.setOne(utl));
+  }
+}
+
+function currentUtlLeaveTournament() {
+  return async (dispatch: AppDispatch, getState: GetRootState) => {
+    const tournamentId = TournamentIdSelector(getState());
+    const currentUtlId = CurrentTournamentUserId(getState());
+    await leaveTournament(tournamentId);
+    dispatch(utlsSlice.actions.remove(currentUtlId));
   }
 }
 
@@ -57,4 +75,6 @@ export {
   selectUtl,
   createUtl,
   resetUtlSelection,
+  currentUtlLeaveTournament,
+  updateMyUTLAndStore,
 }
