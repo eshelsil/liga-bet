@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import Leaderboard from '../leaderboard/LeaderboardProvider';
 import OpenMatchesView from '../open_matches/openMatchesProvider';
-import OpenGroupRankBetsView from '../preTournamentBets/OpenGroupRankBetsProvider';
+import OpenGroupRankBetsView from '../OpenGroupBets/OpenGroupRankBetsProvider';
 import MatchesView from '../matches/ClosedMatchBetsProvider';
 import GroupStandingsBetsView from '../groupBets/GroupStandingsBetsProvider';
 import AllQuestionBetsView from '../questionBets/ClosedQuestionBetsProvider';
