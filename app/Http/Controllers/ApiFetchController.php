@@ -11,7 +11,7 @@ use App\Team;
 use App\User;
 use App\Group;
 use App\SpecialBets\SpecialBet;
-use App\Scorer;
+use App\Player;
 use Log;
 
 class ApiFetchController extends Controller

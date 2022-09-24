@@ -8,21 +8,10 @@
 
 namespace App\Actions;
 
-use App\Bet;
 use App\Competition;
-use App\Enums\BetTypes;
-use App\Game;
 use App\Leaderboard;
 use App\LeaderboardsVersion;
-use App\Ranks;
-use App\Scorer;
-use App\Team;
 use App\Tournament;
-use App\TournamentUser;
-use App\User;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\DB;
 
 class UpdateLeaderboards

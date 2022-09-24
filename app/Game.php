@@ -291,24 +291,9 @@ protected $table = 'matches';
             ->where('type', 'group_stage')->get();
     }
 
-
-    public static function getKnockoutGames(){
-        if (static::$knockoutGames){
-            return static::$knockoutGames;
-        }
-        return static::$knockoutGames = Game::query()->isDone(true)
-            ->where('type', 'knockout')->get();
-    }
-    
     public static function isTournamentDone() {
         $final_match = Game::getFinalMatchIfDone();
         return !!$final_match;
-    }
-
-    public static function getTeamKnockoutGames($team_id){
-        return static::getKnockoutGames()->filter(function($match) use($team_id){
-            return in_array($team_id, [$match->team_home_id, $match->team_away_id]);
-        });
     }
 
     public function generateRandomBetData()

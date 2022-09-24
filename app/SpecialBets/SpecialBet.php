@@ -12,9 +12,10 @@ use \Illuminate\Support\Collection;
 use App\Game;
 use App\Bet;
 use App\Team;
-use App\Scorer;
+use App\Player;
 use App\Bets\BetSpecialBets\BetSpecialBetsRequest;
 use App\Enums\BetTypes;
+use InvalidArgumentException;
 
 /**
  * App\SpecialBets\SpecialBet
@@ -49,6 +50,8 @@ class SpecialBet extends Model implements BetableInterface
     const TYPE_MVP = "mvp";
     const TYPE_OFFENSIVE_TEAM = "offensive_team";
 
+    protected $cacheAnswer = null;
+
     /**
      * @return BelongsTo
      */
@@ -60,7 +63,7 @@ class SpecialBet extends Model implements BetableInterface
     public function getOffensiveTeams(){
         $matches = $this->tournament->competition->getGroupStageGamesIfStageDone();
         if (!$matches) {
-            return null;
+            return collect();
         }
 
         $gsByTeamId = [];
@@ -83,13 +86,8 @@ class SpecialBet extends Model implements BetableInterface
     public function calculateOffensiveTeam($team_id)
     {
         $score = 5;
-        
-        $best_offensive_teams = $this->getOffensiveTeams();
-        if ($best_offensive_teams == null){
-            return null;
-        }
 
-        if ($best_offensive_teams->contains($team_id)){
+        if ($this->getAnswer()->contains($team_id)){
             return $score;
         }
 
@@ -141,58 +139,67 @@ class SpecialBet extends Model implements BetableInterface
         return $final->getKnockoutLoser();
     }
 
-    public function calcRoadToFinal($teamId){
-        $score_for_stage = 5;
+    public function calcRoadToFinal($teamId)
+    {
+        $scoreForStage = 5;
 
         $score = 0;
-        $ko_games = Game::getTeamKnockoutGames($teamId);
-        if ($ko_games->count() == 0){
-            return null;
-        }
+
+        $koGames = $this->tournament->competition
+            ->games->filter(function(Game $game) use($teamId) {
+                return in_array($teamId, [$game->team_home_id, $game->team_away_id]) &&
+                       !is_null($game->result_home) && !is_null($game->result_home) && $game->type == 'knockout';
+            });
+
         /** @var Game $game */
-        foreach($ko_games as $game){
-            if ($game->sub_type == 'FINAL'){
+        foreach ($koGames as $game) {
+            if ($game->sub_type == 'FINAL') {
                 continue;
             }
-            if ($game->getKnockoutWinner() == $teamId){
-                $score += $score_for_stage;
+            if ($game->getKnockoutWinner() == $teamId) {
+                $score += $scoreForStage;
             }
         }
+
         return $score;
     }
 
-    public function calcChampions($team_id){
-        $score_for_winning_final = 15;
+    public function calcChampions($teamId){
+        $scoreForWinningFinal = 15;
 
-        $score = $this->calcRoadToFinal($team_id);
+        $score = $this->calcRoadToFinal($teamId);
         $final = $this->tournament->competition->getFinalGame();
         if (!$final || !$final->is_done) {
             return null;
         }
 
-        if ($final->getKnockoutWinner() == $team_id){
-            $score += $score_for_winning_final;
+        if ($final->getKnockoutWinner() == $teamId) {
+            $score += $scoreForWinningFinal;
         }
         return $score;
     }
 
     public function getTopScorers(){
-        return Scorer::getTopScorers() ?? collect([]);
+        $players = $this->tournament->competition->players;
+        $maxGoals = $players->max("goals") ?? -1; // -1 for Empty, means not ready. do not keep null to not try to recalculate?
+
+        return $players->where("goals", $maxGoals)->pluck("id");
     }
 
-    public function calcTopScorer($player_id){
+    public function calcTopScorer($playerId){
         $score_for_goal = 2;
         $top_scorer_bonus = 4;
 
         $score = 0;
-        $scorer = Scorer::findByExternalId($player_id);
-        $most_goals = Scorer::getTopGoalsCount();
-        if ($most_goals !== null){
-            if ($scorer->goals == $most_goals){
-                $score += $top_scorer_bonus;
-            }
+
+        $player = $this->tournament->competition->players->find($playerId);
+
+        if ($this->getAnswer()->contains($playerId)) {
+            $score += $top_scorer_bonus;
         }
-        $score += ($score_for_goal * $scorer->goals);
+
+        $score += ($score_for_goal * $player->goals);
+
         return $score;
     }
 
@@ -207,7 +214,7 @@ class SpecialBet extends Model implements BetableInterface
         ])->find($competitionId);
 
         foreach ($competition->tournaments as $tournament) {
-
+            $tournament->setRelation("competition", $competition);
             foreach ($tournament->bets as $bet) {
                 try {
                     $betRequest = new BetSpecialBetsRequest($this, $bet->getData());
@@ -265,6 +272,10 @@ class SpecialBet extends Model implements BetableInterface
 
     public function getAnswer()
     {
+        if ($this->cacheAnswer) {
+            return $this->cacheAnswer;
+        }
+
         switch ($this->type) {
             case SpecialBet::TYPE_MVP:
                 return config('bets.mvp');
@@ -273,7 +284,7 @@ class SpecialBet extends Model implements BetableInterface
                 return $this->getTopAssists();
                 break;
             case SpecialBet::TYPE_OFFENSIVE_TEAM:
-                return $this->getOffensiveTeams();
+                $this->cacheAnswer = $this->getOffensiveTeams();
                 break;
             case SpecialBet::TYPE_WINNER:
                 return $this->getChampions();
@@ -282,13 +293,13 @@ class SpecialBet extends Model implements BetableInterface
                 return $this->getRunnerUp();
                 break;
             case SpecialBet::TYPE_TOP_SCORER:
-                return $this->getTopScorers()->map(function($player){
-                    return $player->external_id;
-                })->toArray();
+                $this->cacheAnswer = $this->getTopScorers();
                 break;
             default:
                 throw new InvalidArgumentException("Invalid SpecialBet type \"{$this->type}\"");
         }
+
+        return $this->cacheAnswer;
     }
 
     public static function hasAllCustomAnswers(){
@@ -300,10 +311,10 @@ class SpecialBet extends Model implements BetableInterface
         $answer = null;
         switch ($this->type) {
             case SpecialBet::TYPE_MVP:
-                $answer = Scorer::all()->random()->name;
+                $answer = Player::all()->random()->name;
                 break;
             case SpecialBet::TYPE_MOST_ASSISTS:
-                $answer = Scorer::all()->random()->name;
+                $answer = Player::all()->random()->name;
                 break;
             case SpecialBet::TYPE_OFFENSIVE_TEAM:
                 $answer = Team::all()->random()->id;
@@ -315,7 +326,7 @@ class SpecialBet extends Model implements BetableInterface
                 $answer = Team::all()->random()->id;
                 break;
             case SpecialBet::TYPE_TOP_SCORER:
-                $answer = Scorer::all()->random()->external_id;
+                $answer = Player::all()->random()->external_id;
                 break;
             default:
                 throw new InvalidArgumentException("Invalid SpecialBet type \"{$this->type}\"");

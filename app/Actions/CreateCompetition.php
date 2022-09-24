@@ -12,11 +12,9 @@ use App\Competition;
 use App\DataCrawler\Crawler;
 use App\Group;
 use App\Game;
-use App\SpecialBets\SpecialBet;
+use App\Player;
 use App\Team;
-use App\User;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class CreateCompetition
@@ -26,6 +24,7 @@ class CreateCompetition
     protected Collection $teams;
     protected Collection $groups;
     protected Collection $games;
+    protected Collection $players;
 
     public function handle(string $id)
     {
@@ -41,6 +40,19 @@ class CreateCompetition
             throw new \RuntimeException("Cannot find games");
         }
 
+        $playersByTeam = $teams->mapWithKeys(function($team, $i) use ($crawler) {
+            sleep(10);
+            $externalTeamId = [451,452,454,455, 457, 458, 460, 461, 466, 470, 471, 472, 479, 486, 487, 488, 490,
+                               496,498,503,507, 510, 511, 512, 514, 515, 516, 517, 518, 519, 521, 522, 523, 524][$i] ?? 450;//$team["id"])]); TODO: remove!!
+            $x = $crawler->fetchPlayersByTeamId($externalTeamId);
+            return [$team["id"] => $x];
+        });
+
+        $teamsWithoutPlayers = $playersByTeam->filter(fn(Collection $players) => $players->isEmpty())->keys();
+        if ($teamsWithoutPlayers->isNotEmpty()) {
+            throw new \RuntimeException("Cannot find players for teams {$teamsWithoutPlayers->join(",")}");
+        }
+
         Log::debug("[CreateCompetition][handle] Got results! start saving data");
         $this->saveCompetition($id);
         Log::debug("[CreateCompetition][handle] New Competition ({$this->competition->id})! now teams");
@@ -53,7 +65,10 @@ class CreateCompetition
         Log::debug("[CreateCompetition][handle] Saved ({$this->teams->count()}) teams! now groups");
 
         $this->saveGames($games);
-        Log::debug("[CreateCompetition][handle] Saved ({$this->games->count()}) Games");
+        Log::debug("[CreateCompetition][handle] Saved ({$this->games->count()}) Games! now Players");
+
+        $this->savePlayers($playersByTeam);
+        Log::debug("[CreateCompetition][handle] Saved ({$this->players->count()}) Players");
     }
 
     /**
@@ -121,5 +136,21 @@ class CreateCompetition
 
             return $game;
         })->keyBy("external_id");
+    }
+
+    private function savePlayers(Collection $playersByTeam): Collection
+    {
+        return $this->players = $playersByTeam->reduce(function (Collection $allPlayers, Collection $teamPlayers, $externalTeamId) {
+            $team = $this->teams->get($externalTeamId);
+            /** @var \App\DataCrawler\Player $playerData */
+            foreach ($teamPlayers as $playerData) {
+                $allPlayers[] = Player::generate($team, $playerData);
+//                $allPlayers[$playerData->externalId] = Player::generate($team, $playerData);
+            }
+
+            Log::debug("Saved ({$teamPlayers->count()}) Players for team [{$team->id}]{$team->name}");
+
+            return $allPlayers;
+        }, new Collection());
     }
 }

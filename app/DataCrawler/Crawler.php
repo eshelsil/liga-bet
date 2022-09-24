@@ -139,12 +139,11 @@ class Crawler
         return collect($scorers);
     }
 
-    public function fetchTest()
+    public function fetchPlayersByTeamId($teamId)//450
     {
-        $data = $this->apiCall('/teams/884?limit=300', false);
-        $scorers = $data;
-
-        return collect($scorers);
+        return collect(
+            $this->apiCall("/teams/{$teamId}?limit=300", false)["squad"]
+        )->map(fn($data) => new Player($data["id"], $data["name"], $teamId, $data["shirtNumber"], $data["position"]));
     }
 
     public function fetchGroupStandings()

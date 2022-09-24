@@ -16,7 +16,7 @@ use App\Http\Resources\GroupResource;
 use App\Team;
 use App\User;
 use App\Group;
-use App\Scorer;
+use App\Player;
 use App\SpecialBets\SpecialBet;
 use App\Exceptions\JsonException;
 use Illuminate\Database\Query\Builder;
