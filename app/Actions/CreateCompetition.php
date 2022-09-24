@@ -13,11 +13,8 @@ use App\DataCrawler\Crawler;
 use App\Group;
 use App\Game;
 use App\Player;
-use App\SpecialBets\SpecialBet;
 use App\Team;
-use App\User;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class CreateCompetition

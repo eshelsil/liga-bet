@@ -14,8 +14,10 @@ class ChangeGroupIdToIntInTeamsTable extends Migration
      */
     public function up()
     {
-        DB::statement('ALTER TABLE teams ALTER COLUMN 
+        if (DB::connection()->getDriverName() == "pgsql") {
+            DB::statement('ALTER TABLE teams ALTER COLUMN 
                   group_id TYPE integer USING (group_id)::integer');
+        }
     }
 
     /**
@@ -25,8 +27,10 @@ class ChangeGroupIdToIntInTeamsTable extends Migration
      */
     public function down()
     {
-        Schema::table('teams', function (Blueprint $table) {
-            $table->string("group_id")->change();
-        });
+        if (DB::connection()->getDriverName() == "pgsql") {
+            Schema::table('teams', function (Blueprint $table) {
+                $table->string("group_id")->change();
+            });
+        }
     }
 }
