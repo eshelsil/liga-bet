@@ -2,13 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { OpenGroupRankBetsSelector } from '../_selectors/groupStandingBets';
 import OpenGroupRankBetsView from './OpenGroupRankBetsView';
-import { sendBetAndStore } from '../_actions/bets';
-import { GroupWithABet, BetType } from '../types';
+import { sendBetAndStore, SendGroupRankBetParams } from '../_actions/bets';
+import { GroupWithABet, BetType, Team } from '../types';
 
 
 interface Props {
     groupsWithBet: GroupWithABet[],
-    sendBetAndStore: any,
+    sendBetAndStore: (params: SendGroupRankBetParams) => Promise<void>,
 }
 
 const OpenGroupRankBetsProvider = ({
@@ -18,11 +18,16 @@ const OpenGroupRankBetsProvider = ({
     async function sendGroupRankBet({
         groupId,
         standings,
+    }: {
+        groupId: number,
+        standings: Team[],
     }) {
         const params = {
             betType: BetType.GroupsRank,
             type_id: groupId,
-            value: standings.map(team => team.id),
+            payload: {
+                value: standings.map(team => team.id),
+            },
         }
 
         await sendBetAndStore(params)

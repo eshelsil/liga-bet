@@ -22,7 +22,6 @@ export const PlayersByTeamId = createSelector(
     PlayersWithTeams,
     (players) => {
         return groupBy(Object.values(players), (p) => {
-            console.log({p})
             return p.team.id;
         });
     }

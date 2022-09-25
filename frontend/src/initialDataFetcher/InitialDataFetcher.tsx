@@ -4,6 +4,7 @@ import { BetFetchType, fetchAndStoreBets } from '../_actions/bets';
 import { fetchAndStoreGroups } from '../_actions/groups';
 import { fetchAndStoreMatches } from '../_actions/matches';
 import { fetchAndStoreQuestions } from '../_actions/specialQuestions';
+import { fetchAndStorePlayers } from '../_actions/players';
 import { fetchAndStoreTeams } from '../_actions/teams';
 import { fetchAndStoreContestants } from '../_actions/contestants';
 import { NoSelector } from '../_selectors/noSelector';
@@ -16,6 +17,7 @@ export function InitialDataFetcher({
     fetchAndStoreTeams,
     fetchAndStoreGroups,
     fetchAndStoreQuestions,
+    fetchAndStorePlayers,
     fetchAndStoreContestants,
 }) {
     useEffect(()=> {
@@ -23,6 +25,7 @@ export function InitialDataFetcher({
         fetchAndStoreGroups();
         fetchAndStoreMatches();
         fetchAndStoreQuestions();
+        fetchAndStorePlayers();
         fetchAndStoreContestants();
         fetchAndStoreBets(BetFetchType.MyBets);
         fetchAndStoreBets(BetFetchType.GameBets);
@@ -38,6 +41,7 @@ const mapDispatchToProps = {
     fetchAndStoreTeams,
     fetchAndStoreGroups,
     fetchAndStoreQuestions,
+    fetchAndStorePlayers,
     fetchAndStoreContestants,
 }
 

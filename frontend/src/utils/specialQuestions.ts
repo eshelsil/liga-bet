@@ -1,4 +1,4 @@
-import { SpecialAnswerType, SpecialQuestionBase, SpecialQuestionType } from "../types";
+import { NameWithFlagAttrs, Player, SpecialAnswerType, SpecialQuestionAnswer, SpecialQuestionBase, SpecialQuestionType, Team } from "../types";
 
 
 export const specialQuestionToAnswerType: Record<SpecialQuestionType, SpecialAnswerType> = {
@@ -29,4 +29,27 @@ export function hasTeamAnswer(specialQuestion: SpecialQuestionBase){
 
 export function hasPlayerAnswer(specialQuestion: SpecialQuestionBase){
     return specialQuestionToAnswerType[specialQuestion.type] === SpecialAnswerType.Player;
+}
+
+export function getSpecialAnswerAttributes({
+    answer,
+    questionType,
+}: {
+    answer: SpecialQuestionAnswer,
+    questionType: SpecialQuestionType,
+}): NameWithFlagAttrs {
+    const answerType = specialQuestionToAnswerType[questionType];
+    if (answerType === SpecialAnswerType.Team){
+        const { name, crest_url } = answer as Team;
+        return { name, crest_url };
+    }
+    if (answerType === SpecialAnswerType.Player){
+        const { name, team } = answer as Player;
+        const { crest_url } = team;
+        return { name, crest_url };
+    }
+    return {
+        name: null,
+        crest_url: null,
+    };
 }
