@@ -24,7 +24,7 @@ class PlayerResource extends JsonResource
             "shirt"           => $player->shirt,
             "goals"           => $player->goals,
             "assists"         => $player->assists,
-            "team_id"         => $player->team_id,
+            "team"         => $player->team_id,
         ];
     }
 }
