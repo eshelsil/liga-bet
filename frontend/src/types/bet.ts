@@ -1,6 +1,6 @@
-import { Group, GroupWithTeams } from "./group";
+import { GroupWithTeams } from "./group";
 import { Match, WinnerSide } from "./match";
-import { SpecialQuestion } from "./specialQuestion";
+import { SpecialQuestion, SpecialQuestionAnswer } from "./specialQuestion";
 import { Team } from "./teams";
 
 export enum BetType {
@@ -41,9 +41,9 @@ export interface QuestionBetApiModel extends BetBase {
     answer: number,
 }
 
-export interface QuestionBetWithRelations extends QuestionBetApiModel {
+export interface QuestionBetWithRelations extends BetBase {
     relatedQuestion: SpecialQuestion,
-    // answer?: any,
+    answer: SpecialQuestionAnswer,
 }
 
 export type BetApiModel = QuestionBetApiModel | GroupRankBetApiModel | MatchBetApiModel
@@ -55,4 +55,7 @@ export interface MatchWithABet extends Match {
 }
 export interface GroupWithABet extends GroupWithTeams {
     bet: GroupRankBetWithRelations,
+}
+export interface SpecialQuestionWithABet extends SpecialQuestion {
+    bet: QuestionBetWithRelations,
 }

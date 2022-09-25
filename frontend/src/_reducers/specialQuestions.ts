@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { SpecialQuestionsById } from '../types';
+import { SpecialQuestionsApiModelById } from '../types';
 
 
 const specialQuestions = createSlice({
   name: 'specialQuestions',
-  initialState: {} as SpecialQuestionsById,
+  initialState: {} as SpecialQuestionsApiModelById,
   reducers: {
-    set: (state, action: PayloadAction<SpecialQuestionsById>) => action.payload,
+    set: (state, action: PayloadAction<SpecialQuestionsApiModelById>) => action.payload,
   },
 });
 

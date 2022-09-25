@@ -1,7 +1,7 @@
-import { orderBy } from 'lodash';
+import { mapValues, orderBy } from 'lodash';
 import { createSelector } from 'reselect'
-import { isAdmin, isUtlConfirmed } from '../../utils';
-import { CurrentTournament, CurrentTournamentUser, CurrentUser, LeaderboardVersions } from './models';
+import { getSpecialQuestionName, isAdmin, isTournamentStarted, isUtlConfirmed } from '../../utils';
+import { CurrentTournament, CurrentTournamentUser, CurrentUser, LeaderboardVersions, SpecialQuestions } from './models';
 
 
 export const TournamentIdSelector = createSelector(
@@ -11,8 +11,8 @@ export const TournamentIdSelector = createSelector(
 
 export const IsTournamentStarted = createSelector(
     CurrentTournament,
-    tournament => true, // only for development
-    // tournament => isTournamentStarted(tournament),
+    // tournament => true, // only for development
+    tournament => isTournamentStarted(tournament),
 );
 
 export const IsAdmin = createSelector(
@@ -46,5 +46,19 @@ export const LatestLeaderboardVersion = createSelector(
     LeaderboardVersionsDesc,
     (versions) => {
         return versions[0] ?? {};
+    }
+);
+
+export const SpecialQuestionsFormatted = createSelector(
+    SpecialQuestions,
+    (specialQuestions) => {
+        return mapValues(specialQuestions, question => {
+            const { answer } = question;
+            return {
+                ...question,
+                name: getSpecialQuestionName(question),
+                answer: Array.isArray(answer) ? answer : [answer],
+            };
+        });
     }
 );

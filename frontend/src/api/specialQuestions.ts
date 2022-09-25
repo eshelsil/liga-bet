@@ -1,30 +1,47 @@
-import { SpecialQuestion } from '../types';
+import { SpecialQuestionApiModel, SpecialQuestionType } from '../types';
+import { sendApiRequest } from './common/apiRequest';
 
-type QuestionsApiResult = Record<number, SpecialQuestion>
+type QuestionsApiResult = SpecialQuestionApiModel[]
 
 const sendRequest = async (): Promise<QuestionsApiResult> => {
-  return {
-    4: {
-      // name: "top_scorer",
-      name: "Top Scroer",
+  return [
+    {
+      id: 1,
+      answer: null,
+      type: SpecialQuestionType.Winner,
+    },
+    {
+      answer: null,
+      type: SpecialQuestionType.RunnerUp,
+      id: 2,
+    },
+    {
+      answer: null,
+      type: SpecialQuestionType.OffensiveTeamGroupStage,
+      id: 6,
+    },
+    {
       answer: 5,
-      type: 4,
+      type: SpecialQuestionType.TopScorer,
+      id: 3,
+    },
+    {
+      answer: 5,
+      type: SpecialQuestionType.TopAssists,
       id: 4,
     },
-    5: {
-      // name: "offensive_team",
-      name: "Team with most goals on groups stage",
-      answer: 5,
-      type: 5,
+    {
+      answer: null,
+      type: SpecialQuestionType.MVP,
       id: 5,
     },
-    1: {
-      name: "winner",
-      answer: null,
-      type: 1,
-      id: 1,
-    },
-  };
+  ];
 }
 
 export const fetchSpecialQuestions = sendRequest;
+
+// export async function fetchSpecialQuestions(tournamentId: number) {
+//   return await sendApiRequest({
+//     url: `/api/tournaments/${tournamentId}/special-questions`,
+//   });
+// };

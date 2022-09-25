@@ -1,4 +1,4 @@
-import { BetApiModel, BetType } from "../types";
+import { BetApiModel, BetType, WinnerSide } from "../types";
 import { sendApiRequest } from "./common/apiRequest";
 
 type BetsApiResult = Record<number, BetApiModel>
@@ -42,10 +42,29 @@ export const fetchClosedMatchBets = async (tournamentId: number): Promise<BetsAp
 //     });
 // };
 
+
+export interface MatchBetUpdatePayload {
+    "result-home": number,
+    "result-away": number,
+    winner_side?: WinnerSide,
+} 
+export interface GroupRankBetUpdatePayload {
+    value: number[],
+} 
+export interface QuestionBetUpdatePayload {
+    answer: number,
+}
+export interface UpdateBetPayload {
+    [BetType.Match]: MatchBetUpdatePayload,
+    [BetType.GroupsRank]: GroupRankBetUpdatePayload,
+    [BetType.Question]: QuestionBetUpdatePayload,
+}
+  
 export const sendBet = async (
     tournamentId: number,
     betType: BetType,
-    params: object
+    type_id: number,
+    params: UpdateBetPayload[keyof UpdateBetPayload],
 ): Promise<BetsApiResult> =>{
     const {bets = {}} = await sendApiRequest({
         type: 'POST',
@@ -53,7 +72,10 @@ export const sendBet = async (
         data: {
             bets: [{
                 type: betType,
-                data: params,
+                data: {
+                    ...params,
+                    type_id,
+                },
             }]
         },
     })
