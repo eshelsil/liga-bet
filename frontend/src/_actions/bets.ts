@@ -1,6 +1,6 @@
 import { Dictionary } from '@reduxjs/toolkit';
-import { fetchBets, fetchMyBets, fetchClosedMatchBets, sendBet } from '../api/bets';
-import { BetApiModel } from '../types';
+import { fetchBets, fetchMyBets, fetchClosedMatchBets, sendBet, UpdateBetPayload } from '../api/bets';
+import { BetApiModel, BetType } from '../types';
 import { AppDispatch, GetRootState } from '../_helpers/store';
 import bets from '../_reducers/bets';
 import { TournamentIdSelector } from '../_selectors/base';
@@ -32,12 +32,21 @@ function fetchAndStoreBets(fetchType: BetFetchType, params?: FetchBetsParams) {
   }
 }
 
-function sendBetAndStore(params){
-  const {betType, ...restParams} = params;
-  return (dispatch: AppDispatch, getState: GetRootState) => {
+export interface SendBetParams<T extends keyof UpdateBetPayload> {
+  type_id: number,
+  betType: BetType,
+  payload: UpdateBetPayload[T]
+}
+export type SendMatchBetParams = SendBetParams<BetType.Match>
+export type SendGroupRankBetParams = SendBetParams<BetType.GroupsRank>
+export type SendQuestionBetParams = SendBetParams<BetType.Question>
+
+function sendBetAndStore(params: SendBetParams<BetType>){
+  const {betType, type_id, payload} = params;
+  return async (dispatch: AppDispatch, getState: GetRootState) => {
     const tournamentId = TournamentIdSelector(getState());
-    return sendBet(tournamentId, betType, restParams)
-      .then( data => dispatch(bets.actions.updateMany(data)) );
+    const data = await sendBet(tournamentId, betType, type_id, payload);
+    dispatch(bets.actions.updateMany(data));
   }
 }
 

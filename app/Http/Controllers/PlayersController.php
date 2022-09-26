@@ -15,8 +15,7 @@ class PlayersController extends Controller
         $utl = $this->getUser()->getTournamentUser($tournamentId);
 
         $data = $utl->tournament->competition->players
-            ->map(fn(Player $player) => (new PlayerResource($player))->toArray($request))
-            ->keyBy("id");
+            ->map(fn(Player $player) => (new PlayerResource($player))->toArray($request));
 
         return new JsonResponse($data, 200);
     }

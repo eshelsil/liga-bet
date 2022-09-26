@@ -1,26 +1,37 @@
-import { Team } from "./teams"
+import { Team } from './teams';
+import { Player } from './player';
+import { Dictionary } from 'lodash';
+
 
 export enum SpecialQuestionType {
-    Winner = 1,
-    MVP = 2,
-    RunnerUp = 3,
-    TopScorer = 4,
-    OffensiveTeamGroupStage = 5,
-    TopAssists = 6,
+    Winner = 'winner',
+    RunnerUp = 'runner_up',
+    TopScorer = 'top_scorer',
+    TopAssists = 'most_assists',
+    MVP = 'mvp',
+    OffensiveTeamGroupStage = 'offensive_team',
 }
 
-// interface Player {
-//     //TBD
-// }
-type Player = Team;
+export enum SpecialAnswerType {
+    Team = 'team',
+    Player = 'player',
+}
 
 export type SpecialQuestionAnswer = Team | Player
 
-export interface SpecialQuestion {
+export interface SpecialQuestionBase {
     id: number,
     type: SpecialQuestionType,
-    name: string,
-    answer: number,
 }
 
-export type SpecialQuestionsById = Record<number, SpecialQuestion>
+export interface SpecialQuestionApiModel extends SpecialQuestionBase {
+    answer: number | number[],
+}
+
+export interface SpecialQuestion extends SpecialQuestionBase {
+    name: string
+    answer: SpecialQuestionAnswer[],
+}
+
+export type SpecialQuestionsApiModelById = Record<number, SpecialQuestionApiModel>
+export type SpecialQuestionsById = Dictionary<SpecialQuestion>

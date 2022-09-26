@@ -14,6 +14,7 @@ import users from './users';
 import usersTotalCount from './usersTotalCount';
 import ownedTournament from './ownedTournament';
 import competitions from './competitions';
+import players from './players';
 
 
 const reducer = combineReducers({
@@ -21,6 +22,7 @@ const reducer = combineReducers({
     teams: teams.reducer,
     leaderboardVersions: leaderboard.reducer,
     specialQuestions: specialQuestions.reducer,
+    players: players.reducer,
     matches: matches.reducer,
     groups: groups.reducer,
     currentUser: currentUser.reducer,

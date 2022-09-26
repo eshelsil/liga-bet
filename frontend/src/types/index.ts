@@ -6,6 +6,7 @@ export * from './teams';
 export * from './group';
 export * from './leaderboard';
 export * from './leaderboardVersion';
+export * from './player';
 export * from './specialQuestion';
 export * from './tournament';
 export * from './user';

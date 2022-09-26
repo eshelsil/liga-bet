@@ -20,7 +20,7 @@ class BetSpecialBetsRequest extends AbstractBetRequest
     protected $answer = null;
     protected TournamentUser $utl;
 
-    static $scorerIds = null;
+    static $playerIds = null;
     static $teamIds = null;
 
     /**
@@ -30,9 +30,9 @@ class BetSpecialBetsRequest extends AbstractBetRequest
      * @param array $data
      */
     public function __construct($specialBet, $data = []) {
-        parent::__construct($specialBet, $data);
         $this->answer   = $data["answer"];
         $this->utl      = $data["utl"];
+        parent::__construct($specialBet, $data);
     }
 
     public function toJson() {
@@ -58,10 +58,10 @@ class BetSpecialBetsRequest extends AbstractBetRequest
     protected function validateAnswer($specialBet, $answer) {
         switch ($specialBet->type) {
             case SpecialBet::TYPE_MVP:
-                $this->validateCustomInput($answer);
+                $this->validatePlayerSelection($answer);
                 break;
             case SpecialBet::TYPE_MOST_ASSISTS:
-                $this->validateCustomInput($answer);
+                $this->validatePlayerSelection($answer);
                 break;
             case SpecialBet::TYPE_OFFENSIVE_TEAM:
                 $this->validateTeamSelection($answer);
@@ -79,7 +79,7 @@ class BetSpecialBetsRequest extends AbstractBetRequest
                 }
                 break;
             case SpecialBet::TYPE_TOP_SCORER:
-                $this->validateTopScorer($answer);
+                $this->validatePlayerSelection($answer);
                 break;
             default:
                 throw new InvalidArgumentException("Invalid SpecialBet name \"{$this->name}\"");
@@ -116,18 +116,21 @@ class BetSpecialBetsRequest extends AbstractBetRequest
         return $bet->getAnswer() == $answer;
     }
 
-    public function validateTopScorer($answer) {
-        $scorerIds = static::getScorerIds();
-        if (!in_array($answer, $scorerIds)){
+    public function validatePlayerSelection($answer) {
+        $validator = Validator::make(["answer" => $answer], [
+            'answer' => 'required|integer',
+        ]);
+        $playerIds = static::getPlayerIds();
+        if (!in_array($answer, $playerIds)){
             throw new \InvalidArgumentException("Scorers table has no player with id \"{{$answer}}\"");
         }
     }
 
-    public static function getScorerIds() {
-        if (static::$scorerIds){
-            return static::$scorerIds;
+    public static function getPlayerIds() {
+        if (static::$playerIds){
+            return static::$playerIds;
         }
-        return static::$scorerIds = Player::all(['external_id'])->pluck('external_id')->toArray();
+        return static::$playerIds = Player::all(['id'])->pluck('id')->toArray();
     }
 
     public static function getTeamIds() {

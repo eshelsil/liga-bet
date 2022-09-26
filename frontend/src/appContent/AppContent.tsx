@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import Leaderboard from '../leaderboard/LeaderboardProvider';
 import OpenMatchesView from '../open_matches/openMatchesProvider';
-import OpenGroupRankBetsView from '../preTournamentBets/OpenGroupRankBetsProvider';
+import OpenGroupRankBetsView from '../OpenGroupBets/OpenGroupRankBetsProvider';
 import MatchesView from '../matches/ClosedMatchBetsProvider';
 import GroupStandingsBetsView from '../groupBets/GroupStandingsBetsProvider';
 import AllQuestionBetsView from '../questionBets/ClosedQuestionBetsProvider';
@@ -14,6 +14,7 @@ import InitialDataFetcher from '../initialDataFetcher/InitialDataFetcher';
 import ManageContestantsProvider from '../manageContestants/ManageContestantsProvider';
 import UTLPage from '../myUTL';
 import ManageUsers from '../manageUsers';
+import OpenQuestionBets from '../openQuestionBets/OpenQuestionBetsProvider';
 
 
 function AppContent(){
@@ -21,8 +22,7 @@ function AppContent(){
         <TournamentUserController>
             <InitialDataFetcher>
                 <Switch>
-                    <Route path='/open-questions' component={OpenGroupRankBetsView} />
-                    {/* ABOVE TBD ^--------^*/}
+                    <Route path='/open-questions' component={OpenQuestionBets} />
                     <Route path='/utl' component={UTLPage} />
                     <Route path='/admin/users' component={ManageUsers} />
                     <Route path='/contestants' component={ManageContestantsProvider} />
@@ -35,8 +35,7 @@ function AppContent(){
                     <Route path='/all-questions' component={AllQuestionBetsView} />
                     <Route path='/my-bets' component={MyBetsView} />
                     <Route path='/'>
-                        {/* <Route path='/closed-matches' component={MatchesView} /> */}
-                        <Redirect to='/leaderboard'/>
+                        <Redirect to='/open-questions'/>
                     </Route>
                 </Switch>
             </InitialDataFetcher>

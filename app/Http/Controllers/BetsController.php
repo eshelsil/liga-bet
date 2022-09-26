@@ -98,9 +98,9 @@ class BetsController extends Controller
                     $bets[] = BetGroupRank::save($utl, $betRequest);
                     break;
                 case BetTypes::SpecialBet:
-                    $betValue = $betInput->data["value"];
-                    $userData = ["user" => $user];
-                    $betRequestData = array_merge($betValue, $userData);
+                    $betValue = ["answer" => $betInput->data["answer"]];
+                    $utlData = ["utl" => $utl];
+                    $betRequestData = array_merge($betValue, $utlData);
                     $betRequest = new BetSpecialBetsRequest(
                         SpecialBet::find($betInput->data["type_id"]),
                         $betRequestData

@@ -1,28 +1,35 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { MyOpenMatchBetsSelector } from '../_selectors/openMatches';
-import { sendBetAndStore, fetchAndStoreBets, BetFetchType } from '../_actions/bets';
+import { sendBetAndStore, fetchAndStoreBets, SendMatchBetParams } from '../_actions/bets';
 import OpenMatchesView from './openMatchesView';
-import { BetType, MatchWithABet } from '../types';
+import { BetType, MatchWithABet, WinnerSide } from '../types';
+import { MatchBetUpdatePayload } from '../api/bets';
 
 
-
+interface Props {
+    matches: MatchWithABet[],
+    sendBetAndStore: (params: SendMatchBetParams) => Promise<void>,
+    fetchAndStoreBets: any,
+}
 
 const OpenMatchesProvider = ({
     matches,
     sendBetAndStore,
     fetchAndStoreBets,
-}: {
-    matches: MatchWithABet[],
-    sendBetAndStore: any,
-    fetchAndStoreBets: any,
-}) => {
+}: Props ) => {
     async function sendMatchBet({
         matchId,
         is_knockout,
         homeScore,
         awayScore,
         koWinner,
+    }: {
+        matchId: number,
+        is_knockout: boolean,
+        homeScore: string,
+        awayScore: string,
+        koWinner: WinnerSide,
     }) {
         const valid_input_vals = [...Array(21).keys()];
         if (homeScore === "" || valid_input_vals.indexOf(Number(homeScore)) === -1){
@@ -33,21 +40,21 @@ const OpenMatchesProvider = ({
             window['toastr']["error"](`כמות שערים לקבוצה חייבת להיות מספר שלם בין 0 ל-20. הערך שהתקבל לקבוצת החוץ: ${awayScore}`)
             return
         }
-        let params = {
-            type_id: matchId,
-            "result-home": homeScore,
-            "result-away": awayScore
+        const payload: MatchBetUpdatePayload = {
+            "result-home": Number(homeScore),
+            "result-away": Number(awayScore),
         }
         if (is_knockout && homeScore == awayScore){
-            params['winner_side'] = koWinner;
+            payload.winner_side = koWinner;
             if (!koWinner){
                 window['toastr']["error"](`עלייך לבחור מעפילה (מכיוון שסימנת משחק נוקאאוט שייגמר בתיקו)`)
                 return
             }
         }
         await sendBetAndStore({
-            ...params,
             betType: BetType.Match,
+            type_id: matchId,
+            payload,
         })
             .then(function (data) {
                 window['toastr']["success"]("ההימור נשלח");

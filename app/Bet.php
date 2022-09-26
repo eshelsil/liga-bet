@@ -69,6 +69,8 @@ class Bet extends Model
             $bet['winner_side'] = $this->getData('ko_winner_side');
         } elseif ($this->type === BetTypes::GroupsRank) {
             $bet['standings'] = $this->getData();
+        } elseif ($this->type === BetTypes::SpecialBet) {
+            $bet['answer'] = $this->getData('answer');
         }
         return $bet;
     }

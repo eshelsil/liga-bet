@@ -1,6 +1,7 @@
 import { groupBy } from 'lodash';
 import React from 'react';
 import { QuestionBetWithRelations, Team } from '../types';
+import { getSpecialAnswerAttributes } from '../utils';
 import QuestionBetRow from './QuestionBetRow';
 
 interface QuestionWithAnswerRelation extends QuestionBetWithRelations {
@@ -17,7 +18,7 @@ function QuestionBetsList({
     bets: QuestionBetWithRelations[]
 }){
     const bets = betsOriginal as QuestionWithAnswerRelation[];
-    const betsByAnswer = groupBy(bets, bet => bet.answerModel.id);
+    const betsByAnswer = groupBy(bets, bet => bet.answer.id);
     return (
         <div id={`special-bet-wrapper-${id}`} className="tab-pane fade" style={{padding: 10}}>
             <h3 className="text-center">{name}</h3>
@@ -28,8 +29,10 @@ function QuestionBetsList({
                         <div className="col-xs-5 pull-right">מהמרים</div>
                     </li>
                     {Object.values(betsByAnswer).map(bets =>{
-                        const answer = bets[0].answerModel;
-                        const {name, crest_url, id} = answer;
+                        const answer = bets[0].answer;
+                        const questionType = bets[0].relatedQuestion.type;
+                        const { id } = answer;
+                        const {name, crest_url} = getSpecialAnswerAttributes({answer, questionType});
                         const gumblers = bets.map(bet => bet.utlName);
                         return <QuestionBetRow key={id} name={name} crest_url={crest_url} gumblers={gumblers} />
                     })}

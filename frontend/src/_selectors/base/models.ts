@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { RootState } from '../../_helpers/store';
 import { pickBy, groupBy } from 'lodash';
-import { BetType, GroupRankBetApiModel, MatchBetApiModel, QuestionBetApiModel, UtlRole } from '../../types';
+import { BetType, GroupRankBetApiModel, MatchBetApiModel, QuestionBetApiModel, Tournament, UtlRole } from '../../types';
 
 
 export const CurrentUser = (state: RootState) => state.currentUser;
@@ -13,13 +13,13 @@ export const Bets = (state: RootState) => state.bets;
 export const LeaderboardVersions = (state: RootState) => state.leaderboardVersions;
 export const Matches = (state: RootState) => state.matches;
 export const Teams = (state: RootState) => state.teams;
+export const Players = (state: RootState) => state.players;
 export const Groups = (state: RootState) => state.groups;
 export const SpecialQuestions = (state: RootState) => state.specialQuestions;
 export const OwnedTournament = (state: RootState) => state.ownedTournament;
 export const Competitions = (state: RootState) => state.competitions;
 export const Users = (state: RootState) => state.users;
 export const UsersTotalCount = (state: RootState) => state.usersTotalCount;
-// export const Players = (state: RootState) => state.players;
 
 export const CurrentTournamentUser = createSelector(
     CurrentTournamentUserId,
@@ -37,7 +37,7 @@ export const HasCurrentUtl = createSelector(
 export const CurrentTournament = createSelector(
     CurrentTournamentUser,
     (utl) => {
-        return utl?.tournament;
+        return utl?.tournament ?? {} as Tournament;
     }
 );
 

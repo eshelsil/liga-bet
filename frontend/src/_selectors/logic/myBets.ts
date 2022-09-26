@@ -33,3 +33,10 @@ export const MyGroupRankBetsById = createSelector(
         return keyBy(bets, 'type_id');
     }
 );
+
+export const MyQuestionBetsById = createSelector(
+    MyQuestionBetsSelector,
+    (bets) => {
+        return keyBy(bets, 'type_id');
+    }
+);

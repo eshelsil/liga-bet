@@ -1,11 +1,16 @@
+import { keyBy } from 'lodash';
 import { fetchSpecialQuestions } from '../api/specialQuestions';
-import { AppDispatch } from '../_helpers/store';
+import { AppDispatch, GetRootState } from '../_helpers/store';
 import specialQuestions from '../_reducers/specialQuestions';
+import { TournamentIdSelector } from '../_selectors';
 
 function fetchAndStoreQuestions() {
-  return (dispatch: AppDispatch) => {
-    return fetchSpecialQuestions()
-    .then( data => dispatch(specialQuestions.actions.set(data)) );
+  return async (dispatch: AppDispatch, getState: GetRootState) => {
+    const tournamentId = TournamentIdSelector(getState());
+    // const data = await fetchSpecialQuestions(tournamentId);
+    const questions = await fetchSpecialQuestions();
+    const questionsById = keyBy(questions, 'id');
+    dispatch(specialQuestions.actions.set(questionsById));
   }
 }
 
