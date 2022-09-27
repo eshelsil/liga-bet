@@ -1,10 +1,9 @@
 import { Button, Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { Player, SpecialQuestionWithABet, Team } from '../types';
+import { SpecialQuestionWithABet } from '../types';
 import { hasPlayerAnswer, hasTeamAnswer } from '../utils';
 import TeamInput from './TeamInput';
-import PlayerAnswerView from './PlayerAnswerView';
-import TeamAnswerView from './TeamAnswerView';
+import SpecialAnswerView from '../widgets/specialAnswer/SpecialAnswer';
 import { QuestionBetParams } from './types';
 import PlayerInput from './PlayerInput';
 
@@ -19,7 +18,7 @@ function OpenQuestionBetView({
     sendBet,
 }: Props ){
     const [answer, setAnswer] = useState<number>();
-    const { name, bet, id } = questionWithBet;
+    const { name, bet, id, type } = questionWithBet;
     const { answer: betAnswer } = bet || {};
     const hasBet = !!bet;
     const isTeamQuestion = hasTeamAnswer(questionWithBet);
@@ -43,12 +42,10 @@ function OpenQuestionBetView({
                 </div>
                 {hasBet && (
                     <div className='existing_bet'>
-                        {isTeamQuestion && (
-                            <TeamAnswerView team={betAnswer as Team} />
-                        )}
-                        {isPlayerQuestion && (
-                            <PlayerAnswerView player={betAnswer as Player} />
-                        )}
+                        <SpecialAnswerView 
+                            answer={betAnswer}
+                            type={type}
+                        />
                     </div>
                 )}
                 <div className='content'>

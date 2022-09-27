@@ -1,26 +1,22 @@
 import React from 'react';
-import TeamWithFlag from '../widgets/TeamWithFlag';
+import { SpecialQuestionAnswer, SpecialQuestionType } from '../types';
+import SpecialAnswer from '../widgets/specialAnswer/SpecialAnswer';
 
 
 function QuestionBetRow({
-    name,
-    crest_url,
+    answer,
+    type,
     gumblers,
 }: {
-    name: string,
-    crest_url: string,
+    answer: SpecialQuestionAnswer,
+    type: SpecialQuestionType,
     gumblers: string[],
 } ){
 
     return (
     <li className="list-group-item row full-row">
         <div className="col-xs-5 pull-right">
-            {crest_url && (
-                <TeamWithFlag name={name} crest_url={crest_url} />
-            )}
-            {!crest_url && (
-                name
-            )}
+            <SpecialAnswer {...{answer, type,}} />
         </div>
         <div className="col-xs-5 pull-right">
             {gumblers.map(

@@ -41,7 +41,7 @@ class BetsController extends Controller
         $utl = $user->getTournamentUser($tournamentId);
         $competition = $utl->tournament->competition;
 
-        $bets = $utl->bets;
+        $bets = $utl->tournament->bets;
         $formattedBets = $this->formatBets($bets, $competition, $request);
 
         return new JsonResponse($formattedBets->keyBy('id'), 200);
