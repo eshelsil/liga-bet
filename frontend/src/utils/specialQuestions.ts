@@ -39,6 +39,13 @@ export function getSpecialAnswerAttributes({
     questionType: SpecialQuestionType,
 }): NameWithFlagAttrs {
     const answerType = specialQuestionToAnswerType[questionType];
+    const empty = {
+        name: null,
+        crest_url: null,
+    }
+    if (!answer) {
+        return empty;
+    }
     if (answerType === SpecialAnswerType.Team){
         const { name, crest_url } = answer as Team;
         return { name, crest_url };
@@ -48,8 +55,5 @@ export function getSpecialAnswerAttributes({
         const { crest_url } = team;
         return { name, crest_url };
     }
-    return {
-        name: null,
-        crest_url: null,
-    };
+    return empty;
 }

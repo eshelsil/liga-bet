@@ -1,7 +1,6 @@
-import { groupBy } from 'lodash';
 import React from 'react';
+import { groupBy } from 'lodash';
 import { QuestionBetWithRelations, Team } from '../types';
-import { getSpecialAnswerAttributes } from '../utils';
 import QuestionBetRow from './QuestionBetRow';
 
 interface QuestionWithAnswerRelation extends QuestionBetWithRelations {
@@ -32,9 +31,15 @@ function QuestionBetsList({
                         const answer = bets[0].answer;
                         const questionType = bets[0].relatedQuestion.type;
                         const { id } = answer;
-                        const {name, crest_url} = getSpecialAnswerAttributes({answer, questionType});
                         const gumblers = bets.map(bet => bet.utlName);
-                        return <QuestionBetRow key={id} name={name} crest_url={crest_url} gumblers={gumblers} />
+                        return (
+                            <QuestionBetRow
+                                key={id}
+                                answer={answer}
+                                type={questionType}
+                                gumblers={gumblers}
+                            />
+                        );
                     })}
                 </ul>
             </div>

@@ -1,5 +1,6 @@
 import { mapValues, orderBy } from 'lodash';
 import { createSelector } from 'reselect'
+import { SpecialQuestionApiModel } from '../../types';
 import { getSpecialQuestionName, isAdmin, isTournamentStarted, isUtlConfirmed } from '../../utils';
 import { CurrentTournament, CurrentTournamentUser, CurrentUser, LeaderboardVersions, SpecialQuestions } from './models';
 
@@ -11,8 +12,8 @@ export const TournamentIdSelector = createSelector(
 
 export const IsTournamentStarted = createSelector(
     CurrentTournament,
-    // tournament => true, // only for development
-    tournament => isTournamentStarted(tournament),
+    tournament => true, // only for development
+    // tournament => isTournamentStarted(tournament),
 );
 
 export const IsAdmin = createSelector(
@@ -49,6 +50,12 @@ export const LatestLeaderboardVersion = createSelector(
     }
 );
 
+
+function formatSpecialAnswer(answer: SpecialQuestionApiModel['answer']) {
+    if (!answer) return [];
+    return Array.isArray(answer) ? answer : [answer];
+}
+
 export const SpecialQuestionsFormatted = createSelector(
     SpecialQuestions,
     (specialQuestions) => {
@@ -57,7 +64,7 @@ export const SpecialQuestionsFormatted = createSelector(
             return {
                 ...question,
                 name: getSpecialQuestionName(question),
-                answer: Array.isArray(answer) ? answer : [answer],
+                answer: formatSpecialAnswer(answer),
             };
         });
     }

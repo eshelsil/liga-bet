@@ -1,13 +1,12 @@
 import React from 'react';
 import { QuestionBetWithRelations } from '../types';
-import TeamAndSymbol from "../widgets/TeamWithFlag";
+import SpecialAnswer from '../widgets/specialAnswer/SpecialAnswer';
 
 
 const SpecialBetsTable = ({
     bets,
 }: {
-    // bets: QuestionBetWithRelations[],
-    bets: any[],
+    bets: QuestionBetWithRelations[],
 }) => {
     return <table className="table table-striped">
         <thead>
@@ -34,10 +33,12 @@ const SpecialBetsTable = ({
                             {bet.relatedQuestion.name}
                         </td>
                         <td>
-                            <TeamAndSymbol name={bet.answer.name} crest_url={bet.answer.crest_url}/>
+                            <SpecialAnswer answer={bet.answer} type={bet.relatedQuestion.type} />
                         </td>
                         <td>
-                            <TeamAndSymbol name={bet.relatedQuestion.answer.name} crest_url={bet.relatedQuestion.answer.crest_url}/>
+                            {bet.relatedQuestion.answer.map(answer => (
+                                <SpecialAnswer key={answer.id} answer={answer} type={bet.relatedQuestion.type} />
+                            ))}
                         </td>
                     </tr>
             ))
