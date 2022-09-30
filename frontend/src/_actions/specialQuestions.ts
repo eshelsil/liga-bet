@@ -7,8 +7,7 @@ import { TournamentIdSelector } from '../_selectors';
 function fetchAndStoreQuestions() {
   return async (dispatch: AppDispatch, getState: GetRootState) => {
     const tournamentId = TournamentIdSelector(getState());
-    // const data = await fetchSpecialQuestions(tournamentId);
-    const questions = await fetchSpecialQuestions();
+    const questions = await fetchSpecialQuestions(tournamentId);
     const questionsById = keyBy(questions, 'id');
     dispatch(specialQuestions.actions.set(questionsById));
   }
