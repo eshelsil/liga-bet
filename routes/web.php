@@ -21,6 +21,7 @@ use App\Http\Controllers\GroupsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\PlayersController;
+use App\Http\Controllers\SpecialQuestionsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TournamentUserController;
 use App\Http\Controllers\TeamsController;
@@ -87,6 +88,7 @@ Route::prefix("/api/tournaments/{tournamentId}/")->middleware("confirmed_user")
         Route::get("leaderboards", [LeaderboardController::class, 'index']);
         Route::get("contestants", [UserController::class, 'getTournamentUTLs']);
         Route::get("teams", [TeamsController::class, 'index']);
+        Route::get("special-questions", [SpecialQuestionsController::class, 'index']);
         Route::prefix("manage/utls")->middleware("tournament_manager")
         ->group(function () {
             Route::get("/", [TournamentUserController::class, 'index']);
