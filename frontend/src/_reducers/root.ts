@@ -15,6 +15,7 @@ import usersTotalCount from './usersTotalCount';
 import ownedTournament from './ownedTournament';
 import competitions from './competitions';
 import players from './players';
+import dialogs from './dialogs';
 
 
 const reducer = combineReducers({
@@ -34,6 +35,7 @@ const reducer = combineReducers({
     tournamentUTLs: tournamentUTLs.reducer,
     users: users.reducer,
     usersTotalCount: usersTotalCount.reducer,
+    dialogs: dialogs.reducer,
 });
 
 export default reducer;

@@ -8,6 +8,7 @@ import AuthController from './auth/AuthController';
 import AppBody from './appContent/AppBody';
 import AppFooter from './appFooter/Footer';
 import Banner from './appBanner/AppBannerView';
+import DialogsProvider from './dialogs/DialogsProvider';
 import './App.scss';
 
 
@@ -22,6 +23,7 @@ function App() {
 				<AppHeader />
 				<AppBody />
 				<AppFooter />
+				<DialogsProvider />
 			</Router>
 		</AuthController>
 	</StoreProvider>
