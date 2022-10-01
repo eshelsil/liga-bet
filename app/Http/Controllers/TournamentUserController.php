@@ -31,14 +31,19 @@ class TournamentUserController extends Controller
         if ($utl->hasManagerPermissions() || $role == TournamentUser::ROLE_MANAGER){
             $this->validateCanUpdateManagers($tournamentId);
         }
-        if ($role == TournamentUser::ROLE_CONTESTANT){
-            $this->validateCanSetContestant($utl);
+        if ($role !== $utl->role){
+            if ($role == TournamentUser::ROLE_CONTESTANT && $utl->role == TournamentUser::ROLE_NOT_CONFIRMED){
+                $this->validateCanConfirmUser($utl);
+            } else if ($role == TournamentUser::ROLE_CONTESTANT && $utl->role == TournamentUser::ROLE_MANAGER) {
+                $this->validateCanRevokeManagerPermissions($utl);
+            } else if ($role == TournamentUser::ROLE_MANAGER && $utl->role == TournamentUser::ROLE_CONTESTANT) {
+                $this->validateCanMakeManager($utl);
+            } else {
+                throw new JsonException("Cannot update UTL with role $utl->role to have role ".$role, 400);
+            }
+            $utl->role = $role;
+            $utl->save(); 
         }
-        if ($role == TournamentUser::ROLE_MANAGER) {
-            $this->validateCanMakeManager($utl);
-        }
-        $utl->role = $role;
-        $utl->save(); 
         return new JsonResponse($utl, 200);
     }
     
@@ -69,20 +74,23 @@ class TournamentUserController extends Controller
         EnsureTournamentAdmin::validate(Auth::user(), $tournamentId);
     }
 
-    private function validateCanSetContestant(TournamentUser $utl)
+    private function validateCanRevokeManagerPermissions(TournamentUser $utl)
     {
-        if ($utl->isNotConfirmed() || $utl->isContestant() || $utl->isManager()){
-            return true;
+        return true;
+    }
+
+    private function validateCanConfirmUser(TournamentUser $utl)
+    {
+        $CONTESTNATS_PER_TOURNAMENT_LIMIT = 40;
+        if ($utl->tournament->confirmedUtls()->count() >= $CONTESTNATS_PER_TOURNAMENT_LIMIT){
+            throw new JsonException("לא ניתן לאשר את המתחרה \"".$utl->name."\". מספר המשתתפים בטורניר מוגבל ל-$CONTESTNATS_PER_TOURNAMENT_LIMIT משתתפים", 400);
         }
-        throw new JsonException("Cannot update UTL with role $utl->role to have role ".TournamentUser::ROLE_CONTESTANT, 400);
+        return true;
 
     }
 
     private function validateCanMakeManager(TournamentUser $utl)
     {
-        if ($utl->isManager() || $utl->isContestant()){
-            return true;
-        }
-        throw new JsonException("Cannot update UTL with role $utl->role to have role ".TournamentUser::ROLE_MANAGER, 400);
+        return true;
     }
 }

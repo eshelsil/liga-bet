@@ -119,6 +119,11 @@ class User extends Authenticatable
         return $this->hasMany(TournamentUser::class);
     }
 
+    public function registeredUtls()
+    {
+        return $this->utls->filter(fn(TournamentUser $utl) => $utl->isRegistered());
+    }
+
     public function getGroupBetsById() {
         $groups = Group::all();
         $bets = Bet::query()

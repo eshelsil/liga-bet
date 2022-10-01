@@ -70,7 +70,7 @@ class UserController extends Controller
         }
 
         $tournament = Tournament::where('code', $tournamentCode)->first();
-        if ( ! $tournament) {
+        if ( !$tournament) {
             throw new JsonException("לא נמצא טורניר עם הקוד $tournamentCode", 400);
         }
 
@@ -78,6 +78,12 @@ class UserController extends Controller
         $existingUtl = $tournament->getUtlOfUser($user);
         if ($existingUtl) {
             throw new JsonException("המשתמש כבר רשום לטורניר זה", 400);
+        }
+        if (!$user->isAdmin()){
+            $MAX_TOURNAMENTS_PER_USER_LIMIT = 3;
+            if ($user->registeredUtls()->count() >= $MAX_TOURNAMENTS_PER_USER_LIMIT){
+                throw new JsonException("המשתמש כבר רשום ל-3 טורנירים, לא ניתן להצטרף לטורניר נוסף", 400);
+            }
         }
 
         $utl  = $tournament->createUTL($user, $name);
@@ -207,7 +213,7 @@ class UserController extends Controller
     }
 
     private function ensureCanGrantTournamentAdminPermissions(){
-        if (Tournament::count() >= 40){
+        if (User::where('permissions', User::TYPE_TOURNAMENT_ADMIN)->count() >= 40){
             throw new JsonException("Cannot have more than 40 tournament-admins", 403);
         }
     }
