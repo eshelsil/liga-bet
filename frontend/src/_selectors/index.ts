@@ -5,6 +5,7 @@ export * from './closedMatchBets';
 export * from './groupStandingBets';
 export * from './leaderboard';
 export * from './myBets';
+export * from './dialogs';
 export * from './noSelector';
 export * from './openMatches';
 export * from './questionBets';

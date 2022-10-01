@@ -42,7 +42,6 @@ Route::post('register-token', [HomeController::class, 'registerFCMToken'])->midd
 Route::get('/terms', [HomeController::class, 'showTerms'])->middleware("auth");
 Route::get('/articles', [HomeController::class, 'showArticles'])->middleware("auth");
 Route::get('/set-password', [UserController::class, 'showSetPassword']);
-Route::put('/set-password', [UserController::class, 'setPassword']);
 Route::get('/api-fetch-games', [\App\Http\Controllers\ApiFetchController::class, 'userUpdateGames']);
 Route::post('/summary-msg-seen', [HomeController::class, 'summaryMessageSeen'])->middleware("auth");
 
@@ -115,6 +114,7 @@ Route::put('/api/user/utls/{tournamentId}', [UserController::class, 'updateUTL']
 Route::get('/api/user', [UserController::class, 'getUser']);
 Route::put('/api/user', [UserController::class, 'updateUser']);
 Route::get('/api/user/tournaments', [UserController::class, 'getOwnedTournaments']);
+Route::put('api/user/set-password', [UserController::class, 'setPassword']);
 
 Route::fallback(function () {
     return view('react-app.index');
