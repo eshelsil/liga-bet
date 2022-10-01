@@ -75,6 +75,11 @@ class Tournament extends Model
         return $this->hasMany(LeaderboardsVersion::class);
     }
 
+    public function confirmedUtls()
+    {
+        return $this->utls->filter(fn(TournamentUser $utl) => $utl->isConfirmed());
+    }
+
     public function getUtlOfUser(User $user)
     {
         return $this->utls->firstWhere('user_id', $user->id);

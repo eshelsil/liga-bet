@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Competition;
 use App\Tournament;
+use App\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -16,6 +17,7 @@ class TournamentController extends Controller
         $user = $this->getUser();
         $this->validateCreatePermissions();
         $this->validateCreateInputs($request);
+        $this->validateLimitations($user);
         $tournament                  = new Tournament();
         $tournament->name            = $request->name;
         $tournament->status          = Tournament::STATUS_INITIAL;
@@ -53,5 +55,21 @@ class TournamentController extends Controller
             throw new JsonException("Invalid competition input", 400);
         }
         // TODO: handle not-started competition
+    }
+
+    private function validateLimitations(User $user) {
+        $owned_tournaments_count = $user->ownedTournaments()->count();
+        if ($user->isAdmin()){
+            if ($owned_tournaments_count >= 3) {
+                throw new JsonException("אדמינים לא יכולים ליצור מעל 3 טורנירים", 403);
+            }
+        } else {
+            if ($owned_tournaments_count >= 1) {
+                throw new JsonException("לא ניתן ליצור יותר מטורניר אחד", 403);
+            }
+        }
+        if (Tournament::count() >= 50) {
+            throw new JsonException("נפתחו כבר 50 טורנירים, לא ניתן ליצור טורניר חדש", 403);
+        }
     }
 }
