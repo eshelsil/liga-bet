@@ -13,6 +13,7 @@ interface Props {
 	goToUserPage: () => void,
 	goToUtlPage: () => void,
 	deselectUtl: () => void,
+	openDialogChangePassword: () => void,
 }
 
 function AppHeader({
@@ -23,6 +24,7 @@ function AppHeader({
 	goToUserPage,
 	goToUtlPage,
 	deselectUtl,
+	openDialogChangePassword,
 }: Props){
 	return (
 		<div className='LigaBet-AppHeader'>
@@ -31,6 +33,7 @@ function AppHeader({
 				currentRoute,
 				currentUsername,
 				goToUserPage,
+				openDialogChangePassword,
 			}} />
 			{!!currentUtl && (
 				<TournamentMenu {...{

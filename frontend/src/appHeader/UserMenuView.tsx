@@ -10,6 +10,7 @@ interface Props {
 	currentRoute: string,
 	deselectUtl: () => void,
 	goToUserPage: () => void,
+	openDialogChangePassword: () => void,
 }
 
 function UserMenuView({
@@ -17,7 +18,9 @@ function UserMenuView({
 	currentRoute,
 	deselectUtl,
 	goToUserPage,
+	openDialogChangePassword,
 }: Props){
+	
 	return (
 		<nav className="LigaBet-UserMenu navbar navbar-inverse">
 			<div className="container-fluid">
@@ -47,7 +50,11 @@ function UserMenuView({
 					/>
 				</ul>
 				<ul className="nav navbar-nav navbar-left">
-					<MenuItem route={routesMap['set-password']} currentPath={currentRoute} />
+					<MenuItem
+						route={routesMap['set-password']}
+						onClick={openDialogChangePassword}
+						currentPath={currentRoute}
+					/>
 					<li>
 						<a href='/logout'>
 							<div className='icon logout_icon'></div>
