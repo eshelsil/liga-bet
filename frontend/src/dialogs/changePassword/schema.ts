@@ -15,7 +15,4 @@ export const validationSchema = yup.object({
       [yup.ref('password')],
       'הסיסמה לא תואמת את הסיסמה למעלה'
     ),
-  currentPassword: yup
-    .string()
-    .required('חובה למלא שדה זה')
 })

@@ -3,32 +3,30 @@ import { useSelector, connect } from 'react-redux';
 import { DialogName, ToggleDialogStateFunction } from '../types';
 import { closeDialog } from '../../_actions/dialogs';
 import { NoSelector, IsOpenDialogChangePassword } from '../../_selectors';
+import { updatePassword } from '../../api/users';
 import SetPasswordDialog from './SetPasswordDialog';
 
 
 interface Props {
   closeDialog: ToggleDialogStateFunction,
-  setPassword: any,
 }
 
 function SetPasswordDialogProvider({
-  setPassword,
   closeDialog,
 }: Props){
 	const isOpen = useSelector(IsOpenDialogChangePassword);
-  const onClose = () => closeDialog(DialogName.ChangePassword);
+  	const onClose = () => closeDialog(DialogName.ChangePassword);
 
 	return (
 		<SetPasswordDialog
 			open={isOpen}
 			onClose={onClose}
-			setPassword={setPassword}
+			setPassword={updatePassword}
 		/>
 	);
 }
 
 const mapDispatchToProps = {
-	setPassword: () =>{alert('setPassword')},
   	closeDialog,
 }
 

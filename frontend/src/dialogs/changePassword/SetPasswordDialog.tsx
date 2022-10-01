@@ -10,13 +10,14 @@ import LoadingButton from '../../widgets/Buttons/LoadingButton';
 import PasswordField from '../../widgets/inputs/PasswordField';
 import { validationSchema } from './schema';
 import { ChangePasswordFormParams } from './types';
+import { UpdatePasswordParams } from '../../api/users';
 import './style.scss';
 
 
 interface Props {
   open: boolean,
   onClose: () => void,
-  setPassword: (...args: any) => Promise<void>,
+  setPassword: (params: UpdatePasswordParams) => Promise<any>,
 }
 
 export default function SetPasswordDialog({
@@ -24,57 +25,67 @@ export default function SetPasswordDialog({
     onClose,
     setPassword,
 }: Props) {
-	const { handleSubmit, register, formState, clearErrors} = useForm<ChangePasswordFormParams>({
+	const { handleSubmit, register, formState, clearErrors, reset} = useForm<ChangePasswordFormParams>({
 		resolver: yupResolver(validationSchema),
 		reValidateMode: 'onSubmit',
 		shouldFocusError: false,
 	})
 	const { errors, isSubmitting } = formState;
-	const submit = async ({password, confirmPassword}: ChangePasswordFormParams) => {
-		await setPassword(password, confirmPassword);
+
+	const close = () => {
+		reset({
+			password: '',
+			confirmPassword: '',
+		});
+		onClose();
 	}
 
-  return (
-    <Dialog open={open} onClose={onClose}>
-      <div className='LigaBet-SetPasswordDialog'>
-        <DialogTitle>
-            <IconButton
-              onClick={onClose}
-              className={'close_button'}
-            >
-              <CloseIcon />
-            </IconButton>
-            עדכן סיסמה
-        </DialogTitle>
-        <DialogContent>
-          <div className={'dialog_content'}>
-            <PasswordField
-              label={'סיסמה נוכחית'}
-              error={errors.currentPassword?.message}
-              InputProps={{...register('currentPassword')}}
-              clearErrors={() => clearErrors('currentPassword')}
-              />
-            <PasswordField
-              label={'סיסמה חדשה'}
-              error={errors.password?.message}
-              InputProps={{...register('password')}}
-              clearErrors={() => clearErrors('password')}
-              />
-            <PasswordField
-              label={'ודא סיסמה'}
-              error={errors.confirmPassword?.message}
-              InputProps={{...register('confirmPassword')}}
-              clearErrors={() => clearErrors('confirmPassword')}
-            />
-            <LoadingButton
-              onClick={handleSubmit(submit)}
-              loading={isSubmitting}
-            >
-              עדכן סיסמה
-            </LoadingButton>
-          </div>
-        </DialogContent>
-      </div>
-    </Dialog>
-  );
+	const submit = async ({password, confirmPassword}: ChangePasswordFormParams) => {
+		await setPassword({
+			new_password: password,
+			new_password_confirmation: confirmPassword,
+		})
+		.then(() => {
+			(window as any).toastr["success"]('סיסמתך עודכנה בהצלחה');
+			close();
+		});
+	}
+
+	return (
+		<Dialog open={open} onClose={close}>
+			<div className='LigaBet-SetPasswordDialog'>
+				<DialogTitle>
+					<IconButton
+						onClick={close}
+						className={'close_button'}
+					>
+						<CloseIcon />
+					</IconButton>
+					עדכן סיסמה
+				</DialogTitle>
+				<DialogContent>
+					<div className={'dialog_content'}>
+						<PasswordField
+							label={'סיסמה חדשה'}
+							error={errors.password?.message}
+							InputProps={{...register('password')}}
+							clearErrors={() => clearErrors('password')}
+						/>
+						<PasswordField
+							label={'ודא סיסמה'}
+							error={errors.confirmPassword?.message}
+							InputProps={{...register('confirmPassword')}}
+							clearErrors={() => clearErrors('confirmPassword')}
+						/>
+						<LoadingButton
+							onClick={handleSubmit(submit)}
+							loading={isSubmitting}
+						>
+							עדכן סיסמה
+						</LoadingButton>
+					</div>
+				</DialogContent>
+			</div>
+		</Dialog>
+	);
 }

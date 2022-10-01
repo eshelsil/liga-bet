@@ -59,3 +59,17 @@ export const leaveTournament = async (tournamentId: number): Promise<null> => {
         type: 'DELETE',
     })
 }
+
+
+export interface UpdatePasswordParams {
+    new_password: string,
+    new_password_confirmation: string,
+}
+
+export const updatePassword = async (params: UpdatePasswordParams): Promise<null> => {
+    return await sendApiRequest({
+        url: `/api/user/set-password`,
+        type: 'PUT',
+        data: params,
+    })
+}

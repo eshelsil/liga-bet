@@ -14,7 +14,7 @@ export default function LoadingButton({
 }: LoadingButtonProps) {
     return (
         <Button
-            className='LigaBet-LoadingButton'
+            className={`LigaBet-LoadingButton ${loading ? 'loading' : ''}`}
             variant='contained'
             color='primary'
             disabled={loading || disabled}
@@ -23,7 +23,7 @@ export default function LoadingButton({
             {children}
             {loading && (
                 <div className='loader_container'>
-                    <CircularProgress className='loader' size={28} />
+                    <CircularProgress className='loader' size={20} />
                 </div>
             )}
         </Button>
