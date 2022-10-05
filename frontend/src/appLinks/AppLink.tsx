@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { HasCurrentUtl } from '../_selectors';
+import './AppLinks.scss'
 
 
 export interface AppLinkProps {
@@ -21,7 +22,7 @@ function AppLink({path, label, hasReactComponent = false}: AppLinkProps){
 		return null;
 	}
 	return (
-		<p>
+		<p className='LigaBet-AppLink'>
 			<a href={path} onClick={hasReactComponent ? onClick : undefined} >
 				{label}
 			</a>

@@ -1,0 +1,12 @@
+@use '../styles/common/rankBgColor.scss';
+
+.LigaBet-Prize {
+    min-height: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    color: #fff;
+    background-color: #8d8b89;
+    @extend .prize_rank_bg;
+}

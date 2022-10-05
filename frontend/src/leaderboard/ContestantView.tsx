@@ -47,9 +47,14 @@ export function ContestantView({
     const groupStandingsScore = sumBetsScore(groupStandingsBets);
     const specialBetScore = sumBetsScore(questionBets);
 
-    return <div className="panel-group" style={{marginBottom: 0}}>
+    // use selector for this:
+    const prizesCount = 4;
+    const prizeClass = rank <= prizesCount ? `prize_rank prize_rank_${rank}` : '';
+
+
+    return <div className="LigaBet-Contestant panel-group" style={{marginBottom: 0}}>
         <div className="panel panel-default">
-                <div className={`panel-heading row rank-${rank}`} style={{marginRight: 0, marginLeft: 0}}>
+                <div className={`panel-heading row ${prizeClass}`} style={{marginRight: 0, marginLeft: 0}}>
                 <div className="col-xs-2 pull-right col-no-padding">
                     <div className="col-xs-6 col-no-padding">
                         {rankDisplay}
