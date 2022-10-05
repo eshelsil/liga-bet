@@ -56,7 +56,7 @@ class Kernel extends HttpKernel
         'confirmed_user' => \App\Http\Middleware\ConfirmedTournamentUser::class,
         'tournament_admin' => \App\Http\Middleware\TournamentAdmin::class,
         'tournament_manager' => \App\Http\Middleware\TournamentManager::class,
-        'group_bets_closed' => \App\Http\Middleware\RankBetsClosedMiddleware::class,
+        'pre_tournament_bets_closed' => \App\Http\Middleware\PreTournamentBetsClosedMiddleware::class,
         'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,

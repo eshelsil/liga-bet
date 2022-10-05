@@ -6,7 +6,7 @@ $loader_container_width: 28px;
 
 .LigaBet-LoadingButton {
     &:not(.loading) {
-        $side_padding: ($loader_container_width + $default_button_padding*2 + $loader_margin) / 2;
+        $side_padding: calc(($loader_container_width + $default_button_padding*2 + $loader_margin) / 2);
         padding-left: $side_padding;
         padding-right: $side_padding;
     }

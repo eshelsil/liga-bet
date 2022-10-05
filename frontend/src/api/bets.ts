@@ -3,23 +3,6 @@ import { sendApiRequest } from "./common/apiRequest";
 
 type BetsApiResult = Record<number, BetApiModel>
 
-export const fetchBets = async (tournamentId: number): Promise<BetsApiResult> => {
-    return await (window as any).$.ajax({
-        type: 'GET',
-        url: `/api/tournaments/${tournamentId}/bets`,
-        contentType: 'application/json',
-        dataType: 'json',
-    });
-};
-
-// export const fetchGroupRankBets = async (tournamentId: number): Promise<BetsApiResult> => {
-//     return await (window as any).$.ajax({
-//         type: 'GET',
-//         url: `/api/tournaments/${tournamentId}/bets/group`,
-//         contentType: 'application/json',
-//         dataType: 'json',
-//     });
-// };
 
 export const fetchMyBets = async (tournamentId: number): Promise<BetsApiResult> => {
     return await sendApiRequest({
@@ -29,18 +12,15 @@ export const fetchMyBets = async (tournamentId: number): Promise<BetsApiResult> 
 
 export const fetchClosedMatchBets = async (tournamentId: number): Promise<BetsApiResult> => {
     return await sendApiRequest({
-        url: `/api/tournaments/${tournamentId}/bets/closed-games`
+        url: `/api/tournaments/${tournamentId}/bets/games`
     });
 };
 
-// export const fetchMatchBets = async (tournamentId: number): Promise<BetsApiResult> => {
-//     return await (window as any).$.ajax({
-//         type: 'GET',
-//         url: `/api/tournaments/${tournamentId}/bets/open-games`,
-//         contentType: 'application/json',
-//         dataType: 'json',
-//     });
-// };
+export const fetchPrimalBets = async (tournamentId: number): Promise<BetsApiResult> => {
+    return await sendApiRequest({
+        url: `/api/tournaments/${tournamentId}/bets/primal`
+    });
+};
 
 
 export interface MatchBetUpdatePayload {
