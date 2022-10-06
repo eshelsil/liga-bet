@@ -1,4 +1,7 @@
 .LigaBet-AppHeader {
+    position: sticky;
+    top: 0;
+    z-index: 20;
     .navbar-brand {
         display: flex;
         align-items: center;

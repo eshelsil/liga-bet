@@ -29,6 +29,7 @@ export function InitialDataFetcher({
         fetchAndStoreContestants();
         fetchAndStoreBets(BetFetchType.MyBets);
         fetchAndStoreBets(BetFetchType.GameBets);
+        fetchAndStoreBets(BetFetchType.PrimalBets);
     }, []);
     return (
         children

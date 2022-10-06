@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { HasCurrentUtl } from '../_selectors';
+import './Prizes.scss';
 
 
 const fakePrizes: Record<number, Prize> = {
@@ -24,6 +25,26 @@ const fakePrizes: Record<number, Prize> = {
 		label: "מקום רביעי",
 		amount: "200 ₪",
 	},
+	5: {
+		id: 5,
+		label: "מקום רביעי",
+		amount: "200 ₪",
+	},
+	6: {
+		id: 6,
+		label: "מקום רביעי",
+		amount: "200 ₪",
+	},
+	7: {
+		id: 7,
+		label: "מקום רביעי",
+		amount: "200 ₪",
+	},
+	8: {
+		id: 8,
+		label: "מקום רביעי",
+		amount: "200 ₪",
+	},
 };
 
 interface Prize {
@@ -41,7 +62,7 @@ function PrizeBlock({
 }: {
 	prize: Prize,
 }){
-	return <div className={`well rank-${id}`}>
+	return <div className={`LigaBet-Prize prize_rank_${id}`}>
 		<p>{label}<br></br>{amount}</p>
 	</div>
 }

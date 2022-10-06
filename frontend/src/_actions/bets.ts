@@ -1,5 +1,5 @@
 import { Dictionary } from '@reduxjs/toolkit';
-import { fetchBets, fetchMyBets, fetchClosedMatchBets, sendBet, UpdateBetPayload } from '../api/bets';
+import { fetchMyBets, fetchClosedMatchBets, sendBet, UpdateBetPayload, fetchPrimalBets } from '../api/bets';
 import { BetApiModel, BetType } from '../types';
 import { AppDispatch, GetRootState } from '../_helpers/store';
 import bets from '../_reducers/bets';
@@ -9,7 +9,7 @@ export enum BetFetchType {
   UserBets = 'userBets',
   MyBets = 'myBets',
   GameBets = 'gameBets',
-  GroupBets = 'groupBets',
+  PrimalBets = 'primalBets',
 }
 
 export interface FetchBetsParams {
@@ -18,17 +18,18 @@ export interface FetchBetsParams {
 
 
 function fetchAndStoreBets(fetchType: BetFetchType, params?: FetchBetsParams) {
-  return (dispatch: AppDispatch, getState: GetRootState) => {
+  return async (dispatch: AppDispatch, getState: GetRootState) => {
     const tournamentId = TournamentIdSelector(getState());
     const storeFunc = (data: Dictionary<BetApiModel>) => dispatch(bets.actions.updateMany(data))
     if (fetchType === BetFetchType.MyBets){
-      return fetchMyBets(tournamentId).then(storeFunc);
+      return await fetchMyBets(tournamentId).then(storeFunc);
     }
     if (fetchType === BetFetchType.GameBets){
-      return fetchClosedMatchBets(tournamentId).then(storeFunc);
+      return await fetchClosedMatchBets(tournamentId).then(storeFunc);
     }
-    // return fetchBets(tournamentId)
-    //   .then(storeFunc);
+    if (fetchType === BetFetchType.PrimalBets){
+      return await fetchPrimalBets(tournamentId).then(storeFunc);
+    }
   }
 }
 

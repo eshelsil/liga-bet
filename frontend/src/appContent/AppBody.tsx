@@ -1,24 +1,24 @@
+import { Grid } from '@mui/material';
 import React from 'react';
 import AppContent from '../appContent/AppContent';
 import AppLinks from '../appLinks/AppLinksProvider';
 import TournamentPrizes from '../prizes/Prizes';
+import './AppBody.scss';
 
 
 function AppBody() {
 	return (
-		<div className="container-fluid text-center">
-			<div className="row content">
-				<div className="col-sm-2 sidenav">
-					<AppLinks />
-				</div>
-				<div className="col-sm-8 text-left">
-					<AppContent />
-				</div>
-				<div className="col-sm-2 sidenav">
-					<TournamentPrizes />
-				</div>
-			</div>
-		</div>
+		<Grid container className="LigaBet-AppBody">
+			<Grid item sm={2} className="sidenav">
+				<TournamentPrizes />
+			</Grid>
+			<Grid item sm={8} className="text-left">
+				<AppContent />
+			</Grid>
+			<Grid item sm={2} className="sidenav">
+				<AppLinks />
+			</Grid>
+		</Grid>
 	);
 }
 

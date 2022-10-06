@@ -35,7 +35,7 @@ function AppContent(){
                     <Route path='/all-questions' component={AllQuestionBetsView} />
                     <Route path='/my-bets' component={MyBetsView} />
                     <Route path='/'>
-                        <Redirect to='/open-questions'/>
+                        <Redirect to='/takanon'/>
                     </Route>
                 </Switch>
             </InitialDataFetcher>

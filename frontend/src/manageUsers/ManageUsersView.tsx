@@ -86,7 +86,7 @@ function ManageUsersView({
 				<div style={{width: 250}}>
 					<MultipleSelect
 						value={roles}
-						placeholder='Roles'
+						label='Roles'
 						onChange={val => {
 							setRoles(val);
 							setPage(1);

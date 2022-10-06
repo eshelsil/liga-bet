@@ -10,13 +10,13 @@ import { debounce } from 'lodash';
 interface Props {
     onChange: (val: string) => void,
     defaultValue?: string,
-    placeholder?: string,
+    label?: string,
 }
 
 function SearchBar({
     onChange,
     defaultValue = '',
-    placeholder = 'Search',
+    label = 'Search',
 }: Props){
     const [value, setValue] = useState(defaultValue);
     const isEmpty = value.length === 0;
@@ -42,7 +42,7 @@ function SearchBar({
             <TextField
                 value={value}
                 onChange={e => handleInputChange(e.target.value)}
-                placeholder={placeholder}
+                label={label}
                 InputProps={{
                     endAdornment: (
                         <InputAdornment position="end">

@@ -157,6 +157,11 @@ protected $table = 'matches';
         return $bets;
     }
 
+    public function isOpenForBets()
+    {
+        return $this->start_time > time() + config("bets.lockBeforeSeconds");
+    }
+
     public function teamHome(): BelongsTo
     {
         return $this->belongsTo(Team::class, "team_home_id");

@@ -41,7 +41,7 @@ class BetsController extends Controller
         $utl = $user->getTournamentUser($tournamentId);
         $competition = $utl->tournament->competition;
 
-        $bets = $utl->tournament->bets;
+        $bets = $utl->bets;
         $formattedBets = $this->formatBets($bets, $competition, $request);
 
         return new JsonResponse($formattedBets->keyBy('id'), 200);
@@ -53,8 +53,7 @@ class BetsController extends Controller
         $tournament = $utl->tournament;
 
         $openGameIds = $tournament->competition
-            ->games()
-            ->where("start_time", "<", time() + config("bets.lockBeforeSeconds"))
+            ->games->filter(fn($game) => $game->isOpenForBets())
             ->pluck("id");
 
         $bets = Bet::query()
@@ -63,6 +62,21 @@ class BetsController extends Controller
             ->whereIn("type_id", $openGameIds)
             ->get();
 
+        $formattedBets = $this->formatBets($bets, $tournament->competition, $request);
+
+        return new JsonResponse($formattedBets->keyBy('id'), 200);
+    }
+
+    public function primalBets(\Illuminate\Http\Request $request, $tournamentId)
+    {
+        $utl = $this->getUser()->getTournamentUser($tournamentId);
+        $tournament = $utl->tournament;
+
+        $bets = Bet::query()
+            ->where("tournament_id", $tournament->id)
+            ->whereIn("type", [BetTypes::GroupsRank, BetTypes::SpecialBet])
+            ->get();
+        
         $formattedBets = $this->formatBets($bets, $tournament->competition, $request);
 
         return new JsonResponse($formattedBets->keyBy('id'), 200);
@@ -81,8 +95,12 @@ class BetsController extends Controller
             $betInput = (object)$betInput;
             switch ($betInput->type) {
                 case BetTypes::Game:
+                    $game = Game::query()->find($betInput->data["type_id"]);
+                    if (!$game->isOpenForBets()){
+                        throw new \InvalidArgumentException("Game with id $game->id is closed for bets. cannot update bet");
+                    }
                     $betRequest = new BetMatchRequest(
-                        Game::query()->find($betInput->data["type_id"]),
+                        $game,
                         $betInput->data
                     );
                     $bets[] = BetMatch::save($utl, $betRequest);
@@ -98,6 +116,9 @@ class BetsController extends Controller
                     $bets[] = BetGroupRank::save($utl, $betRequest);
                     break;
                 case BetTypes::SpecialBet:
+                    if (!$utl->tournament->competition->areBetsOpen()){
+                        throw new \InvalidArgumentException("SpecialQuestion bets are closed. cannot update bet");
+                    }
                     $betValue = ["answer" => $betInput->data["answer"]];
                     $utlData = ["utl" => $utl];
                     $betRequestData = array_merge($betValue, $utlData);

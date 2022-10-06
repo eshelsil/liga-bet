@@ -75,6 +75,7 @@ function MyUTL({
 										<TextField
 											value={name}
 											onChange={updateName}
+											label='שם'
 										/>
 									</div>
 								)}

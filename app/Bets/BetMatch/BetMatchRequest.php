@@ -39,9 +39,9 @@ class BetMatchRequest extends AbstractBetRequest
     }
 
 
-    protected function validateData($match, $data)
+    protected function validateData($game, $data)
     {
-        Log::debug("Validating data: {$match->getID()}\r\nData: ". json_encode($data, JSON_PRETTY_PRINT));
+        Log::debug("Validating data: {$game->getID()}\r\nData: ". json_encode($data, JSON_PRETTY_PRINT));
         $resultHome = data_get($data, "result-home");
         if (!is_numeric($resultHome)) {
             throw new \InvalidArgumentException($resultHome);
@@ -50,7 +50,7 @@ class BetMatchRequest extends AbstractBetRequest
         if (!is_numeric($resultAway)) {
             throw new \InvalidArgumentException($resultHome);
         }
-        if ($match->isKnockout()){
+        if ($game->isKnockout()){
             $koWinnerSide = data_get($data, "winner_side", null);
             if ((int)$resultAway == (int)$resultHome && !in_array($koWinnerSide, ["home", "away"])){
                 $paramString = is_null($koWinnerSide) ? "null" : $koWinnerSide;
