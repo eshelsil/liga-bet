@@ -1,244 +1,239 @@
 html {
-  font-size: 16px;
-  body {
-    direction: rtl;
-    .MuiPagination-ul{
-      direction: ltr;
+    font-size: 16px;
+    body {
+        direction: rtl;
+        .MuiPagination-ul {
+            direction: ltr;
+        }
     }
-  }
 }
 
-
-.float-right{
-  float: right !important;
+.float-right {
+    float: right !important;
 }
-.hidden{
-  display: none !important;
+.hidden {
+    display: none !important;
 }
-.dir-ltr{
-  direction: ltr !important;
+.dir-ltr {
+    direction: ltr !important;
 }
-.all-ltr{
-  direction: ltr !important;
-  text-align: left !important;
+.all-ltr {
+    direction: ltr !important;
+    text-align: left !important;
 }
-.ws-nowrap{
-  white-space: nowrap;
+.ws-nowrap {
+    white-space: nowrap;
 }
-.flex-row{
-  display: flex;
-  flex-direction: row;
-  &.center-items {
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    &.center-items {
+        align-items: center;
+    }
+}
+.v-align-center {
+    vertical-align: middle !important;
+}
+.spaced-row {
+    display: flex;
+    flex-direction: row;
     align-items: center;
-  }
-}
-.v-align-center{
-  vertical-align: middle !important;
-}
-.spaced-row{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+    justify-content: space-between;
 }
 
-.row{
-  &.full-row{
-    margin-right: 0px;
-    width: 100%;
-  }
+.row {
+    &.full-row {
+        margin-right: 0px;
+        width: 100%;
+    }
 }
-.col-no-padding{
-  padding-left: 0px;
-  padding-right: 0px;
-}
-
-.around-huge-flag{
-  .team_flag{
-    height: 22px;
-  }
+.col-no-padding {
+    padding-left: 0px;
+    padding-right: 0px;
 }
 
-.bolded{
-  font-weight: 700 !important;
-}
-.underlined{
-  text-decoration: underline;
-}
-
-.team_flag{
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  height: 15px;
-  &.no-border{
-    border:0px; 
-  }
-  &.larger{
-    height: 20px;
-    width: 30px;
-  }
-}
-.team-and-flag{
-  display: flex;
-  &.left-aligned{
-    flex-direction: row-reverse;
-    .flag-wrapper{
-      width: 28px;
-      margin-right: 3px;
-      margin-left: 0px;
+.around-huge-flag {
+    .team_flag {
+        height: 22px;
     }
-    span{
-      white-space: nowrap;
-    }
-  }
-  .flag-wrapper{
-    margin-left: 3px;
-  }
 }
 
-
-.dropdown.dropdown-input{     
-  ul >li {
-      cursor: pointer;
-      padding: 3px;
-      padding-right: 9px;
-      padding-left: 6px;
-      &:hover{
-        background: #d3d3d3
-      }
-  }
+.bolded {
+    font-weight: 700 !important;
 }
-@media (max-width: 767px){
-  .dropdown.dropdown-input{
-    .dropdown-menu{
-      max-height: 280px;
-      overflow-y: scroll;
-    }
-  }
+.underlined {
+    text-decoration: underline;
 }
 
-
-@mixin menu_icons_hover(){
-  div.icon{
-    &.podium_icon{
-      background-image: url("/img/podium_hover.svg") ;
+.team_flag {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    height: 15px;
+    &.no-border {
+        border: 0px;
     }
-    &.bet_icon{
-      background-image: url("/img/bet_hover.svg");
-    }
-    &.watch_bets_icon{
-      background-image: url("/img/watch_hover.svg");
-    }
-    &.pre_game_icon{
-      background-image: url("/img/pre_game_hover.svg");
-    }
-    &.form_icon{
-      background-image: url("/img/form_hover.svg");
-    }
-    &.change_password_icon{
-      background-image: url("/img/change_password_hover.svg");
-    }
-    &.logout_icon{
-      background-image: url("/img/logout_hover.svg");
-    }
-  }
-}
-
-.navbar-nav{
-  li {
-    > a {
-      > div.icon {
+    &.larger {
+        height: 20px;
         width: 30px;
-        height: 30px;
-        position: absolute;
-        top: 6px;
-        right: 5px;
-        background-size: cover;
-        &.podium_icon{
-          background-image: url("/img/podium.svg");
-        }
-        &.bet_icon{
-          background-image: url("/img/bet.svg");
-        }
-        &.watch_bets_icon{
-          background-image: url("/img/watch.svg");
-        }
-        &.pre_game_icon{
-          background-image: url("/img/pre_game.svg");
-        }
-        &.form_icon{
-          background-image: url("/img/form.svg");
-        }
-        &.change_password_icon{
-          height: 29px;
-          background-image: url("/img/change_password.svg");
-        }
-        &.logout_icon{
-          background-image: url("/img/logout.svg");
-        }
-      }
-      > span.menu-label {
-        margin-right: 30px;
-      }
-      &:hover{
-        @include menu_icons_hover;
-      }
     }
-    &.active{
-      @include menu_icons_hover;
+}
+.team-and-flag {
+    display: flex;
+    &.left-aligned {
+        flex-direction: row-reverse;
+        .flag-wrapper {
+            width: 28px;
+            margin-right: 3px;
+            margin-left: 0px;
+        }
+        span {
+            white-space: nowrap;
+        }
     }
-  }
+    .flag-wrapper {
+        margin-left: 3px;
+    }
 }
 
+.dropdown.dropdown-input {
+    ul > li {
+        cursor: pointer;
+        padding: 3px;
+        padding-right: 9px;
+        padding-left: 6px;
+        &:hover {
+            background: #d3d3d3;
+        }
+    }
+}
+@media (max-width: 767px) {
+    .dropdown.dropdown-input {
+        .dropdown-menu {
+            max-height: 280px;
+            overflow-y: scroll;
+        }
+    }
+}
 
-.form-control.open-match-input{
-  width: calc(100% - 25px);
-  margin-left: auto;
+@mixin menu_icons_hover() {
+    div.icon {
+        &.podium_icon {
+            background-image: url('/img/podium_hover.svg');
+        }
+        &.bet_icon {
+            background-image: url('/img/bet_hover.svg');
+        }
+        &.watch_bets_icon {
+            background-image: url('/img/watch_hover.svg');
+        }
+        &.pre_game_icon {
+            background-image: url('/img/pre_game_hover.svg');
+        }
+        &.form_icon {
+            background-image: url('/img/form_hover.svg');
+        }
+        &.change_password_icon {
+            background-image: url('/img/change_password_hover.svg');
+        }
+        &.logout_icon {
+            background-image: url('/img/logout_hover.svg');
+        }
+    }
+}
+
+.navbar-nav {
+    li {
+        > a {
+            > div.icon {
+                width: 30px;
+                height: 30px;
+                position: absolute;
+                top: 6px;
+                right: 5px;
+                background-size: cover;
+                &.podium_icon {
+                    background-image: url('/img/podium.svg');
+                }
+                &.bet_icon {
+                    background-image: url('/img/bet.svg');
+                }
+                &.watch_bets_icon {
+                    background-image: url('/img/watch.svg');
+                }
+                &.pre_game_icon {
+                    background-image: url('/img/pre_game.svg');
+                }
+                &.form_icon {
+                    background-image: url('/img/form.svg');
+                }
+                &.change_password_icon {
+                    height: 29px;
+                    background-image: url('/img/change_password.svg');
+                }
+                &.logout_icon {
+                    background-image: url('/img/logout.svg');
+                }
+            }
+            > span.menu-label {
+                margin-right: 30px;
+            }
+            &:hover {
+                @include menu_icons_hover;
+            }
+        }
+        &.active {
+            @include menu_icons_hover;
+        }
+    }
+}
+
+.form-control.open-match-input {
+    width: calc(100% - 25px);
+    margin-left: auto;
 }
 table {
-  > tbody {
-    > tr {
-      > td.open-match-teams-cell{
-        padding-right: 0px;
-        padding-left: 0px;
-      }
+    > tbody {
+        > tr {
+            > td.open-match-teams-cell {
+                padding-right: 0px;
+                padding-left: 0px;
+            }
+        }
     }
-  }
 }
 
-.open-matches-date-header{
-  width: 120px;
+.open-matches-date-header {
+    width: 120px;
 }
-.open-matches-bet-header{
-  width: 100px;
+.open-matches-bet-header {
+    width: 100px;
 }
-@media (max-width: 767px){
-  .form-control.open-match-input{
-    padding: 6px;
-  }
-  .open-matches-bet-header{
-    width: 80px;
-  }
-  .open-matches-date-header{
-    width: 60px;
-  }
-  .open-matches-bet-cell{
-    padding-left: 5px;
-  }
-}
-
-
-.bet-winner-bg{
-  background-color: #86d686ab;
-}
-.bet-loser-bg{
-  background-color: #d66d6d7a;
-}
-.winner_color{
-  color: #00ad00;
-}
-.loser_color{
-  color: red;
+@media (max-width: 767px) {
+    .form-control.open-match-input {
+        padding: 6px;
+    }
+    .open-matches-bet-header {
+        width: 80px;
+    }
+    .open-matches-date-header {
+        width: 60px;
+    }
+    .open-matches-bet-cell {
+        padding-left: 5px;
+    }
 }
 
-@import "ko_switch";
-@import "oldStyling";
+.bet-winner-bg {
+    background-color: #86d686ab;
+}
+.bet-loser-bg {
+    background-color: #d66d6d7a;
+}
+.winner_color {
+    color: #00ad00;
+}
+.loser_color {
+    color: red;
+}
+
+@import 'ko_switch';
+@import 'oldStyling';

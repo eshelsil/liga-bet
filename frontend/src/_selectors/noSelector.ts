@@ -1,1 +1,1 @@
-export const NoSelector = state => ({});
+export const NoSelector = (state) => ({})

@@ -1,7 +1,7 @@
 @mixin rank_bg_color {
     $default_bg_color: #8d8b89;
     background-color: $default_bg_color;
-    
+
     &:nth-of-type(1) {
         background-color: #1c7430;
     }

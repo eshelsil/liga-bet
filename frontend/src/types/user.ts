@@ -1,5 +1,3 @@
-
-
 export enum UserPermissions {
     Admin = 2,
     TournamentAdmin = 1,
@@ -8,8 +6,8 @@ export enum UserPermissions {
 }
 
 export interface User {
-    id: number,
-    name: string,
-    permissions: UserPermissions,
-    username: string,
+    id: number
+    name: string
+    permissions: UserPermissions
+    username: string
 }

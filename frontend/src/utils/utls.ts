@@ -1,4 +1,4 @@
-import { UtlBase, UtlRole } from "../types";
+import { UtlBase, UtlRole } from '../types'
 
 export const UtlRoleToString = {
     [UtlRole.Admin]: 'אדמין',
@@ -7,26 +7,22 @@ export const UtlRoleToString = {
     [UtlRole.NotConfirmed]: 'טרם אושר',
     [UtlRole.Rejected]: 'לא אושר',
     [UtlRole.Monkey]: 'קוף',
-};
-
-const confirmedUserRoles = [
-    UtlRole.Admin,
-    UtlRole.Manager,
-    UtlRole.Contestant,
-];
-
-export function isUtlConfirmed(utl: UtlBase){
-    return confirmedUserRoles.includes(utl.role);
 }
 
-export function isUtlRejected(utl: UtlBase){
-    return utl.role === UtlRole.Rejected;
+const confirmedUserRoles = [UtlRole.Admin, UtlRole.Manager, UtlRole.Contestant]
+
+export function isUtlConfirmed(utl: UtlBase) {
+    return confirmedUserRoles.includes(utl.role)
 }
 
-export function isUtlWaitingForApproval(utl: UtlBase){
-    return utl.role === UtlRole.NotConfirmed;
+export function isUtlRejected(utl: UtlBase) {
+    return utl.role === UtlRole.Rejected
 }
 
-export function hasManagePermissions(utl: UtlBase){
-    return [UtlRole.Admin, UtlRole.Manager].includes(utl?.role);
+export function isUtlWaitingForApproval(utl: UtlBase) {
+    return utl.role === UtlRole.NotConfirmed
+}
+
+export function hasManagePermissions(utl: UtlBase) {
+    return [UtlRole.Admin, UtlRole.Manager].includes(utl?.role)
 }

@@ -1,15 +1,14 @@
-import React from 'react';
-import { Team } from '../../types';
-import { GameBetScoreConfig } from './types';
-import GameBetExamples from './GameBetExamples';
-import GameBetScore from './GameBetScore';
-
+import React from 'react'
+import { Team } from '../../types'
+import { GameBetScoreConfig } from './types'
+import GameBetExamples from './GameBetExamples'
+import GameBetScore from './GameBetScore'
 
 interface Props {
-    scoreConfig: GameBetScoreConfig,
-    homeTeam: Team,
-    awayTeam: Team,
-    gamesCount: number,
+    scoreConfig: GameBetScoreConfig
+    homeTeam: Team
+    awayTeam: Team
+    gamesCount: number
 }
 
 function GroupStageMatchRules({
@@ -18,43 +17,48 @@ function GroupStageMatchRules({
     awayTeam,
     gamesCount,
 }: Props) {
-    return (<>
-        <div className="text-part">
-            <h4>שלב הבתים – {gamesCount} משחקים</h4>
-            <GameBetScore gamesCount={gamesCount} scoreConfig={scoreConfig} />
-            {awayTeam && homeTeam && (
-                <GameBetExamples
-                    scoresConfig={scoreConfig}
-                    examples={[
-                        {
-                            bet: [2, 3],
-                            game: {
-                                fullTime: [2, 3],
-                                awayTeam,
-                                homeTeam,
-                            },
-                        },
-                        {
-                            bet: [2, 3],
-                            game: {
-                                fullTime: [0, 2],
-                                awayTeam,
-                                homeTeam,
-                            },
-                        },
-                        {
-                            bet: [2, 3],
-                            game: {
-                                fullTime: [2, 2],
-                                awayTeam,
-                                homeTeam,
-                            },
-                        },
-                    ]}
+    return (
+        <>
+            <div className="text-part">
+                <h4>שלב הבתים – {gamesCount} משחקים</h4>
+                <GameBetScore
+                    gamesCount={gamesCount}
+                    scoreConfig={scoreConfig}
                 />
-            )}
-        </div>
-    </>);
-};
+                {awayTeam && homeTeam && (
+                    <GameBetExamples
+                        scoresConfig={scoreConfig}
+                        examples={[
+                            {
+                                bet: [2, 3],
+                                game: {
+                                    fullTime: [2, 3],
+                                    awayTeam,
+                                    homeTeam,
+                                },
+                            },
+                            {
+                                bet: [2, 3],
+                                game: {
+                                    fullTime: [0, 2],
+                                    awayTeam,
+                                    homeTeam,
+                                },
+                            },
+                            {
+                                bet: [2, 3],
+                                game: {
+                                    fullTime: [2, 2],
+                                    awayTeam,
+                                    homeTeam,
+                                },
+                            },
+                        ]}
+                    />
+                )}
+            </div>
+        </>
+    )
+}
 
-export default GroupStageMatchRules;
+export default GroupStageMatchRules

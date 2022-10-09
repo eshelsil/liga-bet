@@ -1,4 +1,4 @@
-@import "../styles/colors";
+@import '../styles/colors';
 
 .LigaBet-AppHeader {
   position: sticky;
@@ -27,41 +27,93 @@
     right: 5px;
     background-size: cover;
   }
-}
-
-.appbar-header {
-  background: $primary-light-main-gradient;
 
 
-  .toolbar {
-    min-height: 0;
-    display: flex;
-    justify-content: space-between;
+  .appbar-header {
+    background: $primary-light-main-gradient;
 
-    .toolbar-container {
+    .toolbar {
+      justify-content: space-between;
       display: flex;
-      width: unset;
-      margin: 0;
-      align-items: center;
+    }
 
-      .appbar-item {
-        font-size: 16px;
-        min-height: 0;
-        padding: 15px 25px;
+    .toolbar-mobile {
+      display: none;
+      overflow: hidden;
+      padding: 0 3%;
+      transition: max-height 500ms ease;
+    }
 
-        a {
+    .toolbar, .toolbar-mobile {
+      min-height: 0;
+
+      .mobile-container {
+        display: flex;
+        justify-content: space-between;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        max-width: unset;
+
+        .app-name {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+
+      .toolbar-container-mobile {
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-top: 20px;
+        padding-bottom: 20px;
+
+        .appbar-item {
+          width: 100%;
+        }
+      }
+
+      .left-container {
+        justify-content: flex-end;
+      }
+
+      .toolbar-container, .toolbar-container-mobile {
+        display: flex;
+        width: 100%;
+        margin: 0;
+        align-items: center;
+
+
+        .appbar-item {
           text-decoration: none;
-          color: white;
-        }
-      }
-
-      .avatar-dropmenu {
-        padding: 7px;
-        .avatar {
-          background: $primary-dark;
+          min-height: 0;
           padding: 0;
+
+          .menu-item {
+            min-height: 0;
+            padding: 15px 25px;
+            width: 100%;
+            color: white;
+            font-size: 16px;
+            justify-content: flex-start;
+          }
         }
       }
+    }
+  }
+
+  .avatar-drop-menu {
+    padding: 0;
+    border-radius: 50%;
+
+    .avatar {
+      background: $primary-dark;
+    }
+  }
+
+  .drop-menu-item {
+    .label-wrapper {
+      width: 100%;
     }
   }
 }
@@ -70,13 +122,27 @@
   background: $primary-light-main-gradient;
 
   .menu-item {
-    font-size: 16px;
     min-height: 0;
-    padding: 10px 35px;
+    font-size: 16px;
+    text-decoration: none;
+    color: white;
+    justify-content: flex-start;
+  }
+}
 
-    a {
-      text-decoration: none;
-      color: white;
+
+@media (max-width: 1000px) {
+  .LigaBet-AppHeader {
+
+    .appbar-header {
+
+      .toolbar {
+        display: none;
+      }
+
+      .toolbar-mobile {
+        display: flex;
+      }
     }
   }
 }
