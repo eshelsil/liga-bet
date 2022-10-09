@@ -44,7 +44,7 @@ function TournamentMenu({
         : 'open-questions'
 
     return (
-        <AppBar className="appbar-header" position="static">
+        <AppBar className="appbar-header">
             <Toolbar className="toolbar-mobile">
                 <Container className="mobile-container">
                     <IconButton
@@ -107,7 +107,7 @@ function TournamentMenu({
                 </Container>
             </Toolbar>
             <Toolbar
-                className="toolbar-mobile"
+                className="toolbar-mobile mobile-opened-menu"
                 style={{ maxHeight: menuOpen ? '100vh' : 0 }}
             >
                 <Container className="toolbar-container-mobile">

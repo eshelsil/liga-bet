@@ -1,7 +1,7 @@
 @import '../styles/colors';
 
 .LigaBet-AppHeader {
-  position: sticky;
+  position: fixed;
   top: 0;
   z-index: 20;
 
@@ -31,10 +31,17 @@
 
   .appbar-header {
     background: $primary-light-main-gradient;
-
     .toolbar {
       justify-content: space-between;
       display: flex;
+    }
+
+    .toolbar-opened-menu {
+      position: absolute;
+      background: $primary-light-main-gradient;
+      left: 0;
+      right: 0;
+      top: 40px;
     }
 
     .toolbar-mobile {
