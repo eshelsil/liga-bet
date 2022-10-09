@@ -8,15 +8,17 @@ import './AppBody.scss'
 function AppBody() {
     return (
         <Grid container className="LigaBet-AppBody">
-            <Grid item sm={2} className="sidenav">
-                <TournamentPrizes />
-            </Grid>
-            <Grid item sm={8} className="text-left">
+            {/*<Grid item sm={2} className="sidenav">*/}
+            {/*    <TournamentPrizes />*/}
+            {/*</Grid>*/}
+            {/*<Grid item sm={8} className="text-left">*/}
+            <main className="app-main-container">
                 <AppContent />
-            </Grid>
-            <Grid item sm={2} className="sidenav">
-                <AppLinks />
-            </Grid>
+            </main>
+            {/*</Grid>*/}
+            {/*<Grid item sm={2} className="sidenav">*/}
+            {/*    <AppLinks />*/}
+            {/*</Grid>*/}
         </Grid>
     )
 }
