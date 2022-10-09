@@ -26,21 +26,24 @@ function AppHeader({
 	deselectUtl,
 	openDialogChangePassword,
 }: Props){
+
 	return (
 		<div className='LigaBet-AppHeader'>
-			<UserMenuView {...{
-				deselectUtl,
-				currentRoute,
-				currentUsername,
-				goToUserPage,
-				openDialogChangePassword,
-			}} />
+			{/*<UserMenuView {...{*/}
+			{/*	deselectUtl,*/}
+			{/*	currentRoute,*/}
+			{/*	currentUsername,*/}
+			{/*	goToUserPage,*/}
+			{/*	openDialogChangePassword,*/}
+			{/*}} />*/}
 			{!!currentUtl && (
 				<TournamentMenu {...{
 					currentUtl,
 					currentRoute,
-					goToUtlPage,
 					isTournamentStarted,
+					currentUsername,
+					deselectUtl,
+					openDialogChangePassword
 				}} />
 			)}
 		</div>
