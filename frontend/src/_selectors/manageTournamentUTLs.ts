@@ -1,6 +1,10 @@
-import { createSelector } from 'reselect';
-import { CurrentTournamentUserId, HasManagerPermissions, IsTournamentAdmin, TournamentUTLs } from './base';
-
+import { createSelector } from 'reselect'
+import {
+    CurrentTournamentUserId,
+    HasManagerPermissions,
+    IsTournamentAdmin,
+    TournamentUTLs,
+} from './base'
 
 export const ManageTournamentUTLsSelector = createSelector(
     TournamentUTLs,
@@ -15,4 +19,4 @@ export const ManageTournamentUTLsSelector = createSelector(
             hasManagerPermissions,
         }
     }
-);
+)

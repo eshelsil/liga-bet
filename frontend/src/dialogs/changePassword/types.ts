@@ -1,4 +1,4 @@
 export interface ChangePasswordFormParams {
-    password: string,
-    confirmPassword: string,
+    password: string
+    confirmPassword: string
 }

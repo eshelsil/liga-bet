@@ -1,1 +1,1 @@
-export * from './myBets';
+export * from './myBets'

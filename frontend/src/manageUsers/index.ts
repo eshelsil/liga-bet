@@ -1,3 +1,3 @@
-import ManageUsersProvider from './ManageUsersProvider';
+import ManageUsersProvider from './ManageUsersProvider'
 
-export default ManageUsersProvider;
+export default ManageUsersProvider

@@ -1,4 +1,4 @@
-import { MatchRuleType } from "../types";
+import { MatchRuleType } from '../types'
 
 export const matchRuleToString = {
     [MatchRuleType.WinnerSide]: 'מנצחת (1X2)',

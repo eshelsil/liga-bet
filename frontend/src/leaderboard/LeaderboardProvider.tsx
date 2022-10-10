@@ -1,43 +1,37 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { ScoreboardRowDetailed } from '../types';
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
+import { ScoreboardRowDetailed } from '../types'
 import { fetchAndStoreLeaderboard } from '../_actions/leaderboard'
-import { LeaderboardSelector } from '../_selectors/leaderboard';
-import LeaderboardView from './LeaderboardView';
-
+import { LeaderboardSelector } from '../_selectors/leaderboard'
+import LeaderboardView from './LeaderboardView'
 
 interface Props {
-	leaderboard: ScoreboardRowDetailed[],
-	hasTournamentStarted: boolean,
-	fetchAndStoreLeaderboard: () => void,
+    leaderboard: ScoreboardRowDetailed[]
+    hasTournamentStarted: boolean
+    fetchAndStoreLeaderboard: () => void
 }
-
 
 function Leaderboard({
-	leaderboard,
-	hasTournamentStarted,
-	fetchAndStoreLeaderboard,
-}: Props){
-	
-	useEffect(()=>{
-		fetchAndStoreLeaderboard();
-	}, [])
+    leaderboard,
+    hasTournamentStarted,
+    fetchAndStoreLeaderboard,
+}: Props) {
+    useEffect(() => {
+        fetchAndStoreLeaderboard()
+    }, [])
 
-	return (<>
-		{!hasTournamentStarted && (
-			<h2>הטבלה תהיה זמינה ברגע שיתחיל המשחק הראשון בטורניר</h2>
-		)}
-		{hasTournamentStarted && (
-			<LeaderboardView rows={leaderboard} />
-		)}
-	</>);
+    return (
+        <>
+            {!hasTournamentStarted && (
+                <h2>הטבלה תהיה זמינה ברגע שיתחיל המשחק הראשון בטורניר</h2>
+            )}
+            {hasTournamentStarted && <LeaderboardView rows={leaderboard} />}
+        </>
+    )
 }
-
-
 
 const mapDispatchToProps = {
     fetchAndStoreLeaderboard,
 }
 
-
-export default connect(LeaderboardSelector, mapDispatchToProps)(Leaderboard);
+export default connect(LeaderboardSelector, mapDispatchToProps)(Leaderboard)

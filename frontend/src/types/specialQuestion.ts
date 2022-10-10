@@ -1,7 +1,6 @@
-import { Team } from './teams';
-import { Player } from './player';
-import { Dictionary } from 'lodash';
-
+import { Team } from './teams'
+import { Player } from './player'
+import { Dictionary } from 'lodash'
 
 export enum SpecialQuestionType {
     Winner = 'winner',
@@ -20,18 +19,21 @@ export enum SpecialAnswerType {
 export type SpecialQuestionAnswer = Team | Player
 
 export interface SpecialQuestionBase {
-    id: number,
-    type: SpecialQuestionType,
+    id: number
+    type: SpecialQuestionType
 }
 
 export interface SpecialQuestionApiModel extends SpecialQuestionBase {
-    answer: number | number[],
+    answer: number | number[]
 }
 
 export interface SpecialQuestion extends SpecialQuestionBase {
     name: string
-    answer: SpecialQuestionAnswer[],
+    answer: SpecialQuestionAnswer[]
 }
 
-export type SpecialQuestionsApiModelById = Record<number, SpecialQuestionApiModel>
+export type SpecialQuestionsApiModelById = Record<
+    number,
+    SpecialQuestionApiModel
+>
 export type SpecialQuestionsById = Dictionary<SpecialQuestion>
