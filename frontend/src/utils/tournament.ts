@@ -1,5 +1,5 @@
-import { Tournament, TournamentStatus } from '../types';
+import { Tournament, TournamentStatus } from '../types'
 
 export function isTournamentStarted(tournament: Tournament) {
-    return tournament.status !== TournamentStatus.Initial;
+    return tournament.status !== TournamentStatus.Initial
 }

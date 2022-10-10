@@ -1,4 +1,4 @@
-import { Tournament } from './tournament';
+import { Tournament } from './tournament'
 
 export enum UtlRole {
     Admin = 'admin',
@@ -9,19 +9,18 @@ export enum UtlRole {
     Monkey = 'monkey',
 }
 
-
 export interface UtlBase {
-    id: number,
-    name: string,
-    role: UtlRole,
+    id: number
+    name: string
+    role: UtlRole
 }
 
-export interface UTL extends UtlBase{
-    tournament_id: number,
+export interface UTL extends UtlBase {
+    tournament_id: number
 }
 
 export interface UtlWithTournament extends UtlBase {
-    tournament: Tournament,
+    tournament: Tournament
 }
 
 export type UTLsById = Record<number, UTL>

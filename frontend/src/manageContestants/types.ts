@@ -1,1 +1,1 @@
-export type UtlAction = (utlId: number) => void;
+export type UtlAction = (utlId: number) => void

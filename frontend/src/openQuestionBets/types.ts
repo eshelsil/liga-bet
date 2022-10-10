@@ -1,4 +1,4 @@
 export interface QuestionBetParams {
-    questionId: number,
-    answer: number,
+    questionId: number
+    answer: number
 }

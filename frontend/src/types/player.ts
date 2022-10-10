@@ -1,20 +1,19 @@
-import { Dictionary } from 'lodash';
-import { Team } from './teams';
-
+import { Dictionary } from 'lodash'
+import { Team } from './teams'
 
 export interface PlayerBaseModel {
-    id: number,
-    name: string,
-    number: number,
-    goalsScored: number,
+    id: number
+    name: string
+    number: number
+    goalsScored: number
 }
 
 export interface PlayerApiModel extends PlayerBaseModel {
-    team: number,
+    team: number
 }
 
 export interface Player extends PlayerBaseModel {
-    team: Team,
+    team: Team
 }
 
 export type PlayerApiModelById = Dictionary<PlayerApiModel>

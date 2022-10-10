@@ -5,10 +5,10 @@ export enum TournamentStatus {
 }
 
 export interface Tournament {
-    id: number,
-    name: string,
-    status: TournamentStatus,
-    competitionId: number,
-    config: any,
-    code: string,
+    id: number
+    name: string
+    status: TournamentStatus
+    competitionId: number
+    config: any
+    code: string
 }

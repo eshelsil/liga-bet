@@ -1,13 +1,14 @@
-.text-part p{
+.text-part p {
     direction: rtl;
 }
-.text-part{
+.text-part {
     margin-bottom: 30px;
 }
-.bold{
+.bold {
     font-weight: 700;
 }
-table tr td, table tr th{
+table tr td,
+table tr th {
     padding-right: 5px;
     padding-left: 5px;
     vertical-align: top;
@@ -15,11 +16,11 @@ table tr td, table tr th{
 table tr.divide {
     border-top: 2px solid #000;
 }
-.groupRank{
+.groupRank {
     div {
         display: flex;
     }
 }
-.underlined{
+.underlined {
     text-decoration: underline;
 }

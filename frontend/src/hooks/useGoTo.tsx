@@ -1,14 +1,13 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
+import React from 'react'
+import { useHistory } from 'react-router-dom'
 
+function useGoTo() {
+    const history = useHistory()
 
-function useGoTo(){
-	const history = useHistory();
-
-    const goToUserPage = () => history.push('/user');
-    const goToUtlPage = () => history.push('/utl');
-    const goToMyBets = () => history.push('/my-bets');
-    const goToChooseUtl = () => history.push('/choose-tournament');
+    const goToUserPage = () => history.push('/user')
+    const goToUtlPage = () => history.push('/utl')
+    const goToMyBets = () => history.push('/my-bets')
+    const goToChooseUtl = () => history.push('/choose-tournament')
 
     return {
         goToUserPage,
@@ -18,5 +17,4 @@ function useGoTo(){
     }
 }
 
-
-export default useGoTo;
+export default useGoTo

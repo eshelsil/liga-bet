@@ -1,6 +1,9 @@
 import { createSelector } from 'reselect'
-import { CurrentTournamentUser, CurrentUserUsername, IsTournamentStarted} from './base';
-
+import {
+    CurrentTournamentUser,
+    CurrentUserUsername,
+    IsTournamentStarted,
+} from './base'
 
 export const AppHeaderSelector = createSelector(
     CurrentUserUsername,
@@ -11,4 +14,4 @@ export const AppHeaderSelector = createSelector(
         isTournamentStarted,
         currentUtl,
     })
-);
+)

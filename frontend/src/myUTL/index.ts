@@ -1,3 +1,3 @@
-import MyUTLProvider from './MyUTLProvider';
+import MyUTLProvider from './MyUTLProvider'
 
-export default MyUTLProvider;
+export default MyUTLProvider

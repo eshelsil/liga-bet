@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { MyUtlsById } from '../types';
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import { MyUtlsById } from '../types'
 
-import { selectUtl, createUtl } from '../_actions/tournamentUser';
-import { MyUtlsSelector } from '../_selectors';
-import InitialStep from './InitialStep';
-import CreateNewTournament from './CreateNewTournament';
-import JoinTournament from './JoinTournament';
-import './style.scss';
-
+import { selectUtl, createUtl } from '../_actions/tournamentUser'
+import { MyUtlsSelector } from '../_selectors'
+import InitialStep from './InitialStep'
+import CreateNewTournament from './CreateNewTournament'
+import JoinTournament from './JoinTournament'
+import './style.scss'
 
 enum Step {
     Initial = 'initial',
@@ -16,23 +15,19 @@ enum Step {
     JoinTournament = 'join',
 }
 interface Props {
-    selectUtl: (id: number) => any,
-    createUtl: (...args: any) => any,
-    myUtls: MyUtlsById,
+    selectUtl: (id: number) => any
+    createUtl: (...args: any) => any
+    myUtls: MyUtlsById
 }
 
-function ChooseYourUtl({
-    selectUtl,
-    createUtl,
-    myUtls,
-}: Props){
-    const [step, setStep] = useState<Step>(Step.Initial);
+function ChooseYourUtl({ selectUtl, createUtl, myUtls }: Props) {
+    const [step, setStep] = useState<Step>(Step.Initial)
 
-    const goToInitialStep = () => setStep(Step.Initial);
-    const goToJoin = () => setStep(Step.JoinTournament);
-    const goToCreate = () => setStep(Step.NewTournamet);
-    
-    return  (
+    const goToInitialStep = () => setStep(Step.Initial)
+    const goToJoin = () => setStep(Step.JoinTournament)
+    const goToCreate = () => setStep(Step.NewTournamet)
+
+    return (
         <div>
             {step === Step.Initial && (
                 <InitialStep
@@ -43,10 +38,7 @@ function ChooseYourUtl({
                 />
             )}
             {step === Step.JoinTournament && (
-                <JoinTournament
-                    onJoin={createUtl}
-                    goBack={goToInitialStep}
-                />
+                <JoinTournament onJoin={createUtl} goBack={goToInitialStep} />
             )}
             {step === Step.NewTournamet && (
                 <CreateNewTournament
@@ -55,7 +47,7 @@ function ChooseYourUtl({
                 />
             )}
         </div>
-    );
+    )
 }
 
 const mapDispatchToProps = {
@@ -63,5 +55,4 @@ const mapDispatchToProps = {
     createUtl,
 }
 
-
-export default connect(MyUtlsSelector, mapDispatchToProps)(ChooseYourUtl);
+export default connect(MyUtlsSelector, mapDispatchToProps)(ChooseYourUtl)

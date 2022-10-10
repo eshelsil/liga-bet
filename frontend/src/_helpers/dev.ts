@@ -1,3 +1,3 @@
 export const isDevModeTamir = () => {
-    return localStorage.getItem('dev_mode_tamir');
-};
+    return localStorage.getItem('dev_mode_tamir')
+}

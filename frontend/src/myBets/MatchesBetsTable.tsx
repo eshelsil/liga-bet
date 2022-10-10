@@ -1,51 +1,47 @@
-import React from 'react';
-import TeamAndSymbol from "../widgets/TeamWithFlag";
-import MatchResult from "../widgets/MatchResult";
-import { MatchBetWithRelations, WinnerSide } from '../types';
+import React from 'react'
+import TeamAndSymbol from '../widgets/TeamWithFlag'
+import MatchResult from '../widgets/MatchResult'
+import { MatchBetWithRelations, WinnerSide } from '../types'
 
-
-const MatchesBetsTable = ({
-    bets
-}: {
-    bets: MatchBetWithRelations[]
-}) => {
+const MatchesBetsTable = ({ bets }: { bets: MatchBetWithRelations[] }) => {
     return (
         <table className="table table-striped">
             <thead>
-            <tr>
-                <th className="admin">מזהה</th>
-                <th>
-                    משחק
-                </th>
-                <th>
-                    הימור
-                </th>
-                <th>
-                    תוצאה
-                </th>
-            </tr>
+                <tr>
+                    <th className="admin">מזהה</th>
+                    <th>משחק</th>
+                    <th>הימור</th>
+                    <th>תוצאה</th>
+                </tr>
             </thead>
             <tbody>
-            {
-                bets.map(bet =>
+                {bets.map((bet) => (
                     <tr key={bet.id}>
-                        <td className="admin">
-                            {bet.relatedMatch.id}
-                        </td>
+                        <td className="admin">{bet.relatedMatch.id}</td>
 
                         <td className="flex-row v-align-center">
                             <TeamAndSymbol
                                 name={bet.relatedMatch.home_team.name}
                                 crest_url={bet.relatedMatch.home_team.crest_url}
-                                is_underlined={bet.result_home > bet.result_away}
-                                is_bold={bet.relatedMatch.result_home > bet.relatedMatch.result_away}
+                                is_underlined={
+                                    bet.result_home > bet.result_away
+                                }
+                                is_bold={
+                                    bet.relatedMatch.result_home >
+                                    bet.relatedMatch.result_away
+                                }
                             />
                             <span className="dash-space"> - </span>
                             <TeamAndSymbol
                                 name={bet.relatedMatch.away_team.name}
                                 crest_url={bet.relatedMatch.away_team.crest_url}
-                                is_underlined={bet.result_home < bet.result_away}
-                                is_bold={bet.relatedMatch.result_home < bet.relatedMatch.result_away}
+                                is_underlined={
+                                    bet.result_home < bet.result_away
+                                }
+                                is_bold={
+                                    bet.relatedMatch.result_home <
+                                    bet.relatedMatch.result_away
+                                }
                             />
                         </td>
                         <td className="v-align-center">
@@ -69,11 +65,10 @@ const MatchesBetsTable = ({
                             />
                         </td>
                     </tr>
-                )
-            }
+                ))}
             </tbody>
         </table>
-    );
-};
+    )
+}
 
-export default MatchesBetsTable;
+export default MatchesBetsTable

@@ -1,21 +1,13 @@
-import React from 'react';
-import { Player } from '../../types';
-import TeamWithFlag from '../TeamWithFlag';
+import React from 'react'
+import { Player } from '../../types'
+import TeamWithFlag from '../TeamWithFlag'
 
-
-function PlayerAnswerView({
-    player,
-}: {
-    player: Player,
-} ){
-    const { name, team } = player;
-    if (!team){
-        return (<>name</>);
+function PlayerAnswerView({ player }: { player: Player }) {
+    const { name, team } = player
+    if (!team) {
+        return <>name</>
     }
-    return (
-        <TeamWithFlag name={name} crest_url={team.crest_url} />
-    );
+    return <TeamWithFlag name={name} crest_url={team.crest_url} />
 }
 
-
-export default PlayerAnswerView;
+export default PlayerAnswerView

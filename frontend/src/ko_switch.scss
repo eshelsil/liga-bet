@@ -1,4 +1,4 @@
-.ko_switch_input{
+.ko_switch_input {
     position: relative;
     .tw-toggle {
         display: block;
@@ -11,59 +11,59 @@
         left: -7px;
 
         label {
-          text-align: center;
-          font-family: sans-serif;
-          display: block;
-          color: #95a5a6;
-          position: relative;
-          z-index: 2;
-          margin: 0;
-          padding: 2px 4px;
-          font-size: 15px;
+            text-align: center;
+            font-family: sans-serif;
+            display: block;
+            color: #95a5a6;
+            position: relative;
+            z-index: 2;
+            margin: 0;
+            padding: 2px 4px;
+            font-size: 15px;
         }
 
         input {
-          position: absolute;
-          z-index: 3;
-          opacity: 0;
-          width: 100%;
-          left: 0px;
-          margin-top: 0px;
-          height: 23px;
-          cursor: pointer;
-          &:checked{
-              &[value="home"] ~ span {
-                background: #286090;
-                top: 3px;
-              }
-              &[value="away"] ~ span {
-                background: #286090;
-                top: 53px;
-              }
-              &[value="-1"] ~ span {
-                background: #95a5a6;
-                top: 22px;
-              }
-              + label {
-                color: #ffff00;
-              }
-          }
+            position: absolute;
+            z-index: 3;
+            opacity: 0;
+            width: 100%;
+            left: 0px;
+            margin-top: 0px;
+            height: 23px;
+            cursor: pointer;
+            &:checked {
+                &[value='home'] ~ span {
+                    background: #286090;
+                    top: 3px;
+                }
+                &[value='away'] ~ span {
+                    background: #286090;
+                    top: 53px;
+                }
+                &[value='-1'] ~ span {
+                    background: #95a5a6;
+                    top: 22px;
+                }
+                + label {
+                    color: #ffff00;
+                }
+            }
         }
 
         > span {
-          height: 22px;
-          width: 22px;
-          line-height: 21px;
-          border-radius: 50%;
-          background: #d0dedf;
-          display: block;
-          position: absolute;
-          left: 2px;
-          top: 29px;
-          transition: all 0.3s ease-in-out;
+            height: 22px;
+            width: 22px;
+            line-height: 21px;
+            border-radius: 50%;
+            background: #d0dedf;
+            display: block;
+            position: absolute;
+            left: 2px;
+            top: 29px;
+            transition: all 0.3s ease-in-out;
         }
     }
-.arrow-icon {
-    color: #286090;
+    .arrow-icon {
+        color: #286090;
     }
 }
