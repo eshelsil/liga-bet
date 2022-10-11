@@ -1,7 +1,8 @@
 import React from 'react'
 import { UtlWithTournament } from '../types'
-import UserMenuView from './UserMenuView'
-import TournamentMenu from './TournamentMenu'
+import AppBar from '@mui/material/AppBar'
+import AppMenuMobile from './AppMenuMobile'
+import AppMenuDesktop from './AppMenuDesktop'
 import './style.scss'
 
 interface Props {
@@ -9,8 +10,6 @@ interface Props {
     currentUsername: string
     isTournamentStarted: boolean
     currentRoute: string
-    goToUserPage: () => void
-    goToUtlPage: () => void
     deselectUtl: () => void
     openDialogChangePassword: () => void
 }
@@ -20,32 +19,31 @@ function AppHeader({
     currentUtl,
     currentUsername,
     currentRoute,
-    goToUserPage,
-    goToUtlPage,
     deselectUtl,
     openDialogChangePassword,
 }: Props) {
+
+    // TODO: fix to conditional rendering instead of hide/display using scss
     return (
         <div className="LigaBet-AppHeader">
-            <UserMenuView
-                {...{
-                    deselectUtl,
+            <AppBar className="appbar-header">
+                <AppMenuMobile {...{
+                    isTournamentStarted,
+                    currentUtl,
                     currentRoute,
                     currentUsername,
-                    goToUserPage,
+                    deselectUtl,
                     openDialogChangePassword,
-                }}
-            />
-            {!!currentUtl && (
-                <TournamentMenu
-                    {...{
-                        currentUtl,
-                        currentRoute,
-                        goToUtlPage,
-                        isTournamentStarted,
-                    }}
-                />
-            )}
+                }} />
+                <AppMenuDesktop {...{
+                    isTournamentStarted,
+                    currentUtl,
+                    currentRoute,
+                    currentUsername,
+                    deselectUtl,
+                    openDialogChangePassword,
+                }} />
+            </AppBar>
         </div>
     )
 }

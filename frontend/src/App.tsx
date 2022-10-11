@@ -23,7 +23,7 @@ function App() {
                 <RTL>
                     <AuthController>
                         <Router history={customHistory}>
-                            <Banner />
+                            {/*<Banner />*/}
                             <AppHeader />
                             <AppBody />
                             <AppFooter />

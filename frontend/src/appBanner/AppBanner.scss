@@ -1,6 +1,8 @@
+@import '../styles/colors';
+
 .AppBanner-container {
     width: 100%;
-    background: #222;
+    background: $primary-light-main-gradient;
     display: flex;
     .AppBanner-img {
         height: 180px;

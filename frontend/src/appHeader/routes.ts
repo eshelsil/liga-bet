@@ -52,6 +52,22 @@ const routes: Route[] = [
         label: 'נהל משתתפים',
     },
     {
+        path: 'utl',
+        label: 'הפרופיל שלך',
+    },
+    {
+        path: 'user',
+        label: 'המשתמש שלך',
+    },
+    {
+        path: 'contestants',
+        label: 'נהל משתתפים',
+    },
+    {
+        path: 'takanon',
+        label: 'תקנון',
+    },
+    {
         path: 'logout',
         label: 'התנתק',
         iconClass: 'logout_icon',

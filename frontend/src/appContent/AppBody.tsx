@@ -9,13 +9,13 @@ function AppBody() {
     return (
         <Grid container className="LigaBet-AppBody">
             <Grid item sm={2} className="sidenav">
-                <TournamentPrizes />
+               <TournamentPrizes />
             </Grid>
             <Grid item sm={8} className="text-left">
                 <AppContent />
             </Grid>
             <Grid item sm={2} className="sidenav">
-                <AppLinks />
+               <AppLinks />
             </Grid>
         </Grid>
     )
