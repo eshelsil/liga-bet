@@ -1,7 +1,8 @@
-import React from 'react'
-import { matchRuleToString } from '../../utils'
-import { GameBetScoreConfig } from './types'
-import { sum } from 'lodash'
+import React from 'react';
+import { sum } from 'lodash';
+import { matchRuleToString } from '../../utils';
+import { GameBetScoreConfig } from '../../types';
+
 
 function GameBetScore({
     scoreConfig,

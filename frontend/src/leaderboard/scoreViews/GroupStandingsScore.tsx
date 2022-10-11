@@ -24,9 +24,11 @@ interface Props {
     bet: GroupRankBetWithRelations
 }
 
-function GroupStangingsScore({ bet }: Props) {
-    const { id, score, standings, relatedGroup } = bet
-    const { standings: finalStandings, isDone } = relatedGroup || {}
+function GroupStandingsScore({
+    bet,
+}: Props){
+    const {id, score, standings, relatedGroup} = bet;
+    const {standings: finalStandings, isDone} = relatedGroup || {};
     // if (!isDone){
     //     return null;
     // }
@@ -60,4 +62,4 @@ function GroupStangingsScore({ bet }: Props) {
     )
 }
 
-export default GroupStangingsScore
+export default GroupStandingsScore;

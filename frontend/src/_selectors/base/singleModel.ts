@@ -20,6 +20,11 @@ export const TournamentIdSelector = createSelector(
     (tournament) => tournament.id
 )
 
+export const CurrentTournamentConfig = createSelector(
+    CurrentTournament,
+    tournament => tournament.config,
+);
+
 export const IsTournamentStarted = createSelector(
     CurrentTournament,
     (tournament) => true // only for development

@@ -1,8 +1,8 @@
-import React from 'react'
-import { Team } from '../../types'
-import { GameBetScoreConfig } from './types'
-import GameBetExamples from './GameBetExamples'
-import GameBetScore from './GameBetScore'
+import React from 'react';
+import { GameBetScoreConfig, Team } from '../../types';
+import GameBetExamples from './GameBetExamples';
+import GameBetScore from './GameBetScore';
+
 
 interface Props {
     scoreConfig: GameBetScoreConfig

@@ -4,6 +4,11 @@
     justify-content: center;
 }
 
+@mixin flexRow {
+    display: flex;
+    align-items: center;
+}
+
 @mixin rank_bg_color {
     $default_bg_color: #8d8b89;
     background-color: $default_bg_color;

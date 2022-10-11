@@ -1,4 +1,4 @@
-@use '../../styles/mixins.scss';
+@import '../../styles/mixins.scss';
 
 $default_button_padding: 16px;
 $loader_margin: 8px;
@@ -19,8 +19,6 @@ $loader_container_width: 28px;
         position: relative;
         width: $loader_container_width;
         margin-right: $loader_margin;
-        @include mixins.centerContainer;
-        .loader {
-        }
+        @include centerContainer;
     }
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { sortBy } from 'lodash'
 import { sumBetsScore } from './utils'
-import GroupRankScore from './scoreViews/GroupStangingsScore'
+import GroupRankScore from './scoreViews/GroupStandingsScore'
 import MatchBetScore from './scoreViews/MatchBetScore'
 import QuestionBetScore from './scoreViews/QuestionBetScore'
 import {
