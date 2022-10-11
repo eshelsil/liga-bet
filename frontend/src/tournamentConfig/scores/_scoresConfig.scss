@@ -1,0 +1,48 @@
+@import '../../styles/mixins.scss';
+
+.LigaBet-ScoreConfig {
+    .ScoreConfig-SectionTitle {
+        @include flexRow;
+        .LigaBet-InfoIconWithTooltip {
+            margin-right: 8px;
+        }
+    }
+    .LigaBet-ScoreInput {
+        width: 80px;
+    }
+    .configRow {
+        display: flex;
+        align-items: center;
+        margin: 16px 0px;
+        .configLabel {
+            font-weight: 700;
+            margin-left: 16px;
+        }
+    }
+    .LigaBet-MatchRankBetCofig {
+        margin-top: 20px;
+    }
+    .LigaBet-SpecialBetsConfig {
+        margin-top: 20px;
+        .configContainer {
+            border-radius: 16px;
+            box-shadow: rgb(67 71 85 / 27%) 0px 0px 0.25em, rgb(90 125 188 / 5%) 0px 0.25em 1em;
+            margin-top: 20px;
+            padding: 16px;
+            overflow: hidden;
+        }
+        .ScoresConfig-SpecialQuestionHeader {
+            @include flexRow;
+            h5 {
+                font-size: 16px;
+            }
+            .LigaBet-InfoIconWithTooltip {
+                margin-right: 8px;
+            }
+        }
+    }
+    .savePrizes {
+        @include centerContainer;
+        margin-top: 30px;
+    }
+}

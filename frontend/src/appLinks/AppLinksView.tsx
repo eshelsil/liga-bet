@@ -9,31 +9,37 @@ interface AppLinkDescription extends AppLinkProps {
 type AppLinksConfig = Record<string, AppLinkDescription>
 
 const appLinks: AppLinksConfig = {
-    articles: {
-        id: 'articles',
-        path: '/articles',
-        label: 'כתבות',
-    },
-    takanon: {
-        id: 'takanon',
-        path: '/takanon',
-        label: 'תקנון',
-        hasReactComponent: true,
-    },
-    adminTools: {
-        id: 'adminTools',
-        path: '/admin/index',
-        label: 'Admin Tools',
-        isAdminView: true,
-    },
-    manageUsers: {
-        id: 'manageUsers',
-        path: '/admin/users',
-        label: 'Manage users',
-        hasReactComponent: true,
-        isAdminView: true,
-    },
-}
+	articles: {
+		id: 'articles',
+		path: '/articles',
+		label: 'כתבות',
+	},
+	takanon: {
+		id: 'takanon',
+		path: '/takanon',
+		label: 'תקנון',
+		hasReactComponent: true,
+	},
+	adminTools: {
+		id: 'adminTools',
+		path: '/admin/index',
+		label: 'Admin Tools',
+		isAdminView: true,
+	},
+	manageUsers: {
+		id: 'manageUsers',
+		path: '/admin/users',
+		label: 'Manage users',
+		hasReactComponent: true,
+		isAdminView: true,
+	},
+	tournamentConfig: {
+		id: 'tournamentConfig',
+		path: '/tournament-config',
+		label: 'הגדרות טורניר',
+		hasReactComponent: true,
+	},
+};
 
 interface Props {
     isAdmin: boolean
