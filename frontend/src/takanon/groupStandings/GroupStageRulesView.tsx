@@ -1,22 +1,21 @@
-import React from 'react'
-import { GroupWithTeams } from '../types'
-import TeamAndSymbol from '../widgets/TeamWithFlag'
+import React from 'react';
+import { GroupRankBetScoreConfig, GroupWithTeams } from '../../types';
+import TeamAndSymbol from '../../widgets/TeamWithFlag';
 
-interface GroupRankScoreConfig {
-    perfect: number
-    minorMistake: number
-}
 
 interface Props {
-    scoreConfig: GroupRankScoreConfig
-    groupsCount: number
-    exampleGroup: GroupWithTeams
+    scoreConfig: GroupRankBetScoreConfig,
+    exampleGroup: GroupWithTeams,
+    groupsCount: number,
 }
 
-function GroupStageRules({
-    scoreConfig: { perfect, minorMistake },
-    groupsCount,
+function GroupStageRulesView({
+    scoreConfig: {
+        perfect,
+        minorMistake,
+    },
     exampleGroup,
+    groupsCount,
 }: Props) {
     const maxScore = groupsCount * perfect
     const teamA = exampleGroup.teams[0]
@@ -139,4 +138,4 @@ function GroupStageRules({
     )
 }
 
-export default GroupStageRules
+export default GroupStageRulesView;

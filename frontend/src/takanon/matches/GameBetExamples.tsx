@@ -1,14 +1,9 @@
-import React from 'react'
-import { MatchRuleType, Team, WinnerSide } from '../../types'
-import { getWinnerSide, matchRuleToString } from '../../utils'
-import {
-    getExtraTimeString,
-    getFullTimeString,
-    getPenaltiesString,
-    getQualifier,
-} from './utils'
-import TeamAndSymbol from '../../widgets/TeamWithFlag'
-import { GameBetScoreConfig } from './types'
+import React from 'react';
+import { MatchRuleType, GameBetScoreConfig, Team, WinnerSide } from '../../types';
+import { getWinnerSide, matchRuleToString } from '../../utils';
+import { getExtraTimeString, getFullTimeString, getPenaltiesString, getQualifier } from './utils';
+import TeamAndSymbol from '../../widgets/TeamWithFlag';
+
 
 interface GameExample {
     bet: number[]
