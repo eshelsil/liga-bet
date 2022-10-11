@@ -9,7 +9,8 @@ interface Props {
     onClick?: () => void
     icon?: ReactNode
     className?: string
-    closeMenuHandler?: () => void
+    callback?: () => void
+    simpleLink?: boolean
 }
 
 function LinkMenuItem({
@@ -18,36 +19,37 @@ function LinkMenuItem({
     onClick,
     icon,
     className,
-    closeMenuHandler,
+    callback,
+    simpleLink,
 }: Props) {
     const history = useHistory()
     const { iconClass, label, path } = route
     const isActive = currentPath === path
-    const goToRoute = () => history.push(`/${path}`)
+    const goToRoute = () => {
+        if (simpleLink){
+            window.location = `/${path}` as any
+            return
+        }
+        history.push(`/${path}`)
+    }
     const action = onClick ?? goToRoute
     const onRouteClick = (e) => {
         e.preventDefault()
         action()
-        if (closeMenuHandler) {
-            closeMenuHandler()
+        if (callback) {
+            callback()
         }
     }
     return (
-        <Link
-            to={`/${route}`}
-            onClick={onRouteClick}
-            className={`${className || ''} ${isActive ? 'active' : ''}`}
-        >
-            <MenuItemMUI className={'menu-item'}>
-                {icon && (
-                    <>
-                        {icon}
-                        <span /* space */ style={{ width: 5 }} />
-                    </>
-                )}
-                {label}
-            </MenuItemMUI>
-        </Link>
+        <MenuItemMUI className={`menu-item ${className || ''} ${isActive ? 'active' : ''}`} onClick={onRouteClick}>
+            {icon && (
+                <>
+                    {icon}
+                    <span /* space */ style={{ width: 5 }} />
+                </>
+            )}
+            {label}
+        </MenuItemMUI>
     )
 }
 
