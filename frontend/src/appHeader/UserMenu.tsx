@@ -25,7 +25,7 @@ function UserMenu({
 
     return (
         <DropMenuItem
-            className="LigaBet-UserMenu avatar-drop-menu"
+            className="LigaBet-UserMenu"
             label={
                 <Avatar className="avatar">
                     {currentUsername[0]}
@@ -34,13 +34,11 @@ function UserMenu({
         >
             <LinkMenuItem
                 route={routesMap['user']}
-                className="menu-item"
                 currentPath={currentRoute}
             />
             {!!currentUtl && (
                 <LinkMenuItem
                     route={routesMap['utl']}
-                    className="menu-item"
                     currentPath={currentRoute}
                 />
             )}
@@ -48,25 +46,21 @@ function UserMenu({
             {showManagerManagementViews && (
                 <LinkMenuItem
                     route={routesMap['contestants']}
-                    className="menu-item"
                     currentPath={currentRoute}
                 />
             )}
             <LinkMenuItem
                 route={routesMap['choose-utl']}
-                className="menu-item"
                 currentPath={currentRoute}
                 onClick={deselectUtl}
             />
             <LinkMenuItem
                 route={routesMap['set-password']}
-                className="menu-item"
                 currentPath={currentRoute}
                 onClick={openDialogChangePassword}
             />
             <LinkMenuItem
                 route={routesMap['logout']}
-                className="menu-item"
                 currentPath={currentRoute}
                 simpleLink
             />

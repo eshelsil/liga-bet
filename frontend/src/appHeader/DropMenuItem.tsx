@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import MenuItem from '@mui/material/MenuItem'
-import { Button, Menu } from '@mui/material'
+import { Menu } from '@mui/material'
 
 interface Props {
     label: string | ReactNode
@@ -20,13 +20,13 @@ const DropMenuItem = ({ label, children, className }: Props) => {
     return (
         <MenuItem
             id="menu-button"
-            className="drop-menu-item"
+            className="LigaBet-DropMenuItem"
             aria-controls={open ? 'basic-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
             classes={{ root: className || '' }}
         >
-            <div onClick={handleClick} className="label-wrapper">
+            <div onClick={handleClick} className="labelWrapper">
                 {label}
             </div>
             <Menu
@@ -36,7 +36,7 @@ const DropMenuItem = ({ label, children, className }: Props) => {
                 id="basic-menu"
                 MenuListProps={{
                     'aria-labelledby': 'menu-button',
-                    className: 'menu',
+                    className: 'LigaBet-Menu',
                     onClick: handleClose,
                 }}
             >

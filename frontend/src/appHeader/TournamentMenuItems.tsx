@@ -35,19 +35,16 @@ function TournamentMenuItems({
             {hasCurrentUtl && (<>
                 {isConfirmed && (<>
                     <LinkMenuItem
-                        className="appbar-item"
                         route={routesMap['leaderboard']}
                         currentPath={currentRoute}
                         callback={callback}
                     />
                     <LinkMenuItem
-                        className="appbar-item"
                         route={routesMap['open-matches']}
                         currentPath={currentRoute}
                         callback={callback}
                     />
                     <LinkMenuItem
-                        className="appbar-item"
                         route={routesMap['closed-matches']}
                         currentPath={currentRoute}
                         callback={callback}
@@ -58,24 +55,20 @@ function TournamentMenuItems({
                                 הימורים של לפני הטורניר
                             </div>
                         }
-                        className="appbar-item"
                     >
                         <LinkMenuItem
                             route={routesMap[groupBetsRoute]}
-                            className="menu-item"
                             currentPath={currentRoute}
                             callback={callback}
                         />
                         <LinkMenuItem
                             route={routesMap[specialBetsRoute]}
-                            className="menu-item"
                             currentPath={currentRoute}
                             callback={callback}
                         />
                     </DropMenuItem>
                     <LinkMenuItem
                         route={routesMap['my-bets']}
-                        className="appbar-item"
                         currentPath={currentRoute}
                         callback={callback}
                     />

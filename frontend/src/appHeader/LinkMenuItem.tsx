@@ -23,7 +23,7 @@ function LinkMenuItem({
     simpleLink,
 }: Props) {
     const history = useHistory()
-    const { iconClass, label, path } = route
+    const { label, path } = route
     const isActive = currentPath === path
     const goToRoute = () => {
         if (simpleLink){
@@ -41,14 +41,16 @@ function LinkMenuItem({
         }
     }
     return (
-        <MenuItemMUI className={`menu-item ${className || ''} ${isActive ? 'active' : ''}`} onClick={onRouteClick}>
+        <MenuItemMUI className={`LigaBet-LinkMenuItem ${className || ''} ${isActive ? 'active' : ''}`} onClick={onRouteClick}>
             {icon && (
                 <>
                     {icon}
                     <span /* space */ style={{ width: 5 }} />
                 </>
             )}
-            {label}
+            <div className={'itemLabel'}>
+                {label}
+            </div>
         </MenuItemMUI>
     )
 }

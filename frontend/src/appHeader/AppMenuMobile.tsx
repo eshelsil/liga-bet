@@ -31,9 +31,10 @@ function AppMenuMobile({
     const closeMenuHandler = () => setMenuOpen(false)
 
 
-    return (<>
-            <Toolbar className="toolbar-mobile">
-                <Container className="mobile-container">
+    return (
+        <div  className="LigaBet-AppMenuMobile">
+            <Toolbar>
+                <Container className="mobileMenuHeader">
                     <IconButton
                         size="large"
                         aria-label="account of current user"
@@ -44,7 +45,7 @@ function AppMenuMobile({
                     >
                         {menuOpen ? <CloseIcon /> : <MenuIcon />}
                     </IconButton>
-                    <Typography variant="h5" className="app-name">
+                    <Typography variant="h5" className="appName">
                         ליגה ב'
                     </Typography>
                     <UserMenu
@@ -61,10 +62,8 @@ function AppMenuMobile({
                 </Container>
             </Toolbar>
             {menuOpen && (
-                <Toolbar
-                    className="toolbar-mobile mobile-opened-menu"
-                >
-                    <Container className="toolbar-container-mobile">
+                <Toolbar className="expandSection">
+                    <Container className="toolbarContainer-mobile">
                         <TournamentMenuItems {...{
                             isTournamentStarted,
                             currentRoute,
@@ -74,7 +73,7 @@ function AppMenuMobile({
                     </Container>
                 </Toolbar>
             )}
-    </>
+        </div>
     )
 }
 

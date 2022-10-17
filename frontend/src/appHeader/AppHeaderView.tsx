@@ -3,6 +3,7 @@ import { UtlWithTournament } from '../types'
 import AppBar from '@mui/material/AppBar'
 import AppMenuMobile from './AppMenuMobile'
 import AppMenuDesktop from './AppMenuDesktop'
+import { useIsSmScreen } from '../hooks/useMedia'
 import './style.scss'
 
 interface Props {
@@ -22,27 +23,30 @@ function AppHeader({
     deselectUtl,
     openDialogChangePassword,
 }: Props) {
-
-    // TODO: fix to conditional rendering instead of hide/display using scss
+    const isSmallScreen = useIsSmScreen();
     return (
         <div className="LigaBet-AppHeader">
-            <AppBar className="appbar-header">
-                <AppMenuMobile {...{
-                    isTournamentStarted,
-                    currentUtl,
-                    currentRoute,
-                    currentUsername,
-                    deselectUtl,
-                    openDialogChangePassword,
-                }} />
-                <AppMenuDesktop {...{
-                    isTournamentStarted,
-                    currentUtl,
-                    currentRoute,
-                    currentUsername,
-                    deselectUtl,
-                    openDialogChangePassword,
-                }} />
+            <AppBar className="appbarHeader">
+                {isSmallScreen && (
+                    <AppMenuMobile {...{
+                        isTournamentStarted,
+                        currentUtl,
+                        currentRoute,
+                        currentUsername,
+                        deselectUtl,
+                        openDialogChangePassword,
+                    }} />
+                )}
+                {!isSmallScreen && (
+                    <AppMenuDesktop {...{
+                        isTournamentStarted,
+                        currentUtl,
+                        currentRoute,
+                        currentUsername,
+                        deselectUtl,
+                        openDialogChangePassword,
+                    }} />
+                )}
             </AppBar>
         </div>
     )
