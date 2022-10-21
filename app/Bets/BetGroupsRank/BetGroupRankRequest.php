@@ -3,13 +3,15 @@
 namespace App\Bets\BetGroupsRank;
 
 use App\Bets\AbstractBetRequest;
+use App\Bets\BetableInterface;
 use App\Team;
 use App\Group;
+use App\Tournament;
 use Illuminate\Support\Facades\Log;
 
 class BetGroupRankRequest extends AbstractBetRequest
 {
-    protected $group = null;
+    protected Group $group;
     protected $standings = null;
 
     /**
@@ -18,8 +20,8 @@ class BetGroupRankRequest extends AbstractBetRequest
      * @param Group $group
      * @param array $data
      */
-    public function __construct($group, $data = []) {
-        parent::__construct($group, $data);
+    public function __construct(BetableInterface $group, Tournament $tournament, array $data = []) {
+        parent::__construct($group, $tournament, $data);
         $this->standings = $data;
     }
 
@@ -62,36 +64,32 @@ class BetGroupRankRequest extends AbstractBetRequest
         return $this->standings;
     }
 
-    public function calculate($finalRanks) {
+    public function calculate()
+    {
+        $finalRanks = $this->group->getStandings();
         $ranking = $this->getRanking();
-        $has_minimal_ranking_error = false;
-        $no_points = false;
-        $minimal_errors = 0;
+        $minorMistakesCounter = 0;
         foreach($ranking as $position => $team_id){
             $team_id = (string)$team_id;
-            if ($minimal_errors > 2){
-                break;
-            }
+
             if ($finalRanks[$position] == $team_id){
                 continue;
             }
-            if (
-                ($position + 1 <= 4 && $finalRanks[$position + 1] == $team_id) ||
-                ($position - 1 >= 1 && $finalRanks[$position - 1] == $team_id)
-            ){
-                $minimal_errors += 1;
-                continue;
+
+            if ($this->isMinimalError($position, $finalRanks, $team_id)) {
+                $minorMistakesCounter += 1;
             }
-            $minimal_errors = 3;
-            break;
+
+            if ($minorMistakesCounter >= 3) {
+                return 0;
+            }
         }
-        if ($minimal_errors == 0){
-            return 6;
-        } elseif ($minimal_errors < 3){
-            return 3;
-        } else {
-            return 0;
+
+        if ($minorMistakesCounter) {
+            return $this->getScoreConfig("groupRankBets.minorMistake");
         }
+
+        return $this->getScoreConfig("groupRankBets.perfect");
     }
 
     protected function setEntity($entity = null)
@@ -102,5 +100,22 @@ class BetGroupRankRequest extends AbstractBetRequest
     public function getEntity()
     {
         return $this->group;
+    }
+
+    /**
+     * @param int|string $position
+     * @param array      $finalRanks
+     * @param string     $team_id
+     *
+     * @return bool
+     */
+    protected function isMinimalError(
+        int|string $position,
+        array $finalRanks,
+        string $team_id
+    ): bool {
+        return ($position + 1 <= 4 && $finalRanks[$position + 1] == $team_id)
+               || ($position - 1 >= 1
+                   && $finalRanks[$position - 1] == $team_id);
     }
 }

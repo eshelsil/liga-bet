@@ -14,12 +14,6 @@ use Illuminate\Support\Facades\Log;
 
 class UpdateCompetitionStandings
 {
-    private CalculateSpecialBets $calculateSpecialBets;
-
-    public function __construct(CalculateSpecialBets $calculateSpecialBets) {
-        $this->calculateSpecialBets = $calculateSpecialBets;
-    }
-
     public function handle(Competition $competition)
     {
         $finalStandings    = $competition->getCrawler()->fetchGroupStandings();

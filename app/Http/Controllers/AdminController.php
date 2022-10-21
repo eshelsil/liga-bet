@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\UpdateGameBets;
+use App\Actions\UpdateLeaderboards;
 use App\Bet;
 use App\Bets\BetGroupsRank\BetGroupRankRequest;
 use App\Bets\BetMatch\BetMatch;
@@ -124,14 +126,18 @@ class AdminController extends Controller
         return "reset User {$user->name} password to \"1234\"";
     }
 
-    public function completeMatch($id, $scoreHome = null, $scoreAway = null, $isAwayWinner = null) {
-        /** @var Game $match */
-        $match = Game::query()->find($id);
-        if ($match->isKnockout() && !is_null($scoreHome)
+    public function completeMatch(UpdateGameBets $updateGameBets,
+        UpdateLeaderboards $updateLeaderboards,
+        $id, $scoreHome = null, $scoreAway = null, $isAwayWinner = null
+    ) {
+        /** @var Game $game */
+        $game = Game::query()->find($id);
+        if ($game->isKnockout() && !is_null($scoreHome)
             && $scoreHome == $scoreAway && is_null($isAwayWinner)){
             throw new \InvalidArgumentException("Score is tied on a knockout game and \"isAwayWinner\" param is not given");
         }
-        $match->completeBets($scoreHome, $scoreAway, $isAwayWinner);
+        $updateGameBets->handle($game, $scoreHome, $scoreAway, $isAwayWinner);
+        $updateLeaderboards->handle($game->competition);
         return "completed";
     }
 

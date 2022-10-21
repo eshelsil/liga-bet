@@ -44,7 +44,6 @@ class UpdateCompetitionScorers
                 }
 
                 $scorerModel = new Player();
-                $scorerModel->competition_id = $competition->id;
                 $scorerModel->external_id = $id;
                 $scorerModel->name = data_get($scorer, 'player.name');
                 $team = Team::where('external_id', data_get($scorer, 'team.id'))->first();
@@ -60,6 +59,8 @@ class UpdateCompetitionScorers
             }
         }
 
-        $this->calculateSpecialBets->execute($competition->id, [SpecialBet::TYPE_TOP_SCORER]);
+        $answer = $competition->getTopScorersIds()->join(",") ?: null;
+
+        $this->calculateSpecialBets->execute($competition->id, SpecialBet::TYPE_TOP_SCORER, $answer);
     }
 }

@@ -17,7 +17,7 @@ class BetSpecialBets extends AbstractBet
 
     protected function setRequest()
     {
-        $this->request = new BetSpecialBetsRequest($this->specialBet, $this->bet->getData());
+        $this->request = new BetSpecialBetsRequest($this->specialBet, $this->bet->tournament, $this->bet->getData());
     }
 
     protected function setEntity($specialBet = null)

@@ -25,7 +25,7 @@ class Controller extends BaseController
      */
     public function __construct()
     {
-        Log::warning("[Controller][".static::class."][__construct] Received request!");
+        Log::debug("[Controller][".static::class."][__construct] Received request!");
         $this->middleware('auth');
     }
 
@@ -37,10 +37,10 @@ class Controller extends BaseController
     {
         $request = Request::instance();
         if (!$this->user) {
-            Log::warning("[Controller][".static::class."][__construct] Received request {{$request->get("id")}}{{$request->get("remember")}}!");
+            Log::debug("[Controller][".static::class."][__construct] Received request {{$request->get("id")}}{{$request->get("remember")}}!");
 
             $this->user = Auth::user();
-            Log::warning("[Controller][".static::class."][__construct] still here!");
+            Log::debug("[Controller][".static::class."][__construct] still here!");
             if (!$this->user) {
                 $this->user = User::where("id", "=", $request->get("id"))
                                   ->where("remember_token", "=", $request->get("remember"))

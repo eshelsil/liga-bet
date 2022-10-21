@@ -20,7 +20,7 @@ class BetGroupRank extends AbstractBet
 
     protected function setRequest()
     {
-        $this->request = new BetGroupRankRequest($this->group, $this->bet->getData());
+        $this->request = new BetGroupRankRequest($this->group, $this->bet->tournament, $this->bet->getData());
     }
 
     protected function setEntity($group = null)

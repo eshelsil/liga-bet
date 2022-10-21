@@ -82,7 +82,7 @@ class Crawler
             'result_home'  => $result_home,
             'result_away'  => $result_away,
             'is_done' => $is_done,
-            'ko_winner' => $ko_winner
+            'ko_winner_external_id' => $ko_winner
         ];
     }
     private function apiCall($additional_path, $addCompetitionPrefix = true)

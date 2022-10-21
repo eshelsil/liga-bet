@@ -13,7 +13,7 @@ function SpecialBetsConfig(formProps: ScoreConfigFormProps){
 	return (
 		<div className='LigaBet-SpecialBetsConfig'>
 			<SectionTitle
-				title={'ניקוד על שאלות מיוחדרות'}
+				title={'ניקוד על שאלות מיוחדות'}
 				tooltipContent={'explanation'}
 			/>
 			<RoadToFinalConfig {...formProps} />
