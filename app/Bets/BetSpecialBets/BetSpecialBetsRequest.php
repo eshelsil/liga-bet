@@ -38,7 +38,6 @@ class BetSpecialBetsRequest extends AbstractBetRequest
         parent::__construct($specialBet, $tournament, $data);
         $this->answer   = $data["answer"];
         $this->utl      = $data["utl"];
-        parent::__construct($specialBet, $data);
     }
 
     public function toJson() {
@@ -87,7 +86,7 @@ class BetSpecialBetsRequest extends AbstractBetRequest
                 $this->validatePlayerSelection($answer);
                 break;
             default:
-                throw new InvalidArgumentException("Invalid SpecialBet name \"{$this->name}\"");
+                throw new InvalidArgumentException("Invalid SpecialBet type \"{$specialBet->type}\"");
         }
     }
 
@@ -187,11 +186,11 @@ class BetSpecialBetsRequest extends AbstractBetRequest
 
     public function calculateOffensiveTeam()
     {
-        if (!$players = $this->getSpecialBet()->answer) {
+        if (!$teams = $this->getSpecialBet()->answer) {
             return null;
         }
 
-        if (!in_array($this->answer, explode(",", $players))) {
+        if (!in_array($this->answer, explode(",", $teams))) {
             return 0;
         }
 
@@ -201,26 +200,27 @@ class BetSpecialBetsRequest extends AbstractBetRequest
     public function calcRoadToFinal(string $type): int
     {
         $koGames = $this->tournament->competition->getKnockoutGames($this->answer);
-        if ($koGames->isEmpty()) {
-            return 0;
-        }
 
-        /** @var ?Game $final */
-        if ($final = $koGames->firstWhere("sub_type", GameSubTypes::FINAL)) {
-            return $final->getKnockoutWinner() == $this->answer ?
-                $this->getScoreConfig("specialBets.{$type}.winning") :
-                $this->getScoreConfig("specialBets.{$type}.final");
-        }
-
-        if ($koGames->contains("sub_type", GameSubTypes::SEMI_FINALS)) {
-            return $this->getScoreConfig("specialBets.{$type}.semiFinal");
-        }
+        $score = 0;
 
         if ($koGames->contains("sub_type", GameSubTypes::QUARTER_FINALS)) {
-            return $this->getScoreConfig("specialBets.{$type}.quarterFinal");
+            $score += $this->getScoreConfig("specialBets.{$type}.quarterFinal");
+
+            if ($koGames->contains("sub_type", GameSubTypes::SEMI_FINALS)) {
+                $score += $this->getScoreConfig("specialBets.{$type}.semiFinal");
+
+                /** @var ?Game $final */
+                if ($final = $koGames->firstWhere("sub_type", GameSubTypes::FINAL)) {
+                    $score += $this->getScoreConfig("specialBets.{$type}.final");
+
+                    if ($final->getKnockoutWinner() == $this->answer) {
+                        $score += $this->getScoreConfig("specialBets.{$type}.winning");
+                    }
+                }
+            }
         }
 
-        return 0;
+        return $score;
     }
 
     public function calcTopScorer()

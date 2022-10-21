@@ -25,38 +25,13 @@ class UpdateCompetitionScorers
     {
         $scorers = $competition->getCrawler()->fetchScorers();
 
-        $relevantScorers = $competition->players;
-        $saveFirstAnyway = $competition->isDone();
-
-        $mostGoals = null;
-        foreach ($scorers as $index => $scorer){
+        $relevantScorers = $competition->players->keyBy("external_id");
+        foreach ($scorers as $scorer){
             $id = data_get($scorer, 'player.id');
-            if (!$relevantScorers->pluck('external_id')->contains($id)) {
-                if (!$saveFirstAnyway) {
-                    continue;
-                }
-
-                if ($index == 0){
-                    $mostGoals = data_get($scorer, 'numberOfGoals');
-                } else if (data_get($scorer, 'numberOfGoals') !== $mostGoals) {
-                    $saveFirstAnyway = false;
-                    continue;
-                }
-
-                $scorerModel = new Player();
-                $scorerModel->external_id = $id;
-                $scorerModel->name = data_get($scorer, 'player.name');
-                $team = Team::where('external_id', data_get($scorer, 'team.id'))->first();
-                $scorerModel->team_id = $team->id;
-                $relevantScorers->push($scorerModel);
-            }
-
             $goals = data_get($scorer, 'numberOfGoals');
-            $scorerModel = $relevantScorers->where('external_id', $id)->first();
-            if ($goals !== $scorerModel->goals){
-                $scorerModel->goals = $goals;
-                $scorerModel->save();
-            }
+            $scorerModel = $relevantScorers->get($id);
+            $scorerModel->goals = $goals;
+            $scorerModel->save();
         }
 
         $answer = $competition->getTopScorersIds()->join(",") ?: null;

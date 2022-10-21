@@ -37,10 +37,8 @@ class Controller extends BaseController
     {
         $request = Request::instance();
         if (!$this->user) {
-            Log::debug("[Controller][".static::class."][__construct] Received request {{$request->get("id")}}{{$request->get("remember")}}!");
 
             $this->user = Auth::user();
-            Log::debug("[Controller][".static::class."][__construct] still here!");
             if (!$this->user) {
                 $this->user = User::where("id", "=", $request->get("id"))
                                   ->where("remember_token", "=", $request->get("remember"))

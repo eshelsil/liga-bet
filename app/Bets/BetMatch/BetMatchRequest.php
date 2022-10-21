@@ -104,11 +104,15 @@ class BetMatchRequest extends AbstractBetRequest
         if ($this->getGame()->isKnockout()) {
             $score = $this->calculateKnockout("knockout");
 
-            $score += match ($this->getGame()->sub_type) {
-                GameSubTypes::FINAL       => $this->calculateKnockout("knockout.bonuses.final"),
-                GameSubTypes::SEMI_FINALS => $this->calculateKnockout("knockout.bonuses.semiFinal"),
-                default => 0
+            $type = match ($this->getGame()->sub_type) {
+                GameSubTypes::FINAL          => "final",
+                GameSubTypes::SEMI_FINALS    => "semiFinal",
+                GameSubTypes::QUARTER_FINALS => "quarterFinal",
+                GameSubTypes::LAST_16        => "last16",
+                GameSubTypes::LAST_32        => "last32",
+                default                      => "empty"
             };
+            $score += $this->calculateKnockout("knockout.bonuses.$type");
         } else {
             $score = $this->calculate90Minutes("groupStage");
         }
