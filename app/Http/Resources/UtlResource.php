@@ -20,9 +20,11 @@ class UtlResource extends JsonResource
         return [
             "id"              => $utl->id,
             "user_id"         => $utl->user_id,
-            "tournament"      => $utl->tournament,
+            "tournament"      => new TournamentResource($utl->tournament),
             "role"            => $utl->role,
             "name"            => $utl->name,
+            "createdAt"       => $utl->created_at,
+            "updatedAt"       => $utl->updated_at,
         ];
     }
 }

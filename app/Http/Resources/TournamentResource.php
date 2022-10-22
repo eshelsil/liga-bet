@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use App\Tournament;
-use App\TournamentUser;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TournamentResource extends JsonResource
@@ -21,11 +20,13 @@ class TournamentResource extends JsonResource
         return [
             "id"              => $t->id,
             "name"            => $t->name,
-            "competition_id"  => $t->competition_id,
-            "created_at"      => $t->created_at,
+            "competitionId"   => $t->competition_id,
             "status"          => $t->status,
             "config"          => $t->config,
-            "creator_user_id" => $t->creator_user_id,
+            "creatorUserId"   => $t->creator_user_id,
+            "code"            => $t->code,
+            "createdAt"       => $t->created_at,
+            "updatedAt"       => $t->updated_at,
         ];
     }
 }
