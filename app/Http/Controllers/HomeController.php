@@ -55,47 +55,6 @@ class HomeController extends Controller
         Cache::put("TOURNAMENT_SUMMARY_MESSAGE". ":u_id:" . $user_id, "seen", now()->addMinutes(60));
     }
 
-    private function getSummaryMessage($rankTable)
-    {   
-
-        if ( !Game::isTournamentDone() || !SpecialBet::hasAllCustomAnswers()){
-            return null;
-        }
-        $user_id = Auth::user()->id;
-        if (Cache::get("TOURNAMENT_SUMMARY_MESSAGE". ":u_id:" . $user_id)){
-            return null;
-        }
-        $user_row = collect($rankTable)->first(function($row) use($user_id){
-            return $row->id == $user_id;
-        });
-        if (!$user_row){
-            return null;
-        }
-        $rank = $user_row->rank;
-        if ($rank == 1){
-            return "winner";
-        } else if ($rank == 2){
-            return "runner_up";
-        } else if ($rank == 3){
-            return "3rd";
-        } else if ($rank == 4){
-            return "4th";
-        } else if ($rank == 5){
-            return "almost_money";
-        } else if (5 < $rank && $rank <= 7){
-            return "bottom_of_top";
-        } else if (7 < $rank && $rank <= 11){
-            return "middle";
-        } else if (11 < $rank && $rank <= 14){
-            return "top_of_bottom";
-        } else if ($rank == 15){
-            return "almost_last";
-        } else if ($rank == 16){
-            return "last";
-        }
-        return null;
-    }
-
     public function showTodayMatches()
     {
         $matches = Game::orderBy("start_time")

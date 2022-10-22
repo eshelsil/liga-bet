@@ -13,15 +13,12 @@ use App\SpecialBets\SpecialBet;
 
 class CalculateSpecialBets
 {
-    public function execute(int $competitionId, $types = null) {
+    public function execute(int $competitionId, int $type, $answer = null) {
         // TODO: SpecialBet -> Eloquent. add competitionId
         // ->where("competition_id", $competition->id)
-        SpecialBet::all()->each(function(SpecialBet $specialBet) use ($types, $competitionId) {
-            if ($types && !in_array($specialBet->type, $types)) {
-                return;
-            }
-            $specialBet->calculateBets($competitionId);
-        });
+        SpecialBet::all()->where("type", $type)
+            ->when($answer, fn(SpecialBet $specialBet) => $specialBet->update(["answer" => $answer]))
+            ->each(fn(SpecialBet $specialBet) => $specialBet->calculateBets($competitionId));
 
         return "completed";
     }

@@ -4,7 +4,7 @@ namespace App;
 
 use App\DataCrawler\Crawler;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * App\Competition
@@ -83,6 +83,11 @@ class Competition extends Model
         return $this->games->where('type', 'knockout')
                            ->firstWhere('sub_type', 'FINAL');
     }
+    public function getKnockoutGames(?int $teamId = null): Collection
+    {
+        return $this->games->where('type', 'knockout')
+            ->when($teamId, fn(Game $g) => in_array($teamId, [$g->team_home_id, $g->team_away_id]));
+    }
 
     public function isDone() {
         $final = $this->getFinalGame();
@@ -126,5 +131,39 @@ class Competition extends Model
         $startTime = $this->getTournamentStartTime();
         $lockBeforeSecs = config('bets.lockBetsBeforeTournamentSeconds');
         return $startTime - $lockBeforeSecs > time();
+    }
+
+    public function getOffensiveTeams(){
+        $matches = $this->getGroupStageGamesIfStageDone();
+        if (!$matches) {
+            return collect();
+        }
+
+        $gsByTeamId = [];
+        foreach ($matches as $match) {
+            foreach($match->getGoalsData() as $teamId => $gs){
+                if (!array_key_exists($teamId, $gsByTeamId)){
+                    $gsByTeamId[$teamId] = 0;
+                }
+                $gsByTeamId[$teamId] += $gs;
+            }
+        }
+
+        $maxGoals = max(array_values($gsByTeamId));
+
+        return collect($gsByTeamId)
+            ->filter(fn($goalsScored, $teamId) => $goalsScored == $maxGoals)
+            ->keys();
+    }
+
+    public function getTopScorersIds()
+    {
+        if (!$this->isDone()) {
+            return collect();
+        }
+
+        $maxGoals = $this->players->max("goals") ?? -1; // -1 for Empty, means not ready. do not keep null to not try to recalculate?
+
+        return $this->players->where("goals", $maxGoals)->pluck("id");
     }
 }

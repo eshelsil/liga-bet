@@ -3,7 +3,11 @@
 namespace App\Bets\BetSpecialBets;
 
 use App\Bets\AbstractBetRequest;
+use App\Bets\BetableInterface;
+use App\Enums\GameSubTypes;
+use App\Game;
 use App\SpecialBets\SpecialBet;
+use App\Tournament;
 use App\TournamentUser;
 use Illuminate\Support\Facades\Log;
 use App\Player;
@@ -12,6 +16,7 @@ use App\Bet;
 use App\Enums\BetTypes;
 use Illuminate\Support\Facades\Validator;
 use App\Exceptions\JsonException;
+use InvalidArgumentException;
 
 class BetSpecialBetsRequest extends AbstractBetRequest
 {
@@ -29,10 +34,10 @@ class BetSpecialBetsRequest extends AbstractBetRequest
      * @param SpecialBet $specialBet
      * @param array $data
      */
-    public function __construct($specialBet, $data = []) {
+    public function __construct(BetableInterface $specialBet, Tournament $tournament, array $data = []) {
+        parent::__construct($specialBet, $tournament, $data);
         $this->answer   = $data["answer"];
         $this->utl      = $data["utl"];
-        parent::__construct($specialBet, $data);
     }
 
     public function toJson() {
@@ -58,9 +63,8 @@ class BetSpecialBetsRequest extends AbstractBetRequest
     protected function validateAnswer($specialBet, $answer) {
         switch ($specialBet->type) {
             case SpecialBet::TYPE_MVP:
-                $this->validatePlayerSelection($answer);
-                break;
             case SpecialBet::TYPE_MOST_ASSISTS:
+                $this->validatePlayerSelection($answer);
                 $this->validatePlayerSelection($answer);
                 break;
             case SpecialBet::TYPE_OFFENSIVE_TEAM:
@@ -82,23 +86,23 @@ class BetSpecialBetsRequest extends AbstractBetRequest
                 $this->validatePlayerSelection($answer);
                 break;
             default:
-                throw new InvalidArgumentException("Invalid SpecialBet name \"{$this->name}\"");
+                throw new InvalidArgumentException("Invalid SpecialBet type \"{$specialBet->type}\"");
         }
     }
 
     protected function validateCustomInput($answer) {
         $validator = Validator::make(["answer" => $answer], [
             'answer' => 'required|string|min:4',
-        ]);
+        ])->validate();
     }
 
 
     protected function validateTeamSelection($answer) {
         $validator = Validator::make(["answer" => $answer], [
             'answer' => 'required|integer',
-        ]);
-        $teamIds = static::getTeamIds();
-        if (!in_array($answer, $teamIds)){
+        ])->validate();
+
+        if (!$this->tournament->competition->teams->contains($answer)){
             throw new \InvalidArgumentException("Team id {{$answer}} does not exist.");
         }
     }
@@ -115,29 +119,13 @@ class BetSpecialBetsRequest extends AbstractBetRequest
 
         return $bet->getAnswer() == $answer;
     }
-
     public function validatePlayerSelection($answer) {
         $validator = Validator::make(["answer" => $answer], [
             'answer' => 'required|integer',
         ]);
-        $playerIds = static::getPlayerIds();
-        if (!in_array($answer, $playerIds)){
+        if (!$this->tournament->competition->players->contains($answer)){
             throw new \InvalidArgumentException("Scorers table has no player with id \"{{$answer}}\"");
         }
-    }
-
-    public static function getPlayerIds() {
-        if (static::$playerIds){
-            return static::$playerIds;
-        }
-        return static::$playerIds = Player::all(['id'])->pluck('id')->toArray();
-    }
-
-    public static function getTeamIds() {
-        if (static::$teamIds){
-            return static::$teamIds;
-        }
-        return static::$teamIds = Team::all(['id'])->pluck('id')->toArray();
     }
 
     public function getSpecialBet()
@@ -145,15 +133,17 @@ class BetSpecialBetsRequest extends AbstractBetRequest
         return $this->specialBet;
     }
 
-    /**
-     * @return int
-     */
-    public function getAnswer() {
-        return $this->answer;
-    }
-
-    public function calculate($irrelevant = null) {
-        return $this->getEntity()->calculateScore($this->getAnswer());
+    public function calculate($irrelevant = null): ?int
+    {
+        return match ($this->getEntity()->type) {
+            SpecialBet::TYPE_MVP => $this->calcMVP(),
+            SpecialBet::TYPE_MOST_ASSISTS => $this->calcTopAssists(),
+            SpecialBet::TYPE_OFFENSIVE_TEAM => $this->calculateOffensiveTeam(),
+            SpecialBet::TYPE_WINNER => $this->calcRoadToFinal("winner"),
+            SpecialBet::TYPE_RUNNER_UP => $this->calcRoadToFinal("runnerUp"),
+            SpecialBet::TYPE_TOP_SCORER => $this->calcTopScorer(),
+            default => throw new InvalidArgumentException("Invalid SpecialBet name \"{$this->getEntity()->type}\""),
+        };
     }
 
 
@@ -166,5 +156,84 @@ class BetSpecialBetsRequest extends AbstractBetRequest
     public function getEntity()
     {
         return $this->getSpecialBet();
+    }
+
+    public function calcMVP()
+    {
+        if (!$mvp = $this->getSpecialBet()->answer) {
+            return null;
+        }
+
+        if ($this->answer != $mvp) {
+            return 0;
+        }
+
+        return $this->getScoreConfig("specialBets.mvp");
+    }
+
+    public function calcTopAssists()
+    {
+        if (!$players = $this->getSpecialBet()->answer) {
+            return null;
+        }
+
+        if (!in_array($this->answer, explode(",", $players))) {
+            return 0;
+        }
+
+        return $this->getScoreConfig("specialBets.topAssists");
+    }
+
+    public function calculateOffensiveTeam()
+    {
+        if (!$teams = $this->getSpecialBet()->answer) {
+            return null;
+        }
+
+        if (!in_array($this->answer, explode(",", $teams))) {
+            return 0;
+        }
+
+        return $this->getScoreConfig("specialBets.offensiveTeam");
+    }
+
+    public function calcRoadToFinal(string $type): int
+    {
+        $koGames = $this->tournament->competition->getKnockoutGames($this->answer);
+
+        $score = 0;
+
+        if ($koGames->contains("sub_type", GameSubTypes::QUARTER_FINALS)) {
+            $score += $this->getScoreConfig("specialBets.{$type}.quarterFinal");
+
+            if ($koGames->contains("sub_type", GameSubTypes::SEMI_FINALS)) {
+                $score += $this->getScoreConfig("specialBets.{$type}.semiFinal");
+
+                /** @var ?Game $final */
+                if ($final = $koGames->firstWhere("sub_type", GameSubTypes::FINAL)) {
+                    $score += $this->getScoreConfig("specialBets.{$type}.final");
+
+                    if ($final->getKnockoutWinner() == $this->answer) {
+                        $score += $this->getScoreConfig("specialBets.{$type}.winning");
+                    }
+                }
+            }
+        }
+
+        return $score;
+    }
+
+    public function calcTopScorer()
+    {
+        $score = 0;
+        $player = $this->tournament->competition->players->find($this->answer);
+        $score += $player->goals * $this->getScoreConfig("specialBets.topScorer.eachGoal");
+
+        $players = $this->getSpecialBet()->answer;
+        if ($players && in_array($this->answer, explode(",", $players))) {
+            $score += $this->getScoreConfig("specialBets.topScorer.correct");
+        }
+
+        return $score;
     }
 }

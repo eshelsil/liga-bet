@@ -173,22 +173,6 @@
                                         <div class="col-xs-4 pull-right col-no-padding">הימור</div>
                                         <div class="col-xs-4 pull-right col-no-padding">תוצאה</div>
                                     </li>
-                                @foreach($specialBets->sortBy("type_id") as $bet)
-                                    <?php
-                                    $specialBet = \App\SpecialBets\SpecialBet::find($bet->type_id);
-                                    $betDescription = $specialBet->formatDescription($bet->getData("answer"));
-                                    $answer = $specialBet->getAnswer();
-                                    $resultDescription = $specialBet->formatDescription($answer);
-                                    ?>
-                                    <li class="list-group-item row flex-row col-no-padding" style="padding-right: 10px;">
-                                        <div class="col-xs-1 pull-right col-no-padding">{{ $bet->score }}</div>
-                                        <div class="col-xs-3 pull-right col-no-padding">{{ $specialBet->title }}</div>
-                                        <div class="col-xs-4 pull-right col-no-padding">{!! $betDescription !!}</div>
-                                        <div class="col-xs-4 pull-right col-no-padding">
-                                            <div>{!! $resultDescription !!}</div>
-                                        </div>
-                                    </li>
-                                @endforeach
                                 </ul>
                             </div>
                         </div>

@@ -42,12 +42,12 @@ class BetMatch extends AbstractBet
 
     protected function setRequest()
     {
-        $this->request = new BetMatchRequest($this->match, $this->bet->getData());
+        $this->request = new BetMatchRequest($this->match, $this->bet->tournament, $this->bet->getData());
     }
 
     public function switchScore()
     {
-        $this->request = new BetMatchRequest($this->match, ["result-home" => $this->request->getResultAway(), "result-away" => $this->request->getResultHome()]);
+        $this->request = new BetMatchRequest($this->match, $this->bet->tournament, ["result-home" => $this->request->getResultAway(), "result-away" => $this->request->getResultHome()]);
         $this->bet->data = $this->request->toJson();
         $this->bet->save();
     }

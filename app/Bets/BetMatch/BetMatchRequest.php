@@ -4,28 +4,31 @@ namespace App\Bets\BetMatch;
 
 use App\Bets\AbstractBetRequest;
 use App\Bets\BetableInterface;
+use App\Enums\GameSubTypes;
 use App\Exceptions\JsonException;
 use App\Game;
+use App\Tournament;
 use Illuminate\Support\Facades\Log;
 
 class BetMatchRequest extends AbstractBetRequest
 {
-    protected $match = null;
-    protected $resultHome = null;
-    protected $resultAway = null;
+    protected Game $game;
+    protected ?string $koWinnerSide;
+    protected int $resultHome;
+    protected int $resultAway;
 
     /**
      * BetMatchRequest constructor.
      *
-     * @param Game  $match
+     * @param Game  $game
      * @param array $data
      */
-    public function __construct($match, $data = []) {
-        parent::__construct($match, $data);
+    public function __construct(BetableInterface $game, Tournament $tournament, array $data = []) {
+        parent::__construct($game, $tournament, $data);
         $this->resultHome = data_get($data, "result-home");
         $this->resultAway = data_get($data, "result-away");
         $this->koWinnerSide = null;
-        if ($this->match->isKnockout() ){
+        if ($this->game->isKnockout() ){
             $this->koWinnerSide = data_get($data, "winner_side");
         }
     }
@@ -51,7 +54,7 @@ class BetMatchRequest extends AbstractBetRequest
             throw new \InvalidArgumentException($resultHome);
         }
         if ($game->isKnockout()){
-            $koWinnerSide = data_get($data, "winner_side", null);
+            $koWinnerSide = data_get($data, "winner_side");
             if ((int)$resultAway == (int)$resultHome && !in_array($koWinnerSide, ["home", "away"])){
                 $paramString = is_null($koWinnerSide) ? "null" : $koWinnerSide;
                 throw new \InvalidArgumentException("Knockout Bet's \"winner_side\" parameter must be one of [\"away\", \"home\"] if score is tied. <br>Got: {$paramString}");
@@ -62,9 +65,9 @@ class BetMatchRequest extends AbstractBetRequest
     /**
      * @return Game
      */
-    public function getMatch(): ?Game
+    public function getGame(): ?Game
     {
-        return $this->match;
+        return $this->game;
     }
 
     /**
@@ -94,33 +97,24 @@ class BetMatchRequest extends AbstractBetRequest
     }
 
     /**
-     * @param BetMatchRequest $request
-     *
-     * @return int|mixed
+     * @return int
      */
-    public function calculate(AbstractBetRequest $request)
+    public function calculate()
     {
-        $score = 0;
-        
-        if ($request->getResultHome() == $this->getResultHome()
-            && $request->getResultAway() == $this->getResultAway()) {
-            $score += $this->getMatch()->getScore("score");
-        }
-        
-        $match = $this->getMatch();
-        $is_1x2_success = ($request->getResultHome() == $request->getResultAway()
-            && $this->getResultHome() == $this->getResultAway()) // Teko
-            || ($request->getResultHome() > $request->getResultAway()
-            && $this->getResultHome() > $this->getResultAway()) // Winner Home
-            || ($request->getResultHome() < $request->getResultAway()
-            && $this->getResultHome() < $this->getResultAway()); // Winner Away
-        if ($is_1x2_success) {
-            $score += $match->getScore("1X2");
-        }
-        if ($match->isKnockout()){
-            if ($this->getWinnerSide() == $match->getKnockoutWinnerSide()) {
-                $score += $match->getScore("winner");
-            }
+        if ($this->getGame()->isKnockout()) {
+            $score = $this->calculateKnockout("knockout");
+
+            $type = match ($this->getGame()->sub_type) {
+                GameSubTypes::FINAL          => "final",
+                GameSubTypes::SEMI_FINALS    => "semiFinal",
+                GameSubTypes::QUARTER_FINALS => "quarterFinal",
+                GameSubTypes::LAST_16        => "last16",
+                GameSubTypes::LAST_32        => "last32",
+                default                      => "empty"
+            };
+            $score += $this->calculateKnockout("knockout.bonuses.$type");
+        } else {
+            $score = $this->calculate90Minutes("groupStage");
         }
 
         return $score;
@@ -128,7 +122,7 @@ class BetMatchRequest extends AbstractBetRequest
 
     protected function setEntity($entity = null)
     {
-        $this->match = $entity;
+        $this->game = $entity;
     }
 
     /**
@@ -136,6 +130,44 @@ class BetMatchRequest extends AbstractBetRequest
      */
     public function getEntity()
     {
-        return $this->match;
+        return $this->game;
+    }
+
+    protected function calculate90Minutes(string $type): int
+    {
+        $game = $this->getGame();
+        $resultHome = $game->result_home;
+        $resultAway = $game->result_away;
+
+        $score = 0;
+        if ($resultHome == $this->getResultHome() && $resultAway == $this->getResultAway()) {
+            $score += $this->getScoreConfig("gameBets.{$type}.result");
+        }
+
+        if ($this->is1X2Success($resultHome, $resultAway)) {
+            $score += $this->getScoreConfig("gameBets.{$type}.winnerSide");
+        }
+
+        return $score;
+    }
+
+    protected function is1X2Success(int $resultHome, int $resultAway): bool
+    {
+        return
+            ($resultHome == $resultAway && $this->getResultHome() == $this->getResultAway()) // Teko
+            || ($resultHome > $resultAway && $this->getResultHome() > $this->getResultAway()) // Winner Home
+            || ($resultHome < $resultAway && $this->getResultHome() < $this->getResultAway()); // Winner Away
+    }
+
+    protected function calculateKnockout(string $type): int
+    {
+        $game = $this->getGame();
+        $score = $this->calculate90Minutes($type);
+
+        if ($this->getWinnerSide() == $game->getKnockoutWinnerSide()) {
+            $score += $this->getScoreConfig("gameBets.{$type}.qualifier");
+        }
+
+        return $score;
     }
 }

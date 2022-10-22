@@ -76,7 +76,7 @@ class BetsController extends Controller
             ->where("tournament_id", $tournament->id)
             ->whereIn("type", [BetTypes::GroupsRank, BetTypes::SpecialBet])
             ->get();
-        
+
         $formattedBets = $this->formatBets($bets, $tournament->competition, $request);
 
         return new JsonResponse($formattedBets->keyBy('id'), 200);
@@ -101,6 +101,7 @@ class BetsController extends Controller
                     }
                     $betRequest = new BetMatchRequest(
                         $game,
+                        $utl->tournament,
                         $betInput->data
                     );
                     $bets[] = BetMatch::save($utl, $betRequest);
@@ -111,6 +112,7 @@ class BetsController extends Controller
                     }
                     $betRequest = new BetGroupRankRequest(
                         Group::find($betInput->data["type_id"]),
+                        $utl->tournament,
                         $betInput->data["value"]
                     );
                     $bets[] = BetGroupRank::save($utl, $betRequest);
@@ -124,6 +126,7 @@ class BetsController extends Controller
                     $betRequestData = array_merge($betValue, $utlData);
                     $betRequest = new BetSpecialBetsRequest(
                         SpecialBet::find($betInput->data["type_id"]),
+                        $utl->tournament,
                         $betRequestData
                     );
                     $bets[] = BetSpecialBets::save($utl, $betRequest);
