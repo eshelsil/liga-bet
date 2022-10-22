@@ -36,8 +36,8 @@ class BetSpecialBetsRequest extends AbstractBetRequest
      */
     public function __construct(BetableInterface $specialBet, Tournament $tournament, array $data = []) {
         parent::__construct($specialBet, $tournament, $data);
-        $this->answer   = $data["answer"];
         $this->utl      = $data["utl"];
+        $this->answer   = $data["answer"];
     }
 
     public function toJson() {
@@ -56,11 +56,12 @@ class BetSpecialBetsRequest extends AbstractBetRequest
         if (is_null($answer)) {
             throw new \InvalidArgumentException("Could not parse \"answer\" from bet value");
         }
-        $this->validateAnswer($specialBet, $answer);
+        $utl      = $data["utl"];
+        $this->validateAnswer($specialBet, $answer, $utl);
         
     }
 
-    protected function validateAnswer($specialBet, $answer) {
+    protected function validateAnswer($specialBet, $answer, $utl) {
         switch ($specialBet->type) {
             case SpecialBet::TYPE_MVP:
             case SpecialBet::TYPE_MOST_ASSISTS:
@@ -72,13 +73,13 @@ class BetSpecialBetsRequest extends AbstractBetRequest
                 break;
             case SpecialBet::TYPE_WINNER:
                 $this->validateTeamSelection($answer);
-                if ($this->hasUserBet(SpecialBet::TYPE_RUNNER_UP, $answer)){
+                if ($this->hasUserBet(SpecialBet::TYPE_RUNNER_UP, $answer, $utl)){
                     throw new \InvalidArgumentException("Could not bet \"winner\" as {{$answer}} because user has already bet \"runner_up\" as {{$answer}}. 'winner' & 'runner_up' bets cannot be the same");
                 }
                 break;
             case SpecialBet::TYPE_RUNNER_UP:
                 $this->validateTeamSelection($answer);
-                if ($this->hasUserBet(SpecialBet::TYPE_WINNER, $answer)){
+                if ($this->hasUserBet(SpecialBet::TYPE_WINNER, $answer, $utl)){
                     throw new \InvalidArgumentException("Could not bet \"runner_up\" as {{$answer}} because user has already bet \"winner\" as {{$answer}}. 'winner' & 'runner_up' bets cannot be the same");
                 }
                 break;
@@ -107,8 +108,8 @@ class BetSpecialBetsRequest extends AbstractBetRequest
         }
     }
 
-    protected function hasUserBet($betName, $answer) {
-        $bet = $this->utl->bets
+    protected function hasUserBet($betName, $answer, $utl) {
+        $bet = $utl->bets
             ->where('type', BetTypes::SpecialBet)
             ->where('type_id', SpecialBet::getByType($betName)->id)
             ->first();
