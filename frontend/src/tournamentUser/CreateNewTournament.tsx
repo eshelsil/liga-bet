@@ -5,6 +5,7 @@ import {
     createNewTournament,
     fetchOwnedTournaments,
 } from '../_actions/tournament'
+import { createUtl } from '../_actions/tournamentUser'
 import { fetchAndStoreCompetitions } from '../_actions/competition'
 import { CreateNewTournamentSelector } from '../_selectors'
 import {
@@ -14,13 +15,13 @@ import {
     RadioGroup,
     TextField,
 } from '@mui/material'
+import useGoTo from '../hooks/useGoTo'
 
 interface Props {
     onCreateUtl: (...args: any) => any
     createNewTournament: (...args: any) => any
     fetchOwnedTournaments: (...args: any) => any
     fetchAndStoreCompetitions: (...args: any) => any
-    goBack: () => void
     competitionsById: CompetitionsById
     tournamentWithNoUtl?: Tournament
 }
@@ -28,7 +29,6 @@ interface Props {
 function CreateNewTournament({
     onCreateUtl,
     createNewTournament,
-    goBack,
     competitionsById,
     tournamentWithNoUtl,
     fetchAndStoreCompetitions,
@@ -37,6 +37,7 @@ function CreateNewTournament({
     const [nickname, setNickname] = useState('')
     const [name, setName] = useState('')
     const [competition, setCompetition] = useState<number>()
+    const { goToHome } = useGoTo();
 
     function createTournament() {
         createNewTournament({ competitionId: competition, name })
@@ -45,6 +46,10 @@ function CreateNewTournament({
         onCreateUtl({
             tournamentCode: tournamentWithNoUtl?.code,
             name: nickname,
+        })
+        .then(() => {
+            window['toastr']['success']('הטורניר נוצר!')
+            goToHome()
         })
     }
 
@@ -64,7 +69,6 @@ function CreateNewTournament({
                         onChange={(e) => setNickname(e.target.value)}
                     />
                     <Button onClick={createUtl}>המשך</Button>
-                    <Button onClick={goBack}>חזור</Button>
                 </>
             )}
             {!tournamentWithNoUtl && (
@@ -93,7 +97,6 @@ function CreateNewTournament({
                     </div>
                     <div>
                         <Button onClick={createTournament}>צור טורניר</Button>
-                        <Button onClick={goBack}>חזור</Button>
                     </div>
                 </>
             )}
@@ -105,6 +108,7 @@ const mapDispatchToProps = {
     createNewTournament,
     fetchAndStoreCompetitions,
     fetchOwnedTournaments,
+    onCreateUtl: createUtl,
 }
 
 export default connect(

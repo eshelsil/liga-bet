@@ -12,8 +12,6 @@ import Takanon from '../takanon/Takanon';
 import TournamentUserController from '../tournamentUser/TournamentUserController';
 import InitialDataFetcher from '../initialDataFetcher/InitialDataFetcher';
 import ManageContestantsProvider from '../manageContestants/ManageContestantsProvider';
-import UTLPage from '../myUTL';
-import ManageUsers from '../manageUsers';
 import OpenQuestionBets from '../openQuestionBets/OpenQuestionBetsProvider';
 import TournamentConfig from '../tournamentConfig';
 
@@ -23,8 +21,6 @@ function AppContent() {
             <InitialDataFetcher>
                 <Switch>
                     <Route path='/open-questions' component={OpenQuestionBets} />
-                    <Route path='/utl' component={UTLPage} />
-                    <Route path='/admin/users' component={ManageUsers} />
                     <Route path='/contestants' component={ManageContestantsProvider} />
                     <Route path='/takanon' component={Takanon} />
                     <Route path='/tournament-config' component={TournamentConfig} />

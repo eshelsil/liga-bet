@@ -7,13 +7,17 @@ function useGoTo() {
     const goToUserPage = () => history.push('/user')
     const goToUtlPage = () => history.push('/utl')
     const goToMyBets = () => history.push('/my-bets')
-    const goToChooseUtl = () => history.push('/choose-tournament')
+    const goToJoinTournament = () => history.push('/join-tournament')
+    const goToCreateTournament = () => history.push('/create-tournament')
+    const goToHome = () => history.push('/')
 
     return {
         goToUserPage,
         goToUtlPage,
         goToMyBets,
-        goToChooseUtl,
+        goToJoinTournament,
+        goToCreateTournament,
+        goToHome,
     }
 }
 

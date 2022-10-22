@@ -13,6 +13,8 @@ export interface UtlBase {
     id: number
     name: string
     role: UtlRole
+    createdAt?: Date
+    updatedAt?: Date
 }
 
 export interface UTL extends UtlBase {

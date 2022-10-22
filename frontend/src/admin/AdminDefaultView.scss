@@ -1,0 +1,13 @@
+@import '../styles/mixins';
+
+.LigaBet-AdminDefaultView {
+    padding: 16px;
+    flex-direction: column;
+    @include centerContainer;
+    .buttonsContainer{
+        .MuiButton-root {
+            margin-top: 36px;
+            display: block;
+        }
+    }
+}
