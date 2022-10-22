@@ -39,7 +39,6 @@ function ScoreConfig({
 
 
 	const submit = async (params: TournamentScoreConfig) => {
-		console.log('params', params);
 		await updateConfig(params)
 		.then(() => {
 			(window as any).toastr["success"]('ההגדרות הניקוד עודכנו בהצלחה');

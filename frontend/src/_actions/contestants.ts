@@ -1,16 +1,22 @@
 import { AppDispatch, GetRootState } from '../_helpers/store'
-import { UTLsById } from '../types'
 import contestantsSlice from '../_reducers/contestants'
 import { fetchContestants } from '../api/contestants'
-import { TournamentIdSelector } from '../_selectors'
+import { Contestants, TournamentIdSelector } from '../_selectors'
+import { generateInitCollectionAction } from './utils'
+import { CollectionName } from '../types/dataFetcher'
 
 function fetchAndStoreContestants() {
-    return (dispatch: AppDispatch, getState: GetRootState) => {
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
         const tournamentId = TournamentIdSelector(getState())
-        return fetchContestants(tournamentId).then((utls: UTLsById) => {
-            dispatch(contestantsSlice.actions.set(utls))
-        })
+        const utls = await fetchContestants(tournamentId)
+        dispatch(contestantsSlice.actions.set({tournamentId, utls}))
     }
 }
 
-export { fetchAndStoreContestants }
+const initContestants = generateInitCollectionAction({
+    collectionName: CollectionName.Contestants,
+    selector: Contestants,
+    fetchAction: fetchAndStoreContestants,
+})
+
+export { fetchAndStoreContestants, initContestants }

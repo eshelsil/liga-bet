@@ -11,18 +11,14 @@ import TournamentMenuItems from './TournamentMenuItems'
 interface Props {
     currentUtl: UtlWithTournament
     isTournamentStarted: boolean
-    currentRoute: string
     currentUsername: string
-    deselectUtl: () => void
     openDialogChangePassword: () => void
 }
 
 function AppMenuMobile({
     isTournamentStarted,
     currentUtl,
-    currentRoute,
     currentUsername,
-    deselectUtl,
     openDialogChangePassword,
 }: Props) {
     const [menuOpen, setMenuOpen] = useState(false)
@@ -31,9 +27,10 @@ function AppMenuMobile({
     const closeMenuHandler = () => setMenuOpen(false)
 
 
-    return (<>
-            <Toolbar className="toolbar-mobile">
-                <Container className="mobile-container">
+    return (
+        <div  className="LigaBet-AppMenuMobile">
+            <Toolbar>
+                <Container className="mobileMenuHeader">
                     <IconButton
                         size="large"
                         aria-label="account of current user"
@@ -44,16 +41,14 @@ function AppMenuMobile({
                     >
                         {menuOpen ? <CloseIcon /> : <MenuIcon />}
                     </IconButton>
-                    <Typography variant="h5" className="app-name">
+                    <Typography variant="h5" className="appName">
                         ליגה ב'
                     </Typography>
                     <UserMenu
                         {
                             ...{
                                 currentUtl,
-                                currentRoute,
                                 currentUsername,
-                                deselectUtl,
                                 openDialogChangePassword,
                             }
                         }
@@ -61,20 +56,17 @@ function AppMenuMobile({
                 </Container>
             </Toolbar>
             {menuOpen && (
-                <Toolbar
-                    className="toolbar-mobile mobile-opened-menu"
-                >
-                    <Container className="toolbar-container-mobile">
+                <Toolbar className="expandSection">
+                    <Container className="toolbarContainer-mobile">
                         <TournamentMenuItems {...{
                             isTournamentStarted,
-                            currentRoute,
                             currentUtl,
-                            callback: closeMenuHandler,
+                            reRouteCallback: closeMenuHandler
                         }}/>
                     </Container>
                 </Toolbar>
             )}
-    </>
+        </div>
     )
 }
 

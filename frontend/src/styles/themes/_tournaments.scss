@@ -1,0 +1,44 @@
+@import '../colors';
+
+@function simple_gradient($light, $main) {
+	@return linear-gradient(
+		45deg,
+		$light 0%,
+		$main 100%
+	);
+}
+
+$tournament_1: (
+	light: $primary-light,
+	main: $primary-main,
+	dark: $primary-dark,
+	gradient: simple_gradient($primary-light, $primary-main),
+);
+
+$tournament_2: (
+	light: $purple-light,
+	main: $purple-main,
+	dark: $purple-dark,
+	gradient: simple_gradient($purple-light, $purple-main),
+);
+
+$tournament_3: (
+	light: $success-light,
+	main: $success-main,
+	dark: $success-dark,
+	gradient: simple_gradient($success-light, $success-main),
+);
+
+$tournament_4: (
+	light: $warning-light,
+	main: $warning-main,
+	dark: $warning-dark,
+	gradient: simple_gradient($warning-light, $warning-main),
+);
+
+$tournament_5: (
+	light: $error-light,
+	main: $error-main,
+	dark: $error-dark,
+	gradient: simple_gradient($error-light, $error-main),
+);

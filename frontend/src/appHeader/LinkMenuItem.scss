@@ -1,0 +1,9 @@
+.LigaBet-LinkMenuItem {
+  &.MuiMenuItem-root {
+    min-height: 0;
+    padding: 8px 16px;
+    color: white;
+    font-size: 16px;
+    justify-content: flex-start;
+  }
+}

@@ -1,47 +1,21 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import MenuItem from '@mui/material/MenuItem'
-import { Button, Menu } from '@mui/material'
+import PopupMenu, { PopupMenuProps } from '../widgets/Menu'
+import useActivePath from '../hooks/useActivePath'
 
-interface Props {
-    label: string | ReactNode
-    children: ReactNode
-    className?: string
+interface Props extends PopupMenuProps {
+    pathes?: string[]
+    isActive?: boolean
 }
 
-const DropMenuItem = ({ label, children, className }: Props) => {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
-    const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-        setAnchorEl(event.currentTarget)
-    }
-    const handleClose = () => {
-        setAnchorEl(null)
-    }
-
+function DropMenuItem({
+    pathes,
+    ...popupMenuProps
+}: Props) {
+    const isActive = useActivePath(pathes ?? [])
     return (
-        <MenuItem
-            id="menu-button"
-            className="drop-menu-item"
-            aria-controls={open ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            classes={{ root: className || '' }}
-        >
-            <div onClick={handleClick} className="label-wrapper">
-                {label}
-            </div>
-            <Menu
-                anchorEl={anchorEl}
-                open={!!anchorEl}
-                onClose={handleClose}
-                id="basic-menu"
-                MenuListProps={{
-                    'aria-labelledby': 'menu-button',
-                    className: 'menu',
-                    onClick: handleClose,
-                }}
-            >
-                {children}
-            </Menu>
+        <MenuItem className={`LigaBet-DropMenuItem ${isActive ? 'LB-ActivePathItem': ''}`}>
+            <PopupMenu {...popupMenuProps} />
         </MenuItem>
     )
 }

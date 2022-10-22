@@ -1,11 +1,11 @@
 import { getUserUTLs, joinTournament, leaveTournament } from '../api/users'
 import { updateMyUTL, PayloadUpdateMyUTL } from '../api/utls'
 import { AppDispatch, GetRootState } from '../_helpers/store'
-import { CurrentTournamentUserId, TournamentIdSelector } from '../_selectors'
-import { MyUtlsById, UtlWithTournament } from '../types'
+import { CurrentTournamentUserId, CurrentUser, TournamentIdSelector } from '../_selectors'
+import { MyUtlsById, User, UserPermissions, UtlWithTournament } from '../types'
 import tournamentUser from '../_reducers/tournamentUser'
 import utlsSlice from '../_reducers/myUtls'
-import { mapValues } from 'lodash'
+import { mapValues, minBy } from 'lodash'
 
 
 const fakeTournamentConfig = (utl) => ({
@@ -70,31 +70,56 @@ const fakeTournamentConfig = (utl) => ({
 })
 
 
-function selectFirstUserIfOnlyOne(
+function getDefaultUtlId(
   utlsById: MyUtlsById,
-  dispatch: AppDispatch
+  currentUser: User
 ){
   const utls = Object.values(utlsById);
-  if (utls.length === 1) {
-    dispatch(tournamentUser.actions.set({id: utls[0].id}))
+  if (utls.length === 0) {
+    return
   }
+  const lastStoredUtlId = localStorage.getItem('ligaBetSelectedUtl')
+  if (lastStoredUtlId){
+    const utl = utlsById[Number(lastStoredUtlId)];
+    if(utl) {
+      return utl.id
+    }
+  }
+  if (currentUser.permissions === UserPermissions.TournamentAdmin) {
+    const utlOfMyOwnTournament = utls.find(utl => utl.tournament.creatorUserId === currentUser.id);
+    if (utlOfMyOwnTournament) {
+      return utlOfMyOwnTournament.id
+    }
+    return
+  }
+  if (utls.length === 1) {
+    return utls[0].id
+  }
+  const firstUtl = minBy(utls, 'createdAt')
+  return firstUtl.id
 }
 
 function selectUtl(utlId: number) {
-    return tournamentUser.actions.set({ id: utlId })
+  localStorage.setItem('ligaBetSelectedUtl', JSON.stringify(utlId))
+  return tournamentUser.actions.set({ id: utlId })
 }
-
+  
 function resetUtlSelection() {
-    return tournamentUser.actions.reset()
+  localStorage.removeItem('ligaBetSelectedUtl')
+  return tournamentUser.actions.reset()
 }
 
 function fetchAndStoreUtls() {
-  return async (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch, getState: GetRootState) => {
       // const utlsById = await getUserUTLs();
       let utlsById = await getUserUTLs(); // for development
       utlsById = mapValues(utlsById, fakeTournamentConfig);
+      const currentUser = CurrentUser(getState());
       dispatch(utlsSlice.actions.set(utlsById));
-      selectFirstUserIfOnlyOne(utlsById, dispatch);
+      const utlIdToSelect = getDefaultUtlId(utlsById, currentUser);
+      if (utlIdToSelect){
+        dispatch(selectUtl(utlIdToSelect));
+      }
   }
 }
 
@@ -105,7 +130,7 @@ function createUtl({
     name: string
     tournamentCode: string
 }) {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
       return joinTournament({name, code: tournamentCode})
       .then( (utl: UtlWithTournament )=> {
         dispatch(utlsSlice.actions.setOne(fakeTournamentConfig(utl)));
@@ -126,6 +151,7 @@ function currentUtlLeaveTournament() {
         const tournamentId = TournamentIdSelector(getState())
         const currentUtlId = CurrentTournamentUserId(getState())
         await leaveTournament(tournamentId)
+        dispatch(resetUtlSelection())
         dispatch(utlsSlice.actions.remove(currentUtlId))
     }
 }

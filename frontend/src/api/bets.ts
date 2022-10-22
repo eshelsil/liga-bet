@@ -1,21 +1,20 @@
 import { BetApiModel, BetType, WinnerSide } from '../types'
+import { FetchGameBetsParams, GameBetsFetchType } from '../types/dataFetcher'
 import { sendApiRequest } from './common/apiRequest'
 
 type BetsApiResult = Record<number, BetApiModel>
 
-export const fetchMyBets = async (
-    tournamentId: number
-): Promise<BetsApiResult> => {
-    return await sendApiRequest({
-        url: `/api/tournaments/${tournamentId}/bets`,
-    })
-}
 
-export const fetchClosedMatchBets = async (
-    tournamentId: number
+export const fetchMatchBets = async (
+    tournamentId: number,
+    { type, ids }: FetchGameBetsParams,
 ): Promise<BetsApiResult> => {
+    let filterParam: string;
+    if (type === GameBetsFetchType.Users) filterParam = 'user_ids'
+    if (type === GameBetsFetchType.Games) filterParam = 'game_ids'
+    const queryString = `${filterParam}=${encodeURIComponent(JSON.stringify(ids))}`
     return await sendApiRequest({
-        url: `/api/tournaments/${tournamentId}/bets/games`,
+        url: `/api/tournaments/${tournamentId}/bets/games?${queryString}`,
     })
 }
 

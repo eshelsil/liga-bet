@@ -19,9 +19,9 @@ use App\Group;
 use App\Player;
 use App\SpecialBets\SpecialBet;
 use App\Exceptions\JsonException;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Psr\Log\InvalidArgumentException;
@@ -46,20 +46,30 @@ class BetsController extends Controller
 
         return new JsonResponse($formattedBets->keyBy('id'), 200);
     }
-
-    public function openGames(\Illuminate\Http\Request $request, $tournamentId)
+    public function visibleGameBets(\Illuminate\Http\Request $request, $tournamentId)
     {
+        $utl_ids_param = json_decode($request->input('utl_ids'));
+        $game_ids_param = json_decode($request->input('game_ids'));
         $utl = $this->getUser()->getTournamentUser($tournamentId);
         $tournament = $utl->tournament;
 
-        $openGameIds = $tournament->competition
-            ->games->filter(fn($game) => $game->isOpenForBets())
+        $gamesColsedForBetsIds = $tournament->competition
+            ->games->filter(fn($game) => !$game->isOpenForBets())
             ->pluck("id");
 
         $bets = Bet::query()
             ->where("tournament_id", $tournament->id)
             ->where("type", BetTypes::Game)
-            ->whereIn("type_id", $openGameIds)
+            ->where(function (Builder $q) use($gamesColsedForBetsIds, $utl) {
+                $q->whereIn("type_id", $gamesColsedForBetsIds)
+                ->orWhere('user_tournament_id', $utl->id);
+            })
+            ->when($utl_ids_param, function(Builder $q) use ($utl_ids_param) {
+                return $q->whereIn('user_tournament_id', $utl_ids_param);
+            })
+            ->when($game_ids_param, function(Builder $q) use ($game_ids_param) {
+                return $q->whereIn('type_id', $game_ids_param);
+            })
             ->get();
 
         $formattedBets = $this->formatBets($bets, $tournament->competition, $request);
@@ -67,14 +77,18 @@ class BetsController extends Controller
         return new JsonResponse($formattedBets->keyBy('id'), 200);
     }
 
-    public function primalBets(\Illuminate\Http\Request $request, $tournamentId)
+    public function visiblePrimalBets(\Illuminate\Http\Request $request, $tournamentId)
     {
         $utl = $this->getUser()->getTournamentUser($tournamentId);
         $tournament = $utl->tournament;
+        $areBetsOpen = $tournament->competition->areBetsOpen();
 
         $bets = Bet::query()
             ->where("tournament_id", $tournament->id)
             ->whereIn("type", [BetTypes::GroupsRank, BetTypes::SpecialBet])
+            ->when($areBetsOpen, function($q) use ($utl) {
+                $q->where('user_tournament_id', $utl->id);
+            })
             ->get();
 
         $formattedBets = $this->formatBets($bets, $tournament->competition, $request);
@@ -165,7 +179,7 @@ class BetsController extends Controller
         // Validate all Matchs has teams and no scores
         if (isset($betsTypeGrouped[BetTypes::Game])) {
             $notAllowedMatches = Game::query()->whereIn("id", $betsTypeGrouped[BetTypes::Game])
-                                     ->where(function(\Illuminate\Database\Eloquent\Builder $q) {
+                                     ->where(function(Builder $q) {
                     $q->whereNull("team_home_id")
                       ->orWhereNull("team_away_id")
                       ->orWhereNotNull("result_home")

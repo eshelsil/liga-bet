@@ -71,4 +71,5 @@ export interface Tournament {
     competitionId: number,
     config: TournamentConfig,
     code: string,
+	creatorUserId: number,
 }

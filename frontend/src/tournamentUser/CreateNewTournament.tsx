@@ -5,6 +5,7 @@ import {
     createNewTournament,
     fetchOwnedTournaments,
 } from '../_actions/tournament'
+import { createUtl } from '../_actions/tournamentUser'
 import { fetchAndStoreCompetitions } from '../_actions/competition'
 import { CreateNewTournamentSelector } from '../_selectors'
 import {
@@ -14,13 +15,14 @@ import {
     RadioGroup,
     TextField,
 } from '@mui/material'
+import useGoTo from '../hooks/useGoTo'
+import { keysOf } from '../utils'
 
 interface Props {
     onCreateUtl: (...args: any) => any
     createNewTournament: (...args: any) => any
     fetchOwnedTournaments: (...args: any) => any
     fetchAndStoreCompetitions: (...args: any) => any
-    goBack: () => void
     competitionsById: CompetitionsById
     tournamentWithNoUtl?: Tournament
 }
@@ -28,7 +30,6 @@ interface Props {
 function CreateNewTournament({
     onCreateUtl,
     createNewTournament,
-    goBack,
     competitionsById,
     tournamentWithNoUtl,
     fetchAndStoreCompetitions,
@@ -37,6 +38,10 @@ function CreateNewTournament({
     const [nickname, setNickname] = useState('')
     const [name, setName] = useState('')
     const [competition, setCompetition] = useState<number>()
+    const { goToHome } = useGoTo();
+
+    const competitionIds = keysOf(competitionsById)
+    const disabled = competitionIds.length === 1
 
     function createTournament() {
         createNewTournament({ competitionId: competition, name })
@@ -46,6 +51,10 @@ function CreateNewTournament({
             tournamentCode: tournamentWithNoUtl?.code,
             name: nickname,
         })
+        .then(() => {
+            window['toastr']['success']('הטורניר נוצר!')
+            goToHome()
+        })
     }
 
     useEffect(() => {
@@ -53,23 +62,31 @@ function CreateNewTournament({
         fetchOwnedTournaments()
     }, [])
 
+    useEffect(() => {
+        if (!competition && competitionIds.length > 0) {
+            setCompetition(competitionIds[0])
+        }
+    }, [competitionIds])
+
     return (
-        <div>
+        <div className='LB-CreateNewTournament'>
             <h1>צור טורניר חדש</h1>
             {tournamentWithNoUtl && (
-                <>
-                    <h4>בחר לעצמך כינוי</h4>
+                <div className='LB-UserJoinOwnedTournament'>
+                    <h3>בחר לעצמך כינוי:</h3>
                     <TextField
                         value={nickname}
+                        label={'כינוי'}
                         onChange={(e) => setNickname(e.target.value)}
                     />
-                    <Button onClick={createUtl}>המשך</Button>
-                    <Button onClick={goBack}>חזור</Button>
-                </>
+                    <div className='buttonContainer'>
+                        <Button color='primary' variant='contained' onClick={createUtl}>המשך</Button>
+                    </div>
+                </div>
             )}
             {!tournamentWithNoUtl && (
-                <>
-                    <h4>בחר תחרות</h4>
+                <div className='LB-CreateNewTournament-content'>
+                    <h3 className={'LB-CreateNewTournament-title'}>בחר תחרות:</h3>
                     <RadioGroup
                         value={competition || null}
                         onChange={(e) => setCompetition(Number(e.target.value))}
@@ -79,23 +96,24 @@ function CreateNewTournament({
                             <FormControlLabel
                                 key={competition.id}
                                 value={competition.id}
-                                control={<Radio />}
+                                control={<Radio disabled={disabled} />}
                                 label={competition.name}
                             />
                         ))}
                     </RadioGroup>
-                    <div>
-                        <p>שם הטורניר</p>
+                    <div className='nameInputContainer'>
+                        <h3>שם הטורניר:</h3>
                         <TextField
                             value={name}
+                            label={'שם הטורניר'}
                             onChange={(e) => setName(e.target.value)}
+                            className={'nameInput'}
                         />
                     </div>
-                    <div>
-                        <Button onClick={createTournament}>צור טורניר</Button>
-                        <Button onClick={goBack}>חזור</Button>
+                    <div className='buttonContainer'>
+                        <Button color='primary' variant='contained' onClick={createTournament}>צור טורניר</Button>
                     </div>
-                </>
+                </div>
             )}
         </div>
     )
@@ -105,6 +123,7 @@ const mapDispatchToProps = {
     createNewTournament,
     fetchAndStoreCompetitions,
     fetchOwnedTournaments,
+    onCreateUtl: createUtl,
 }
 
 export default connect(

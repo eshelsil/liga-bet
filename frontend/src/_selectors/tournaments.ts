@@ -11,3 +11,5 @@ export const TournamentUserControllerSelector = createSelector(
 )
 
 export const MyUtlsSelector = createSelector(MyUtls, (myUtls) => ({ myUtls }))
+
+export const HasAnyUTL = createSelector(MyUtls, (myUtls) => Object.keys(myUtls).length > 0)

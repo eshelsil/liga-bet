@@ -1,147 +1,145 @@
 @import '../styles/colors';
+@import '../styles/mixins';
+@import '../styles/shadows';
+@import '../styles/themes/tournaments';
+
+
+@mixin tournament_link($tournament_theme){
+  background: map_get($tournament_theme, main);
+  &:hover {
+    background: map_get($tournament_theme, gradient);
+  }
+}
+
+
+.LigaBet-PopupMenu-root {
+  .LigaBet-PopupMenu-list {
+    .LB-ActivePathItem {
+      background-color: rgba(0, 0, 0, 0.08);
+    }
+  }
+}
 
 .LigaBet-AppHeader {
   position: fixed;
   top: 0;
   z-index: 20;
-
-  .navbar-brand {
-    display: flex;
-    align-items: center;
-    font-size: 20px;
-
-    span {
-      margin-right: 5px;
+  .appbarHeader {
+    $minMenuHeight: 50px;
+    .LB-ActivePathItem {
+      background-color: rgba(0, 0, 0, 0.08);
     }
-
-    svg {
-      font-size: 32px;
-    }
-  }
-
-  .headerIcon {
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    top: 6px;
-    right: 5px;
-    background-size: cover;
-  }
-
-
-  .appbar-header {
-    background: $primary-light-main-gradient;
-    .toolbar {
+    
+    .LigaBet-AppMenuDesktop {
+      min-height: $minMenuHeight;
       justify-content: space-between;
       display: flex;
+      .LigaBet-LinkMenuItem {
+        padding: 12px 16px;
+      }
     }
-
-    .toolbar-opened-menu {
-      position: absolute;
-      background: $primary-light-main-gradient;
-      left: 0;
-      right: 0;
-      top: 40px;
-    }
-
-    .toolbar-mobile {
-      display: none;
-      overflow: hidden;
-      padding: 0 3%;
-      transition: max-height 500ms ease;
-    }
-
-    .toolbar, .toolbar-mobile {
-      min-height: 50px;
-
-      .mobile-container {
+    .LigaBet-AppMenuMobile {
+      .expandSection {
+        min-height: $minMenuHeight;
+        display: flex;
+        overflow: hidden;
+        padding: 0 3%;
+        transition: max-height 500ms ease;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-bottom: 20px;
+        .LigaBet-LinkMenuItem {
+          width: 100%;
+        }
+      }
+      .mobileMenuHeader {
         display: flex;
         justify-content: space-between;
         margin: 0;
         padding: 0;
         width: 100%;
         max-width: unset;
-
-        .app-name {
+        .appName {
           display: flex;
           justify-content: center;
           align-items: center;
         }
       }
+    }
 
-      .toolbar-container-mobile {
-        flex-direction: column;
-        justify-content: flex-start;
-        padding-top: 20px;
-        padding-bottom: 20px;
-
-        .menu-item {
-          width: 100%;
-        }
-      }
-
-      .left-container {
+    .toolbarContainer {
+      display: flex;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      align-items: center;
+      &.stickToLeft {
         justify-content: flex-end;
       }
+    }
 
-      .toolbar-container, .toolbar-container-mobile {
-        display: flex;
+    .LigaBet-UserMenu {
+      padding: 5px 10px;
+      cursor: pointer;
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.06);
+      }
+      .avatar {
+        border-radius: 50%;
+      }
+    }
+  
+    .LigaBet-DropMenuItem {
+      padding: 0;
+      .clickableWrapper {
+        padding: 12px 16px;
         width: 100%;
-        margin: 0;
-        align-items: center;
-        .menu-item {
-          min-height: 0;
-          padding: 15px 25px;
-          width: 100%;
-          color: white;
-          font-size: 16px;
-          justify-content: flex-start;
+        .flexRow {
+          @include flexRow;
         }
       }
     }
   }
-
-  .avatar-drop-menu {
-    padding: 0;
-    border-radius: 50%;
-
-    .avatar {
-      background: $primary-dark;
-    }
-  }
-
-  .drop-menu-item {
-    .label-wrapper {
-      width: 100%;
-    }
-  }
-}
-
-.menu {
-  background: $primary-light-main-gradient;
-
-  .menu-item {
-    min-height: 0;
-    font-size: 16px;
-    text-decoration: none;
-    color: white;
-    justify-content: flex-start;
-  }
 }
 
 
-@media (max-width: 1000px) {
+
+@import './TournamentDropdownMenu.scss';
+@import './LinkMenuItem.scss';
+
+
+
+@mixin themable_app_header($class, $tournament_theme){
+  $theme_light: map_get($tournament_theme, light);
+  $theme_main: map_get($tournament_theme, main);
+  $theme_dark: map_get($tournament_theme, dark);
+  $gradient: map_get($tournament_theme, gradient);
+
   .LigaBet-AppHeader {
-
-    .appbar-header {
-
-      .toolbar {
-        display: none;
+    &.#{$class} {
+      .appbarHeader {
+        background: $gradient;
+        .LigaBet-UserMenu {
+          .avatar {
+            background: $theme_dark;
+          }
+        }
       }
-
-      .toolbar-mobile {
-        display: flex;
+    }
+  }
+  
+  .LigaBet-PopupMenu-root {
+    .LigaBet-PopupMenu-list {
+      &.#{$class} {
+        background: $gradient;
       }
     }
   }
 }
+
+@include themable_app_header(tournament-theme, $tournament_1);
+@include themable_app_header(tournament-theme-1, $tournament_1);
+@include themable_app_header(tournament-theme-2, $tournament_2);
+@include themable_app_header(tournament-theme-3, $tournament_3);
+@include themable_app_header(tournament-theme-4, $tournament_4);
+@include themable_app_header(tournament-theme-5, $tournament_5);

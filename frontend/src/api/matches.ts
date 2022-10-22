@@ -1,79 +1,13 @@
-import { MatchApiModel, WinnerSide } from '../types'
-import { isDevModeTamir } from '../_helpers/dev'
+import { MatchApiModel } from '../types'
 import { sendApiRequest } from './common/apiRequest'
 
-const HOUR = 1000 * 60 * 60
-const DAY = HOUR * 24
 
-const EXAMPLE_DATA = {
-    1: {
-        home_team: 8,
-        away_team: 9,
-        result_home: 4,
-        result_away: 5,
-        winner_side: WinnerSide.Away,
-        is_done: true,
-        closed_for_bets: true,
-        start_time: new Date(Number(new Date()) - 2 * DAY),
-        id: 1,
-    },
-    2: {
-        home_team: 5,
-        away_team: 6,
-        result_home: 1,
-        result_away: 3,
-        winner_side: WinnerSide.Away,
-        is_done: true,
-        closed_for_bets: true,
-        start_time: new Date(Number(new Date()) - 1 * DAY),
-        id: 2,
-    },
-    3: {
-        home_team: 10,
-        away_team: 9,
-        result_home: 3,
-        result_away: 1,
-        winner_side: WinnerSide.Home,
-        is_done: true,
-        closed_for_bets: true,
-        start_time: new Date(Number(new Date()) - 1 * DAY),
-        id: 3,
-    },
-    4: {
-        home_team: 10,
-        away_team: 6,
-        result_home: null,
-        result_away: null,
-        winner_side: null,
-        is_done: false,
-        closed_for_bets: true,
-        start_time: new Date(Number(new Date()) - HOUR),
-        id: 4,
-    },
-    5: {
-        home_team: 12,
-        away_team: 5,
-        result_home: null,
-        result_away: null,
-        winner_side: null,
-        is_done: false,
-        closed_for_bets: false,
-        is_knockout: true,
-        start_time: new Date(Number(new Date()) + HOUR),
-        id: 5,
-    },
-}
 
-const fakeAPI = async (): Promise<MatchApiResult> => {
-    return EXAMPLE_DATA
-}
-
-type MatchApiResult = Record<number, MatchApiModel>
+type MatchApiResult = MatchApiModel[]
 
 export const fetchMatches = async (
     tournamentId: number
 ): Promise<MatchApiResult> => {
-    if (isDevModeTamir()) return await fakeAPI()
     return await sendApiRequest({
         url: `/api/tournaments/${tournamentId}/games`,
     })

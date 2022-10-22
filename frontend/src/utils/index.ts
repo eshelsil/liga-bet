@@ -1,6 +1,7 @@
 export * from './api'
 export * from './betValuesGenerators'
 export * from './common'
+export * from './dataFetchers'
 export * from './matches'
 export * from './prizes'
 export * from './rules'

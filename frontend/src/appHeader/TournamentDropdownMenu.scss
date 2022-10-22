@@ -1,0 +1,72 @@
+@import '../styles/colors';
+@import '../styles/mixins';
+@import '../styles/shadows';
+@import '../styles/themes/tournaments';
+
+
+@mixin tournament_link($tournament_theme){
+  background: map_get($tournament_theme, main);
+  &:hover {
+    background: map_get($tournament_theme, gradient);
+  }
+}
+
+
+.LigaBet-PopupMenu-root {
+  .LigaBet-PopupMenu-list {
+    &.tournamentsMenu {
+      .LigaBet-TournamentItemLink {
+        border-radius: 2px;
+        color: white;
+        padding: 6px 14px;
+        width: 100%;
+        @include tournament_link($tournament_1);
+        &:nth-of-type(1) {
+          @include tournament_link($tournament_1);
+        }
+        &:nth-of-type(2) {
+          @include tournament_link($tournament_2);
+        }
+        &:nth-of-type(3) {
+          @include tournament_link($tournament_3);
+        }
+        &:nth-of-type(4) {
+          @include tournament_link($tournament_4);
+        }
+        &:nth-of-type(5) {
+          @include tournament_link($tournament_5);
+        }
+        &.selectedTournament {
+          border: 3px solid rgba(0,0,0,0.45);
+        }
+        &:not(.selectedTournament) {
+          .wrapper {
+            padding: 3px;
+          }
+        }
+        .wrapper {
+          @include fullView;
+          .tournamentRow {
+            @include flexRow;
+            padding-right: 4px;
+            font-size: 18px;
+          }
+          .utlRow {
+            display: flex;
+            align-items: flex-end;
+            font-size: 14px;
+            margin-top: 6px;
+            .utlName {
+              margin-right: 4px;
+            }
+          }
+        }
+      }
+      .buttonLink {
+        background-color: #9f9f9f57;
+        padding: 8px;
+        @include centerContainer;
+      }
+    }
+  }
+}

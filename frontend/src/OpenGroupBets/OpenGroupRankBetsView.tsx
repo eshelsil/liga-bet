@@ -3,6 +3,7 @@ import TeamWithFlag from '../widgets/TeamWithFlag'
 import { GroupWithABet } from '../types'
 import DraggableStandings from './DraggableStandings'
 import './openGroupRankBets.scss'
+import { Button } from '@mui/material'
 
 function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
     const { name, id, bet, teams } = groupWithBet
@@ -25,7 +26,7 @@ function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
             }}
         >
             <h5 style={{ textAlign: 'center' }}>{name}</h5>
-            <div className="row">
+            <div>
                 <div id={`current-bet-${id}-position`} className="col-xs-4">
                     {bet && (
                         <>
@@ -60,13 +61,13 @@ function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
                         setItems={setStandingsInput}
                     />
                     <div style={{ paddingRight: 40, marginTop: 16 }}>
-                        <button
+                        <Button
+                            variant='contained'
+                            color='primary'
                             onClick={sendBet}
-                            type="button"
-                            className="btn btn-primary"
                         >
                             שלח
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </div>
@@ -84,10 +85,7 @@ const OpenGroupRankBetsView = ({ groupsWithBet, sendGroupRankBet }: Props) => {
     return (
         <>
             {isAvaiable && (
-                <div
-                    className="row"
-                    style={{ marginRight: -10, marginLeft: -10 }}
-                >
+                <div>
                     <h2>הימורי בתים פתוחים</h2>
                     {groupsWithBet.map((groupWithBet) => (
                         <GroupRankBetView

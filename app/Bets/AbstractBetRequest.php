@@ -20,9 +20,9 @@ abstract class AbstractBetRequest
      */
     public function __construct(BetableInterface $entity, Tournament $tournament, array $data = []) {
         Log::debug("Validating data: {$entity->getID()}\r\nData: ". json_encode($data, JSON_PRETTY_PRINT));
+        $this->tournament = $tournament;
         $this->validateData($entity, $data);
         $this->setEntity($entity);
-        $this->tournament = $tournament;
     }
 
     abstract public function toJson();

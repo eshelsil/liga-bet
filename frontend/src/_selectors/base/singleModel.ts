@@ -1,11 +1,12 @@
-import { mapValues, orderBy } from 'lodash'
+import { Dictionary, mapValues, orderBy } from 'lodash'
 import { createSelector } from 'reselect'
-import { SpecialQuestionApiModel } from '../../types'
+import { SpecialQuestionApiModel, TournamentWithLinkedUtl } from '../../types'
 import {
     getSpecialQuestionName,
     isAdmin,
     isTournamentStarted,
     isUtlConfirmed,
+    keysOf,
 } from '../../utils'
 import {
     CurrentTournament,
@@ -13,6 +14,8 @@ import {
     CurrentUser,
     LeaderboardVersions,
     SpecialQuestions,
+    MyUtls,
+    Games,
 } from './models'
 
 export const TournamentIdSelector = createSelector(
@@ -27,7 +30,7 @@ export const CurrentTournamentConfig = createSelector(
 
 export const IsTournamentStarted = createSelector(
     CurrentTournament,
-    (tournament) => true // only for development
+    (tournament) => false // only for development
     // tournament => isTournamentStarted(tournament),
 )
 
@@ -59,6 +62,13 @@ export const LatestLeaderboardVersion = createSelector(
     }
 )
 
+export const GameIds = createSelector(
+    Games,
+    (gamesById) => {
+        return keysOf(gamesById);
+    }
+)
+
 function formatSpecialAnswer(answer: SpecialQuestionApiModel['answer']) {
     if (!answer) return []
     return Array.isArray(answer) ? answer : [answer]
@@ -77,3 +87,20 @@ export const SpecialQuestionsFormatted = createSelector(
         })
     }
 )
+
+
+export const TournamentsWithMyUtl = createSelector(
+    MyUtls,
+    (myUtlsById) => {
+        const tournamentsById: Dictionary<TournamentWithLinkedUtl> = {}
+        for (const utl of Object.values(myUtlsById)) {
+            const {tournament, ...restUtlAttributes} = utl;
+            tournamentsById[utl.tournament.id] = {
+                ...utl.tournament,
+                linkedUtl: restUtlAttributes,
+            };
+        }
+        return tournamentsById;
+    }
+)
+

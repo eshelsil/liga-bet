@@ -33,12 +33,6 @@ const appLinks: AppLinksConfig = {
 		hasReactComponent: true,
 		isAdminView: true,
 	},
-	tournamentConfig: {
-		id: 'tournamentConfig',
-		path: '/tournament-config',
-		label: 'הגדרות טורניר',
-		hasReactComponent: true,
-	},
 };
 
 interface Props {

@@ -9,14 +9,14 @@ import './AppBody.scss';
 function AppBody() {
 	return (
 		<Grid container className="LigaBet-AppBody">
-			<Grid item sm={2} className="sidenav">
-				<TournamentPrizes />
+			<Grid item sm={1} className="sidenav">
+				<AppLinks />
 			</Grid>
-			<Grid item sm={8} className="text-left" style={{padding: 16}}>
+			<Grid item sm={9} className="LigaBet-CenterGrid">
 				<AppContent />
 			</Grid>
 			<Grid item sm={2} className="sidenav">
-				<AppLinks />
+				<TournamentPrizes />
 			</Grid>
 		</Grid>
 	);

@@ -1,41 +1,75 @@
-.ChooseYourUtl {
-    margin: 15px 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    .UtlOption {
-        width: 150px;
-        height: 150px;
-        border-radius: 100%;
-        margin: 10px 20px;
-        padding: 28px;
-        box-shadow: 0px 3px 4px 4px #00000024;
-        cursor: pointer;
-        &:nth-child(1) {
-            background: linear-gradient(
-                rgba(120, 182, 245, 1) 0%,
-                rgba(63, 1, 227, 0.75) 100%
-            );
+@import '../styles/shadows';
+@import '../styles/mixins';
+
+
+@mixin formWrapper {
+    box-shadow: $basic-shadow;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.LB-CreateNewTournament {
+    max-width: 400px;
+    margin: auto;
+    > h1 {
+        text-align: center;
+    }
+    .LB-CreateNewTournament-content{
+        @include formWrapper;
+        .LB-CreateNewTournament-title {
+            margin: 0;
         }
-        &:nth-child(2) {
-            background: linear-gradient(#d1d9d7 0%, #0cc203 100%);
+        .MuiFormGroup-root{
+            box-shadow: $basic-shadow;
+            border-radius: 16px;
+            padding: 8px;
+            margin-top: 8px;
+            .MuiFormControlLabel-root{
+                border-radius: 16px;
+                padding-left: 12px;
+                position: relative;
+                width: fit-content;
+                margin-right: 0;
+                margin-bottom: 0;
+                &:hover {
+                    background: rgb(139 216 255 / 23%);
+                }
+            }
         }
-        &:nth-child(3) {
-            background: linear-gradient(
-                0deg,
-                rgba(237, 52, 52, 1) 0%,
-                rgba(255, 144, 126, 1) 100%
-            );
+        .nameInputContainer {
+            margin-top: 24px;
+            .nameInput {
+                margin-top: 8px;
+            }
         }
-        &:nth-child(4) {
-            background: linear-gradient(
-                rgba(255, 143, 0, 1) 0%,
-                rgba(255, 229, 126, 1) 100%
-            );
+    }
+    .LB-UserJoinOwnedTournament {
+        @include formWrapper;
+        > h3 {
+            margin: 0;
+            margin-bottom: 16px;
         }
-        &:hover {
-            opacity: 0.7;
+    }
+    .buttonContainer {
+        @include centerContainer;
+        margin-top: 32px;
+    }
+}
+
+.LB-JoinTournament {
+    max-width: 400px;
+    margin: auto;
+    > h1 {
+        text-align: center;
+    }
+    .joinTournamentForm {
+        @include formWrapper;
+        .MuiTextField-root {
+            margin-top: 16px;
+        }
+        .buttonContainer {
+            @include centerContainer;
+            margin-top: 32px;
         }
     }
 }

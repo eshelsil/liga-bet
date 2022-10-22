@@ -1,10 +1,10 @@
 import { mapValues, pickBy } from 'lodash'
 import { createSelector } from 'reselect'
 import { Match } from '../../types'
-import { Matches, Teams } from '../base'
+import { Games, Teams } from '../base'
 
 export const MatchesWithTeams = createSelector(
-    Matches,
+    Games,
     Teams,
     (matches, teamsById) => {
         const matchesWithTemas = mapValues(

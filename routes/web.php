@@ -80,11 +80,8 @@ Route::prefix("/api/tournaments/{tournamentId}/")->middleware("confirmed_user")
     ->group(function () {
         Route::post('bets', [BetsController::class, 'submitBets']);
         Route::get('bets', [BetsController::class, 'index']);
-        Route::prefix("bets")->middleware("pre_tournament_bets_closed")
-        ->group(function () {
-            Route::get('/games', [BetsController::class, 'openGames']);
-            Route::get('/primal', [BetsController::class, 'primalBets']);
-        });
+        Route::get('bets/games', [BetsController::class, 'visibleGameBets']);
+        Route::get('bets/primal', [BetsController::class, 'visiblePrimalBets']);
         Route::get('groups', [GroupsController::class, 'index']);
         Route::get('games', [GamesController::class, 'index']);
         Route::get('players', [PlayersController::class, 'index']);

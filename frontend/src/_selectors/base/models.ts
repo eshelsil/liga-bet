@@ -9,26 +9,30 @@ import {
     Tournament,
     UtlRole,
 } from '../../types'
+import { generateEmptyGameBetFetcher } from '../../utils'
 
 export const CurrentUser = (state: RootState) => state.currentUser
 export const CurrentTournamentUserId = (state: RootState) =>
     state.currentTournamentUser.id
-export const Contestants = (state: RootState) => state.contestants
+export const ContestantsState = (state: RootState) => state.contestants
 export const TournamentUTLs = (state: RootState) => state.tournamentUTLs
 export const MyUtls = (state: RootState) => state.myUtls
-export const Bets = (state: RootState) => state.bets
-export const LeaderboardVersions = (state: RootState) =>
+export const BetsState = (state: RootState) => state.bets
+export const LeaderboardVersionsState = (state: RootState) =>
     state.leaderboardVersions
-export const Matches = (state: RootState) => state.matches
-export const Teams = (state: RootState) => state.teams
-export const Players = (state: RootState) => state.players
-export const Groups = (state: RootState) => state.groups
-export const SpecialQuestions = (state: RootState) => state.specialQuestions
+export const TeamsState = (state: RootState) => state.teams
+export const GamesState = (state: RootState) => state.matches
+export const PlayersState = (state: RootState) => state.players
+export const GroupsState = (state: RootState) => state.groups
+export const SpecialQuestionsState = (state: RootState) => state.specialQuestions
 export const OwnedTournament = (state: RootState) => state.ownedTournament
 export const Competitions = (state: RootState) => state.competitions
 export const Users = (state: RootState) => state.users
 export const UsersTotalCount = (state: RootState) => state.usersTotalCount
 export const Dialogs = (state: RootState) => state.dialogs
+export const DataFetcher = (state: RootState) => state.dataFetcher
+export const GameBetsFetcherState = (state: RootState) => state.gameBetsFetcher
+
 
 export const CurrentTournamentUser = createSelector(
     CurrentTournamentUserId,
@@ -47,6 +51,90 @@ export const CurrentTournament = createSelector(
     CurrentTournamentUser,
     (utl) => {
         return utl?.tournament ?? ({} as Tournament)
+    }
+)
+
+export const CurrentTournamentId = createSelector(
+    CurrentTournament,
+    (tournament) => tournament.id
+)
+
+export const CurrentCompetitionId = createSelector(
+    CurrentTournament,
+    (tournament) => {
+        return tournament.competitionId
+    }
+)
+
+export const Teams = createSelector(
+    TeamsState,
+    CurrentCompetitionId,
+    (teams, competitionId) => {
+        return teams[competitionId] ?? {}
+    }
+)
+
+export const Players = createSelector(
+    PlayersState,
+    CurrentCompetitionId,
+    (players, competitionId) => {
+        return players[competitionId] ?? {}
+    }
+)
+
+export const Games = createSelector(
+    GamesState,
+    CurrentCompetitionId,
+    (games, competitionId) => {
+        return games[competitionId] ?? {}
+    }
+)
+
+export const Groups = createSelector(
+    GroupsState,
+    CurrentCompetitionId,
+    (groups, competitionId) => {
+        return groups[competitionId] ?? {}
+    }
+)
+
+export const Contestants = createSelector(
+    ContestantsState,
+    CurrentTournamentId,
+    (contestants, tournamentId) => {
+        return contestants[tournamentId] ?? {}
+    }
+)
+
+export const SpecialQuestions = createSelector(
+    SpecialQuestionsState,
+    CurrentTournamentId,
+    (questions, tournamentId) => {
+        return questions[tournamentId] ?? {}
+    }
+)
+
+export const LeaderboardVersions = createSelector(
+    LeaderboardVersionsState,
+    CurrentTournamentId,
+    (leaderboardVersions, tournamentId) => {
+        return leaderboardVersions[tournamentId] ?? {}
+    }
+)
+
+export const Bets = createSelector(
+    BetsState,
+    CurrentTournamentId,
+    (bets, tournamentId) => {
+        return bets[tournamentId] ?? {}
+    }
+)
+
+export const CurrentGameBetsFetcher = createSelector(
+    GameBetsFetcherState,
+    CurrentTournamentId,
+    (gameBetsFetchers, tournamentId) => {
+        return gameBetsFetchers[tournamentId] ?? generateEmptyGameBetFetcher()
     }
 )
 
@@ -77,6 +165,16 @@ export const MatchBets = createSelector(Bets, (bets) => {
 export const QuestionBets = createSelector(Bets, (bets) => {
     const questionBets = pickBy(bets, (bet) => bet.type === BetType.Question)
     return questionBets as Record<number, QuestionBetApiModel>
+})
+
+export const PrimalBets = createSelector(
+    QuestionBets,
+    GroupStandingBets,
+    (questionBets, groupRankBets) => {
+    return {
+        ...questionBets,
+        ...groupRankBets,
+    }
 })
 
 export const TeamsByGroupId = createSelector(Teams, (teams) => {

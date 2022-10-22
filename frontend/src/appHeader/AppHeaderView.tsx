@@ -3,46 +3,46 @@ import { UtlWithTournament } from '../types'
 import AppBar from '@mui/material/AppBar'
 import AppMenuMobile from './AppMenuMobile'
 import AppMenuDesktop from './AppMenuDesktop'
+import { useIsSmScreen } from '../hooks/useMedia'
 import './style.scss'
 
 interface Props {
     currentUtl: UtlWithTournament
     currentUsername: string
     isTournamentStarted: boolean
-    currentRoute: string
-    deselectUtl: () => void
     openDialogChangePassword: () => void
+    tournamentIndex: number
 }
 
 function AppHeader({
     isTournamentStarted,
     currentUtl,
     currentUsername,
-    currentRoute,
-    deselectUtl,
     openDialogChangePassword,
+    tournamentIndex,
 }: Props) {
+    const isSmallScreen = useIsSmScreen();
+    const showExpandableMenu = isSmallScreen && !!currentUtl
 
-    // TODO: fix to conditional rendering instead of hide/display using scss
     return (
-        <div className="LigaBet-AppHeader">
-            <AppBar className="appbar-header">
-                <AppMenuMobile {...{
-                    isTournamentStarted,
-                    currentUtl,
-                    currentRoute,
-                    currentUsername,
-                    deselectUtl,
-                    openDialogChangePassword,
-                }} />
-                <AppMenuDesktop {...{
-                    isTournamentStarted,
-                    currentUtl,
-                    currentRoute,
-                    currentUsername,
-                    deselectUtl,
-                    openDialogChangePassword,
-                }} />
+        <div className={`LigaBet-AppHeader tournament-theme tournament-theme-${tournamentIndex + 1}`}>
+            <AppBar className="appbarHeader">
+                {showExpandableMenu && (
+                    <AppMenuMobile {...{
+                        isTournamentStarted,
+                        currentUtl,
+                        currentUsername,
+                        openDialogChangePassword,
+                    }} />
+                )}
+                {!showExpandableMenu && (
+                    <AppMenuDesktop {...{
+                        isTournamentStarted,
+                        currentUtl,
+                        currentUsername,
+                        openDialogChangePassword,
+                    }} />
+                )}
             </AppBar>
         </div>
     )
