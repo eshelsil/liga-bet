@@ -59,17 +59,30 @@ class Bet extends Model
         return $this->getData('answer');
     }
 
+    public function isGameBet()
+    {
+        return $this->type === BetTypes::Game;
+    }
+    public function isGroupRankBet()
+    {
+        return $this->type === BetTypes::GroupsRank;
+    }
+    public function isQuestionBet()
+    {
+        return $this->type === BetTypes::SpecialBet;
+    }
+
     public function export_data()
     {
         $bet = $this->getAttributes();
         unset($bet['data']);
-        if ($this->type === BetTypes::Game){
+        if ($this->isGameBet()){
             $bet['result_home'] = $this->getData('result-home');
             $bet['result_away'] = $this->getData('result-away');
             $bet['winner_side'] = $this->getData('ko_winner_side');
-        } elseif ($this->type === BetTypes::GroupsRank) {
+        } elseif ($this->isGroupRankBet()) {
             $bet['standings'] = $this->getData();
-        } elseif ($this->type === BetTypes::SpecialBet) {
+        } elseif ($this->isQuestionBet()) {
             $bet['answer'] = $this->getData('answer');
         }
         return $bet;

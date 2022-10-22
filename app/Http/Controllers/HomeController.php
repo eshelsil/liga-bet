@@ -60,7 +60,7 @@ class HomeController extends Controller
         $matches = Game::orderBy("start_time")
                        ->get();
         $matches = $matches->filter(function (Game $match) {
-            return $match->isClosedToBets();
+            return $match->isClosedForBets();
         })->groupBy('is_done');
         $done_matches = $matches[1] ?? collect([]);
         $done_matches = $done_matches->reverse();
