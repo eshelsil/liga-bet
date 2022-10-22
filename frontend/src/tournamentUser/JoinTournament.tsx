@@ -23,18 +23,23 @@ function JoinTournament({ onJoin }: Props) {
     }
 
     return (
-        <div>
-            <div>
-                <h6>קוד טורניר</h6>
+        <div className='LB-JoinTournament'>
+            <h1>הצטרף לטורניר קיים</h1>
+            <div className='joinTournamentForm'>
                 <TextField
                     value={code}
+                    label='קוד טורניר'
                     onChange={(e) => setCode(e.target.value)}
                 />
+                <TextField
+                    value={name}
+                    label='כינוי'
+                    onChange={(e) => setName(e.target.value)}
+                />
+                <div className='buttonContainer'>
+                    <Button variant='contained' color='primary' onClick={join}>הצטרף לטורניר</Button>
+                </div>
             </div>
-            <h6>כינוי</h6>
-            <TextField value={name} onChange={(e) => setName(e.target.value)} />
-            <div></div>
-            <Button onClick={join}>הצטרף לטורניר</Button>
         </div>
     )
 }

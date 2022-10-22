@@ -10,6 +10,7 @@ import SelectedUTLController from './SelectedUTLController'
 import CreateNewTournament from './CreateNewTournament'
 import JoinTournament from './JoinTournament'
 import ManageUsers from '../manageUsers';
+import './style.scss';
 
 interface Props {
     fetchAndStoreUtls: () => Promise<void>

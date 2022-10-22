@@ -1,0 +1,75 @@
+@import '../styles/shadows';
+@import '../styles/mixins';
+
+
+@mixin formWrapper {
+    box-shadow: $basic-shadow;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.LB-CreateNewTournament {
+    max-width: 400px;
+    margin: auto;
+    > h1 {
+        text-align: center;
+    }
+    .LB-CreateNewTournament-content{
+        @include formWrapper;
+        .LB-CreateNewTournament-title {
+            margin: 0;
+        }
+        .MuiFormGroup-root{
+            box-shadow: $basic-shadow;
+            border-radius: 16px;
+            padding: 8px;
+            margin-top: 8px;
+            .MuiFormControlLabel-root{
+                border-radius: 16px;
+                padding-left: 12px;
+                position: relative;
+                width: fit-content;
+                margin-right: 0;
+                margin-bottom: 0;
+                &:hover {
+                    background: rgb(139 216 255 / 23%);
+                }
+            }
+        }
+        .nameInputContainer {
+            margin-top: 24px;
+            .nameInput {
+                margin-top: 8px;
+            }
+        }
+    }
+    .LB-UserJoinOwnedTournament {
+        @include formWrapper;
+        > h3 {
+            margin: 0;
+            margin-bottom: 16px;
+        }
+    }
+    .buttonContainer {
+        @include centerContainer;
+        margin-top: 32px;
+    }
+}
+
+.LB-JoinTournament {
+    max-width: 400px;
+    margin: auto;
+    > h1 {
+        text-align: center;
+    }
+    .joinTournamentForm {
+        @include formWrapper;
+        .MuiTextField-root {
+            margin-top: 16px;
+        }
+        .buttonContainer {
+            @include centerContainer;
+            margin-top: 32px;
+        }
+    }
+}
