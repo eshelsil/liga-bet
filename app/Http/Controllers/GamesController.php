@@ -17,8 +17,7 @@ class GamesController extends Controller
         $utl->tournament->competition->games->load(["teamHome", "teamAway"]);
 
         $data = $utl->tournament->competition->games
-            ->map(fn(Game $group) => (new GameResource($group))->toArray($request))
-            ->keyBy("id");
+            ->map(fn(Game $group) => (new GameResource($group))->toArray($request));
 
         return new JsonResponse($data, 200);
     }
