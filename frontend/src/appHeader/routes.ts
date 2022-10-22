@@ -53,15 +53,11 @@ const routes: Route[] = [
     },
     {
         path: 'utl',
-        label: 'הפרופיל שלך',
+        label: 'הטורנירים שלי',
     },
     {
         path: 'user',
-        label: 'המשתמש שלך',
-    },
-    {
-        path: 'contestants',
-        label: 'נהל משתתפים',
+        label: 'המשתמש שלי',
     },
     {
         path: 'takanon',
@@ -72,6 +68,11 @@ const routes: Route[] = [
         label: 'התנתק',
         iconClass: 'logout_icon',
     },
+    {
+        path: 'tournament-config',
+		label: 'הגדרות טורניר',
+    },
+    
 ]
 
 export const routesMap = keyBy(routes, 'path')

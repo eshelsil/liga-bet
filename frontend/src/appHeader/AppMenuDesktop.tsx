@@ -8,18 +8,14 @@ import TournamentMenuItems from './TournamentMenuItems'
 interface Props {
     currentUtl: UtlWithTournament
     isTournamentStarted: boolean
-    currentRoute: string
     currentUsername: string
-    deselectUtl: () => void
     openDialogChangePassword: () => void
 }
 
 function AppMenuDesktop({
     isTournamentStarted,
     currentUtl,
-    currentRoute,
     currentUsername,
-    deselectUtl,
     openDialogChangePassword,
 }: Props) {
 
@@ -28,7 +24,6 @@ function AppMenuDesktop({
                 <Container className="toolbarContainer">
                     <TournamentMenuItems {...{
                         isTournamentStarted,
-                        currentRoute,
                         currentUtl,
                     }}/>
                 </Container>
@@ -37,9 +32,7 @@ function AppMenuDesktop({
                         {
                             ...{
                                 currentUtl,
-                                currentRoute,
                                 currentUsername,
-                                deselectUtl,
                                 openDialogChangePassword,
                             }
                         }

@@ -2,29 +2,30 @@ import React, { ReactNode } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import { Route } from './types'
 import MenuItemMUI from '@mui/material/MenuItem'
+import useActivePath from '../hooks/useActivePath'
 
 interface Props {
     route: Route
-    currentPath: string
+    content?: ReactNode
     onClick?: () => void
+    callback?: () => void
     icon?: ReactNode
     className?: string
-    callback?: () => void
     simpleLink?: boolean
 }
 
 function LinkMenuItem({
     route,
-    currentPath,
+    content,
     onClick,
+    callback,
     icon,
     className,
-    callback,
     simpleLink,
 }: Props) {
     const history = useHistory()
     const { label, path } = route
-    const isActive = currentPath === path
+    const isActive = useActivePath(path)
     const goToRoute = () => {
         if (simpleLink){
             window.location = `/${path}` as any
@@ -36,12 +37,10 @@ function LinkMenuItem({
     const onRouteClick = (e) => {
         e.preventDefault()
         action()
-        if (callback) {
-            callback()
-        }
+        callback && callback()
     }
     return (
-        <MenuItemMUI className={`LigaBet-LinkMenuItem ${className || ''} ${isActive ? 'active' : ''}`} onClick={onRouteClick}>
+        <MenuItemMUI className={`LigaBet-LinkMenuItem ${className || ''} ${isActive ? 'LB-ActivePathItem' : ''}`} onClick={onRouteClick}>
             {icon && (
                 <>
                     {icon}
@@ -49,7 +48,7 @@ function LinkMenuItem({
                 </>
             )}
             <div className={'itemLabel'}>
-                {label}
+                {content ?? label}
             </div>
         </MenuItemMUI>
     )

@@ -2,77 +2,129 @@ import React from 'react'
 import LinkMenuItem from './LinkMenuItem'
 import { routesMap } from './routes'
 import DropMenuItem from './DropMenuItem'
-import { UtlWithTournament } from '../types'
+import { UtlRole, UtlWithTournament } from '../types'
 import { isUtlConfirmed } from '../utils'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import TournamentsDropdownMenu from './TournamentsDropdownMenu'
+import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import { IsTournamentStarted } from '../_selectors'
+import { useSelector } from 'react-redux'
+
 
 interface Props {
     currentUtl: UtlWithTournament
     isTournamentStarted: boolean
-    currentRoute: string
-    callback?: () => void
+    reRouteCallback?: () => void
 }
 
 function TournamentMenuItems({
     currentUtl,
     isTournamentStarted,
-    currentRoute,
-    callback,
+    reRouteCallback,
 }: Props) {
-
-
-    const groupBetsRoute = isTournamentStarted
-        ? 'all-group-standings'
-        : 'open-group-standings'
-    const specialBetsRoute = isTournamentStarted
-        ? 'all-questions'
-        : 'open-questions'
+    const themeClass = useTournamentThemeClass()
 
     const hasCurrentUtl = !!currentUtl
     const isConfirmed = hasCurrentUtl && isUtlConfirmed(currentUtl)
+    const isTournamentAdmin = hasCurrentUtl && currentUtl.role === UtlRole.Admin
 
     return (
         <>
             {hasCurrentUtl && (<>
-                {isConfirmed && (<>
-                    <LinkMenuItem
-                        route={routesMap['leaderboard']}
-                        currentPath={currentRoute}
-                        callback={callback}
-                    />
-                    <LinkMenuItem
-                        route={routesMap['open-matches']}
-                        currentPath={currentRoute}
-                        callback={callback}
-                    />
-                    <LinkMenuItem
-                        route={routesMap['closed-matches']}
-                        currentPath={currentRoute}
-                        callback={callback}
-                    />
+                <TournamentsDropdownMenu itemClickCallback={reRouteCallback}/>
+                {isTournamentAdmin && (
                     <DropMenuItem
-                        label={
-                            <div className={'menu-item'}>
-                                הימורים של לפני הטורניר
+                        anchorContent={
+                            <div className='flexRow'>
+                                <div>
+                                    ניהול טורניר
+                                </div>
+                                <ArrowDropDownIcon />
                             </div>
                         }
+                        classes={{list: themeClass}}
+                        pathes={['tournament-config', 'contestants']}
                     >
                         <LinkMenuItem
-                            route={routesMap[groupBetsRoute]}
-                            currentPath={currentRoute}
-                            callback={callback}
+                            route={routesMap['tournament-config']}
+                            callback={reRouteCallback}
                         />
                         <LinkMenuItem
-                            route={routesMap[specialBetsRoute]}
-                            currentPath={currentRoute}
-                            callback={callback}
+                            route={routesMap['contestants']}
+                            callback={reRouteCallback}
                         />
                     </DropMenuItem>
-                    <LinkMenuItem
-                        route={routesMap['my-bets']}
-                        currentPath={currentRoute}
-                        callback={callback}
-                    />
+                )}
+                {isConfirmed && (<>
+                    {isTournamentStarted && (<>
+                        <LinkMenuItem
+                            route={routesMap['leaderboard']}
+                            callback={reRouteCallback}
+                        />
+                        <LinkMenuItem
+                            route={routesMap['open-matches']}
+                            callback={reRouteCallback}
+                        />
+                        <LinkMenuItem
+                            route={routesMap['closed-matches']}
+                            callback={reRouteCallback}
+                        />
+                        <DropMenuItem
+                            anchorContent={
+                                <div className='flexRow'>
+                                    <div>
+                                        הימורים של לפני הטורניר
+                                    </div>
+                                    <ArrowDropDownIcon />
+                                </div>
+                            }
+                            classes={{list: themeClass}}
+                            pathes={['all-questions', 'all-group-standings']}
+                        >
+                            <LinkMenuItem
+                                route={routesMap['all-questions']}
+                                callback={reRouteCallback}
+                            />
+                            <LinkMenuItem
+                                route={routesMap['all-group-standings']}
+                                callback={reRouteCallback}
+                            />
+                        </DropMenuItem>
+                        <LinkMenuItem
+                            route={routesMap['my-bets']}
+                            callback={reRouteCallback}
+                        />
+                    </>)}
+                    {!isTournamentStarted && (<>
+                        <LinkMenuItem
+                            route={routesMap['open-matches']}
+                            callback={reRouteCallback}
+                        />
+                        <LinkMenuItem
+                            route={routesMap['open-questions']}
+                            callback={reRouteCallback}
+                        />
+                        <LinkMenuItem
+                            route={routesMap['open-group-standings']}
+                            callback={reRouteCallback}
+                        />
+                        <LinkMenuItem
+                            route={routesMap['my-bets']}
+                            callback={reRouteCallback}
+                        />
+                    </>)}
                 </>)}
+            </>)}
+            {!hasCurrentUtl && (<>
+                <LinkMenuItem
+                    route={{
+                        path: '',
+                        label: 'הרשמה',
+                    }}
+                    content={<HomeRoundedIcon fill={'#fff'} />}
+                    callback={reRouteCallback}
+                />
             </>)}
         </>
     )

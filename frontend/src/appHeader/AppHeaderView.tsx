@@ -10,40 +10,36 @@ interface Props {
     currentUtl: UtlWithTournament
     currentUsername: string
     isTournamentStarted: boolean
-    currentRoute: string
-    deselectUtl: () => void
     openDialogChangePassword: () => void
+    tournamentIndex: number
 }
 
 function AppHeader({
     isTournamentStarted,
     currentUtl,
     currentUsername,
-    currentRoute,
-    deselectUtl,
     openDialogChangePassword,
+    tournamentIndex,
 }: Props) {
     const isSmallScreen = useIsSmScreen();
+    const showExpandableMenu = isSmallScreen && !!currentUtl
+
     return (
-        <div className="LigaBet-AppHeader">
+        <div className={`LigaBet-AppHeader tournament-theme tournament-theme-${tournamentIndex + 1}`}>
             <AppBar className="appbarHeader">
-                {isSmallScreen && (
+                {showExpandableMenu && (
                     <AppMenuMobile {...{
                         isTournamentStarted,
                         currentUtl,
-                        currentRoute,
                         currentUsername,
-                        deselectUtl,
                         openDialogChangePassword,
                     }} />
                 )}
-                {!isSmallScreen && (
+                {!showExpandableMenu && (
                     <AppMenuDesktop {...{
                         isTournamentStarted,
                         currentUtl,
-                        currentRoute,
                         currentUsername,
-                        deselectUtl,
                         openDialogChangePassword,
                     }} />
                 )}

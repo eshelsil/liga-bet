@@ -4,67 +4,59 @@ import { hasManagePermissions } from '../utils'
 import LinkMenuItem from './LinkMenuItem'
 import { routesMap } from './routes'
 import { Avatar } from '@mui/material'
-import DropMenuItem from './DropMenuItem'
+import PopupMenu from '../widgets/Menu'
+import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
 
 interface Props {
     currentUtl: UtlWithTournament
-    currentRoute: string
     currentUsername: string
-    deselectUtl: () => void
     openDialogChangePassword: () => void
 }
 
 function UserMenu({
     currentUtl,
-    currentRoute,
     currentUsername,
-    deselectUtl,
     openDialogChangePassword,
 }: Props) {
     const showManagerManagementViews = hasManagePermissions(currentUtl)
+    const themeClass = useTournamentThemeClass();
 
     return (
-        <DropMenuItem
-            className="LigaBet-UserMenu"
-            label={
-                <Avatar className="avatar">
-                    {currentUsername[0]}
-                </Avatar>
-            }
-        >
-            <LinkMenuItem
-                route={routesMap['user']}
-                currentPath={currentRoute}
-            />
-            {!!currentUtl && (
+        <div className='LigaBet-UserMenu'>
+            <PopupMenu
+                anchorContent={
+                    <Avatar className="avatar">
+                        {currentUsername[0]}
+                    </Avatar>
+                }
+                classes={{
+                    list: themeClass
+                }}
+            >
                 <LinkMenuItem
-                    route={routesMap['utl']}
-                    currentPath={currentRoute}
+                    route={routesMap['user']}
                 />
-            )}
+                {!!currentUtl && (
+                    <LinkMenuItem
+                        route={routesMap['utl']}
+                    />
+                )}
 
-            {showManagerManagementViews && (
+                {showManagerManagementViews && (
+                    <LinkMenuItem
+                        route={routesMap['contestants']}
+                    />
+                )}
                 <LinkMenuItem
-                    route={routesMap['contestants']}
-                    currentPath={currentRoute}
+                    route={routesMap['set-password']}
+                    onClick={openDialogChangePassword}
                 />
-            )}
-            <LinkMenuItem
-                route={routesMap['choose-utl']}
-                currentPath={currentRoute}
-                onClick={deselectUtl}
-            />
-            <LinkMenuItem
-                route={routesMap['set-password']}
-                currentPath={currentRoute}
-                onClick={openDialogChangePassword}
-            />
-            <LinkMenuItem
-                route={routesMap['logout']}
-                currentPath={currentRoute}
-                simpleLink
-            />
-        </DropMenuItem>
+                <LinkMenuItem
+                    route={routesMap['logout']}
+                    simpleLink
+                />
+            </PopupMenu>
+        </div>
     )
 }
 

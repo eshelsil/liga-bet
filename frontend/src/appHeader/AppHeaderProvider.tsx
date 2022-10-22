@@ -1,24 +1,18 @@
 import React from 'react'
 import { connect, useSelector } from 'react-redux'
-import { useLocation } from 'react-router-dom'
 import { AppHeaderSelector, NoSelector } from '../_selectors'
-import { resetUtlSelection } from '../_actions/tournamentUser'
 import { openDialog } from '../_actions/dialogs'
 import useGoTo from '../hooks/useGoTo'
 import AppHeader from './AppHeaderView'
 import { DialogName } from '../dialogs/types'
+import { ChosenTournamentIndex } from '../_selectors'
 
-function AppHeaderProvider({ openDialog, resetUtlSelection }) {
-    const location = useLocation()
-    const { goToUserPage, goToUtlPage, goToChooseUtl } = useGoTo()
+function AppHeaderProvider({ openDialog }) {
+    const tournamentIndex = useSelector(ChosenTournamentIndex)
+    const { goToUserPage, goToUtlPage } = useGoTo()
     const { isTournamentStarted, currentUsername, currentUtl } =
         useSelector(AppHeaderSelector)
-    const currentRoute = location.pathname.substring(1)
 
-    const deselectUtl = () => {
-        resetUtlSelection()
-        goToChooseUtl()
-    }
 
     const openDialogChangePassword = () => openDialog(DialogName.ChangePassword)
 
@@ -27,19 +21,17 @@ function AppHeaderProvider({ openDialog, resetUtlSelection }) {
             {...{
                 isTournamentStarted,
                 currentUsername,
-                currentRoute,
                 currentUtl,
-                deselectUtl,
                 goToUserPage,
                 goToUtlPage,
                 openDialogChangePassword,
+                tournamentIndex,
             }}
         />
     )
 }
 
 const mapDispatchToProps = {
-    resetUtlSelection,
     openDialog,
 }
 

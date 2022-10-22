@@ -1,6 +1,6 @@
-import { mapValues, orderBy } from 'lodash'
+import { Dictionary, mapValues, orderBy } from 'lodash'
 import { createSelector } from 'reselect'
-import { SpecialQuestionApiModel } from '../../types'
+import { SpecialQuestionApiModel, TournamentWithLinkedUtl } from '../../types'
 import {
     getSpecialQuestionName,
     isAdmin,
@@ -14,6 +14,7 @@ import {
     CurrentUser,
     LeaderboardVersions,
     SpecialQuestions,
+    MyUtls,
     Games,
 } from './models'
 
@@ -86,3 +87,20 @@ export const SpecialQuestionsFormatted = createSelector(
         })
     }
 )
+
+
+export const TournamentsWithMyUtl = createSelector(
+    MyUtls,
+    (myUtlsById) => {
+        const tournamentsById: Dictionary<TournamentWithLinkedUtl> = {}
+        for (const utl of Object.values(myUtlsById)) {
+            const {tournament, ...restUtlAttributes} = utl;
+            tournamentsById[utl.tournament.id] = {
+                ...utl.tournament,
+                linkedUtl: restUtlAttributes,
+            };
+        }
+        return tournamentsById;
+    }
+)
+

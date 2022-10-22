@@ -11,18 +11,14 @@ import TournamentMenuItems from './TournamentMenuItems'
 interface Props {
     currentUtl: UtlWithTournament
     isTournamentStarted: boolean
-    currentRoute: string
     currentUsername: string
-    deselectUtl: () => void
     openDialogChangePassword: () => void
 }
 
 function AppMenuMobile({
     isTournamentStarted,
     currentUtl,
-    currentRoute,
     currentUsername,
-    deselectUtl,
     openDialogChangePassword,
 }: Props) {
     const [menuOpen, setMenuOpen] = useState(false)
@@ -52,9 +48,7 @@ function AppMenuMobile({
                         {
                             ...{
                                 currentUtl,
-                                currentRoute,
                                 currentUsername,
-                                deselectUtl,
                                 openDialogChangePassword,
                             }
                         }
@@ -66,9 +60,8 @@ function AppMenuMobile({
                     <Container className="toolbarContainer-mobile">
                         <TournamentMenuItems {...{
                             isTournamentStarted,
-                            currentRoute,
                             currentUtl,
-                            callback: closeMenuHandler,
+                            reRouteCallback: closeMenuHandler
                         }}/>
                     </Container>
                 </Toolbar>
