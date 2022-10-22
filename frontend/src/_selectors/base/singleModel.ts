@@ -6,6 +6,7 @@ import {
     isAdmin,
     isTournamentStarted,
     isUtlConfirmed,
+    keysOf,
 } from '../../utils'
 import {
     CurrentTournament,
@@ -13,6 +14,7 @@ import {
     CurrentUser,
     LeaderboardVersions,
     SpecialQuestions,
+    Games,
 } from './models'
 
 export const TournamentIdSelector = createSelector(
@@ -27,7 +29,7 @@ export const CurrentTournamentConfig = createSelector(
 
 export const IsTournamentStarted = createSelector(
     CurrentTournament,
-    (tournament) => true // only for development
+    (tournament) => false // only for development
     // tournament => isTournamentStarted(tournament),
 )
 
@@ -56,6 +58,13 @@ export const LatestLeaderboardVersion = createSelector(
     LeaderboardVersionsDesc,
     (versions) => {
         return versions[0] ?? {}
+    }
+)
+
+export const GameIds = createSelector(
+    Games,
+    (gamesById) => {
+        return keysOf(gamesById);
     }
 )
 

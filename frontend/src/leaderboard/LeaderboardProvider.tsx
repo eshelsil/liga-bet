@@ -1,24 +1,12 @@
 import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
-import { ScoreboardRowDetailed } from '../types'
-import { fetchAndStoreLeaderboard } from '../_actions/leaderboard'
+import { useSelector } from 'react-redux'
 import { LeaderboardSelector } from '../_selectors/leaderboard'
 import LeaderboardView from './LeaderboardView'
 
-interface Props {
-    leaderboard: ScoreboardRowDetailed[]
-    hasTournamentStarted: boolean
-    fetchAndStoreLeaderboard: () => void
-}
 
-function Leaderboard({
-    leaderboard,
-    hasTournamentStarted,
-    fetchAndStoreLeaderboard,
-}: Props) {
-    useEffect(() => {
-        fetchAndStoreLeaderboard()
-    }, [])
+
+function Leaderboard() {
+    const { leaderboard, hasTournamentStarted } = useSelector(LeaderboardSelector)
 
     return (
         <>
@@ -30,8 +18,5 @@ function Leaderboard({
     )
 }
 
-const mapDispatchToProps = {
-    fetchAndStoreLeaderboard,
-}
 
-export default connect(LeaderboardSelector, mapDispatchToProps)(Leaderboard)
+export default Leaderboard

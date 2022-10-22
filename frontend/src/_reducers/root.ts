@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux'
 import bets from './bets'
+import dataFetcher from './dataFetcher'
+import gameBetsFetcher from './gameBetsFetcher'
 import currentUser from './currentUser'
 import groups from './groups'
 import leaderboard from './leaderboard'
@@ -19,6 +21,8 @@ import dialogs from './dialogs'
 
 const reducer = combineReducers({
     bets: bets.reducer,
+    dataFetcher: dataFetcher.reducer,
+    gameBetsFetcher: gameBetsFetcher.reducer,
     teams: teams.reducer,
     leaderboardVersions: leaderboard.reducer,
     specialQuestions: specialQuestions.reducer,

@@ -3,24 +3,25 @@ import { connect } from 'react-redux'
 import { MyOpenMatchBetsSelector } from '../_selectors/openMatches'
 import {
     sendBetAndStore,
-    fetchAndStoreBets,
     SendMatchBetParams,
 } from '../_actions/bets'
 import OpenMatchesView from './openMatchesView'
 import { BetType, MatchWithABet, WinnerSide } from '../types'
 import { MatchBetUpdatePayload } from '../api/bets'
+import { useAllGameBets, useGames } from '../hooks/useFetcher'
 
 interface Props {
     matches: MatchWithABet[]
     sendBetAndStore: (params: SendMatchBetParams) => Promise<void>
-    fetchAndStoreBets: any
 }
 
 const OpenMatchesProvider = ({
     matches,
     sendBetAndStore,
-    fetchAndStoreBets,
 }: Props) => {
+    useGames(true);
+    useAllGameBets();
+
     async function sendMatchBet({
         matchId,
         is_knockout,
@@ -83,7 +84,6 @@ const OpenMatchesProvider = ({
 
 const mapDispatchToProps = {
     sendBetAndStore,
-    fetchAndStoreBets,
 }
 
 export default connect(

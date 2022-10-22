@@ -3,17 +3,30 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { LeaderboardVersionById } from '../types'
 import { LeaderboardVersionApiModel } from '../types'
 import { keyBy } from 'lodash'
+import { Dictionary } from 'lodash'
+
+
+type State = Dictionary<LeaderboardVersionById>
+
+interface SetPayload {
+    tournamentId: number,
+    leaderboardVersions: LeaderboardVersionApiModel[],
+}
+
+
 
 const leaderboard = createSlice({
     name: 'leaderboardVersions',
-    initialState: {} as LeaderboardVersionById,
+    initialState: {} as State,
     reducers: {
         setRows: (
             state,
-            action: PayloadAction<LeaderboardVersionApiModel[]>
+            action: PayloadAction<SetPayload>
         ) => {
-            for (const version of action.payload) {
-                state[version.id] = {
+            const {tournamentId, leaderboardVersions} = action.payload
+            state[tournamentId] = state[tournamentId] ?? {};
+            for (const version of leaderboardVersions) {
+                state[tournamentId][version.id] = {
                     ...version,
                     leaderboard: keyBy(
                         version.leaderboard,

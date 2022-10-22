@@ -1,6 +1,7 @@
 export * from './bet'
 export * from './common'
 export * from './competition'
+export * from './dataFetcher'
 export * from './match'
 export * from './teams'
 export * from './group'

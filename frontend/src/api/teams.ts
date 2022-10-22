@@ -1,7 +1,7 @@
-import { TeamsById } from '../types'
+import { Team } from '../types'
 import { sendApiRequest } from './common/apiRequest'
 
-type TeamsApiResult = TeamsById
+type TeamsApiResult = Team[]
 
 export const fetchTeams = async (
     tournamentId: number
