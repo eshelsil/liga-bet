@@ -9,13 +9,13 @@ import './AppBody.scss';
 function AppBody() {
 	return (
 		<Grid container className="LigaBet-AppBody">
-			<Grid item sm={1} className="sidenav">
+			<Grid item md={1} className="sidenav">
 				<AppLinks />
 			</Grid>
-			<Grid item sm={9} className="LigaBet-CenterGrid">
+			<Grid item md={9} className="LigaBet-CenterGrid">
 				<AppContent />
 			</Grid>
-			<Grid item sm={2} className="sidenav">
+			<Grid item md={2} className="sidenav">
 				<TournamentPrizes />
 			</Grid>
 		</Grid>
