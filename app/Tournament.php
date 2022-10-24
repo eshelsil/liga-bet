@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $competition_id
  * @property string $name
- * @property string $config
+ * @property array $config
  * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -48,6 +48,10 @@ class Tournament extends Model
     const STATUS_ONGOING = 'ongoing';
     const STATUS_INITIAL = 'initial';
 
+    protected $casts = [
+        "config" => "array"
+    ];
+
     protected static $unguarded = true;
 
     public function competition(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -73,6 +77,11 @@ class Tournament extends Model
     public function leaderboardVersions(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(LeaderboardsVersion::class);
+    }
+
+    public function confirmedUtls()
+    {
+        return $this->utls->filter(fn(TournamentUser $utl) => $utl->isConfirmed());
     }
 
     public function getUtlOfUser(User $user)

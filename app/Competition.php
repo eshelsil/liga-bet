@@ -4,7 +4,7 @@ namespace App;
 
 use App\DataCrawler\Crawler;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * App\Competition
@@ -21,8 +21,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read int|null $games_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Group[] $groups
  * @property-read int|null $groups_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Scorer[] $scorers
- * @property-read int|null $scorers_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Player[] $players
+ * @property-read int|null $players_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Team[] $teams
  * @property-read int|null $teams_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Tournament[] $tournaments
@@ -62,9 +62,9 @@ class Competition extends Model
         return $this->hasMany(Group::class);
     }
 
-    public function scorers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function players(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
     {
-        return $this->hasMany(Scorer::class);
+        return $this->hasManyThrough(Player::class, Team::class);
     }
 
     public function teams(): \Illuminate\Database\Eloquent\Relations\HasMany
@@ -81,13 +81,17 @@ class Competition extends Model
     public function getFinalGame(): ?Game
     {
         return $this->games->where('type', 'knockout')
-                           ->where('sub_type', 'FINAL')
-                           ->first();
+                           ->firstWhere('sub_type', 'FINAL');
+    }
+    public function getKnockoutGames(?int $teamId = null): Collection
+    {
+        return $this->games->where('type', 'knockout')
+            ->when($teamId, fn(Game $g) => in_array($teamId, [$g->team_home_id, $g->team_away_id]));
     }
 
     public function isDone() {
         $final = $this->getFinalGame();
-        return $final && !$final->is_done;
+        return $final && $final->is_done;
     }
 
     public function hasAllGroupsStandings(){
@@ -127,5 +131,39 @@ class Competition extends Model
         $startTime = $this->getTournamentStartTime();
         $lockBeforeSecs = config('bets.lockBetsBeforeTournamentSeconds');
         return $startTime - $lockBeforeSecs > time();
+    }
+
+    public function getOffensiveTeams(){
+        $matches = $this->getGroupStageGamesIfStageDone();
+        if (!$matches) {
+            return collect();
+        }
+
+        $gsByTeamId = [];
+        foreach ($matches as $match) {
+            foreach($match->getGoalsData() as $teamId => $gs){
+                if (!array_key_exists($teamId, $gsByTeamId)){
+                    $gsByTeamId[$teamId] = 0;
+                }
+                $gsByTeamId[$teamId] += $gs;
+            }
+        }
+
+        $maxGoals = max(array_values($gsByTeamId));
+
+        return collect($gsByTeamId)
+            ->filter(fn($goalsScored, $teamId) => $goalsScored == $maxGoals)
+            ->keys();
+    }
+
+    public function getTopScorersIds()
+    {
+        if (!$this->isDone()) {
+            return collect();
+        }
+
+        $maxGoals = $this->players->max("goals") ?? -1; // -1 for Empty, means not ready. do not keep null to not try to recalculate?
+
+        return $this->players->where("goals", $maxGoals)->pluck("id");
     }
 }

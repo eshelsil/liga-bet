@@ -1,16 +1,27 @@
-import { fetchTeams } from '../api/teams';
-import { AppDispatch, GetRootState } from '../_helpers/store';
-import teamsSlice from '../_reducers/teams';
-import { TournamentIdSelector } from '../_selectors/base';
+import { keyBy } from 'lodash'
+import { fetchTeams } from '../api/teams'
+import { CollectionName } from '../types/dataFetcher'
+import { AppDispatch, GetRootState } from '../_helpers/store'
+import teamsSlice from '../_reducers/teams'
+import { CurrentTournament, Teams } from '../_selectors'
+import { generateInitCollectionAction } from './utils'
 
 function fetchAndStoreTeams() {
-    return (dispatch: AppDispatch, getState: GetRootState) => {
-        const tournamentId = TournamentIdSelector(getState());
-        return fetchTeams(tournamentId)
-            .then( data => dispatch(teamsSlice.actions.set(data)) );
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const tournament = CurrentTournament(getState())
+        const {id: tournamentId, competitionId} = tournament
+        const teams = await fetchTeams(tournamentId)
+        dispatch(teamsSlice.actions.set({
+            competitionId,
+            teams: keyBy(teams, 'id'),
+        }))
     }
 }
 
-export {
-    fetchAndStoreTeams,
-}
+const initTeams = generateInitCollectionAction({
+    collectionName: CollectionName.Teams,
+    selector: Teams,
+    fetchAction: fetchAndStoreTeams,
+})
+
+export { fetchAndStoreTeams, initTeams }

@@ -10,6 +10,6 @@ class TeamsController extends Controller
     {
         $utl = $this->getUser()->getTournamentUser($tournamentId);
 
-        return $utl->tournament->competition->teams->keyBy('id');
+        return $utl->tournament->competition->teams;
     }
 }

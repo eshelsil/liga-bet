@@ -101,21 +101,21 @@ class Group extends Model implements BetableInterface
 
     public function calculateBets()
     {
+        $tournaments = $this->competition->tournaments->keyBy("id");
         $bets = Bet::query()
-            ->whereIn("tournament_id", $this->competition->tournaments->modelKeys())
+            ->whereIn("tournament_id", $tournaments->keys())
             ->where("type", BetTypes::GroupsRank)
             ->where("type_id", $this->id)
             ->get();
 
         Log::debug("FINAL RANKS: $this->standings");
-        $finalStandings = $this->getStandings();
         /** @var Bet $bet */
         foreach ($bets as $bet) {
             try {
-                $betRequest = new BetGroupRankRequest($this, (array)$bet->getData());
-                $bet->score = $betRequest->calculate($finalStandings);
+                $betRequest = new BetGroupRankRequest($this, $tournaments->get($bet->tournament_id), (array)$bet->getData());
+                $bet->score = $betRequest->calculate();
                 $bet->save();
-                Log::debug("USER {$bet->user_id} Score ({$bet->score}) RANKS: {$betRequest->toJson()}");
+                Log::debug("USER {$bet->user_tournament_id} Score ({$bet->score}) RANKS: {$betRequest->toJson()}");
             } catch (Exception $exception) {
                 return $exception->getMessage();
             }

@@ -21,6 +21,7 @@ class UpdateCompetition
     private CalculateSpecialBets $calculateSpecialBets;
     private UpdateCompetitionScorers $updateScorers;
     private UpdateCompetitionStandings $updateStandings;
+    private UpdateGameBets $updateGameBets;
     private UpdateLeaderboards $updateLeaderboards;
 
     public static function aaa()
@@ -45,10 +46,12 @@ class UpdateCompetition
         CalculateSpecialBets $calculateSpecialBets,
         UpdateCompetitionScorers $updateScorers,
         UpdateCompetitionStandings $updateStandings,
+        UpdateGameBets $updateGameBets,
         UpdateLeaderboards $updateLeaderboards
     ) {
         $this->calculateSpecialBets = $calculateSpecialBets;
         $this->updateScorers = $updateScorers;
+        $this->updateGameBets = $updateGameBets;
         $this->updateStandings = $updateStandings;
         $this->updateLeaderboards = $updateLeaderboards;
     }
@@ -67,16 +70,17 @@ class UpdateCompetition
             return $crawlerGame['is_done'] && $existingGamesWithNoScore->has($crawlerGame['external_id']);
         });
 
-        $this->updateGames($gamesWithScore, $existingGamesWithNoScore);
+        $this->updateGames($competition, $gamesWithScore, $existingGamesWithNoScore);
 
         if ($gamesWithScore->isNotEmpty()) {
             $this->updateScorers->handle($competition);
 
-            if (!$competition->hasAllGroupsStandings()) {
+            if ($competition->hasAllGroupsStandings()) {
                 $this->updateStandings->handle($competition);
             }
+
             if ($competition->isGroupStageDone()) {
-                $this->calculateSpecialBets->execute($competition->id, [SpecialBet::TYPE_OFFENSIVE_TEAM]);
+                $this->calculateSpecialBets->execute($competition->id, SpecialBet::TYPE_OFFENSIVE_TEAM, $competition->getOffensiveTeams()->join(","));
             }
         }
     }
@@ -117,28 +121,39 @@ class UpdateCompetition
     }
 
     /**
+     * @param Competition        $competition
      * @param Collection $gamesWithScore
      * @param EloquentCollection             $gamesWithNoScore
      *
      * @return void
      */
     protected function updateGames(
+        Competition $competition,
         Collection $gamesWithScore,
         EloquentCollection $gamesWithNoScore
     ): void {
+        $teamsByExternalId = $competition->teams->pluck("id", "external_id");
         foreach ($gamesWithScore as $gameData) {
             /** @var Game $game */
             $game = $gamesWithNoScore->get($gameData['external_id']);
             $game->result_home = $gameData['result_home'];
             $game->result_away = $gameData['result_away'];
-            $game->ko_winner   = $gameData['ko_winner'];
+            $game->ko_winner   = $teamsByExternalId[$gameData['ko_winner_external_id']];
             $game->save();
 
             Log::debug("Saving Result of Game: ext_id - " . $game->external_id . " | id - " . $game->id . "-> " . $game->result_home . " - " . $game->result_away);
-            $game->completeBets();
+            $this->updateGameBets->handle($game);
             $this->updateLeaderboards->handle($game->competition);
             if ($game->isKnockout()) {
-                $this->calculateSpecialBets->execute($game->competition_id, [SpecialBet::TYPE_WINNER, SpecialBet::TYPE_RUNNER_UP]);
+                $winner = null;
+                $runnerUp = null;
+                if ($game->sub_type = 'FINAL') {
+                    $winner = $game->ko_winner;
+                    $runnerUp = $game->ko_winner == $game->team_home_id ? $game->team_away_id : $game->team_home_id;
+                }
+
+                $this->calculateSpecialBets->execute($game->competition_id, SpecialBet::TYPE_WINNER, $winner);
+                $this->calculateSpecialBets->execute($game->competition_id, SpecialBet::TYPE_RUNNER_UP, $runnerUp);
             }
         }
     }

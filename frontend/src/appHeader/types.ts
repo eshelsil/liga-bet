@@ -1,5 +1,5 @@
 export interface Route {
-    path: string,
-	label: string,
-	iconClass?: string,
+    path: string
+    label: string
+    iconClass?: string
 }

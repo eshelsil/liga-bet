@@ -1,0 +1,41 @@
+/* -- MUI's Default Color Palette -- */
+
+// Primary
+$primary-light: #42a5f5;
+$primary-main: #1976d2;
+$primary-dark: #1565c0;
+$primary-light-main-gradient: linear-gradient(
+    45deg,
+    $primary-light 0%,
+    $primary-main 100%
+);
+
+// Secondary
+$secondary-light: #ba68c8;
+$secondary-main: #9c27b0;
+$secondary-dark: #7b1fa2;
+
+// Error
+$error-light: #ef5350;
+$error-main: #d32f2f;
+$error-dark: #c62828;
+
+// Warning
+$warning-light: #ff9800;
+$warning-main: #ed6c02;
+$warning-dark: #e65100;
+
+// Info
+$info-light: #03a9f4;
+$info-main: #0288d1;
+$info-dark: #01579b;
+
+// Success
+$success-light: #4caf50;
+$success-main: #2e7d32;
+$success-dark: #1b5e20;
+
+
+$purple-light: #982dd6;
+$purple-main: #6f1ba0;
+$purple-dark: #4b1968;

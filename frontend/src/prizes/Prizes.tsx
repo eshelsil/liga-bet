@@ -1,61 +1,29 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { HasCurrentUtl } from '../_selectors';
+import { prizeToString } from '../utils';
 
-
-const fakePrizes: Record<number, Prize> = {
-	1: {
-		id: 1,
-		label: "מקום ראשון",
-		amount: "1800 ₪",
-	},
-	2: {
-		id: 2,
-		label: "מקום שני",
-		amount: "800 ₪",
-	},
-	3: {
-		id: 3,
-		label: "מקום שלישי",
-		amount: "400 ₪",
-	},
-	4: {
-		id: 4,
-		label: "מקום רביעי",
-		amount: "200 ₪",
-	},
-};
-
-interface Prize {
-	label: string,
-	amount: string,
-	id: number,
-}
 
 function PrizeBlock({
-	prize: {
-		label,
-		amount,
-		id,
-	},
+	prize,
+	rank,
 }: {
-	prize: Prize,
+	prize: string,
+	rank: number,
 }){
-	return <div className={`well rank-${id}`}>
-		<p>{label}<br></br>{amount}</p>
+	return <div className={`LigaBet-Prize prize_rank_${rank}`}>
+		<p>{prizeToString[rank]}<br></br>{prize}</p>
 	</div>
 }
 
-function Prizes(){
-	const hasCurrentUtl = useSelector(HasCurrentUtl);
-	if (!hasCurrentUtl) {
-		return null;
-	}
+interface Props {
+	prizes: string[],
+}
+
+function Prizes({ prizes }: Props){
 	return (<>
-		{Object.values(fakePrizes).map(prize => (
-			<PrizeBlock key={prize.id} prize={prize} />
+		{prizes.map((prize, index) => (
+			<PrizeBlock key={index} prize={prize} rank={index + 1} />
 		))}
 	</>);
 }
 
-export default Prizes;
+export default Prizes

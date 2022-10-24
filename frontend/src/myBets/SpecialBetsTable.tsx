@@ -1,49 +1,44 @@
-import React from 'react';
-import { QuestionBetWithRelations } from '../types';
-import TeamAndSymbol from "../widgets/TeamWithFlag";
+import React from 'react'
+import { QuestionBetWithRelations } from '../types'
+import SpecialAnswer from '../widgets/specialAnswer/SpecialAnswer'
 
-
-const SpecialBetsTable = ({
-    bets,
-}: {
-    // bets: QuestionBetWithRelations[],
-    bets: any[],
-}) => {
-    return <table className="table table-striped">
-        <thead>
-        <tr>
-            <th className="admin">מזהה</th>
-            <th>
-                סוג
-            </th>
-            <th>
-                הימור
-            </th>
-            <th>
-                תוצאה
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        {
-            bets.map((bet =>
+const SpecialBetsTable = ({ bets }: { bets: QuestionBetWithRelations[] }) => {
+    return (
+        <table className="table table-striped">
+            <thead>
+                <tr>
+                    <th className="admin">מזהה</th>
+                    <th>סוג</th>
+                    <th>הימור</th>
+                    <th>תוצאה</th>
+                </tr>
+            </thead>
+            <tbody>
+                {bets.map((bet) => (
                     <tr key={bet.id}>
                         <td className="admin">{bet.id}</td>
 
+                        <td>{bet.relatedQuestion.name}</td>
                         <td>
-                            {bet.relatedQuestion.name}
+                            <SpecialAnswer
+                                answer={bet.answer}
+                                type={bet.relatedQuestion.type}
+                            />
                         </td>
                         <td>
-                            <TeamAndSymbol name={bet.answer.name} crest_url={bet.answer.crest_url}/>
-                        </td>
-                        <td>
-                            <TeamAndSymbol name={bet.relatedQuestion.answer.name} crest_url={bet.relatedQuestion.answer.crest_url}/>
+                            {bet.relatedQuestion.answer.map((answer) => (
+                                <SpecialAnswer
+                                    key={answer.id}
+                                    answer={answer}
+                                    type={bet.relatedQuestion.type}
+                                />
+                            ))}
                         </td>
                     </tr>
-            ))
-        }
-        </tbody>
-    </table>
-};
+                ))}
+            </tbody>
+        </table>
+    )
+}
 
-export default SpecialBetsTable;
+export default SpecialBetsTable

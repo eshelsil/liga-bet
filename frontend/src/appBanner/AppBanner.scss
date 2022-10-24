@@ -1,0 +1,13 @@
+@import '../styles/colors';
+
+.AppBanner-container {
+    width: 100%;
+    background: $primary-light-main-gradient;
+    display: flex;
+    .AppBanner-img {
+        height: 180px;
+        max-width: 800px;
+        width: 100%;
+        margin: auto;
+    }
+}

@@ -1,1 +1,1 @@
-export type UserAction = (userId: number) => void;
+export type UserAction = (userId: number) => void

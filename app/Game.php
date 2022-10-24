@@ -60,33 +60,11 @@ use Illuminate\Support\Arr;
  */
 class Game extends Model implements BetableInterface
 {
-
-protected static $groupStageGames = null;
-protected static $knockoutGames = null;
-protected static $theFinal = null;
-protected $table = 'matches';
-
-    protected $scores = [
-        "group_stage" => [
-            "1X2" => 1,
-            "score" => 2
-        ],
-        "knockout" => [
-            "winner" => 2,
-            "1X2" => 1,
-            "score" => 6
-        ]
-    ];
+    protected $table = 'matches';
 
     public function isKnockout()
     {
         return $this->type == "knockout";
-    }
-
-    public function getScore($type)
-    {
-        $scorePath = $this->type;
-        return array_get($this->scores, "{$scorePath}.{$type}");
     }
 
     public function decompleteBets(){
@@ -96,52 +74,6 @@ protected $table = 'matches';
             $bet->save();
             echo "User: {$bet->utl->user->name} | Score: null<br><br>";
         }
-    }
-
-    public function completeBets($scoreHome = null, $scoreAway = null, $isAwayWinner = null)
-    {
-        if (!is_null($scoreHome) && !is_null($scoreAway)) {
-            if ($this->isKnockout()){
-                if ($scoreHome > $scoreAway){
-                    $this->ko_winner = $this->team_home_id;
-                } else if ($scoreHome < $scoreAway){
-                    $this->ko_winner = $this->team_away_id;
-                } else if ($isAwayWinner) {
-                    $this->ko_winner = $this->team_away_id;
-                } else {
-                    $this->ko_winner = $this->team_home_id;
-                }
-            }
-            $this->result_home = $scoreHome;
-            $this->result_away = $scoreAway;
-            $this->save();
-        }
-
-
-        Log::debug("Game Home ({$this->teamHome->name}): {$this->result_home} | Away ({$this->teamAway->name}): {$this->result_away}");
-
-        Log::debug("Creating result");
-        $result = new BetMatchRequest($this, [
-            "result-home" => $this->result_home,
-            "result-away" => $this->result_away,
-            "winner_side" => $this->getKnockoutWinnerSide(),
-        ]);
-        Log::debug("REsult: {$result->toJson()}");
-        /** @var Bet $bet */
-        foreach ($this->getBets() as $bet) {
-            $betRequest = new BetMatchRequest($this, [
-                "result-home" => $bet->getData("result-home"),
-                "result-away" => $bet->getData("result-away"),
-                "winner_side" => $bet->getData("ko_winner_side"),
-            ]);
-            $bet->score = $betRequest->calculate($result);
-            $bet->save();
-
-            echo "User: {$bet->utl->user->name} Bet home: {$bet->getData("result-home")} Bet away: {$bet->getData("result-away")} Score: {$bet->score}<br><br>";
-        }
-
-        return "FINISHED";
-
     }
 
     /**
@@ -155,6 +87,11 @@ protected $table = 'matches';
                        ->with("utl.user")
                        ->get();
         return $bets;
+    }
+
+    public function isOpenForBets()
+    {
+        return $this->start_time > time() + config("bets.lockBeforeSeconds");
     }
 
     public function teamHome(): BelongsTo
@@ -172,7 +109,7 @@ protected $table = 'matches';
         return $this->belongsTo(Competition::class, "competition_id");
     }
 
-    public function isClosedToBets()
+    public function isClosedForBets()
     {
         return $this->start_time < time() + config("bets.lockBeforeSeconds");
     }
@@ -217,7 +154,7 @@ protected $table = 'matches';
         if ($winner_id === null){
             return null;
         }
-        if ($winner_id == $this->team_home_id){
+        if ($winner_id == $this->team_home_id) {
             return "home";
         }
         return "away";
@@ -283,32 +220,9 @@ protected $table = 'matches';
                 ->exists();
     }
 
-    public static function getGroupStageGames(){
-        if (static::$groupStageGames){
-            return static::$groupStageGames;
-        }
-        return static::$groupStageGames = Game::query()->isDone(true)
-            ->where('type', 'group_stage')->get();
-    }
-
-
-    public static function getKnockoutGames(){
-        if (static::$knockoutGames){
-            return static::$knockoutGames;
-        }
-        return static::$knockoutGames = Game::query()->isDone(true)
-            ->where('type', 'knockout')->get();
-    }
-    
     public static function isTournamentDone() {
         $final_match = Game::getFinalMatchIfDone();
         return !!$final_match;
-    }
-
-    public static function getTeamKnockoutGames($team_id){
-        return static::getKnockoutGames()->filter(function($match) use($team_id){
-            return in_array($team_id, [$match->team_home_id, $match->team_away_id]);
-        });
     }
 
     public function generateRandomBetData()

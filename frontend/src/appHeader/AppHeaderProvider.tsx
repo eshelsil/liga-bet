@@ -1,25 +1,38 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom'
-import AppHeader from './AppHeaderView';
-import { AppHeaderSelector } from '../_selectors';
+import React from 'react'
+import { connect, useSelector } from 'react-redux'
+import { AppHeaderSelector, NoSelector } from '../_selectors'
+import { openDialog } from '../_actions/dialogs'
+import useGoTo from '../hooks/useGoTo'
+import AppHeader from './AppHeaderView'
+import { DialogName } from '../dialogs/types'
+import { ChosenTournamentIndex } from '../_selectors'
+
+function AppHeaderProvider({ openDialog }) {
+    const tournamentIndex = useSelector(ChosenTournamentIndex)
+    const { goToUserPage, goToUtlPage } = useGoTo()
+    const { isTournamentStarted, currentUsername, currentUtl } =
+        useSelector(AppHeaderSelector)
 
 
+    const openDialogChangePassword = () => openDialog(DialogName.ChangePassword)
 
-function AppHeaderProvider(){
-	const location = useLocation();
-	const { isTournamentStarted, currentUserName } = useSelector(AppHeaderSelector);
-	const currentRoute = location.pathname.substring(1);
-
-	return (
-		<AppHeader {
-			...{
-				currentUserName,
-				isTournamentStarted,
-				currentRoute,
-			}
-		} />
-	);
+    return (
+        <AppHeader
+            {...{
+                isTournamentStarted,
+                currentUsername,
+                currentUtl,
+                goToUserPage,
+                goToUtlPage,
+                openDialogChangePassword,
+                tournamentIndex,
+            }}
+        />
+    )
 }
 
-export default AppHeaderProvider;
+const mapDispatchToProps = {
+    openDialog,
+}
+
+export default connect(NoSelector, mapDispatchToProps)(AppHeaderProvider)

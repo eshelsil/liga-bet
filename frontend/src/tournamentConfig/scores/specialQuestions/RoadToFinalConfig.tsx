@@ -1,0 +1,64 @@
+import React from 'react';
+import { ScoreConfigFormProps } from '../../types';
+import TakanonPreviewModal from '../../takanonPreview/TakanonPreviewModal';
+import TeamAchivementRules from '../../../takanon/specialQuestions/TeamAchivementRules';
+import SpecialQuestionHeader from './SpecialQuestionHeader';
+import { useIsXsScreen } from '../../../hooks/useMedia';
+import RoadToFinalDesktopTable from './RoadToFinalDesktopTable';
+import RoadToFinalMobileTable from './RoadToFinalMobileTable';
+
+
+function RoadToFinalConfig(formProps: ScoreConfigFormProps){
+	const { watch, setValue } = formProps;
+	const isMobile = useIsXsScreen()
+
+	const isOnWinner = watch('chosenSpecialQuestions.winner');
+	const scoreConfigWinner = watch('specialBets.winner');
+	const onChangeWinner = (event: any, value: boolean) => {
+		setValue('chosenSpecialQuestions.winner', value as never);
+	}
+	
+	const isOnRunnerUp = watch('chosenSpecialQuestions.runnerUp');
+	const scoreConfigRunnerUp = watch('specialBets.runnerUp');
+	const onChangeRunnerUp = (event: any, value: boolean) => {
+		setValue('chosenSpecialQuestions.runnerUp', value as never);
+	}
+
+	return (
+		<div className='LigaBet-RoadToFinalConfig configContainer'>
+			<SpecialQuestionHeader
+				title={'זוכה'}
+				tooltipContent='any content'
+				switchProps={{
+					disabled: true,
+					checked: isOnWinner,
+					onChange: onChangeWinner,
+				}}
+			/>
+			<SpecialQuestionHeader
+				title={'סגנית'}
+				tooltipContent='any content'
+				switchProps={{
+					checked: isOnRunnerUp,
+					onChange: onChangeRunnerUp,
+				}}
+			/>
+			{!isMobile && (
+				<RoadToFinalDesktopTable {...formProps} />
+			)}
+			{isMobile && (
+				<RoadToFinalMobileTable {...formProps} />
+			)}
+			<TakanonPreviewModal>
+				<TeamAchivementRules label={'זוכה'} scoreConfig={scoreConfigWinner} />
+				{isOnRunnerUp && (<>
+					<br/>
+					<TeamAchivementRules label={'סגנית'} scoreConfig={scoreConfigRunnerUp} />
+				</>)}
+			</TakanonPreviewModal>
+		</div>
+	);
+}
+
+
+export default RoadToFinalConfig;

@@ -1,0 +1,70 @@
+import React from 'react';
+import { ScoreConfigFormProps } from '../../types';
+import TopScorerRules from '../../../takanon/specialQuestions/TopScorerRules';
+import TakanonPreviewModal from '../../takanonPreview/TakanonPreviewModal';
+import ScoreInput from '../ScoreInput';
+import SpecialQuestionHeader from './SpecialQuestionHeader';
+
+
+const EACH_GOAL_STRING = 'ניקוד על כל גול';
+const TOP_SCORER_WINNING_STRING = 'בונוס על זכייה בתואר';
+
+function TopScorerConfig(formProps: ScoreConfigFormProps){
+	const { watch, setValue, register, errors, clearErrors } = formProps;
+	const onChange = (event: any, value: boolean) => {
+		setValue('chosenSpecialQuestions.topScorer', value as never);
+	}
+	const isOn = watch('chosenSpecialQuestions.topScorer');
+	const scoreConfig = watch('specialBets.topScorer');
+	return (
+		<div className='LigaBet-TopScorerConfig configContainer'>
+			<SpecialQuestionHeader
+				title={'מלך שערים'}
+				tooltipContent='any content'
+				switchProps={{
+					disabled: true,
+					checked: isOn,
+					onChange,
+				}}
+			/>
+				<table className='LB-simpleTable'>
+					<tbody>
+						<tr>
+							<td className={'configLabel'}>
+								{EACH_GOAL_STRING}
+							</td>
+							<td>
+								<ScoreInput
+									error={errors.specialBets?.topScorer?.eachGoal?.message}
+									InputProps={{
+										...register('specialBets.topScorer.eachGoal')
+									}}
+									clearErrors={() => clearErrors('specialBets.topScorer.eachGoal')}
+								/>
+							</td>
+						</tr>
+						<tr>
+							<td className={'configLabel'}>
+								{TOP_SCORER_WINNING_STRING}
+							</td>
+							<td>
+								<ScoreInput
+									error={errors.specialBets?.topScorer?.correct?.message}
+									InputProps={{
+										...register('specialBets.topScorer.correct')
+									}}
+									clearErrors={() => clearErrors('specialBets.topScorer.correct')}
+								/>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			<TakanonPreviewModal>
+				<TopScorerRules scoreConfig={scoreConfig} />
+			</TakanonPreviewModal>
+		</div>
+	);
+}
+
+
+export default TopScorerConfig;

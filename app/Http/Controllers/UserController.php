@@ -26,6 +26,26 @@ class UserController extends Controller
         return $user;
     }
 
+    public function updateUTL(Request $request, string $tournamentId){
+        $user = $this->getUser();
+        $utl = $user->getTournamentUser($tournamentId);
+        if (!$utl) {
+            throw new JsonException("משתמש לא קיים", 404);
+        }
+        $name = $request->name;
+        $validated = $request->validate([
+            'name' => 'string|min:2'
+        ]);
+
+        $contestantWithSameName = $utl->tournament->utls->where('name', $name)->first();
+        if ($contestantWithSameName && $contestantWithSameName->id !== $utl->id){
+            throw new JsonException("בטורניר זה כבר קיים משתמש עם השם \"$name\"", 400);
+        }
+        $utl->name = $name;
+        $utl->save();
+        return (new UtlResource($utl))->toArray($request);
+    }
+
     public function getUserUTLs(Request $request)
     {
         $user = Auth::user();
@@ -50,7 +70,7 @@ class UserController extends Controller
         }
 
         $tournament = Tournament::where('code', $tournamentCode)->first();
-        if ( ! $tournament) {
+        if ( !$tournament) {
             throw new JsonException("לא נמצא טורניר עם הקוד $tournamentCode", 400);
         }
 
@@ -59,10 +79,30 @@ class UserController extends Controller
         if ($existingUtl) {
             throw new JsonException("המשתמש כבר רשום לטורניר זה", 400);
         }
+        if (!$user->isAdmin()){
+            $MAX_TOURNAMENTS_PER_USER_LIMIT = 3;
+            if ($user->registeredUtls()->count() >= $MAX_TOURNAMENTS_PER_USER_LIMIT){
+                throw new JsonException("המשתמש כבר רשום ל-3 טורנירים, לא ניתן להצטרף לטורניר נוסף", 400);
+            }
+        }
 
         $utl  = $tournament->createUTL($user, $name);
 
-        return new UtlResource($utl);
+        return (new UtlResource($utl))->toArray($request);
+    }
+
+    public function leaveTournament(Request $request, string $tournamentId)
+    {
+        $user = $this->getUser();
+        $utl = $user->getTournamentUser($tournamentId);
+        if (!$utl) {
+            throw new JsonException("אינך רשום לטורניר זה", 400);
+        }
+        if (!$utl->isRejected() && !$utl->isNotConfirmed()){
+            throw new JsonException("אינך יכול לעזוב את הטורניר לאחר שאושרת בידי אחד ממנהלי הטורניר", 400);
+        }
+        $utl->delete();
+        return new JsonResponse(null, 200);
     }
 
     public function getOwnedTournaments(Request $request)
@@ -173,7 +213,7 @@ class UserController extends Controller
     }
 
     private function ensureCanGrantTournamentAdminPermissions(){
-        if (Tournament::count() >= 40){
+        if (User::where('permissions', User::TYPE_TOURNAMENT_ADMIN)->count() >= 40){
             throw new JsonException("Cannot have more than 40 tournament-admins", 403);
         }
     }

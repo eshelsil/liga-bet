@@ -1,61 +1,68 @@
-import { BetApiModel, BetType } from "../types";
-import { sendApiRequest } from "./common/apiRequest";
+import { BetApiModel, BetType, WinnerSide } from '../types'
+import { FetchGameBetsParams, GameBetsFetchType } from '../types/dataFetcher'
+import { sendApiRequest } from './common/apiRequest'
 
 type BetsApiResult = Record<number, BetApiModel>
 
-export const fetchBets = async (tournamentId: number): Promise<BetsApiResult> => {
-    return await (window as any).$.ajax({
-        type: 'GET',
-        url: `/api/tournaments/${tournamentId}/bets`,
-        contentType: 'application/json',
-        dataType: 'json',
-    });
-};
 
-// export const fetchGroupRankBets = async (tournamentId: number): Promise<BetsApiResult> => {
-//     return await (window as any).$.ajax({
-//         type: 'GET',
-//         url: `/api/tournaments/${tournamentId}/bets/group`,
-//         contentType: 'application/json',
-//         dataType: 'json',
-//     });
-// };
-
-export const fetchMyBets = async (tournamentId: number): Promise<BetsApiResult> => {
+export const fetchMatchBets = async (
+    tournamentId: number,
+    { type, ids }: FetchGameBetsParams,
+): Promise<BetsApiResult> => {
+    let filterParam: string;
+    if (type === GameBetsFetchType.Users) filterParam = 'user_ids'
+    if (type === GameBetsFetchType.Games) filterParam = 'game_ids'
+    const queryString = `${filterParam}=${encodeURIComponent(JSON.stringify(ids))}`
     return await sendApiRequest({
-        url: `/api/tournaments/${tournamentId}/bets`
-    });
-};
+        url: `/api/tournaments/${tournamentId}/bets/games?${queryString}`,
+    })
+}
 
-export const fetchClosedMatchBets = async (tournamentId: number): Promise<BetsApiResult> => {
+export const fetchPrimalBets = async (
+    tournamentId: number
+): Promise<BetsApiResult> => {
     return await sendApiRequest({
-        url: `/api/tournaments/${tournamentId}/bets/closed-games`
-    });
-};
+        url: `/api/tournaments/${tournamentId}/bets/primal`,
+    })
+}
 
-// export const fetchMatchBets = async (tournamentId: number): Promise<BetsApiResult> => {
-//     return await (window as any).$.ajax({
-//         type: 'GET',
-//         url: `/api/tournaments/${tournamentId}/bets/open-games`,
-//         contentType: 'application/json',
-//         dataType: 'json',
-//     });
-// };
+export interface MatchBetUpdatePayload {
+    'result-home': number
+    'result-away': number
+    winner_side?: WinnerSide
+}
+export interface GroupRankBetUpdatePayload {
+    value: number[]
+}
+export interface QuestionBetUpdatePayload {
+    answer: number
+}
+export interface UpdateBetPayload {
+    [BetType.Match]: MatchBetUpdatePayload
+    [BetType.GroupsRank]: GroupRankBetUpdatePayload
+    [BetType.Question]: QuestionBetUpdatePayload
+}
 
 export const sendBet = async (
     tournamentId: number,
     betType: BetType,
-    params: object
-): Promise<BetsApiResult> =>{
-    const {bets = {}} = await sendApiRequest({
+    type_id: number,
+    params: UpdateBetPayload[keyof UpdateBetPayload]
+): Promise<BetsApiResult> => {
+    const { bets = {} } = await sendApiRequest({
         type: 'POST',
         url: `/api/tournaments/${tournamentId}/bets`,
         data: {
-            bets: [{
-                type: betType,
-                data: params,
-            }]
+            bets: [
+                {
+                    type: betType,
+                    data: {
+                        ...params,
+                        type_id,
+                    },
+                },
+            ],
         },
     })
-    return bets; 
-};
+    return bets
+}

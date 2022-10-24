@@ -1,0 +1,10 @@
+@use '../styles/common/rankBgColor.scss';
+
+.LigaBet-LeaderboardView {
+    .LigaBet-Contestant {
+        .prize_rank {
+            @extend .prize_rank_bg;
+            color: white;
+        }
+    }
+}

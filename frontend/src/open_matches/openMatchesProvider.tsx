@@ -1,70 +1,92 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { MyOpenMatchBetsSelector } from '../_selectors/openMatches';
-import { sendBetAndStore, fetchAndStoreBets, BetFetchType } from '../_actions/bets';
-import OpenMatchesView from './openMatchesView';
-import { BetType, MatchWithABet } from '../types';
+import React from 'react'
+import { connect } from 'react-redux'
+import { MyOpenMatchBetsSelector } from '../_selectors/openMatches'
+import {
+    sendBetAndStore,
+    SendMatchBetParams,
+} from '../_actions/bets'
+import OpenMatchesView from './openMatchesView'
+import { BetType, MatchWithABet, WinnerSide } from '../types'
+import { MatchBetUpdatePayload } from '../api/bets'
+import { useAllGameBets, useGames } from '../hooks/useFetcher'
 
-
-
+interface Props {
+    matches: MatchWithABet[]
+    sendBetAndStore: (params: SendMatchBetParams) => Promise<void>
+}
 
 const OpenMatchesProvider = ({
     matches,
     sendBetAndStore,
-    fetchAndStoreBets,
-}: {
-    matches: MatchWithABet[],
-    sendBetAndStore: any,
-    fetchAndStoreBets: any,
-}) => {
+}: Props) => {
+    useGames(true);
+    useAllGameBets();
+
     async function sendMatchBet({
         matchId,
         is_knockout,
         homeScore,
         awayScore,
         koWinner,
+    }: {
+        matchId: number
+        is_knockout: boolean
+        homeScore: string
+        awayScore: string
+        koWinner: WinnerSide
     }) {
-        const valid_input_vals = [...Array(21).keys()];
-        if (homeScore === "" || valid_input_vals.indexOf(Number(homeScore)) === -1){
-            window['toastr']["error"](`כמות שערים לקבוצה חייבת להיות מספר שלם בין 0 ל-20. הערך שהתקבל לקבוצת הבית: ${homeScore}`)
+        const valid_input_vals = [...Array(21).keys()]
+        if (
+            homeScore === '' ||
+            valid_input_vals.indexOf(Number(homeScore)) === -1
+        ) {
+            window['toastr']['error'](
+                `כמות שערים לקבוצה חייבת להיות מספר שלם בין 0 ל-20. הערך שהתקבל לקבוצת הבית: ${homeScore}`
+            )
             return
         }
-        if (awayScore === "" || valid_input_vals.indexOf(Number(awayScore)) === -1){
-            window['toastr']["error"](`כמות שערים לקבוצה חייבת להיות מספר שלם בין 0 ל-20. הערך שהתקבל לקבוצת החוץ: ${awayScore}`)
+        if (
+            awayScore === '' ||
+            valid_input_vals.indexOf(Number(awayScore)) === -1
+        ) {
+            window['toastr']['error'](
+                `כמות שערים לקבוצה חייבת להיות מספר שלם בין 0 ל-20. הערך שהתקבל לקבוצת החוץ: ${awayScore}`
+            )
             return
         }
-        let params = {
-            type_id: matchId,
-            "result-home": homeScore,
-            "result-away": awayScore
+        const payload: MatchBetUpdatePayload = {
+            'result-home': Number(homeScore),
+            'result-away': Number(awayScore),
         }
-        if (is_knockout && homeScore == awayScore){
-            params['winner_side'] = koWinner;
-            if (!koWinner){
-                window['toastr']["error"](`עלייך לבחור מעפילה (מכיוון שסימנת משחק נוקאאוט שייגמר בתיקו)`)
+        if (is_knockout && homeScore == awayScore) {
+            payload.winner_side = koWinner
+            if (!koWinner) {
+                window['toastr']['error'](
+                    `עלייך לבחור מעפילה (מכיוון שסימנת משחק נוקאאוט שייגמר בתיקו)`
+                )
                 return
             }
         }
         await sendBetAndStore({
-            ...params,
             betType: BetType.Match,
+            type_id: matchId,
+            payload,
         })
             .then(function (data) {
-                window['toastr']["success"]("ההימור נשלח");
+                window['toastr']['success']('ההימור נשלח')
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console.log('FAILED updating bet', error)
-            });
+            })
     }
-    return <OpenMatchesView
-        matches={matches}
-        sendBet={sendMatchBet}
-    />
-};
+    return <OpenMatchesView matches={matches} sendBet={sendMatchBet} />
+}
 
 const mapDispatchToProps = {
     sendBetAndStore,
-    fetchAndStoreBets,
 }
 
-export default connect(MyOpenMatchBetsSelector, mapDispatchToProps)(OpenMatchesProvider);
+export default connect(
+    MyOpenMatchBetsSelector,
+    mapDispatchToProps
+)(OpenMatchesProvider)

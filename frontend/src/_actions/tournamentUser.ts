@@ -1,60 +1,103 @@
-import { getUserUTLs, joinTournament } from '../api/users';
-import tournamentUser from '../_reducers/tournamentUser';
-import {AppDispatch} from '../_helpers/store';
-import { MyUtlsById, UtlWithTournament } from '../types';
-import utlsSlice from '../_reducers/myUtls';
+import { getUserUTLs, joinTournament, leaveTournament } from '../api/users'
+import { updateMyUTL, PayloadUpdateMyUTL } from '../api/utls'
+import { AppDispatch, GetRootState } from '../_helpers/store'
+import { CurrentTournamentUserId, CurrentUser, TournamentIdSelector } from '../_selectors'
+import { MyUtlsById, User, UserPermissions, UtlWithTournament } from '../types'
+import tournamentUser from '../_reducers/tournamentUser'
+import utlsSlice from '../_reducers/myUtls'
+import { mapValues, minBy } from 'lodash'
 
 
-function selectFirstUserIfOnlyOne(
+
+function getDefaultUtlId(
   utlsById: MyUtlsById,
-  dispatch: AppDispatch
+  currentUser: User
 ){
   const utls = Object.values(utlsById);
-  if (utls.length === 1) {
-    dispatch(tournamentUser.actions.set({id: utls[0].id}))
+  if (utls.length === 0) {
+    return
   }
+  const lastStoredUtlId = localStorage.getItem('ligaBetSelectedUtl')
+  if (lastStoredUtlId){
+    const utl = utlsById[Number(lastStoredUtlId)];
+    if(utl) {
+      return utl.id
+    }
+  }
+  if (currentUser.permissions === UserPermissions.TournamentAdmin) {
+    const utlOfMyOwnTournament = utls.find(utl => utl.tournament.creatorUserId === currentUser.id);
+    if (utlOfMyOwnTournament) {
+      return utlOfMyOwnTournament.id
+    }
+    return
+  }
+  if (utls.length === 1) {
+    return utls[0].id
+  }
+  const firstUtl = minBy(utls, 'createdAt')
+  return firstUtl.id
 }
-
-
 
 function selectUtl(utlId: number) {
-  return tournamentUser.actions.set({id: utlId});
+  localStorage.setItem('ligaBetSelectedUtl', JSON.stringify(utlId))
+  return tournamentUser.actions.set({ id: utlId })
 }
-
+  
 function resetUtlSelection() {
-  return tournamentUser.actions.reset();
+  localStorage.removeItem('ligaBetSelectedUtl')
+  return tournamentUser.actions.reset()
 }
 
 function fetchAndStoreUtls() {
-  return (dispatch: AppDispatch) => {
-      return getUserUTLs()
-      .then( (utlsById: MyUtlsById )=> {
-        dispatch(utlsSlice.actions.set(utlsById));
-        selectFirstUserIfOnlyOne(utlsById, dispatch);
-      })
+  return async (dispatch: AppDispatch, getState: GetRootState) => {
+      const utlsById = await getUserUTLs();
+      const currentUser = CurrentUser(getState());
+      dispatch(utlsSlice.actions.set(utlsById));
+      const utlIdToSelect = getDefaultUtlId(utlsById, currentUser);
+      if (utlIdToSelect){
+        dispatch(selectUtl(utlIdToSelect));
+      }
   }
 }
 
 function createUtl({
-  name,
-  tournamentCode,
+    name,
+    tournamentCode,
 }: {
-  name: string,
-  tournamentCode: string,
+    name: string
+    tournamentCode: string
 }) {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
       return joinTournament({name, code: tournamentCode})
       .then( (utl: UtlWithTournament )=> {
-        dispatch(utlsSlice.actions.add(utl));
+        dispatch(utlsSlice.actions.setOne(utl));
         dispatch(selectUtl(utl.id));
       })
   }
 }
 
+function updateMyUTLAndStore(tournamentId: number, params: PayloadUpdateMyUTL) {
+  return async (dispatch: AppDispatch) => {
+      const utl = await updateMyUTL(tournamentId, params);
+      dispatch(utlsSlice.actions.setOne(utl));
+  }
+}
+
+function currentUtlLeaveTournament() {
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const tournamentId = TournamentIdSelector(getState())
+        const currentUtlId = CurrentTournamentUserId(getState())
+        await leaveTournament(tournamentId)
+        dispatch(resetUtlSelection())
+        dispatch(utlsSlice.actions.remove(currentUtlId))
+    }
+}
 
 export {
-  fetchAndStoreUtls,
-  selectUtl,
-  createUtl,
-  resetUtlSelection,
+    fetchAndStoreUtls,
+    selectUtl,
+    createUtl,
+    resetUtlSelection,
+    currentUtlLeaveTournament,
+    updateMyUTLAndStore,
 }

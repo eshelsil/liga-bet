@@ -1,0 +1,15 @@
+@mixin centerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flexRow {
+    display: flex;
+    align-items: center;
+}
+
+@mixin fullView {
+    height: 100%;
+    width: 100%;
+}

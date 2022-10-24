@@ -1,18 +1,23 @@
-import { fetchGroups } from '../api/groups';
-import { AppDispatch, GetRootState } from '../_helpers/store';
-import { TournamentIdSelector } from '../_selectors/base';
-import groups from '../_reducers/groups';
-
+import { fetchGroups } from '../api/groups'
+import { AppDispatch, GetRootState } from '../_helpers/store'
+import { CurrentTournament, Groups } from '../_selectors'
+import groups from '../_reducers/groups'
+import { generateInitCollectionAction } from './utils'
+import { CollectionName } from '../types/dataFetcher'
 
 function fetchAndStoreGroups() {
-  return (dispatch: AppDispatch, getState: GetRootState) => {
-    const tournamentId = TournamentIdSelector(getState());
-    return fetchGroups(tournamentId)
-      .then( data => dispatch(groups.actions.set(data)) );
-  }
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const tournament = CurrentTournament(getState())
+        const { competitionId, id: tournamentId } = tournament;
+        const data = await fetchGroups(tournamentId)
+        dispatch(groups.actions.set({competitionId, groups: data}))
+    }
 }
 
+const initGroups = generateInitCollectionAction({
+    collectionName: CollectionName.Groups,
+    selector: Groups,
+    fetchAction: fetchAndStoreGroups,
+})
 
-export {
-  fetchAndStoreGroups,
-}
+export { fetchAndStoreGroups, initGroups }

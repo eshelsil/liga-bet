@@ -1,6 +1,9 @@
-import { createSelector } from 'reselect';
-import { MyGroupStandingsBetsSelector, MyMatchBetsSelector, MyQuestionBetsSelector } from './logic';
-
+import { createSelector } from 'reselect'
+import {
+    MyGroupStandingsBetsSelector,
+    MyMatchBetsSelector,
+    MyQuestionBetsSelector,
+} from './logic'
 
 export const MyBetsSelector = createSelector(
     MyMatchBetsSelector,
@@ -13,4 +16,4 @@ export const MyBetsSelector = createSelector(
             questionBets,
         }
     }
-);
+)

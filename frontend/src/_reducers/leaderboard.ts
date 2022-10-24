@@ -1,23 +1,41 @@
-import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { LeaderboardVersionById } from '../types';
-import { LeaderboardVersionApiModel } from '../types';
-import { keyBy } from 'lodash';
+import { createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
+import { LeaderboardVersionById } from '../types'
+import { LeaderboardVersionApiModel } from '../types'
+import { keyBy } from 'lodash'
+import { Dictionary } from 'lodash'
+
+
+type State = Dictionary<LeaderboardVersionById>
+
+interface SetPayload {
+    tournamentId: number,
+    leaderboardVersions: LeaderboardVersionApiModel[],
+}
+
 
 
 const leaderboard = createSlice({
-  name: 'leaderboardVersions',
-  initialState: {} as LeaderboardVersionById,
-  reducers: {
-    setRows: (state, action: PayloadAction<LeaderboardVersionApiModel[]>) => {
-      for (const version of action.payload){
-        state[version.id] = {
-          ...version,
-          leaderboard: keyBy(version.leaderboard, 'user_tournament_id'),
-        }
-      }
+    name: 'leaderboardVersions',
+    initialState: {} as State,
+    reducers: {
+        setRows: (
+            state,
+            action: PayloadAction<SetPayload>
+        ) => {
+            const {tournamentId, leaderboardVersions} = action.payload
+            state[tournamentId] = state[tournamentId] ?? {};
+            for (const version of leaderboardVersions) {
+                state[tournamentId][version.id] = {
+                    ...version,
+                    leaderboard: keyBy(
+                        version.leaderboard,
+                        'user_tournament_id'
+                    ),
+                }
+            }
+        },
     },
-  },
-});
+})
 
-export default leaderboard;
+export default leaderboard

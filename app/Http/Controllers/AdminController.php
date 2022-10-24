@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\UpdateGameBets;
+use App\Actions\UpdateLeaderboards;
 use App\Bet;
 use App\Bets\BetGroupsRank\BetGroupRankRequest;
 use App\Bets\BetMatch\BetMatch;
@@ -16,7 +18,7 @@ use App\SpecialBets\SpecialBet;
 use App\Team;
 use App\Group;
 use App\User;
-use App\Scorer;
+use App\Player;
 use App\Ranks;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Builder;
@@ -66,70 +68,6 @@ class AdminController extends Controller
     public function showTools()
     {
         return view('admin.tools_index');
-    }
-
-    public function downloadInitialData()
-    {
-
-    }
-
-    public function showAddScorer()
-    {
-        return view('admin.add_scorer');
-    }
-
-    public function addScorer(Request $request)
-    {
-        if (!Group::areBetsOpen()){
-            throw new JsonException("Adding players to scorers table is not allowed when specia_bets are closed", 403);
-        }
-        $playerData = [
-            "name" => $request->name,
-            "external_id" => $request->id,
-            "team_id" => $request->team_id,
-        ];
-        Scorer::generate(Competition::query()->findOrFail($request->get("competition_id")), $playerData);
-        return response()->json('Done');
-    }
-
-    public function saveDefaultScorers(Request $request)
-    {
-        /** @var Competition $competition */
-        $competition = Competition::query()->findOrFail($request->get("competition_id"));
-        if (!Group::areBetsOpen()){
-            throw new JsonException("Adding players to scorers table is not allowed when specia_bets are closed", 403);
-        }
-
-        $teamIdByExtId = Team::getExternalIdToIdMap();
-
-        collect(config('tournamentData.topScorerBets'))
-            ->each(function ($playerData) use ($competition, $teamIdByExtId) {
-                $playerData['team_id'] = $teamIdByExtId[$playerData['team_ext_id']];
-                $playerData['external_id'] = $playerData['id'];
-
-                Scorer::generate($competition, $playerData);
-            });
-
-        return 'DONE';
-    }
-
-    public function removeIrrelevantScorers()
-    {
-        if (Group::areBetsOpen()){
-            throw new JsonException("Removing players from scorers table is not allowed when specia_bets are still open", 403);
-        }
-        $specialBet = SpecialBet::getByType(SpecialBet::TYPE_TOP_SCORER);
-        $relevantBets = Bet::where("type", BetTypes::SpecialBet)
-            ->where('type_id', $specialBet->id)
-            ->get();
-
-        $relevantPlayerIds = $relevantBets->map(function($bet){
-            return $bet->getData('answer');
-        });
-
-        Scorer::whereNotIn('external_id', $relevantPlayerIds)->delete();
-
-        return 'DONE';
     }
 
     public function calculateGroupRanks(){
@@ -188,14 +126,18 @@ class AdminController extends Controller
         return "reset User {$user->name} password to \"1234\"";
     }
 
-    public function completeMatch($id, $scoreHome = null, $scoreAway = null, $isAwayWinner = null) {
-        /** @var Game $match */
-        $match = Game::query()->find($id);
-        if ($match->isKnockout() && !is_null($scoreHome)
+    public function completeMatch(UpdateGameBets $updateGameBets,
+        UpdateLeaderboards $updateLeaderboards,
+        $id, $scoreHome = null, $scoreAway = null, $isAwayWinner = null
+    ) {
+        /** @var Game $game */
+        $game = Game::query()->find($id);
+        if ($game->isKnockout() && !is_null($scoreHome)
             && $scoreHome == $scoreAway && is_null($isAwayWinner)){
             throw new \InvalidArgumentException("Score is tied on a knockout game and \"isAwayWinner\" param is not given");
         }
-        $match->completeBets($scoreHome, $scoreAway, $isAwayWinner);
+        $updateGameBets->handle($game, $scoreHome, $scoreAway, $isAwayWinner);
+        $updateLeaderboards->handle($game->competition);
         return "completed";
     }
 

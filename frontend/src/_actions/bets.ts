@@ -1,47 +1,94 @@
-import { Dictionary } from '@reduxjs/toolkit';
-import { fetchBets, fetchMyBets, fetchClosedMatchBets, sendBet } from '../api/bets';
-import { BetApiModel } from '../types';
-import { AppDispatch, GetRootState } from '../_helpers/store';
-import bets from '../_reducers/bets';
-import { TournamentIdSelector } from '../_selectors/base';
-
-export enum BetFetchType {
-  UserBets = 'userBets',
-  MyBets = 'myBets',
-  GameBets = 'gameBets',
-  GroupBets = 'groupBets',
-}
-
-export interface FetchBetsParams {
-  id: number,
-}
+import { without } from 'lodash'
+import {
+    fetchMatchBets,
+    sendBet,
+    UpdateBetPayload,
+    fetchPrimalBets,
+} from '../api/bets'
+import { CollectionName, BetType, FetchGameBetsParams, GameBetsFetchType } from '../types'
+import { AppDispatch, GetRootState } from '../_helpers/store'
+import betsSlice from '../_reducers/bets'
+import { CurrentGameBetsFetcher, CurrentTournamentUserId, PrimalBets, TournamentIdSelector } from '../_selectors'
+import gameBetsFetcher from '../_reducers/gameBetsFetcher'
+import { generateInitCollectionAction } from './utils'
 
 
-function fetchAndStoreBets(fetchType: BetFetchType, params?: FetchBetsParams) {
-  return (dispatch: AppDispatch, getState: GetRootState) => {
-    const tournamentId = TournamentIdSelector(getState());
-    const storeFunc = (data: Dictionary<BetApiModel>) => dispatch(bets.actions.updateMany(data))
-    if (fetchType === BetFetchType.MyBets){
-      return fetchMyBets(tournamentId).then(storeFunc);
+function fetchAndStoreGameBets(params: FetchGameBetsParams) {
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const tournamentId = TournamentIdSelector(getState())
+        const bets = await fetchMatchBets(tournamentId, params)
+        dispatch(betsSlice.actions.updateMany({tournamentId, bets: bets}))
     }
-    if (fetchType === BetFetchType.GameBets){
-      return fetchClosedMatchBets(tournamentId).then(storeFunc);
+}
+
+function fetchMyGameBets() {
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const utlId = CurrentTournamentUserId(getState())
+        const params = {type: GameBetsFetchType.Users, ids: [utlId, 3]};
+        return fetchAndStoreGameBets(params)(dispatch, getState)
     }
-    // return fetchBets(tournamentId)
-    //   .then(storeFunc);
-  }
 }
 
-function sendBetAndStore(params){
-  const {betType, ...restParams} = params;
-  return (dispatch: AppDispatch, getState: GetRootState) => {
-    const tournamentId = TournamentIdSelector(getState());
-    return sendBet(tournamentId, betType, restParams)
-      .then( data => dispatch(bets.actions.updateMany(data)) );
-  }
+function fetchAndStorePrimalBets() {
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const tournamentId = TournamentIdSelector(getState())
+        const bets = await fetchPrimalBets(tournamentId)
+        dispatch(betsSlice.actions.updateMany({tournamentId, bets: bets}))
+    }
 }
 
-export {
-  fetchAndStoreBets,
-  sendBetAndStore,
+export interface SendBetParams<T extends keyof UpdateBetPayload> {
+    type_id: number
+    betType: BetType
+    payload: UpdateBetPayload[T]
 }
+export type SendMatchBetParams = SendBetParams<BetType.Match>
+export type SendGroupRankBetParams = SendBetParams<BetType.GroupsRank>
+export type SendQuestionBetParams = SendBetParams<BetType.Question>
+
+function sendBetAndStore(params: SendBetParams<BetType>) {
+    const { betType, type_id, payload } = params
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const tournamentId = TournamentIdSelector(getState())
+        const data = await sendBet(tournamentId, betType, type_id, payload)
+        dispatch(betsSlice.actions.updateMany({tournamentId, bets: data}))
+    }
+}
+
+const initPrimalBets = generateInitCollectionAction({
+    collectionName: CollectionName.PrimalBets,
+    selector: PrimalBets,
+    fetchAction: fetchAndStorePrimalBets,
+})
+
+function fetchGameBetsThunk(params: FetchGameBetsParams){
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const tournamentId = TournamentIdSelector(getState());
+        const { fetched, currentlyFetching } = CurrentGameBetsFetcher(getState())[params.type];
+        const relevantIds = without(params.ids, ...fetched)
+        const newIds = without(relevantIds, ...currentlyFetching)
+        const skipFetch = newIds.length === 0;
+        if (skipFetch) {
+            return;
+        }
+
+        const fetchParams = {
+            ...params,
+            ids: relevantIds,
+            tournamentId,
+        };
+        dispatch(gameBetsFetcher.actions.fetch(fetchParams))
+        dispatch(fetchAndStoreGameBets(params))
+            .then(() => dispatch(gameBetsFetcher.actions.resolve(fetchParams)))
+            .catch(
+                (error) => dispatch(
+                    gameBetsFetcher.actions.reject({
+                        ...fetchParams,
+                        error: error?.responseJSON?.message ?? JSON.stringify(error)
+                    })
+                )
+            )
+    }
+}
+
+export { fetchAndStorePrimalBets, fetchMyGameBets, initPrimalBets, sendBetAndStore, fetchAndStoreGameBets, fetchGameBetsThunk }

@@ -16,9 +16,12 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BetsController;
 use App\Http\Controllers\CompetitionController;
 use App\Http\Controllers\DebugController;
+use App\Http\Controllers\GamesController;
 use App\Http\Controllers\GroupsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeaderboardController;
+use App\Http\Controllers\PlayersController;
+use App\Http\Controllers\SpecialQuestionsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TournamentUserController;
 use App\Http\Controllers\TeamsController;
@@ -39,7 +42,6 @@ Route::post('register-token', [HomeController::class, 'registerFCMToken'])->midd
 Route::get('/terms', [HomeController::class, 'showTerms'])->middleware("auth");
 Route::get('/articles', [HomeController::class, 'showArticles'])->middleware("auth");
 Route::get('/set-password', [UserController::class, 'showSetPassword']);
-Route::put('/set-password', [UserController::class, 'setPassword']);
 Route::get('/api-fetch-games', [\App\Http\Controllers\ApiFetchController::class, 'userUpdateGames']);
 Route::post('/summary-msg-seen', [HomeController::class, 'summaryMessageSeen'])->middleware("auth");
 
@@ -47,15 +49,10 @@ Route::post('/admin/send-global-notification', [AdminController::class, 'sendGlo
 Route::get('/admin/users-to-confirm', [AdminController::class, 'showUsersToConfirm'])->name('users-to-confirm');
 Route::get('/admin/confirmed-users', [AdminController::class, 'showConfirmedUsers'])->name('confirmed-users');
 Route::post('/admin/set-permission', [AdminController::class, 'setPermission']);
-Route::get('/admin/download-data', [AdminController::class, 'downloadInitialData']);
 Route::get('/admin/calc-special-bets', [AdminController::class, 'calculateSpecialBets']);
 Route::get('/admin/calc-special-bet/{name}', [AdminController::class, 'calculateSpecialBet']);
 Route::get('/admin/index', [AdminController::class, 'showTools']);
 Route::put('/admin/reset-user-pass/{id}', [AdminController::class, 'resetPass']);
-Route::get('/admin/remove-irrelevant-scorers', [AdminController::class, 'removeIrrelevantScorers']);
-Route::get('/admin/add-scorer', [AdminController::class, 'showAddScorer']);
-Route::post('/admin/add-scorer', [AdminController::class, 'addScorer']);
-Route::get('/admin/init-scorers', [AdminController::class, 'saveDefaultScorers']);
 Route::put('/admin/format-custom-answers', [AdminController::class, 'formatSpecialBetsCustomAnswer']);
 Route::post('/admin/create-rank-row', [AdminController::class, 'createNewRankingRow']);
 Route::post('/admin/update-last-rank-row', [AdminController::class, 'updateLastRankingRow']);
@@ -83,12 +80,15 @@ Route::prefix("/api/tournaments/{tournamentId}/")->middleware("confirmed_user")
     ->group(function () {
         Route::post('bets', [BetsController::class, 'submitBets']);
         Route::get('bets', [BetsController::class, 'index']);
-        Route::get('bets/closed-games', [BetsController::class, 'openGames']);
+        Route::get('bets/games', [BetsController::class, 'visibleGameBets']);
+        Route::get('bets/primal', [BetsController::class, 'visiblePrimalBets']);
         Route::get('groups', [GroupsController::class, 'index']);
-        Route::get('games', [\App\Http\Controllers\GamesController::class, 'index']);
+        Route::get('games', [GamesController::class, 'index']);
+        Route::get('players', [PlayersController::class, 'index']);
         Route::get("leaderboards", [LeaderboardController::class, 'index']);
         Route::get("contestants", [UserController::class, 'getTournamentUTLs']);
         Route::get("teams", [TeamsController::class, 'index']);
+        Route::get("special-questions", [SpecialQuestionsController::class, 'index']);
         Route::prefix("manage/utls")->middleware("tournament_manager")
         ->group(function () {
             Route::get("/", [TournamentUserController::class, 'index']);
@@ -107,11 +107,17 @@ Route::prefix("/api/users")->middleware("admin")
         Route::put('/{userId}', [UserController::class, 'update']);
     });
 Route::post('/api/tournaments', [TournamentController::class, 'createTournament']);
-Route::post('/api/user/utls', [UserController::class, 'joinTournament']);
+Route::put('/api/tournaments/{id}/prizes', [TournamentController::class, 'updateTournamentPrizes']);
+Route::put('/api/tournaments/{id}/scores', [TournamentController::class, 'updateTournamentScores']);
 Route::get('/api/competitions', [CompetitionController::class, 'index']);
-Route::get('/api/user', [UserController::class, 'getUser']);
 Route::get('/api/user/utls', [UserController::class, 'getUserUTLs']);
+Route::post('/api/user/utls', [UserController::class, 'joinTournament']);
+Route::delete('/api/user/utls/{tournamentId}', [UserController::class, 'leaveTournament']);
+Route::put('/api/user/utls/{tournamentId}', [UserController::class, 'updateUTL']);
+Route::get('/api/user', [UserController::class, 'getUser']);
+Route::put('/api/user', [UserController::class, 'updateUser']);
 Route::get('/api/user/tournaments', [UserController::class, 'getOwnedTournaments']);
+Route::put('api/user/set-password', [UserController::class, 'setPassword']);
 
 Route::fallback(function () {
     return view('react-app.index');

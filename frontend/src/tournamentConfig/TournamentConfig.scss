@@ -1,0 +1,30 @@
+@import '../styles/mixins.scss';
+@import '../styles/shadows';
+
+.LigaBet-TournamentConfig {
+    .tournamentConfigAccordion {
+        &.MuiAccordion-root {
+            border-radius: 16px;
+            box-shadow: $basic-shadow;
+            margin: 20px 0 0 0;
+            overflow: hidden;
+            &::before {
+                display: none;
+            }
+            &.Mui-expanded {
+                margin-top: 20px;
+            }
+            .MuiAccordionSummary-root {
+                background: linear-gradient(to right, #d3cce3, #e9e4f0);
+                .MuiAccordionSummary-content {
+                    margin: 12px 0;
+                }
+            }
+        }
+    }
+    @import 'prizes/prizesConfig.scss';
+    @import 'scores/scoresConfig';
+    @import 'takanonPreview/takanonPreview';
+}
+
+@import 'takanonPreview/takanonPreviewDialog';

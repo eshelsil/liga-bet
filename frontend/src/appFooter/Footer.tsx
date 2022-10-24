@@ -1,12 +1,11 @@
-import React from 'react';
-
+import React from 'react'
 
 function AppFooter() {
-	return (
-		<footer className="container-fluid text-center">
-			<p></p>
-		</footer>
-	);
+    return (
+        <footer className="container-fluid text-center">
+            <p></p>
+        </footer>
+    )
 }
 
-export default AppFooter;
+export default AppFooter

@@ -1,10 +1,9 @@
-import React from 'react';
-import AppLink, { AppLinkProps } from './AppLink';
-
+import React from 'react'
+import AppLink, { AppLinkProps } from './AppLink'
 
 interface AppLinkDescription extends AppLinkProps {
-	id: string,
-	isAdminView?: boolean,
+    id: string
+    isAdminView?: boolean
 }
 
 type AppLinksConfig = Record<string, AppLinkDescription>
@@ -37,22 +36,24 @@ const appLinks: AppLinksConfig = {
 };
 
 interface Props {
-	isAdmin: boolean,
+    isAdmin: boolean
 }
 
-function AppLinksView({ isAdmin }: Props){
-	return (<>
-		{Object.values(appLinks).map(({id, isAdminView, ...appLinkProps}) => {
-			const hidden = isAdminView && !isAdmin;
-			return (<React.Fragment key={id}>
-				{!hidden && (
-					<AppLink {...appLinkProps} />
-				)}
-			</React.Fragment>);
-		})}
-	</>);
+function AppLinksView({ isAdmin }: Props) {
+    return (
+        <>
+            {Object.values(appLinks).map(
+                ({ id, isAdminView, ...appLinkProps }) => {
+                    const hidden = isAdminView && !isAdmin
+                    return (
+                        <React.Fragment key={id}>
+                            {!hidden && <AppLink {...appLinkProps} />}
+                        </React.Fragment>
+                    )
+                }
+            )}
+        </>
+    )
 }
 
-
-
-export default AppLinksView;
+export default AppLinksView

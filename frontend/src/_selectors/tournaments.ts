@@ -1,13 +1,15 @@
 import { createSelector } from 'reselect'
-import { HasCurrentUtl, MyUtls } from './base';
-
+import { HasCurrentUtl, IsConfirmedUtl, MyUtls } from './base'
 
 export const TournamentUserControllerSelector = createSelector(
     HasCurrentUtl,
-    hasCurrentUtl => ({ hasTournamentUser: hasCurrentUtl })
-);
+    IsConfirmedUtl,
+    (hasCurrentUtl, isUtlConfirmed) => ({
+        hasTournamentUser: hasCurrentUtl,
+        isUtlConfirmed,
+    })
+)
 
-export const MyUtlsSelector = createSelector(
-    MyUtls,
-    myUtls => ({ myUtls })
-);
+export const MyUtlsSelector = createSelector(MyUtls, (myUtls) => ({ myUtls }))
+
+export const HasAnyUTL = createSelector(MyUtls, (myUtls) => Object.keys(myUtls).length > 0)
