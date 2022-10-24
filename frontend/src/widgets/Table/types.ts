@@ -2,12 +2,14 @@ import { ReactNode } from 'react';
 
 export interface Model {
     id: string | number;
+    isFullRow?: boolean;
+    fullRowContent?: ReactNode;
 }
 
 export interface CellDescription<Model> {
     id: string,
     getter: (model: Model) => ReactNode,
-    label: string,
+    header: ReactNode,
 }
 
 export interface CustomTableProps<Model> {

@@ -14,7 +14,7 @@ export default function CustomTable<T>({
 				<TableHead>
 					<TableRow>
 						{cells.map(cell => (
-							<TableCell key={cell.id} className='tableHeaderCell'>{cell.label}</TableCell>
+							<TableCell key={cell.id} className='tableHeaderCell'>{cell.header}</TableCell>
 						))}
 					</TableRow>
 				</TableHead>
