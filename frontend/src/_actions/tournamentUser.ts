@@ -8,67 +8,6 @@ import utlsSlice from '../_reducers/myUtls'
 import { mapValues, minBy } from 'lodash'
 
 
-const fakeTournamentConfig = (utl) => ({
-  ...utl,
-  tournament: {
-    ...utl.tournament,
-    config: {
-      gameBets: {
-        groupStage: {
-          winnerSide: 10,
-          result: 20,
-        },
-        knockout: {
-          qualifier: 20,
-          winnerSide: 20,
-          result: 60,
-        },
-        final: {
-          qualifier: 30,
-          winnerSide: 30,
-          result: 90,
-        },
-        semifinal: {
-          qualifier: 25,
-          winnerSide: 25,
-          result: 75,
-        }
-      },
-      groupRankBets: {
-        perfect: 60,
-        minorMistake: 30,
-      },
-      specialBets: {
-        offensive_team: 50,
-        winner: {
-          quarterFinal: 20,
-          semiFinal: 30,
-          final: 30,
-          winning: 200,
-        },
-        runner_up: {
-          quarterFinal: 20,
-          semiFinal: 20,
-          final: 100,
-        },
-        mvp: 100,
-        most_assists: 100,
-        top_scorer: {
-          correct: 40,
-          eachGoal: 20,
-        },
-      },
-      prizes: [
-        '2000 ש"ח',
-        '800 ש"ח',
-        '400 ש"ח',
-        '200 ש"ח',
-        'במבה וקולה גדול',
-      ]
-    },
-  }
-})
-
 
 function getDefaultUtlId(
   utlsById: MyUtlsById,
@@ -111,9 +50,7 @@ function resetUtlSelection() {
 
 function fetchAndStoreUtls() {
   return async (dispatch: AppDispatch, getState: GetRootState) => {
-      // const utlsById = await getUserUTLs();
-      let utlsById = await getUserUTLs(); // for development
-      utlsById = mapValues(utlsById, fakeTournamentConfig);
+      const utlsById = await getUserUTLs();
       const currentUser = CurrentUser(getState());
       dispatch(utlsSlice.actions.set(utlsById));
       const utlIdToSelect = getDefaultUtlId(utlsById, currentUser);
@@ -133,7 +70,7 @@ function createUtl({
   return async (dispatch: AppDispatch) => {
       return joinTournament({name, code: tournamentCode})
       .then( (utl: UtlWithTournament )=> {
-        dispatch(utlsSlice.actions.setOne(fakeTournamentConfig(utl)));
+        dispatch(utlsSlice.actions.setOne(utl));
         dispatch(selectUtl(utl.id));
       })
   }
@@ -142,7 +79,7 @@ function createUtl({
 function updateMyUTLAndStore(tournamentId: number, params: PayloadUpdateMyUTL) {
   return async (dispatch: AppDispatch) => {
       const utl = await updateMyUTL(tournamentId, params);
-      dispatch(utlsSlice.actions.setOne(fakeTournamentConfig(utl)));
+      dispatch(utlsSlice.actions.setOne(utl));
   }
 }
 

@@ -164,7 +164,7 @@
         <br>
         <a href="/admin/add-scorer">Add player to scorers table</a><br>
         <a href="/admin/remove-irrelevant-scorers">Remove irrelevant players from scorers table</a><br>
-        <a href="javascript:formatCustomAnswers()">Replace special bets custom answer (on mvp & most_assists) [input params]</a><br>
+        <a href="javascript:formatCustomAnswers()">Replace special bets custom answer (on mvp & topAssists) [input params]</a><br>
         <br>
         <a href="javascript:createNewRankState()">Update ranking by creating new state</a><br>
         <a href="javascript:fixLastRankState()">[DANGER] Update ranking by squashing current state to last state</a><br>
@@ -189,7 +189,7 @@
         <a href="javascript:getFullTable()">Get full table data [input params]</a><br>
         <a href="/debug/scorers-simple-data">Get scorers: [id, external_id, name]</a><br>
         <a href="/debug/special-bets-values/mvp">Get mvp bet values</a><br>
-        <a href="/debug/special-bets-values/most_assists">Get most_assists bet values</a><br>
-        <a href="/debug/special-bets-values/top_scorer">Get top_scorer bet values</a><br>
+        <a href="/debug/special-bets-values/topAssists">Get topAssists bet values</a><br>
+        <a href="/debug/special-bets-values/topScorer">Get topScorer bet values</a><br>
     </div>
 @endsection

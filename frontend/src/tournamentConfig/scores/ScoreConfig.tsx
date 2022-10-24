@@ -1,13 +1,15 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from './schema';
-import { SpecialQuestionType, TournamentScoreConfig } from '../../types';
+import { TournamentScoreConfig } from '../../types';
 import { Button } from '@mui/material';
 import GroupRankBetConfig from './groupRankBets/GroupRankBetConfig';
 import MatchBetsConfig from './matchBets/MatchBetsConfig';
 import SpecialBetsConfig from './specialQuestions/SpecialBetsConfig';
 import { ScoreConfigForm } from '../types';
+import { generateDefaultScoresConfig, mapFormStateToApiParams, getInitialOptionsConfig } from '../utils';
+
 
 interface Props {
 	config: TournamentScoreConfig,
@@ -18,28 +20,25 @@ function ScoreConfig({
 	config,
 	updateConfig,
 }: Props){
-	const { setValue, handleSubmit, watch, register, formState, clearErrors, reset} = useForm<ScoreConfigForm>({
+	const defaultConfig = config || generateDefaultScoresConfig()
+	const initialOptionsConfig = getInitialOptionsConfig(config)
+	const { setValue, handleSubmit, watch, register, control, formState, clearErrors, reset} = useForm<ScoreConfigForm>({
 		// resolver: yupResolver(validationSchema),
 		// TODO: use validationSchema
 		reValidateMode: 'onSubmit',
 		shouldFocusError: true,
 		defaultValues: {
-			...config,
-			chosenSpecialQuestions: {
-				[SpecialQuestionType.Winner]: true,
-				[SpecialQuestionType.RunnerUp]: true,
-				[SpecialQuestionType.TopScorer]: true,
-				[SpecialQuestionType.TopAssists]: true,
-				[SpecialQuestionType.MVP]: true,
-				[SpecialQuestionType.OffensiveTeamGroupStage]: false,
-			}
+			...defaultConfig,
+			...initialOptionsConfig,		
 		},
 	})
 	const { errors, isSubmitting } = formState;
+	const formProps = {setValue, control, register, clearErrors, errors, watch};
 
 
-	const submit = async (params: TournamentScoreConfig) => {
-		await updateConfig(params)
+	const submit = async (formState: ScoreConfigForm) => {
+		const apiParams = mapFormStateToApiParams(formState)
+		await updateConfig(apiParams)
 		.then(() => {
 			(window as any).toastr["success"]('ההגדרות הניקוד עודכנו בהצלחה');
 		});
@@ -47,14 +46,14 @@ function ScoreConfig({
 
 	return (
 		<div className='LigaBet-ScoreConfig'>
-			<GroupRankBetConfig
-				{...{setValue, register, clearErrors, errors, watch}}
-			/>
 			<MatchBetsConfig
-				{...{setValue, register, clearErrors, errors, watch}}
+				{...formProps}
+			/>
+			<GroupRankBetConfig
+				{...formProps}
 			/>
 			<SpecialBetsConfig
-				{...{setValue, register, clearErrors, errors, watch}}
+				{...formProps}
 			/>
 			<div className={'savePrizes'}>
 				<Button variant='contained' color='primary' onClick={handleSubmit(submit)}>

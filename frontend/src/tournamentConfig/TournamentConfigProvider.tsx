@@ -1,31 +1,34 @@
 import React from 'react';
 import { useSelector, connect } from 'react-redux';
-import { TournamentConfig as TypeTournamentConfig } from '../types';
+import { TournamentScoreConfig } from '../types';
 import {
-	updateTournamentConfig
+	updateScoreConfig
 } from '../_actions/tournament';
-import { NoSelector, CurrentTournamentConfig } from '../_selectors';
+import { NoSelector, ScoresConfigSelector, PrizesSelector } from '../_selectors';
 import TournamentConfig from './TournamentConfigView';
 import './TournamentConfig.scss';
 
 
 function TournamentConfigProvider({
-	updateTournamentConfig
+	updateScoreConfig
 }: {
-	updateTournamentConfig: (config: Partial<TypeTournamentConfig> ) => Promise<void>,
+	updateScoreConfig: (config: TournamentScoreConfig ) => Promise<void>,
 }){
-	const config = useSelector(CurrentTournamentConfig);
+	const scoresConfig = useSelector(ScoresConfigSelector);
+	console.log({scoresConfig})
+	const prizes = useSelector(PrizesSelector);
 
 	return (
 		<TournamentConfig
-			config={config}
-			updateConfig={updateTournamentConfig}
+			scoreConfig={scoresConfig}
+			prizes={prizes}
+			updateScoreConfig={updateScoreConfig}
 		/>
 	);
 }
 
 const mapDispatchToProps = {
-	updateTournamentConfig
+	updateScoreConfig
 }
 
 

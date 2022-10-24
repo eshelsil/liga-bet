@@ -13,15 +13,17 @@ function MatchBetsExplanation(){
             winnerSide: 20,
             result: 60,
         },
-        final: {
-            qualifier: 30,
-            winnerSide: 30,
-            result: 90,
-        },
-        semifinal: {
-            qualifier: 25,
-            winnerSide: 25,
-            result: 75,
+        bonuses: {
+            final: {
+                qualifier: 30,
+                winnerSide: 30,
+                result: 90,
+            },
+            semifinal: {
+                qualifier: 25,
+                winnerSide: 25,
+                result: 75,
+            }
         }
     };
 	return (

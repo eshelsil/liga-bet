@@ -22,12 +22,6 @@ export const TournamentIdSelector = createSelector(
     CurrentTournament,
     (tournament) => tournament.id
 )
-
-export const CurrentTournamentConfig = createSelector(
-    CurrentTournament,
-    tournament => tournament.config,
-);
-
 export const IsTournamentStarted = createSelector(
     CurrentTournament,
     (tournament) => false // only for development

@@ -12,10 +12,10 @@ const TOP_ASSISTS_WINNING_STRING = 'ניחוש נכון';
 function TopAssistsConfig(formProps: ScoreConfigFormProps){
 	const { watch, register, errors, clearErrors, setValue } = formProps;
 	const onChange = (event: any, value: boolean) => {
-		setValue('chosenSpecialQuestions.most_assists', value as never);
+		setValue('chosenSpecialQuestions.topAssists', value as never);
 	}
-	const isOn = watch('chosenSpecialQuestions.most_assists');
-	const scoreConfig = watch('specialBets.most_assists');
+	const isOn = watch('chosenSpecialQuestions.topAssists');
+	const scoreConfig = watch('specialBets.topAssists');
 	return (
 		<div className='LigaBet-TopAssists configContainer'>
 			<SpecialQuestionHeader
@@ -32,11 +32,11 @@ function TopAssistsConfig(formProps: ScoreConfigFormProps){
 						{TOP_ASSISTS_WINNING_STRING}
 					</p>
 					<ScoreInput
-						error={errors.specialBets?.most_assists?.message}
+						error={errors.specialBets?.topAssists?.message}
 						InputProps={{
-							...register('specialBets.most_assists')
+							...register('specialBets.topAssists')
 						}}
-						clearErrors={() => clearErrors('specialBets.most_assists')}
+						clearErrors={() => clearErrors('specialBets.topAssists')}
 					/>
 				</div>
 				<TakanonPreviewModal>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { CurrentTournament } from '../_selectors';
+import { CurrentTournament, PrizesSelector, ScoresConfigSelector } from '../_selectors';
 import Disclaimer from './Disclaimer';
 import GeneralRules from './GeneralRules';
 import PrizesRules from './PrizesRules';
@@ -10,7 +10,8 @@ import './style.scss';
 
 
 function Takanon() {
-    const tournament = useSelector(CurrentTournament);
+    const prizes = useSelector(PrizesSelector);
+    const scoreConfig = useSelector(ScoresConfigSelector);
 
     return (
         <div className="all-ltr" style={{ marginBottom: 30 }}>
@@ -18,8 +19,8 @@ function Takanon() {
 
             <Disclaimer />
             <SendingBetsExplanation />
-            <ScoresRules config={tournament.config} />
-            <PrizesRules prizes={tournament.config.prizes} />
+            <ScoresRules config={scoreConfig} />
+            <PrizesRules prizes={prizes} />
             <br/>
 
             <GeneralRules />

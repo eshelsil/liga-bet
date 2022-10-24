@@ -11,7 +11,7 @@
                 })->toArray();
     $teams = $teamsCollection->sortBy('name')->toArray();
     $inputAttrMap = [
-            'top_scorer' => [
+            'topScorer' => [
                 'type' => 'select',
                 'title' => $topScorerDropdownTitle,
                 'options' => $scorersList,
@@ -34,7 +34,7 @@
             'mvp' => [
                 'type' => 'text',
             ],
-            'most_assists' => [
+            'topAssists' => [
                 'type' => 'text',
             ],
         ];
@@ -85,7 +85,7 @@
 
 
         function sendBet(betId) {
-            const top_scorer_bet_id = "{{ \App\SpecialBets\SpecialBet::getByType('top_scorer')->id }}";
+            const top_scorer_bet_id = "{{ \App\SpecialBets\SpecialBet::getByType('topScorer')->id }}";
             const offensive_team_bet_id = "{{ \App\SpecialBets\SpecialBet::getByType('offensive_team')->id }}";
             const champions_bet_id = "{{ \App\SpecialBets\SpecialBet::getByType('winner')->id }}";
             const runner_up_scorer_bet_id = "{{ \App\SpecialBets\SpecialBet::getByType('runner_up')->id }}";

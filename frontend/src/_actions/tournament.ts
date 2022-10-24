@@ -1,8 +1,8 @@
 import { AppDispatch, GetRootState } from '../_helpers/store'
-import { createTournament, getTournamentsOwnedByUser } from '../api/tournaments'
+import { createTournament, getTournamentsOwnedByUser, updateTournamentScoresConfig } from '../api/tournaments'
 import ownedTournament from '../_reducers/ownedTournament'
-import { CurrentTournamentUserId } from '../_selectors'
-import { TournamentConfig } from '../types'
+import { CurrentTournamentId, CurrentTournamentUserId } from '../_selectors'
+import { TournamentScoreConfig } from '../types'
 import myUtlsSlice from '../_reducers/myUtls'
 
 function createNewTournament({
@@ -29,11 +29,12 @@ function fetchOwnedTournaments() {
     }
 }
 
-function updateTournamentConfig(config: Partial<TournamentConfig>) {
+function updateScoreConfig(config: TournamentScoreConfig) {
     return async (dispatch: AppDispatch, getState: GetRootState) => {
         const utlId = CurrentTournamentUserId(getState())
-
-        dispatch(myUtlsSlice.actions.updateTournamentConfig({utlId, config}))
+        const tournamentId = CurrentTournamentId(getState())
+        const tournament = await updateTournamentScoresConfig(tournamentId, config);
+        dispatch(myUtlsSlice.actions.updateTournamentConfig({utlId, config: tournament.config}))
     }
 }
-export { createNewTournament, fetchOwnedTournaments, updateTournamentConfig }
+export { createNewTournament, fetchOwnedTournaments, updateScoreConfig }

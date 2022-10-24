@@ -1,4 +1,5 @@
 import { EnumRecord } from "./common";
+import { KnockoutStage } from "./match";
 import { SpecialQuestionType } from "./specialQuestion";
 
 export enum TournamentStatus {
@@ -15,14 +16,10 @@ export enum CompetitionStageName {
 	Winning = 'winning',
 }
 
-// Todo: needs refinement
-export enum GameStage {
+export enum GameBetType {
 	GroupStage = 'groupStage',
-	Last16 = 'last16',
-	QuarterFinal = 'quarterFinal',
-	SemiFinal = 'semiFinal',
-	Final = 'final',
 	Knockout = 'knockout',
+	Bonus = 'bonuses',
 }
 
 export type RoadToFinalBetScoreConfig = EnumRecord<CompetitionStageName, number>
@@ -47,12 +44,18 @@ export interface GameBetScoreConfig {
 	qualifier?: number,
 }
 
+export type GameBetBonusesScoreConfig = EnumRecord<KnockoutStage, GameBetScoreConfig>
+
 export interface GroupRankBetScoreConfig {
 	perfect: number,
 	minorMistake: number,
 }
 
-export type MatchBetsScoreConfig = EnumRecord<GameStage, GameBetScoreConfig>
+export interface MatchBetsScoreConfig {
+	[GameBetType.GroupStage]: GameBetScoreConfig,
+	[GameBetType.Knockout]: GameBetScoreConfig,
+	[GameBetType.Bonus]: GameBetBonusesScoreConfig,
+}
 
 export interface TournamentScoreConfig {
     gameBets: MatchBetsScoreConfig,
@@ -60,8 +63,9 @@ export interface TournamentScoreConfig {
     specialBets: SpecialQuestionBetScoreConfig,
 }
 
-export interface TournamentConfig extends TournamentScoreConfig {
+export interface TournamentConfig {
 	prizes: string[],
+	scores: TournamentScoreConfig,
 }
 
 export interface Tournament {

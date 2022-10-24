@@ -6,16 +6,16 @@ import ScoreInput from '../ScoreInput';
 import SpecialQuestionHeader from './SpecialQuestionHeader';
 
 
-const EACH_GOAL_STRING = 'כל גול';
+const EACH_GOAL_STRING = 'ניקוד על כל גול';
 const TOP_SCORER_WINNING_STRING = 'בונוס על זכייה בתואר';
 
 function TopScorerConfig(formProps: ScoreConfigFormProps){
 	const { watch, setValue, register, errors, clearErrors } = formProps;
 	const onChange = (event: any, value: boolean) => {
-		setValue('chosenSpecialQuestions.top_scorer', value as never);
+		setValue('chosenSpecialQuestions.topScorer', value as never);
 	}
-	const isOn = watch('chosenSpecialQuestions.top_scorer');
-	const scoreConfig = watch('specialBets.top_scorer');
+	const isOn = watch('chosenSpecialQuestions.topScorer');
+	const scoreConfig = watch('specialBets.topScorer');
 	return (
 		<div className='LigaBet-TopScorerConfig configContainer'>
 			<SpecialQuestionHeader
@@ -27,30 +27,38 @@ function TopScorerConfig(formProps: ScoreConfigFormProps){
 					onChange,
 				}}
 			/>
-				<div className='configRow'>
-					<p className={'configLabel'}>
-						{EACH_GOAL_STRING}
-					</p>
-					<ScoreInput
-						error={errors.specialBets?.top_scorer?.eachGoal?.message}
-						InputProps={{
-							...register('specialBets.top_scorer.eachGoal')
-						}}
-						clearErrors={() => clearErrors('specialBets.top_scorer.eachGoal')}
-					/>
-				</div>
-				<div className='configRow'>
-					<p className={'configLabel'}>
-						{TOP_SCORER_WINNING_STRING}
-					</p>
-					<ScoreInput
-						error={errors.specialBets?.top_scorer?.correct?.message}
-						InputProps={{
-							...register('specialBets.top_scorer.correct')
-						}}
-						clearErrors={() => clearErrors('specialBets.top_scorer.correct')}
-					/>
-				</div>
+				<table className='LB-simpleTable'>
+					<tbody>
+						<tr>
+							<td className={'configLabel'}>
+								{EACH_GOAL_STRING}
+							</td>
+							<td>
+								<ScoreInput
+									error={errors.specialBets?.topScorer?.eachGoal?.message}
+									InputProps={{
+										...register('specialBets.topScorer.eachGoal')
+									}}
+									clearErrors={() => clearErrors('specialBets.topScorer.eachGoal')}
+								/>
+							</td>
+						</tr>
+						<tr>
+							<td className={'configLabel'}>
+								{TOP_SCORER_WINNING_STRING}
+							</td>
+							<td>
+								<ScoreInput
+									error={errors.specialBets?.topScorer?.correct?.message}
+									InputProps={{
+										...register('specialBets.topScorer.correct')
+									}}
+									clearErrors={() => clearErrors('specialBets.topScorer.correct')}
+								/>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			<TakanonPreviewModal>
 				<TopScorerRules scoreConfig={scoreConfig} />
 			</TakanonPreviewModal>

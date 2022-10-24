@@ -1,27 +1,28 @@
 import React from 'react';
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { TournamentConfig } from '../types';
+import { TournamentConfig, TournamentScoreConfig } from '../types';
 import PrizesConfig from './prizes/PrizesConfig';
 import ScoreConfig from './scores/ScoreConfig';
 
 
 
-export type TournamentConfigParams = Partial<TournamentConfig>
 
 interface Props {
-	config: TournamentConfig,
-	updateConfig: (params: TournamentConfigParams) => Promise<void>,
+	prizes: TournamentConfig['prizes'],
+	scoreConfig: TournamentScoreConfig,
+	updateScoreConfig: (params: TournamentScoreConfig) => Promise<void>,
 }
 
 function TournamentConfigView({
-	config,
-	updateConfig,
+	prizes,
+	scoreConfig,
+	updateScoreConfig,
 }: Props){
-	const {prizes, ...scroeConfig} = config;
 
 	const updatePrizes = async (config: TournamentConfig['prizes']) => {
-		return await updateConfig({prizes: config});
+		// return await updateConfig({prizes: config});
+		return ;
 	}
 
 	return (
@@ -42,7 +43,7 @@ function TournamentConfigView({
 					</h4>
         		</AccordionSummary>
 				<AccordionDetails>
-					<PrizesConfig prizes={config.prizes} updatePrizes={updatePrizes} />
+					<PrizesConfig prizes={prizes} updatePrizes={updatePrizes} />
 				</AccordionDetails>
       		</Accordion>
 			<Accordion className={'tournamentConfigAccordion'}>
@@ -55,7 +56,7 @@ function TournamentConfigView({
 					</h4>
         		</AccordionSummary>
 				<AccordionDetails>
-					<ScoreConfig config={scroeConfig} updateConfig={updateConfig}/>
+					<ScoreConfig config={scoreConfig} updateConfig={updateScoreConfig}/>
 				</AccordionDetails>
       		</Accordion>
 		</div>

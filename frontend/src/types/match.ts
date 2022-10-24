@@ -5,6 +5,13 @@ export enum WinnerSide {
     Home = 'home',
 }
 
+export enum KnockoutStage {
+	Final = 'final',
+	SemiFinal = 'semiFinal',
+    QuarterFinal = 'quarterFinal',
+	Last16 = 'last16',
+}
+
 interface MatchCommonBase {
     id: number
     result_home: number

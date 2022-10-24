@@ -8,12 +8,14 @@ interface Props extends ScoreConfigFormProps {
 	stageName: CompetitionStageName,
 	questionType: SpecialQuestionType.Winner | SpecialQuestionType.RunnerUp,
 	label?: string,
+	disabled?: boolean,
 }
 
 function TeamAchivementStageConfig({
 	stageName,
 	questionType,
 	label,
+	disabled,
 	errors,
 	register,
 	clearErrors,
@@ -24,7 +26,8 @@ function TeamAchivementStageConfig({
 			error={error}
 			label={label}
 			InputProps={{
-				...register(`specialBets.${questionType}.${stageName}`)
+				...register(`specialBets.${questionType}.${stageName}`),
+				disabled,
 			}}
 			clearErrors={() => clearErrors(`specialBets.${questionType}.${stageName}`)}
 		/>

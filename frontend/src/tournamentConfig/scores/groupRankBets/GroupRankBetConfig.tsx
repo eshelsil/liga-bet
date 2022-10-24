@@ -23,31 +23,38 @@ function GroupRankBetConfig({
 				title={'ניקוד דירוגי בתים'}
 				tooltipContent={<GroupRankExplanation />}
 			/>
-			<div className='configRow'>
-				<p className={'configLabel'}>
-					{PERFECT_STRING}
-				</p>
-				<ScoreInput
-					error={errors.groupRankBets?.perfect?.message}
-					InputProps={{
-						...register('groupRankBets.perfect')
-					}}
-					clearErrors={() => clearErrors('groupRankBets.perfect')}
-				/>
-
-			</div>
-			<div className='configRow'>
-				<p className={'configLabel'}>
-					{MINOR_MISTAKE_STRING}
-				</p>
-				<ScoreInput
-					error={errors.groupRankBets?.minorMistake?.message}
-					InputProps={{
-						...register('groupRankBets.minorMistake')
-					}}
-					clearErrors={() => clearErrors('groupRankBets.minorMistake')}
-				/>
-			</div>
+			<table className='LB-simpleTable'>
+				<tbody>
+					<tr>
+						<td className={'configLabel'}>
+							{PERFECT_STRING}
+						</td>
+						<td>
+							<ScoreInput
+								error={errors.groupRankBets?.perfect?.message}
+								InputProps={{
+									...register('groupRankBets.perfect')
+								}}
+								clearErrors={() => clearErrors('groupRankBets.perfect')}
+							/>
+						</td>
+					</tr>
+					<tr>
+						<td className={'configLabel'}>
+							{MINOR_MISTAKE_STRING}
+						</td>
+						<td>
+							<ScoreInput
+								error={errors.groupRankBets?.minorMistake?.message}
+								InputProps={{
+									...register('groupRankBets.minorMistake')
+								}}
+								clearErrors={() => clearErrors('groupRankBets.minorMistake')}
+							/>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 			<TakanonPreviewModal>
 				<GroupStageRules scoreConfig={{perfect:perfectScore, minorMistake: minorMistakeScore}}/>
 			</TakanonPreviewModal>

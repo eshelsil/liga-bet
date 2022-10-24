@@ -4,11 +4,11 @@ import { Dictionary } from 'lodash'
 
 export enum SpecialQuestionType {
     Winner = 'winner',
-    RunnerUp = 'runner_up',
-    TopScorer = 'top_scorer',
-    TopAssists = 'most_assists',
+    RunnerUp = 'runnerUp',
+    TopScorer = 'topScorer',
+    TopAssists = 'topAssists',
     MVP = 'mvp',
-    OffensiveTeamGroupStage = 'offensive_team',
+    OffensiveTeamGroupStage = 'offensiveTeam',
 }
 
 export enum SpecialAnswerType {

@@ -12,10 +12,10 @@ const OFFENSIVE_TEAM_WINNING_STRING = 'ניחוש נכון';
 function OffensiveTeamConfig(formProps: ScoreConfigFormProps){
 	const { watch, register, errors, clearErrors, setValue } = formProps;
 	const onChange = (event: any, value: boolean) => {
-		setValue('chosenSpecialQuestions.offensive_team', value as never);
+		setValue('chosenSpecialQuestions.offensiveTeam', value as never);
 	}
-	const isOn = watch('chosenSpecialQuestions.offensive_team');
-	const scoreConfig = watch('specialBets.offensive_team');
+	const isOn = watch('chosenSpecialQuestions.offensiveTeam');
+	const scoreConfig = watch('specialBets.offensiveTeam');
 	return (
 		<div className='LigaBet-MVPConfig configContainer'>
 			<SpecialQuestionHeader
@@ -32,11 +32,11 @@ function OffensiveTeamConfig(formProps: ScoreConfigFormProps){
 						{OFFENSIVE_TEAM_WINNING_STRING}
 					</p>
 					<ScoreInput
-						error={errors.specialBets?.offensive_team?.message}
+						error={errors.specialBets?.offensiveTeam?.message}
 						InputProps={{
-							...register('specialBets.offensive_team')
+							...register('specialBets.offensiveTeam')
 						}}
-						clearErrors={() => clearErrors('specialBets.offensive_team')}
+						clearErrors={() => clearErrors('specialBets.offensiveTeam')}
 					/>
 				</div>
 				<TakanonPreviewModal>
