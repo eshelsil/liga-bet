@@ -112,7 +112,7 @@ class BetMatchRequest extends AbstractBetRequest
                 GameSubTypes::LAST_32        => "last32",
                 default                      => "empty"
             };
-            $score += $this->calculateKnockout("knockout.bonuses.$type");
+            $score += $this->calculateKnockout("bonuses.$type");
         } else {
             $score = $this->calculate90Minutes("groupStage");
         }

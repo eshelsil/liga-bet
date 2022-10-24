@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Exceptions\JsonException;
+use App\Http\Resources\TournamentResource;
 
 class TournamentController extends Controller
 {
@@ -59,12 +60,12 @@ class TournamentController extends Controller
             "gameBets.knockout.qualifier",
             "gameBets.knockout.winnerSide",
             "gameBets.knockout.result",
-            "gameBets.knockout.bonuses.final.qualifier",
-            "gameBets.knockout.bonuses.final.winnerSide",
-            "gameBets.knockout.bonuses.final.result",
-            "gameBets.knockout.bonuses.semiFinal.qualifier",
-            "gameBets.knockout.bonuses.semiFinal.winnerSide",
-            "gameBets.knockout.bonuses.semiFinal.result",
+            "gameBets.bonuses.final.qualifier",
+            "gameBets.bonuses.final.winnerSide",
+            "gameBets.bonuses.final.result",
+            "gameBets.bonuses.semiFinal.qualifier",
+            "gameBets.bonuses.semiFinal.winnerSide",
+            "gameBets.bonuses.semiFinal.result",
             "groupRankBets.perfect",
             "groupRankBets.minorMistake",
             "specialBets.offensiveTeam",
@@ -88,7 +89,7 @@ class TournamentController extends Controller
         }
         $tournament->save();
 
-        return new JsonResponse($tournament, 200);
+        return new JsonResponse((new TournamentResource($tournament))->toArray($request), 200);
     }
 
     private function validateCreatePermissions()
