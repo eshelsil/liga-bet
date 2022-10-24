@@ -1,19 +1,21 @@
 import React from 'react'
-import { Button, TableCell, TableRow } from '@mui/material'
+import { Button, FormControlLabel, Switch, TableCell, TableRow } from '@mui/material'
 import { User, UserPermissions } from '../types'
 import { UserPermissionsToRoleString } from '../utils'
-import { UserAction } from './types'
+import { UserAction, UserUpdateEditPermissions } from './types'
 
 interface Props {
     user: User
     makeTournamentAdmin: UserAction
     revokeTournamentAdminPermissions: UserAction
+    updateUserScoresConfigPermissions: UserUpdateEditPermissions
 }
 
 function UserRow({
     user,
     makeTournamentAdmin,
     revokeTournamentAdminPermissions,
+    updateUserScoresConfigPermissions,
 }: Props) {
     return (
         <TableRow>
@@ -34,7 +36,7 @@ function UserRow({
                         הפוך למנהל טורניר{' '}
                     </Button>
                 )}
-                {user.permissions === UserPermissions.TournamentAdmin && (
+                {user.permissions === UserPermissions.TournamentAdmin && (<>
                     <Button
                         variant="contained"
                         color="secondary"
@@ -45,10 +47,25 @@ function UserRow({
                         {' '}
                         הסר הרשאות מנהל טורניר{' '}
                     </Button>
-                )}
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                color="primary"
+                                checked={!!user.canUpdateScoreConfig}
+                                onClick={()=>{
+                                    updateUserScoresConfigPermissions(user.id, !user.canUpdateScoreConfig)
+                                }}
+                            />
+                        }
+                        label={'יכול לערוך ניקוד'}
+                        labelPlacement="top"
+                    />
+                </>)}
             </TableCell>
         </TableRow>
     )
 }
+
+
 
 export default UserRow

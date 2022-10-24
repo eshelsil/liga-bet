@@ -21,7 +21,7 @@ function ScoreConfig({
 	updateConfig,
 }: Props){
 	const defaultConfig = config || generateDefaultScoresConfig()
-	const initialOptionsConfig = getInitialOptionsConfig(config)
+	const initialOptionsConfig = getInitialOptionsConfig(defaultConfig)
 	const { setValue, handleSubmit, watch, register, control, formState, clearErrors, reset} = useForm<ScoreConfigForm>({
 		// resolver: yupResolver(validationSchema),
 		// TODO: use validationSchema

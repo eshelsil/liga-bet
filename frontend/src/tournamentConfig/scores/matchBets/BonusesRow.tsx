@@ -5,7 +5,14 @@ import { Checkbox, FormControlLabel } from '@mui/material';
 
 
 
-function BonusesRow(formProps: ScoreConfigFormProps) {
+interface Props extends ScoreConfigFormProps{
+	disabled?: boolean
+}
+
+function BonusesRow({
+	disabled = false,
+	...formProps
+}: Props) {
 	const optionsConfig = useWatch({control: formProps.control, name: 'gameBetOptions'})
 	const onChangeFinal = (event: any, value: boolean) => {
 		formProps.setValue('gameBetOptions.bonuses.final', value as never);
@@ -22,6 +29,7 @@ function BonusesRow(formProps: ScoreConfigFormProps) {
 					size='small'
 					checked={optionsConfig.bonuses.final}
 					onChange={onChangeFinal}
+					disabled={disabled}
 				/>}
 				label="גמר"
 			/>
@@ -30,6 +38,7 @@ function BonusesRow(formProps: ScoreConfigFormProps) {
 					size='small'
 					checked={optionsConfig.bonuses.semiFinal}
 					onChange={onChangeSemiFinal}
+					disabled={disabled}
 				/>}
 				label="חצי גמר"
 			/>

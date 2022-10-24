@@ -1,6 +1,6 @@
 import React from 'react';
 import { CompetitionStageName } from '../../../types';
-import { ScoreConfigFormProps } from '../../types';
+import { ScoreConfigFormProps, SpecialQuestionConfigProps } from '../../types';
 import CustomTable from '../../../widgets/Table/CustomTable';
 import ScoreInput from '../ScoreInput';
 import HeaderWithSwitch from './HeaderWithSwitch';
@@ -12,10 +12,10 @@ interface CompetitionStageConfigModel {
 	stageName: CompetitionStageName,
 }
 
-function RoadToFinalMobileTable(formProps: ScoreConfigFormProps){
+function RoadToFinalMobileTable({disabled, ...formProps}: SpecialQuestionConfigProps){
 	const { watch, setValue, errors, register, clearErrors } = formProps;
 
-	const isOnRunnerUp = watch('chosenSpecialQuestions.runnerUp');
+	const isOnRunnerUp = watch('specialQuestionFlags.runnerUp');
 
 	const isOnSemiFinal = watch('specialQuestionOptions.roadToFinal.semiFinal');
 	const onChangeSemiFinal = (event: any, value: boolean) => {
@@ -55,12 +55,22 @@ function RoadToFinalMobileTable(formProps: ScoreConfigFormProps){
 				const label = competitionStageToString[model.stageName];
 				if (model.stageName === CompetitionStageName.SemiFinal) {
 					return (
-						<HeaderWithSwitch label={label} checked={isOnSemiFinal} onChange={onChangeSemiFinal} />
+						<HeaderWithSwitch
+							label={label}
+							checked={isOnSemiFinal}
+							onChange={onChangeSemiFinal}
+							disabled={disabled}
+						/>
 					)
 				}
 				if (model.stageName === CompetitionStageName.QuarterFinal) {
 					return (
-						<HeaderWithSwitch label={label} checked={isOnQuarterFinal} onChange={onChangeQuarterFinal} />
+						<HeaderWithSwitch
+							label={label}
+							checked={isOnQuarterFinal}
+							onChange={onChangeQuarterFinal}
+							disabled={disabled}
+						/>
 					)
 				}
 				return label
@@ -77,6 +87,7 @@ function RoadToFinalMobileTable(formProps: ScoreConfigFormProps){
 						disabled: (
 							(model.stageName === CompetitionStageName.SemiFinal && !isOnSemiFinal)
 							|| (model.stageName === CompetitionStageName.QuarterFinal && !isOnQuarterFinal)
+							|| disabled
 						),
 					}}
 					clearErrors={() => clearErrors(`specialBets.winner.${model.stageName}`)}
@@ -96,6 +107,7 @@ function RoadToFinalMobileTable(formProps: ScoreConfigFormProps){
 								disabled: (
 									(model.stageName === CompetitionStageName.SemiFinal && !isOnSemiFinal)
 									|| (model.stageName === CompetitionStageName.QuarterFinal && !isOnQuarterFinal)
+									|| disabled
 								),
 							}}
 							clearErrors={() => clearErrors(`specialBets.runnerUp.${model.stageName}`)}

@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Exceptions\JsonException;
+use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -170,20 +172,53 @@ class UserController extends Controller
                 return $q->skip($offset);
             })
             ->get();
-        return (new JsonResponse($users, 200, [
+        $data = $users->map(
+            fn(User $user) => (new UserResource($user))->toArray($request)
+        );
+        return (new JsonResponse($data, 200, [
             'X-Total-Count' => $total
         ]));
     }
 
     public function update(Request $request, string $userId)
     {
-        $newPermissions = $request->permissions;
-        if ( !in_array($newPermissions, [User::TYPE_TOURNAMENT_ADMIN, User::TYPE_USER]) ){
-            throw new JsonException("Got unsupported permissions type \"$newPermissions\". The only permissions types allowed to be set are [".User::TYPE_TOURNAMENT_ADMIN.", ".User::TYPE_USER."]", 400);
-        }
         $user = User::find($userId);
         if (!$user){
             throw new JsonException("User with id $userId does not exist", 400);
+        }
+        $hasNewPermissions = $request->exists('permissions');
+        $hasNewCanEditScoresAttr = $request->exists('canEditScores');
+        if ($hasNewPermissions){
+            $newPermissions = $request->permissions;
+            $this->validateNewPermissions($newPermissions, $user);
+            $user->permissions = $newPermissions;
+        }
+        if ($hasNewCanEditScoresAttr){
+            $canEditScores = $request->canEditScores;
+            $this->validateCanEditScoreInput($canEditScores, $user);
+            $user->can_edit_score_config = $canEditScores;
+        }
+        if (!$hasNewPermissions && !$hasNewCanEditScoresAttr){
+            throw new JsonException("Got no configurable parameters. must pass at least one of: \"permissions\", \"canEditScores\" ", 400);
+        }
+        $user->save(); 
+        return new JsonResponse((new UserResource($user))->toArray($request), 200);
+    }
+
+    public function validateCanEditScoreInput(bool $canEditScores, User $user)
+    {
+        $validator = Validator::make(["canEditScores" => $canEditScores], [
+            'canEditScores' => 'required|boolean',
+        ])->validate();
+        if ($user->permissions != User::TYPE_TOURNAMENT_ADMIN){
+            throw new JsonException("Failed trying updating can_", 400);
+        }
+    }
+
+    public function validateNewPermissions(int $newPermissions, User $user)
+    {
+        if ( !in_array($newPermissions, [User::TYPE_TOURNAMENT_ADMIN, User::TYPE_USER]) ){
+            throw new JsonException("Got unsupported permissions type \"$newPermissions\". The only permissions types allowed to be set are [".User::TYPE_TOURNAMENT_ADMIN.", ".User::TYPE_USER."]", 400);
         }
         $permissions = $user->permissions;
         if ($newPermissions == User::TYPE_TOURNAMENT_ADMIN){
@@ -200,9 +235,6 @@ class UserController extends Controller
                 throw new JsonException("Only users with TYPE_TOURNAMENT_ADMIN permissions can become a regular-user", 400);
             }
         }
-        $user->permissions = $newPermissions;
-        $user->save(); 
-        return new JsonResponse($user, 200);
     }
 
     private function ensureCanRemoveTournametAdminPermissions(User $user){

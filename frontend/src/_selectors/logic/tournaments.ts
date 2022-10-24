@@ -8,7 +8,7 @@ export const ChosenTournamentIndex = createSelector(
     MyUtls,
     CurrentTournamentUserId,
     (myUtlsById, currentUtlId) => {
-        const utlsByDate = sortBy(Object.values(myUtlsById), 'created_at');
+        const utlsByDate = sortBy(Object.values(myUtlsById), 'createdAt');
         const chosenUtlIndex = utlsByDate.findIndex(utl => utl.id === currentUtlId);
         return chosenUtlIndex;
     }

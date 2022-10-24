@@ -1,6 +1,6 @@
 import React from 'react';
 import { Collapse } from '@mui/material';
-import { ScoreConfigFormProps } from '../../types';
+import { SpecialQuestionConfigProps } from '../../types';
 import TakanonPreviewModal from '../../takanonPreview/TakanonPreviewModal';
 import OffensiveTeamRules from '../../../takanon/specialQuestions/OffensiveTeamRules';
 import ScoreInput from '../ScoreInput';
@@ -9,12 +9,12 @@ import SpecialQuestionHeader from './SpecialQuestionHeader';
 
 const OFFENSIVE_TEAM_WINNING_STRING = 'ניחוש נכון';
 
-function OffensiveTeamConfig(formProps: ScoreConfigFormProps){
+function OffensiveTeamConfig({disabled, ...formProps}: SpecialQuestionConfigProps){
 	const { watch, register, errors, clearErrors, setValue } = formProps;
 	const onChange = (event: any, value: boolean) => {
-		setValue('chosenSpecialQuestions.offensiveTeam', value as never);
+		setValue('specialQuestionFlags.offensiveTeam', value as never);
 	}
-	const isOn = watch('chosenSpecialQuestions.offensiveTeam');
+	const isOn = watch('specialQuestionFlags.offensiveTeam');
 	const scoreConfig = watch('specialBets.offensiveTeam');
 	return (
 		<div className='LigaBet-MVPConfig configContainer'>
@@ -34,7 +34,8 @@ function OffensiveTeamConfig(formProps: ScoreConfigFormProps){
 					<ScoreInput
 						error={errors.specialBets?.offensiveTeam?.message}
 						InputProps={{
-							...register('specialBets.offensiveTeam')
+							...register('specialBets.offensiveTeam'),
+							disabled,
 						}}
 						clearErrors={() => clearErrors('specialBets.offensiveTeam')}
 					/>

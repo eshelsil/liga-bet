@@ -57,10 +57,13 @@ export interface MatchBetsScoreConfig {
 	[GameBetType.Bonus]: GameBetBonusesScoreConfig,
 }
 
+export type SpecialQuestionFlagConfig = Record<SpecialQuestionType, boolean>
+
 export interface TournamentScoreConfig {
     gameBets: MatchBetsScoreConfig,
     groupRankBets: GroupRankBetScoreConfig,
     specialBets: SpecialQuestionBetScoreConfig,
+    specialQuestionFlags: SpecialQuestionFlagConfig,
 }
 
 export interface TournamentConfig {

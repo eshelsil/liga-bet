@@ -1,6 +1,6 @@
 import React from 'react';
 import { Collapse } from '@mui/material';
-import { ScoreConfigFormProps } from '../../types';
+import { SpecialQuestionConfigProps } from '../../types';
 import TakanonPreviewModal from '../../takanonPreview/TakanonPreviewModal';
 import MostAssistsRules from '../../../takanon/specialQuestions/MostAssistsRules';
 import ScoreInput from '../ScoreInput';
@@ -9,12 +9,12 @@ import SpecialQuestionHeader from './SpecialQuestionHeader';
 
 const TOP_ASSISTS_WINNING_STRING = 'ניחוש נכון';
 
-function TopAssistsConfig(formProps: ScoreConfigFormProps){
+function TopAssistsConfig({disabled, ...formProps}: SpecialQuestionConfigProps){
 	const { watch, register, errors, clearErrors, setValue } = formProps;
 	const onChange = (event: any, value: boolean) => {
-		setValue('chosenSpecialQuestions.topAssists', value as never);
+		setValue('specialQuestionFlags.topAssists', value as never);
 	}
-	const isOn = watch('chosenSpecialQuestions.topAssists');
+	const isOn = watch('specialQuestionFlags.topAssists');
 	const scoreConfig = watch('specialBets.topAssists');
 	return (
 		<div className='LigaBet-TopAssists configContainer'>
@@ -34,7 +34,8 @@ function TopAssistsConfig(formProps: ScoreConfigFormProps){
 					<ScoreInput
 						error={errors.specialBets?.topAssists?.message}
 						InputProps={{
-							...register('specialBets.topAssists')
+							...register('specialBets.topAssists'),
+							disabled,
 						}}
 						clearErrors={() => clearErrors('specialBets.topAssists')}
 					/>

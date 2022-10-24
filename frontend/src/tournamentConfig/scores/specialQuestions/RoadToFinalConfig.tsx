@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScoreConfigFormProps } from '../../types';
+import { SpecialQuestionConfigProps } from '../../types';
 import TakanonPreviewModal from '../../takanonPreview/TakanonPreviewModal';
 import TeamAchivementRules from '../../../takanon/specialQuestions/TeamAchivementRules';
 import SpecialQuestionHeader from './SpecialQuestionHeader';
@@ -8,20 +8,20 @@ import RoadToFinalDesktopTable from './RoadToFinalDesktopTable';
 import RoadToFinalMobileTable from './RoadToFinalMobileTable';
 
 
-function RoadToFinalConfig(formProps: ScoreConfigFormProps){
-	const { watch, setValue } = formProps;
+function RoadToFinalConfig(configProps: SpecialQuestionConfigProps){
+	const { watch, setValue } = configProps;
 	const isMobile = useIsXsScreen()
 
-	const isOnWinner = watch('chosenSpecialQuestions.winner');
+	const isOnWinner = watch('specialQuestionFlags.winner');
 	const scoreConfigWinner = watch('specialBets.winner');
 	const onChangeWinner = (event: any, value: boolean) => {
-		setValue('chosenSpecialQuestions.winner', value as never);
+		setValue('specialQuestionFlags.winner', value as never);
 	}
 	
-	const isOnRunnerUp = watch('chosenSpecialQuestions.runnerUp');
+	const isOnRunnerUp = watch('specialQuestionFlags.runnerUp');
 	const scoreConfigRunnerUp = watch('specialBets.runnerUp');
 	const onChangeRunnerUp = (event: any, value: boolean) => {
-		setValue('chosenSpecialQuestions.runnerUp', value as never);
+		setValue('specialQuestionFlags.runnerUp', value as never);
 	}
 
 	return (
@@ -44,10 +44,10 @@ function RoadToFinalConfig(formProps: ScoreConfigFormProps){
 				}}
 			/>
 			{!isMobile && (
-				<RoadToFinalDesktopTable {...formProps} />
+				<RoadToFinalDesktopTable {...configProps} />
 			)}
 			{isMobile && (
-				<RoadToFinalMobileTable {...formProps} />
+				<RoadToFinalMobileTable {...configProps} />
 			)}
 			<TakanonPreviewModal>
 				<TeamAchivementRules label={'זוכה'} scoreConfig={scoreConfigWinner} />

@@ -1,6 +1,6 @@
 import React from 'react';
 import { CompetitionStageName, SpecialQuestionType } from '../../../types';
-import { ScoreConfigFormProps } from '../../types';
+import { SpecialQuestionConfigProps } from '../../types';
 import CustomTable from '../../../widgets/Table/CustomTable';
 import TeamAchivementStageConfig from './TeamAchivementStageConfig';
 import HeaderWithSwitch from './HeaderWithSwitch';
@@ -19,10 +19,10 @@ interface TeamAchivementsConfigModel {
 
 
 
-function RoadToFinalDesktopTable(formProps: ScoreConfigFormProps){
+function RoadToFinalDesktopTable({disabled, ...formProps}: SpecialQuestionConfigProps){
 	const { watch, setValue } = formProps;
 
-	const isOnRunnerUp = watch('chosenSpecialQuestions.runnerUp');
+	const isOnRunnerUp = watch('specialQuestionFlags.runnerUp');
 
 	const isOnSemiFinal = watch('specialQuestionOptions.roadToFinal.semiFinal');
 	const onChangeSemiFinal = (event: any, value: boolean) => {
@@ -66,6 +66,7 @@ function RoadToFinalDesktopTable(formProps: ScoreConfigFormProps){
 					<TeamAchivementStageConfig
 						stageName={CompetitionStageName.Winning}
 						questionType={model.question}
+						disabled={disabled}
 						{...formProps}
 					/>
 				)}
@@ -78,6 +79,7 @@ function RoadToFinalDesktopTable(formProps: ScoreConfigFormProps){
 				<TeamAchivementStageConfig
 					stageName={CompetitionStageName.Final}
 					questionType={model.question}
+					disabled={disabled}
 					{...formProps}
 				/>
 			),
@@ -85,13 +87,18 @@ function RoadToFinalDesktopTable(formProps: ScoreConfigFormProps){
 		{
 			id: 'semifinal',
 			header: (
-				<HeaderWithSwitch label={competitionStageToString.semiFinal} checked={isOnSemiFinal} onChange={onChangeSemiFinal} />
+				<HeaderWithSwitch
+					label={competitionStageToString.semiFinal}
+					checked={isOnSemiFinal}
+					onChange={onChangeSemiFinal}
+					disabled={disabled}
+				/>
 			),
 			getter: (model: TeamAchivementsConfigModel) => (
 				<TeamAchivementStageConfig
 					stageName={CompetitionStageName.SemiFinal}
 					questionType={model.question}
-					disabled={!isOnSemiFinal}
+					disabled={!isOnSemiFinal || disabled}
 					{...formProps}
 				/>
 			),
@@ -99,12 +106,17 @@ function RoadToFinalDesktopTable(formProps: ScoreConfigFormProps){
 		{
 			id: 'quarterFinal',
 			header: (
-				<HeaderWithSwitch label={competitionStageToString.quarterFinal} checked={isOnQuarterFinal} onChange={onChangeQuarterFinal} />
+				<HeaderWithSwitch
+					label={competitionStageToString.quarterFinal}
+					checked={isOnQuarterFinal}
+					onChange={onChangeQuarterFinal}
+					disabled={disabled}
+				/>
 			),
 			getter: (model: TeamAchivementsConfigModel) => (
 				<TeamAchivementStageConfig
 					stageName={CompetitionStageName.QuarterFinal}
-					disabled={!isOnQuarterFinal}
+					disabled={!isOnQuarterFinal || disabled}
 					questionType={model.question}
 					{...formProps}
 				/>

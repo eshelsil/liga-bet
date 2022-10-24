@@ -1,10 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import GroupRankExplanation from './GroupRankExplanation';
 import GroupStageRules from '../../../takanon/groupStandings/GroupStageRulesProvider';
 import TakanonPreviewModal from '../../takanonPreview/TakanonPreviewModal';
 import { ScoreConfigFormProps } from '../../types';
 import SectionTitle from '../SectionTitle';
 import ScoreInput from '../ScoreInput';
+import { CanUpdateScoreConfig } from '../../../_selectors';
 
 
 
@@ -15,6 +17,7 @@ const MINOR_MISTAKE_STRING = 'טעות מינימלית';
 function GroupRankBetConfig({
 	register, clearErrors, errors, watch,
 }: ScoreConfigFormProps){
+	const disabled = !(useSelector(CanUpdateScoreConfig))
 	const perfectScore = watch('groupRankBets.perfect') || 0;
 	const minorMistakeScore = watch('groupRankBets.minorMistake') || 0;
 	return (
@@ -33,7 +36,8 @@ function GroupRankBetConfig({
 							<ScoreInput
 								error={errors.groupRankBets?.perfect?.message}
 								InputProps={{
-									...register('groupRankBets.perfect')
+									...register('groupRankBets.perfect'),
+									disabled: disabled,
 								}}
 								clearErrors={() => clearErrors('groupRankBets.perfect')}
 							/>
@@ -47,7 +51,8 @@ function GroupRankBetConfig({
 							<ScoreInput
 								error={errors.groupRankBets?.minorMistake?.message}
 								InputProps={{
-									...register('groupRankBets.minorMistake')
+									...register('groupRankBets.minorMistake'),
+									disabled: disabled,
 								}}
 								clearErrors={() => clearErrors('groupRankBets.minorMistake')}
 							/>

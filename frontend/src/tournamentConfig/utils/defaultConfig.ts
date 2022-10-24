@@ -49,5 +49,13 @@ export function generateDefaultScoresConfig(): TournamentScoreConfig {
 				eachGoal: 20,
 			},
 		},
+		specialQuestionFlags: {
+			winner: true,
+			runnerUp: true,
+			topScorer: true,
+			mvp: true,
+			topAssists: true,
+			offensiveTeam: true,
+		}
 	}
 }
