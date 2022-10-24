@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScoreConfigFormProps } from '../../types';
+import { ScoreConfigFormProps, SpecialQuestionConfigProps } from '../../types';
 import TopScorerRules from '../../../takanon/specialQuestions/TopScorerRules';
 import TakanonPreviewModal from '../../takanonPreview/TakanonPreviewModal';
 import ScoreInput from '../ScoreInput';
@@ -9,12 +9,12 @@ import SpecialQuestionHeader from './SpecialQuestionHeader';
 const EACH_GOAL_STRING = 'ניקוד על כל גול';
 const TOP_SCORER_WINNING_STRING = 'בונוס על זכייה בתואר';
 
-function TopScorerConfig(formProps: ScoreConfigFormProps){
+function TopScorerConfig({disabled, ...formProps}: SpecialQuestionConfigProps){
 	const { watch, setValue, register, errors, clearErrors } = formProps;
 	const onChange = (event: any, value: boolean) => {
-		setValue('chosenSpecialQuestions.topScorer', value as never);
+		setValue('specialQuestionFlags.topScorer', value as never);
 	}
-	const isOn = watch('chosenSpecialQuestions.topScorer');
+	const isOn = watch('specialQuestionFlags.topScorer');
 	const scoreConfig = watch('specialBets.topScorer');
 	return (
 		<div className='LigaBet-TopScorerConfig configContainer'>
@@ -37,7 +37,8 @@ function TopScorerConfig(formProps: ScoreConfigFormProps){
 								<ScoreInput
 									error={errors.specialBets?.topScorer?.eachGoal?.message}
 									InputProps={{
-										...register('specialBets.topScorer.eachGoal')
+										...register('specialBets.topScorer.eachGoal'),
+										disabled,
 									}}
 									clearErrors={() => clearErrors('specialBets.topScorer.eachGoal')}
 								/>
@@ -51,7 +52,8 @@ function TopScorerConfig(formProps: ScoreConfigFormProps){
 								<ScoreInput
 									error={errors.specialBets?.topScorer?.correct?.message}
 									InputProps={{
-										...register('specialBets.topScorer.correct')
+										...register('specialBets.topScorer.correct'),
+										disabled,
 									}}
 									clearErrors={() => clearErrors('specialBets.topScorer.correct')}
 								/>

@@ -23,6 +23,15 @@ function makeTournamentAdmin(userId: number) {
     }
 }
 
+function updateUserScoresConfigPermissions(userId: number, canEditScores: boolean) {
+    return async (dispatch: AppDispatch) => {
+        const user = await updateUser(userId, {
+            canEditScores,
+        })
+        dispatch(userSlice.actions.updateOne(user))
+    }
+}
+
 function fetchAndStoreUsers(params?: GetUsersParams) {
     return async (dispatch: AppDispatch) => {
         const { users, totalCount } = await getUsers(compactObject(params))
@@ -35,4 +44,5 @@ export {
     fetchAndStoreUsers,
     makeTournamentAdmin,
     revokeTournamentAdminPermissions,
+    updateUserScoresConfigPermissions,
 }

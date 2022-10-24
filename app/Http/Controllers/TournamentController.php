@@ -81,9 +81,20 @@ class TournamentController extends Controller
             "specialBets.topScorer.correct",
             "specialBets.topScorer.eachGoal",
         ];
-        $request->validate(array_fill_keys($keys, ["required", "integer", "min:0"]));
+        $booleanKeys = [
+            "specialQuestionFlags.winner",
+            "specialQuestionFlags.runnerUp",
+            "specialQuestionFlags.topScorer",
+            "specialQuestionFlags.mvp",
+            "specialQuestionFlags.topAssists",
+            "specialQuestionFlags.offensiveTeam",
+        ];
+        $request->validate(array_merge(
+            array_fill_keys($keys, ["required", "integer", "min:0"]),
+            array_fill_keys($booleanKeys, ["required", "boolean"]),
+        ));
 
-        foreach ($keys as $key) {
+        foreach (array_merge($keys, $booleanKeys) as $key) {
             $modelKey = "config->scores->" . str_replace(".", "->", $key);
             $tournament->fill([$modelKey => $request->json($key)]);
         }

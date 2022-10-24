@@ -2,7 +2,6 @@ import { Control, FormState, UseFormClearErrors, UseFormRegister, UseFormSetValu
 import { KnockoutStage, SpecialQuestionType, TournamentScoreConfig } from '../types';
 
 export interface ScoreConfigForm extends TournamentScoreConfig {
-	chosenSpecialQuestions: Record<SpecialQuestionType, boolean>,
 	specialQuestionOptions: {
 		roadToFinal: {
 			[KnockoutStage.SemiFinal]: boolean
@@ -31,3 +30,7 @@ export interface ScoreConfigFormProps {
 }
 
 export type FormAttributeName = Parameters<ScoreConfigFormProps['register']>[0]
+
+export interface SpecialQuestionConfigProps extends ScoreConfigFormProps {
+	disabled: boolean,
+}

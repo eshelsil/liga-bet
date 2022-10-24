@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 import { User, UserPermissions } from '../types'
 import { UserPermissionsToRoleString } from '../utils'
-import { UserAction } from './types'
+import { UserAction, UserUpdateEditPermissions } from './types'
 import { GetUsersParams } from '../api/users'
 import UserRow from './UserRow'
 import SearchBar from '../widgets/SearchBar/SearchBar'
@@ -28,6 +28,7 @@ interface Props {
     fetchUsers: (params: GetUsersParams) => Promise<void>
     makeTournamentAdmin: UserAction
     revokeTournamentAdminPermissions: UserAction
+    updateUserScoresConfigPermissions: UserUpdateEditPermissions
 }
 
 function ManageUsersView({
@@ -36,6 +37,7 @@ function ManageUsersView({
     fetchUsers,
     makeTournamentAdmin,
     revokeTournamentAdminPermissions,
+    updateUserScoresConfigPermissions,
 }: Props) {
     const [page, setPage] = useState(1)
     const [search, setSearch] = useState('')
@@ -138,6 +140,7 @@ function ManageUsersView({
                                         user,
                                         makeTournamentAdmin,
                                         revokeTournamentAdminPermissions,
+                                        updateUserScoresConfigPermissions,
                                     }}
                                 />
                             ))}

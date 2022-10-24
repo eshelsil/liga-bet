@@ -10,4 +10,5 @@ export interface User {
     name: string
     permissions: UserPermissions
     username: string
+    canUpdateScoreConfig?: boolean
 }

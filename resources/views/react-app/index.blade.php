@@ -21,7 +21,9 @@
         });
     </script>
     <script>
-        localStorage.setItem('ligaBetUserData', JSON.stringify(@json(Auth::user()->toArray())) );
+        localStorage.setItem('ligaBetUserData', JSON.stringify(
+            @json((new \App\Http\Resources\UserResource(Auth::user()))->toArray(null))
+        ));
     </script>
 </head>
 <body dir="rtl">

@@ -1,6 +1,6 @@
 import { Dictionary, mapValues, orderBy } from 'lodash'
 import { createSelector } from 'reselect'
-import { SpecialQuestionApiModel, TournamentWithLinkedUtl } from '../../types'
+import { SpecialQuestionApiModel, TournamentWithLinkedUtl, UserPermissions } from '../../types'
 import {
     getSpecialQuestionName,
     isAdmin,
@@ -35,6 +35,11 @@ export const CurrentUserName = createSelector(CurrentUser, (user) => user.name)
 export const CurrentUserUsername = createSelector(
     CurrentUser,
     (user) => user.username
+)
+
+export const CanUpdateScoreConfig = createSelector(
+    CurrentUser,
+    (user) => user.permissions === UserPermissions.Admin || user.canUpdateScoreConfig
 )
 
 export const IsConfirmedUtl = createSelector(

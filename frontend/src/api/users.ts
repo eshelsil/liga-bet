@@ -26,9 +26,15 @@ export const getUsers = async ({
     return { users, totalCount: Number(headers['X-Total-Count']) }
 }
 
+
+export interface UpdateUserParams {
+    permissions?: UserPermissions
+    canEditScores?: boolean
+}
+
 export const updateUser = async (
     userId: number,
-    data: Partial<User>
+    data: UpdateUserParams,
 ): Promise<User> => {
     return await sendApiRequest({
         url: `/api/users/${userId}`,

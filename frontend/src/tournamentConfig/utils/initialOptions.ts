@@ -1,16 +1,24 @@
 import { KnockoutStage, SpecialQuestionType, TournamentScoreConfig } from '../../types';
 
+function isEnabled(
+	flag: boolean,
+	value: number,
+){
+	const disabled = flag === false || !(value > 0)
+	return ! disabled
+}
+
 export function getInitialOptionsConfig(config: TournamentScoreConfig){
-	const questionsConfig = config.specialBets;
-	const gameBetsConfig = config.gameBets;
+	const {specialBets: questionsConfig, gameBets: gameBetsConfig, specialQuestionFlags } = config
+
 	return {
-		chosenSpecialQuestions: {
+		specialQuestionFlags: {
 			[SpecialQuestionType.Winner]: true,
-			[SpecialQuestionType.RunnerUp]: questionsConfig.runnerUp.final > 0,
+			[SpecialQuestionType.RunnerUp]: isEnabled(specialQuestionFlags?.runnerUp, questionsConfig.runnerUp.final),
 			[SpecialQuestionType.TopScorer]: true,
-			[SpecialQuestionType.TopAssists]: questionsConfig.topAssists > 0,
-			[SpecialQuestionType.MVP]: questionsConfig.mvp > 0,
-			[SpecialQuestionType.OffensiveTeamGroupStage]: questionsConfig.offensiveTeam > 0,
+			[SpecialQuestionType.TopAssists]: isEnabled(specialQuestionFlags?.topAssists, questionsConfig.topAssists ),
+			[SpecialQuestionType.MVP]: isEnabled(specialQuestionFlags?.mvp, questionsConfig.mvp ),
+			[SpecialQuestionType.OffensiveTeamGroupStage]:  isEnabled(specialQuestionFlags?.offensiveTeam, questionsConfig.offensiveTeam ),
 		},
 		specialQuestionOptions: {
 			roadToFinal: {

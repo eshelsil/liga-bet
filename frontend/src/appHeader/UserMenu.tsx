@@ -1,6 +1,5 @@
 import React from 'react'
 import { UtlWithTournament } from '../types'
-import { hasManagePermissions } from '../utils'
 import LinkMenuItem from './LinkMenuItem'
 import { routesMap } from './routes'
 import { Avatar } from '@mui/material'
@@ -18,7 +17,6 @@ function UserMenu({
     currentUsername,
     openDialogChangePassword,
 }: Props) {
-    const showManagerManagementViews = hasManagePermissions(currentUtl)
     const themeClass = useTournamentThemeClass();
 
     return (
@@ -39,12 +37,6 @@ function UserMenu({
                 {!!currentUtl && (
                     <LinkMenuItem
                         route={routesMap['utl']}
-                    />
-                )}
-
-                {showManagerManagementViews && (
-                    <LinkMenuItem
-                        route={routesMap['contestants']}
                     />
                 )}
                 <LinkMenuItem
