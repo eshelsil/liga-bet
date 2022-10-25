@@ -1,7 +1,8 @@
 import { GameBetType, KnockoutStage, Tournament, TournamentStatus } from '../types'
 
 export function isTournamentStarted(tournament: Tournament) {
-    return tournament.status !== TournamentStatus.Initial
+    const statuses = [TournamentStatus.Ongoing, TournamentStatus.Finished]
+    return statuses.includes(tournament.status)
 }
 
 export const gameStageToString = {

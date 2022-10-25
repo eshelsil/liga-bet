@@ -1,8 +1,8 @@
 import { AppDispatch, GetRootState } from '../_helpers/store'
-import { createTournament, getTournamentsOwnedByUser, updateTournamentScoresConfig } from '../api/tournaments'
+import { createTournament, getTournamentsOwnedByUser, updateTournamentScoresConfig, updateTournamentStatus } from '../api/tournaments'
 import ownedTournament from '../_reducers/ownedTournament'
 import { CurrentTournamentId, CurrentTournamentUserId } from '../_selectors'
-import { TournamentScoreConfig } from '../types'
+import { TournamentScoreConfig, TournamentStatus } from '../types'
 import myUtlsSlice from '../_reducers/myUtls'
 
 function createNewTournament({
@@ -34,7 +34,27 @@ function updateScoreConfig(config: TournamentScoreConfig) {
         const utlId = CurrentTournamentUserId(getState())
         const tournamentId = CurrentTournamentId(getState())
         const tournament = await updateTournamentScoresConfig(tournamentId, config);
-        dispatch(myUtlsSlice.actions.updateTournamentConfig({utlId, config: tournament.config}))
+        dispatch(myUtlsSlice.actions.setTournament({utlId, tournament}))
     }
 }
-export { createNewTournament, fetchOwnedTournaments, updateScoreConfig }
+
+function openTournament() {
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const utlId = CurrentTournamentUserId(getState())
+        const tournamentId = CurrentTournamentId(getState())
+        const tournament = await updateTournamentStatus(tournamentId, TournamentStatus.OpenForBets)
+        dispatch(myUtlsSlice.actions.setTournament({utlId, tournament}))
+    }
+}
+
+function revertOpenTournament() {
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const utlId = CurrentTournamentUserId(getState())
+        const tournamentId = CurrentTournamentId(getState())
+        const tournament = await updateTournamentStatus(tournamentId, TournamentStatus.Initial)
+        dispatch(myUtlsSlice.actions.setTournament({utlId, tournament}))
+    }
+}
+
+
+export { createNewTournament, fetchOwnedTournaments, updateScoreConfig, openTournament, revertOpenTournament }

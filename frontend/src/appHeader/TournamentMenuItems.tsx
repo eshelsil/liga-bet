@@ -2,14 +2,12 @@ import React from 'react'
 import LinkMenuItem from './LinkMenuItem'
 import { routesMap } from './routes'
 import DropMenuItem from './DropMenuItem'
-import { UtlRole, UtlWithTournament } from '../types'
+import { TournamentStatus, UtlRole, UtlWithTournament } from '../types'
 import { isUtlConfirmed } from '../utils'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import TournamentsDropdownMenu from './TournamentsDropdownMenu'
 import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import { IsTournamentStarted } from '../_selectors'
-import { useSelector } from 'react-redux'
 
 
 interface Props {
@@ -26,6 +24,7 @@ function TournamentMenuItems({
     const themeClass = useTournamentThemeClass()
 
     const hasCurrentUtl = !!currentUtl
+    const tournamentStatus = currentUtl?.tournament?.status
     const isConfirmed = hasCurrentUtl && isUtlConfirmed(currentUtl)
     const isTournamentAdmin = hasCurrentUtl && currentUtl.role === UtlRole.Admin
 
@@ -96,7 +95,7 @@ function TournamentMenuItems({
                             callback={reRouteCallback}
                         />
                     </>)}
-                    {!isTournamentStarted && (<>
+                    {tournamentStatus === TournamentStatus.OpenForBets && (<>
                         <LinkMenuItem
                             route={routesMap['open-matches']}
                             callback={reRouteCallback}

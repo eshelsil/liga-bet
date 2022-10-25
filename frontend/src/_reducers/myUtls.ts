@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { MyUtlsById, TournamentConfig, UtlWithTournament } from '../types'
+import { MyUtlsById, Tournament, TournamentConfig, UtlWithTournament } from '../types'
 
 const myUtls = createSlice({
     name: 'myUtls',
@@ -15,12 +15,9 @@ const myUtls = createSlice({
             const utlId = action.payload
             delete state[utlId]
         },
-        updateTournamentConfig: (state, action: PayloadAction<{utlId: number, config: Partial<TournamentConfig>}>) => {
-            const {utlId, config} = action.payload
-            state[utlId].tournament.config = {
-                ...state[utlId].tournament.config,
-                ...config,
-            }
+        setTournament: (state, action: PayloadAction<{utlId: number, tournament: Tournament}>) => {
+            const {utlId, tournament} = action.payload
+            state[utlId].tournament = tournament
         },
     },
 })
