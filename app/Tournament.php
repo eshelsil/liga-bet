@@ -46,6 +46,7 @@ class Tournament extends Model
 
     const STATUS_DONE = 'done';
     const STATUS_ONGOING = 'ongoing';
+    const STATUS_OPEN = 'open';
     const STATUS_INITIAL = 'initial';
 
     protected $casts = [
@@ -87,6 +88,11 @@ class Tournament extends Model
     public function getUtlOfUser(User $user)
     {
         return $this->utls->firstWhere('user_id', $user->id);
+    }
+
+    public function hasValidScoreConfig()
+    {
+        return array_key_exists('scores', $this->config);
     }
 
     public function createUTL(User $user, string $name)
