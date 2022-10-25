@@ -14,7 +14,7 @@ class UserAddCanEditScoreConfig extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('can_edit_score_config')->after('permissions');
+            $table->boolean('can_edit_score_config')->after('permissions')->default(false);
         });
     }
 

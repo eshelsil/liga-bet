@@ -7,6 +7,14 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class SpecialQuestionResource extends JsonResource
 {
+
+    static $typeToAttribute = [
+        'runner_up' => 'runnerUp',
+        'top_scorer' => 'topScorer',
+        'most_assists' => 'topAssists',
+        'offensive_team' => 'offensiveTeam',
+    ];
+
     /**
      * Transform the resource into an array.
      *
@@ -17,10 +25,10 @@ class SpecialQuestionResource extends JsonResource
     {
         /** @var SpecialBet $specialQuestions */
         $specialQuestions = $this->resource;
-
+        $type = $specialQuestions->type;
         return [
             "id"              => $specialQuestions->id,
-            "type"            => $specialQuestions->type,
+            "type"            => static::$typeToAttribute[$type] ?? $type,
             "tournament_id"           => $specialQuestions->tournament_id,
             "answer"           => $specialQuestions->answer,
         ];
