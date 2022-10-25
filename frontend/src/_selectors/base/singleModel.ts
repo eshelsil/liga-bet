@@ -24,8 +24,7 @@ export const TournamentIdSelector = createSelector(
 )
 export const IsTournamentStarted = createSelector(
     CurrentTournament,
-    (tournament) => false // only for development
-    // tournament => isTournamentStarted(tournament),
+    tournament => isTournamentStarted(tournament),
 )
 
 export const IsAdmin = createSelector(CurrentUser, (user) => isAdmin(user))
