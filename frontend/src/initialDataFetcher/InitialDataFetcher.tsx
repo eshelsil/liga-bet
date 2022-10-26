@@ -1,7 +1,7 @@
 import React from 'react'
 import { useContestants, useGames, useGroups, useLeaderboard, useMyGameBets, usePlayers, usePrimalBets, useSpecialQuestions, useTeams } from '../hooks/useFetcher'
 
-export function InitialDataFetcher({
+function InitialDataFetcher({
     children,
 }) {
     useTeams()
@@ -14,7 +14,9 @@ export function InitialDataFetcher({
     usePrimalBets()
     useMyGameBets()
 
-    return children
+    return (
+        children
+    )
 }
 
 export default InitialDataFetcher

@@ -5,6 +5,8 @@ import { TournamentConfig } from '../../types';
 import PrizeInput from './PrizeInput';
 import PrizesRules from '../../takanon/PrizesRules';
 import TakanonPreviewSection from '../takanonPreview/TakanonPreviewSection';
+import './PrizesConfig.scss';
+import { compact } from 'lodash';
 
 
 function ignoreLastStringIfEmpty(strings: string[]){
@@ -20,11 +22,13 @@ const MAX_PRIZES = 10;
 interface Props {
 	prizes: string[],
 	updatePrizes: (config: TournamentConfig['prizes']) => Promise<void>,
+	revertOpenTournament: () => Promise<void>,
 }
 
 function PrizesConfig({
 	prizes: currentPrizes,
 	updatePrizes,
+	revertOpenTournament,
 }: Props){
 	const initialState = currentPrizes?.length > 0 ? currentPrizes : [''];
 	const [prizes, setPrizes] = useState(initialState);
@@ -56,7 +60,7 @@ function PrizesConfig({
 	const hasPrizes = compactedPrizes.length > 0;
 
 	const submit = () => {
-		updatePrizes(prizes)
+		updatePrizes(compact(prizes))
 			.then(() => {
 				window['toastr']['success']('הפרסים עודכנו בהצלחה')
 			})
@@ -64,8 +68,11 @@ function PrizesConfig({
 
 	return (
 		<div className='LigaBet-PrizesConfig'>
-			<Grid container>
-				<Grid item md={6}>
+			<h2>
+				הגדרות פרסים
+			</h2>
+			<Grid container className='inputWithTakanon'>
+				<Grid item xs={12} sm={6}>
 					<div className={'prizesContainer'}>
 						{prizes.map((prize, index) => (
 							<PrizeInput
@@ -79,7 +86,7 @@ function PrizesConfig({
 						))}
 					</div>
 				</Grid>
-				<Grid item md={6}>
+				<Grid item xs={12} sm={6}>
 					<TakanonPreviewSection>
 						{hasPrizes && (<>
 							<PrizesRules prizes={compactedPrizes}/>
@@ -89,6 +96,17 @@ function PrizesConfig({
 			</Grid>
 			<div className={'savePrizes'}>
 				<Button className={''} variant='contained' color='primary' onClick={submit}>עדכן</Button>
+			</div>
+
+			<div className='statusActionContainer'>
+				<h5>שכחת משהו?</h5>
+				<Button
+					variant='contained'
+					color='error'
+					onClick={revertOpenTournament}
+					>
+					חזור להגדרות ניקוד
+				</Button>
 			</div>
 		</div>
 	);

@@ -21,7 +21,7 @@ function GroupRankBetConfig({
 	const perfectScore = watch('groupRankBets.perfect') || 0;
 	const minorMistakeScore = watch('groupRankBets.minorMistake') || 0;
 	return (
-		<div className='LigaBet-GroupRankBetConfig'>
+		<div className='LigaBet-GroupRankBetConfig LB-ConfigBox'>
 			<SectionTitle
 				title={'ניקוד דירוגי בתים'}
 				tooltipContent={<GroupRankExplanation />}

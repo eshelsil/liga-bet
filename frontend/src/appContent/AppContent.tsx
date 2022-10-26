@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { Redirect } from 'react-router';
 import Leaderboard from '../leaderboard/LeaderboardProvider';
 import OpenMatchesView from '../open_matches/openMatchesProvider';
 import OpenGroupRankBetsView from '../OpenGroupBets/OpenGroupRankBetsProvider';
@@ -9,21 +8,16 @@ import GroupStandingsBetsView from '../groupBets/GroupStandingsBetsProvider';
 import AllQuestionBetsView from '../questionBets/ClosedQuestionBetsProvider';
 import MyBetsView from '../myBets/MyBetsView';
 import Takanon from '../takanon/Takanon';
-import TournamentUserController from '../tournamentUser/TournamentUserController';
-import InitialDataFetcher from '../initialDataFetcher/InitialDataFetcher';
-import ManageContestantsProvider from '../manageContestants/ManageContestantsProvider';
+import TournamentUserController from '../controllers/TournamentUserController';
 import OpenQuestionBets from '../openQuestionBets/OpenQuestionBetsProvider';
-import TournamentConfig from '../tournamentConfig';
+import RedirectToDefaultPage from './RedirectToDefaultPage';
 
 function AppContent() {
     return (
         <TournamentUserController>
-            <InitialDataFetcher>
                 <Switch>
                     <Route path='/open-questions' component={OpenQuestionBets} />
-                    <Route path='/contestants' component={ManageContestantsProvider} />
                     <Route path='/takanon' component={Takanon} />
-                    <Route path='/tournament-config' component={TournamentConfig} />
                     <Route path='/open-group-standings' component={OpenGroupRankBetsView} />
                     <Route path='/open-matches' component={OpenMatchesView} />
                     <Route path='/closed-matches' component={MatchesView} />
@@ -32,10 +26,9 @@ function AppContent() {
                     <Route path='/all-questions' component={AllQuestionBetsView} />
                     <Route path='/my-bets' component={MyBetsView} />
                     <Route path='/'>
-                        <Redirect to='/tournament-config'/>
+                        <RedirectToDefaultPage />
                     </Route>
                 </Switch>
-            </InitialDataFetcher>
         </TournamentUserController>
     )
 }

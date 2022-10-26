@@ -45,10 +45,12 @@ function TournamentMenuItems({
                         classes={{list: themeClass}}
                         pathes={['tournament-config', 'contestants']}
                     >
-                        <LinkMenuItem
-                            route={routesMap['tournament-config']}
-                            callback={reRouteCallback}
-                        />
+                        {[TournamentStatus.Initial, TournamentStatus.OpenForBets].includes(tournamentStatus) && (
+                            <LinkMenuItem
+                                route={routesMap['tournament-config']}
+                                callback={reRouteCallback}
+                            />
+                        )}
                         <LinkMenuItem
                             route={routesMap['contestants']}
                             callback={reRouteCallback}
