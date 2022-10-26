@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Competition;
+use App\SpecialBets\SpecialBet;
 use App\Tournament;
 use App\User;
 use Illuminate\Http\JsonResponse;
@@ -36,12 +37,39 @@ class TournamentController extends Controller
         $this->validateUpdatePermissions($id);
 
         $user = $this->getUser();
+        /** @var Tournament $tournament */
         $tournament = $user->ownedTournaments->find($id);
         $status = $request->json("status");
         $this->validateUpdateStatusInputs($tournament, $status);
 
         $tournament->update(["status" => $status]);
+        $this->generateSpecialBets($tournament);
+
         return new JsonResponse((new TournamentResource($tournament))->toArray($request), 200);
+    }
+
+    protected function generateSpecialBets(Tournament $tournament): void
+    {
+        $tournament->specialBets()->delete();
+
+        $map = [
+            SpecialBet::TYPE_WINNER         => ["winner.final"      , "אלופת הטורניר"],
+            SpecialBet::TYPE_RUNNER_UP      => ["runnerUp.final"    , "סגנית הטורניר"],
+            SpecialBet::TYPE_TOP_SCORER     => ["topScorer.correct" , "מלך השערים"],
+            SpecialBet::TYPE_MOST_ASSISTS   => ["topAssists"        , "מלך הבישולים"],
+            SpecialBet::TYPE_MVP            => ["mvp"               , "מצטיין הטורניר - MVP"],
+            SpecialBet::TYPE_OFFENSIVE_TEAM => ["offensiveTeam"     , "ההגנה החזקה בשלב הבתים"],
+        ];
+
+        foreach ($map as $type => $data) {
+            if (data_get($tournament->config, "scores.specialBets.{$data[1]}")) {
+                $specialBet = new SpecialBet();
+                $specialBet->tournament()->associate($tournament);
+                $specialBet->type  = $type;
+                $specialBet->title = $data[1];
+                $specialBet->save();
+            }
+        }
     }
 
     public function updateTournamentPrizes(string $id, Request $request)
