@@ -1,4 +1,17 @@
 @import '../styles/mixins';
+@import '../styles/themes/tournaments';
+
+
+@mixin themable_header($class, $tournament_theme){
+    $gradient: map_get($tournament_theme, gradient);
+  
+    &.#{$class} {
+        background: $gradient;
+        .name {
+            color: #fff;
+        }
+    }
+}
 
 .LigaBet-QuestionBetsView {
     .LigaBet-OpenQuestionBetView {
@@ -13,7 +26,12 @@
             margin: 12px 0px;
         }
         .OpenQuestionBetView-header {
-            background: linear-gradient(0deg, #83eaf1 0%, #63a4ff 100%);
+            @include themable_header(tournament-theme, $tournament_1);
+            @include themable_header(tournament-theme-1, $tournament_1);
+            @include themable_header(tournament-theme-2, $tournament_2);
+            @include themable_header(tournament-theme-3, $tournament_3);
+            @include themable_header(tournament-theme-4, $tournament_4);
+            @include themable_header(tournament-theme-5, $tournament_5);
             padding: 8px 12px;
             .name {
                 margin: 0px;

@@ -10,6 +10,7 @@ import AddCircle from '@mui/icons-material/AddCircle'
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import { useIsXsScreen } from '../hooks/useMedia'
+import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
 
 
 interface Props {
@@ -30,6 +31,7 @@ function QuestionBetEditView({
     const [answer, setAnswer] = useState<number>(betAnswer?.id)
     const isTeamQuestion = hasTeamAnswer(questionWithBet)
     const isPlayerQuestion = hasPlayerAnswer(questionWithBet)
+
     const submitBet = async () => {
         await sendBet({ questionId: id, answer })
     }
@@ -64,6 +66,7 @@ function QuestionBetEditView({
 
 function OpenQuestionBetView({ questionWithBet, sendBet }: Props) {
     const [edit, setEdit] = useState(false)
+    const tournamentClass = useTournamentThemeClass();
     const isXsScreen = useIsXsScreen();
     const { name, bet, type } = questionWithBet
     const { answer: betAnswer } = bet || {}
@@ -72,8 +75,8 @@ function OpenQuestionBetView({ questionWithBet, sendBet }: Props) {
     return (
         <Grid item xs={isXsScreen ? 12 : null}>
             <div className={'LigaBet-OpenQuestionBetView'}>
-                <div className="OpenQuestionBetView-header">
-                    <h3 className="name">{name}</h3>
+                <div className={`OpenQuestionBetView-header ${tournamentClass}`}>
+                    <h4 className="name">{name}</h4>
                 </div>
                 {!edit && (
                     <>
