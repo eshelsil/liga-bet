@@ -6,7 +6,7 @@ import { sendBetAndStore, SendQuestionBetParams } from '../_actions/bets'
 import { BetType } from '../types'
 import { QuestionBetParams } from './types'
 import QuestionBetsView from './QuestionBetsView'
-import './style.scss'
+import './OpenQuestionBets.scss'
 
 interface Props {
     sendBetAndStore: (params: SendQuestionBetParams) => Promise<void>
