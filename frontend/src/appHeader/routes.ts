@@ -52,7 +52,7 @@ const routes: Route[] = [
         label: 'נהל משתתפים',
     },
     {
-        path: 'utl',
+        path: 'utls',
         label: 'הטורנירים שלי',
     },
     {

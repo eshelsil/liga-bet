@@ -5,7 +5,7 @@ import { UserPermissions } from '../types'
 import CreateNewTournament from './CreateNewTournament'
 import JoinTournament from './JoinTournament'
 import AdminDefaultView from '../admin/AdminDefaultView'
-
+import './style.scss'
 
 function UserWithNoTournamentsView() {
     const user = useSelector(CurrentUser);

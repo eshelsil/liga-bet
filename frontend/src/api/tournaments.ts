@@ -33,6 +33,7 @@ export const updateTournamentPrizesConfig = async (tournamentId: number, prizes:
     return await sendApiRequest({
         url: `/api/tournaments/${tournamentId}/prizes`,
         type: 'PUT',
+        data: {prizes}
     })
 }
 

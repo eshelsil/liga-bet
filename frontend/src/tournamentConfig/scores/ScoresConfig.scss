@@ -1,0 +1,171 @@
+@import '../../styles/mixins.scss';
+@import '../../styles/shadows';
+
+.LB-ScoresConfigPage {
+    .scoreFormContainer {
+        .scoreFormTitle{
+            margin-top: 24px;
+        }
+    }
+    .LigaBet-ScoreConfigFormView {
+        .ScoreConfig-SectionTitle {
+            @include flexRow;
+            .LigaBet-InfoIconWithTooltip {
+                margin-right: 8px;
+            }
+        }
+        .LigaBet-ScoreInput {
+            width: 64px;
+            .MuiInputBase-root {
+                border-radius: 12px;    
+                input {
+                    border-radius: 12px;
+                    &.Mui-disabled {
+                        background-color: #9c9c9c38;
+                    }
+                    &::-webkit-outer-spin-button, &::-webkit-inner-spin-button {
+                        -webkit-appearance: none;
+                        margin: 0;
+                    }
+                    /* Firefox */
+                    input[type=number] {
+                        -moz-appearance: textfield;
+                    }
+                }
+            }
+        }
+        .configRow {
+            display: flex;
+            align-items: center;
+            margin: 16px 0px;
+            .configLabel {
+                font-weight: 700;
+                margin-left: 16px;
+                margin-bottom: 0px;
+            }
+        }
+        .LB-ConfigBox {
+            $padding: 16px;
+            border-radius: 16px;
+            box-shadow: $basic-shadow;
+            padding: $padding;
+            width: fit-content;
+            max-width: 100%;
+            margin-bottom: 24px;
+            @media (max-width: 600px) {
+                .matchesTableContainer, .LB-RoadToFinalMobileTable {
+                    width: calc(100% + $padding * 2);
+                    margin-right: -$padding;
+                    position: relative;
+                }
+            }
+        }
+        .LigaBet-MatchRankBetCofig {
+            margin-top: 20px;
+            .LigaBet-CustomTable {
+                width: 500px;
+                .tableHeaderCell {
+                    &:first-of-type {
+                        width: 85px;
+                        @media (max-width: 600px) {
+                            width: 70px;
+                        }
+                    }
+                }
+            }
+        }
+        .LigaBet-SpecialBetsConfig {
+            margin-top: 20px;
+            .LB-RoadToFinalMobileTable {
+                .LigaBet-CustomTable {
+                    .MuiTableCell-root {
+                        .headerWithSwitch {
+                            align-items: baseline;
+                        }
+                    }
+                }
+            }
+            .LB-RoadToFinalDesktopTable {
+                .LigaBet-CustomTable {
+                    width: 600px;
+                }
+            }
+            .configContainer {
+                border-radius: 16px;
+                box-shadow: $basic-shadow;
+                margin-top: 20px;
+                padding: 16px;
+                overflow: hidden;
+            }
+            .ScoresConfig-SpecialQuestionHeader {
+                @include flexRow;
+                h5 {
+                    font-size: 16px;
+                }
+                .LigaBet-InfoIconWithTooltip {
+                    margin-right: 8px;
+                }
+            }
+        }
+        .savePrizes {
+            @include centerContainer;
+            margin-top: 30px;
+        }
+        .LB-simpleTable {
+            > tbody {
+                > tr {
+                    > td {
+                        padding: 16px 8px;
+                        vertical-align: middle;
+                    }
+                }
+            }
+            .configLabel {
+                font-weight: 700;
+            }
+        }
+        .LigaBet-CustomTable {
+            max-width: 100%;
+            width: 500px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: none;
+            .MuiTable-root {
+                table-layout: fixed;
+                .MuiTableCell-root {
+                    padding: 10px;
+                    &:not(.tableHeaderCell){
+                        border-bottom: none;
+                    }
+                    &:not(:first-of-type){
+                        text-align: center;
+                    }
+                    .headerWithSwitch {
+                        @include centerContainer;
+                        flex-direction: column;
+                    }
+                }
+                .tableHeaderCell {
+                    vertical-align: bottom;
+                }
+                .LB-BonusesRow {
+                    @include flexRow;
+                    padding: 0px 20px;
+                    border: 1px solid #e0e0e0;
+                    border-radius: 12px;
+                    .bonusesLabel {
+                        font-weight: 700;
+                        line-height: 38px;
+                    }
+                    .MuiFormControlLabel-root {
+                        margin: 0;
+                        margin-right: 16px;
+                        .MuiFormControlLabel-label {
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

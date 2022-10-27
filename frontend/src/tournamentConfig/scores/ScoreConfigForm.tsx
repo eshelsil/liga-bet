@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm, useWatch } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from './schema';
 import { TournamentScoreConfig } from '../../types';
@@ -9,6 +9,7 @@ import MatchBetsConfig from './matchBets/MatchBetsConfig';
 import SpecialBetsConfig from './specialQuestions/SpecialBetsConfig';
 import { ScoreConfigForm } from '../types';
 import { generateDefaultScoresConfig, mapFormStateToApiParams, getInitialOptionsConfig } from '../utils';
+import { isEmpty } from 'lodash';
 
 
 interface Props {
@@ -16,11 +17,11 @@ interface Props {
 	updateConfig: (config: TournamentScoreConfig) => Promise<void>,
 }
 
-function ScoreConfig({
+function ScoreConfigFormView({
 	config,
 	updateConfig,
 }: Props){
-	const defaultConfig = config || generateDefaultScoresConfig()
+	const defaultConfig = !isEmpty(config) ? config : generateDefaultScoresConfig()
 	const initialOptionsConfig = getInitialOptionsConfig(defaultConfig)
 	const { setValue, handleSubmit, watch, register, control, formState, clearErrors, reset} = useForm<ScoreConfigForm>({
 		// resolver: yupResolver(validationSchema),
@@ -45,7 +46,7 @@ function ScoreConfig({
 	}
 
 	return (
-		<div className='LigaBet-ScoreConfig'>
+		<div className='LigaBet-ScoreConfigFormView'>
 			<MatchBetsConfig
 				{...formProps}
 			/>
@@ -65,4 +66,4 @@ function ScoreConfig({
 }
 
 
-export default ScoreConfig;
+export default ScoreConfigFormView;

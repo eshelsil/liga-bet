@@ -1,5 +1,5 @@
 import { AppDispatch, GetRootState } from '../_helpers/store'
-import { createTournament, getTournamentsOwnedByUser, updateTournamentScoresConfig, updateTournamentStatus } from '../api/tournaments'
+import { createTournament, getTournamentsOwnedByUser, updateTournamentPrizesConfig, updateTournamentScoresConfig, updateTournamentStatus } from '../api/tournaments'
 import ownedTournament from '../_reducers/ownedTournament'
 import { CurrentTournamentId, CurrentTournamentUserId } from '../_selectors'
 import { TournamentScoreConfig, TournamentStatus } from '../types'
@@ -38,6 +38,15 @@ function updateScoreConfig(config: TournamentScoreConfig) {
     }
 }
 
+function updatePrizesConfig(prizes: string[]) {
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const utlId = CurrentTournamentUserId(getState())
+        const tournamentId = CurrentTournamentId(getState())
+        const tournament = await updateTournamentPrizesConfig(tournamentId, prizes);
+        dispatch(myUtlsSlice.actions.setTournament({utlId, tournament}))
+    }
+}
+
 function openTournament() {
     return async (dispatch: AppDispatch, getState: GetRootState) => {
         const utlId = CurrentTournamentUserId(getState())
@@ -57,4 +66,4 @@ function revertOpenTournament() {
 }
 
 
-export { createNewTournament, fetchOwnedTournaments, updateScoreConfig, openTournament, revertOpenTournament }
+export { createNewTournament, fetchOwnedTournaments, updateScoreConfig, updatePrizesConfig, openTournament, revertOpenTournament }

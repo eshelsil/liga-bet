@@ -8,7 +8,11 @@ function LoadingTournamentsView() {
             <h2>
                 טוען טורניירים
             </h2>
-            <CircularProgress size={80} />
+            <CircularProgress
+                size={60}
+                thickness={5}
+                sx={{animationDuration: '700ms'}}
+            />
         </>
     )
 }

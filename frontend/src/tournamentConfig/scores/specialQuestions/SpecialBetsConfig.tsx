@@ -14,7 +14,7 @@ import TopScorerConfig from './TopScorer';
 function SpecialBetsConfig(formProps: ScoreConfigFormProps){
 	const disabled = !(useSelector(CanUpdateScoreConfig))
 	return (
-		<div className='LigaBet-SpecialBetsConfig'>
+		<div className='LigaBet-SpecialBetsConfig LB-ConfigBox'>
 			<SectionTitle
 				title={'ניקוד על שאלות מיוחדות'}
 				tooltipContent={'explanation'}

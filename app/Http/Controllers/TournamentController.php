@@ -23,7 +23,7 @@ class TournamentController extends Controller
         $tournament                  = new Tournament();
         $tournament->name            = $request->name;
         $tournament->status          = Tournament::STATUS_INITIAL;
-        $tournament->config          = ["scores" => json_decode('{"gameBets":{"groupStage":{"winnerSide":10,"result":20},"knockout":{"qualifier":15,"winnerSide":15,"result":60},"bonuses":{"final":{"qualifier":10,"winnerSide":10,"result":30},"semiFinal":{"qualifier":5,"winnerSide":5,"result":15}}},"groupRankBets":{"perfect":60,"minorMistake":30},"specialBets":{"offensiveTeam":50,"winner":{"quarterFinal":20,"semiFinal":30,"final":110,"winning":150},"runnerUp":{"quarterFinal":20,"semiFinal":20,"final":100},"mvp":100,"topAssists":100,"topScorer":{"correct":40,"eachGoal":20}},"specialQuestionFlags":{"winner":true,"runnerUp":true,"topScorer":true,"mvp":true,"topAssists":true,"offensiveTeam":true}}'), "prizes" => []];
+        $tournament->config          = ["scores" =>  [], "prizes" => []];
         $tournament->competition_id  = $request->competition;
         $tournament->code            = Str::lower(Str::random(6));
         $tournament->creator_user_id = $user->id;

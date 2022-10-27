@@ -36,7 +36,7 @@ function UserMenu({
                 />
                 {!!currentUtl && (
                     <LinkMenuItem
-                        route={routesMap['utl']}
+                        route={routesMap['utls']}
                     />
                 )}
                 <LinkMenuItem
