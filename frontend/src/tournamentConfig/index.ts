@@ -1,3 +1,3 @@
-import TournamentConfigProvider from './TournamentConfigProvider';
+import TournamentConfigPage from './TournamentConfigPage';
 
-export default TournamentConfigProvider;
+export default TournamentConfigPage;

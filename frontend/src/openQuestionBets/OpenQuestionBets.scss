@@ -1,0 +1,57 @@
+@import '../styles/mixins';
+
+.LigaBet-QuestionBetsView {
+    .LigaBet-OpenQuestionBetView {
+        border-radius: 12px;
+        border: 2px solid #dddd;
+        width: 330px;
+        overflow: hidden;
+        max-width: 100%;
+        box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
+        margin: 12px;
+        @media(max-width: 600px){
+            margin: 12px 0px;
+        }
+        .OpenQuestionBetView-header {
+            background: linear-gradient(0deg, #83eaf1 0%, #63a4ff 100%);
+            padding: 8px 12px;
+            .name {
+                margin: 0px;
+                text-align: center;
+            }
+        }
+        .existing_bet {
+            display: flex;
+            padding: 12px 24px;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .no_bet {
+            @include flexRow;
+            justify-content: center;
+            padding: 8px;
+            .MuiSvgIcon-root {
+                cursor: pointer;
+                &:hover {
+                    filter: brightness(115%);
+                }
+            }
+        }
+        .QuestionBetEditView {
+            padding: 24px;
+            padding-top: 16px;
+            .buttonContainer {
+                position: relative;
+                margin-top: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                .iconGoBack {
+                    position: absolute;
+                    left: 0px;
+                    bottom: 0px;
+                }
+            }
+        }
+    }
+}

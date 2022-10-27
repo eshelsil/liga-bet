@@ -114,12 +114,12 @@ function MatchBetsConfig(formProps: ScoreConfigFormProps){
 		},
 	]
 	return (
-		<div className='LigaBet-MatchRankBetCofig'>
+		<div className='LigaBet-MatchRankBetCofig LB-ConfigBox'>
 			<SectionTitle
 				title={'ניקוד על משחקים'}
 				tooltipContent={<MatchBetsExplanation />}
 			/>
-			<div>
+			<div className='matchesTableContainer'>
 				<CustomTable models={models} cells={tableCells} />
 			</div>
 			<TakanonPreviewModal>

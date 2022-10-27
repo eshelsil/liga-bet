@@ -112,9 +112,12 @@ class SpecialBet extends Model implements BetableInterface
         return $this->id;
     }
 
-    public static function getByType(string $type): SpecialBet
+    public static function getByType(int $tournamentId, string $type): SpecialBet
     {
-        return SpecialBet::query()->where("type", $type)->first();
+        return SpecialBet::query()
+                         ->where("tournament_id", $tournamentId)
+                         ->where("type", $type)
+                         ->first();
     }
 
     public function generateRandomBetData()

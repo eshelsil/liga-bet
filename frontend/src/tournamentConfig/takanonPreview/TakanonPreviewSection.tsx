@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 function TakanonPreviewSection({children}){
 	return (
 		<div className='LigaBet-TakanonPreviewSection'>

@@ -18,3 +18,8 @@ export const ScoresConfigSelector = createSelector(
     CurrentTournamentConfig,
     (config) => config?.scores
 )
+
+export const TournamentStatusSelector = createSelector(
+    CurrentTournament,
+    (tournament) => tournament?.status
+)

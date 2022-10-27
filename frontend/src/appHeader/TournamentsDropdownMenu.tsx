@@ -8,6 +8,7 @@ import { selectUtl } from '../_actions/tournamentUser'
 import { Button, MenuItem } from '@mui/material'
 import TournamentItemLink from './TournamentLink'
 import useGoTo from '../hooks/useGoTo';
+import { orderBy } from 'lodash';
 
 interface Props {
     selectUtl: (id: number) => void
@@ -24,6 +25,7 @@ function TournamentsDropdownMenu({
     const canJoinAnotherTournament = useSelector(CanJoinAnotherTournament);
     const canCreateNewTournament = useSelector(CanCreateNewTournament);
     const tournaments = Object.values(tournamentsById);
+    const sortedTournaments = orderBy(tournaments, t => t.linkedUtl.createdAt)
 
     const onTournamentItemClick = (utlId: number) => {
         selectUtl(utlId)
@@ -42,7 +44,7 @@ function TournamentsDropdownMenu({
             }
             classes={{list: 'tournamentsMenu'}}
         >
-            {tournaments.map(tournament => (
+            {sortedTournaments.map(tournament => (
                 <TournamentItemLink
                     key={tournament.id}
                     tournament={tournament}

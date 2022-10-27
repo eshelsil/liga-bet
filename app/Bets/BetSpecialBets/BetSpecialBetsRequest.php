@@ -73,13 +73,13 @@ class BetSpecialBetsRequest extends AbstractBetRequest
                 break;
             case SpecialBet::TYPE_WINNER:
                 $this->validateTeamSelection($answer);
-                if ($this->hasUserBet(SpecialBet::TYPE_RUNNER_UP, $answer, $utl)){
+                if ($this->hasUserBet(SpecialBet::TYPE_RUNNER_UP, $answer, $utl)) {
                     throw new \InvalidArgumentException("Could not bet \"winner\" as {{$answer}} because user has already bet \"runner_up\" as {{$answer}}. 'winner' & 'runner_up' bets cannot be the same");
                 }
                 break;
             case SpecialBet::TYPE_RUNNER_UP:
                 $this->validateTeamSelection($answer);
-                if ($this->hasUserBet(SpecialBet::TYPE_WINNER, $answer, $utl)){
+                if ($this->hasUserBet(SpecialBet::TYPE_WINNER, $answer, $utl)) {
                     throw new \InvalidArgumentException("Could not bet \"runner_up\" as {{$answer}} because user has already bet \"winner\" as {{$answer}}. 'winner' & 'runner_up' bets cannot be the same");
                 }
                 break;
@@ -108,10 +108,10 @@ class BetSpecialBetsRequest extends AbstractBetRequest
         }
     }
 
-    protected function hasUserBet($betName, $answer, $utl) {
+    protected function hasUserBet($betName, $answer, TournamentUser $utl) {
         $bet = $utl->bets
             ->where('type', BetTypes::SpecialBet)
-            ->where('type_id', SpecialBet::getByType($betName)->id)
+            ->where('type_id', SpecialBet::getByType($utl->tournament_id, $betName)->id)
             ->first();
 
         if (!$bet) {
