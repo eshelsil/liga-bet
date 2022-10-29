@@ -29,15 +29,9 @@ function MyUser({ currentUser }: Props) {
                 >
                     <TableBody>
                         <TableRow>
-                            <TableCell className="property">שם משתמש</TableCell>
+                            <TableCell className="property">אימייל</TableCell>
                             <TableCell className="nameValue">
-                                {currentUser.username}
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className="property">שם</TableCell>
-                            <TableCell className="nameValue">
-                                {currentUser.name}
+                                {currentUser.email}
                             </TableCell>
                         </TableRow>
                         <TableRow>

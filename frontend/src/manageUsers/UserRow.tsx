@@ -20,8 +20,7 @@ function UserRow({
     return (
         <TableRow>
             <TableCell className="admin">{user.id}</TableCell>
-            <TableCell>{user.name}</TableCell>
-            <TableCell>{user.username}</TableCell>
+            <TableCell>{user.email}</TableCell>
             <TableCell>
                 {UserPermissionsToRoleString[user.permissions]}
             </TableCell>

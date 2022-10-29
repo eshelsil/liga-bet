@@ -126,8 +126,7 @@ function ManageUsersView({
                         <TableHead>
                             <TableRow>
                                 <TableCell className="admin"></TableCell>
-                                <TableCell>שם</TableCell>
-                                <TableCell>שם משתמש</TableCell>
+                                <TableCell>מייל</TableCell>
                                 <TableCell>הרשאות</TableCell>
                                 <TableCell>פעולות</TableCell>
                             </TableRow>

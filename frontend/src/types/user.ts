@@ -7,8 +7,7 @@ export enum UserPermissions {
 
 export interface User {
     id: number
-    name: string
     permissions: UserPermissions
-    username: string
+    email: string
     canUpdateScoreConfig?: boolean
 }

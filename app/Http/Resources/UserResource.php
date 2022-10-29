@@ -19,8 +19,7 @@ class UserResource extends JsonResource
         $user = $this->resource;
         return [
             "id"                     => $user->id,
-            "name"                   => $user->name,
-            "username"               => $user->username,
+            "email"                  => $user->email,
             "permissions"            => $user->permissions,
             "canUpdateScoreConfig"   => $user->can_edit_score_config,
             "createdAt"              => $user->created_at,

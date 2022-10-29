@@ -55,7 +55,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'username', 'password', 'permissions', 'can_edit_score_config'
+        'email', 'password', 'permissions', 'can_edit_score_config'
     ];
 
     /**
