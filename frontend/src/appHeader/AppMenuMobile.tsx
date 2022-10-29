@@ -42,7 +42,7 @@ function AppMenuMobile({
                         {menuOpen ? <CloseIcon /> : <MenuIcon />}
                     </IconButton>
                     <Typography variant="h5" className="appName">
-                        ליגה ב'
+                        מונדיאל 2022
                     </Typography>
                     <UserMenu
                         {

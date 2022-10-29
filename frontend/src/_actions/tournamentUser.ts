@@ -51,8 +51,8 @@ function resetUtlSelection() {
 function fetchAndStoreUtls() {
   return async (dispatch: AppDispatch, getState: GetRootState) => {
       const utlsById = await getUserUTLs();
-      const currentUser = CurrentUser(getState());
       dispatch(utlsSlice.actions.set(utlsById));
+      const currentUser = CurrentUser(getState());
       const utlIdToSelect = getDefaultUtlId(utlsById, currentUser);
       if (utlIdToSelect){
         dispatch(selectUtl(utlIdToSelect));

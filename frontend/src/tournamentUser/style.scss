@@ -8,6 +8,19 @@
     padding: 24px;
 }
 
+.LB-CompetitionTitle {
+    @include flexRow;
+    > h2 {
+        margin: 0;
+    }
+    .competitionIcon {
+        background-image:url('/img/world_cup_2022.png');
+        width: 60px;
+        height: 50px;
+        background-size: 60px;
+    }
+}
+
 .LB-CreateNewTournament {
     max-width: 400px;
     margin: auto;
@@ -45,9 +58,13 @@
     }
     .LB-UserJoinOwnedTournament {
         @include formWrapper;
+        > h2 {
+            margin: 0;
+        }
         > h3 {
             margin: 0;
             margin-bottom: 16px;
+            margin-top: 24px;
         }
     }
     .buttonContainer {
@@ -63,6 +80,10 @@
         text-align: center;
     }
     .joinTournamentForm {
+        > h3 {
+            margin: 0;
+            margin-top: 24px;
+        }
         @include formWrapper;
         .MuiTextField-root {
             margin-top: 16px;

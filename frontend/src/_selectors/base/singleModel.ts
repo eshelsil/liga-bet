@@ -7,6 +7,7 @@ import {
     isTournamentStarted,
     isUtlConfirmed,
     keysOf,
+    valuesOf,
 } from '../../utils'
 import {
     CurrentTournament,
@@ -89,7 +90,7 @@ export const TournamentsWithMyUtl = createSelector(
     MyUtls,
     (myUtlsById) => {
         const tournamentsById: Dictionary<TournamentWithLinkedUtl> = {}
-        for (const utl of Object.values(myUtlsById)) {
+        for (const utl of valuesOf(myUtlsById)) {
             const {tournament, ...restUtlAttributes} = utl;
             tournamentsById[utl.tournament.id] = {
                 ...utl.tournament,

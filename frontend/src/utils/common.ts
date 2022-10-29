@@ -30,3 +30,11 @@ export function keysOf<T extends RecordKey>(obj: Record<T, any> | Partial<Record
     }
     return keys
 }
+
+export function valuesOf<T extends RecordKey, M extends any>(obj: Record<T, M> | Partial<Record<T, M>>): M[] {
+    let values: M[] = []
+    for (const val of Object.values(obj)){
+        values.push(val as M)
+    }
+    return values
+}

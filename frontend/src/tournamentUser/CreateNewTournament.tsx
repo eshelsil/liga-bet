@@ -72,7 +72,9 @@ function CreateNewTournament({
         <div className='LB-CreateNewTournament'>
             <h1>צור טורניר חדש</h1>
             {tournamentWithNoUtl && (
+                
                 <div className='LB-UserJoinOwnedTournament'>
+                    <h2>טורניר: {tournamentWithNoUtl.name}</h2>
                     <h3>בחר לעצמך כינוי:</h3>
                     <TextField
                         value={nickname}
@@ -86,7 +88,11 @@ function CreateNewTournament({
             )}
             {!tournamentWithNoUtl && (
                 <div className='LB-CreateNewTournament-content'>
-                    <h3 className={'LB-CreateNewTournament-title'}>בחר תחרות:</h3>
+                    <div className='LB-CompetitionTitle'>
+                        <div className='competitionIcon' />
+                        <h2>מונדיאל 2022</h2>
+                    </div>
+                    {/* <h3 className={'LB-CreateNewTournament-title'}>בחר תחרות:</h3>
                     <RadioGroup
                         value={competition || null}
                         onChange={(e) => setCompetition(Number(e.target.value))}
@@ -100,7 +106,7 @@ function CreateNewTournament({
                                 label={competition.name}
                             />
                         ))}
-                    </RadioGroup>
+                    </RadioGroup> */}
                     <div className='nameInputContainer'>
                         <h3>שם הטורניר:</h3>
                         <TextField

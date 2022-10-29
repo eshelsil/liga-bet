@@ -25,7 +25,7 @@ export const GamesState = (state: RootState) => state.matches
 export const PlayersState = (state: RootState) => state.players
 export const GroupsState = (state: RootState) => state.groups
 export const SpecialQuestionsState = (state: RootState) => state.specialQuestions
-export const OwnedTournament = (state: RootState) => state.ownedTournament
+export const OwnedTournaments = (state: RootState) => state.ownedTournaments
 export const Competitions = (state: RootState) => state.competitions
 export const Users = (state: RootState) => state.users
 export const UsersTotalCount = (state: RootState) => state.usersTotalCount

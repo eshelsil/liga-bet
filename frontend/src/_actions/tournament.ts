@@ -1,9 +1,11 @@
 import { AppDispatch, GetRootState } from '../_helpers/store'
 import { createTournament, getTournamentsOwnedByUser, updateTournamentPrizesConfig, updateTournamentScoresConfig, updateTournamentStatus } from '../api/tournaments'
-import ownedTournament from '../_reducers/ownedTournament'
+import ownedTournaments from '../_reducers/ownedTournament'
+import tournamentUser from '../_reducers/tournamentUser'
 import { CurrentTournamentId, CurrentTournamentUserId } from '../_selectors'
 import { TournamentScoreConfig, TournamentStatus } from '../types'
 import myUtlsSlice from '../_reducers/myUtls'
+import { keyBy } from 'lodash'
 
 function createNewTournament({
     name,
@@ -17,15 +19,15 @@ function createNewTournament({
             name,
             competition: competitionId,
         })
-        dispatch(ownedTournament.actions.set(tournament))
+        dispatch(ownedTournaments.actions.updateOne(tournament))
+        dispatch(tournamentUser.actions.reset())
     }
 }
 
 function fetchOwnedTournaments() {
     return async (dispatch: AppDispatch) => {
         const tournaments = await getTournamentsOwnedByUser()
-        const tournament = tournaments[0]
-        dispatch(ownedTournament.actions.set(tournament))
+        dispatch(ownedTournaments.actions.set(keyBy(tournaments, 'id')))
     }
 }
 
