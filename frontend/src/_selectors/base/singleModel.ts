@@ -29,11 +29,9 @@ export const IsTournamentStarted = createSelector(
 
 export const IsAdmin = createSelector(CurrentUser, (user) => isAdmin(user))
 
-export const CurrentUserName = createSelector(CurrentUser, (user) => user.name)
-
-export const CurrentUserUsername = createSelector(
+export const CurrentUserEmail = createSelector(
     CurrentUser,
-    (user) => user.username
+    (user) => user.email
 )
 
 export const CanUpdateScoreConfig = createSelector(

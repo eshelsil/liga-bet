@@ -12,6 +12,7 @@
 */
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\CustomResetPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BetsController;
 use App\Http\Controllers\CompetitionController;
@@ -32,6 +33,9 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/admin', function () {
 //     return redirect('/admin/index');
 // });
+
+Route::post('/send-reset-password', [CustomResetPasswordController::class, 'submitForgetPasswordForm'])->name('send-reset-pw-link');
+Route::get('/reset-password/${token}', [CustomResetPasswordController::class, 'resetPasswordUsingToken'])->name('reset-password');
 
 Auth::routes();
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
