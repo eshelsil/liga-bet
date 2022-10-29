@@ -207,6 +207,10 @@ class TournamentController extends Controller
             throw new JsonException("Invalid competition input", 400);
         }
         // TODO: handle not-started competition
+
+        if (Tournament::where('name', $name)->exists()) {
+            throw new JsonException("קיים כבר טורניר עם השם \"$name\"", 400);
+        }
     }
 
     private function validateCreateLimitations(User $user) {
