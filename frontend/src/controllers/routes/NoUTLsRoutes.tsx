@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import UTLPage from '../../myUTL';
+import UTLPage from '../../myUTLs';
 import UserPage from '../../myUser'
 import CreateNewTournament from '../../tournamentUser/CreateNewTournament'
 import JoinTournament from '../../tournamentUser/JoinTournament'

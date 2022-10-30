@@ -2,11 +2,13 @@ import { Dictionary, mapValues, orderBy } from 'lodash'
 import { createSelector } from 'reselect'
 import { SpecialQuestionApiModel, TournamentWithLinkedUtl, UserPermissions } from '../../types'
 import {
+    getScoreOfUtl,
     getSpecialQuestionName,
     isAdmin,
     isTournamentStarted,
     isUtlConfirmed,
     keysOf,
+    sortLeaderboardVersions,
     valuesOf,
 } from '../../utils'
 import {
@@ -17,6 +19,8 @@ import {
     SpecialQuestions,
     MyUtls,
     Games,
+    LeaderboardVersionsState,
+    CurrentTournamentUserId,
 } from './models'
 
 export const TournamentIdSelector = createSelector(
@@ -48,7 +52,15 @@ export const IsConfirmedUtl = createSelector(
 export const LeaderboardVersionsDesc = createSelector(
     LeaderboardVersions,
     (versions) => {
-        return orderBy(Object.values(versions), 'created_at', 'desc')
+        return sortLeaderboardVersions(versions)
+    }
+)
+
+export const MyScoreByTournamentId = createSelector(
+    LeaderboardVersionsState,
+    CurrentTournamentUserId,
+    (versionsByTournaentId, utlId) => {
+        return mapValues({...versionsByTournaentId}, (versionsByUtlId) => getScoreOfUtl(versionsByUtlId, utlId))
     }
 )
 
@@ -98,6 +110,13 @@ export const TournamentsWithMyUtl = createSelector(
             };
         }
         return tournamentsById;
+    }
+)
+
+export const MyUtlsSorted = createSelector(
+    MyUtls,
+    (myUtlsById) => {
+        return orderBy(valuesOf(myUtlsById), utl => utl.createdAt)
     }
 )
 

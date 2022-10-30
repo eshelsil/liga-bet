@@ -5,6 +5,7 @@ interface ApiRequestParams {
     url: string
     data?: object
     includeResponseHeaders?: string[]
+    hideErrorToastr?: boolean
 }
 
 export const sendApiRequest = async ({
@@ -12,6 +13,7 @@ export const sendApiRequest = async ({
     url,
     data,
     includeResponseHeaders,
+    hideErrorToastr,
 }: ApiRequestParams): Promise<any> => {
     return new Promise((resolve, reject) => {
         ;(window as any).$.ajax({
@@ -36,7 +38,9 @@ export const sendApiRequest = async ({
             },
             error: function (data) {
                 console.error(data)
-                reportApiError(data)
+                if (!hideErrorToastr) {
+                    reportApiError(data)
+                }
                 reject(data)
             },
         })

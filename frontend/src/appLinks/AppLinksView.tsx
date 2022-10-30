@@ -9,11 +9,11 @@ interface AppLinkDescription extends AppLinkProps {
 type AppLinksConfig = Record<string, AppLinkDescription>
 
 const appLinks: AppLinksConfig = {
-	articles: {
-		id: 'articles',
-		path: '/articles',
-		label: 'כתבות',
-	},
+	// articles: {
+	// 	id: 'articles',
+	// 	path: '/articles',
+	// 	label: 'כתבות',
+	// },
 	takanon: {
 		id: 'takanon',
 		path: '/takanon',

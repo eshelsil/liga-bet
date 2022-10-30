@@ -2,13 +2,12 @@ import { sortBy } from 'lodash';
 import { createSelector } from 'reselect'
 import { UserPermissions } from '../../types';
 import { isAdmin } from '../../utils';
-import { Contestants, CurrentTournament, CurrentTournamentUserId, CurrentUser, MyUtls, OwnedTournaments } from '../base';
+import { Contestants, CurrentTournament, CurrentTournamentUserId, CurrentUser, MyUtls, MyUtlsSorted, OwnedTournaments } from '../base';
 
 export const ChosenTournamentIndex = createSelector(
-    MyUtls,
+    MyUtlsSorted,
     CurrentTournamentUserId,
-    (myUtlsById, currentUtlId) => {
-        const utlsByDate = sortBy(Object.values(myUtlsById), 'createdAt');
+    (utlsByDate, currentUtlId) => {
         const chosenUtlIndex = utlsByDate.findIndex(utl => utl.id === currentUtlId);
         return chosenUtlIndex;
     }

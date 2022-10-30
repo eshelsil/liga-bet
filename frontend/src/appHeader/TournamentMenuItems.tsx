@@ -55,6 +55,12 @@ function TournamentMenuItems({
                             route={routesMap['contestants']}
                             callback={reRouteCallback}
                         />
+                        {[TournamentStatus.Initial, TournamentStatus.OpenForBets].includes(tournamentStatus) && (
+                            <LinkMenuItem
+                                route={routesMap['invite-friends']}
+                                callback={reRouteCallback}
+                            />
+                        )}
                     </DropMenuItem>
                 )}
                 {isConfirmed && (<>

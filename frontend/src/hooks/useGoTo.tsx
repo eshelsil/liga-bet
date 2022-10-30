@@ -12,6 +12,7 @@ function useGoTo() {
     const goToLeaderboard = () => history.push('/leaderboard')
     const goToOpenGameBets = () => history.push('/open-matches')
     const goToTournamentConfig = () => history.push('/tournament-config')
+    const goToInviteFriends = () => history.push('/invite-friends')
     const goToHome = () => history.push('/')
 
     return {
@@ -24,6 +25,7 @@ function useGoTo() {
         goToLeaderboard,
         goToOpenGameBets,
         goToTournamentConfig,
+        goToInviteFriends,
     }
 }
 

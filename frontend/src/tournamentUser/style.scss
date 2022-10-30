@@ -80,11 +80,14 @@
         text-align: center;
     }
     .joinTournamentForm {
-        > h3 {
-            margin: 0;
-            margin-top: 24px;
-        }
         @include formWrapper;
+        .tournamentName {
+            @include flexRow;
+            font-size: 28px;
+            .tournamentIcon{
+                margin-left: 8px;
+            }
+        }
         .MuiTextField-root {
             margin-top: 16px;
         }
