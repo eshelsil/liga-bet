@@ -12,14 +12,14 @@ function useDefaultPageRedirect(): () => void {
         goToTournamentConfig,
     } = useGoTo()
     const currentUtl = useSelector(CurrentTournamentUser)
-    const hasAnyUtl = useSelector(HasAnyUTL)
+    const hasSelectedUtl = !!currentUtl
     const prizes = useSelector(PrizesSelector);
 
     const isTournamentOwner = currentUtl?.role === UtlRole.Admin
     const hasPrizes = prizes.length > 0
     const tournamentStatus = currentUtl.tournament.status
 
-    if (!hasAnyUtl) {
+    if (!hasSelectedUtl) {
         return goToUserPage
     }
     if ([TournamentStatus.Finished, TournamentStatus.Ongoing].includes(tournamentStatus)) {

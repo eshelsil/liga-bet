@@ -48,6 +48,15 @@ class TournamentController extends Controller
         return new JsonResponse((new TournamentResource($tournament))->toArray($request), 200);
     }
 
+    public function getTournamentName(string $code, Request $request)
+    {
+        $tournament = Tournament::where('code', $code)->first();
+        if (!$tournament){
+            throw new JsonException("Could not find tournament with code ".$code, 400);
+        }
+        return new JsonResponse($tournament->name, 200);
+    }
+
     protected function generateSpecialBets(Tournament $tournament): void
     {
         $tournament->specialBets()->delete();
@@ -207,6 +216,10 @@ class TournamentController extends Controller
             throw new JsonException("Invalid competition input", 400);
         }
         // TODO: handle not-started competition
+
+        if (Tournament::where('name', $name)->exists()) {
+            throw new JsonException("קיים כבר טורניר עם השם \"$name\"", 400);
+        }
     }
 
     private function validateCreateLimitations(User $user) {

@@ -7,17 +7,25 @@ import JoinTournament from './JoinTournament'
 import AdminDefaultView from '../admin/AdminDefaultView'
 import './style.scss'
 
-function UserWithNoTournamentsView() {
+function UserWithNoTournamentsView({
+    isMissingUtl
+} : {
+    isMissingUtl: boolean
+}) {
     const user = useSelector(CurrentUser);
 
+    const showCreateView = isMissingUtl || user.permissions === UserPermissions.TournamentAdmin
+    const showAdminView = !showCreateView && user.permissions === UserPermissions.Admin
+    const showJoinView = !showCreateView && !showAdminView
+
     return (<>
-        {user.permissions === UserPermissions.Admin && (
+        {showAdminView && (
             <AdminDefaultView />
         )}
-        {user.permissions === UserPermissions.TournamentAdmin && (
+        {showCreateView && (
             <CreateNewTournament />
-            )}
-        {user.permissions === UserPermissions.User && (
+        )}
+        {showJoinView && (
             <JoinTournament />
         )}
     </>)

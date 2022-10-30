@@ -1,28 +1,22 @@
 import { createSelector } from 'reselect'
-import { Competitions, MyUtls, OwnedTournament } from './base'
+import { Competitions, MyUtls, OwnedTournaments, TournamentsWithMyUtl } from './base'
 
-const OwningTournamentWithNoUtl = createSelector(
-    OwnedTournament,
-    MyUtls,
-    (ownedTournament, myUtls) => {
-        const ownedTournamentId = ownedTournament.id
-        if (!ownedTournamentId) {
-            return false
-        }
-        for (const utl of Object.values(myUtls)) {
-            if (utl.tournament.id === ownedTournamentId) {
-                return false
+export const OwnedTournamentWithNoUtl = createSelector(
+    OwnedTournaments,
+    TournamentsWithMyUtl,
+    (ownedTournaments, tournamentsWithUtl) => {
+        for (const tournament of Object.values(ownedTournaments)) {
+            if (!tournamentsWithUtl[tournament.id]) {
+                return tournament
             }
         }
-        return true
+        return undefined
     }
 )
 export const CreateNewTournamentSelector = createSelector(
-    OwnedTournament,
     Competitions,
-    OwningTournamentWithNoUtl,
-    (ownedTournament, competitionsById, isMissingUtl) => {
-        const tournamentWithNoUtl = isMissingUtl ? ownedTournament : undefined
+    OwnedTournamentWithNoUtl,
+    (competitionsById, tournamentWithNoUtl) => {
         return {
             competitionsById,
             tournamentWithNoUtl,

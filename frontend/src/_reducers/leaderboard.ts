@@ -3,10 +3,9 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { LeaderboardVersionById } from '../types'
 import { LeaderboardVersionApiModel } from '../types'
 import { keyBy } from 'lodash'
-import { Dictionary } from 'lodash'
 
 
-type State = Dictionary<LeaderboardVersionById>
+type State = Record<number, LeaderboardVersionById>
 
 interface SetPayload {
     tournamentId: number,

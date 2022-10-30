@@ -15,6 +15,13 @@ export const createTournament = async ({
     })
 }
 
+export const getTournamentsName = async (code: string): Promise<string> => {
+    return await sendApiRequest({
+        url: `/api/tournament-name/${code}`,
+        hideErrorToastr: true,
+    })
+}
+
 export const getTournamentsOwnedByUser = async (): Promise<Tournament[]> => {
     return await sendApiRequest({
         url: '/api/user/tournaments',

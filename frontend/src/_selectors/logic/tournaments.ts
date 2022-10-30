@@ -2,13 +2,12 @@ import { sortBy } from 'lodash';
 import { createSelector } from 'reselect'
 import { UserPermissions } from '../../types';
 import { isAdmin } from '../../utils';
-import { Contestants, CurrentTournament, CurrentTournamentUserId, CurrentUser, MyUtls, OwnedTournament } from '../base';
+import { Contestants, CurrentTournament, CurrentTournamentUserId, CurrentUser, MyUtls, MyUtlsSorted, OwnedTournaments } from '../base';
 
 export const ChosenTournamentIndex = createSelector(
-    MyUtls,
+    MyUtlsSorted,
     CurrentTournamentUserId,
-    (myUtlsById, currentUtlId) => {
-        const utlsByDate = sortBy(Object.values(myUtlsById), 'createdAt');
+    (utlsByDate, currentUtlId) => {
         const chosenUtlIndex = utlsByDate.findIndex(utl => utl.id === currentUtlId);
         return chosenUtlIndex;
     }
@@ -27,10 +26,10 @@ export const CanJoinAnotherTournament = createSelector(
 )
 
 export const CanCreateNewTournament = createSelector(
-    OwnedTournament,
+    OwnedTournaments,
     CurrentUser,
-    (ownedTournament, currentUser) => {
-        const hasOwnedTournament = !!ownedTournament.id;
+    (ownedTournaments, currentUser) => {
+        const hasOwnedTournament = Object.keys(ownedTournaments).length > 0;
         if (isAdmin(currentUser)){
             return true;
         }

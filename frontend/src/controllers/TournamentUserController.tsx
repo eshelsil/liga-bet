@@ -1,7 +1,8 @@
 import React, { ReactNode, useEffect, useState } from 'react'
 import { connect, useSelector } from 'react-redux'
 import { fetchAndStoreUtls } from '../_actions/tournamentUser'
-import { CurrentTournamentUser, HasAnyUTL, NoSelector } from '../_selectors'
+import { fetchOwnedTournaments } from '../_actions/tournament'
+import { CurrentTournamentUser, HasAnyUTL, NoSelector, OwnedTournamentWithNoUtl } from '../_selectors'
 import UserWithNoTournamentsView from '../tournamentUser/UserWithNoTournamentsView'
 import LoadingTournamentsView from './LoadingTournamentsView'
 import SelectedUTLController from './SelectedUTLController'
@@ -9,10 +10,11 @@ import NoUTLsRoutes from './routes/NoUTLsRoutes'
 
 interface Props {
     fetchAndStoreUtls: () => Promise<void>
+    fetchOwnedTournaments: () => Promise<void>
     children: ReactNode
 }
 
-function TournamentUserController({ fetchAndStoreUtls, children }: Props) {
+function TournamentUserController({ fetchAndStoreUtls, fetchOwnedTournaments, children }: Props) {
     const [isLoading, setIsLoading] = useState(false)
     const [initiated, setInitiated] = useState(false)
     useEffect(() => {
@@ -24,10 +26,13 @@ function TournamentUserController({ fetchAndStoreUtls, children }: Props) {
             setIsLoading(false)
             setInitiated(true)
         })
+        fetchOwnedTournaments();
     }, [])
 
     const currentUtl = useSelector(CurrentTournamentUser)
     const hasAnyUtl = useSelector(HasAnyUTL)
+    const ownedTournamnetWithNoUtl = useSelector(OwnedTournamentWithNoUtl)
+    const canSelectUtl = hasAnyUtl && !ownedTournamnetWithNoUtl
 
     return (
         <NoUTLsRoutes>
@@ -35,10 +40,10 @@ function TournamentUserController({ fetchAndStoreUtls, children }: Props) {
                 <LoadingTournamentsView />
             )}
             {!isLoading && initiated && (<>
-                {!hasAnyUtl && (
-                    <UserWithNoTournamentsView />
+                {!canSelectUtl && (
+                    <UserWithNoTournamentsView isMissingUtl={!!ownedTournamnetWithNoUtl}/>
                 )}
-                {hasAnyUtl && (
+                {canSelectUtl && (
                     <SelectedUTLController currentUtl={currentUtl}>
                         {children}
                     </SelectedUTLController>
@@ -51,6 +56,7 @@ function TournamentUserController({ fetchAndStoreUtls, children }: Props) {
 
 const mapDispatchToProps = {
     fetchAndStoreUtls,
+    fetchOwnedTournaments,
 }
 
 export default connect(NoSelector, mapDispatchToProps)(TournamentUserController)

@@ -1,19 +1,28 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, TextField } from '@mui/material'
 import { NoSelector } from '../_selectors'
 import { connect } from 'react-redux'
 import { createUtl } from '../_actions/tournamentUser'
 import useGoTo from '../hooks/useGoTo'
+import { getTournamentsName } from '../api/tournaments'
+import { useLocation } from 'react-router-dom'
+import TournamentIcon from '@mui/icons-material/EmojiEvents';
+
 
 interface Props {
     onJoin: (...args: any) => Promise<void>
 }
 
 function JoinTournament({ onJoin }: Props) {
-    const [code, setCode] = useState('')
+    const location = useLocation();
+    const params = new URLSearchParams(location.search)
+    const codeFromURL = params.get('tournament-code') 
+    const [code, setCode] = useState(codeFromURL || '')
     const [name, setName] = useState('')
+    const [tournamentName, setTournamentName] = useState('')
     const { goToHome } = useGoTo();
 
+    getTournamentsName
     function join() {
         onJoin({ tournamentCode: code, name })
         .then(() => {
@@ -22,15 +31,32 @@ function JoinTournament({ onJoin }: Props) {
         })
     }
 
+    useEffect(() => {
+        if (codeFromURL) {
+            getTournamentsName(codeFromURL)
+                .then(name => {
+                    setTournamentName(name)
+                })
+        }
+    }, [codeFromURL])
+
     return (
         <div className='LB-JoinTournament'>
             <h1>הצטרף לטורניר קיים</h1>
             <div className='joinTournamentForm'>
-                <TextField
-                    value={code}
-                    label='קוד טורניר'
-                    onChange={(e) => setCode(e.target.value)}
-                />
+                {!codeFromURL && (
+                    <TextField
+                        value={code}
+                        label='קוד טורניר'
+                        onChange={(e) => setCode(e.target.value)}
+                    />
+                )}
+                {codeFromURL && (
+                    <div className='tournamentName'>
+                        <TournamentIcon className='tournamentIcon' fontSize='large' />
+                        <div>{tournamentName}</div>
+                    </div>
+                )}
                 <TextField
                     value={name}
                     label='כינוי'

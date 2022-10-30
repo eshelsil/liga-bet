@@ -1,0 +1,115 @@
+@import '../styles/themes/tournaments';
+@import '../styles/shadows';
+@import '../styles/mixins';
+
+.LigaBet-UTLPage {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    align-items: center;
+    .title {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .utlsCollection {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        max-width: 100%;
+        .LB-UtlCard {
+            $borderRadius: 12px;
+            width: 350px;
+            max-width: 100%;
+            margin: 12px;
+            box-shadow: $basic-shadow;
+            border-radius: $borderRadius;
+            overflow: hidden;
+            
+            .cardHeader {
+                @include flexRow;
+                $headerXPadding: 16px;
+                padding: 4px $headerXPadding;
+                position: relative;
+                cursor: pointer;
+                &:hover {
+                    filter: brightness(120%);
+                }
+                .tournamentName {
+                    margin-right: 10px;
+                }
+                .selectedUtl {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    margin-right: -$headerXPadding;
+                    border-radius: $borderRadius $borderRadius 0px 0px;
+                    border: 4px solid rgb(0 0 0 / 30%);
+                }
+            }
+            .cardBody {
+                padding: 12px;
+                $nameWidth: 90px;
+                .utlAttribute {
+                    font-size: 14px;
+                    margin-bottom: 16px;
+                    .attributeName {
+                        display: inline-block;
+                        width: $nameWidth;
+                        font-weight: 700;
+                    }
+                    .value {
+                        width: calc(100% - $nameWidth);
+                        display: inline-block;
+                    }
+                }
+                .linksContainer {
+                    @include centerContainer;
+                }
+                .buttonsContinaer {
+                    position: relative;
+                    margin-top: 4px;
+                    height: 40px;
+                }
+            }
+        }
+
+
+
+        .editButton {
+            position: absolute;
+            left: 0px;
+            bottom: 0px;
+        }
+        .confirmButton {
+            position: absolute;
+            right: 0px;
+            top: 0px;
+        }
+        .nameInput {
+            width: 180px;
+        }
+    }
+}
+
+
+@mixin themable_utl($class, $tournament_theme){
+    $gradient: map_get($tournament_theme, gradient);
+    .LB-UtlCard {
+        .cardHeader {
+            &.#{$class} {
+                background: $gradient;
+                .tournamentName {
+                    color: #fff;
+                }
+            }
+        }
+    }
+}
+
+  
+  @include themable_utl(tournament-theme, $tournament_1);
+  @include themable_utl(tournament-theme-1, $tournament_1);
+  @include themable_utl(tournament-theme-2, $tournament_2);
+  @include themable_utl(tournament-theme-3, $tournament_3);
+  @include themable_utl(tournament-theme-4, $tournament_4);
+  @include themable_utl(tournament-theme-5, $tournament_5);
