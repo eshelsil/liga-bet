@@ -35,7 +35,7 @@ interface Props {
 
 function AppLinksView({ isAdmin }: Props) {
     return (
-        <>
+        <div className='LB-AppLinksView'>
             {Object.values(appLinks).map(
                 ({ id, isAdminView, ...appLinkProps }) => {
                     const hidden = isAdminView && !isAdmin
@@ -46,7 +46,7 @@ function AppLinksView({ isAdmin }: Props) {
                     )
                 }
             )}
-        </>
+        </div>
     )
 }
 

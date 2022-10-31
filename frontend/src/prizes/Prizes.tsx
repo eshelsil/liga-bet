@@ -19,11 +19,13 @@ interface Props {
 }
 
 function Prizes({ prizes }: Props){
-	return (<>
-		{prizes.map((prize, index) => (
-			<PrizeBlock key={index} prize={prize} rank={index + 1} />
-		))}
-	</>);
+	return (
+		<div className='LB-PrizesView'>
+			{prizes.map((prize, index) => (
+				<PrizeBlock key={index} prize={prize} rank={index + 1} />
+			))}
+		</div>
+	);
 }
 
 export default Prizes

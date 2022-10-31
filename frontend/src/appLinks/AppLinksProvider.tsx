@@ -5,7 +5,11 @@ import AppLinksView from './AppLinksView'
 
 function AppLinksProvider() {
     const isAdmin = useSelector(IsAdmin)
-    return <AppLinksView isAdmin={isAdmin} />
+    return (
+        isAdmin
+            ? <AppLinksView isAdmin={isAdmin} />
+            : null
+    )
 }
 
 export default AppLinksProvider

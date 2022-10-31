@@ -45,9 +45,9 @@
             }
         }
         .LB-ConfigBox {
+            @include floatingFrame;
             $padding: 16px;
             border-radius: 16px;
-            box-shadow: $basic-shadow;
             padding: $padding;
             width: fit-content;
             max-width: 100%;
@@ -91,8 +91,8 @@
                 }
             }
             .configContainer {
+                @include floatingFrame;
                 border-radius: 16px;
-                box-shadow: $basic-shadow;
                 margin-top: 20px;
                 padding: 16px;
                 overflow: hidden;

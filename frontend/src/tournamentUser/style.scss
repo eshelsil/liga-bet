@@ -3,7 +3,7 @@
 
 
 @mixin formWrapper {
-    box-shadow: $basic-shadow;
+    @include floatingFrame;
     border-radius: 16px;
     padding: 24px;
 }
@@ -33,7 +33,7 @@
             margin: 0;
         }
         .MuiFormGroup-root{
-            box-shadow: $basic-shadow;
+            @include floatingFrame;
             border-radius: 16px;
             padding: 8px;
             margin-top: 8px;

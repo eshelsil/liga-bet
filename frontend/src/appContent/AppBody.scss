@@ -1,18 +1,25 @@
+@mixin appSection {
+    padding: 15px 20px;
+    width: 100%;
+    background-color: #eee;
+}
+
 .LigaBet-AppBody {
-    padding-top: 50px;
-    .LigaBet-CenterGrid {
+    padding-top: 60px;
+    .AppContent {
         width: 100%;
-        padding: 16px;
+        padding: 16px 32px;
         @media(max-width: 600px) {
-            padding-right: 8px;
-            padding-left: 8px;
+            padding-right: 12px;
+            padding-left: 12px;
         }
     }
-    .sidenav {
-        padding-top: 20px;
-        padding-right: 15px;
-        padding-left: 15px;
-        width: 100%;
-        background-color: #f1f1f1;
+    .LB-AppLinksView {
+        @include appSection;
+        padding-bottom: 5px;
+    }
+    .LB-PrizesView {
+        @include appSection;
+        padding-bottom: 5px;
     }
 }

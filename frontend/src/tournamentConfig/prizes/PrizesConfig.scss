@@ -3,7 +3,7 @@
 
 .LigaBet-PrizesConfig {
     .inputWithTakanon {
-        box-shadow: $basic_shadow;
+        @include floatingFrame;
         border-radius: 16px;
         padding: 16px;
         .LigaBet-PrizeInput{

@@ -17,11 +17,11 @@
         justify-content: space-evenly;
         max-width: 100%;
         .LB-UtlCard {
+            @include floatingFrame;
             $borderRadius: 12px;
             width: 350px;
             max-width: 100%;
             margin: 12px;
-            box-shadow: $basic-shadow;
             border-radius: $borderRadius;
             overflow: hidden;
             

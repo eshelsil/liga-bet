@@ -8,7 +8,7 @@ import './Prizes.scss';
 function PrizesProvider(){
 	const hasCurrentUtl = useSelector(HasCurrentUtl);
 	const prizes = useSelector(PrizesSelector);
-	if (!hasCurrentUtl) {
+	if (!hasCurrentUtl || prizes.length === 0) {
 		return null;
 	}
 	return (

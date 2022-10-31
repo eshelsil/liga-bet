@@ -1,3 +1,6 @@
+@import './shadows';
+
+
 @mixin centerContainer {
     display: flex;
     align-items: center;
@@ -12,4 +15,9 @@
 @mixin fullView {
     height: 100%;
     width: 100%;
+}
+
+@mixin floatingFrame {
+    box-shadow: $basic-shadow;
+    background-color: #fff;
 }
