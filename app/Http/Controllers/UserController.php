@@ -158,10 +158,7 @@ class UserController extends Controller
             )
             ->when($search, function($q) use ($search) {
                 $searchLike = '%'.$search.'%';
-                return $q->where(function($q) use ($searchLike){
-                    return $q->where('username', 'like', $searchLike)
-                        ->orWhere('name', 'like', $searchLike);
-                });
+                return $q->where('email', 'like', $searchLike);
             });
         $total = $fileredQuery->count();
         $users = $fileredQuery
