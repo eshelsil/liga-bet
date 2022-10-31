@@ -1,6 +1,5 @@
 import React from 'react'
 import DropMenuItem from './DropMenuItem'
-import { UtlWithTournament } from '../types'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { connect, useSelector } from 'react-redux'
 import { CurrentTournament, NoSelector, TournamentsWithMyUtl, CanCreateNewTournament, CanJoinAnotherTournament } from '../_selectors'
@@ -31,6 +30,14 @@ function TournamentsDropdownMenu({
         selectUtl(utlId)
         itemClickCallback && itemClickCallback()
     }
+    const joinTournament = () => {
+        itemClickCallback && itemClickCallback()
+        goToJoinTournament()
+    }
+    const createTournament = () => {
+        itemClickCallback && itemClickCallback()
+        goToCreateTournament()
+    }
     
     return (
         <DropMenuItem
@@ -55,7 +62,7 @@ function TournamentsDropdownMenu({
             {canJoinAnotherTournament && (
                 <MenuItem
                     className={`buttonLink`}
-                    onClick={goToJoinTournament}
+                    onClick={joinTournament}
                 >
                     <Button variant='contained' color='primary'>
                         הצטרף לטורניר נוסף
@@ -65,7 +72,7 @@ function TournamentsDropdownMenu({
             {canCreateNewTournament && (
                 <MenuItem
                     className={`buttonLink`}
-                    onClick={goToCreateTournament}
+                    onClick={createTournament}
                 >
                     <Button variant='contained' color='primary'>
                             צור טורניר חדש

@@ -1,17 +1,22 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { CurrentTournament, PrizesSelector, ScoresConfigSelector } from '../_selectors';
+import { generateDefaultScoresConfig } from '../tournamentConfig/utils';
+import { PrizesSelector, ScoresConfigSelector } from '../_selectors';
 import Disclaimer from './Disclaimer';
 import GeneralRules from './GeneralRules';
 import PrizesRules from './PrizesRules';
 import ScoresRules from './ScoresRules';
 import SendingBetsExplanation from './SendingBetsExplanation';
+import { isEmpty } from 'lodash';
 import './style.scss';
 
 
 function Takanon() {
     const prizes = useSelector(PrizesSelector);
-    const scoreConfig = useSelector(ScoresConfigSelector);
+    const existingScoreConfig = useSelector(ScoresConfigSelector);
+    const scoreConfig = isEmpty(existingScoreConfig)
+        ? generateDefaultScoresConfig()
+        : existingScoreConfig
 
     return (
         <div className="all-ltr" style={{ marginBottom: 30 }}>
