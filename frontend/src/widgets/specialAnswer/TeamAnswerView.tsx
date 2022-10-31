@@ -1,10 +1,10 @@
 import React from 'react'
 import { Team } from '../../types'
-import TeamWithFlag from '../TeamWithFlag'
+import BigTeamWithFlag from '../TeamFlag/BigTeamWithFlag'
 
 function TeamAnswerView({ team }: { team: Team }) {
-    const { name, crest_url } = team
-    return <TeamWithFlag name={name} crest_url={crest_url} />
+    const { name } = team
+    return <BigTeamWithFlag name={name} />
 }
 
 export default TeamAnswerView

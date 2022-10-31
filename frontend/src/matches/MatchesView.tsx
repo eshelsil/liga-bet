@@ -2,7 +2,7 @@ import moment from 'moment'
 import React from 'react'
 import { updateScoresFromApi } from '../api/matches'
 import MatchResult from '../widgets/MatchResult'
-import TeamWithFlag from '../widgets/TeamWithFlag'
+import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
 import { MatchWithBets } from '../_selectors'
 
 function MatchGumblesList({ match }: { match: MatchWithBets }) {

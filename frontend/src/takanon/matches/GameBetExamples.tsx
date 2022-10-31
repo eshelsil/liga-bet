@@ -2,7 +2,7 @@ import React from 'react';
 import { MatchRuleType, GameBetScoreConfig, Team, WinnerSide } from '../../types';
 import { getWinnerSide, matchRuleToString } from '../../utils';
 import { getExtraTimeString, getFullTimeString, getPenaltiesString, getQualifier } from './utils';
-import TeamWithFlag from '../../widgets/TeamWithFlag';
+import TeamWithFlag from '../../widgets/TeamFlag/TeamWithFlag';
 
 
 interface GameExample {

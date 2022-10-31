@@ -1,5 +1,5 @@
 import React from 'react'
-import TeamWithFlag from '../../widgets/TeamWithFlag'
+import TeamWithFlag from '../../widgets/TeamFlag/TeamWithFlag'
 import MatchResult from '../../widgets/MatchResult'
 import { MatchBetWithRelations } from '../../types'
 

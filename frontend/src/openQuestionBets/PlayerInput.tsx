@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import { useSelector } from 'react-redux'
 import { PlayersByTeamId, PlayersWithTeams } from '../_selectors'
-import TeamWithFlag from '../widgets/TeamWithFlag'
+import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
 import TeamInput from './TeamInput'
 
 function PlayerInput({

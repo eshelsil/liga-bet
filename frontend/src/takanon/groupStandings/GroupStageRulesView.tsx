@@ -1,6 +1,6 @@
 import React from 'react';
 import { GroupRankBetScoreConfig, GroupWithTeams } from '../../types';
-import TeamWithFlag from '../../widgets/TeamWithFlag';
+import TeamWithFlag from '../../widgets/TeamFlag/TeamWithFlag';
 
 
 interface Props {

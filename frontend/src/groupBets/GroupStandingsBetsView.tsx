@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { getStandingsBetValue } from '../utils/index'
-import TeamWithFlag from '../widgets/TeamWithFlag'
+import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
 import { GroupRankBetWithRelations, GroupWithTeams } from '../types'
 import { groupBy } from 'lodash'
 

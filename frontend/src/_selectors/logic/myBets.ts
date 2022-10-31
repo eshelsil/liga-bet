@@ -1,5 +1,6 @@
 import { keyBy } from 'lodash'
 import { createSelector } from 'reselect'
+import { SpecialQuestionType } from '../../types'
 import { CurrentTournamentUserId } from '../base'
 import {
     GroupStandingBetsByUserId,
@@ -42,5 +43,13 @@ export const MyQuestionBetsById = createSelector(
     MyQuestionBetsSelector,
     (bets) => {
         return keyBy(bets, 'type_id')
+    }
+)
+
+export const MyWinnerTeamSelector = createSelector(
+    MyQuestionBetsSelector,
+    (questionBets) => {
+        const winnerBet = questionBets.find(bet => bet.relatedQuestion.type === SpecialQuestionType.Winner)
+        return winnerBet ? winnerBet.answer : null
     }
 )

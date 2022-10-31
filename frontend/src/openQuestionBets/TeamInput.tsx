@@ -1,7 +1,7 @@
 import React from 'react'
 import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import { useSelector } from 'react-redux'
-import TeamWithFlag from '../widgets/TeamWithFlag'
+import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
 import { Teams } from '../_selectors'
 
 function TeamInput({
@@ -18,37 +18,40 @@ function TeamInput({
     }
 
     return (
-        <>
-            <InputLabel id={`team-input-label`}>בחר קבוצה</InputLabel>
+        <div className={'LB-TeamInput'}>
+            <InputLabel>בחר קבוצה</InputLabel>
             <Select
                 placeholder={'בחר קבוצה'}
-                label="בחר קבוצה"
-                labelId="team-input-label"
                 value={value || ''}
                 onChange={handleChange}
-                // input={<OutlinedInput label={placeholder} />}
                 renderValue={(selectedTeam) => {
                     const team = teamsById[selectedTeam]
                     if (!team) return
                     return (
                         <TeamWithFlag
                             name={team.name}
-                            crest_url={team.crest_url}
+                            size={32}
                         />
                     )
                 }}
                 fullWidth
+                MenuProps={{
+                    classes: {
+                        paper: 'TeamInput-paper',
+                        list: 'TeamInput-list',
+                    }
+                }}
             >
                 {Object.values(teamsById).map((team) => (
                     <MenuItem key={team.id} value={team.id} style={{}}>
                         <TeamWithFlag
                             name={team.name}
-                            crest_url={team.crest_url}
+                            size={32}
                         />
                     </MenuItem>
                 ))}
             </Select>
-        </>
+        </div>
     )
 }
 

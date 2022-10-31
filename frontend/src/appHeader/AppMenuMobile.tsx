@@ -29,7 +29,7 @@ function AppMenuMobile({
 
     return (
         <div  className="LigaBet-AppMenuMobile">
-            <Toolbar>
+            <Toolbar style={{minHeight: 'unset'}}>
                 <Container className="mobileMenuHeader">
                     <IconButton
                         size="large"

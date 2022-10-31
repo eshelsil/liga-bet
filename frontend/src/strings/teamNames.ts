@@ -1,0 +1,38 @@
+export const teamNameToHebrew = {
+    ecuador: 'אקוודור',
+    netherlands: 'הולנד',
+    qatar: 'קטאר',
+    senegal: 'סנגל',
+    england: 'אנגליה',
+    iran: 'איראן',
+    'united states': 'ארצות הברית',
+    wales: 'וויילס',
+    argentina: 'ארגנטינה',
+    mexico: 'מקסיקו',
+    poland: 'פולין',
+    'saudi arabia': 'ערב הסעודית',
+    australia: 'אוסטרליה',
+    denmark: 'דנמרק',
+    france: 'צרפת',
+    tunisia: 'תוניסיה',
+    'costa rica': 'קוסטה ריקה',
+    germany: 'גרמניה',
+    japan: 'יפן',
+    spain: 'ספרד',
+    belgium: 'בלגיה',
+    canada: 'קנדה',
+    croatia: 'קרואטיה',
+    morocco: 'מרוקו',
+    brazil: 'ברזיל',
+    cameroon: 'קמרון',
+    serbia: 'סרביה',
+    switzerland: 'שוויץ',
+    ghana: 'גאנה',
+    portugal: 'פורטוגל',
+    'south korea': 'דרום קוריאה',
+    uruguay: 'אורוגוואי',
+}
+
+export function getHebTeamName(name: string){
+    return teamNameToHebrew[name.toLowerCase()] ?? name
+}

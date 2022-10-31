@@ -3,7 +3,7 @@ import React, { EventHandler, useState } from 'react'
 import { MatchWithABet, WinnerSide } from '../types'
 import { DEFAULT_DATETIME_FORMAT } from '../utils/index'
 import KoWinnerInput from '../widgets/koWinnerInput/koWinnerInput'
-import TeamWithFlag from '../widgets/TeamWithFlag'
+import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
 
 function EditMatchBet({
     match,

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Team } from '../types'
-import TeamWithFlag from '../widgets/TeamWithFlag'
+import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
 
 function TeamStanding(team: Team) {
     const { crest_url, name } = team

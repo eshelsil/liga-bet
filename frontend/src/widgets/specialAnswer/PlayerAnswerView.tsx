@@ -1,6 +1,6 @@
 import React from 'react'
 import { Player } from '../../types'
-import TeamWithFlag from '../TeamWithFlag'
+import TeamWithFlag from '../TeamFlag/TeamWithFlag'
 
 function PlayerAnswerView({ player }: { player: Player }) {
     const { name, team } = player

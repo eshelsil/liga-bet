@@ -1,6 +1,7 @@
 html {
     font-size: 16px;
     body {
+        background-color: rgba(30,30,30,0.02);
         direction: rtl;
         .MuiPagination-ul {
             direction: ltr;
@@ -221,3 +222,11 @@ table {
 @import 'ko_switch';
 @import 'oldStyling';
 @import './styles/global';
+
+
+// override bootstrap css:
+.MuiInputBase-root {
+    legend {
+        width: auto;
+    }
+}

@@ -1,0 +1,19 @@
+@import '../../styles/mixins';
+@import '../../styles/shadows';
+
+.TeamWithFlag {
+    @include flexRow;
+    .TeamWithFlag-name {
+        margin-right: 6px;
+        margin-top: 2px;
+        &.teamNameBig {
+            margin-right: 8px;
+            font-size: 20px;
+        }
+    }
+}
+
+.LB-TeamFlag {
+    box-shadow: $medium-shadow;
+    border-radius: 100%;
+}
