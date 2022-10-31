@@ -59,11 +59,15 @@
                     }
                     .value {
                         width: calc(100% - $nameWidth);
-                        display: inline-block;
+                        display: inline-flex;
                     }
                 }
                 .linksContainer {
                     @include centerContainer;
+                    flex-direction: column;
+                    .takanonLink {
+                        margin-top: 8px;
+                    }
                 }
                 .buttonsContinaer {
                     position: relative;

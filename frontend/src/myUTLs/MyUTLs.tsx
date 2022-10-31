@@ -15,7 +15,7 @@ function MyUTLs({ utls, currentUtlId, updateUTL, selectUtl, myScores }: Props) {
 
     return (
         <div className="LigaBet-UTLPage">
-            <h1 className="title">הפרופילים שלי</h1>
+            <h1 className="title">הטורנירים שלי</h1>
             <div className="utlsCollection">
                 {utls.map((utl, index) => (
                     <UtlCard

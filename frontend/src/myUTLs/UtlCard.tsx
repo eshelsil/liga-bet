@@ -11,6 +11,8 @@ import CloseIcon from '@mui/icons-material/Close'
 import DoneIcon from '@mui/icons-material/Done'
 import useGoTo from '../hooks/useGoTo'
 import EmojiEventsOutlined from '@mui/icons-material/EmojiEventsOutlined'
+import { useTournamentLink } from '../hooks/useTournamentLink'
+import CopyLink from '../widgets/CopyToClipboard/CopyLink'
 
 interface Props {
     utl: UtlWithTournament
@@ -25,7 +27,8 @@ interface Props {
 }
 
 function UtlCard({ utl, utlIndex, isSelected,  updateUTL, selectUtl, socreboardRow }: Props) {
-    const { goToMyBets, goToInviteFriends } = useGoTo()
+    const { goToMyBets, goToTakanon, goToInviteFriends } = useGoTo()
+    const joinLink = useTournamentLink(utl.tournament.code);
     const [edit, setEdit] = useState(false)
     const [name, setName] = useState(utl.name)
 
@@ -58,16 +61,17 @@ function UtlCard({ utl, utlIndex, isSelected,  updateUTL, selectUtl, socreboardR
                     <div className={'utlAttribute'}>
                         <div className='attributeName'>קוד טורניר</div>
                         <div className='value'>
-                            {utl.tournament.code}
-                            {canInviteFriends && (<>
-                                {'\t'}
-                                <Link
-                                    onClick={goToInviteFriends}
-                                    style={{ cursor: 'pointer', marginRight: 24 }}
-                                    >
-                                    הזמן חברים לטורניר
-                                </Link>
-                            </>
+                            <div>
+                                {utl.tournament.code}
+                            </div>
+                            {canInviteFriends && (
+                                <div style={{ cursor: 'pointer', marginRight: 24 }}>
+                                <CopyLink
+                                    label='הזמן חברים'
+                                    link={joinLink}
+                                    title={'קישור הועתק ✓'}
+                                />
+                                </div>
                             )}
                         </div>
                     </div>
@@ -118,6 +122,16 @@ function UtlCard({ utl, utlIndex, isSelected,  updateUTL, selectUtl, socreboardR
                         style={{ cursor: 'pointer' }}
                     >
                         צפייה בטופס שלי
+                    </Link>
+                    <Link
+                        className='takanonLink'
+                        onClick={() => {
+                            selectUtl()
+                            goToTakanon()
+                        }}
+                        style={{ cursor: 'pointer' }}
+                    >
+                        תקנון
                     </Link>
                 </div>
                 <div className='buttonsContinaer'>

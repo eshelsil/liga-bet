@@ -14,12 +14,6 @@ const appLinks: AppLinksConfig = {
 	// 	path: '/articles',
 	// 	label: 'כתבות',
 	// },
-	takanon: {
-		id: 'takanon',
-		path: '/takanon',
-		label: 'תקנון',
-		hasReactComponent: true,
-	},
 	adminTools: {
 		id: 'adminTools',
 		path: '/admin/index',

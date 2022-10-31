@@ -4,9 +4,10 @@ import React, { ReactElement, ReactNode, useState } from 'react'
 
 interface Props {
     renderChildren: ({copy}: {copy: (content: string) => void}) => ReactElement<any, any>
+    title?: string
 }
 
-function CopyToClipboard({renderChildren}: Props){
+function CopyToClipboard({renderChildren, title}: Props){
     const [ttOpen, setTtOpen] = useState(false)
 
     const onTooltipClose = () => {
@@ -22,7 +23,7 @@ function CopyToClipboard({renderChildren}: Props){
     return (
         <Tooltip
             open={ttOpen}
-            title={"הועתק ✓"}
+            title={title ?? "הועתק ✓"}
             leaveDelay={1500}
             onClose={onTooltipClose}
         >
