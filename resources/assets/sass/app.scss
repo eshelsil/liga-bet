@@ -12,6 +12,13 @@
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
+.navbar-collapse {
+  .navbar-nav {
+    .nav-link {
+      text-align: right;
+    }
+  }
+}
 
 .card {
   direction: rtl;
@@ -24,6 +31,13 @@
     }
     .buttons-container {
       margin: auto;
+    }
+    @media(max-width: 767px) {
+    .form-group {
+      .col-form-label, .checkbox {
+          text-align: right;
+        }
+      }
     }
   }
 }
