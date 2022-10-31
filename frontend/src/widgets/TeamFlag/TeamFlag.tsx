@@ -13,7 +13,7 @@ const teamNameToCountryCode = {
     'mexico': 'mx',
     'poland': 'pl',
     'germany': 'de',
-    'denemark': 'dk',
+    'denmark': 'dk',
     'tunisia': 'tn',
     'costa rica': 'cr',
     'japan': 'jp',
