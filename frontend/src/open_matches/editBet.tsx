@@ -85,7 +85,7 @@ function EditMatchBet({
                         <input
                             onChange={homeScoreChange}
                             className={`form-control open-match-input`}
-                            type="number"
+                            type="tel"
                             value={homeScore}
                         />
                     </div>
@@ -99,7 +99,7 @@ function EditMatchBet({
                         <input
                             onChange={awayScoreChange}
                             className={`form-control open-match-input`}
-                            type="number"
+                            type="tel"
                             value={awayScore}
                         />
                     </div>
