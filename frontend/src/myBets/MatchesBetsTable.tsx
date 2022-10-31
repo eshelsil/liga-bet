@@ -1,5 +1,5 @@
 import React from 'react'
-import TeamAndSymbol from '../widgets/TeamWithFlag'
+import TeamWithFlag from '../widgets/TeamWithFlag'
 import MatchResult from '../widgets/MatchResult'
 import { MatchBetWithRelations, WinnerSide } from '../types'
 
@@ -20,28 +20,28 @@ const MatchesBetsTable = ({ bets }: { bets: MatchBetWithRelations[] }) => {
                         <td className="admin">{bet.relatedMatch.id}</td>
 
                         <td className="flex-row v-align-center">
-                            <TeamAndSymbol
+                            <TeamWithFlag
                                 name={bet.relatedMatch.home_team.name}
                                 crest_url={bet.relatedMatch.home_team.crest_url}
-                                is_underlined={
-                                    bet.result_home > bet.result_away
-                                }
-                                is_bold={
-                                    bet.relatedMatch.result_home >
-                                    bet.relatedMatch.result_away
-                                }
+                                // is_underlined={
+                                //     bet.result_home > bet.result_away
+                                // }
+                                // is_bold={
+                                //     bet.relatedMatch.result_home >
+                                //     bet.relatedMatch.result_away
+                                // }
                             />
                             <span className="dash-space"> - </span>
-                            <TeamAndSymbol
+                            <TeamWithFlag
                                 name={bet.relatedMatch.away_team.name}
                                 crest_url={bet.relatedMatch.away_team.crest_url}
-                                is_underlined={
-                                    bet.result_home < bet.result_away
-                                }
-                                is_bold={
-                                    bet.relatedMatch.result_home <
-                                    bet.relatedMatch.result_away
-                                }
+                                // is_underlined={
+                                //     bet.result_home < bet.result_away
+                                // }
+                                // is_bold={
+                                //     bet.relatedMatch.result_home <
+                                //     bet.relatedMatch.result_away
+                                // }
                             />
                         </td>
                         <td className="v-align-center">

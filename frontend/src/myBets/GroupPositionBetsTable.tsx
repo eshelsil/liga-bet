@@ -1,6 +1,6 @@
 import React from 'react'
 import { GroupRankBetWithRelations } from '../types'
-import TeamAndSymbol from '../widgets/TeamWithFlag'
+import TeamWithFlag from '../widgets/TeamWithFlag'
 
 const GroupPositionBetsTable = ({
     bets,
@@ -36,7 +36,7 @@ const GroupPositionBetsTable = ({
                                         <div key={index} className="flex-row">
                                             <span>({index + 1})</span>
                                             {
-                                                <TeamAndSymbol
+                                                <TeamWithFlag
                                                     name={team.name}
                                                     crest_url={team.crest_url}
                                                 />
@@ -56,7 +56,7 @@ const GroupPositionBetsTable = ({
                                                 >
                                                     <span>({index + 1})</span>
                                                     {
-                                                        <TeamAndSymbol
+                                                        <TeamWithFlag
                                                             name={team.name}
                                                             crest_url={
                                                                 team.crest_url

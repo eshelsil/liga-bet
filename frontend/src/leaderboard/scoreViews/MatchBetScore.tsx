@@ -32,10 +32,10 @@ function MatchBetScore({ bet }: Props) {
                                 <TeamWithFlag
                                     name={home_team.name}
                                     crest_url={home_team.crest_url}
-                                    is_underlined={winner_side === 'home'}
-                                    is_bold={
-                                        relatedMatch.winner_side === 'home'
-                                    }
+                                    // is_underlined={winner_side === 'home'}
+                                    // is_bold={
+                                    //     relatedMatch.winner_side === 'home'
+                                    // }
                                 ></TeamWithFlag>
                                 <span>({result_home})</span>
                             </td>
@@ -44,10 +44,10 @@ function MatchBetScore({ bet }: Props) {
                                 <TeamWithFlag
                                     name={away_team.name}
                                     crest_url={away_team.crest_url}
-                                    is_underlined={winner_side === 'away'}
-                                    is_bold={
-                                        relatedMatch.winner_side === 'away'
-                                    }
+                                    // is_underlined={winner_side === 'away'}
+                                    // is_bold={
+                                    //     relatedMatch.winner_side === 'away'
+                                    // }
                                 ></TeamWithFlag>
                                 <span>({result_away})</span>
                             </td>

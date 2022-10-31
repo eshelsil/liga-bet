@@ -1,6 +1,6 @@
 import React from 'react';
 import { GroupRankBetScoreConfig, GroupWithTeams } from '../../types';
-import TeamAndSymbol from '../../widgets/TeamWithFlag';
+import TeamWithFlag from '../../widgets/TeamWithFlag';
 
 
 interface Props {
@@ -67,30 +67,30 @@ function GroupStageRulesView({
                     <tr>
                         <td rowSpan={4} className="groupRank v-align-center">
                             <div>
-                                1. <TeamAndSymbol {...teamA} />
+                                1. <TeamWithFlag {...teamA} />
                             </div>
                             <div>
-                                2. <TeamAndSymbol {...teamB} />
+                                2. <TeamWithFlag {...teamB} />
                             </div>
                             <div>
-                                3. <TeamAndSymbol {...teamC} />
+                                3. <TeamWithFlag {...teamC} />
                             </div>
                             <div>
-                                4. <TeamAndSymbol {...teamD} />
+                                4. <TeamWithFlag {...teamD} />
                             </div>
                         </td>
                         <td className="groupRank">
                             <div>
-                                1. <TeamAndSymbol {...teamA} />
+                                1. <TeamWithFlag {...teamA} />
                             </div>
                             <div>
-                                2. <TeamAndSymbol {...teamB} />
+                                2. <TeamWithFlag {...teamB} />
                             </div>
                             <div>
-                                3. <TeamAndSymbol {...teamC} />
+                                3. <TeamWithFlag {...teamC} />
                             </div>
                             <div>
-                                4. <TeamAndSymbol {...teamD} />
+                                4. <TeamWithFlag {...teamD} />
                             </div>
                         </td>
                         <td>{perfect}</td>
@@ -99,16 +99,16 @@ function GroupStageRulesView({
                     <tr>
                         <td className="groupRank">
                             <div>
-                                1. <TeamAndSymbol {...teamA} />
+                                1. <TeamWithFlag {...teamA} />
                             </div>
                             <div>
-                                2. <TeamAndSymbol {...teamC} />
+                                2. <TeamWithFlag {...teamC} />
                             </div>
                             <div>
-                                3. <TeamAndSymbol {...teamB} />
+                                3. <TeamWithFlag {...teamB} />
                             </div>
                             <div>
-                                4. <TeamAndSymbol {...teamD} />
+                                4. <TeamWithFlag {...teamD} />
                             </div>
                         </td>
                         <td>{minorMistake}</td>
@@ -117,16 +117,16 @@ function GroupStageRulesView({
                     <tr>
                         <td className="groupRank">
                             <div>
-                                1. <TeamAndSymbol {...teamC} />
+                                1. <TeamWithFlag {...teamC} />
                             </div>
                             <div>
-                                2. <TeamAndSymbol {...teamA} />
+                                2. <TeamWithFlag {...teamA} />
                             </div>
                             <div>
-                                3. <TeamAndSymbol {...teamB} />
+                                3. <TeamWithFlag {...teamB} />
                             </div>
                             <div>
-                                4. <TeamAndSymbol {...teamD} />
+                                4. <TeamWithFlag {...teamD} />
                             </div>
                         </td>
                         <td>0</td>

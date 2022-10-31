@@ -3,7 +3,7 @@ import React, { EventHandler, useState } from 'react'
 import { MatchWithABet, WinnerSide } from '../types'
 import { DEFAULT_DATETIME_FORMAT } from '../utils/index'
 import KoWinnerInput from '../widgets/koWinnerInput/koWinnerInput'
-import TeamAndSymbol from '../widgets/TeamWithFlag'
+import TeamWithFlag from '../widgets/TeamWithFlag'
 
 function EditMatchBet({
     match,
@@ -64,13 +64,13 @@ function EditMatchBet({
                 {moment(start_time).format(DEFAULT_DATETIME_FORMAT)}
             </td>
             <td className="open-match-teams-cell v-align-center">
-                <TeamAndSymbol
+                <TeamWithFlag
                     crest_url={home_team.crest_url}
                     name={home_team.name}
                     is_ko_winner={isHomeWinner}
                 />
                 <br />
-                <TeamAndSymbol
+                <TeamWithFlag
                     crest_url={away_team.crest_url}
                     name={away_team.name}
                     is_ko_winner={isAwayWinner}

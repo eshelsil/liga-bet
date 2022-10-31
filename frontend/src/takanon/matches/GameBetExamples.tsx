@@ -2,7 +2,7 @@ import React from 'react';
 import { MatchRuleType, GameBetScoreConfig, Team, WinnerSide } from '../../types';
 import { getWinnerSide, matchRuleToString } from '../../utils';
 import { getExtraTimeString, getFullTimeString, getPenaltiesString, getQualifier } from './utils';
-import TeamAndSymbol from '../../widgets/TeamWithFlag';
+import TeamWithFlag from '../../widgets/TeamWithFlag';
 
 
 interface GameExample {
@@ -52,7 +52,7 @@ function Example({
         <tr>
             <td style={{ padding: 8 }}>
                 <div style={{ display: 'flex' }}>
-                    <TeamAndSymbol {...homeTeam} />
+                    <TeamWithFlag {...homeTeam} />
                     <span style={{ marginRight: 5 }}> - {bet[0]}</span>
                     {qualifier === WinnerSide.Home && (
                         <span style={{ marginRight: 5 }}>
@@ -61,7 +61,7 @@ function Example({
                     )}
                 </div>
                 <div style={{ display: 'flex' }}>
-                    <TeamAndSymbol {...awayTeam} />
+                    <TeamWithFlag {...awayTeam} />
                     <span style={{ marginRight: 5 }}> - {bet[1]}</span>
                     {qualifier === WinnerSide.Away && (
                         <span style={{ marginRight: 5 }}>

@@ -76,23 +76,6 @@ html {
         width: 30px;
     }
 }
-.team-and-flag {
-    display: flex;
-    &.left-aligned {
-        flex-direction: row-reverse;
-        .flag-wrapper {
-            width: 28px;
-            margin-right: 3px;
-            margin-left: 0px;
-        }
-        span {
-            white-space: nowrap;
-        }
-    }
-    .flag-wrapper {
-        margin-left: 3px;
-    }
-}
 
 .dropdown.dropdown-input {
     ul > li {
