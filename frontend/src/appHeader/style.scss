@@ -51,6 +51,11 @@
         .LigaBet-LinkMenuItem {
           width: 100%;
         }
+        .LigaBet-DropMenuItem {
+          .LigaBet-PopupMenu {
+            width: 100%;
+          }
+        }
       }
       .mobileMenuHeader {
         display: flex;
