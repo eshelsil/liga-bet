@@ -48,6 +48,7 @@
                     margin-top: 24px;
                 }
                 .rankDisplay {
+                    margin-left: 6px;
                     .rank {
                         background-color: #c6c6c6;
                         box-shadow: $medium-shadow;
@@ -58,6 +59,19 @@
                     box-shadow: $medium-shadow;
                 }
             }
+            &:not(.onEdit){
+                .rankDisplay {
+                    .rank {
+                        border-top-left-radius: 0px;
+                        border-bottom-left-radius: 0px;
+                    }
+                }
+                .LB-TeamStanding {
+                    border-top-right-radius: 0px;
+                    border-bottom-right-radius: 0px;
+                    padding-right: 14px;
+                }
+            }
             .DraggableStandings {
                 display: flex;
                 * {
@@ -66,8 +80,7 @@
                 }
             }
             .rankDisplay {
-                margin: 6px;
-                margin-right: 0px;
+                margin: 6px 0px;
                 .rank {
                     font-size: 24px;
                     line-height: 2;
