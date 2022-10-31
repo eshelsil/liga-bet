@@ -72,6 +72,13 @@ function OpenQuestionBetView({ questionWithBet, sendBet }: Props) {
     const { answer: betAnswer } = bet || {}
     const hasBet = !!bet
 
+    const onBetSubmit = async (params: QuestionBetParams) => {
+        await sendBet(params)
+            .then(() => {
+                setEdit(false)
+            })
+    }
+
     return (
         <Grid item xs={isXsScreen ? 12 : null}>
             <div className={'LigaBet-OpenQuestionBetView'}>
@@ -103,7 +110,7 @@ function OpenQuestionBetView({ questionWithBet, sendBet }: Props) {
                     <QuestionBetEditView
                         onClose={() => {setEdit(false)}}
                         questionWithBet={questionWithBet}
-                        sendBet={sendBet}
+                        sendBet={onBetSubmit}
                     />
                 )}
             </div>

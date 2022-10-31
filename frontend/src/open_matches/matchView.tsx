@@ -2,7 +2,7 @@ import moment from 'moment'
 import React from 'react'
 import { MatchWithABet, WinnerSide } from '../types'
 import { DEFAULT_DATETIME_FORMAT } from '../utils/index'
-import TeamAndSymbol from '../widgets/TeamWithFlag'
+import TeamAndSymbol from '../widgets/TeamFlag/TeamWithFlag'
 
 function MatchWithBetView({
     match,
