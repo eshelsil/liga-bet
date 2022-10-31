@@ -1,18 +1,23 @@
 import React from 'react'
 import { Team } from '../types'
 import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
+import DragHandleRoundedIcon from '@mui/icons-material/DragHandleRounded';
 
-function TeamStanding(team: Team) {
-    const { crest_url, name } = team
+
+interface Props extends Team {
+    isDisabled?: boolean
+}
+
+function TeamStanding({isDisabled, ...team}: Props) {
+    const { name } = team
     return (
         <div
-            className="team_row bg-info"
-            style={{
-                padding: 8,
-                width: '100%',
-            }}
+            className="LB-TeamStanding"
         >
-            <TeamWithFlag name={name} crest_url={crest_url} />
+            <TeamWithFlag name={name} />
+            {!isDisabled && (
+                <DragHandleRoundedIcon className='dragIcon' />
+            )}
         </div>
     )
 }

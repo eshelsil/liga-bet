@@ -1,81 +1,76 @@
 import React, { useState } from 'react'
-import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
-import { GroupWithABet, Team } from '../types'
 import DraggableStandings from './DraggableStandings'
-import './openGroupRankBets.scss'
+import { Button, Grid, IconButton } from '@mui/material'
+import { useIsXsScreen } from '../hooks/useMedia'
+import { getHebGroupName } from '../strings/groups'
+import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
+import { AddCircle } from '@mui/icons-material'
+import EditIcon from '@mui/icons-material/Edit';
+import CloseIcon from '@mui/icons-material/Close';
 
-interface Props {
-    groupWithBet: GroupWithABet
-    sendGroupRankBet: (...args: any) => Promise<void>
-}
 
-function GroupRankBetView({ groupWithBet, sendGroupRankBet }: Props) {
+function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
     const { name, id, bet, teams } = groupWithBet
-    const [standingsInput, setStandingsInput] = useState<Team[]>(null)
+    const [edit, setEdit] = useState(false)
+    const [standingsInput, setStandingsInput] = useState(null)
+    const tournamentClass = useTournamentThemeClass();
+    const isXsScreen = useIsXsScreen();
     const teamsByRank = bet?.standings || teams
     const groupStandings = standingsInput || teamsByRank
+    const hideStandings = !bet && !edit
 
+
+    const exitEditMode = () => setEdit(false)
     const sendBet = () => {
         sendGroupRankBet({ groupId: id, standings: groupStandings })
+        exitEditMode()
     }
     return (
-        <div
-            className="GroupRankBetView col-xs-12 col-md-9 col-lg-7"
-            style={{
-                float: 'right',
-                borderRadius: 5,
-                border: '#000 1px solid',
-                marginBottom: 25,
-                padding: 10,
-            }}
-        >
-            <h5 style={{ textAlign: 'center' }}>{name}</h5>
-            <div className="row">
-                <div id={`current-bet-${id}-position`} className="col-xs-4">
-                    {bet && (
-                        <>
-                            <h6>הימור נוכחי:</h6>
-                            <ol
-                                className="currentBet"
-                                style={{ paddingRight: 10 }}
-                            >
-                                {bet.standings.map((team, index) => (
-                                    <li
-                                        key={index}
-                                        style={{ fontSize: '80%' }}
-                                        data-pos={index + 1}
-                                    >
-                                        <TeamWithFlag
-                                            name={team.name}
-                                            crest_url={team.crest_url}
-                                        />
-                                    </li>
-                                ))}
-                            </ol>
-                        </>
-                    )}
-                    {!bet && <h6>לא קיים הימור נוכחי</h6>}
+        <Grid item xs={isXsScreen ? 12 : null}>
+            <div className={'LB-GroupRankBetView'}>
+                <div className={`GroupRankBetView-header ${tournamentClass}`}>
+                    <h4 className="name">{getHebGroupName(name)}</h4>
                 </div>
-                <div
-                    id={`set-bet-table-${id}`}
-                    className={`${bet ? 'col-xs-8' : 'col-xs-12'}`}
-                >
-                    <DraggableStandings
-                        items={groupStandings}
-                        setItems={setStandingsInput}
-                    />
-                    <div style={{ paddingRight: 40, marginTop: 16 }}>
-                        <button
-                            onClick={sendBet}
-                            type="button"
-                            className="btn btn-primary"
-                        >
-                            שלח
-                        </button>
-                    </div>
+                <div className={`GroupRankBetView-content ${edit ? 'onEdit' : ''}`}>
+                    {hideStandings && (
+                        <div className="noBet">
+                            <AddCircle
+                                color='primary'
+                                onClick={()=> setEdit(true)}
+                                style={{fontSize: 48}}
+                            />
+                        </div>
+                    )}
+                    {!hideStandings && (<>
+                        <DraggableStandings
+                            items={groupStandings}
+                            setItems={setStandingsInput}
+                            isDisabled={!edit}
+                        />
+                        <div className={`buttonContainer`}>
+                            {edit && (<>
+                                <Button
+                                    variant='contained'
+                                    color='primary'
+                                    onClick={sendBet}
+                                >
+                                    שלח
+                                </Button>
+                                <IconButton className='iconGoBack' onClick={exitEditMode}>
+                                    <CloseIcon />
+                                </IconButton>
+                            </>)}
+                            {!edit && (
+                                <IconButton onClick={()=> setEdit(true)}>
+                                    <EditIcon />
+                                </IconButton>
+                            )}
+                        </div>
+                    </>)}
                 </div>
             </div>
-        </div>
+
+        </Grid>
     )
 }
 

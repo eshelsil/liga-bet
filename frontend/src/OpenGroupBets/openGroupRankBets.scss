@@ -1,7 +1,107 @@
-.DraggableStandings {
-    display: flex;
-    * {
-        -webkit-user-select: none;
-        user-select: none;
+@import '../styles/mixins';
+@import '../styles/shadows';
+@import '../styles/themes/tournaments';
+
+
+@mixin themable_header($class, $tournament_theme){
+    $gradient: map_get($tournament_theme, gradient);
+  
+    &.#{$class} {
+        background: $gradient;
+        .name {
+            color: #fff;
+        }
+    }
+}
+
+.LB-OpenGroupRankBetsView {
+    .LB-GroupRankBetView {
+        border-radius: 12px;
+        width: 330px;
+        overflow: hidden;
+        max-width: 100%;
+        box-shadow: $medium-shadow;
+        background-color: #fff;
+        
+        margin: 12px;
+        @media(max-width: 600px){
+            margin: 12px auto;
+        }
+        .GroupRankBetView-header {
+            @include themable_header(tournament-theme, $tournament_1);
+            @include themable_header(tournament-theme-1, $tournament_1);
+            @include themable_header(tournament-theme-2, $tournament_2);
+            @include themable_header(tournament-theme-3, $tournament_3);
+            @include themable_header(tournament-theme-4, $tournament_4);
+            @include themable_header(tournament-theme-5, $tournament_5);
+            padding: 8px 12px;
+            .name {
+                margin: 0px;
+                text-align: center;
+            }
+        }
+        .GroupRankBetView-content {
+            padding: 24px;
+            padding-top: 16px;
+            &.onEdit{
+                .buttonContainer {
+                    margin-top: 24px;
+                }
+                .rankDisplay {
+                    .rank {
+                        background-color: #c6c6c6;
+                        box-shadow: $medium-shadow;
+                    }
+                }
+                .LB-TeamStanding {
+                    background-color: #c6c6c6;
+                    box-shadow: $medium-shadow;
+                }
+            }
+            .DraggableStandings {
+                display: flex;
+                * {
+                    -webkit-user-select: none;
+                    user-select: none;
+                }
+            }
+            .rankDisplay {
+                margin: 6px;
+                margin-right: 0px;
+                .rank {
+                    font-size: 24px;
+                    line-height: 2;
+                    background: #d9edf7;
+                    width: 30px;
+                    border-radius: 8px;
+                    text-align: center;
+                }
+            }
+            .LB-TeamStanding {
+                @include flexRow;
+                justify-content: space-between;
+                padding: 8px;
+                width: 100%;
+                border-radius: 8px;
+                background-color: #d9edf7;
+                .dragIcon {
+                    margin-left: 12px;
+                    cursor: grab;
+                    color: #555;
+                }
+            }
+            .buttonContainer {
+                position: relative;
+                @include centerContainer;
+                .iconGoBack {
+                    position: absolute;
+                    left: 0px;
+                    bottom: 0px;
+                }
+            }
+            .noBet {
+                @include centerContainer;
+            }
+        }
     }
 }

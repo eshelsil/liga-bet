@@ -5,20 +5,15 @@ import TeamStanding from './TeamStanding'
 
 function RanksView({ count }: { count: number }) {
     return (
-        <div className="">
+        <div>
             {[...Array(count).keys()].map((index) => (
                 <div
+                    className='rankDisplay'
                     key={index}
-                    style={{
-                        height: 36,
-                        width: 40,
-                        marginTop: 6,
-                        marginBottom: 6,
-                    }}
                 >
-                    <span style={{ fontSize: 24, lineHeight: 1.5 }}>
-                        {index + 1}.
-                    </span>
+                    <div className='rank'>
+                        {index + 1}
+                    </div>
                 </div>
             ))}
         </div>
@@ -28,9 +23,10 @@ function RanksView({ count }: { count: number }) {
 interface Props {
     items: Team[]
     setItems: (teams: Team[]) => void
+    isDisabled?: boolean
 }
 
-function DraggableStandings({ items, setItems }: Props) {
+function DraggableStandings({ items, setItems, isDisabled }: Props) {
     return (
         <div className="DraggableStandings">
             <RanksView count={items.length} />
@@ -39,6 +35,7 @@ function DraggableStandings({ items, setItems }: Props) {
                     items={items}
                     setItems={setItems}
                     Component={TeamStanding}
+                    isDisabled={isDisabled}
                 />
             </div>
         </div>

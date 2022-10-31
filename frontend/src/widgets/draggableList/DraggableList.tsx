@@ -18,7 +18,7 @@ function listFromItems(items: ItemBase[]): Item[] {
 }
 
 const DraggableList = React.memo(
-    ({ items, setItems, Component }: DraggableListProps<ItemBase>) => {
+    ({ items, setItems, Component, isDisabled }: DraggableListProps<ItemBase>) => {
         const id = gen_id()
         const listItems = listFromItems(items)
         const onDragEnd = ({ destination, source }: DropResult) => {
@@ -45,6 +45,7 @@ const DraggableList = React.memo(
                                         index={index}
                                         item={item}
                                         Component={Component}
+                                        isDisabled={isDisabled}
                                     />
                                 ))}
                                 {provided.placeholder}

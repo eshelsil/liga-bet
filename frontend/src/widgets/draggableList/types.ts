@@ -13,10 +13,12 @@ export interface DraggableListProps<T extends ItemBase> {
     items: T[]
     setItems: (items: ItemBase[]) => void
     Component: React.FunctionComponent<T>
+    isDisabled?: boolean
 }
 
 export interface DraggableItemProps<T> {
     item: T
     index: number
     Component: React.FunctionComponent<T>
+    isDisabled?: boolean
 }

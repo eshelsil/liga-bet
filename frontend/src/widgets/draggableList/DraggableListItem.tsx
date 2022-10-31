@@ -7,9 +7,10 @@ const DraggableListItem = ({
     item,
     index,
     Component,
+    isDisabled = false,
 }: DraggableItemProps<any>) => {
     return (
-        <Draggable draggableId={`${item.id}`} index={index}>
+        <Draggable isDragDisabled={isDisabled} draggableId={`${item.id}`} index={index}>
             {(provided, snapshot) => (
                 <ListItem
                     ref={provided.innerRef}
@@ -24,6 +25,7 @@ const DraggableListItem = ({
                 >
                     <Component
                         {...item.data}
+                        isDisabled={isDisabled}
                         isDragging={snapshot.isDragging}
                         index={index}
                     />
