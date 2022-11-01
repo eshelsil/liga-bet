@@ -185,7 +185,7 @@ class Crawler
      */
     protected function fetchPlayersByTeamId365score($teamId): Collection
     {
-        $teamId365score = $this->translate365TeamId($teamId);
+        $teamId365score = self::translate365TeamId($teamId);
 
         $data = Http::get("https://webws.365scores.com/web/squads/?appTypeId=5&langId=2&timezoneName=Asia/Jerusalem&userCountryId=6&competitors={$teamId365score}");
 
@@ -205,9 +205,8 @@ class Crawler
      *
      * @return int
      */
-    protected function translate365TeamId($teamId): int
+    public static function translate365TeamId($teamId): int
     {
-        var_dump($teamId);
         return match ((int)$teamId) {
             805  => 2373, // Belgium
             773  => 5061, // France
