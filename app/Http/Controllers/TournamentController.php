@@ -52,7 +52,7 @@ class TournamentController extends Controller
     {
         $tournament = Tournament::where('code', $code)->first();
         if (!$tournament){
-            throw new JsonException("Could not find tournament with code ".$code, 400);
+            throw new JsonException("לא נמצא טורניר עם הקוד \"$code\"", 400);
         }
         return new JsonResponse($tournament->name, 200);
     }

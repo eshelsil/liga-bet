@@ -7,6 +7,7 @@ import useGoTo from '../hooks/useGoTo'
 import { getTournamentsName } from '../api/tournaments'
 import { useLocation } from 'react-router-dom'
 import TournamentIcon from '@mui/icons-material/EmojiEvents';
+import { reportApiError } from '../utils'
 
 
 interface Props {
@@ -20,6 +21,7 @@ function JoinTournament({ onJoin }: Props) {
     const [code, setCode] = useState(codeFromURL || '')
     const [name, setName] = useState('')
     const [tournamentName, setTournamentName] = useState('')
+    const [isCodeFromUrlInvalid, setIsCodeFromUrlInvalid] = useState<boolean>()
     const { goToHome } = useGoTo();
 
     getTournamentsName
@@ -31,11 +33,17 @@ function JoinTournament({ onJoin }: Props) {
         })
     }
 
+    const isCodeAutoSet = !!codeFromURL && !isCodeFromUrlInvalid
+
     useEffect(() => {
         if (codeFromURL) {
             getTournamentsName(codeFromURL)
                 .then(name => {
                     setTournamentName(name)
+                })
+                .catch(error => {
+                    reportApiError(error)
+                    setIsCodeFromUrlInvalid(true)
                 })
         }
     }, [codeFromURL])
@@ -44,18 +52,18 @@ function JoinTournament({ onJoin }: Props) {
         <div className='LB-JoinTournament'>
             <h1>הצטרף לטורניר קיים</h1>
             <div className='joinTournamentForm'>
-                {!codeFromURL && (
+                {isCodeAutoSet && (
+                    <div className='tournamentName'>
+                        <TournamentIcon className='tournamentIcon' fontSize='large' />
+                        <div>{tournamentName}</div>
+                    </div>
+                )}
+                {!isCodeAutoSet && (
                     <TextField
                         value={code}
                         label='קוד טורניר'
                         onChange={(e) => setCode(e.target.value)}
                     />
-                )}
-                {codeFromURL && (
-                    <div className='tournamentName'>
-                        <TournamentIcon className='tournamentIcon' fontSize='large' />
-                        <div>{tournamentName}</div>
-                    </div>
                 )}
                 <TextField
                     value={name}
