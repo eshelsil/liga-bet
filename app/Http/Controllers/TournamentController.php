@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Exceptions\JsonException;
 use App\Http\Resources\TournamentResource;
+use App\TournamentPreferences;
+use Log;
 
 class TournamentController extends Controller
 {
@@ -31,6 +33,9 @@ class TournamentController extends Controller
         $tournament->save();
 
         $ctsb->handle($tournament);
+        $tournamentPreferences                  = new TournamentPreferences();
+        $tournamentPreferences->tournament_id   = $tournament->id;
+        $tournamentPreferences->save();
 
         return new JsonResponse((new TournamentResource($tournament))->toArray($request), 200);
     }

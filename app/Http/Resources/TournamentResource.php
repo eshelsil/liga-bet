@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Tournament;
+use App\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TournamentResource extends JsonResource
@@ -17,7 +18,7 @@ class TournamentResource extends JsonResource
     {
         /** @var Tournament $t */
         $t = $this->resource;
-        return [
+        $res = [
             "id"              => $t->id,
             "name"            => $t->name,
             "competitionId"   => $t->competition_id,
@@ -28,5 +29,13 @@ class TournamentResource extends JsonResource
             "createdAt"       => $t->created_at,
             "updatedAt"       => $t->updated_at,
         ];
+
+        /** @var User $user */
+        $user = $request->user();
+        if ($user->id == $t->creator_user_id){
+            $res['preferences'] = $t->preferences;
+        }
+
+        return $res;
     }
 }

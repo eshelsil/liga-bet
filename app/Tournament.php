@@ -59,6 +59,11 @@ class Tournament extends Model
         return $this->belongsTo(Competition::class);
     }
 
+    public function preferences(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(TournamentPreferences::class);
+    }
+
     public function bets(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Bet::class);
