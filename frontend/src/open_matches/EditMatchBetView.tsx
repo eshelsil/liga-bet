@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Button, IconButton } from '@mui/material'
-import { MatchBetWithRelations } from '../types'
+import { MatchBetWithRelations, WinnerSide } from '../types'
 import CloseIcon from '@mui/icons-material/CloseRounded'
 import { isEmpty } from 'lodash'
 
@@ -9,15 +9,19 @@ import { isEmpty } from 'lodash'
 interface Props  {
     bet: MatchBetWithRelations
     onClose: () => void
-    onSave?: (...args: any) => Promise<void>
+    onSave: (...args: any) => Promise<void>
+    opener?: WinnerSide
 }
 
 function EditMatchBetView({
     bet,
     onClose,
     onSave,
+    opener,
 }: Props) {
 
+    const homeInputRef = useRef<HTMLInputElement>()
+    const awayInputRef = useRef<HTMLInputElement>()
     const [homeScore, setHomeScore] = useState(bet?.result_home ?? '')
     const [awayScore, setAwayScore] = useState(bet?.result_away ?? '')
     const hasBet = !isEmpty(bet)
@@ -41,6 +45,14 @@ function EditMatchBetView({
         })
     }
 
+    useEffect(()=>{
+        if (opener === WinnerSide.Home){
+            homeInputRef.current.select()
+        } else if (opener === WinnerSide.Away) {
+            awayInputRef.current.select()
+        }
+    }, [opener])
+
 
     // const hasBet = bet?.id !== undefined
     // let winnerSide: WinnerSide
@@ -61,9 +73,11 @@ function EditMatchBetView({
             <div className='inputsRow'>
                 <div className='scoreDisplayContainer'>
                     <input
+                        ref={homeInputRef}
                         onChange={homeScoreChange}
                         className={`form-control open-match-input`}
                         type="tel"
+                        onClick={(e: any) => e.target.select()}
                         value={homeScore}
                     />
                 </div>
@@ -72,9 +86,11 @@ function EditMatchBetView({
                 </div>
                 <div className='scoreDisplayContainer'>
                     <input
+                        ref={awayInputRef}
                         onChange={awayScoreChange}
                         className={`form-control open-match-input`}
                         type="tel"
+                        onClick={(e: any) => e.target.select()}
                         value={awayScore}
                     />
                 </div>
