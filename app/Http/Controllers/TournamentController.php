@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateTournamentSpecialBets;
 use App\Competition;
 use App\SpecialBets\SpecialBet;
 use App\Tournament;
@@ -14,7 +15,7 @@ use App\Http\Resources\TournamentResource;
 
 class TournamentController extends Controller
 {
-    public function createTournament(Request $request)
+    public function createTournament(Request $request, CreateTournamentSpecialBets $ctsb)
     {
         $user = $this->getUser();
         $this->validateCreatePermissions();
@@ -28,6 +29,8 @@ class TournamentController extends Controller
         $tournament->code            = Str::lower(Str::random(6));
         $tournament->creator_user_id = $user->id;
         $tournament->save();
+
+        $ctsb->handle($tournament);
 
         return new JsonResponse((new TournamentResource($tournament))->toArray($request), 200);
     }

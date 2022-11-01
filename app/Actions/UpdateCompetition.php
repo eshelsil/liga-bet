@@ -70,10 +70,13 @@ class UpdateCompetition
             return $crawlerGame['is_done'] && $existingGamesWithNoScore->has($crawlerGame['external_id']);
         });
 
-        $this->updateGames($competition, $gamesWithScore, $existingGamesWithNoScore);
+        $updatedGames = $this->updateGames($competition, $gamesWithScore, $existingGamesWithNoScore);
 
         if ($gamesWithScore->isNotEmpty()) {
-            $this->updateScorers->handle($competition);
+            $teams = new EloquentCollection();
+            $updatedGames->load(["teamHome", "teamAway"])
+                         ->each(fn(Game $g) => $teams->add($g->teamHome)->add($g->teamAway));
+            $this->updateScorers->handle($competition, $teams);
 
             if ($competition->hasAllGroupsStandings()) {
                 $this->updateStandings->handle($competition);
@@ -125,14 +128,15 @@ class UpdateCompetition
      * @param Collection $gamesWithScore
      * @param EloquentCollection             $gamesWithNoScore
      *
-     * @return void
+     * @return EloquentCollection
      */
     protected function updateGames(
         Competition $competition,
         Collection $gamesWithScore,
         EloquentCollection $gamesWithNoScore
-    ): void {
+    ): EloquentCollection {
         $teamsByExternalId = $competition->teams->pluck("id", "external_id");
+        $games = new EloquentCollection();
         foreach ($gamesWithScore as $gameData) {
             /** @var Game $game */
             $game = $gamesWithNoScore->get($gameData['external_id']);
@@ -140,6 +144,8 @@ class UpdateCompetition
             $game->result_away = $gameData['result_away'];
             $game->ko_winner   = $teamsByExternalId[$gameData['ko_winner_external_id']];
             $game->save();
+
+            $games->add($game);
 
             Log::debug("Saving Result of Game: ext_id - " . $game->external_id . " | id - " . $game->id . "-> " . $game->result_home . " - " . $game->result_away);
             $this->updateGameBets->handle($game);
@@ -156,5 +162,7 @@ class UpdateCompetition
                 $this->calculateSpecialBets->execute($game->competition_id, SpecialBet::TYPE_RUNNER_UP, $runnerUp);
             }
         }
+
+        return $games;
     }
 }

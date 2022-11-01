@@ -11,7 +11,7 @@ namespace App\Actions;
 use App\Competition;
 use App\Player;
 use App\SpecialBets\SpecialBet;
-use App\Team;
+use Illuminate\Database\Eloquent\Collection;
 
 class UpdateCompetitionScorers
 {
@@ -21,17 +21,19 @@ class UpdateCompetitionScorers
         $this->calculateSpecialBets = $calculateSpecialBets;
     }
 
-    public function handle(Competition $competition)
+    public function handle(Competition $competition, ?Collection $teams = null)
     {
-        $scorers = $competition->getCrawler()->fetchScorers();
+        $teams ??= $competition->teams;
+        $scorers = $competition->getCrawler()->fetchScorers($teams->pluck("external_id"));
 
-        $relevantScorers = $competition->players->keyBy("external_id");
-        foreach ($scorers as $scorer){
-            $id = data_get($scorer, 'player.id');
-            $goals = data_get($scorer, 'numberOfGoals');
-            $scorerModel = $relevantScorers->get($id);
-            $scorerModel->goals = $goals;
-            $scorerModel->save();
+        $players = $competition->players->keyBy("external_id");
+        /** @var \App\DataCrawler\Player $scorer */
+        foreach ($scorers as $scorer) {
+            /** @var Player $player */
+            $player = $players->get($scorer->externalId);
+            $player->goals   = $scorer->goals   ?? $player->goals;
+            $player->assists = $scorer->assists ?? $player->assists;
+            $player->save();
         }
 
         $answer = $competition->getTopScorersIds()->join(",") ?: null;

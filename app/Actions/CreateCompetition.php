@@ -40,12 +40,9 @@ class CreateCompetition
             throw new \RuntimeException("Cannot find games");
         }
 
-        $playersByTeam = $teams->mapWithKeys(function($team, $i) use ($crawler) {
-            sleep(10);
-            $externalTeamId = [451,452,454,455, 457, 458, 460, 461, 466, 470, 471, 472, 479, 486, 487, 488, 490,
-                               496,498,503,507, 510, 511, 512, 514, 515, 516, 517, 518, 519, 521, 522, 523, 524][$i] ?? 450;//$team["id"])]); TODO: remove!!
-            $x = $crawler->fetchPlayersByTeamId($externalTeamId);
-            return [$team["id"] => $x];
+        $playersByTeam = $teams->mapWithKeys(function($team) use ($crawler) {
+            Log::debug("[CreateCompetition][handle] Getting team {$team["id"]}");
+            return [$team["id"] => $crawler->fetchPlayersByTeamId($team["id"])];
         });
 
         $teamsWithoutPlayers = $playersByTeam->filter(fn(Collection $players) => $players->isEmpty())->keys();
@@ -152,5 +149,17 @@ class CreateCompetition
 
             return $allPlayers;
         }, new Collection());
+    }
+
+    public function updatePlayers(Competition $competition)
+    {
+        $this->teams = $competition->teams->keyBy("external_id");
+
+        $playersByTeam = $this->teams->mapWithKeys(function(Team $team) {
+            Log::debug("[CreateCompetition][handle] Getting team {$team->external_id}");
+            return [$team->external_id => $team->competition->getCrawler()->fetchPlayersByTeamId($team->external_id)];
+        });
+
+        $this->savePlayers($playersByTeam);
     }
 }

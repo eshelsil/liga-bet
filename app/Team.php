@@ -2,7 +2,9 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class Team
@@ -15,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $competition_id
+ * @property-read \App\Competition|null $competition
  * @method static \Illuminate\Database\Eloquent\Builder|Team newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Team newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Team query()
@@ -40,5 +43,10 @@ class Team extends Model
 
     public static function getTeamsByExternalId(){
         return Team::all()->keyBy('external_id');
+    }
+
+    public function competition(): BelongsTo
+    {
+        return $this->belongsTo(Competition::class, "competition_id");
     }
 }

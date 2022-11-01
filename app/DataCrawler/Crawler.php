@@ -8,6 +8,8 @@
 
 namespace App\DataCrawler;
 
+use Illuminate\Http\Client\Pool;
+use Illuminate\Http\Client\Response;
 use \Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
@@ -85,6 +87,7 @@ class Crawler
             'ko_winner_external_id' => $ko_winner
         ];
     }
+
     private function apiCall($additional_path, $addCompetitionPrefix = true)
     {
         $api_token = config('api.api_token'); // TODO: Rotate
@@ -131,8 +134,10 @@ class Crawler
         });
     }
 
-    public function fetchScorers()
-    {    
+    public function fetchScorers(Collection $teamIds): Collection
+    {
+        return $this->fetchScorers365($teamIds);
+
         $data = $this->apiCall('/scorers?limit=300');
         $scorers = $data;
 
@@ -141,6 +146,8 @@ class Crawler
 
     public function fetchPlayersByTeamId($teamId)//450
     {
+        return $this->fetchPlayersByTeamId365score($teamId);
+
         return collect(
             $this->apiCall("/teams/{$teamId}?limit=300", false)["squad"]
         )->map(fn($data) => new Player($data["id"], $data["name"], $teamId, $data["shirtNumber"], $data["position"]));
@@ -169,6 +176,125 @@ class Crawler
             $res[$group_id] = collect($standings);
         }
         return $res;
+    }
+
+    /**
+     * @param $teamId
+     *
+     * @return Collection
+     */
+    protected function fetchPlayersByTeamId365score($teamId): Collection
+    {
+        $teamId365score = $this->translate365TeamId($teamId);
+
+        $data = Http::get("https://webws.365scores.com/web/squads/?appTypeId=5&langId=2&timezoneName=Asia/Jerusalem&userCountryId=6&competitors={$teamId365score}");
+
+        return $data->collect("squads.0.athletes")->map(
+            fn($data) => new Player(
+                $data["id"],
+                $data["name"],
+                $teamId,
+                ($data["jerseyNum"] ?? null) != -1 ? $data["jerseyNum"] : null,
+                $data["position"]["name"] ?? null
+            )
+        );
+    }
+
+    /**
+     * @param $teamId
+     *
+     * @return int
+     */
+    protected function translate365TeamId($teamId): int
+    {
+        var_dump($teamId);
+        return match ((int)$teamId) {
+            805  => 2373, // Belgium
+            773  => 5061, // France
+            791  => 5075, // Ecuador
+            8601 => 2377, // Netherlands
+            8030 => 5079, // Qatar
+            804  => 5102, // Senegal
+            770  => 5054, // England
+            840  => 5091, // Iran
+            771  => 2389, // United States
+            833  => 5043, // Wales
+            762  => 2378, // Argentina
+            769  => 5106, // Mexico
+            794  => 5038, // Poland
+            801  => 5087, // Saudi Arabia
+            779  => 2380, // Australia
+            782  => 5027, // Denmark
+            802  => 5104, // Tunisia
+            793  => 5424, // Costa Rica
+            759  => 2372, // Germany
+            766  => 2382, // Japan
+            760  => 5050, // Spain
+            828  => 2388, // Canada
+            799  => 5055, // Croatia
+            815  => 5093, // Morocco
+            764  => 2379, // Brazil
+            781  => 2387, // Cameroon
+            780  => 2374, // Serbia
+            788  => 5032, // Switzerland
+            763  => 5094, // Ghana
+            765  => 5028, // Portugal
+            772  => 2383, // South Korea
+            758  => 5073, // Uruguay
+        };
+    }
+
+    /**
+     * @param Collection $teamIds
+     *
+     * @return Collection
+     */
+    protected function fetchScorers365(Collection $teamIds): Collection
+    {
+        $baseUrl
+            = "https://webws.365scores.com/web/stats/?appTypeId=5&langId=2&timezoneName=Asia/Jerusalem&userCountryId=6&competition=5421"; // 5930
+        $responses = Http::pool(function (Pool $pool) use ($teamIds, $baseUrl) {
+            return $teamIds->map(
+                fn($teamId) => $pool->as($teamId)
+                                    ->get($baseUrl . "&competitor="
+                                          . self::translate365TeamId($teamId))
+            )->toArray();
+        });
+
+        $players = collect();
+
+        /** @var Response $response */
+        foreach ($responses as $teamId => $response) {
+            $response->collect("stats.0.rows")
+                     ->each(fn($data) => $players->add(new Player(
+                         $data["entity"]["id"],
+                         $data["entity"]["name"],
+                         $teamId,
+                         null,
+                         null,
+                         $data["stats"][0]["value"]
+                     )));
+
+            foreach ($response->collect("stats.1.rows") as $data) {
+                /** @var Player $player */
+                if ($player = $players->firstWhere("externalId",
+                    $data["entity"]["id"])
+                ) {
+                    $player->setAssists($data["stats"][0]["value"]);
+                } else {
+                    $players->add(new Player(
+                        $data["entity"]["id"],
+                        $data["entity"]["name"],
+                        $teamId,
+                        null,
+                        null,
+                        $data["stats"][0]["value"]
+                    ));
+                }
+            }
+        }
+
+        return $players;
     }
 
 }

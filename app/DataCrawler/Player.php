@@ -16,7 +16,23 @@ class Player
         public readonly string $externalTeamId,
         public readonly ?int $shirt,
         public readonly ?string $position,
-        public readonly ?int $goals = null,
-        public readonly ?int $assists = null,
+        public ?int $goals = null,
+        public ?int $assists = null,
     ) { }
+
+    /**
+     * @param int|null $goals
+     */
+    public function setGoals(?int $goals): void
+    {
+        $this->goals = $goals;
+    }
+
+    /**
+     * @param int|null $assists
+     */
+    public function setAssists(?int $assists): void
+    {
+        $this->assists = $assists;
+    }
 }
