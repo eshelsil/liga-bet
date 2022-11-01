@@ -13,14 +13,14 @@ function TeamWithFlag({
     size = 32,
 }: TeamWithFlagProps) {
     return (
-        <div className="TeamWithFlag">
+        <div className={`TeamWithFlag ${classes?.root ?? ''}`}>
             <TeamFlag name={name} size={size} />
             {name && (
-                <span
+                <div
                     className={`TeamWithFlag-name ${classes?.name ?? ''}`}
                 >
                     {getHebTeamName(name)}
-                </span>
+                </div>
             )}
             {is_ko_winner && (
                 <div

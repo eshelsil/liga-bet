@@ -9,8 +9,8 @@ function BigTeamWithFlag(props: TeamWithFlagProps) {
         <TeamWithFlag 
             size={50}
             classes={{
-                name: `teamNameBig ${classes.name ?? ''}`,
                 ...classes,
+                name: `teamNameBig ${classes.name ?? ''}`,
             }}
             {...restProps}
         />
