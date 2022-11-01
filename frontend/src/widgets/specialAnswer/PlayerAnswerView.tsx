@@ -1,13 +1,9 @@
 import React from 'react'
 import { Player } from '../../types'
-import TeamWithFlag from '../TeamFlag/TeamWithFlag'
+import { BigPlayerWithImg } from '../Player'
 
 function PlayerAnswerView({ player }: { player: Player }) {
-    const { name, team } = player
-    if (!team) {
-        return <>name</>
-    }
-    return <TeamWithFlag name={name} crest_url={team.crest_url} />
+    return <BigPlayerWithImg player={player} />
 }
 
 export default PlayerAnswerView

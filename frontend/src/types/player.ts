@@ -4,8 +4,10 @@ import { Team } from './teams'
 export interface PlayerBaseModel {
     id: number
     name: string
+    externalId: number
     number: number
     goalsScored: number
+    img: string
 }
 
 export interface PlayerApiModel extends PlayerBaseModel {

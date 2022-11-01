@@ -1,0 +1,22 @@
+@import '../../styles/mixins';
+@import '../../styles/shadows';
+
+.LB-PlayerWithImg {
+    @include flexRow;
+    .PlayerWithImg-name {
+        margin-right: 6px;
+        margin-top: 2px;
+        &.nameBig {
+            margin-right: 8px;
+            font-size: 20px;
+        }
+    }
+}
+
+.LB-PlayerImg {
+    box-shadow: $medium-shadow;
+    border-radius: 100%;
+    .playerImage {
+        width: 100%;
+    }
+}

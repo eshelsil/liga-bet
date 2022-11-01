@@ -3,6 +3,9 @@
 
 .LB-TournamentConfigPage {
     .LB-UseDefaultConfigQuestion {
+        max-width: 100%;
+        width: 450px;
+        margin: auto;
         .continueBtnBontainer {
             @include centerContainer;
             margin-top: 12px;

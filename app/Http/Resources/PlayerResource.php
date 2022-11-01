@@ -24,6 +24,7 @@ class PlayerResource extends JsonResource
         return [
             "id"              => $player->id,
             "name"            => $player->name,
+            "externalId"      => $player->external_id,
             "shirt"           => $player->shirt,
             "goals"           => $player->goals,
             "assists"         => $player->assists,
