@@ -20,7 +20,7 @@ function Takanon() {
 
     return (
         <div className="all-ltr" style={{ marginBottom: 30 }}>
-            <h2 style={{ textAlign: 'center' }}>תקנון משחק יורו חברים 2021</h2>
+            <h2 style={{ textAlign: 'center' }}>תקנון משחק - ליגה ב' מונדיאל 2022</h2>
 
             <Disclaimer />
             <SendingBetsExplanation />
