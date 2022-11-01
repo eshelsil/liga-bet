@@ -46,7 +46,6 @@ class Tournament extends Model
 
     const STATUS_DONE = 'done';
     const STATUS_ONGOING = 'ongoing';
-    const STATUS_OPEN = 'open';
     const STATUS_INITIAL = 'initial';
 
     protected $casts = [

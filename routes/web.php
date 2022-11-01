@@ -113,7 +113,6 @@ Route::prefix("/api/users")->middleware("admin")
 Route::post('/api/tournaments', [TournamentController::class, 'createTournament']);
 Route::put('/api/tournaments/{id}/prizes', [TournamentController::class, 'updateTournamentPrizes']);
 Route::put('/api/tournaments/{id}/scores', [TournamentController::class, 'updateTournamentScores']);
-Route::put('/api/tournaments/{id}/status', [TournamentController::class, 'updateTournamentStatus']);
 
 Route::get('/api/tournament-name/{code}', [TournamentController::class, 'getTournamentName'])->middleware("auth");
 Route::get('/api/competitions', [CompetitionController::class, 'index']);
