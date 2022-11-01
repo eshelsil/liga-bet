@@ -9,13 +9,11 @@ import ScoreConfigFormView from './ScoreConfigForm';
 interface Props {
 	scoreConfig: TournamentScoreConfig,
 	updateScoreConfig: (params: TournamentScoreConfig) => Promise<void>,
-	openTournamentForBets: () => Promise<void>,
 }
 
 function ScoresConfigPage({
 	scoreConfig,
 	updateScoreConfig,
-	openTournamentForBets,
 }: Props){
 
 	const hasScoreConfig = !!scoreConfig
@@ -39,7 +37,6 @@ function ScoresConfigPage({
 					<Button
 						variant='contained'
 						color='primary'
-						onClick={openTournamentForBets}
 					>
 						התחל את הטורניר
 					</Button>

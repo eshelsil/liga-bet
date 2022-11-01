@@ -22,13 +22,11 @@ const MAX_PRIZES = 10;
 interface Props {
 	prizes: string[],
 	updatePrizes: (config: TournamentConfig['prizes']) => Promise<void>,
-	revertOpenTournament: () => Promise<void>,
 }
 
 function PrizesConfig({
 	prizes: currentPrizes,
 	updatePrizes,
-	revertOpenTournament,
 }: Props){
 	const initialState = currentPrizes?.length > 0 ? currentPrizes : [''];
 	const [prizes, setPrizes] = useState(initialState);
@@ -103,7 +101,6 @@ function PrizesConfig({
 				<Button
 					variant='contained'
 					color='error'
-					onClick={revertOpenTournament}
 					>
 					חזור להגדרות ניקוד
 				</Button>

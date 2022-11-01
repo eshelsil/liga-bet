@@ -10,15 +10,17 @@ import './TournamentConfig.scss';
 function TournamentConfigPage(){
 	const tournamentStatus = useSelector(TournamentStatusSelector);
 
+	const hasTournamentStarted = tournamentStatus !== TournamentStatus.Initial
+
 	return (
 		<div className='LB-TournamentConfigPage'>
-			{tournamentStatus === TournamentStatus.Initial && (
-				<ScoresConfig />
+			{!hasTournamentStarted && (
+				<>
+					<ScoresConfig />
+					<PrizesConfig />
+				</>
 			)}
-			{tournamentStatus === TournamentStatus.OpenForBets && (
-				<PrizesConfig />
-			)}
-			{![TournamentStatus.OpenForBets, TournamentStatus.Initial].includes(tournamentStatus) && (
+			{hasTournamentStarted && (
 				<h2>הגדרות טורניר לא זמינות אחרי שהטורניר כבר התחיל</h2>
 			)}
 		</div>

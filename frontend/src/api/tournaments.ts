@@ -43,11 +43,3 @@ export const updateTournamentPrizesConfig = async (tournamentId: number, prizes:
         data: {prizes}
     })
 }
-
-export const updateTournamentStatus = async (tournamentId: number, status: TournamentStatus): Promise<Tournament> => {
-    return await sendApiRequest({
-        url: `/api/tournaments/${tournamentId}/status`,
-        type: 'PUT',
-        data: {status}
-    })
-}

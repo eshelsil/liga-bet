@@ -4,7 +4,6 @@ import { SpecialQuestionType } from "./specialQuestion";
 
 export enum TournamentStatus {
     Initial = 'initial',
-    OpenForBets = 'open',
     Ongoing = 'ongoing',
     Finished = 'done',
 }
