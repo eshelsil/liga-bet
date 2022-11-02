@@ -53,8 +53,12 @@ class TournamentUserController extends Controller
         if ($utl->hasManagerPermissions()){
             $this->validateCanUpdateManagers($tournamentId);
         }
-        if ($utl->isConfirmed()){
-            throw new JsonException("לא ניתן למחוק משתמש שאושר", 400);
+        if ($utl->isAdmin()){
+            throw new JsonException("אי אפשר למחוק את מנהל הטורניר", 403);
+        }
+        $tournament = $utl->tournament;
+        if ($tournament->hasStarted()){
+            throw new JsonException("לא ניתן למחוק משתתף אחרי שהטורניר כבר התחיל", 403);
         }
         $utl->role = TournamentUser::ROLE_REJECTED;
         $utl->save();

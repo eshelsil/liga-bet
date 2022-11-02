@@ -58,6 +58,15 @@ function answerDefaultConfigQuestion() {
     }
 }
 
+function updateAutoConfirmPreference(shouldAutoConfirm: boolean) {
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const utlId = CurrentTournamentUserId(getState())
+        const tournamentId = CurrentTournamentId(getState())
+        const preferences = await updateTournamentPreferences(tournamentId, {auto_approve_users: shouldAutoConfirm});
+        dispatch(myUtlsSlice.actions.setTournamentPreferences({utlId, preferences}))
+    }
+}
+
 
 export {
     createNewTournament,
@@ -65,4 +74,5 @@ export {
     updateScoreConfig,
     updatePrizesConfig,
     answerDefaultConfigQuestion,
+    updateAutoConfirmPreference,
 }

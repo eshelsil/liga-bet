@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { connect } from 'react-redux'
+import { updateAutoConfirmPreference } from '../_actions/tournament'
 import {
     fetchAndStoreTournamentUtls,
     makeContestant,
@@ -16,6 +17,7 @@ function ManageContestants({
     makeContestant,
     removeAndStoreUTL,
     fetchAndStoreTournamentUtls,
+    updateAutoConfirmPref,
 }) {
     const { utlsById, isTournamentAdmin, currentUtlId, hasManagerPermissions } =
         useSelector(ManageTournamentUTLsSelector)
@@ -33,6 +35,7 @@ function ManageContestants({
                 hasManagerPermissions={hasManagerPermissions}
                 confirmUTL={makeContestant}
                 removeManagerPermissions={makeContestant}
+                updateAutoConfirmPref={updateAutoConfirmPref}
                 promoteToManager={makeManager}
                 removeUTL={removeAndStoreUTL}
             />
@@ -45,6 +48,7 @@ const mapDispatchToProps = {
     makeContestant,
     removeAndStoreUTL,
     fetchAndStoreTournamentUtls,
+    updateAutoConfirmPref: updateAutoConfirmPreference,
 }
 
 export default connect(NoSelector, mapDispatchToProps)(ManageContestants)

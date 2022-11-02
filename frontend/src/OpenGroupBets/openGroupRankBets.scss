@@ -53,12 +53,12 @@
                 .rankDisplay {
                     margin-left: 6px;
                     .rank {
-                        background-color: #c6c6c6;
+                        background-color: #fbfbfbfb;
                         box-shadow: $medium-shadow;
                     }
                 }
                 .LB-TeamStanding {
-                    background-color: #c6c6c6;
+                    background-color: #fbfbfbfb;
                     box-shadow: $medium-shadow;
                 }
             }
@@ -87,7 +87,7 @@
                 .rank {
                     font-size: 24px;
                     line-height: 2;
-                    background: #d9edf7;
+                    background-color: #e5e5e55e;
                     width: 30px;
                     border-radius: 8px;
                     text-align: center;
@@ -99,7 +99,7 @@
                 padding: 8px;
                 width: 100%;
                 border-radius: 8px;
-                background-color: #d9edf7;
+                background-color: #e5e5e55e;
                 .dragIcon {
                     margin-left: 12px;
                     cursor: grab;
