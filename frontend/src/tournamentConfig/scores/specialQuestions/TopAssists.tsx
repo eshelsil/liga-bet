@@ -5,6 +5,7 @@ import TakanonPreviewModal from '../../takanonPreview/TakanonPreviewModal';
 import MostAssistsRules from '../../../takanon/specialQuestions/MostAssistsRules';
 import ScoreInput from '../ScoreInput';
 import SpecialQuestionHeader from './SpecialQuestionHeader';
+import TopAssistsExplanation from './explanations/TopAssistsExplanation';
 
 
 const TOP_ASSISTS_WINNING_STRING = 'ניחוש נכון';
@@ -20,7 +21,7 @@ function TopAssistsConfig({disabled, ...formProps}: SpecialQuestionConfigProps){
 		<div className='LigaBet-TopAssists configContainer'>
 			<SpecialQuestionHeader
 				title={'מלך בישולים'}
-				tooltipContent='any content'
+				tooltipContent={<TopAssistsExplanation />}
 				switchProps={{
 					checked: isOn,
 					onChange: onChange,

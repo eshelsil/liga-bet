@@ -6,6 +6,7 @@ import SpecialQuestionHeader from './SpecialQuestionHeader';
 import { useIsXsScreen } from '../../../hooks/useMedia';
 import RoadToFinalDesktopTable from './RoadToFinalDesktopTable';
 import RoadToFinalMobileTable from './RoadToFinalMobileTable';
+import RoadToFinalExplanation from './explanations/RoadToFinalExplanation';
 
 
 function RoadToFinalConfig(configProps: SpecialQuestionConfigProps){
@@ -28,7 +29,7 @@ function RoadToFinalConfig(configProps: SpecialQuestionConfigProps){
 		<div className='LigaBet-RoadToFinalConfig configContainer'>
 			<SpecialQuestionHeader
 				title={'זוכה'}
-				tooltipContent='any content'
+				tooltipContent={<RoadToFinalExplanation />}
 				switchProps={{
 					disabled: true,
 					checked: isOnWinner,

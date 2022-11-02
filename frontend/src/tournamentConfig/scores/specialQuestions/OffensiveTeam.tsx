@@ -5,6 +5,7 @@ import TakanonPreviewModal from '../../takanonPreview/TakanonPreviewModal';
 import OffensiveTeamRules from '../../../takanon/specialQuestions/OffensiveTeamRules';
 import ScoreInput from '../ScoreInput';
 import SpecialQuestionHeader from './SpecialQuestionHeader';
+import OffensiveTeamExplanation from './explanations/OffensiveTeamExplanation';
 
 
 const OFFENSIVE_TEAM_WINNING_STRING = 'ניחוש נכון';
@@ -20,7 +21,7 @@ function OffensiveTeamConfig({disabled, ...formProps}: SpecialQuestionConfigProp
 		<div className='LigaBet-MVPConfig configContainer'>
 			<SpecialQuestionHeader
 				title={'ההתקפה החזקה בשלב הבתים'}
-				tooltipContent='any content'
+				tooltipContent={<OffensiveTeamExplanation />}
 				switchProps={{
 					checked: isOn,
 					onChange: onChange,

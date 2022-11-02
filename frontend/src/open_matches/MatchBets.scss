@@ -69,16 +69,24 @@
                     justify-content: space-evenly;
                     .scoreDisplayContainer {
                         @include centerContainer;
-                        width: 32px;
-                        height: 32px;
-                        font-size: 20px;
-                        border-radius: 8px;
-                        cursor: pointer;
-                        background: $primary-main;
-                        color: #fff;
+                        width: 36px;
+                        height: 36px;
+                        .scoreDisplay {
+                            @include centerContainer;
+                            width: 100%;
+                            height: 100%;
+                            border-radius: 8px;
+                            background: $primary-main;
+                            cursor: pointer;
+                            .scoreText {
+                                color: #fff;
+                                font-size: 20px;
+                            }   
+                        }
                     }
                     input {
-                        width: 35px;
+                        width: 36px;
+                        height: 36px;
                         padding: 6px;
                         font-size: 16px;
                     }
@@ -87,7 +95,7 @@
                     position: relative;
                     display: flex;
                     justify-content: center;
-                    margin-top: 12px;
+                    margin-top: 8px;
                     .sendButton {
                         padding: 2px 12px;
                         min-width: 32px;

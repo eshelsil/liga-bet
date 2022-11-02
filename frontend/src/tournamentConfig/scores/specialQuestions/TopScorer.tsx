@@ -4,6 +4,7 @@ import TopScorerRules from '../../../takanon/specialQuestions/TopScorerRules';
 import TakanonPreviewModal from '../../takanonPreview/TakanonPreviewModal';
 import ScoreInput from '../ScoreInput';
 import SpecialQuestionHeader from './SpecialQuestionHeader';
+import TopScorerExplanation from './explanations/TopScorerExplanation';
 
 
 const EACH_GOAL_STRING = 'ניקוד על כל גול';
@@ -20,7 +21,7 @@ function TopScorerConfig({disabled, ...formProps}: SpecialQuestionConfigProps){
 		<div className='LigaBet-TopScorerConfig configContainer'>
 			<SpecialQuestionHeader
 				title={'מלך שערים'}
-				tooltipContent='any content'
+				tooltipContent={<TopScorerExplanation />}
 				switchProps={{
 					disabled: true,
 					checked: isOn,

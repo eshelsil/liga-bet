@@ -24,7 +24,9 @@ function CurrentBetView({
             <div className='inputsRow'>
                 <div className='scoreDisplayContainer'>
                     <div className='scoreDisplay' onClick={clickOnHomeScore}>
-                        {homeScore}
+                        <div className='scoreText'>
+                            {homeScore}
+                        </div>
                     </div>
                 </div>
                 <div>
@@ -32,7 +34,9 @@ function CurrentBetView({
                 </div>
                 <div className='scoreDisplayContainer'>
                     <div className='scoreDisplay' onClick={clickOnAwayScore}>
-                        {awayScore}
+                        <div className='scoreText'>
+                            {awayScore}
+                        </div>
                     </div>
                 </div>
             </div>

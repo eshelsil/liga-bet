@@ -5,6 +5,7 @@ import MvpRules from '../../../takanon/specialQuestions/MvpRules';
 import TakanonPreviewModal from '../../takanonPreview/TakanonPreviewModal';
 import ScoreInput from '../ScoreInput';
 import SpecialQuestionHeader from './SpecialQuestionHeader';
+import MvpExplanation from './explanations/MvpExplanation';
 
 
 const MVP_WINNING_STRING = 'זכייה בתואר';
@@ -20,7 +21,7 @@ function MVPConfig({disabled, ...formProps}: SpecialQuestionConfigProps){
 		<div className='LigaBet-MVPConfig configContainer'>
 			<SpecialQuestionHeader
 				title={'שחקן מצטיין'}
-				tooltipContent='any content'
+				tooltipContent={<MvpExplanation />}
 				switchProps={{
 					checked: isOn,
 					onChange: onChange,

@@ -1,34 +1,26 @@
 import React from 'react';
-import MatchBetRules from '../../../takanon/matches/MatchBetRulesProvider';
 
 
 function MatchBetsExplanation(){
-    const exampleScoreConfig = {
-        groupStage: {
-            winnerSide: 10,
-            result: 20,
-        },
-        knockout: {
-            qualifier: 20,
-            winnerSide: 20,
-            result: 60,
-        },
-        bonuses: {
-            final: {
-                qualifier: 30,
-                winnerSide: 30,
-                result: 90,
-            },
-            semifinal: {
-                qualifier: 25,
-                winnerSide: 25,
-                result: 75,
-            }
-        }
-    };
 	return (
-		<div className='LigaBet-MatchBetsExplanation'>
-            <MatchBetRules scoreConfig={exampleScoreConfig} />
+		<div className='LigaBet-MatchBetsExplanation LB-ScoreConfigSection'>
+            <ul>
+                <li>
+                    ניתן לקבוע את הניקוד שמתקבל עבור כל משחק בשלב הבתים והנוקאווט
+                </li>
+                <li>
+                    ראשית יחושב הימור ה 1X2 על תוצאת המשחק (90 דק')
+                </li>
+                <li>
+                    לאחר מכן ינתן בונוס על פגיעה בתוצאה מדוייקת (90 דק')
+                </li>
+                <li>
+                    בשלבי הנוקאאוט ניתן להוסיף בונוס על קביעת המעפילה לשלב הבא
+                </li>
+                <li>
+                    ניתן להוסיף בונוס נוסף למשחקי החצי גמר והגמר
+                </li>
+            </ul>
 		</div>
 	);
 }
