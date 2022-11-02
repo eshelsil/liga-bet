@@ -45,7 +45,7 @@ function TournamentMenuItems({
                         classes={{list: themeClass}}
                         pathes={['tournament-config', 'contestants']}
                     >
-                        {[TournamentStatus.Initial, TournamentStatus.OpenForBets].includes(tournamentStatus) && (
+                        {tournamentStatus === TournamentStatus.Initial && (
                             <LinkMenuItem
                                 route={routesMap['tournament-config']}
                                 callback={reRouteCallback}
@@ -55,7 +55,7 @@ function TournamentMenuItems({
                             route={routesMap['contestants']}
                             callback={reRouteCallback}
                         />
-                        {[TournamentStatus.Initial, TournamentStatus.OpenForBets].includes(tournamentStatus) && (
+                        {tournamentStatus === TournamentStatus.Initial && (
                             <LinkMenuItem
                                 route={routesMap['invite-friends']}
                                 callback={reRouteCallback}
@@ -103,7 +103,7 @@ function TournamentMenuItems({
                             callback={reRouteCallback}
                         />
                     </>)}
-                    {tournamentStatus === TournamentStatus.OpenForBets && (<>
+                    {!isTournamentStarted && (<>
                         <LinkMenuItem
                             route={routesMap['open-matches']}
                             callback={reRouteCallback}

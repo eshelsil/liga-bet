@@ -4,49 +4,49 @@ export function generateDefaultScoresConfig(): TournamentScoreConfig {
 	return {
 		gameBets: {
 			groupStage: {
-				winnerSide: 10,
-				result: 20,
+				winnerSide: 2,
+				result: 4,
 			},
 			knockout: {
-				qualifier: 15,
-				winnerSide: 15,
-				result: 60,
+				qualifier: 3,
+				winnerSide: 3,
+				result: 12,
 			},
 			bonuses: {
 				final: {
-					qualifier: 10,
-					winnerSide: 10,
-					result: 30,
+					qualifier: 2,
+					winnerSide: 2,
+					result: 4,
 				},
 				semiFinal: {
-					qualifier: 5,
-					winnerSide: 5,
-					result: 15,
+					qualifier: 1,
+					winnerSide: 1,
+					result: 2,
 				}
 			}
 		},
 		groupRankBets: {
-			perfect: 60,
-			minorMistake: 30,
+			perfect: 12,
+			minorMistake: 6,
 		},
 		specialBets: {
-			offensiveTeam: 50,
+			offensiveTeam: 10,
 			winner: {
-				quarterFinal: 20,
-				semiFinal: 30,
-				final: 110,
-				winning: 150,
+				quarterFinal: 4,
+				semiFinal: 6,
+				final: 20,
+				winning: 30,
 			},
 			runnerUp: {
-				quarterFinal: 20,
-				semiFinal: 20,
-				final: 100,
+				quarterFinal: 4,
+				semiFinal: 6,
+				final: 20,
 			},
-			mvp: 100,
-			topAssists: 100,
+			mvp: 20,
+			topAssists: 20,
 			topScorer: {
-				correct: 40,
-				eachGoal: 20,
+				correct: 8,
+				eachGoal: 4,
 			},
 		},
 		specialQuestionFlags: {

@@ -15,6 +15,9 @@
 
 
 .LB-OpenMatchesView {
+    max-width: 100%;
+    width: 900px;
+    margin: auto;
     .gamesContainer {
         display: flex;
         flex-wrap: wrap;
@@ -26,7 +29,7 @@
         max-width: 100%;
         box-shadow: $medium-shadow;
         background-color: #fff;
-        margin: 12px;
+        margin: 24px;
         @media(max-width: 600px){
             margin: 12px auto;
         }

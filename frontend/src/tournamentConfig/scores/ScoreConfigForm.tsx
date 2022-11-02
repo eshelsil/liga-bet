@@ -21,15 +21,16 @@ function ScoreConfigFormView({
 	config,
 	updateConfig,
 }: Props){
-	const defaultConfig = !isEmpty(config) ? config : generateDefaultScoresConfig()
-	const initialOptionsConfig = getInitialOptionsConfig(defaultConfig)
+	const defaultConfig = generateDefaultScoresConfig()
+	const initialConfig = !isEmpty(config) ? config : defaultConfig
+	const initialOptionsConfig = getInitialOptionsConfig(initialConfig)
 	const { setValue, handleSubmit, watch, register, control, formState, clearErrors, reset} = useForm<ScoreConfigForm>({
 		// resolver: yupResolver(validationSchema),
 		// TODO: use validationSchema
 		reValidateMode: 'onSubmit',
 		shouldFocusError: true,
 		defaultValues: {
-			...defaultConfig,
+			...initialConfig,
 			...initialOptionsConfig,		
 		},
 	})
@@ -37,13 +38,26 @@ function ScoreConfigFormView({
 	const formProps = {setValue, control, register, clearErrors, errors, watch};
 
 
+	const resetDefaultConfig = () => {
+		const defaultOptions = getInitialOptionsConfig(defaultConfig)
+		reset({
+			...defaultOptions,
+			...defaultConfig,
+		})
+		onSubmit()
+	}
+
+
 	const submit = async (formState: ScoreConfigForm) => {
+		console.log('')
 		const apiParams = mapFormStateToApiParams(formState)
 		await updateConfig(apiParams)
 		.then(() => {
 			(window as any).toastr["success"]('ההגדרות הניקוד עודכנו בהצלחה');
 		});
 	}
+
+	const onSubmit = handleSubmit(submit)
 
 	return (
 		<div className='LigaBet-ScoreConfigFormView'>
@@ -56,9 +70,14 @@ function ScoreConfigFormView({
 			<SpecialBetsConfig
 				{...formProps}
 			/>
-			<div className={'savePrizes'}>
-				<Button variant='contained' color='primary' onClick={handleSubmit(submit)}>
+			<div className={'saveScoresButton'}>
+				<Button variant='contained' color='primary' onClick={onSubmit}>
 					עדכן
+				</Button>
+			</div>
+			<div className={'resetButton'}>
+				<Button variant='contained' color='error' onClick={resetDefaultConfig}>
+					אפס לברירת מחדל
 				</Button>
 			</div>
 		</div>

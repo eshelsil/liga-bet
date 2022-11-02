@@ -46,7 +46,6 @@ class Tournament extends Model
 
     const STATUS_DONE = 'done';
     const STATUS_ONGOING = 'ongoing';
-    const STATUS_OPEN = 'open';
     const STATUS_INITIAL = 'initial';
 
     protected $casts = [
@@ -58,6 +57,11 @@ class Tournament extends Model
     public function competition(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Competition::class);
+    }
+
+    public function preferences(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(TournamentPreferences::class);
     }
 
     public function bets(): \Illuminate\Database\Eloquent\Relations\HasMany

@@ -29,7 +29,7 @@ class UserEmail extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('name');
-            $table->string('username')->unique();
+            $table->string('username');
             $table->dropColumn('email');
         });
     }

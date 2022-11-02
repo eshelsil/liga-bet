@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Exceptions\JsonException;
 use App\Http\Resources\TournamentResource;
+use App\TournamentPreferences;
+use Log;
 
 class TournamentController extends Controller
 {
@@ -24,29 +26,16 @@ class TournamentController extends Controller
         $tournament                  = new Tournament();
         $tournament->name            = $request->name;
         $tournament->status          = Tournament::STATUS_INITIAL;
-        $tournament->config          = ["scores" =>  [], "prizes" => []];
+        $tournament->config          = ["scores" => config('defaultScore'), "prizes" => []];
         $tournament->competition_id  = $request->competition;
         $tournament->code            = Str::lower(Str::random(6));
         $tournament->creator_user_id = $user->id;
         $tournament->save();
 
         $ctsb->handle($tournament);
-
-        return new JsonResponse((new TournamentResource($tournament))->toArray($request), 200);
-    }
-
-    public function updateTournamentStatus(string $id, Request $request)
-    {
-        $this->validateUpdatePermissions($id);
-
-        $user = $this->getUser();
-        /** @var Tournament $tournament */
-        $tournament = $user->ownedTournaments->find($id);
-        $status = $request->json("status");
-        $this->validateUpdateStatusInputs($tournament, $status);
-
-        $tournament->update(["status" => $status]);
-        $this->generateSpecialBets($tournament);
+        $tournamentPreferences                  = new TournamentPreferences();
+        $tournamentPreferences->tournament_id   = $tournament->id;
+        $tournamentPreferences->save();
 
         return new JsonResponse((new TournamentResource($tournament))->toArray($request), 200);
     }
@@ -95,6 +84,26 @@ class TournamentController extends Controller
         $tournament->update(["config->prizes" => $request->json("prizes")]);
 
         return new JsonResponse((new TournamentResource($tournament))->toArray($request), 200);
+    }
+
+    public function updateTournamentPreferences(string $id, Request $request)
+    {
+        $this->validateUpdatePermissions($id);
+        $user = $this->getUser();
+        $tournament = $user->ownedTournaments->find($id);
+
+        $request->validate([
+            "auto_approve_users" => "boolean",
+            "use_default_config_answered" => "boolean"
+        ]);
+        $params = $request->only('use_default_config_answered', 'auto_approve_users');        
+
+        $preferences = TournamentPreferences::updateOrCreate(
+            ["tournament_id" => $tournament->id],
+            $params
+        );
+
+        return new JsonResponse($preferences->toArray($request), 200);
     }
 
     public function updateTournamentScores(string $id, Request $request)
@@ -161,36 +170,6 @@ class TournamentController extends Controller
         $tournament = $user->ownedTournaments->find($tournamentId);
         if (!$tournament) {
             throw new JsonException("אין לך את ההרשאות הדרושות כדי לעדכן את הטורניר הזה", 401);
-        }
-    }
-
-    private function validateUpdateStatusInputs(Tournament $tournament, string $status)
-    {
-        $user = $this->getUser();
-        if (!in_array($status, [Tournament::STATUS_INITIAL, Tournament::STATUS_OPEN])){
-            throw new JsonException("Invalid \"status\" argument (got \"$status\")", 400);
-        }
-        if ($tournament->status == $status){
-            return true;
-        }
-        if ($status == Tournament::STATUS_INITIAL) {
-            if ($tournament->status != Tournament::STATUS_OPEN){
-                throw new JsonException("Cannot update tournament with status $tournament->status to have status Tournament::STATUS_INITIAL", 400);
-            }
-            $utl = $user->getTournamentUser($tournament->id);
-            $betsOfRivals = $tournament->bets->where('user_tournament_id', '!=', $utl->id);
-            if ($betsOfRivals->count() > 0){
-                throw new JsonException("לא ניתן לערוך את הגדרות הטורניר לאחר שמשתתפים אחרים כבר שלחו הימורים", 400);
-
-            }
-        }
-        if ($status == Tournament::STATUS_OPEN) {
-            if ($tournament->status != Tournament::STATUS_INITIAL){
-                throw new JsonException("Cannot update tournament with status $tournament->status to have status Tournament::STATUS_OPEN", 400);
-            }
-            if (!$tournament->hasValidScoreConfig()){
-                throw new JsonException("לא ניתן לפתוח את הטורניר להימורים עד שלא תוגדר שיטת הניקוד", 400);
-            }
         }
     }
 

@@ -8,7 +8,7 @@ function useDefaultPageRedirect(): () => void {
     const { 
         goToUserPage,
         goToLeaderboard,
-        goToOpenGameBets,
+        goToOpenQuestionBets,
         goToTournamentConfig,
     } = useGoTo()
     const currentUtl = useSelector(CurrentTournamentUser)
@@ -25,14 +25,11 @@ function useDefaultPageRedirect(): () => void {
     if ([TournamentStatus.Finished, TournamentStatus.Ongoing].includes(tournamentStatus)) {
         return goToLeaderboard
     }
-    if (tournamentStatus === TournamentStatus.OpenForBets) {
+    if (tournamentStatus === TournamentStatus.Initial) {
         if (isTournamentOwner && !hasPrizes){
             return goToTournamentConfig
         }
-        return goToOpenGameBets
-    }
-    if (isTournamentOwner){
-        return goToTournamentConfig
+        return goToOpenQuestionBets
     }
     return goToUserPage
 }
