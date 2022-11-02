@@ -17,7 +17,7 @@ function GroupStageRulesView({
     exampleGroup,
     groupsCount,
 }: Props) {
-    const maxScore = groupsCount * perfect
+    const maxScore = groupsCount * Number(perfect)
     const teamA = exampleGroup.teams[0]
     const teamB = exampleGroup.teams[1]
     const teamC = exampleGroup.teams[2]

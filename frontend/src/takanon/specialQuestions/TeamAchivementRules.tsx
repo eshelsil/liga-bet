@@ -7,7 +7,7 @@ interface Props {
 }
 
 function TeamAchivementRules({ label, scoreConfig }: Props) {
-    const maxScore = sum(Object.values(scoreConfig))
+    const maxScore = sum(Object.values(scoreConfig).map(val => Number(val)))
     return (
         <>
             <h5 className="underlined">{label}</h5>

@@ -11,7 +11,7 @@ function GameBetScore({
     scoreConfig: GameBetScoreConfig
     gamesCount: number
 }) {
-    const totalScore = sum(Object.values(scoreConfig))
+    const totalScore = sum(Object.values(scoreConfig).map(val => Number(val)))
     const maxScore = totalScore * gamesCount
     return (
         <>
