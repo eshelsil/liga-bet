@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Bet;
 use App\Http\Resources\ContestantResource;
 use App\Http\Resources\UtlResource;
 use App\Tournament;
@@ -88,6 +89,11 @@ class UserController extends Controller
             }
         }
 
+        $nameIsTaken = $tournament->utls->where('name', $name)->count() > 0;
+        if ($nameIsTaken) {
+            throw new JsonException("קיים כבר משתתף עם השם \"$name\" בטורניר \"$tournament->name\"", 400);
+        }
+
         $utl  = $tournament->createUTL($user, $name);
 
         return (new UtlResource($utl))->toArray($request);
@@ -103,7 +109,10 @@ class UserController extends Controller
         if (!$utl->isRejected() && !$utl->isNotConfirmed()){
             throw new JsonException("אינך יכול לעזוב את הטורניר לאחר שאושרת בידי אחד ממנהלי הטורניר", 400);
         }
+
+        Bet::where('user_tournament_id', $utl->id)->delete();
         $utl->delete();
+
         return new JsonResponse(null, 200);
     }
 

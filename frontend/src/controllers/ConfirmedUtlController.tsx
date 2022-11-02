@@ -35,15 +35,13 @@ function ConfirmedUtlController({ currentUtl, children }: Props) {
         <InitialDataFetcher>
             {isTournamentAdmin && (
                 <TournamentAdminRoutes>
-                    <OpenTournamentController currentUtl={currentUtl}>
-                        {children}
-                    </OpenTournamentController>
+                    {children}
                 </TournamentAdminRoutes>
             )}
             {!isTournamentAdmin && (
-                <OpenTournamentController currentUtl={currentUtl}>
+                <>
                     {children}
-                </OpenTournamentController>
+                </>
             )}
         </InitialDataFetcher>
     )

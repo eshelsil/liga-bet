@@ -94,6 +94,16 @@ class Tournament extends Model
         return $this->utls->firstWhere('user_id', $user->id);
     }
 
+    public function shouldAutoConfirmNewUtls()
+    {
+        return $this->preferences->isAutoConfirmUtlsOn();
+    }
+
+    public function hasStarted()
+    {
+        return $this->status != static::STATUS_INITIAL;
+    }
+
     public function hasValidScoreConfig()
     {
         return array_key_exists('scores', $this->config);
@@ -106,6 +116,8 @@ class Tournament extends Model
             $role = TournamentUser::ROLE_ADMIN;
         } elseif ($user->isMonkey()){
             $role = TournamentUser::ROLE_MONKEY;
+        } elseif ($this->shouldAutoConfirmNewUtls()) {
+            $role = TournamentUser::ROLE_CONTESTANT;
         }
 
         return TournamentUser::create([

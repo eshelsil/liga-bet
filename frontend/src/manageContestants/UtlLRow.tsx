@@ -34,25 +34,17 @@ function UTLRow({
     const isManager = utl.role === UtlRole.Manager
     const isContestant = utl.role === UtlRole.Contestant
     const isNotConfirmed = utl.role === UtlRole.NotConfirmed
-    const isDeleteable = [UtlRole.NotConfirmed, UtlRole.Monkey].includes(
-        utl.role
-    )
+    const canBeDeletedByManager = [UtlRole.Contestant, UtlRole.NotConfirmed, UtlRole.Monkey].includes(utl.role)
+    const canBeDeletedByAdmin = isManager || canBeDeletedByManager
+    const isDeleteable = (hasAdminPermissions && canBeDeletedByAdmin) || (hasManagerPermissions && canBeDeletedByManager)
     return (
-        <TableRow>
+        <TableRow className={'LB-ContestantRow'}>
             <TableCell className="admin">{utl.id}</TableCell>
             <TableCell>{utl.name}</TableCell>
             <TableCell>{UtlRoleToString[utl.role]}</TableCell>
-            <TableCell>
+            <TableCell className='actionsCell'>
                 {hasManagerPermissions && !isCurrentUtl && (
                     <>
-                        {isNotConfirmed && (
-                            <ConfirmUtlButton
-                                action={() => confirmUTL(utl.id)}
-                            />
-                        )}
-                        {isDeleteable && (
-                            <RemoveUtlButton action={() => removeUTL(utl.id)} />
-                        )}
                         {hasAdminPermissions && (
                             <>
                                 {isManager && (
@@ -68,6 +60,14 @@ function UTLRow({
                                     />
                                 )}
                             </>
+                        )}
+                        {isNotConfirmed && (
+                            <ConfirmUtlButton
+                                action={() => confirmUTL(utl.id)}
+                            />
+                        )}
+                        {isDeleteable && (
+                            <RemoveUtlButton action={() => removeUTL(utl.id)} />
                         )}
                     </>
                 )}

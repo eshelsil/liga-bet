@@ -34,7 +34,7 @@ export const AnsweredUseDefaultScoreDialog = createSelector(
     (prefs) => !!prefs?.use_default_config_answered
 )
 
-export const IsOnAutoApproveUsers = createSelector(
+export const IsOnAutoConfirmUtls = createSelector(
     TournamentPreferences,
-    (prefs) => prefs?.auto_approve_users
+    (prefs) => !!prefs?.auto_approve_users
 )
