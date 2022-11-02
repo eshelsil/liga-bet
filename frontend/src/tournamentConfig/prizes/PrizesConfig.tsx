@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { Button, Grid } from '@mui/material';
+import { Button, Grid, Link } from '@mui/material';
 import { prizeToString } from '../../utils';
 import { TournamentConfig } from '../../types';
 import PrizeInput from './PrizeInput';
 import PrizesRules from '../../takanon/PrizesRules';
 import TakanonPreviewSection from '../takanonPreview/TakanonPreviewSection';
-import './PrizesConfig.scss';
 import { compact } from 'lodash';
+import useGoTo from '../../hooks/useGoTo';
+import './PrizesConfig.scss';
 
 
 function ignoreLastStringIfEmpty(strings: string[]){
@@ -30,8 +31,8 @@ function PrizesConfig({
 }: Props){
 	const initialState = currentPrizes?.length > 0 ? currentPrizes : [''];
 	const [prizes, setPrizes] = useState(initialState);
+	const { goToScoresConfig } = useGoTo()
 
-	const resetToDefault = () => setPrizes(initialState);
 	const addPrize = () => {
 		setPrizes([
 			...prizes,
@@ -96,14 +97,15 @@ function PrizesConfig({
 				<Button className={''} variant='contained' color='primary' onClick={submit}>עדכן</Button>
 			</div>
 
-			<div className='statusActionContainer'>
+			<div className='forgotSomething'>
 				<h5>שכחת משהו?</h5>
-				<Button
-					variant='contained'
-					color='error'
-					>
-					חזור להגדרות ניקוד
-				</Button>
+				<Link
+					className={'linkToScoresConfig'}
+					onClick={goToScoresConfig}
+				>
+					ערוך הגדרות ניקוד
+				</Link>
+
 			</div>
 		</div>
 	);

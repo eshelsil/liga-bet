@@ -8,7 +8,7 @@ function useDefaultPageRedirect(): () => void {
     const { 
         goToUserPage,
         goToLeaderboard,
-        goToOpenGameBets,
+        goToOpenQuestionBets,
         goToTournamentConfig,
     } = useGoTo()
     const currentUtl = useSelector(CurrentTournamentUser)
@@ -29,7 +29,7 @@ function useDefaultPageRedirect(): () => void {
         if (isTournamentOwner && !hasPrizes){
             return goToTournamentConfig
         }
-        return goToOpenGameBets
+        return goToOpenQuestionBets
     }
     return goToUserPage
 }

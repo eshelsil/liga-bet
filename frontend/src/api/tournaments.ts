@@ -1,4 +1,4 @@
-import { Tournament, TournamentConfig, TournamentScoreConfig, TournamentStatus } from '../types'
+import { Tournament, TournamentConfig, TournamentPreferences, TournamentScoreConfig, TournamentStatus } from '../types'
 import { sendApiRequest } from './common/apiRequest'
 
 export const createTournament = async ({
@@ -41,5 +41,13 @@ export const updateTournamentPrizesConfig = async (tournamentId: number, prizes:
         url: `/api/tournaments/${tournamentId}/prizes`,
         type: 'PUT',
         data: {prizes}
+    })
+}
+
+export const updateTournamentPreferences = async (tournamentId: number, prefs: Partial<TournamentPreferences>): Promise<TournamentPreferences> => {
+    return await sendApiRequest({
+        url: `/api/tournaments/${tournamentId}/preferences`,
+        type: 'PUT',
+        data: {...prefs}
     })
 }

@@ -73,6 +73,10 @@ const routes: Route[] = [
 		label: 'הגדרות טורניר',
     },
     {
+        path: 'tournament-score-config',
+		label: 'הגדרות טורניר',
+    },
+    {
         path: 'invite-friends',
 		label: 'הזמן חברים',
     },

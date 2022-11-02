@@ -46,7 +46,7 @@ function UserRow({
                         {' '}
                         הסר הרשאות מנהל טורניר{' '}
                     </Button>
-                    <FormControlLabel
+                    {/* <FormControlLabel
                         control={
                             <Switch
                                 color="primary"
@@ -58,7 +58,7 @@ function UserRow({
                         }
                         label={'יכול לערוך ניקוד'}
                         labelPlacement="top"
-                    />
+                    /> */}
                 </>)}
             </TableCell>
         </TableRow>

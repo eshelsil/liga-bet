@@ -1,9 +1,9 @@
 import { AppDispatch, GetRootState } from '../_helpers/store'
-import { createTournament, getTournamentsOwnedByUser, updateTournamentPrizesConfig, updateTournamentScoresConfig } from '../api/tournaments'
+import { createTournament, getTournamentsOwnedByUser, updateTournamentPreferences, updateTournamentPrizesConfig, updateTournamentScoresConfig } from '../api/tournaments'
 import ownedTournaments from '../_reducers/ownedTournament'
 import tournamentUser from '../_reducers/tournamentUser'
 import { CurrentTournamentId, CurrentTournamentUserId } from '../_selectors'
-import { TournamentScoreConfig, TournamentStatus } from '../types'
+import { TournamentScoreConfig } from '../types'
 import myUtlsSlice from '../_reducers/myUtls'
 import { keyBy } from 'lodash'
 
@@ -49,5 +49,20 @@ function updatePrizesConfig(prizes: string[]) {
     }
 }
 
+function answerDefaultConfigQuestion() {
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const utlId = CurrentTournamentUserId(getState())
+        const tournamentId = CurrentTournamentId(getState())
+        const preferences = await updateTournamentPreferences(tournamentId, {use_default_config_answered: true});
+        dispatch(myUtlsSlice.actions.setTournamentPreferences({utlId, preferences}))
+    }
+}
 
-export { createNewTournament, fetchOwnedTournaments, updateScoreConfig, updatePrizesConfig }
+
+export {
+    createNewTournament,
+    fetchOwnedTournaments,
+    updateScoreConfig,
+    updatePrizesConfig,
+    answerDefaultConfigQuestion,
+}

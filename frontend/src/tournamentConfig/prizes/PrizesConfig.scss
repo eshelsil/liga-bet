@@ -39,4 +39,11 @@
         margin-top: 24px;
         @include centerContainer;
     }
+    .forgotSomething {
+        margin-top: 24px;
+        .linkToScoresConfig {
+            cursor: pointer;
+            user-select: none;
+        }
+    }
 }

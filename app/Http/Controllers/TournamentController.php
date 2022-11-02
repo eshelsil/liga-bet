@@ -26,7 +26,7 @@ class TournamentController extends Controller
         $tournament                  = new Tournament();
         $tournament->name            = $request->name;
         $tournament->status          = Tournament::STATUS_INITIAL;
-        $tournament->config          = ["scores" =>  [], "prizes" => []];
+        $tournament->config          = ["scores" => config('defaultScore'), "prizes" => []];
         $tournament->competition_id  = $request->competition;
         $tournament->code            = Str::lower(Str::random(6));
         $tournament->creator_user_id = $user->id;
@@ -84,6 +84,26 @@ class TournamentController extends Controller
         $tournament->update(["config->prizes" => $request->json("prizes")]);
 
         return new JsonResponse((new TournamentResource($tournament))->toArray($request), 200);
+    }
+
+    public function updateTournamentPreferences(string $id, Request $request)
+    {
+        $this->validateUpdatePermissions($id);
+        $user = $this->getUser();
+        $tournament = $user->ownedTournaments->find($id);
+
+        $request->validate([
+            "auto_approve_users" => "boolean",
+            "use_default_config_answered" => "boolean"
+        ]);
+        $params = $request->only('use_default_config_answered', 'auto_approve_users');        
+
+        $preferences = TournamentPreferences::updateOrCreate(
+            ["tournament_id" => $tournament->id],
+            $params
+        );
+
+        return new JsonResponse($preferences->toArray($request), 200);
     }
 
     public function updateTournamentScores(string $id, Request $request)

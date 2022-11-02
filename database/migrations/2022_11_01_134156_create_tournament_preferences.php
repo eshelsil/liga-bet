@@ -15,9 +15,9 @@ class CreateTournamentPreferences extends Migration
     {
         Schema::create('tournament_preferences', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tournament_id');
+            $table->foreignId('tournament_id')->unique();
             $table->boolean('auto_approve_users')->default(true);
-            $table->boolean('use_deafult_config_answered')->default(false);
+            $table->boolean('use_default_config_answered')->default(false);
             $table->timestamps();
         });
     }

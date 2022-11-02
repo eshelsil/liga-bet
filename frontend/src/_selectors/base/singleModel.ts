@@ -41,7 +41,7 @@ export const CurrentUserEmail = createSelector(
 
 export const CanUpdateScoreConfig = createSelector(
     CurrentUser,
-    (user) => user.permissions === UserPermissions.Admin || user.canUpdateScoreConfig
+    (user) => true
 )
 
 export const IsConfirmedUtl = createSelector(

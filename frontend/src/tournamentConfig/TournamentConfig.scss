@@ -2,14 +2,15 @@
 @import '../styles/shadows';
 
 .LB-TournamentConfigPage {
-    .statusActionContainer {
-        margin-top: 30px;
-        padding: 16px;
-        > .warningNote {
+    .LB-UseDefaultConfigQuestion {
+        .continueBtnBontainer {
+            @include centerContainer;
             margin-top: 12px;
         }
+        .radioSelection {
+            margin-top: 24px;
+        }
     }
-
     @import 'takanonPreview/takanonPreview';
 }
 

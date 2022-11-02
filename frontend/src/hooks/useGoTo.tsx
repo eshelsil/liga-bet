@@ -11,7 +11,9 @@ function useGoTo() {
     const goToCreateTournament = () => history.push('/create-tournament')
     const goToLeaderboard = () => history.push('/leaderboard')
     const goToOpenGameBets = () => history.push('/open-matches')
+    const goToOpenQuestionBets = () => history.push('/open-questions')
     const goToTournamentConfig = () => history.push('/tournament-config')
+    const goToScoresConfig = () => history.push('/tournament-scores-config')
     const goToInviteFriends = () => history.push('/invite-friends')
     const goToTakanon = () => history.push('/takanon')
     const goToHome = () => history.push('/')
@@ -25,7 +27,9 @@ function useGoTo() {
         goToHome,
         goToLeaderboard,
         goToOpenGameBets,
+        goToOpenQuestionBets,
         goToTournamentConfig,
+        goToScoresConfig,
         goToInviteFriends,
         goToTakanon,
     }

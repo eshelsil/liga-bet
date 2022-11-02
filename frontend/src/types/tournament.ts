@@ -71,6 +71,11 @@ export interface TournamentConfig {
 	scores: TournamentScoreConfig,
 }
 
+export interface TournamentPreferences {
+	auto_approve_users: boolean,
+	use_default_config_answered: boolean,
+}
+
 export interface Tournament {
     id: number,
     name: string,
@@ -79,4 +84,5 @@ export interface Tournament {
     config: TournamentConfig,
     code: string,
 	creatorUserId: number,
+	preferences?: TournamentPreferences,
 }
