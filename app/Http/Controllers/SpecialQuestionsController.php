@@ -15,6 +15,7 @@ class SpecialQuestionsController extends Controller
         $utl = $this->getUser()->getTournamentUser($tournamentId);
 
         $data = $utl->tournament->specialBets
+            ->filter(fn(SpecialBet $specialQuestion) => ($specialQuestion->isOn()))
             ->map(fn(SpecialBet $specialQuestion) => (new SpecialQuestionResource($specialQuestion))->toArray($request));
 
         return new JsonResponse($data, 200);

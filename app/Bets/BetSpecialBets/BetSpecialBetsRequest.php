@@ -109,12 +109,16 @@ class BetSpecialBetsRequest extends AbstractBetRequest
     }
 
     protected function hasUserBet($betName, $answer, TournamentUser $utl) {
+        $specialQuestion = SpecialBet::getByType($utl->tournament_id, $betName);
         $bet = $utl->bets
             ->where('type', BetTypes::SpecialBet)
-            ->where('type_id', SpecialBet::getByType($utl->tournament_id, $betName)->id)
+            ->where('type_id', $specialQuestion->id)
             ->first();
 
         if (!$bet) {
+            return false;
+        }
+        if (!$specialQuestion->isOn()){
             return false;
         }
 
