@@ -4,6 +4,10 @@ import { useSelector } from 'react-redux'
 import { PlayersByTeamId, PlayersWithTeams } from '../_selectors'
 import PlayerWithImg from '../widgets/Player'
 import TeamInput from './TeamInput'
+import { sortBy } from 'lodash'
+
+
+const alephBet = 'אבגדהוזחטיכלמנסעפצקרשת'
 
 function PlayerInput({
     value,
@@ -16,7 +20,13 @@ function PlayerInput({
     const playersById = useSelector(PlayersWithTeams)
     const selectedPlayer = playersById[value]
     const [team, setTeam] = useState<number>(selectedPlayer?.team?.id)
-    const players = playersByTeamId[team] ?? []
+    const players = sortBy(
+        (playersByTeamId[team] ?? []),
+        [
+            (player) => (alephBet.indexOf(player.name[0]) > -1 ? 0 : 1),
+            'name',
+        ],
+    )
     
     const differentTeamSelected = team !== selectedPlayer?.team?.id
     const defaultValue = players[0]?.id
@@ -41,6 +51,7 @@ function PlayerInput({
             <Select
                 placeholder={'בחר שחקן'}
                 label="בחר שחקן"
+                disabled={!team}
                 labelId="team-input-label"
                 value={displayValue || ''}
                 onChange={handleChange}
