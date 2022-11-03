@@ -9,5 +9,5 @@ export function useTournamentLink(code?: string) {
         return null
     }
     const port = window.location.port === '80' ? '' : `:${window.location.port}`
-    return `${window.location.protocol}//${window.location.hostname}${port}/join-tournament?tournament-code=${tounamentCode}`
+    return `${window.location.protocol}//${window.location.hostname}${port}/join-tournament/${tounamentCode}`
 }
