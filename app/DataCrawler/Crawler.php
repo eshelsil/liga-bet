@@ -189,15 +189,17 @@ class Crawler
 
         $data = Http::get("https://webws.365scores.com/web/squads/?appTypeId=5&langId=2&timezoneName=Asia/Jerusalem&userCountryId=6&competitors={$teamId365score}");
 
-        return $data->collect("squads.0.athletes")->map(
-            fn($data) => new Player(
-                $data["id"],
-                $data["name"],
-                $teamId,
-                ($data["jerseyNum"] ?? null) != -1 ? $data["jerseyNum"] : null,
-                $data["position"]["name"] ?? null
-            )
-        );
+        return $data->collect("squads.0.athletes")
+            ->filter(fn($data) => $data["formationPosition"]["name"] != "מאמן")
+            ->map(
+                fn($data) => new Player(
+                    $data["id"],
+                    $data["name"],
+                    $teamId,
+                    ($data["jerseyNum"] ?? null) != -1 ? $data["jerseyNum"] : null,
+                    $data["position"]["name"] ?? null
+                )
+            );
     }
 
     /**
