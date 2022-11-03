@@ -50,6 +50,15 @@ class SpecialBet extends Model implements BetableInterface
     const TYPE_MVP = "mvp";
     const TYPE_OFFENSIVE_TEAM = "offensive_team";
 
+    static $typeToFlagName = [
+        "winner" => "winner",
+        "runner_up" => "runnerUp",
+        "top_scorer" => "topScorer",
+        "most_assists" => "topAssists",
+        "mvp" => "mvp",
+        "offensive_team" => "offensiveTeam",
+    ];
+
     protected static $unguarded = true;
 
     /**
@@ -110,6 +119,17 @@ class SpecialBet extends Model implements BetableInterface
     public function getID()
     {
         return $this->id;
+    }
+
+    public function getFlagName()
+    {
+        return static::$typeToFlagName[$this->type];
+    }
+
+    public function isOn(){
+        $config = $this->tournament->config;
+        $flagName = $this->getFlagName();
+        return data_get($config, "scores.specialQuestionFlags.".$flagName, false);
     }
 
     public static function getByType(int $tournamentId, string $type): SpecialBet

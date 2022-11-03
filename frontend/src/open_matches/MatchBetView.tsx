@@ -19,8 +19,10 @@ function OpenMatchBetView({
 }) {
     const { id, start_time, home_team, away_team, is_knockout, bet } = match
     const tournamentClass = useTournamentThemeClass()
-    const [edit, setEdit] = useState(bet?.result_away === undefined)
+    const [edit, setEdit] = useState(false)
     const [editOpener, setEditOpener] = useState(null)
+    const hasBet = bet?.result_away === undefined
+    const showEdit = edit || hasBet
 
     const saveBet = async ({ homeScore, awayScore, koWinner }) => {
         return await sendBet({
@@ -61,7 +63,7 @@ function OpenMatchBetView({
             <div className='OpenMatchBet-body'>
                 <TeamWithFlag name={home_team.name} size={50} classes={{root: 'verticalTeam sideRight', name: 'verticalTeamName'}}/>
                 <div className='scoreForm'>
-                    {edit && (
+                    {showEdit && (
                         <EditMatchBetView
                             bet={bet}
                             onClose={exitEditMode}
@@ -69,7 +71,7 @@ function OpenMatchBetView({
                             opener={editOpener}
                         />
                     )}
-                    {!edit && (
+                    {!showEdit && (
                         <CurrentBetView bet={bet} onEdit={goToEditMode} />
                     )}
                 </div>

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import { useLocation, useParams } from 'react-router-dom'
 import { Button, TextField } from '@mui/material'
 import { NoSelector } from '../_selectors'
 import { connect } from 'react-redux'
 import { createUtl } from '../_actions/tournamentUser'
 import useGoTo from '../hooks/useGoTo'
 import { getTournamentsName } from '../api/tournaments'
-import { useLocation } from 'react-router-dom'
 import TournamentIcon from '@mui/icons-material/EmojiEvents';
 import { reportApiError } from '../utils'
 
@@ -16,8 +16,8 @@ interface Props {
 
 function JoinTournament({ onJoin }: Props) {
     const location = useLocation();
-    const params = new URLSearchParams(location.search)
-    const codeFromURL = params.get('tournament-code') 
+    const { tournamentId } = useParams<any>();
+    const codeFromURL = tournamentId
     const [code, setCode] = useState(codeFromURL || '')
     const [name, setName] = useState('')
     const [tournamentName, setTournamentName] = useState('')

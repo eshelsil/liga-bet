@@ -21,15 +21,15 @@ function App() {
         <StoreProvider store={store}>
             <ThemeProvider theme={theme}>
                 <RTL>
-                    <AuthController>
-                        <Router history={customHistory}>
+                    <Router history={customHistory}>
+                        <AuthController>
                             {/*<Banner />*/}
                             <AppHeader />
                             <AppBody />
                             <AppFooter />
                             <DialogsProvider />
-                        </Router>
-                    </AuthController>
+                        </AuthController>
+                    </Router>
                 </RTL>
             </ThemeProvider>
         </StoreProvider>

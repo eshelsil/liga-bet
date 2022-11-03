@@ -13,7 +13,7 @@ function NoUTLsRoutes({children}) {
             <Route path="/user" component={UserPage} />
             <Route path='/utls' component={UTLPage} />
             <Route path='/admin/users' component={ManageUsers} />
-            <Route path="/join-tournament" component={JoinTournament} />
+            <Route path="/join-tournament/:tournamentId?" component={JoinTournament} />
             <Route path="/create-tournament" component={CreateNewTournament} />
             <Route>
                 {children}

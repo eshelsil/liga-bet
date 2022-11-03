@@ -1,5 +1,19 @@
 @extends('layouts.app')
 
+@section('script')
+    <script>
+        (function (){
+            const searchParams = new URLSearchParams(window.location.search);
+            const redirectPath = searchParams.get('redirectTo');
+            if (redirectPath) {
+                sessionStorage.setItem('LigaBet-redirectAfterLogin', JSON.stringify({
+                    path: redirectPath,
+                    timestamp: new Date(),
+                }));
+            }
+        })()
+    </script>
+@endsection
 @section('content')
 <div class="container">
     <div class="row justify-content-center">

@@ -23,12 +23,12 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
-    protected function redirectTo(){
-        if(session()->has('url.intended')) {
-            return session()->get('url.intended');
-        }
-        return '/home';
-    }
+    /**
+     * Where to redirect users after registration.
+     *
+     * @var string
+     */
+    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.

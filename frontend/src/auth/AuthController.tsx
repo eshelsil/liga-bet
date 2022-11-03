@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { User } from '../types'
 import { storeCurrentUser } from '../_actions/auth'
 import { AuthControllerSelector } from '../_selectors'
+import useSessionReidrectPath from './useSessionReidrectPath'
 
 interface Props {
     storeCurrentUser: () => void
@@ -11,8 +12,11 @@ interface Props {
 }
 
 function AuthController({ storeCurrentUser, user, children }: Props) {
+    const { redirectAfterLogin } = useSessionReidrectPath()
+
     useEffect(() => {
         storeCurrentUser()
+        redirectAfterLogin()
     }, [])
 
     return <>{user?.id !== undefined && <>{children}</>}</>
