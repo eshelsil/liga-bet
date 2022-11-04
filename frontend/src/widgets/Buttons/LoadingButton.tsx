@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { LoadingButtonProps } from './types'
 import { Button, CircularProgress } from '@mui/material'
+import useIsRendered from '../../hooks/useIsRendered'
 
 export default function LoadingButton({
     action,
@@ -9,11 +10,15 @@ export default function LoadingButton({
     ...props
 }: LoadingButtonProps) {
     const [loading, setLoading] = useState(false)
+    const isRendered = useIsRendered()
     const onClick = async () => {
         setLoading(true)
         await action()
-        setLoading(false)
+        if (isRendered){
+            setLoading(false)
+        }
     }
+
     return (
         <Button
             className={`LigaBet-LoadingButton ${loading ? 'loading' : ''}`}
