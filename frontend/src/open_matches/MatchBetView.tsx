@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
 import { MatchWithABet, WinnerSide } from '../types'
 import { DEFAULT_DATE_FORMAT, DEFAULT_TIME_FORMAT } from '../utils/index'
 import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
-import { isEmpty } from 'lodash'
 import CurrentBetView from './CurrentBetView'
 import EditMatchBetView from './EditMatchBetView'
 import moment from 'moment'
@@ -19,36 +18,36 @@ function OpenMatchBetView({
 }) {
     const { id, start_time, home_team, away_team, is_knockout, bet } = match
     const tournamentClass = useTournamentThemeClass()
+    const lastEditOpen = useRef(Number(new Date()))
     const [edit, setEdit] = useState(false)
     const [editOpener, setEditOpener] = useState(null)
     const hasBet = bet?.result_away === undefined
     const showEdit = edit || hasBet
 
     const saveBet = async ({ homeScore, awayScore, koWinner }) => {
-        return await sendBet({
+        const ts = lastEditOpen.current
+        await sendBet({
             matchId: id,
             is_knockout,
             homeScore,
             awayScore,
             koWinner,
         })
+        if (ts === lastEditOpen.current){
+            exitEditMode()
+        }
     }
 
     const goToEditMode = (opener?: WinnerSide) => {
+        lastEditOpen.current = Number(new Date())
         setEditOpener(opener ?? null)
         setEdit(true)
     }
 
-    const exitEditMode = (opener?: WinnerSide) => {
+    const exitEditMode = () => {
         setEditOpener(null)
         setEdit(false)
     }
-
-    useEffect(()=> {
-        if (!isEmpty(bet)){
-            setEdit(false)
-        }
-    }, [bet])
 
 
     // const isHomeKoWinner = winnerSide === WinnerSide.Home

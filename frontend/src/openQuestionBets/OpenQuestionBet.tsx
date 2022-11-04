@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Button, Grid, IconButton } from '@mui/material'
 import { SpecialQuestionWithABet } from '../types'
 import { hasPlayerAnswer, hasTeamAnswer } from '../utils'
@@ -11,6 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import { useIsXsScreen } from '../hooks/useMedia'
 import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
+import { LoadingButton } from '../widgets/Buttons'
 
 
 interface Props {
@@ -48,13 +49,11 @@ function QuestionBetEditView({
                 )}
             </div>
             <div className="buttonContainer">
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={submitBet}
+                <LoadingButton
+                    action={submitBet}
                 >
                     שלח
-                </Button>
+                </LoadingButton>
                 <IconButton className='iconGoBack' onClick={onClose}>
                     <CloseIcon />
                 </IconButton>
@@ -65,6 +64,7 @@ function QuestionBetEditView({
 
 
 function OpenQuestionBetView({ questionWithBet, sendBet }: Props) {
+    const lastEditOpen = useRef<number>()
     const [edit, setEdit] = useState(false)
     const tournamentClass = useTournamentThemeClass();
     const isXsScreen = useIsXsScreen();
@@ -72,11 +72,20 @@ function OpenQuestionBetView({ questionWithBet, sendBet }: Props) {
     const { answer: betAnswer } = bet || {}
     const hasBet = !!bet
 
+
+    const openEditMode = () => {
+        lastEditOpen.current = Number(new Date())
+        setEdit(true)
+    }
+    const exitEditMode = () => setEdit(false)
+
+
     const onBetSubmit = async (params: QuestionBetParams) => {
+        const ts = lastEditOpen.current
         await sendBet(params)
-            .then(() => {
-                setEdit(false)
-            })
+        if (ts === lastEditOpen.current) {
+            exitEditMode()
+        }
     }
 
     return (
@@ -90,7 +99,7 @@ function OpenQuestionBetView({ questionWithBet, sendBet }: Props) {
                         {hasBet && (
                             <div className="existing_bet">
                                 <SpecialAnswerView answer={betAnswer} type={type} />
-                                <IconButton onClick={()=> setEdit(true)}>
+                                <IconButton onClick={openEditMode}>
                                     <EditIcon />
                                 </IconButton>
                             </div>
@@ -99,7 +108,7 @@ function OpenQuestionBetView({ questionWithBet, sendBet }: Props) {
                             <div className="no_bet">
                                 <AddCircle
                                     color='primary'
-                                    onClick={()=> setEdit(true)}
+                                    onClick={openEditMode}
                                     style={{fontSize: 48}}
                                 />
                             </div>
@@ -108,7 +117,7 @@ function OpenQuestionBetView({ questionWithBet, sendBet }: Props) {
                 )}
                 {edit && (
                     <QuestionBetEditView
-                        onClose={() => {setEdit(false)}}
+                        onClose={exitEditMode}
                         questionWithBet={questionWithBet}
                         sendBet={onBetSubmit}
                     />

@@ -1,16 +1,18 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import DraggableStandings from './DraggableStandings'
-import { Button, Grid, IconButton } from '@mui/material'
+import { Grid, IconButton } from '@mui/material'
 import { useIsXsScreen } from '../hooks/useMedia'
 import { getHebGroupName } from '../strings/groups'
 import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
 import { AddCircle } from '@mui/icons-material'
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
+import { LoadingButton } from '../widgets/Buttons'
 
 
 function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
     const { name, id, bet, teams } = groupWithBet
+    const lastEditOpen = useRef<number>()
     const [edit, setEdit] = useState(false)
     const [standingsInput, setStandingsInput] = useState(null)
     const tournamentClass = useTournamentThemeClass();
@@ -20,10 +22,17 @@ function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
     const hideStandings = !bet && !edit
 
 
+    const openEditMode = () => {
+        lastEditOpen.current = Number(new Date())
+        setEdit(true)
+    }
     const exitEditMode = () => setEdit(false)
-    const sendBet = () => {
-        sendGroupRankBet({ groupId: id, standings: groupStandings })
-        exitEditMode()
+    const sendBet = async () => {
+        const ts = lastEditOpen.current
+        await sendGroupRankBet({ groupId: id, standings: groupStandings })
+        if (ts === lastEditOpen.current) {
+            exitEditMode()
+        }
     }
     return (
         <Grid item xs={isXsScreen ? 12 : null}>
@@ -36,7 +45,7 @@ function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
                         <div className="noBet">
                             <AddCircle
                                 color='primary'
-                                onClick={()=> setEdit(true)}
+                                onClick={openEditMode}
                                 style={{fontSize: 48}}
                             />
                         </div>
@@ -49,19 +58,17 @@ function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
                         />
                         <div className={`buttonContainer`}>
                             {edit && (<>
-                                <Button
-                                    variant='contained'
-                                    color='primary'
-                                    onClick={sendBet}
+                                <LoadingButton
+                                    action={sendBet}
                                 >
                                     שלח
-                                </Button>
+                                </LoadingButton>
                                 <IconButton className='iconGoBack' onClick={exitEditMode}>
                                     <CloseIcon />
                                 </IconButton>
                             </>)}
                             {!edit && (
-                                <IconButton onClick={()=> setEdit(true)}>
+                                <IconButton onClick={openEditMode}>
                                     <EditIcon />
                                 </IconButton>
                             )}

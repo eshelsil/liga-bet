@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Button, IconButton } from '@mui/material'
+import { IconButton } from '@mui/material'
 import { MatchBetWithRelations, WinnerSide } from '../types'
 import CloseIcon from '@mui/icons-material/CloseRounded'
 import { isEmpty } from 'lodash'
+import { LoadingButton } from '../widgets/Buttons'
 
 
 
@@ -38,8 +39,8 @@ function EditMatchBetView({
         setAwayScore(score >= 0 ? score : 0)
     }
 
-    const saveBet = () => {
-        onSave({
+    const saveBet = async () => {
+        await onSave({
             homeScore,
             awayScore,
         })
@@ -97,14 +98,12 @@ function EditMatchBetView({
             </div>
             <div className='buttonContainer'>
                 <div className='buttonsWrapper'>
-                    <Button
-                        className='sendButton'
-                        variant='contained'
-                        color='primary'
-                        onClick={saveBet}
+                    <LoadingButton
+                        classes={{root: 'sendButton'}}
+                        action={saveBet}
                     >
                         שלח
-                    </Button>
+                    </LoadingButton>
                     {hasBet && (
                         <IconButton className={'closeIcon'} onClick={onClose}>
                             <CloseIcon />
