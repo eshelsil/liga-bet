@@ -43,7 +43,7 @@ const OpenMatchesProvider = ({
             window['toastr']['error'](
                 `כמות שערים לקבוצה חייבת להיות מספר שלם בין 0 ל-20. הערך שהתקבל לקבוצת הבית: ${homeScore}`
             )
-            return
+            throw new Error('INVALINVALID_SCORE_INPUTID_SCORE_INPUT')
         }
         if (
             awayScore === '' ||
@@ -52,7 +52,7 @@ const OpenMatchesProvider = ({
             window['toastr']['error'](
                 `כמות שערים לקבוצה חייבת להיות מספר שלם בין 0 ל-20. הערך שהתקבל לקבוצת החוץ: ${awayScore}`
             )
-            return
+            throw new Error('INVALINVALID_SCORE_INPUTID_SCORE_INPUT')
         }
         const payload: MatchBetUpdatePayload = {
             'result-home': Number(homeScore),
@@ -64,7 +64,7 @@ const OpenMatchesProvider = ({
                 window['toastr']['error'](
                     `עלייך לבחור מעפילה (מכיוון שסימנת משחק נוקאאוט שייגמר בתיקו)`
                 )
-                return
+                throw new Error('NO_QUALIFIER')
             }
         }
         return await sendBetAndStore({
