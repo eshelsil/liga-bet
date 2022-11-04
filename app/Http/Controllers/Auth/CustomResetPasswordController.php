@@ -26,12 +26,16 @@ class CustomResetPasswordController extends Controller
             'email' => 'required|email|exists:users',
         ]);
         $email = $request->email;
-        $token = Str::random(64);
 
-        PasswordResetToken::updateOrInsert(
-            ['email' => $email],
-            ['token' => $token, 'created_at' => Carbon::now()],
-        );
+        $existingToken = PasswordResetToken::where(['email' => $email])->first();
+        $shouldUseExistingToken = $existingToken && Carbon::parse($existingToken->created_at)->diffInMinutes(Carbon::now()) < 10;
+        $token = $shouldUseExistingToken ? $existingToken->token : Str::random(64);
+        if (!$shouldUseExistingToken){
+            PasswordResetToken::updateOrInsert(
+                ['email' => $email],
+                ['token' => $token, 'created_at' => Carbon::now()],
+            );
+        }
 
         Mail::send('email.reset-password', ['token' => $token], function($message) use($email){
             $message->to($email);
