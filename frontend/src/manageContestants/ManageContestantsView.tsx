@@ -1,6 +1,5 @@
+import React from 'react'
 import {
-    Checkbox,
-    FormControlLabel,
     Paper,
     Table,
     TableBody,
@@ -9,13 +8,11 @@ import {
     TableHead,
     TableRow,
 } from '@mui/material'
-import React from 'react'
-import { useSelector } from 'react-redux'
 import { UTL } from '../types'
-import { IsOnAutoConfirmUtls } from '../_selectors'
 import { UtlAction } from './types'
 import UTLRow from './UtlLRow'
 import './ManageContestants.scss'
+import AutoConfirmSelection from './AutoConfirmSelection'
 
 interface Props {
     utls: UTL[]
@@ -40,17 +37,6 @@ function ManageContestantsView({
     currentUtlId,
     hasManagerPermissions,
 }: Props) {
-    const autoConfirm = useSelector(IsOnAutoConfirmUtls)
-    const toggleAutoConfirm = (e: any, value: boolean) => {
-        updateAutoConfirmPref(value)
-            .then(() => {
-                if (value) {
-                    (window as any).toastr["success"]('עודכן בהצלחה. מעכשיו משתמשים יאושרו אוטמטית');
-                } else {
-                    (window as any).toastr["success"]('עודכן בהצלחה. המשתמשים הבאים שירשמו לטורניר יחכו שתאשר אותם לפני שיוכלו להמר');
-                }
-            })
-    }
 
     return (
         <div className='LB-ManageContestantsView'>
@@ -68,17 +54,8 @@ function ManageContestantsView({
                         <li>אתה יכול לבחור חברים שיעזרו לך לנהל את המשתתפים</li>
                         <li>מנהל רשאי לאשר או למחוק משתתפים שאינם מנהלים</li>
                     </ul>
+                    <AutoConfirmSelection updateAutoConfirmPref={updateAutoConfirmPref} />
 
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                size='medium'
-                                checked={autoConfirm}
-                                onChange={toggleAutoConfirm}
-                            />
-                        }
-                        label="אשר משתמשים אוטומטית"
-                    />
                     <TableContainer component={Paper}>
                         <Table>
                             <TableHead>

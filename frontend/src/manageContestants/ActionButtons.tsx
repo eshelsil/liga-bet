@@ -1,42 +1,42 @@
 import React from 'react'
-import { Button } from '@mui/material'
+import { LoadingButton } from '../widgets/Buttons'
 
 interface Props {
-    action: () => void
+    action: () => Promise<void>
 }
 
 export function MakeManagerButton({ action }: Props) {
     return (
-        <Button size='small' variant="contained" color="primary" onClick={action}>
+        <LoadingButton size='small' variant="contained" color="primary" action={action}>
             {' '}
             הפוך למנהל{' '}
-        </Button>
+        </LoadingButton>
     )
 }
 
 export function RemoveManagerButton({ action }: Props) {
     return (
-        <Button size='small' variant="contained" color="secondary" onClick={action}>
+        <LoadingButton size='small' variant="contained" color="secondary" action={action}>
             {' '}
             הסר הרשאות מנהל{' '}
-        </Button>
+        </LoadingButton>
     )
 }
 
 export function ConfirmUtlButton({ action }: Props) {
     return (
-        <Button variant="contained" color="success" onClick={action}>
+        <LoadingButton variant="contained" color="success" action={action}>
             {' '}
             אשר משתתף{' '}
-        </Button>
+        </LoadingButton>
     )
 }
 
 export function RemoveUtlButton({ action }: Props) {
     return (
-        <Button size='small' variant="contained" color="error" onClick={action}>
+        <LoadingButton size='small' variant="contained" color="error" action={action}>
             {' '}
             מחק משתתף{' '}
-        </Button>
+        </LoadingButton>
     )
 }

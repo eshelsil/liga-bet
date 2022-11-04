@@ -49,25 +49,23 @@ function UTLRow({
                             <>
                                 {isManager && (
                                     <RemoveManagerButton
-                                        action={() =>
-                                            removeManagerPermissions(utl.id)
-                                        }
+                                        action={async () => await removeManagerPermissions(utl.id)}
                                     />
                                 )}
                                 {isContestant && (
                                     <MakeManagerButton
-                                        action={() => promoteToManager(utl.id)}
+                                        action={async () => await promoteToManager(utl.id)}
                                     />
                                 )}
                             </>
                         )}
                         {isNotConfirmed && (
                             <ConfirmUtlButton
-                                action={() => confirmUTL(utl.id)}
+                                action={async () => await confirmUTL(utl.id)}
                             />
                         )}
                         {isDeleteable && (
-                            <RemoveUtlButton action={() => removeUTL(utl.id)} />
+                            <RemoveUtlButton action={async () => await removeUTL(utl.id)} />
                         )}
                     </>
                 )}
