@@ -14,9 +14,11 @@ export default function LoadingButton({
     const onClick = async () => {
         setLoading(true)
         await action()
-        if (isRendered){
-            setLoading(false)
-        }
+            .finally(() => {
+                if (isRendered){
+                    setLoading(false)
+                }
+            })
     }
 
     return (
