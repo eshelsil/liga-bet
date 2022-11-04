@@ -8,17 +8,19 @@ import { connect } from 'react-redux';
 
 function UseDefaultConfigQuestion({
 	answerDefaultConfigQuestion,
+	onUseDefaultScore,
 }){
-	const { goToScoresConfig, goToTournamentConfig } = useGoTo()
+	const { goToScoresConfig } = useGoTo()
 	const [keepDefaultConfig, setKeepDefaultConfig] = useState(true)
 	
 	const saveAnswer = () => {
 		if (keepDefaultConfig){
-			goToTournamentConfig()
+			onUseDefaultScore()
 		} else {
 			goToScoresConfig()
 		}
 		answerDefaultConfigQuestion()
+			.catch(()=>{})
 	}
 
 	return (

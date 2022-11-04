@@ -44,10 +44,11 @@ export const updateTournamentPrizesConfig = async (tournamentId: number, prizes:
     })
 }
 
-export const updateTournamentPreferences = async (tournamentId: number, prefs: Partial<TournamentPreferences>): Promise<TournamentPreferences> => {
+export const updateTournamentPreferences = async (tournamentId: number, prefs: Partial<TournamentPreferences>, hideErrorToastr?: boolean): Promise<TournamentPreferences> => {
     return await sendApiRequest({
         url: `/api/tournaments/${tournamentId}/preferences`,
         type: 'PUT',
+        hideErrorToastr,
         data: {...prefs}
     })
 }

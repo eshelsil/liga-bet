@@ -6,7 +6,7 @@ import PrizeInput from './PrizeInput';
 import PrizesRules from '../../takanon/PrizesRules';
 import TakanonPreviewSection from '../takanonPreview/TakanonPreviewSection';
 import { compact } from 'lodash';
-import useGoTo from '../../hooks/useGoTo';
+import { LoadingButton } from '../../widgets/Buttons';
 import './PrizesConfig.scss';
 
 
@@ -23,15 +23,16 @@ const MAX_PRIZES = 10;
 interface Props {
 	prizes: string[],
 	updatePrizes: (config: TournamentConfig['prizes']) => Promise<void>,
+	onGoToScoresClick: () => void,
 }
 
 function PrizesConfig({
 	prizes: currentPrizes,
 	updatePrizes,
+	onGoToScoresClick,
 }: Props){
 	const initialState = currentPrizes?.length > 0 ? currentPrizes : [''];
 	const [prizes, setPrizes] = useState(initialState);
-	const { goToScoresConfig } = useGoTo()
 
 	const addPrize = () => {
 		setPrizes([
@@ -58,11 +59,14 @@ function PrizesConfig({
 	const compactedPrizes = ignoreLastStringIfEmpty(prizes);
 	const hasPrizes = compactedPrizes.length > 0;
 
-	const submit = () => {
-		updatePrizes(compact(prizes))
+	const submit = async () => {
+		return await updatePrizes(compact(prizes))
 			.then(() => {
 				window['toastr']['success']('הפרסים עודכנו בהצלחה')
 			})
+			.catch(function (error) {
+                console.log('FAILED updating prizes config', error)
+            })
 	}
 
 	return (
@@ -94,14 +98,14 @@ function PrizesConfig({
 				</Grid>
 			</Grid>
 			<div className={'savePrizes'}>
-				<Button className={''} variant='contained' color='primary' onClick={submit}>עדכן</Button>
+				<LoadingButton action={submit}>עדכן</LoadingButton>
 			</div>
 
 			<div className='forgotSomething'>
 				<h5>שכחת משהו?</h5>
 				<Link
 					className={'linkToScoresConfig'}
-					onClick={goToScoresConfig}
+					onClick={onGoToScoresClick}
 				>
 					ערוך הגדרות ניקוד
 				</Link>

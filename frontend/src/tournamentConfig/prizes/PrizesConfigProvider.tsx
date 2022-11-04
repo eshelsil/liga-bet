@@ -10,8 +10,10 @@ import './PrizesConfig.scss';
 
 function PrizesConfigProvider({
 	updatePrizesConfig,
+	onGoToScoresClick,
 }: {
 	updatePrizesConfig: (prizes: string[] ) => Promise<void>,
+	onGoToScoresClick: () => void,
 }){
 	const prizes = useSelector(PrizesSelector);
 
@@ -19,6 +21,7 @@ function PrizesConfigProvider({
 		<PrizesConfig
 			prizes={prizes}
 			updatePrizes={updatePrizesConfig}
+			onGoToScoresClick={onGoToScoresClick}
 		/>
 	);
 }

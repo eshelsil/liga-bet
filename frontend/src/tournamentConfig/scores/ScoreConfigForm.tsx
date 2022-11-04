@@ -3,13 +3,13 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from './schema';
 import { TournamentScoreConfig } from '../../types';
-import { Button } from '@mui/material';
 import GroupRankBetConfig from './groupRankBets/GroupRankBetConfig';
 import MatchBetsConfig from './matchBets/MatchBetsConfig';
 import SpecialBetsConfig from './specialQuestions/SpecialBetsConfig';
 import { ScoreConfigForm } from '../types';
 import { generateDefaultScoresConfig, mapFormStateToApiParams, getInitialOptionsConfig } from '../utils';
 import { isEmpty } from 'lodash';
+import { LoadingButton } from '../../widgets/Buttons';
 
 
 interface Props {
@@ -38,18 +38,17 @@ function ScoreConfigFormView({
 	const formProps = {setValue, control, register, clearErrors, errors, watch};
 
 
-	const resetDefaultConfig = () => {
+	const resetDefaultConfig = async () => {
 		const defaultOptions = getInitialOptionsConfig(defaultConfig)
 		reset({
 			...defaultOptions,
 			...defaultConfig,
 		})
-		onSubmit()
+		return await onSubmit()
 	}
 
 
 	const submit = async (formState: ScoreConfigForm) => {
-		console.log('')
 		const apiParams = mapFormStateToApiParams(formState)
 		await updateConfig(apiParams)
 		.then(() => {
@@ -71,14 +70,14 @@ function ScoreConfigFormView({
 				{...formProps}
 			/>
 			<div className={'saveScoresButton'}>
-				<Button variant='contained' color='primary' onClick={onSubmit}>
+				<LoadingButton action={onSubmit}>
 					עדכן
-				</Button>
+				</LoadingButton>
 			</div>
 			<div className={'resetButton'}>
-				<Button variant='contained' color='error' onClick={resetDefaultConfig}>
+				<LoadingButton color='error' action={resetDefaultConfig}>
 					אפס לברירת מחדל
-				</Button>
+				</LoadingButton>
 			</div>
 		</div>
 	);

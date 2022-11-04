@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector} from 'react-redux';
 import { TournamentStatus } from '../types';
 import { AnsweredUseDefaultScoreDialog, TournamentStatusSelector } from '../_selectors';
@@ -10,6 +10,7 @@ import './TournamentConfig.scss';
 function TournamentConfigPage(){
 	const tournamentStatus = useSelector(TournamentStatusSelector);
 	const answeredDefaultScoreDialog = useSelector(AnsweredUseDefaultScoreDialog);
+	const [showDefaultScoreQuestion, setShowDefaultScoreQuestion] = useState(!answeredDefaultScoreDialog)
 
 	const hasTournamentStarted = tournamentStatus !== TournamentStatus.Initial
 
@@ -17,11 +18,11 @@ function TournamentConfigPage(){
 		<div className='LB-TournamentConfigPage'>
 			{!hasTournamentStarted && (
 				<>
-					{!answeredDefaultScoreDialog && (
-						<UseDefaultConfigQuestion />
+					{showDefaultScoreQuestion && (
+						<UseDefaultConfigQuestion onUseDefaultScore={()=> setShowDefaultScoreQuestion(false)}/>
 					)}
-					{answeredDefaultScoreDialog && (
-						<PrizesConfig />
+					{!showDefaultScoreQuestion && (
+						<PrizesConfig onGoToScoresClick={() => setShowDefaultScoreQuestion(true)}/>
 					)}
 				</>
 			)}
