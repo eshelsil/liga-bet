@@ -27,12 +27,15 @@ function TournamentMenuItems({
     const tournamentStatus = currentUtl?.tournament?.status
     const isConfirmed = hasCurrentUtl && isUtlConfirmed(currentUtl)
     const isTournamentAdmin = hasCurrentUtl && currentUtl.role === UtlRole.Admin
+    const isAManager = hasCurrentUtl && currentUtl.role === UtlRole.Manager
+    const hasManagerPermissions = isTournamentAdmin || isAManager
+    const canUpdateTournamentConfig = isTournamentAdmin && tournamentStatus === TournamentStatus.Initial;
 
     return (
         <>
             {hasCurrentUtl && (<>
                 <TournamentsDropdownMenu itemClickCallback={reRouteCallback}/>
-                {isTournamentAdmin && (
+                {hasManagerPermissions && (
                     <DropMenuItem
                         anchorContent={
                             <div className='flexRow'>
@@ -45,7 +48,7 @@ function TournamentMenuItems({
                         classes={{list: themeClass}}
                         pathes={['tournament-config', 'contestants']}
                     >
-                        {tournamentStatus === TournamentStatus.Initial && (
+                        {canUpdateTournamentConfig && (
                             <LinkMenuItem
                                 route={routesMap['tournament-config']}
                                 callback={reRouteCallback}

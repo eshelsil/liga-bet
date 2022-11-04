@@ -3,6 +3,7 @@ import { TournamentStatus, UtlRole, UtlWithTournament } from '../types'
 import InitialDataFetcher from '../initialDataFetcher/InitialDataFetcher';
 import TournamentNotOpenedForBets from './TournamentNotOpenedForBets'
 import TournamentAdminRoutes from './routes/TournamentAdminRoutes'
+import TournamentManagerRoutes from './routes/TournamentManagerRoutes';
 
 
 
@@ -29,16 +30,25 @@ function OpenTournamentController({ currentUtl, children }: Props){
 
 function ConfirmedUtlController({ currentUtl, children }: Props) {
 
-    const isTournamentAdmin = currentUtl.role === UtlRole.Admin;
+    const isTournamentAdmin = currentUtl.role === UtlRole.Admin
+    const isManager = currentUtl.role === UtlRole.Manager
+    const hasManagerPermissions = isTournamentAdmin || isManager
 
     return (
         <InitialDataFetcher>
-            {isTournamentAdmin && (
-                <TournamentAdminRoutes>
-                    {children}
-                </TournamentAdminRoutes>
+            {hasManagerPermissions && (
+                <TournamentManagerRoutes>
+                    {isTournamentAdmin && (
+                        <TournamentAdminRoutes>
+                            {children}
+                        </TournamentAdminRoutes>
+                    )}
+                    {!isTournamentAdmin && (<>
+                        {children}
+                    </>)}
+                </TournamentManagerRoutes>
             )}
-            {!isTournamentAdmin && (
+            {!hasManagerPermissions && (
                 <>
                     {children}
                 </>
