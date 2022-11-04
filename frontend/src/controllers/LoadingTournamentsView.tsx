@@ -6,7 +6,7 @@ function LoadingTournamentsView() {
     return (
         <>
             <h2>
-                טוען טורניירים
+                טוען טורנירים
             </h2>
             <CircularProgress
                 size={60}
