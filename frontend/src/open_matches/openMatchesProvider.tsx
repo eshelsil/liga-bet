@@ -67,17 +67,11 @@ const OpenMatchesProvider = ({
                 return
             }
         }
-        await sendBetAndStore({
+        return await sendBetAndStore({
             betType: BetType.Match,
             type_id: matchId,
             payload,
         })
-            .then(function (data) {
-                window['toastr']['success']('ההימור נשלח')
-            })
-            .catch(function (error) {
-                console.log('FAILED updating bet', error)
-            })
     }
     return <OpenMatchesView matches={matches} sendBet={sendMatchBet} />
 }

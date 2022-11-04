@@ -28,15 +28,7 @@ const OpenGroupRankBetsProvider = ({
                 value: standings.map((team) => team.id),
             },
         }
-
-        await sendBetAndStore(params)
-            .then(function (data) {
-                window['toastr']['success']('ההימור נשלח')
-            })
-            .catch(function (error) {
-                console.log('FAILED sending bet', error)
-                window['toastr']['error'](error.responseJSON.message)
-            })
+        return await sendBetAndStore(params)
     }
 
     return (

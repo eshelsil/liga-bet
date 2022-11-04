@@ -23,13 +23,7 @@ const OpenQuestionBetsProvider = ({ sendBetAndStore }: Props) => {
             },
         }
 
-        await sendBetAndStore(params)
-            .then(function (data) {
-                window['toastr']['success']('ההימור נשלח')
-            })
-            .catch(function (error) {
-                console.log('FAILED sending bet', error)
-            })
+        return await sendBetAndStore(params)
     }
     return (
         <QuestionBetsView

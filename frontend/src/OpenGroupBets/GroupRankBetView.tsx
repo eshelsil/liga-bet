@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import DraggableStandings from './DraggableStandings'
 import { Grid, IconButton } from '@mui/material'
 import { useIsXsScreen } from '../hooks/useMedia'
@@ -8,12 +8,13 @@ import { AddCircle } from '@mui/icons-material'
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import { LoadingButton } from '../widgets/Buttons'
+import useCancelEdit from '../hooks/useCancelEdit'
 
 
 function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
     const { name, id, bet, teams } = groupWithBet
-    const lastEditOpen = useRef<number>()
     const [edit, setEdit] = useState(false)
+    const { getLastEditTs, cancelEdit } = useCancelEdit({edit, setEdit})
     const [standingsInput, setStandingsInput] = useState(null)
     const tournamentClass = useTournamentThemeClass();
     const isXsScreen = useIsXsScreen();
@@ -23,16 +24,19 @@ function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
 
 
     const openEditMode = () => {
-        lastEditOpen.current = Number(new Date())
         setEdit(true)
     }
     const exitEditMode = () => setEdit(false)
     const sendBet = async () => {
-        const ts = lastEditOpen.current
+        const ts = getLastEditTs()
         await sendGroupRankBet({ groupId: id, standings: groupStandings })
-        if (ts === lastEditOpen.current) {
-            exitEditMode()
-        }
+            .then(function (data) {
+                window['toastr']['success']('ההימור נשלח')
+                cancelEdit(ts)
+            })
+            .catch(function (error) {
+                console.log('FAILED sending bet', error)
+            })
     }
     return (
         <Grid item xs={isXsScreen ? 12 : null}>

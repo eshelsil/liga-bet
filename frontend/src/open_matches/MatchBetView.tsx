@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
 import { MatchWithABet, WinnerSide } from '../types'
 import { DEFAULT_DATE_FORMAT, DEFAULT_TIME_FORMAT } from '../utils/index'
@@ -6,6 +6,7 @@ import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
 import CurrentBetView from './CurrentBetView'
 import EditMatchBetView from './EditMatchBetView'
 import moment from 'moment'
+import useCancelEdit from '../hooks/useCancelEdit'
 
 
 
@@ -18,14 +19,14 @@ function OpenMatchBetView({
 }) {
     const { id, start_time, home_team, away_team, is_knockout, bet } = match
     const tournamentClass = useTournamentThemeClass()
-    const lastEditOpen = useRef(Number(new Date()))
     const [edit, setEdit] = useState(false)
+    const { getLastEditTs, cancelEdit } = useCancelEdit({edit, setEdit})
     const [editOpener, setEditOpener] = useState(null)
     const hasBet = bet?.result_away === undefined
     const showEdit = edit || hasBet
 
     const saveBet = async ({ homeScore, awayScore, koWinner }) => {
-        const ts = lastEditOpen.current
+        const ts = getLastEditTs()
         await sendBet({
             matchId: id,
             is_knockout,
@@ -33,13 +34,17 @@ function OpenMatchBetView({
             awayScore,
             koWinner,
         })
-        if (ts === lastEditOpen.current){
-            exitEditMode()
-        }
+        .then(function (data) {
+            window['toastr']['success']('ההימור נשלח')
+            cancelEdit(ts)
+        })
+        .catch(function (error) {
+            console.log('FAILED updating bet', error)
+        })
     }
+    const saveBetAndExitEditMode = saveBet
 
     const goToEditMode = (opener?: WinnerSide) => {
-        lastEditOpen.current = Number(new Date())
         setEditOpener(opener ?? null)
         setEdit(true)
     }
@@ -66,7 +71,7 @@ function OpenMatchBetView({
                         <EditMatchBetView
                             bet={bet}
                             onClose={exitEditMode}
-                            onSave={saveBet}
+                            onSave={saveBetAndExitEditMode}
                             opener={editOpener}
                         />
                     )}

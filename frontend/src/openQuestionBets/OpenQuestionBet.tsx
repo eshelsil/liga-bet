@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { Button, Grid, IconButton } from '@mui/material'
+import { Grid, IconButton } from '@mui/material'
 import { SpecialQuestionWithABet } from '../types'
 import { hasPlayerAnswer, hasTeamAnswer } from '../utils'
 import TeamInput from './TeamInput'
@@ -12,6 +12,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useIsXsScreen } from '../hooks/useMedia'
 import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
 import { LoadingButton } from '../widgets/Buttons'
+import useCancelEdit from '../hooks/useCancelEdit'
 
 
 interface Props {
@@ -64,8 +65,8 @@ function QuestionBetEditView({
 
 
 function OpenQuestionBetView({ questionWithBet, sendBet }: Props) {
-    const lastEditOpen = useRef<number>()
     const [edit, setEdit] = useState(false)
+    const { getLastEditTs, cancelEdit } = useCancelEdit({edit, setEdit})
     const tournamentClass = useTournamentThemeClass();
     const isXsScreen = useIsXsScreen();
     const { name, bet, type } = questionWithBet
@@ -74,18 +75,21 @@ function OpenQuestionBetView({ questionWithBet, sendBet }: Props) {
 
 
     const openEditMode = () => {
-        lastEditOpen.current = Number(new Date())
         setEdit(true)
     }
     const exitEditMode = () => setEdit(false)
 
 
     const onBetSubmit = async (params: QuestionBetParams) => {
-        const ts = lastEditOpen.current
-        await sendBet(params)
-        if (ts === lastEditOpen.current) {
-            exitEditMode()
-        }
+        const ts = getLastEditTs()
+        return await sendBet(params)
+            .then(function (data) {
+                window['toastr']['success']('ההימור נשלח')
+                cancelEdit(ts)
+            })
+            .catch(function (error) {
+                console.log('FAILED sending bet', error)
+            })
     }
 
     return (
