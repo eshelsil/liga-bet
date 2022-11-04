@@ -1,21 +1,26 @@
-import * as React from 'react'
-import Button from '@mui/material/Button'
-import { CircularProgress } from '@mui/material'
+import React, { useState } from 'react'
 import { LoadingButtonProps } from './types'
-import './style.scss'
+import { Button, CircularProgress } from '@mui/material'
 
 export default function LoadingButton({
-    loading,
-    disabled,
+    action,
     children,
+    disabled,
     ...props
 }: LoadingButtonProps) {
+    const [loading, setLoading] = useState(false)
+    const onClick = async () => {
+        setLoading(true)
+        await action()
+        setLoading(false)
+    }
     return (
         <Button
             className={`LigaBet-LoadingButton ${loading ? 'loading' : ''}`}
             variant="contained"
             color="primary"
             disabled={loading || disabled}
+            onClick={onClick}
             {...props}
         >
             {children}

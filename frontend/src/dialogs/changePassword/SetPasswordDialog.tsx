@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import { IconButton } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import LoadingButton from '../../widgets/Buttons/LoadingButton'
+import ButtonWithLoader from '../../widgets/Buttons/ButtonWithLoader'
 import PasswordField from '../../widgets/inputs/PasswordField'
 import { validationSchema } from './schema'
 import { ChangePasswordFormParams } from './types'
@@ -76,12 +76,12 @@ export default function SetPasswordDialog({
                             InputProps={{ ...register('confirmPassword') }}
                             clearErrors={() => clearErrors('confirmPassword')}
                         />
-                        <LoadingButton
+                        <ButtonWithLoader
                             onClick={handleSubmit(submit)}
                             loading={isSubmitting}
                         >
                             עדכן סיסמה
-                        </LoadingButton>
+                        </ButtonWithLoader>
                     </div>
                 </DialogContent>
             </div>

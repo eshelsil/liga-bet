@@ -4,7 +4,7 @@ $default_button_padding: 16px;
 $loader_margin: 8px;
 $loader_container_width: 28px;
 
-.LigaBet-LoadingButton {
+.LigaBet-ButtonWithLoader {
     &:not(.loading) {
         $side_padding: calc(
             (
@@ -19,6 +19,21 @@ $loader_container_width: 28px;
         position: relative;
         width: $loader_container_width;
         margin-right: $loader_margin;
+        @include centerContainer;
+    }
+}
+
+
+
+.LigaBet-LoadingButton {
+    &.loading {
+        &.MuiButton-root {
+            color: transparent;
+        }
+    }
+    .loader_container {
+        position: absolute;
+        width: 100%;
         @include centerContainer;
     }
 }
