@@ -17,6 +17,7 @@ import {
 } from '@mui/material'
 import useGoTo from '../hooks/useGoTo'
 import { keysOf } from '../utils'
+import { LoadingButton } from '../widgets/Buttons'
 
 interface Props {
     onCreateUtl: (...args: any) => any
@@ -43,17 +44,23 @@ function CreateNewTournament({
     const competitionIds = keysOf(competitionsById)
     const disabled = competitionIds.length === 1
 
-    function createTournament() {
-        createNewTournament({ competitionId: competition, name })
+    async function createTournament() {
+        return await createNewTournament({ competitionId: competition, name })
+            .catch(function (error) {
+                console.log('FAILED creating tournament', error)
+            })
     }
-    function createUtl() {
-        onCreateUtl({
+    async function createUtl() {
+        return await onCreateUtl({
             tournamentCode: tournamentWithNoUtl?.code,
             name: nickname,
         })
         .then(() => {
             window['toastr']['success']('הטורניר נוצר!')
             goToHome()
+        })
+        .catch(function (error) {
+            console.log('FAILED creating utl', error)
         })
     }
 
@@ -82,7 +89,7 @@ function CreateNewTournament({
                         onChange={(e) => setNickname(e.target.value)}
                     />
                     <div className='buttonContainer'>
-                        <Button color='primary' variant='contained' onClick={createUtl}>המשך</Button>
+                        <LoadingButton action={createUtl}>המשך</LoadingButton>
                     </div>
                 </div>
             )}
@@ -117,7 +124,7 @@ function CreateNewTournament({
                         />
                     </div>
                     <div className='buttonContainer'>
-                        <Button color='primary' variant='contained' onClick={createTournament}>צור טורניר</Button>
+                        <LoadingButton action={createTournament}>צור טורניר</LoadingButton>
                     </div>
                 </div>
             )}

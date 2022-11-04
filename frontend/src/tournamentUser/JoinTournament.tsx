@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
-import { Button, TextField } from '@mui/material'
+import { useParams } from 'react-router-dom'
+import { TextField } from '@mui/material'
 import { NoSelector } from '../_selectors'
 import { connect } from 'react-redux'
 import { createUtl } from '../_actions/tournamentUser'
@@ -8,6 +8,7 @@ import useGoTo from '../hooks/useGoTo'
 import { getTournamentsName } from '../api/tournaments'
 import TournamentIcon from '@mui/icons-material/EmojiEvents';
 import { reportApiError } from '../utils'
+import { LoadingButton } from '../widgets/Buttons'
 
 
 interface Props {
@@ -15,7 +16,6 @@ interface Props {
 }
 
 function JoinTournament({ onJoin }: Props) {
-    const location = useLocation();
     const { tournamentId } = useParams<any>();
     const codeFromURL = tournamentId
     const [code, setCode] = useState(codeFromURL || '')
@@ -24,13 +24,15 @@ function JoinTournament({ onJoin }: Props) {
     const [isCodeFromUrlInvalid, setIsCodeFromUrlInvalid] = useState<boolean>()
     const { goToHome } = useGoTo();
 
-    getTournamentsName
-    function join() {
-        onJoin({ tournamentCode: code, name })
-        .then(() => {
-            window['toastr']['success']('נרשמת לטורניר בהצלחה')
-            goToHome()
-        })
+    async function join() {
+        await onJoin({ tournamentCode: code, name })
+            .then(() => {
+                window['toastr']['success']('נרשמת לטורניר בהצלחה')
+                goToHome()
+            })
+            .catch(function (error) {
+                console.log('FAILED join tournament', error)
+            })
     }
 
     const isCodeAutoSet = !!codeFromURL && !isCodeFromUrlInvalid
@@ -71,7 +73,7 @@ function JoinTournament({ onJoin }: Props) {
                     onChange={(e) => setName(e.target.value)}
                 />
                 <div className='buttonContainer'>
-                    <Button variant='contained' color='primary' onClick={join}>הצטרף לטורניר</Button>
+                    <LoadingButton action={join}>הצטרף לטורניר</LoadingButton>
                 </div>
             </div>
         </div>
