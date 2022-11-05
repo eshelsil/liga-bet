@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use App\InvitaionsForTournamentAdmin;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -63,10 +64,18 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $is_first_user = !User::exists();
+        $email = $data['email'];
+        $permissions = User::TYPE_USER;
+        if ($is_first_user){
+            $permissions = User::TYPE_ADMIN;
+        } elseif (InvitaionsForTournamentAdmin::where('email', $email)->exists()) {
+            $permissions = User::TYPE_TOURNAMENT_ADMIN;
+            InvitaionsForTournamentAdmin::where('email', $email)->delete();
+        }
         $user = User::create([
-            'email' => $data['email'],
+            'email' => $email,
             'password' => Hash::make($data['password']),
-            'permissions' => $is_first_user ? User::TYPE_ADMIN : User::TYPE_USER
+            'permissions' => $permissions
         ]);
 
         $this->guard()->login($user, true);

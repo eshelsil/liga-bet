@@ -49,6 +49,8 @@ Route::get('/set-password', [UserController::class, 'showSetPassword']);
 Route::get('/api-fetch-games', [\App\Http\Controllers\ApiFetchController::class, 'userUpdateGames']);
 Route::post('/summary-msg-seen', [HomeController::class, 'summaryMessageSeen'])->middleware("auth");
 
+Route::post('/admin/grant-tournament-admin', [AdminController::class, 'grantTournamentAdminPermission']);
+
 Route::post('/admin/send-global-notification', [AdminController::class, 'sendGlobalNotification']);
 Route::get('/admin/users-to-confirm', [AdminController::class, 'showUsersToConfirm'])->name('users-to-confirm');
 Route::get('/admin/confirmed-users', [AdminController::class, 'showConfirmedUsers'])->name('confirmed-users');

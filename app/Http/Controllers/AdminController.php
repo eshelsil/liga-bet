@@ -28,9 +28,13 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Exceptions\JsonException;
+use App\InvitaionsForTournamentAdmin;
+use Carbon\Carbon;
 use \Exception;
+use Illuminate\Http\JsonResponse;
+use Mail;
 use Storage;
-
+use Validator;
 
 class AdminController extends Controller
 {
@@ -68,6 +72,26 @@ class AdminController extends Controller
     public function showTools()
     {
         return view('admin.tools_index');
+    }
+
+    public function grantTournamentAdminPermission(Request $request)
+    {
+        $email = $request->email;
+        $validator = Validator::make(["email" => $email], [
+            'email' => 'required|string|min:4'
+        ])->validate();
+
+        InvitaionsForTournamentAdmin::updateOrInsert(
+            ['email' => $email],
+            ['created_at' => Carbon::now()],
+        );
+
+        Mail::send('email.invitation-for-tournament-admin', ['email' => $email], function($message) use($email){
+            $message->to($email);
+            $message->subject('ליגה ב\' - הזמנה לפתיחת טורניר משלך');
+        });
+
+        return new JsonResponse('email sent', 200);
     }
 
     public function calculateGroupRanks(){
