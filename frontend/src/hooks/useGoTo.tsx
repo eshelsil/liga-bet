@@ -17,6 +17,8 @@ function useGoTo() {
     const goToInviteFriends = () => history.push('/invite-friends')
     const goToTakanon = () => history.push('/takanon')
     const goToHome = () => history.push('/')
+    const goToAdminIndex = () => history.push('/admin')
+    const goToAdminInviteTournamentAdmin = () => history.push('/admin/invite-tournament-admin')
 
     return {
         goToUserPage,
@@ -32,6 +34,8 @@ function useGoTo() {
         goToScoresConfig,
         goToInviteFriends,
         goToTakanon,
+        goToAdminIndex,
+        goToAdminInviteTournamentAdmin,
     }
 }
 

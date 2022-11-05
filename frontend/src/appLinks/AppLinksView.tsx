@@ -24,7 +24,6 @@ const appLinks: AppLinksConfig = {
 		id: 'manageUsers',
 		path: '/admin/users',
 		label: 'Manage users',
-		hasReactComponent: true,
 		isAdminView: true,
 	},
 };
