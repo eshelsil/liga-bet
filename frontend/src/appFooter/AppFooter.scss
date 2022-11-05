@@ -1,0 +1,14 @@
+.LB-AppFooter {
+    margin-top: auto;
+    .AppFooter-background {
+        background-color: rgb(33, 33, 33);
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        position: relative;
+    }
+    .AppFooter-image {
+        max-width: 100%;
+        width: 900px;
+    }
+}

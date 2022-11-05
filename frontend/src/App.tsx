@@ -5,7 +5,6 @@ import { Provider as StoreProvider } from 'react-redux'
 import ThemeProvider from '@mui/material/styles/ThemeProvider'
 import store from './_helpers/store'
 import AuthController from './auth/AuthController'
-import AppFooter from './appFooter/Footer'
 import Banner from './appBanner/AppBannerView'
 import { theme } from './themes/theme'
 import RTL from './_helpers/RTL'
@@ -26,7 +25,6 @@ function App() {
                             <Suspense fallback={<div>Loading...</div>}>
                                 <AppMain />
                             </Suspense>
-                            <AppFooter />
                         </AuthController>
                     </Router>
                 </RTL>
