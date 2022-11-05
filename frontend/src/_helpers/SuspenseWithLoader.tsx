@@ -1,9 +1,10 @@
 import React, { ReactNode, Suspense } from 'react'
 import AppCrucialDataLoader from '../appLoader/AppCrucialDataLoader'
+import { CrucialLoader } from '../types'
 
 
 interface Props {
-    name: string
+    name: CrucialLoader
     children: ReactNode
 }
 

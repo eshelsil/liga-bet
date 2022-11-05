@@ -10,6 +10,7 @@ import { theme } from './themes/theme'
 import RTL from './_helpers/RTL'
 import AppLoader from './appLoader'
 import SuspenseWithLoader from './_helpers/SuspenseWithLoader'
+import { CrucialLoader } from './types'
 
 const AppMain = lazy(() => import('./AppMain'));
 
@@ -24,7 +25,7 @@ function App() {
                     <Router history={customHistory}>
                         <AuthController>
                             {/*<Banner />*/}
-                            <SuspenseWithLoader name='app-main'>
+                            <SuspenseWithLoader name={CrucialLoader.Main}>
                                 <AppMain />
                             </SuspenseWithLoader>
                             <AppLoader />

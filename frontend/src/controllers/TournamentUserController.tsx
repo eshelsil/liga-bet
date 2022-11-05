@@ -7,6 +7,7 @@ import UserWithNoTournamentsView from '../tournamentUser/UserWithNoTournamentsVi
 import SelectedUTLController from './SelectedUTLController'
 import NoUTLsRoutes from './routes/NoUTLsRoutes'
 import AppCrucialDataLoader from '../appLoader/AppCrucialDataLoader'
+import { CrucialLoader } from '../types'
 
 interface Props {
     fetchAndStoreUtls: () => Promise<void>
@@ -37,7 +38,7 @@ function TournamentUserController({ fetchAndStoreUtls, fetchOwnedTournaments, ch
     return (
         <NoUTLsRoutes>
             {isLoading && (
-                <AppCrucialDataLoader name='my-utls-api' />
+                <AppCrucialDataLoader name={CrucialLoader.MyUtls} />
             )}
             {!isLoading && initiated && (<>
                 {!canSelectUtl && (
