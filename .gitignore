@@ -2,6 +2,7 @@
 /public/hot
 /public/storage
 /public/mix-manifest.json
+/public/js/react-app/*.js.LICENSE.txt
 /storage/*.key
 /vendor
 /.idea

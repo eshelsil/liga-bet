@@ -29,7 +29,7 @@
 <body dir="rtl">
     <div id="root"></div>
 </body>
-<script src="/js/main.js"></script>
+<script src="/js/react-app/main.js"></script>
 
 <script>
     $(function () {
