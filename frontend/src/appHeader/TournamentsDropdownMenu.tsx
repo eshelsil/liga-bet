@@ -4,7 +4,8 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { connect, useSelector } from 'react-redux'
 import { CurrentTournament, NoSelector, TournamentsWithMyUtl, CanCreateNewTournament, CanJoinAnotherTournament } from '../_selectors'
 import { selectUtl } from '../_actions/tournamentUser'
-import { Button, MenuItem } from '@mui/material'
+import MenuItem from '@mui/material/MenuItem'
+import Button from '@mui/material/Button'
 import TournamentItemLink from './TournamentLink'
 import useGoTo from '../hooks/useGoTo';
 import { orderBy } from 'lodash';

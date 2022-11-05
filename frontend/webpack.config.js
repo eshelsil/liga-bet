@@ -7,7 +7,9 @@ module.exports = {
     entry: './src/index.tsx',
     output: {
         filename: 'main.js',
-        path: path.resolve(__dirname, '../public/js'),
+        chunkFilename: 'chunk.[name].js',
+        path: path.resolve(__dirname, '../public/js/react-app'),
+        clean: true,
     },
     module: {
         rules: [

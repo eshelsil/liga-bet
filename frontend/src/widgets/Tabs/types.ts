@@ -1,5 +1,5 @@
 import  { ReactNode } from "react";
-import { TabsProps } from "@mui/material";
+import { TabsProps } from "@mui/material/Tabs";
 
 
 export interface TabPanelProps {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Menu } from '@mui/material'
+import Menu from '@mui/material/Menu'
 import { PopupMenuProps } from './types'
 import './PopupMenu.scss'
 

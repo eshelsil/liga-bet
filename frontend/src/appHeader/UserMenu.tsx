@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Avatar } from '@mui/material'
+import Avatar from '@mui/material/Avatar'
 import PersonIcon from '@mui/icons-material/Person';
 import { UtlWithTournament } from '../types'
 import LinkMenuItem from './LinkMenuItem'

@@ -1,6 +1,6 @@
 import React from 'react'
 import { TournamentWithLinkedUtl } from '../types'
-import { MenuItem } from '@mui/material'
+import MenuItem from '@mui/material/MenuItem'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 
 

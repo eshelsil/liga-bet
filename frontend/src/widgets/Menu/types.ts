@@ -1,4 +1,4 @@
-import { MenuProps } from '@mui/material'
+import { MenuProps } from '@mui/material/Menu'
 import { ReactNode } from 'react'
 
 export interface PopupMenuProps {

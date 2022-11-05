@@ -1,18 +1,17 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import { Router } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 import { Provider as StoreProvider } from 'react-redux'
-import { ThemeProvider } from '@mui/material/styles'
-import AppHeader from './appHeader/AppHeaderProvider'
+import ThemeProvider from '@mui/material/styles/ThemeProvider'
 import store from './_helpers/store'
 import AuthController from './auth/AuthController'
-import AppBody from './appContent/AppBody'
 import AppFooter from './appFooter/Footer'
 import Banner from './appBanner/AppBannerView'
-import DialogsProvider from './dialogs/DialogsProvider'
 import { theme } from './themes/theme'
-import './App.scss'
 import RTL from './_helpers/RTL'
+
+const AppMain = lazy(() => import('./AppMain'));
+
 
 const customHistory = createBrowserHistory()
 
@@ -24,10 +23,10 @@ function App() {
                     <Router history={customHistory}>
                         <AuthController>
                             {/*<Banner />*/}
-                            <AppHeader />
-                            <AppBody />
+                            <Suspense fallback={<div>Loading...</div>}>
+                                <AppMain />
+                            </Suspense>
                             <AppFooter />
-                            <DialogsProvider />
                         </AuthController>
                     </Router>
                 </RTL>
