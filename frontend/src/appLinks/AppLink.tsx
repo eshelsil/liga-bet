@@ -7,10 +7,9 @@ import './AppLinks.scss'
 export interface AppLinkProps {
     path: string
     label: string
-    hasReactComponent?: boolean
 }
 
-function AppLink({ path, label, hasReactComponent = false }: AppLinkProps) {
+function AppLink({ path, label}: AppLinkProps) {
     const hasCurrentUtl = useSelector(HasCurrentUtl)
     const history = useHistory()
     const onClick = (e) => {
@@ -22,7 +21,7 @@ function AppLink({ path, label, hasReactComponent = false }: AppLinkProps) {
     }
     return (
         <p className="LigaBet-AppLink">
-            <a href={path} onClick={hasReactComponent ? onClick : undefined}>
+            <a href={path} onClick={onClick}>
                 {label}
             </a>
         </p>
