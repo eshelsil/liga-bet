@@ -1,11 +1,12 @@
-import { Moment } from 'moment'
+import { Dayjs } from 'dayjs'
+
 
 export interface Competition {
     id: number
     name: string
     type: number
-    startTime: Moment
-    lastRegistration: Moment
+    startTime: Dayjs
+    lastRegistration: Dayjs
 }
 
 export type CompetitionsById = Record<number, Competition>

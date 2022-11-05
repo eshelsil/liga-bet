@@ -1,5 +1,5 @@
-import moment from 'moment'
 import React from 'react'
+import dayjs from 'dayjs'
 import { updateScoresFromApi } from '../api/matches'
 import MatchResult from '../widgets/MatchResult'
 import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
@@ -31,7 +31,7 @@ function MatchGumblesList({ match }: { match: MatchWithBets }) {
                 </table>
                 <div style={{ fontSize: '75%' }}>
                     <div style={{ marginBottom: 5 }}>
-                        {moment(start_time).format('HH:mm  YYYY/MM/DD')}
+                        {dayjs(start_time).format('HH:mm  YYYY/MM/DD')}
                     </div>
                     {is_done && (
                         <div

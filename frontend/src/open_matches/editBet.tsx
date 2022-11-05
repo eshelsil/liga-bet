@@ -1,5 +1,5 @@
-import moment from 'moment'
-import React, { EventHandler, useState } from 'react'
+import React, { useState } from 'react'
+import dayjs from 'dayjs'
 import { MatchWithABet, WinnerSide } from '../types'
 import { DEFAULT_DATETIME_FORMAT } from '../utils/index'
 import KoWinnerInput from '../widgets/koWinnerInput/koWinnerInput'
@@ -61,7 +61,7 @@ function EditMatchBet({
         <tr id={`row_match_${id}`}>
             <td className="admin">{id}</td>
             <td className="v-align-center">
-                {moment(start_time).format(DEFAULT_DATETIME_FORMAT)}
+                {dayjs(start_time).format(DEFAULT_DATETIME_FORMAT)}
             </td>
             <td className="open-match-teams-cell v-align-center">
                 <TeamWithFlag

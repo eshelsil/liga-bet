@@ -1,5 +1,5 @@
-import moment from 'moment'
 import React from 'react'
+import dayjs from 'dayjs'
 import { MatchWithABet } from '../types'
 import MatchBetView from './MatchBetView'
 import './MatchBets.scss'
@@ -15,7 +15,7 @@ const OpenMatchesView = ({ matches = [], sendBet }: Props) => {
         <div className={'LB-OpenMatchesView'}>
             <h1>רשימת משחקים</h1>
             <span className="admin">
-                {moment().format('HH:mm  YYYY/MM/DD')}
+                {dayjs().format('HH:mm  YYYY/MM/DD')}
             </span>
             {!hasMatches && <h3>אין משחקים פתוחים</h3>}
             {hasMatches && (

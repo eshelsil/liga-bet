@@ -5,7 +5,7 @@ import { DEFAULT_DATE_FORMAT, DEFAULT_TIME_FORMAT } from '../utils/index'
 import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
 import CurrentBetView from './CurrentBetView'
 import EditMatchBetView from './EditMatchBetView'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import useCancelEdit from '../hooks/useCancelEdit'
 
 
@@ -61,8 +61,8 @@ function OpenMatchBetView({
     return (
         <div className='LB-OpenMatchBet'>
             <div className={`headerRow ${tournamentClass}`}>
-                <div className='dateLabel'>{moment(start_time).format(DEFAULT_DATE_FORMAT)}</div>
-                <div className='timeLabel'>{moment(start_time).format(DEFAULT_TIME_FORMAT)}</div>
+                <div className='dateLabel'>{dayjs(start_time).format(DEFAULT_DATE_FORMAT)}</div>
+                <div className='timeLabel'>{dayjs(start_time).format(DEFAULT_TIME_FORMAT)}</div>
             </div>
             <div className='OpenMatchBet-body'>
                 <TeamWithFlag name={home_team.name} size={50} classes={{root: 'verticalTeam sideRight', name: 'verticalTeamName'}}/>

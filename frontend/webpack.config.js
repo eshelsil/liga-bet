@@ -1,4 +1,6 @@
 const path = require('path')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 const prod = process.env.NODE_ENV === 'production'
 
 module.exports = {
@@ -47,7 +49,9 @@ module.exports = {
         extensions: ['*', '.js', '.jsx'],
     },
     devtool: prod ? undefined : 'source-map',
-    plugins: [],
+    plugins: [
+        new BundleAnalyzerPlugin(),
+    ],
     mode: prod ? 'production' : 'development',
 }
 
