@@ -1,5 +1,6 @@
 const path = require('path')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const CompressionPlugin = require("compression-webpack-plugin")
 
 const prod = process.env.NODE_ENV === 'production'
 
@@ -52,6 +53,7 @@ module.exports = {
     },
     devtool: prod ? undefined : 'source-map',
     plugins: [
+        new CompressionPlugin({}),
         new BundleAnalyzerPlugin(),
     ],
     mode: prod ? 'production' : 'development',
