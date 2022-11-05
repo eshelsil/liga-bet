@@ -1,5 +1,6 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy } from 'react';
 import TournamentUserController from '../controllers/TournamentUserController';
+import SuspenseWithLoader from '../_helpers/SuspenseWithLoader';
 
 const AppBasicRoutes = lazy(() => import('./AppBasicRoutes'));
 
@@ -7,9 +8,9 @@ const AppBasicRoutes = lazy(() => import('./AppBasicRoutes'));
 function AppContent() {
     return (
         <TournamentUserController>
-            <Suspense fallback={<div>טוען...</div>}>
+            <SuspenseWithLoader name='basic-routes'>
                 <AppBasicRoutes />
-            </Suspense>
+            </SuspenseWithLoader>
         </TournamentUserController>
     )
 }

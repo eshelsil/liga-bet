@@ -32,6 +32,7 @@ export const UsersTotalCount = (state: RootState) => state.usersTotalCount
 export const Dialogs = (state: RootState) => state.dialogs
 export const DataFetcher = (state: RootState) => state.dataFetcher
 export const GameBetsFetcherState = (state: RootState) => state.gameBetsFetcher
+export const AppCrucialLoaders = (state: RootState) => state.appCrucialLoaders
 
 
 export const CurrentTournamentUser = createSelector(

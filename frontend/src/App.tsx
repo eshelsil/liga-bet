@@ -8,6 +8,8 @@ import AuthController from './auth/AuthController'
 import Banner from './appBanner/AppBannerView'
 import { theme } from './themes/theme'
 import RTL from './_helpers/RTL'
+import AppLoader from './appLoader'
+import SuspenseWithLoader from './_helpers/SuspenseWithLoader'
 
 const AppMain = lazy(() => import('./AppMain'));
 
@@ -22,9 +24,10 @@ function App() {
                     <Router history={customHistory}>
                         <AuthController>
                             {/*<Banner />*/}
-                            <Suspense fallback={<div>Loading...</div>}>
+                            <SuspenseWithLoader name='app-main'>
                                 <AppMain />
-                            </Suspense>
+                            </SuspenseWithLoader>
+                            <AppLoader />
                         </AuthController>
                     </Router>
                 </RTL>

@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react'
 import AppHeader from './appHeader/AppHeaderProvider'
 import AppFooter from './appFooter/Footer';
+import SuspenseWithLoader from './_helpers/SuspenseWithLoader';
 import './App.scss'
 
 const DialogsProvider = lazy(() => import('./dialogs/DialogsProvider'));
@@ -11,12 +12,10 @@ function AppMain() {
     return (
         <>
             <AppHeader />
-            <Suspense fallback={
-                <div style={{display: 'inline-block', margin: 'auto', padding: 100}}>טוען...</div>
-            }>
+            <SuspenseWithLoader name='app-body'>
                 <AppBody />
                 <AppFooter />
-            </Suspense>
+            </SuspenseWithLoader>
             <Suspense fallback={<div></div>}>
                 <DialogsProvider />
             </Suspense>

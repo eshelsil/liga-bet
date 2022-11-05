@@ -21,6 +21,7 @@ import {
     Games,
     LeaderboardVersionsState,
     CurrentTournamentUserId,
+    AppCrucialLoaders,
 } from './models'
 
 export const TournamentIdSelector = createSelector(
@@ -120,3 +121,14 @@ export const MyUtlsSorted = createSelector(
     }
 )
 
+export const IsLoadingAppCrucial = createSelector(
+    AppCrucialLoaders,
+    (loaders) => {
+        for (const isLoading of valuesOf(loaders)){
+            if (isLoading){
+                return true
+            }
+        }
+        return false
+    }
+)
