@@ -9,8 +9,8 @@ import AdminRoutes from './AdminRoutes';
 
 function NoUTLsRoutes({children}) {
     return (
-        <Switch>
-            <AdminRoutes>
+        <AdminRoutes>
+            <Switch>
                 <Route path="/user" component={UserPage} />
                 <Route path='/utls' component={UTLPage} />
                 <Route path="/join-tournament/:tournamentId?" component={JoinTournament} />
@@ -18,8 +18,8 @@ function NoUTLsRoutes({children}) {
                 <Route>
                     {children}
                 </Route>
-            </AdminRoutes>
-        </Switch>
+            </Switch>
+        </AdminRoutes>
     )
 }
 
