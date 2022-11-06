@@ -10,6 +10,10 @@ export interface CellDescription<Model> {
     id: string,
     getter: (model: Model) => ReactNode,
     header: ReactNode,
+    classes?: {
+        header?: string,
+        cell?: string,
+    }
 }
 
 export interface CustomTableProps<Model> {

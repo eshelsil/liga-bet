@@ -14,7 +14,7 @@ export default function CustomTableRow<T extends Model>({
 			)}
 			{!model.isFullRow && (<>
 				{cells.map(cell => (
-					<TableCell key={cell.id}>
+					<TableCell className={`${cell.classes?.cell ?? ''}`} key={cell.id}>
 						{cell.getter(model)}
 					</TableCell>
 				))}
