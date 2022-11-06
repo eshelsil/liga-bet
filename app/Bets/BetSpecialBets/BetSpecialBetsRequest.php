@@ -74,13 +74,13 @@ class BetSpecialBetsRequest extends AbstractBetRequest
             case SpecialBet::TYPE_WINNER:
                 $this->validateTeamSelection($answer);
                 if ($this->hasUserBet(SpecialBet::TYPE_RUNNER_UP, $answer, $utl)) {
-                    throw new \InvalidArgumentException("Could not bet \"winner\" as {{$answer}} because user has already bet \"runner_up\" as {{$answer}}. 'winner' & 'runner_up' bets cannot be the same");
+                    throw new \InvalidArgumentException("לא ניתן לבחור אותה קבוצה כזוכה וגם כסגנית");
                 }
                 break;
             case SpecialBet::TYPE_RUNNER_UP:
                 $this->validateTeamSelection($answer);
                 if ($this->hasUserBet(SpecialBet::TYPE_WINNER, $answer, $utl)) {
-                    throw new \InvalidArgumentException("Could not bet \"runner_up\" as {{$answer}} because user has already bet \"winner\" as {{$answer}}. 'winner' & 'runner_up' bets cannot be the same");
+                    throw new \InvalidArgumentException("לא ניתן לבחור אותה קבוצה כזוכה וגם כסגנית");
                 }
                 break;
             case SpecialBet::TYPE_TOP_SCORER:
