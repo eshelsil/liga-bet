@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DraggableStandings from './DraggableStandings'
 import { Grid, IconButton } from '@mui/material'
 import { useIsXsScreen } from '../hooks/useMedia'
@@ -38,6 +38,13 @@ function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
                 console.log('FAILED sending bet', error)
             })
     }
+
+    useEffect(()=> {
+        if (!edit) {
+            setStandingsInput(teamsByRank)
+        }
+    }, [edit])
+
     return (
         <Grid item xs={isXsScreen ? 12 : null}>
             <div className={'LB-GroupRankBetView'}>
@@ -56,7 +63,7 @@ function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
                     )}
                     {!hideStandings && (<>
                         <DraggableStandings
-                            items={groupStandings}
+                            items={edit ? groupStandings : teamsByRank}
                             setItems={setStandingsInput}
                             isDisabled={!edit}
                         />

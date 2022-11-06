@@ -47,9 +47,6 @@
             padding: 24px;
             padding-top: 16px;
             &.onEdit{
-                .buttonContainer {
-                    margin-top: 24px;
-                }
                 .rankDisplay {
                     margin-left: 6px;
                     .rank {
@@ -109,6 +106,10 @@
             .buttonContainer {
                 position: relative;
                 @include centerContainer;
+                margin-top: 16px;
+                .MuiButton-root {
+                    line-height: 2;
+                }
                 .iconGoBack {
                     position: absolute;
                     left: 0px;
