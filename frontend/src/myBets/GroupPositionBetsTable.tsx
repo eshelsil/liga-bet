@@ -1,78 +1,64 @@
 import React from 'react'
+import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
 import { GroupRankBetWithRelations } from '../types'
-import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
+import CustomTable from '../widgets/Table/CustomTable'
+import GroupStandingsResult from './GroupStandingsResult'
 
 const GroupPositionBetsTable = ({
     bets,
 }: {
     bets: GroupRankBetWithRelations[]
 }) => {
-    return (
-        <table className="table table-striped">
-            <thead>
-                <tr>
-                    <th className="admin">מזהה</th>
-                    <th>בית</th>
-                    <th>הימור</th>
-                    <th>תוצאה</th>
-                </tr>
-            </thead>
-            <tbody>
-                {bets
-                    // sort alphabetically by group name
-                    .sort((bet1, bet2) =>
-                        bet1.relatedGroup.name.localeCompare(
-                            bet2.relatedGroup.name
-                        )
-                    )
-                    .map((bet) => (
-                        <tr key={bet.id}>
-                            <td className="admin">{bet.relatedGroup.id}</td>
+    const tournamentClass = useTournamentThemeClass();
 
-                            <td>{bet.relatedGroup.name}</td>
-                            <td>
-                                <div className="col pull-right">
-                                    {bet.standings.map((team, index) => (
-                                        <div key={index} className="flex-row">
-                                            <span>({index + 1})</span>
-                                            {
-                                                <TeamWithFlag
-                                                    name={team.name}
-                                                    crest_url={team.crest_url}
-                                                />
-                                            }
-                                        </div>
-                                    ))}
-                                </div>
-                            </td>
-                            <td>
-                                <div className="col pull-right">
-                                    {bet.relatedGroup.standings &&
-                                        bet.relatedGroup.standings.map(
-                                            (team, index) => (
-                                                <div
-                                                    key={index}
-                                                    className="flex-row"
-                                                >
-                                                    <span>({index + 1})</span>
-                                                    {
-                                                        <TeamWithFlag
-                                                            name={team.name}
-                                                            crest_url={
-                                                                team.crest_url
-                                                            }
-                                                        />
-                                                    }
-                                                </div>
-                                            )
-                                        )}
-                                    {!bet.relatedGroup.standings && '-'}
-                                </div>
-                            </td>
-                        </tr>
-                    ))}
-            </tbody>
-        </table>
+    const cells = [
+		{
+			id: 'id',
+			header: 'מזהה',
+			classes: {
+                header: 'admin',
+                cell: 'admin',
+            },
+			getter: (bet: GroupRankBetWithRelations) => bet.id,
+		},
+		{
+			id: 'bet',
+			header: 'הניחוש שלך',
+            classes: {
+                cell: 'alignToTop'
+            },
+			getter: (bet: GroupRankBetWithRelations) => (
+                <GroupStandingsResult
+                    standings={bet.standings}
+                    name={bet.relatedGroup.name}
+                />
+            ),
+		},
+		{
+			id: 'result',
+			header: 'תוצאה בפועל',
+			getter: (bet: GroupRankBetWithRelations) => (<>
+                {bet.relatedGroup.isDone && (
+                    <GroupStandingsResult
+                        standings={bet.relatedGroup.standings}
+                        name={bet.relatedGroup.name}
+                    />
+                )}
+            </>),
+		},
+		{
+			id: 'score',
+			header: 'נק\'',
+			getter: (bet: GroupRankBetWithRelations) => bet.score,
+		},
+    ]
+    return (
+        <div className='LB-MyGroupRankBetsTable LB-MyBetsSection'>
+            <div className={`MyBetsSection-header ${tournamentClass}`}>
+                <h4 className='MyBetsSection-title'>{'דירוגי בתים'}</h4>
+            </div>
+            <CustomTable models={bets} cells={cells} />
+        </div>
     )
 }
 

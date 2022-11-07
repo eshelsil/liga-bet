@@ -1,0 +1,12 @@
+.LB-SpecialAnswerSmall {
+    display: flex;
+    align-items: flex-start;
+    .TeamWithFlag, .LB-PlayerWithImg {
+        display: inline-flex;
+        align-items: flex-start;
+        flex-direction: column;
+        .TeamWithFlag-name, .PlayerWithImg-name {
+            margin-right: 0;
+        }
+    }
+}

@@ -1,0 +1,130 @@
+@import '../styles/themes/tournaments';
+@import '../styles/mixins';
+
+
+@mixin themable_header($class, $tournament_theme){
+    $gradient: map_get($tournament_theme, gradient);
+  
+    &.#{$class} {
+        background: $gradient;
+        .MyBetsSection-title {
+            color: #fff;
+        }
+    }
+}
+
+.LB-MyBetsView {
+    max-width: 100%;
+    width: 800px;
+    margin: auto;
+    .LB-MyBetsSection {
+        margin-top: 40px;
+        .MyBetsSection-header {
+            @include themable_header(tournament-theme, $tournament_1);
+            @include themable_header(tournament-theme-1, $tournament_1);
+            @include themable_header(tournament-theme-2, $tournament_2);
+            @include themable_header(tournament-theme-3, $tournament_3);
+            @include themable_header(tournament-theme-4, $tournament_4);
+            @include themable_header(tournament-theme-5, $tournament_5);
+            padding: 8px 12px;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            .MyBetsSection-title {
+                margin: 0px;
+                text-align: center;
+            }
+        }
+        .MuiPaper-root {
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            @media (max-width: 600px) {
+                .MuiTableCell-root {
+                    padding: 8px
+                }
+            }
+            .MuiTableCell-root {
+                &.alignToTop {
+                    vertical-align: top;
+                }
+            }
+            .tableHeaderCell {
+                font-weight: 700;
+            }
+        }
+    }
+}
+
+
+.LB-MyQuestionBetsTable {
+    .MuiPaper-root {
+        .MuiTableCell-root {
+            &.questionNameCell {
+                max-width: 80px;
+            }
+        }
+    }
+}
+
+.LB-MyGameBetsTable {
+    .MuiPaper-root {
+        .MuiTableCell-root {
+            &.dateCell {
+                font-size: 12px;
+            }
+        }
+    }
+    .LB-MatchResult {
+        max-width: 150px;
+        display: flex;
+        justify-content: space-between;
+        border-radius: 12px;
+        background: #eeeeee;
+        padding: 4px;
+        .MatchResult-delimiter {
+            :first-child {
+                @include centerContainer;
+                height: 32px;
+                margin: 0px 4px
+            }
+            .MatchResult-row {
+                font-size: 12px;
+            }
+        }
+        .MatchResult-side {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .MatchResult-row {
+            margin-top: 6px;
+            line-height: 14px;
+            text-align: center;
+        }
+    }
+}
+
+.LB-MyGroupRankBetsTable {
+    .LB-GroupStandingsResult {
+        max-width: 250px;
+        border-radius: 12px;
+        background: #eeeeee;
+        padding: 8px 0px;
+        .GroupStandingsResult-header {
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .LB-TeamDisplay {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            border-top: 1px solid #ddd;
+            padding: 4px 8px;
+            .TeamDisplay-rank {
+                font-size: 20px;
+                margin-bottom: -2px;
+                margin-left: 8px;
+            }
+        }
+    }
+}

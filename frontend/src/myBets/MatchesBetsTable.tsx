@@ -1,73 +1,82 @@
 import React from 'react'
-import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
-import MatchResult from '../widgets/MatchResult'
-import { MatchBetWithRelations, WinnerSide } from '../types'
+import CustomTable from '../widgets/Table/CustomTable'
+import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
+import { MatchBetWithRelations } from '../types'
+import { SHORT_DATE_FORMAT } from '../utils'
+import dayjs from 'dayjs'
+import MatchResult from './MatchResult'
+
 
 const MatchesBetsTable = ({ bets }: { bets: MatchBetWithRelations[] }) => {
-    return (
-        <table className="table table-striped">
-            <thead>
-                <tr>
-                    <th className="admin">מזהה</th>
-                    <th>משחק</th>
-                    <th>הימור</th>
-                    <th>תוצאה</th>
-                </tr>
-            </thead>
-            <tbody>
-                {bets.map((bet) => (
-                    <tr key={bet.id}>
-                        <td className="admin">{bet.relatedMatch.id}</td>
+    const tournamentClass = useTournamentThemeClass();
+    const cells = [
+		{
+			id: 'id',
+			header: 'מזהה',
+			classes: {
+                header: 'admin',
+                cell: 'admin',
+            },
+			getter: (bet: MatchBetWithRelations) => bet.id,
+		},
+		{
+			id: 'date',
+			header: 'תאריך',
+            classes: {
+                header: 'dateCell',
+            },
+			getter: (bet: MatchBetWithRelations) => dayjs(bet.relatedMatch.start_time).format(SHORT_DATE_FORMAT),
+		},
+		{
+			id: 'bet',
+			header: 'הניחוש שלך',
+			getter: (bet: MatchBetWithRelations) => (
+                <MatchResult
+                    home={{
+                        team: bet.relatedMatch.home_team,
+                        score: bet.result_home,
+                    }}
+                    away={{
+                        team: bet.relatedMatch.away_team,
+                        score: bet.result_away,
+                    }}
+                    qualifier={bet.winner_side}
+                />
+            ),
+		},
+		{
+			id: 'result',
+			header: 'תוצאה בפועל',
+			getter: (bet: MatchBetWithRelations) => (<>
+                {bet.relatedMatch.is_done && (
+                    <MatchResult
+                        home={{
+                            team: bet.relatedMatch.home_team,
+                            score: bet.relatedMatch.result_home,
+                        }}
+                        away={{
+                            team: bet.relatedMatch.away_team,
+                            score: bet.relatedMatch.result_away,
+                        }}
+                        qualifier={bet.winner_side ? bet.relatedMatch.winner_side : undefined}
+                    />
+                )}
+            </>),
+		},
+		{
+			id: 'score',
+			header: 'נק\'',
+			getter: (bet: MatchBetWithRelations) => bet.score,
+		},
+    ]
 
-                        <td className="flex-row v-align-center">
-                            <TeamWithFlag
-                                name={bet.relatedMatch.home_team.name}
-                                crest_url={bet.relatedMatch.home_team.crest_url}
-                                // is_underlined={
-                                //     bet.result_home > bet.result_away
-                                // }
-                                // is_bold={
-                                //     bet.relatedMatch.result_home >
-                                //     bet.relatedMatch.result_away
-                                // }
-                            />
-                            <span className="dash-space"> - </span>
-                            <TeamWithFlag
-                                name={bet.relatedMatch.away_team.name}
-                                crest_url={bet.relatedMatch.away_team.crest_url}
-                                // is_underlined={
-                                //     bet.result_home < bet.result_away
-                                // }
-                                // is_bold={
-                                //     bet.relatedMatch.result_home <
-                                //     bet.relatedMatch.result_away
-                                // }
-                            />
-                        </td>
-                        <td className="v-align-center">
-                            <MatchResult
-                                winner_class="underlined"
-                                matchData={{
-                                    winner_side: bet.winner_side,
-                                    result_home: bet.result_home,
-                                    result_away: bet.result_away,
-                                }}
-                            />
-                        </td>
-                        <td className="v-align-center">
-                            <MatchResult
-                                winner_class="bolded"
-                                matchData={{
-                                    winner_side: bet.winner_side,
-                                    result_home: bet.relatedMatch.result_home,
-                                    result_away: bet.relatedMatch.result_away,
-                                }}
-                            />
-                        </td>
-                    </tr>
-                ))}
-            </tbody>
-        </table>
+    return (
+        <div className='LB-MyGameBetsTable LB-MyBetsSection'>
+            <div className={`MyBetsSection-header ${tournamentClass}`}>
+                <h4 className='MyBetsSection-title'>{'משחקים'}</h4>
+            </div>
+            <CustomTable models={bets} cells={cells} />
+        </div>
     )
 }
 

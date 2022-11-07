@@ -1,8 +1,8 @@
 import React from 'react'
-import { MatchResult, WinnerSide } from '../types'
+import { MatchResult as MatchResultType, WinnerSide } from '../types'
 
 interface Props {
-    matchData: MatchResult
+    matchData: MatchResultType
     winner_class?: string
 }
 
