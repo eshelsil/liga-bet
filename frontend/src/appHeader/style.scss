@@ -39,6 +39,9 @@
       }
     }
     .LigaBet-AppMenuMobile {
+      .AppMenuMobile-leftSide {
+        @include flexRow;
+      }
       .expandSection {
         min-height: $minMenuHeight;
         display: flex;

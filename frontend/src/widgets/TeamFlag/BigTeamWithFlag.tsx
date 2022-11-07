@@ -7,7 +7,7 @@ function BigTeamWithFlag(props: TeamWithFlagProps) {
     const {classes = {}, ...restProps} = props;
     return (
         <TeamWithFlag 
-            size={50}
+            size={56}
             classes={{
                 ...classes,
                 name: `teamNameBig ${classes.name ?? ''}`,

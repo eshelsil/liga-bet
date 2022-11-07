@@ -8,6 +8,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Button from '@mui/material/Button'
 import TournamentItemLink from './TournamentLink'
 import useGoTo from '../hooks/useGoTo';
+import EmojiEventsOutlined from '@mui/icons-material/EmojiEventsOutlined'
 import { orderBy } from 'lodash';
 
 interface Props {
@@ -44,10 +45,8 @@ function TournamentsDropdownMenu({
         <DropMenuItem
             anchorContent={
                 <div className='flexRow'>
-                    <div>
-                        טורנירים
-                    </div>
                     <ArrowDropDownIcon />
+                    <EmojiEventsOutlined fontSize='large' />
                 </div>
             }
             classes={{list: 'tournamentsMenu'}}

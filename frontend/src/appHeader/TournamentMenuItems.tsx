@@ -5,7 +5,6 @@ import DropMenuItem from './DropMenuItem'
 import { TournamentStatus, UtlRole, UtlWithTournament } from '../types'
 import { isUtlConfirmed } from '../utils'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import TournamentsDropdownMenu from './TournamentsDropdownMenu'
 import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 
@@ -34,38 +33,6 @@ function TournamentMenuItems({
     return (
         <>
             {hasCurrentUtl && (<>
-                <TournamentsDropdownMenu itemClickCallback={reRouteCallback}/>
-                {hasManagerPermissions && (
-                    <DropMenuItem
-                        anchorContent={
-                            <div className='flexRow'>
-                                <div>
-                                    ניהול טורניר
-                                </div>
-                                <ArrowDropDownIcon />
-                            </div>
-                        }
-                        classes={{list: themeClass}}
-                        pathes={['tournament-config', 'contestants']}
-                    >
-                        {canUpdateTournamentConfig && (
-                            <LinkMenuItem
-                                route={routesMap['tournament-config']}
-                                callback={reRouteCallback}
-                            />
-                        )}
-                        <LinkMenuItem
-                            route={routesMap['contestants']}
-                            callback={reRouteCallback}
-                        />
-                        {tournamentStatus === TournamentStatus.Initial && (
-                            <LinkMenuItem
-                                route={routesMap['invite-friends']}
-                                callback={reRouteCallback}
-                            />
-                        )}
-                    </DropMenuItem>
-                )}
                 {isConfirmed && (<>
                     {isTournamentStarted && (<>
                         <LinkMenuItem
@@ -108,10 +75,6 @@ function TournamentMenuItems({
                     </>)}
                     {!isTournamentStarted && (<>
                         <LinkMenuItem
-                            route={routesMap['open-matches']}
-                            callback={reRouteCallback}
-                        />
-                        <LinkMenuItem
                             route={routesMap['open-questions']}
                             callback={reRouteCallback}
                         />
@@ -120,11 +83,46 @@ function TournamentMenuItems({
                             callback={reRouteCallback}
                         />
                         <LinkMenuItem
+                            route={routesMap['open-matches']}
+                            callback={reRouteCallback}
+                        />
+                        <LinkMenuItem
                             route={routesMap['my-bets']}
                             callback={reRouteCallback}
                         />
                     </>)}
                 </>)}
+                {hasManagerPermissions && (
+                    <DropMenuItem
+                        anchorContent={
+                            <div className='flexRow'>
+                                <div>
+                                    ניהול טורניר
+                                </div>
+                                <ArrowDropDownIcon />
+                            </div>
+                        }
+                        classes={{list: themeClass}}
+                        pathes={['tournament-config', 'contestants']}
+                    >
+                        {canUpdateTournamentConfig && (
+                            <LinkMenuItem
+                                route={routesMap['tournament-config']}
+                                callback={reRouteCallback}
+                            />
+                        )}
+                        <LinkMenuItem
+                            route={routesMap['contestants']}
+                            callback={reRouteCallback}
+                        />
+                        {tournamentStatus === TournamentStatus.Initial && (
+                            <LinkMenuItem
+                                route={routesMap['invite-friends']}
+                                callback={reRouteCallback}
+                            />
+                        )}
+                    </DropMenuItem>
+                )}
             </>)}
             {!hasCurrentUtl && (<>
                 <LinkMenuItem

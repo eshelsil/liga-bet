@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Button, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
-import { NoSelector } from '../_selectors';
+import { AnsweredUseDefaultScoreDialog, NoSelector } from '../_selectors';
 import useGoTo from '../hooks/useGoTo';
 import { answerDefaultConfigQuestion } from '../_actions/tournament';
 import { connect } from 'react-redux';
@@ -10,11 +11,15 @@ function UseDefaultConfigQuestion({
 	answerDefaultConfigQuestion,
 	onUseDefaultScore,
 }){
-	const { goToScoresConfig } = useGoTo()
+	const { goToScoresConfig, goToOpenQuestionBets } = useGoTo()
+	const answeredDefaultScoreDialog = useSelector(AnsweredUseDefaultScoreDialog)
 	const [keepDefaultConfig, setKeepDefaultConfig] = useState(true)
 	
 	const saveAnswer = () => {
 		if (keepDefaultConfig){
+			if (!answeredDefaultScoreDialog){
+				goToOpenQuestionBets()
+			}
 			onUseDefaultScore()
 		} else {
 			goToScoresConfig()

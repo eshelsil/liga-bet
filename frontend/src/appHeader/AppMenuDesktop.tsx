@@ -4,6 +4,7 @@ import Toolbar from '@mui/material/Toolbar'
 import Container from '@mui/material/Container'
 import UserMenu from './UserMenu'
 import TournamentMenuItems from './TournamentMenuItems'
+import TournamentsDropdownMenu from './TournamentsDropdownMenu'
 
 interface Props {
     currentUtl: UtlWithTournament
@@ -26,6 +27,7 @@ function AppMenuDesktop({
                     }}/>
                 </Container>
                 <Container className="toolbarContainer stickToLeft">
+                    <TournamentsDropdownMenu />
                     <UserMenu openDialogChangePassword={openDialogChangePassword} />
                 </Container>
             </Toolbar>

@@ -9,6 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import CloseIcon from '@mui/icons-material/CloseRounded'
 import UserMenu from './UserMenu'
 import TournamentMenuItems from './TournamentMenuItems'
+import TournamentsDropdownMenu from './TournamentsDropdownMenu'
 
 interface Props {
     currentUtl: UtlWithTournament
@@ -45,7 +46,10 @@ function AppMenuMobile({
                         <Typography variant="h5" className="appName">
                             מונדיאל 2022
                         </Typography>
-                        <UserMenu openDialogChangePassword={openDialogChangePassword} />
+                        <div className='AppMenuMobile-leftSide'>
+                            <TournamentsDropdownMenu />
+                            <UserMenu openDialogChangePassword={openDialogChangePassword} />
+                        </div>
                     </Container>
                 </Toolbar>
                 {menuOpen && (

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { TournamentStatus, UtlRole } from '../types'
-import { CurrentTournamentUser, HasAnyUTL, PrizesSelector } from '../_selectors'
+import { AnsweredUseDefaultScoreDialog, CurrentTournamentUser } from '../_selectors'
 import useGoTo from './useGoTo'
 
 function useDefaultPageRedirect(): () => void {
@@ -13,10 +13,9 @@ function useDefaultPageRedirect(): () => void {
     } = useGoTo()
     const currentUtl = useSelector(CurrentTournamentUser)
     const hasSelectedUtl = !!currentUtl
-    const prizes = useSelector(PrizesSelector);
+    const answeredDefaultScoreDialog = useSelector(AnsweredUseDefaultScoreDialog);
 
     const isTournamentOwner = currentUtl?.role === UtlRole.Admin
-    const hasPrizes = prizes.length > 0
     const tournamentStatus = currentUtl.tournament.status
 
     if (!hasSelectedUtl) {
@@ -26,7 +25,7 @@ function useDefaultPageRedirect(): () => void {
         return goToLeaderboard
     }
     if (tournamentStatus === TournamentStatus.Initial) {
-        if (isTournamentOwner && !hasPrizes){
+        if (isTournamentOwner && !answeredDefaultScoreDialog){
             return goToTournamentConfig
         }
         return goToOpenQuestionBets

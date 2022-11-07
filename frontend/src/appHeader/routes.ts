@@ -9,7 +9,7 @@ const routes: Route[] = [
     },
     {
         path: 'open-matches',
-        label: 'הימורים פתוחים',
+        label: 'ניחוש משחקים',
         iconClass: 'bet_icon',
     },
     {
@@ -19,11 +19,11 @@ const routes: Route[] = [
     },
     {
         path: 'open-group-standings',
-        label: 'הימורי בתים פתוחים',
+        label: 'ניחוש דירוגי בתים',
     },
     {
         path: 'open-questions',
-        label: 'הימורים מיוחדים פתוחים',
+        label: 'ניחושים מיוחדים',
     },
     {
         path: 'all-group-standings',
