@@ -1,4 +1,5 @@
-import { WinnerSide } from '../types'
+import { MatchCommonBase, WinnerSide } from '../types'
+import dayjs from 'dayjs'
 
 export function getWinnerSide(homeScore: number, awayScore: number) {
     if (homeScore > awayScore) {
@@ -8,4 +9,10 @@ export function getWinnerSide(homeScore: number, awayScore: number) {
         return WinnerSide.Away
     }
     return null
+}
+
+export function isGameUpcoming(game: MatchCommonBase) {
+    const now = dayjs()
+    const gameStart = dayjs(game.start_time)
+    return gameStart.diff(now, 'day') < 2
 }

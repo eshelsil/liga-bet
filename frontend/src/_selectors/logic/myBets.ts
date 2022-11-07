@@ -46,6 +46,13 @@ export const MyQuestionBetsById = createSelector(
     }
 )
 
+export const MyGameBetsById = createSelector(
+    MyMatchBetsSelector,
+    (bets) => {
+        return keyBy(bets, 'type_id')
+    }
+)
+
 export const MyWinnerTeamSelector = createSelector(
     MyQuestionBetsSelector,
     (questionBets) => {
