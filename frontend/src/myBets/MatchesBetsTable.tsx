@@ -30,6 +30,9 @@ const MatchesBetsTable = ({ bets }: { bets: MatchBetWithRelations[] }) => {
 		{
 			id: 'bet',
 			header: 'הניחוש שלך',
+            classes: {
+                cell: 'alignToTop',
+            },
 			getter: (bet: MatchBetWithRelations) => (
                 <MatchResult
                     home={{
