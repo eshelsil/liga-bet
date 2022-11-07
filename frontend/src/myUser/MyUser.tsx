@@ -17,7 +17,7 @@ interface Props {
 function MyUser({ currentUser }: Props) {
     return (
         <div className="LigaBet-UserPage">
-            <h1 className="title">המשתמש שלך</h1>
+            <h1 className="title">המשתמש שלי</h1>
             <div className="UserDetailsCard">
                 <Table
                     sx={{
@@ -30,7 +30,7 @@ function MyUser({ currentUser }: Props) {
                     <TableBody>
                         <TableRow>
                             <TableCell className="property">אימייל</TableCell>
-                            <TableCell className="nameValue">
+                            <TableCell>
                                 {currentUser.email}
                             </TableCell>
                         </TableRow>

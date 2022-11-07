@@ -8,7 +8,6 @@ import './style.scss'
 
 interface Props {
     currentUtl: UtlWithTournament
-    currentUsername: string
     isTournamentStarted: boolean
     openDialogChangePassword: () => void
     tournamentIndex: number
@@ -17,7 +16,6 @@ interface Props {
 function AppHeader({
     isTournamentStarted,
     currentUtl,
-    currentUsername,
     openDialogChangePassword,
     tournamentIndex,
 }: Props) {
@@ -31,7 +29,6 @@ function AppHeader({
                     <AppMenuMobile {...{
                         isTournamentStarted,
                         currentUtl,
-                        currentUsername,
                         openDialogChangePassword,
                     }} />
                 )}
@@ -39,7 +36,6 @@ function AppHeader({
                     <AppMenuDesktop {...{
                         isTournamentStarted,
                         currentUtl,
-                        currentUsername,
                         openDialogChangePassword,
                     }} />
                 )}

@@ -52,12 +52,8 @@ const routes: Route[] = [
         label: 'נהל משתתפים',
     },
     {
-        path: 'utls',
-        label: 'הטורנירים שלי',
-    },
-    {
-        path: 'user',
-        label: 'המשתמש שלי',
+        path: 'profile',
+        label: 'הפרופיל שלי',
     },
     {
         path: 'takanon',

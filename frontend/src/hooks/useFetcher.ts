@@ -29,6 +29,9 @@ function useFetcher({
 
     
     useEffect(() => {
+        if (!currentTournamentId) {
+            return
+        }
         if (refreshable){
             refresh()
         } else {
@@ -115,7 +118,10 @@ export function useGameBets(params: FetchGameBetsParams){
 
     
     useEffect(() => {
-        fetchFunc(params);
+        if (!currentTournamentId){
+            return
+        }
+        fetchFunc(params)
     }, [currentTournamentId, params])
 
     return {

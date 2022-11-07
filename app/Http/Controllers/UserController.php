@@ -107,7 +107,7 @@ class UserController extends Controller
             throw new JsonException("אינך רשום לטורניר זה", 400);
         }
         if (!$utl->isRejected() && !$utl->isNotConfirmed()){
-            throw new JsonException("אינך יכול לעזוב את הטורניר לאחר שאושרת בידי אחד ממנהלי הטורניר", 400);
+            throw new JsonException("אינך יכול לעזוב את הטורניר לאחר שאושרת על ידי אחד ממנהלי הטורניר", 400);
         }
 
         Bet::where('user_tournament_id', $utl->id)->delete();

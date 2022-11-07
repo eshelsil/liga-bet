@@ -8,14 +8,12 @@ import TournamentMenuItems from './TournamentMenuItems'
 interface Props {
     currentUtl: UtlWithTournament
     isTournamentStarted: boolean
-    currentUsername: string
     openDialogChangePassword: () => void
 }
 
 function AppMenuDesktop({
     isTournamentStarted,
     currentUtl,
-    currentUsername,
     openDialogChangePassword,
 }: Props) {
 
@@ -28,15 +26,7 @@ function AppMenuDesktop({
                     }}/>
                 </Container>
                 <Container className="toolbarContainer stickToLeft">
-                    <UserMenu
-                        {
-                            ...{
-                                currentUtl,
-                                currentUsername,
-                                openDialogChangePassword,
-                            }
-                        }
-                    />
+                    <UserMenu openDialogChangePassword={openDialogChangePassword} />
                 </Container>
             </Toolbar>
     )

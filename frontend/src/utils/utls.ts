@@ -1,8 +1,8 @@
 import { UtlBase, UtlRole } from '../types'
 
 export const UtlRoleToString = {
-    [UtlRole.Admin]: 'אדמין',
-    [UtlRole.Manager]: 'מנהל',
+    [UtlRole.Admin]: 'מנהל טורניר',
+    [UtlRole.Manager]: 'עוזר מנהל',
     [UtlRole.Contestant]: 'משתתף',
     [UtlRole.NotConfirmed]: 'טרם אושר',
     [UtlRole.Rejected]: 'לא אושר',

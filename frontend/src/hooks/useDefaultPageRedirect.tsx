@@ -6,7 +6,7 @@ import useGoTo from './useGoTo'
 
 function useDefaultPageRedirect(): () => void {
     const { 
-        goToUserPage,
+        goToMyProfile,
         goToLeaderboard,
         goToOpenQuestionBets,
         goToTournamentConfig,
@@ -20,7 +20,7 @@ function useDefaultPageRedirect(): () => void {
     const tournamentStatus = currentUtl.tournament.status
 
     if (!hasSelectedUtl) {
-        return goToUserPage
+        return goToMyProfile
     }
     if ([TournamentStatus.Finished, TournamentStatus.Ongoing].includes(tournamentStatus)) {
         return goToLeaderboard
@@ -31,7 +31,7 @@ function useDefaultPageRedirect(): () => void {
         }
         return goToOpenQuestionBets
     }
-    return goToUserPage
+    return goToMyProfile
 }
 
 export default useDefaultPageRedirect

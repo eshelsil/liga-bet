@@ -4,8 +4,8 @@ import {
     TextField,
     Link,
 } from '@mui/material'
-import { UtlRole, UtlWithTournament } from '../types'
-import { isTournamentStarted, UtlRoleToString } from '../utils'
+import { UtlWithTournament } from '../types'
+import { hasManagePermissions, isTournamentStarted, UtlRoleToString } from '../utils'
 import EditIcon from '@mui/icons-material/Edit'
 import CloseIcon from '@mui/icons-material/Close'
 import useGoTo from '../hooks/useGoTo'
@@ -34,8 +34,7 @@ function UtlCard({ utl, utlIndex, isSelected,  updateUTL, selectUtl, socreboardR
     const [name, setName] = useState(utl.name)
     const { getLastEditTs, cancelEdit } = useCancelEdit({edit, setEdit})
 
-    const isTournamentAdmin = utl.role === UtlRole.Admin
-    const canInviteFriends = isTournamentStarted && !isTournamentStarted(utl.tournament)
+    const canInviteFriends = hasManagePermissions(utl) && !isTournamentStarted(utl.tournament)
     const toggleEdit = () => setEdit(!edit)
 
     const update = async () => {
@@ -64,25 +63,6 @@ function UtlCard({ utl, utlIndex, isSelected,  updateUTL, selectUtl, socreboardR
                 )}
             </div>
             <div className='cardBody'>
-                {isTournamentAdmin && (
-                    <div className={'utlAttribute'}>
-                        <div className='attributeName'>קוד טורניר</div>
-                        <div className='value'>
-                            <div>
-                                {utl.tournament.code}
-                            </div>
-                            {canInviteFriends && (
-                                <div style={{ cursor: 'pointer', marginRight: 24 }}>
-                                <CopyLink
-                                    label='הזמן חברים'
-                                    link={joinLink}
-                                    title={'קישור הועתק ✓'}
-                                />
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                )}
                 <div className={'utlAttribute'}>
                     <div className='attributeName'>כינוי</div>
                     <div className='value'>
@@ -102,6 +82,23 @@ function UtlCard({ utl, utlIndex, isSelected,  updateUTL, selectUtl, socreboardR
                     <div className='attributeName'>הרשאות</div>
                     <div className='value'>
                         {UtlRoleToString[utl.role]}
+                    </div>
+                </div>
+                <div className={'utlAttribute'}>
+                    <div className='attributeName'>קוד טורניר</div>
+                    <div className='value'>
+                        <div>
+                            {utl.tournament.code}
+                        </div>
+                        {canInviteFriends && (
+                            <div style={{ cursor: 'pointer', marginRight: 24 }}>
+                            <CopyLink
+                                label='הזמן חברים'
+                                link={joinLink}
+                                title={'קישור הועתק ✓'}
+                            />
+                            </div>
+                        )}
                     </div>
                 </div>
                 {socreboardRow && (

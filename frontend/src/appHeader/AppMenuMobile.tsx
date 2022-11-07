@@ -13,14 +13,12 @@ import TournamentMenuItems from './TournamentMenuItems'
 interface Props {
     currentUtl: UtlWithTournament
     isTournamentStarted: boolean
-    currentUsername: string
     openDialogChangePassword: () => void
 }
 
 function AppMenuMobile({
     isTournamentStarted,
     currentUtl,
-    currentUsername,
     openDialogChangePassword,
 }: Props) {
     const [menuOpen, setMenuOpen] = useState(false)
@@ -47,15 +45,7 @@ function AppMenuMobile({
                         <Typography variant="h5" className="appName">
                             מונדיאל 2022
                         </Typography>
-                        <UserMenu
-                            {
-                                ...{
-                                    currentUtl,
-                                    currentUsername,
-                                    openDialogChangePassword,
-                                }
-                            }
-                        />
+                        <UserMenu openDialogChangePassword={openDialogChangePassword} />
                     </Container>
                 </Toolbar>
                 {menuOpen && (

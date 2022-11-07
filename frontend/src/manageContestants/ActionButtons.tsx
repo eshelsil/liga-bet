@@ -8,8 +8,7 @@ interface Props {
 export function MakeManagerButton({ action }: Props) {
     return (
         <LoadingButton size='small' variant="contained" color="primary" action={action}>
-            {' '}
-            הפוך למנהל{' '}
+            הפוך לעוזר מנהל{' '}
         </LoadingButton>
     )
 }
@@ -18,7 +17,7 @@ export function RemoveManagerButton({ action }: Props) {
     return (
         <LoadingButton size='small' variant="contained" color="secondary" action={action}>
             {' '}
-            הסר הרשאות מנהל{' '}
+            הסר הרשאות עוזר מנהל{' '}
         </LoadingButton>
     )
 }

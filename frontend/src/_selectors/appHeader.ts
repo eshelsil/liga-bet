@@ -6,11 +6,9 @@ import {
 } from './base'
 
 export const AppHeaderSelector = createSelector(
-    CurrentUserEmail,
     IsTournamentStarted,
     CurrentTournamentUser,
-    (currentUserEmail, isTournamentStarted, currentUtl) => ({
-        currentUsername: currentUserEmail,
+    (isTournamentStarted, currentUtl) => ({
         isTournamentStarted,
         currentUtl,
     })

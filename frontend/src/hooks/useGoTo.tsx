@@ -4,8 +4,7 @@ import { useHistory } from 'react-router-dom'
 function useGoTo() {
     const history = useHistory()
 
-    const goToUserPage = () => history.push('/user')
-    const goToUtlPage = () => history.push('/utls')
+    const goToMyProfile = () => history.push('/profile')
     const goToMyBets = () => history.push('/my-bets')
     const goToJoinTournament = () => history.push('/join-tournament')
     const goToCreateTournament = () => history.push('/create-tournament')
@@ -21,8 +20,7 @@ function useGoTo() {
     const goToAdminInviteTournamentAdmin = () => history.push('/admin/invite-tournament-admin')
 
     return {
-        goToUserPage,
-        goToUtlPage,
+        goToMyProfile,
         goToMyBets,
         goToJoinTournament,
         goToCreateTournament,

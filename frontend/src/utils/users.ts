@@ -13,7 +13,7 @@ export const UserPermissionsToRoleString = {
 
 export const UserPermissionsToRoleStringHebrew = {
     [UserPermissions.Admin]: 'אדמין',
-    [UserPermissions.TournamentAdmin]: 'ניהול טורניר',
+    [UserPermissions.TournamentAdmin]: 'מנהל טורניר',
     [UserPermissions.User]: 'משתמש',
     [UserPermissions.Monkey]: 'קוף',
 }

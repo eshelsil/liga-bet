@@ -30,14 +30,10 @@ function UserIcon(){
 }
 
 interface Props {
-    currentUtl: UtlWithTournament
-    currentUsername: string
     openDialogChangePassword: () => void
 }
 
 function UserMenu({
-    currentUtl,
-    currentUsername,
     openDialogChangePassword,
 }: Props) {
     const themeClass = useTournamentThemeClass();
@@ -51,13 +47,8 @@ function UserMenu({
                 }}
             >
                 <LinkMenuItem
-                    route={routesMap['user']}
+                    route={routesMap['profile']}
                 />
-                {!!currentUtl && (
-                    <LinkMenuItem
-                        route={routesMap['utls']}
-                    />
-                )}
                 <LinkMenuItem
                     route={routesMap['set-password']}
                     onClick={openDialogChangePassword}

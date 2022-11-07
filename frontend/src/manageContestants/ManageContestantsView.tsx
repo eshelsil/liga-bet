@@ -42,7 +42,7 @@ function ManageContestantsView({
         <div className='LB-ManageContestantsView'>
             {!hasManagerPermissions && (
                 <h1>
-                    כדי לצפות ברשימת המשתתפים עלייך להחזיק בהרשאות מנהל לטורניר
+                    כדי לצפות ברשימת המשתתפים עלייך להחזיק בהרשאות מנהל או עוזר מנהל לטורניר
                     זה
                 </h1>
             )}
@@ -52,7 +52,7 @@ function ManageContestantsView({
                     <ul>
                         <li>באפשרותך לאשר או למחוק משתתפים בטורניר</li>
                         <li>אתה יכול לבחור חברים שיעזרו לך לנהל את המשתתפים</li>
-                        <li>מנהל רשאי לאשר או למחוק משתתפים שאינם מנהלים</li>
+                        <li>עוזר מנהל רשאי לאשר או למחוק משתתפים שאינם עוזרי מנהל</li>
                     </ul>
                     <AutoConfirmSelection updateAutoConfirmPref={updateAutoConfirmPref} />
 

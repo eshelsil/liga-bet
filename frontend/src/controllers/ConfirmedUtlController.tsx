@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react'
 import { TournamentStatus, UtlRole, UtlWithTournament } from '../types'
-import InitialDataFetcher from '../initialDataFetcher/InitialDataFetcher';
 import TournamentNotOpenedForBets from './TournamentNotOpenedForBets'
 import TournamentAdminRoutes from './routes/TournamentAdminRoutes'
 import TournamentManagerRoutes from './routes/TournamentManagerRoutes';
@@ -35,7 +34,7 @@ function ConfirmedUtlController({ currentUtl, children }: Props) {
     const hasManagerPermissions = isTournamentAdmin || isManager
 
     return (
-        <InitialDataFetcher>
+        <>
             {hasManagerPermissions && (
                 <TournamentManagerRoutes>
                     {isTournamentAdmin && (
@@ -53,7 +52,7 @@ function ConfirmedUtlController({ currentUtl, children }: Props) {
                     {children}
                 </>
             )}
-        </InitialDataFetcher>
+        </>
     )
 }
 

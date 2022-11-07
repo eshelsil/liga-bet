@@ -18,7 +18,6 @@ function CopyToClipboard({renderChildren, title}: Props){
         navigator.clipboard.writeText(content)
         setTtOpen(true)
     }
-    console.log(ttOpen)
 
     return (
         <Tooltip
