@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { TextField } from '@mui/material'
-import { NoSelector } from '../_selectors'
+import { MyTournamentCodes, NoSelector } from '../_selectors'
 import { connect } from 'react-redux'
 import { createUtl } from '../_actions/tournamentUser'
 import useGoTo from '../hooks/useGoTo'
@@ -9,6 +9,7 @@ import { getTournamentsName } from '../api/tournaments'
 import TournamentIcon from '@mui/icons-material/EmojiEvents';
 import { reportApiError } from '../utils'
 import { LoadingButton } from '../widgets/Buttons'
+import { useSelector } from 'react-redux'
 
 
 interface Props {
@@ -18,11 +19,14 @@ interface Props {
 function JoinTournament({ onJoin }: Props) {
     const { tournamentId } = useParams<any>();
     const codeFromURL = tournamentId
+    const myTournaments = useSelector(MyTournamentCodes)
     const [code, setCode] = useState(codeFromURL || '')
     const [name, setName] = useState('')
     const [tournamentName, setTournamentName] = useState('')
     const [isCodeFromUrlInvalid, setIsCodeFromUrlInvalid] = useState<boolean>()
     const { goToHome } = useGoTo();
+
+    const alreadyJoined = myTournaments.includes(codeFromURL)
 
     async function join() {
         await onJoin({ tournamentCode: code, name })
@@ -38,7 +42,9 @@ function JoinTournament({ onJoin }: Props) {
     const isCodeAutoSet = !!codeFromURL && !isCodeFromUrlInvalid
 
     useEffect(() => {
-        if (codeFromURL) {
+        if (alreadyJoined) {
+            goToHome()
+        } else if (codeFromURL) {
             getTournamentsName(codeFromURL)
                 .then(name => {
                     setTournamentName(name)
@@ -48,34 +54,37 @@ function JoinTournament({ onJoin }: Props) {
                     setIsCodeFromUrlInvalid(true)
                 })
         }
-    }, [codeFromURL])
+    }, [codeFromURL, alreadyJoined])
+    
 
     return (
         <div className='LB-JoinTournament'>
-            <h1>הצטרף לטורניר קיים</h1>
-            <div className='joinTournamentForm'>
-                {isCodeAutoSet && (
-                    <div className='tournamentName'>
-                        <TournamentIcon className='tournamentIcon' fontSize='large' />
-                        <div>{tournamentName}</div>
-                    </div>
-                )}
-                {!isCodeAutoSet && (
+            {!alreadyJoined && (<>
+                <h1>הצטרף לטורניר קיים</h1>
+                <div className='joinTournamentForm'>
+                    {isCodeAutoSet && (
+                        <div className='tournamentName'>
+                            <TournamentIcon className='tournamentIcon' fontSize='large' />
+                            <div>{tournamentName}</div>
+                        </div>
+                    )}
+                    {!isCodeAutoSet && (
+                        <TextField
+                            value={code}
+                            label='קוד טורניר'
+                            onChange={(e) => setCode(e.target.value)}
+                        />
+                    )}
                     <TextField
-                        value={code}
-                        label='קוד טורניר'
-                        onChange={(e) => setCode(e.target.value)}
+                        value={name}
+                        label='כינוי'
+                        onChange={(e) => setName(e.target.value)}
                     />
-                )}
-                <TextField
-                    value={name}
-                    label='כינוי'
-                    onChange={(e) => setName(e.target.value)}
-                />
-                <div className='buttonContainer'>
-                    <LoadingButton action={join}>הצטרף לטורניר</LoadingButton>
+                    <div className='buttonContainer'>
+                        <LoadingButton action={join}>הצטרף לטורניר</LoadingButton>
+                    </div>
                 </div>
-            </div>
+            </>)}
         </div>
     )
 }

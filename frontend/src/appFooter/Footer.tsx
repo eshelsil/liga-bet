@@ -17,7 +17,6 @@ function ImageLoader(){
             clearTimeout(timeout)
         }
     }, [])
-    console.log({shouldLoad})
 
     return (
         <>

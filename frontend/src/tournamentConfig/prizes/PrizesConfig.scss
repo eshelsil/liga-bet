@@ -2,6 +2,9 @@
 @import '../../styles/shadows';
 
 .LigaBet-PrizesConfig {
+    max-width: 100%;
+    width: 800px;
+    margin: auto;
     .inputWithTakanon {
         @include floatingFrame;
         border-radius: 16px;
