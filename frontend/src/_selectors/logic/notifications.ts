@@ -1,7 +1,9 @@
 import { createSelector } from 'reselect'
-import { isGameUpcoming, keysOf } from '../../utils'
-import { Games, Groups, SpecialQuestions} from '../base'
+import { isGameUpcoming, keysOf, valuesOf } from '../../utils'
+import { Games, Groups, Notifications, SpecialQuestions} from '../base'
 import { MyGameBetsById, MyGroupRankBetsById, MyQuestionBetsById } from './myBets'
+import { MyOtherTournaments } from './tournaments'
+import { pick } from 'lodash'
 
 
 export const MissingQuestionBetsCount = createSelector(
@@ -42,5 +44,27 @@ export const MissingBetsCount = createSelector(
     MissingGameBetsCount,
     (qustionsCount, groupRankCount, gamesCount) => {
         return qustionsCount + groupRankCount + gamesCount
+    }
+)
+
+export const HasAllOtherTournamentsNotifications = createSelector(
+    Notifications,
+    MyOtherTournaments,
+    (notifications, otherTournaments) => {
+        for (const tournamentId of otherTournaments){
+            if (notifications[tournamentId] === undefined){
+                return false
+            }
+        }
+        return true
+    }
+)
+
+export const HasNotificationsOnOtherTournaments = createSelector(
+    Notifications,
+    MyOtherTournaments,
+    (notifications, otherTournaments) => {
+        const otherTournamentsNotifications = pick(notifications, otherTournaments)
+        return !!valuesOf(otherTournamentsNotifications).find(count => count > 0)
     }
 )

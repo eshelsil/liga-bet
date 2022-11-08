@@ -121,6 +121,13 @@ export const MyTournamentCodes = createSelector(
     }
 )
 
+export const MyTournamentIds = createSelector(
+    MyUtls,
+    (myUtlsById) => {
+        return valuesOf(myUtlsById).map(utl => utl.tournament.id)
+    }
+)
+
 export const MyUtlsSorted = createSelector(
     MyUtls,
     (myUtlsById) => {

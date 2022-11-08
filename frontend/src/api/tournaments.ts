@@ -52,3 +52,11 @@ export const updateTournamentPreferences = async (tournamentId: number, prefs: P
         data: {...prefs}
     })
 }
+
+export const getTournamentNotifications = async (tournamentIds: number[], hideErrorToastr?: boolean): Promise<Record<number, number>> => {
+    const queryString = `tournamentIds=${encodeURIComponent(JSON.stringify(tournamentIds))}`
+    return await sendApiRequest({
+        url: `/api/user/notifications?${queryString}`,
+        hideErrorToastr,
+    })
+}

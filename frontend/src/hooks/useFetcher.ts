@@ -6,11 +6,13 @@ import { fetchAndStoreContestants, initContestants } from '../_actions/contestan
 import { fetchAndStoreGroups, initGroups } from '../_actions/groups';
 import { fetchAndStoreLeaderboard, initLeaderboard } from '../_actions/leaderboard';
 import { fetchAndStoreMatches, initGames } from '../_actions/matches';
+import { fetchAndStoreNotifications } from '../_actions/notifications';
 import { fetchAndStorePlayers, initPlayers } from '../_actions/players';
 import { fetchAndStoreQuestions, initSpecialQuestions } from '../_actions/specialQuestions';
 import { fetchAndStoreTeams, initTeams } from '../_actions/teams'
 import { AppDispatch } from '../_helpers/store'
 import { CurrentTournamentUserId, GameIds, TournamentIdSelector } from '../_selectors';
+import { HasAllOtherTournamentsNotifications, HasFetchedAllTournamentInitialData } from '../_selectors';
 
 function useFetcher({
     refreshable,
@@ -137,4 +139,22 @@ export function useMyGameBets(){
 export function useAllGameBets(){
     const gameIds = useSelector(GameIds);
     useGameBets({type: GameBetsFetchType.Games, ids: gameIds})
+}
+
+
+export function useFetchNotifications(){
+    const dispatch = useDispatch<AppDispatch>();
+    const fetchFunc = () => dispatch(fetchAndStoreNotifications())
+    const hasInitialData = useSelector(HasFetchedAllTournamentInitialData)
+    const alreadyFetched = useSelector(HasAllOtherTournamentsNotifications)
+    
+    useEffect(() => {
+        if (hasInitialData && !alreadyFetched){
+            fetchFunc()
+        }
+    }, [hasInitialData, alreadyFetched])
+
+    return {
+        fetchFunc,
+    }
 }

@@ -17,7 +17,7 @@ import { MissingBetsCount } from '../_selectors'
 
 function MenuWithNotification(){
     const missingBets = useSelector(MissingBetsCount)
-    const hasMissingBets = missingBets > 24
+    const hasMissingBets = missingBets > 0
     return (<>
         {hasMissingBets && (
             <Badge color='error' overlap='circular' variant='dot' badgeContent=' '>

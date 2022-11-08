@@ -1,4 +1,4 @@
-import { GameBetsFetcher, GameBetsFetcherSliceData, GameBetsFetchType } from '../types'
+import { CollectionName, GameBetsFetcher, GameBetsFetcherSliceData, GameBetsFetchType } from '../types'
 
 export function generateEmptyGameBetFetcherSlice(): GameBetsFetcherSliceData{
     return {
@@ -14,3 +14,13 @@ export function generateEmptyGameBetFetcher(): GameBetsFetcher{
         [GameBetsFetchType.Games]: generateEmptyGameBetFetcherSlice(),
     }
 }
+
+export const initialDataCollections = [
+    CollectionName.Games,
+    CollectionName.Groups,
+    CollectionName.SpecialQuestions,
+    CollectionName.Teams,
+    CollectionName.PrimalBets,
+    CollectionName.Players,
+    CollectionName.Contestants,
+]

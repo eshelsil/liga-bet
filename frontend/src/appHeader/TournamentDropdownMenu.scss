@@ -38,6 +38,12 @@
         }
         &.selectedTournament {
           border: 3px solid rgba(0,0,0,0.45);
+          .wrapper {
+            .MuiBadge-root {
+              top: 9px;
+              right: 12px;
+            }
+          }
         }
         &:not(.selectedTournament) {
           .wrapper {
@@ -50,6 +56,14 @@
             @include flexRow;
             padding-right: 4px;
             font-size: 18px;
+            .tournamentName {
+              z-index: 10;
+            }
+          }
+          .MuiBadge-root {
+            position: absolute;
+            top: 12px;
+            right: 15px;
           }
           .utlRow {
             display: flex;
