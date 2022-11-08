@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Enums\BetTypes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -126,5 +127,63 @@ class TournamentUser extends Model
     public function bets(): HasMany
     {
         return $this->hasMany(Bet::class, "user_tournament_id");
+    }
+
+    public function getGamesMissingBet()
+    {
+        $upcomingGames = $this->tournament->competition->games
+            ->filter(fn($game) => (
+                $game->isOpenForBets() && $game->start_time - time() < (60 * 60 * 24 * 2)
+            ));
+        $betsByGameId = $this->bets->where('type', BetTypes::Game)
+            ->keyBy('type_id')->toArray();
+        
+        $gamesMissingBet = $upcomingGames->reduce(function ($res, $game) use($betsByGameId) {
+            if (!array_key_exists($game->id, $betsByGameId)){
+                $res[] = $game;
+            }
+            return $res;
+        }, []);
+
+        return $gamesMissingBet;
+    }
+
+    public function getQuestionsMissingBet()
+    {
+        $specialQuestions = $this->tournament->specialBets;
+        $betsByQuestionId = $this->bets->where('type', BetTypes::SpecialBet)
+            ->keyBy('type_id')->toArray();
+        
+        $questionsMissingBet = $specialQuestions->reduce(function ($res, $question) use($betsByQuestionId) {
+            if (!array_key_exists($question->id, $betsByQuestionId)){
+                $res[] = $question;
+            }
+            return $res;
+        }, []);
+        return $questionsMissingBet;
+    }
+    
+    public function getGroupsMissingRankBet()
+    {
+        $groups = $this->tournament->competition->groups;
+        $rankBetsByGroupId = $this->bets->where('type', BetTypes::GroupsRank)
+            ->keyBy('type_id')->toArray();
+        
+        $groupsMissingBet = $groups->reduce(function ($res, $group) use($rankBetsByGroupId) {
+            if (!array_key_exists($group->id, $rankBetsByGroupId)){
+                $res[] = $group;
+            }
+            return $res;
+        }, []);
+        return $groupsMissingBet;
+    }
+
+    public function getMissingBetsCount()
+    {
+        $gamesCount = count($this->getGamesMissingBet());
+        $questionsCount = count($this->getQuestionsMissingBet());
+        $groupsCount = count($this->getGroupsMissingRankBet());
+
+        return $gamesCount + $questionsCount + $groupsCount;
     }
 }
