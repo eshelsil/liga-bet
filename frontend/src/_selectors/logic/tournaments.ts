@@ -1,8 +1,8 @@
-import { sortBy } from 'lodash';
+import { without } from 'lodash';
 import { createSelector } from 'reselect'
 import { UserPermissions } from '../../types';
 import { isAdmin } from '../../utils';
-import { Contestants, CurrentTournament, CurrentTournamentUserId, CurrentUser, MyUtls, MyUtlsSorted, OwnedTournaments } from '../base';
+import { Contestants, CurrentTournament, CurrentTournamentUserId, CurrentUser, MyTournamentIds, MyUtls, MyUtlsSorted, OwnedTournaments, TournamentIdSelector } from '../base';
 
 export const ChosenTournamentIndex = createSelector(
     MyUtlsSorted,
@@ -46,5 +46,13 @@ export const CurrentTournamentOwner = createSelector(
     (contestants, tournament) => {
         const creatorId = tournament.creatorUserId
         return Object.values(contestants).find(utl => utl.user_id === creatorId)
+    }
+)
+
+export const MyOtherTournaments = createSelector(
+    MyTournamentIds,
+    TournamentIdSelector,
+    (myTournamentIds, tournamentId) => {
+        return without(myTournamentIds, tournamentId)
     }
 )

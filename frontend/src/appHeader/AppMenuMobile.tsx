@@ -10,6 +10,25 @@ import CloseIcon from '@mui/icons-material/CloseRounded'
 import UserMenu from './UserMenu'
 import TournamentMenuItems from './TournamentMenuItems'
 import TournamentsDropdownMenu from './TournamentsDropdownMenu'
+import { Badge } from '@mui/material'
+import { useSelector } from 'react-redux'
+import { MissingBetsCount } from '../_selectors'
+
+
+function MenuWithNotification(){
+    const missingBets = useSelector(MissingBetsCount)
+    const hasMissingBets = missingBets > 0
+    return (<>
+        {hasMissingBets && (
+            <Badge color='error' overlap='circular' variant='dot' badgeContent=' '>
+                <MenuIcon />
+            </Badge>
+        )}
+        {!hasMissingBets && (
+            <MenuIcon />
+        )}
+    </>)
+}
 
 interface Props {
     currentUtl: UtlWithTournament
@@ -31,7 +50,7 @@ function AppMenuMobile({
     return (
         <ClickAwayListener onClickAway={closeMenuHandler}>
             <div className="LigaBet-AppMenuMobile">
-                <Toolbar style={{minHeight: 'unset'}}>
+                <Toolbar>
                     <Container className="mobileMenuHeader">
                         <IconButton
                             size="large"
@@ -41,7 +60,10 @@ function AppMenuMobile({
                             color="inherit"
                             onClick={menuClickedHandler}
                         >
-                            {menuOpen ? <CloseIcon /> : <MenuIcon />}
+                            {menuOpen
+                            ? <CloseIcon />
+                            : <MenuWithNotification />
+                            }
                         </IconButton>
                         <Typography variant="h5" className="appName">
                             מונדיאל 2022

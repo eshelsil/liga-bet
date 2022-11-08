@@ -7,6 +7,10 @@ import { isUtlConfirmed } from '../utils'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import OpenGameBetsItem from './MenuItems/OpenGameBetsItem'
+import OpenGroupRankBetsItem from './MenuItems/OpenGroupRankBetsItem'
+import OpenQuestionBetsItem from './MenuItems/OpenQuestionBetsItem'
+
 
 
 interface Props {
@@ -39,8 +43,7 @@ function TournamentMenuItems({
                             route={routesMap['leaderboard']}
                             callback={reRouteCallback}
                         />
-                        <LinkMenuItem
-                            route={routesMap['open-matches']}
+                        <OpenGameBetsItem
                             callback={reRouteCallback}
                         />
                         <LinkMenuItem
@@ -74,16 +77,13 @@ function TournamentMenuItems({
                         />
                     </>)}
                     {!isTournamentStarted && (<>
-                        <LinkMenuItem
-                            route={routesMap['open-questions']}
+                        <OpenQuestionBetsItem
                             callback={reRouteCallback}
                         />
-                        <LinkMenuItem
-                            route={routesMap['open-group-standings']}
+                        <OpenGroupRankBetsItem
                             callback={reRouteCallback}
                         />
-                        <LinkMenuItem
-                            route={routesMap['open-matches']}
+                        <OpenGameBetsItem
                             callback={reRouteCallback}
                         />
                         <LinkMenuItem

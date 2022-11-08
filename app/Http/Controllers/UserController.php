@@ -136,6 +136,24 @@ class UserController extends Controller
         return new JsonResponse($data, 200);
     }
 
+    public function getMissingBets(Request $request)
+    {
+        $tournamentIds = json_decode($request->input('tournamentIds'));
+        $validator = Validator::make(["tournamentIds" => $tournamentIds], [
+            "tournamentIds" => "required|array",
+        ])->validate();
+
+        $user = $this->getUser();
+        $notificationsCountByTournament = collect($tournamentIds)->reduce(function($res, $id) use ($user) {
+            $utl = $user->getTournamentUser($id);
+            if ($utl) {
+                $res[$id] = $utl->getMissingBetsCount();
+            }
+            return $res;
+        });
+        return new JsonResponse($notificationsCountByTournament, 200);
+    }
+
     public function setPassword(Request $request){
         $user = Auth::user();
         $id = $user->id;

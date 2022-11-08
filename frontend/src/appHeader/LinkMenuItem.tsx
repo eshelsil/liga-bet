@@ -3,6 +3,7 @@ import { useHistory, Link } from 'react-router-dom'
 import { Route } from './types'
 import MenuItemMUI from '@mui/material/MenuItem'
 import useActivePath from '../hooks/useActivePath'
+import { Badge } from '@mui/material'
 
 interface Props {
     route: Route
@@ -12,6 +13,7 @@ interface Props {
     icon?: ReactNode
     className?: string
     simpleLink?: boolean
+    notifications?: number
 }
 
 function LinkMenuItem({
@@ -22,6 +24,7 @@ function LinkMenuItem({
     icon,
     className,
     simpleLink,
+    notifications,
 }: Props) {
     const history = useHistory()
     const { label, path } = route
@@ -39,6 +42,7 @@ function LinkMenuItem({
         action()
         callback && callback()
     }
+
     return (
         <MenuItemMUI className={`LigaBet-LinkMenuItem ${className || ''} ${isActive ? 'LB-ActivePathItem' : ''}`} onClick={onRouteClick}>
             {icon && (
@@ -47,9 +51,22 @@ function LinkMenuItem({
                     <span /* space */ style={{ width: 5 }} />
                 </>
             )}
-            <div className={'itemLabel'}>
-                {content ?? label}
-            </div>
+
+            {notifications > 0 ?
+            (
+                <Badge
+                    color="error"
+                    badgeContent={notifications}
+                >
+                    <div className={'itemLabel'}>
+                        {content ?? label}
+                    </div>
+                </Badge>
+            ) : (
+                <div className={'itemLabel'}>
+                    {content ?? label}
+                </div>
+            )}
         </MenuItemMUI>
     )
 }

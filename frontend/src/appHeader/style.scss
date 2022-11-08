@@ -39,6 +39,10 @@
       }
     }
     .LigaBet-AppMenuMobile {
+      .MuiToolbar-root {
+        padding: 0px 12px;
+        min-height: unset;
+      }
       .AppMenuMobile-leftSide {
         @include flexRow;
       }

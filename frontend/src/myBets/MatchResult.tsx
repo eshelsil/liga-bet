@@ -70,7 +70,7 @@ function MatchResult({home, away, qualifier}: Props){
                 )}
                 {qualifier === WinnerSide.Away && (
                     <div className={'MatchResult-row'}>
-                        מעפילה
+                        ✌️
                     </div>
                 )}
             </div>

@@ -2,7 +2,7 @@ import React from 'react'
 import DropMenuItem from './DropMenuItem'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { connect, useSelector } from 'react-redux'
-import { CurrentTournament, NoSelector, TournamentsWithMyUtl, CanCreateNewTournament, CanJoinAnotherTournament } from '../_selectors'
+import { CurrentTournament, NoSelector, TournamentsWithMyUtl, CanCreateNewTournament, CanJoinAnotherTournament, Notifications, HasNotificationsOnOtherTournaments } from '../_selectors'
 import { selectUtl } from '../_actions/tournamentUser'
 import MenuItem from '@mui/material/MenuItem'
 import Button from '@mui/material/Button'
@@ -10,6 +10,21 @@ import TournamentItemLink from './TournamentLink'
 import useGoTo from '../hooks/useGoTo';
 import EmojiEventsOutlined from '@mui/icons-material/EmojiEventsOutlined'
 import { orderBy } from 'lodash';
+import { Badge } from '@mui/material';
+
+
+function IconWithNotification({hasNotifications}: {hasNotifications: boolean}){
+    return (<>
+        {hasNotifications && (
+            <Badge color='error' overlap='circular' variant='dot' badgeContent=' '>
+                <EmojiEventsOutlined fontSize='large' />
+            </Badge>
+        )}
+        {!hasNotifications && (
+            <EmojiEventsOutlined fontSize='large' />
+        )}
+    </>)
+}
 
 interface Props {
     selectUtl: (id: number) => void
@@ -23,10 +38,16 @@ function TournamentsDropdownMenu({
     const { goToJoinTournament, goToCreateTournament } = useGoTo()
     const tournamentsById = useSelector(TournamentsWithMyUtl);
     const selectedTournament = useSelector(CurrentTournament);
+    const notificaitons = useSelector(Notifications);
+    const hasNotificationsOnOtherTournaments = useSelector(HasNotificationsOnOtherTournaments)
     const canJoinAnotherTournament = useSelector(CanJoinAnotherTournament);
     const canCreateNewTournament = useSelector(CanCreateNewTournament);
+
     const tournaments = Object.values(tournamentsById);
     const sortedTournaments = orderBy(tournaments, t => t.linkedUtl.createdAt)
+    const hasOnlyOneTournamnet = tournaments.length === 1
+    const showNotifciations = !hasOnlyOneTournamnet && hasNotificationsOnOtherTournaments
+    
 
     const onTournamentItemClick = (utlId: number) => {
         selectUtl(utlId)
@@ -46,7 +67,7 @@ function TournamentsDropdownMenu({
             anchorContent={
                 <div className='flexRow'>
                     <ArrowDropDownIcon />
-                    <EmojiEventsOutlined fontSize='large' />
+                    <IconWithNotification hasNotifications={showNotifciations} />
                 </div>
             }
             classes={{list: 'tournamentsMenu'}}
@@ -57,6 +78,7 @@ function TournamentsDropdownMenu({
                     tournament={tournament}
                     selected={tournament.id === selectedTournament.id}
                     onClick={() => onTournamentItemClick(tournament.linkedUtl.id)}
+                    notifications={showNotifciations ? notificaitons[tournament.id] : 0}
                 />
             ))}
             {canJoinAnotherTournament && (

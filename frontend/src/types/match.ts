@@ -12,7 +12,7 @@ export enum KnockoutStage {
 	Last16 = 'last16',
 }
 
-interface MatchCommonBase {
+export interface MatchCommonBase {
     id: number
     result_home: number
     result_away: number

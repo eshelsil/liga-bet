@@ -120,6 +120,7 @@ Route::put('/api/tournaments/{id}/preferences', [TournamentController::class, 'u
 Route::get('/api/tournament-name/{code}', [TournamentController::class, 'getTournamentName'])->middleware("auth");
 Route::get('/api/competitions', [CompetitionController::class, 'index']);
 Route::get('/api/user/utls', [UserController::class, 'getUserUTLs']);
+Route::get('/api/user/notifications', [UserController::class, 'getMissingBets']);
 Route::post('/api/user/utls', [UserController::class, 'joinTournament']);
 Route::delete('/api/user/utls/{tournamentId}', [UserController::class, 'leaveTournament']);
 Route::put('/api/user/utls/{tournamentId}', [UserController::class, 'updateUTL']);
