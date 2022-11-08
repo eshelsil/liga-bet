@@ -41,6 +41,9 @@
     }
     input {
       font-size: 16px;
+      &[type="email"], &[type="password"] {
+        direction: ltr;
+      }
     }
   }
 }

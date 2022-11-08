@@ -29,7 +29,7 @@
                             <label for="email" class="col-sm-4 col-form-label text-md-left">{{ __('אימייל') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
+                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
 
                                 @if ($errors->has('email'))
                                     <span class="invalid-feedback">
@@ -60,6 +60,16 @@
                                         <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{ __('זכור אותי') }}
                                     </label>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12" style="text-align: center;">
+                                <label>
+                                    <span>
+                                        עדיין אין לך משתמש? <a class="btn btn-link" href="{{ route('register') }}">{{ __('להרשמה') }}</a>
+                                    </span>
+                                </label>
                             </div>
                         </div>
 
