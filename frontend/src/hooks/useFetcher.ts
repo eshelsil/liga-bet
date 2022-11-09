@@ -11,7 +11,7 @@ import { fetchAndStorePlayers, initPlayers } from '../_actions/players';
 import { fetchAndStoreQuestions, initSpecialQuestions } from '../_actions/specialQuestions';
 import { fetchAndStoreTeams, initTeams } from '../_actions/teams'
 import { AppDispatch } from '../_helpers/store'
-import { CurrentTournamentUserId, GameIds, TournamentIdSelector } from '../_selectors';
+import { CurrentTournamentUserId, GameIds, IsConfirmedUtl, TournamentIdSelector } from '../_selectors';
 import { HasAllOtherTournamentsNotifications, HasFetchedAllTournamentInitialData } from '../_selectors';
 
 function useFetcher({
@@ -28,10 +28,11 @@ function useFetcher({
     const refresh = () => dispatch(refreshFunc())
     const init = () => dispatch(initFunc())
     const currentTournamentId = useSelector(TournamentIdSelector)
+    const isConfirmed = useSelector(IsConfirmedUtl)
 
     
     useEffect(() => {
-        if (!currentTournamentId) {
+        if (!currentTournamentId || !isConfirmed) {
             return
         }
         if (refreshable){
@@ -39,7 +40,7 @@ function useFetcher({
         } else {
             init()
         }
-    }, [currentTournamentId, refreshable])
+    }, [currentTournamentId, isConfirmed, refreshable])
 
     return {
         refresh,
@@ -117,14 +118,15 @@ export function useGameBets(params: FetchGameBetsParams){
     const dispatch = useDispatch<AppDispatch>();
     const fetchFunc = (params: FetchGameBetsParams) => dispatch(fetchGameBetsThunk(params))
     const currentTournamentId = useSelector(TournamentIdSelector)
+    const isConfirmed = useSelector(IsConfirmedUtl)
 
     
     useEffect(() => {
-        if (!currentTournamentId){
+        if (!currentTournamentId || !isConfirmed){
             return
         }
         fetchFunc(params)
-    }, [currentTournamentId, params])
+    }, [currentTournamentId, isConfirmed, params])
 
     return {
         fetchFunc,
