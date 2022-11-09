@@ -19,9 +19,11 @@ export interface CellDescription<Model> {
 export interface CustomTableProps<Model> {
     models: Model[],
     cells: CellDescription<Model>[],
+    getRowClassName?: (model: Model) => string,
 }
 
 export interface CustomTableRowProps<Model> {
     model: Model,
     cells: CellDescription<Model>[],
+    getRowClassName?: (model: Model) => string,
 }

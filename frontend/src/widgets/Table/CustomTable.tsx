@@ -7,6 +7,7 @@ import CustomTableRow from './CustomTableRow';
 export default function CustomTable<T>({
 	models,
 	cells,
+	getRowClassName,
 }: CustomTableProps<Model>) {
 	return (
 		<TableContainer className='LigaBet-CustomTable' component={Paper}>
@@ -20,7 +21,12 @@ export default function CustomTable<T>({
 				</TableHead>
 				<TableBody>
 					{models.map((model) => (
-						<CustomTableRow key={model.id} model={model} cells={cells} />
+						<CustomTableRow
+							key={model.id}
+							model={model}
+							cells={cells}
+							getRowClassName={getRowClassName}
+						/>
 					))}
 				</TableBody>
 			</Table>

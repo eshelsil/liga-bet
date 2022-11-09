@@ -6,9 +6,11 @@ import { CustomTableRowProps, Model } from './types';
 export default function CustomTableRow<T extends Model>({
     model,
     cells,
+	getRowClassName,
 }: CustomTableRowProps<T>) {
+	const className = getRowClassName ? getRowClassName(model) : ''
 	return (
-		<TableRow className='LigaBet-CustomTableRow'>
+		<TableRow className={`LigaBet-CustomTableRow ${className || ''}`}>
 			{model.isFullRow && (
 				<TableCell colSpan={cells.length}>{model.fullRowContent}</TableCell>
 			)}
