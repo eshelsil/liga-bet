@@ -1,6 +1,7 @@
 import { groupBy, orderBy } from 'lodash'
 import { createSelector } from 'reselect'
 import { ScoreboardRowDetailed } from '../types'
+import { valuesOf } from '../utils'
 import { Contestants, IsTournamentStarted } from './base'
 import { LatestLeaderboard } from './logic/scoreboard'
 import {
@@ -23,6 +24,7 @@ export const LeaderboardSelector = createSelector(
         const sortedScoreboard = orderBy(leaderBoardWithNames, 'rank')
         return {
             leaderboard: sortedScoreboard,
+            contestants: valuesOf(contestants),
             hasTournamentStarted,
         }
     }

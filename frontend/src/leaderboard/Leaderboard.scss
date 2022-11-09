@@ -1,10 +1,62 @@
 @use '../styles/common/rankBgColor.scss';
+@import '../styles/themes/tournaments';
 
 .LigaBet-LeaderboardView {
     .LigaBet-Contestant {
         .prize_rank {
             @extend .prize_rank_bg;
             color: white;
+        }
+    }
+}
+
+
+
+@mixin themable_table_header($class, $tournament_theme){
+    $gradient: map_get($tournament_theme, gradient);
+  
+    &.#{$class} {
+        .MuiTableRow-head {
+            background: $gradient;
+            .tableHeaderCell {
+                color: #fff;
+            }
+        }
+    }
+}
+
+
+
+.LB-LeaderboardView {
+    max-width: 100%;
+    width: 600px;
+    margin: auto;
+    @include themable_table_header(tournament-theme, $tournament_1);
+    @include themable_table_header(tournament-theme-1, $tournament_1);
+    @include themable_table_header(tournament-theme-2, $tournament_2);
+    @include themable_table_header(tournament-theme-3, $tournament_3);
+    @include themable_table_header(tournament-theme-4, $tournament_4);
+    @include themable_table_header(tournament-theme-5, $tournament_5);
+    .LigaBet-CustomTable {
+        border-radius: 12px;
+        .tableHeaderCell {
+            padding: 8px 16px;
+            font-size: 18px;
+            &.rankCell {
+                width: 50px;
+            }
+            &.scoreCell {
+                width: 70px;
+            }
+        }
+        .LigaBet-CustomTableRow {
+            border-top: 1px solid #ddd;
+            &.currentUtl {
+                background-color: #f1f1f1;
+            }
+            .MuiTableCell-root {
+                font-size: 16px;
+            }
         }
     }
 }

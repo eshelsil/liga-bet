@@ -10,6 +10,7 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import OpenGameBetsItem from './MenuItems/OpenGameBetsItem'
 import OpenGroupRankBetsItem from './MenuItems/OpenGroupRankBetsItem'
 import OpenQuestionBetsItem from './MenuItems/OpenQuestionBetsItem'
+import MyBetsItem from './MenuItems/MyBetsItem'
 
 
 
@@ -71,12 +72,15 @@ function TournamentMenuItems({
                                 callback={reRouteCallback}
                             />
                         </DropMenuItem>
-                        <LinkMenuItem
-                            route={routesMap['my-bets']}
+                        <MyBetsItem
                             callback={reRouteCallback}
                         />
                     </>)}
                     {!isTournamentStarted && (<>
+                        <LinkMenuItem
+                            route={routesMap['leaderboard']}
+                            callback={reRouteCallback}
+                        />
                         <OpenQuestionBetsItem
                             callback={reRouteCallback}
                         />
@@ -86,8 +90,7 @@ function TournamentMenuItems({
                         <OpenGameBetsItem
                             callback={reRouteCallback}
                         />
-                        <LinkMenuItem
-                            route={routesMap['my-bets']}
+                        <MyBetsItem
                             callback={reRouteCallback}
                         />
                     </>)}

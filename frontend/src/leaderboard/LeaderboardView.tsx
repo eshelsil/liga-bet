@@ -2,7 +2,6 @@ import React from 'react'
 import { ScoreboardRow, ScoreboardRowDetailed } from '../types'
 import { Dictionary } from 'lodash'
 import Contestant from './ContestantProvider'
-import './Leaderboard.scss'
 
 function getRankDisplayById(rows: ScoreboardRow[]) {
     const rankDisplayById = {} as Dictionary<string>
@@ -27,7 +26,7 @@ function LeaderboardView({ rows }: Props) {
     const rankDisplayById = getRankDisplayById(rows)
     return (
         <div className="LigaBet-LeaderboardView">
-            <h1>טבלה עדכנית</h1>
+            <h1>טבלת ניקוד</h1>
             <div className="row" style={{ margin: 0, padding: '5px 15px' }}>
                 <div
                     className="col-xs-2 pull-right col-no-padding"
