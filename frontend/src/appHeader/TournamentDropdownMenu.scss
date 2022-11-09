@@ -19,6 +19,7 @@
         border-radius: 2px;
         color: white;
         padding: 6px 14px;
+        padding-left: 24px;
         width: 100%;
         @include tournament_link($tournament_1);
         &:nth-of-type(1) {
@@ -40,8 +41,8 @@
           border: 3px solid rgba(0,0,0,0.45);
           .wrapper {
             .MuiBadge-root {
-              top: 9px;
-              right: 12px;
+              top: 2px;
+              left: 2px;
             }
           }
         }
@@ -62,8 +63,11 @@
           }
           .MuiBadge-root {
             position: absolute;
-            top: 12px;
-            right: 15px;
+            top: 5px;
+            left: 5px;
+            .MuiBadge-badge {
+              transform: none;
+            }
           }
           .utlRow {
             display: flex;

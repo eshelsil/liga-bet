@@ -17,11 +17,11 @@ function IconWithNotification({hasNotifications}: {hasNotifications: boolean}){
     return (<>
         {hasNotifications && (
             <Badge color='error' overlap='circular' variant='dot' badgeContent=' '>
-                <EmojiEventsOutlined fontSize='large' />
+                <EmojiEventsOutlined />
             </Badge>
         )}
         {!hasNotifications && (
-            <EmojiEventsOutlined fontSize='large' />
+            <EmojiEventsOutlined />
         )}
     </>)
 }
