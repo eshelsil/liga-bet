@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { UTLsById } from '../types'
+import { UTL, UTLsById } from '../types'
 import { Dictionary } from 'lodash'
 
 
@@ -11,6 +11,11 @@ interface SetPayload {
     utls: UTLsById,
 }
 
+interface SetOnePayload {
+    tournamentId: number,
+    utl: UTL,
+}
+
 const contestants = createSlice({
     name: 'contestants',
     initialState: {} as State,
@@ -18,6 +23,12 @@ const contestants = createSlice({
         set: (state, action: PayloadAction<SetPayload>) => {
             const {tournamentId, utls} = action.payload
             state[tournamentId] = utls
+        },
+        setOne: (state, action: PayloadAction<SetOnePayload>) => {
+            const { tournamentId, utl } = action.payload
+            if (state[tournamentId]) {
+                state[tournamentId][utl.id] = utl
+            }
         },
     },
 })

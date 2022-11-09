@@ -5,7 +5,8 @@ import { CurrentTournamentUserId, CurrentUser, TournamentIdSelector } from '../_
 import { MyUtlsById, User, UserPermissions, UtlWithTournament } from '../types'
 import tournamentUser from '../_reducers/tournamentUser'
 import utlsSlice from '../_reducers/myUtls'
-import { mapValues, minBy } from 'lodash'
+import contestantsSlice from '../_reducers/contestants'
+import { minBy, omit } from 'lodash'
 
 
 
@@ -80,6 +81,15 @@ function updateMyUTLAndStore(tournamentId: number, params: PayloadUpdateMyUTL) {
   return async (dispatch: AppDispatch) => {
       const utl = await updateMyUTL(tournamentId, params);
       dispatch(utlsSlice.actions.setOne(utl));
+      dispatch(contestantsSlice.actions.setOne(
+        {
+          tournamentId,
+          utl: {
+            ...omit(utl, ['tournament']),
+            tournament_id: utl.tournament.id,
+          }
+        }
+      ));
   }
 }
 
