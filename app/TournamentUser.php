@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Enums\BetTypes;
+use App\SpecialBets\SpecialBet;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -150,7 +151,8 @@ class TournamentUser extends Model
 
     public function getQuestionsMissingBet()
     {
-        $specialQuestions = $this->tournament->specialBets;
+        $specialQuestions = $this->tournament->specialBets
+            ->filter(fn(SpecialBet $specialQuestion) => ($specialQuestion->isOn()));
         $betsByQuestionId = $this->bets->where('type', BetTypes::SpecialBet)
             ->keyBy('type_id')->toArray();
         
