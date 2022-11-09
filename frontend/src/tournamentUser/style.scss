@@ -97,3 +97,15 @@
         }
     }
 }
+
+.LB-DefaultNoUtlView {
+    padding: 16px;
+    flex-direction: column;
+    @include centerContainer;
+    .buttonsContainer{
+        .MuiButton-root {
+            margin-top: 36px;
+            display: block;
+        }
+    }
+}

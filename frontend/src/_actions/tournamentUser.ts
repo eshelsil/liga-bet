@@ -25,12 +25,9 @@ function getDefaultUtlId(
       return utl.id
     }
   }
-  if (currentUser.permissions === UserPermissions.TournamentAdmin) {
-    const utlOfMyOwnTournament = utls.find(utl => utl.tournament.creatorUserId === currentUser.id);
-    if (utlOfMyOwnTournament) {
-      return utlOfMyOwnTournament.id
-    }
-    return
+  const utlOfMyOwnTournament = utls.find(utl => utl.tournament.creatorUserId === currentUser.id);
+  if (utlOfMyOwnTournament) {
+    return utlOfMyOwnTournament.id
   }
   if (utls.length === 1) {
     return utls[0].id

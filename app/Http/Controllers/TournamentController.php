@@ -164,9 +164,9 @@ class TournamentController extends Controller
     private function validateUpdatePermissions(int $tournamentId)
     {
         $user = $this->getUser();
-        if (! $user->hasTournamentAdminPermissions()) {
-            throw new JsonException("אין לך את ההרשאות הדרושות כדי לעדכן טורנירים", 401);
-        }
+        // if (! $user->hasTournamentAdminPermissions()) {
+        //     throw new JsonException("אין לך את ההרשאות הדרושות כדי לעדכן טורנירים", 401);
+        // }
         $tournament = $user->ownedTournaments->find($tournamentId);
         if (!$tournament) {
             throw new JsonException("אין לך את ההרשאות הדרושות כדי לעדכן את הטורניר הזה", 401);
@@ -175,16 +175,17 @@ class TournamentController extends Controller
 
     private function validateCreatePermissions()
     {
-        $user = $this->getUser();
-        if (! $user->hasTournamentAdminPermissions()) {
-            throw new JsonException("אין לך את ההרשאות הדרושות כדי לפתוח טורניר משלך", 401);
-        }
+        return true;
+        // $user = $this->getUser();
+        // if (! $user->hasTournamentAdminPermissions()) {
+        //     throw new JsonException("אין לך את ההרשאות הדרושות כדי לפתוח טורניר משלך", 401);
+        // }
 
-        if ($user->isTournamentAdmin()) {
-            if ($user->ownedTournaments()->count() > 0) {
-                throw new JsonException("לא ניתן לפתוח יותר מטורניר אחד", 401);
-            }
-        }
+        // if ($user->isTournamentAdmin()) {
+        //     if ($user->ownedTournaments()->count() > 0) {
+        //         throw new JsonException("לא ניתן לפתוח יותר מטורניר אחד", 401);
+        //     }
+        // }
     }
 
     private function validateCreateInputs(Request $request) {

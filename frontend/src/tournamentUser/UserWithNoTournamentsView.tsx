@@ -1,10 +1,6 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
-import { CurrentUser } from '../_selectors'
-import { UserPermissions } from '../types'
 import CreateNewTournament from './CreateNewTournament'
-import JoinTournament from './JoinTournament'
-import AdminDefaultView from '../admin/AdminDefaultView'
+import DefaultNoUtlView from './DefaultNoUtlView'
 import './style.scss'
 
 function UserWithNoTournamentsView({
@@ -12,21 +8,15 @@ function UserWithNoTournamentsView({
 } : {
     isMissingUtl: boolean
 }) {
-    const user = useSelector(CurrentUser);
 
-    const showCreateView = isMissingUtl || user.permissions === UserPermissions.TournamentAdmin
-    const showAdminView = !showCreateView && user.permissions === UserPermissions.Admin
-    const showJoinView = !showCreateView && !showAdminView
+    const enforceCreateView = isMissingUtl
 
     return (<>
-        {showAdminView && (
-            <AdminDefaultView />
-        )}
-        {showCreateView && (
+        {enforceCreateView && (
             <CreateNewTournament />
         )}
-        {showJoinView && (
-            <JoinTournament />
+        {!enforceCreateView && (
+            <DefaultNoUtlView />
         )}
     </>)
 }

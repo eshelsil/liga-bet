@@ -1,6 +1,5 @@
 import { without } from 'lodash';
 import { createSelector } from 'reselect'
-import { UserPermissions } from '../../types';
 import { isAdmin } from '../../utils';
 import { Contestants, CurrentTournament, CurrentTournamentUserId, CurrentUser, MyTournamentIds, MyUtls, MyUtlsSorted, OwnedTournaments, TournamentIdSelector } from '../base';
 
@@ -33,10 +32,11 @@ export const CanCreateNewTournament = createSelector(
         if (isAdmin(currentUser)){
             return true;
         }
-        if (currentUser.permissions === UserPermissions.TournamentAdmin){
-            return !hasOwnedTournament;
-        }
-        return false;
+        // if (currentUser.permissions === UserPermissions.TournamentAdmin){
+        //     return !hasOwnedTournament;
+        // }
+        // return false;
+        return !hasOwnedTournament;
     }
 )
 
