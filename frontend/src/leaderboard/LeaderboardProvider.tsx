@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
 import { ScoreboardRowDetailed, UTL } from '../types'
-import { CurrentTournamentUserId } from '../_selectors'
+import { CurrentTournamentName, CurrentTournamentUserId } from '../_selectors'
 import { LeaderboardSelector } from '../_selectors/leaderboard'
 import LeaderboardView from './LeaderboardView'
 import NewLeaderboardView from './NewLeaderboardView'
@@ -26,6 +26,7 @@ function Leaderboard() {
     const { leaderboard, contestants } = useSelector(LeaderboardSelector)
     const themeClass =  useTournamentThemeClass()
     const currentUtlId = useSelector(CurrentTournamentUserId)
+    const tournamentName = useSelector(CurrentTournamentName)
     const hasData = leaderboard.length > 0
     let rows: ScoreboardRowDetailed[] = leaderboard
     if (!hasData) {
@@ -39,6 +40,7 @@ function Leaderboard() {
                 currentUtlId={currentUtlId}
                 hasData={hasData}
                 themeClass={themeClass}
+                tournamentName={tournamentName}
             />
             {/* {hasData && (
                 <LeaderboardView rows={rows} hasData={hasData} />

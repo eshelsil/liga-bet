@@ -3,6 +3,7 @@ import { ScoreboardRow, ScoreboardRowDetailed } from '../types'
 import { Dictionary } from 'lodash'
 import CustomTable from '../widgets/Table/CustomTable'
 
+
 function getRankDisplayById(rows: ScoreboardRow[]) {
     const rankDisplayById = {} as Dictionary<string>
     let lastRank = 0
@@ -23,9 +24,10 @@ interface Props {
     hasData: boolean
     currentUtlId: number
     themeClass: string
+    tournamentName: string
 }
 
-function NewLeaderboardView({ rows, hasData, currentUtlId, themeClass }: Props) {
+function NewLeaderboardView({ rows, hasData, currentUtlId, themeClass, tournamentName }: Props) {
     const rankDisplayById = getRankDisplayById(rows)
     const cells = [
 		{
@@ -57,11 +59,18 @@ function NewLeaderboardView({ rows, hasData, currentUtlId, themeClass }: Props) 
     return (
         <div className={`LB-LeaderboardView ${themeClass}`}>
             <h1>טבלת ניקוד</h1>
-            <CustomTable
-                models={rows}
-                cells={cells}
-                getRowClassName={getRowClassName}
-            />
+
+            <div className='LeaderboardView-content'>
+                <div className='tableTitleContainer'>
+                    <h4 className='tableTitle'>{tournamentName}</h4>
+                </div>
+                <CustomTable
+                    models={rows}
+                    cells={cells}
+                    getRowClassName={getRowClassName}
+                />
+            </div>
+
         </div>
     )
 }

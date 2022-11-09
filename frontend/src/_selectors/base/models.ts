@@ -61,6 +61,11 @@ export const CurrentTournamentId = createSelector(
     (tournament) => tournament.id
 )
 
+export const CurrentTournamentName = createSelector(
+    CurrentTournament,
+    (tournament) => tournament.name
+)
+
 export const CurrentCompetitionId = createSelector(
     CurrentTournament,
     (tournament) => {

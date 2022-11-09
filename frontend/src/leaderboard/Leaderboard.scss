@@ -16,9 +16,9 @@
     $gradient: map_get($tournament_theme, gradient);
   
     &.#{$class} {
-        .MuiTableRow-head {
+        .tableTitleContainer {
             background: $gradient;
-            .tableHeaderCell {
+            .tableTitle {
                 color: #fff;
             }
         }
@@ -37,25 +37,37 @@
     @include themable_table_header(tournament-theme-3, $tournament_3);
     @include themable_table_header(tournament-theme-4, $tournament_4);
     @include themable_table_header(tournament-theme-5, $tournament_5);
-    .LigaBet-CustomTable {
-        border-radius: 12px;
-        .tableHeaderCell {
-            padding: 8px 16px;
-            font-size: 18px;
-            &.rankCell {
-                width: 50px;
-            }
-            &.scoreCell {
-                width: 70px;
+    .LeaderboardView-content {
+        margin-top: 40px;
+        .tableTitleContainer {
+            border-radius: 12px 12px 0px 0px;
+            .tableTitle {
+                text-align: center;
+                margin: 0 auto;
+                padding: 8px 16px;
             }
         }
-        .LigaBet-CustomTableRow {
-            border-top: 1px solid #ddd;
-            &.currentUtl {
-                background-color: #f1f1f1;
-            }
-            .MuiTableCell-root {
+        .LigaBet-CustomTable {
+            border-radius: 0 0 12px 12px;
+            .tableHeaderCell {
+                padding: 8px 16px;
                 font-size: 16px;
+                font-weight: 700;
+                &.rankCell {
+                    width: 50px;
+                }
+                &.scoreCell {
+                    width: 70px;
+                }
+            }
+            .LigaBet-CustomTableRow {
+                border-top: 1px solid #ddd;
+                &.currentUtl {
+                    background-color: #f1f1f1;
+                }
+                .MuiTableCell-root {
+                    font-size: 16px;
+                }
             }
         }
     }
