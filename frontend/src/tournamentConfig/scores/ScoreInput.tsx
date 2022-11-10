@@ -28,6 +28,7 @@ function ScoreInput({
 				inputProps: {
 					max: 1000,
 					min: 0,
+					onClick:(e: any) => e.target.select(),
 					...InputProps.inputProps,
 				},
 			}}
