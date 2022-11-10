@@ -4,7 +4,7 @@ import { SpecialQuestionConfigProps } from '../../types';
 import CustomTable from '../../../widgets/Table/CustomTable';
 import TeamAchivementStageConfig from './TeamAchivementStageConfig';
 import HeaderWithSwitch from './HeaderWithSwitch';
-import { competitionStageToString } from '../../utils';
+import { competitionStageToString } from '../../../strings';
 
 
 const WINNER_STRING = 'זוכה בגביע';

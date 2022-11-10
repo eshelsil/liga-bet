@@ -4,11 +4,17 @@ import TopScorerRules from './TopScorerRules'
 import MostAssistsRules from './MostAssistsRules'
 import MvpRules from './MvpRules'
 import OffensiveTeamRules from './OffensiveTeamRules'
+import { SpecialQuestionBetScoreConfig } from '../../types'
 
-function SpecialQuestionsRules({ config }) {
+
+interface Props {
+    config: SpecialQuestionBetScoreConfig
+}
+
+function SpecialQuestionsRules({ config }: Props) {
     return (
-        <div className="text-part">
-            <h4>הימורים מיוחדים</h4>
+        <div className="takanonTextSection">
+            <h4 style={{marginBottom: 24}}>הימורים מיוחדים</h4>
             {config?.winner && (<>
                 <TeamAchivementRules label={'זוכה'} scoreConfig={config.winner} />
                 <br/>
@@ -21,16 +27,16 @@ function SpecialQuestionsRules({ config }) {
                 <TopScorerRules scoreConfig={config.topScorer} />
                 <br/>
             </>)}
-            {config?.mostAssits && (<>
-                <MostAssistsRules score={config.mostAssits} />
+            {config?.topAssists && (<>
+                <MostAssistsRules score={config.topAssists} />
                 <br/>
             </>)}
             {config?.mvp && (<>
                 <MvpRules score={config.mvp} />
                 <br/>
             </>)}
-            {config?.offensiveTeamGroupStage && (<>
-                <OffensiveTeamRules score={config.offensiveTeamGroupStage} />
+            {config?.offensiveTeam && (<>
+                <OffensiveTeamRules score={config.offensiveTeam} />
                 <br/>
             </>)}
         </div>

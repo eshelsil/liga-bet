@@ -11,20 +11,20 @@ function TopScorerRules({ scoreConfig }: Props) {
     return (
         <>
             <h5 className="underlined">מלך שערים</h5>
-            <table>
+            <table className='scoresConfigTable'>
                 <thead>
                     <tr>
-                        <th>הימור</th>
+                        <th></th>
                         <th>ניקוד</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>לכל גול</td>
+                        <td className='scoreRuleLabel'>לכל גול</td>
                         <td>{scoreConfig.eachGoal}</td>
                     </tr>
                     <tr>
-                        <td>זכייה בתואר</td>
+                        <td className='scoreRuleLabel'>זכייה בתואר</td>
                         <td>{scoreConfig.correct}</td>
                     </tr>
                 </tbody>

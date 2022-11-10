@@ -74,29 +74,3 @@
         }
     }
 }
-
-.LB-MyGroupRankBetsTable {
-    .LB-GroupStandingsResult {
-        max-width: 250px;
-        border-radius: 12px;
-        background: #eeeeee;
-        padding: 8px 0px;
-        .GroupStandingsResult-header {
-            text-align: center;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-        .LB-TeamDisplay {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            border-top: 1px solid #ddd;
-            padding: 4px 8px;
-            .TeamDisplay-rank {
-                font-size: 20px;
-                margin-bottom: -2px;
-                margin-left: 8px;
-            }
-        }
-    }
-}

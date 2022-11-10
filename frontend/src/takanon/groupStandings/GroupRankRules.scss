@@ -1,0 +1,26 @@
+.LB-GroupRankExamplesTable {
+    margin-top: 12px;
+    .MuiPaper-root {
+        border-radius: 12px;
+        @media (max-width: 600px) {
+            .MuiTableCell-root {
+                padding: 8px
+            }
+        }
+        .MuiTableCell-root {
+            text-align: center;
+            &.alignToTop {
+                vertical-align: top;
+            }
+            &.scoreCell {
+                font-weight: 700;
+            }
+        }
+        .tableHeaderCell {
+            font-weight: 700;
+        }
+    }
+    .LB-GroupStandingsResult {
+        margin: auto;
+    }
+}

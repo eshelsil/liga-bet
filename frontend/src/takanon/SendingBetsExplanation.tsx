@@ -3,7 +3,7 @@ import React from 'react'
 function MatchBetsExplanation() {
     return (
         <>
-            <div className="text-part">
+            <div className="takanonTextSection">
                 <h4>הימורי משחקים</h4>
                 <p>
                     כל משחק פתוח להימור עד לשעת תחילת המשחק.
@@ -19,7 +19,7 @@ function MatchBetsExplanation() {
 function PrimalBetsExplanation() {
     return (
         <>
-            <div className="text-part">
+            <div className="takanonTextSection">
                 <h4>הימורים מיוחדים והימורי בתים</h4>
                 <p>
                     יש למלא את כלל ההימורים המיוחדים והימורי הבתים עד לשריקת

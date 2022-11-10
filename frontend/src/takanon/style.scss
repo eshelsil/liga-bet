@@ -1,36 +1,24 @@
+@import '../styles/shadows';
 @import '../styles/mixins';
-
-.text-part p {
-    direction: rtl;
-}
-.text-part {
-    margin-bottom: 30px;
-}
-.bold {
-    font-weight: 700;
-}
-table tr td,
-table tr th {
-    padding-right: 5px;
-    padding-left: 5px;
-    vertical-align: top;
-}
-table tr.divide {
-    border-top: 2px solid #000;
-}
-.groupRank {
-    div {
-        display: flex;
-    }
-}
-.underlined {
-    text-decoration: underline;
-}
 
 .LB-Takanon {
     max-width: 100%;
     width: 900px;
     margin: auto;
+    .underlined {
+        text-decoration: underline;
+    }
+    .takanonTextSection {
+        margin-bottom: 30px;
+        border-radius: 12px;
+        padding: 8px;
+        box-shadow: $basic-shadow;
+        ul {
+            li {
+                margin-bottom: 6px;
+            }
+        }
+    }
     .LB-ExamplesAccordion {
         margin-top: 12px;
         &-link {
@@ -52,6 +40,30 @@ table tr.divide {
             }
         }
     }
+    .scoresConfigTable {
+        th, td {
+            padding-right: 5px;
+            padding-left: 5px;
+            vertical-align: top;
+        }
+        th {
+            text-align: right;
+        }
+        td {
+            text-align: center;
+            &.scoreRuleLabel {
+                font-weight: 700;
+                text-align: right;
+            }
+            &.alignToRight {
+                text-align: right;
+            }
+        }
+        tr.divide {
+            border-top: 2px solid #000;
+        }
+    }
 }
 
 @import './matches/GameBetsRules.scss';
+@import './groupStandings/GroupRankRules.scss';

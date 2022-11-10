@@ -7,7 +7,8 @@ import GroupRankBetConfig from './groupRankBets/GroupRankBetConfig';
 import MatchBetsConfig from './matchBets/MatchBetsConfig';
 import SpecialBetsConfig from './specialQuestions/SpecialBetsConfig';
 import { ScoreConfigForm } from '../types';
-import { generateDefaultScoresConfig, mapFormStateToApiParams, getInitialOptionsConfig } from '../utils';
+import { mapFormStateToApiParams, getInitialOptionsConfig } from '../utils';
+import { generateDefaultScoresConfig } from '../../utils';
 import { isEmpty } from 'lodash';
 import { LoadingButton } from '../../widgets/Buttons';
 

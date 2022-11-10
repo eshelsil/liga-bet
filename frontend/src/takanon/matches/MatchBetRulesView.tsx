@@ -29,6 +29,7 @@ function MatchBetRulesView({
         />
         <KnockoutMatchRules {...{
             scoreConfig: scoreConfig.knockout,
+            bonuses: scoreConfig.bonuses,
             gamesCount: knockoutGamesCount,
             homeTeam,
             awayTeam,

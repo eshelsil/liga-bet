@@ -1,11 +1,12 @@
 import React from 'react'
-import { Team } from '../types'
-import { useIsXsScreen } from '../hooks/useMedia'
-import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
-import { getHebGroupName } from '../strings/groups'
+import { useIsXsScreen } from '../../hooks/useMedia'
+import TeamWithFlag from '../TeamFlag/TeamWithFlag'
+import { getHebGroupName } from '../../strings/groups'
+import { GroupStandingProps, TeamDisplayProps } from './types'
+import './style.scss'
 
 
-function TeamDisplay({team, rank}: {team: Team, rank: number}){
+function TeamDisplay({team, rank}: TeamDisplayProps){
     const isXsScreen = useIsXsScreen()
     const size = isXsScreen ? 32 : 40
     return (
@@ -18,15 +19,7 @@ function TeamDisplay({team, rank}: {team: Team, rank: number}){
     )
 }
 
-
-
-interface Props {
-    standings: Team[],
-    name: string,
-}
-
-
-function GroupStandingsResult({standings, name}: Props){
+function GroupStandingsResult({standings, name}: GroupStandingProps){
     return (
         <div className='LB-GroupStandingsResult'>
             <div className='GroupStandingsResult-header'>

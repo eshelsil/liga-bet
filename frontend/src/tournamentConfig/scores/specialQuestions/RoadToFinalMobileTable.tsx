@@ -1,10 +1,10 @@
 import React from 'react';
 import { CompetitionStageName } from '../../../types';
-import { ScoreConfigFormProps, SpecialQuestionConfigProps } from '../../types';
+import { SpecialQuestionConfigProps } from '../../types';
 import CustomTable from '../../../widgets/Table/CustomTable';
 import ScoreInput from '../ScoreInput';
 import HeaderWithSwitch from './HeaderWithSwitch';
-import { competitionStageToString } from '../../utils';
+import { competitionStageToString } from '../../../strings';
 
 
 interface CompetitionStageConfigModel {

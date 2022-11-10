@@ -1,4 +1,6 @@
+import { GameBetScoreConfig, KnockoutStage } from '../../types'
 import { getWinnerSide } from '../../utils'
+import { sum } from 'lodash'
 
 export function getFullTimeString(
     fullTime: number[],
@@ -50,4 +52,19 @@ export function getQualifier(
         return extraTimeWinnerSide
     }
     return getWinnerSide(penalties[0], penalties[1])
+}
+
+export function getTotalScore(scoreConfig: GameBetScoreConfig) {
+    return sum(Object.values(scoreConfig).map(val => Number(val)))
+}
+
+export const gameCountByStage = {
+    [KnockoutStage.Final]: 1,
+    [KnockoutStage.SemiFinal]: 2,
+    [KnockoutStage.QuarterFinal]: 4,
+    [KnockoutStage.Last16]: 8,
+}
+
+export function getBonusMaxScore(stage: KnockoutStage, scoreConfig: GameBetScoreConfig) {
+    return gameCountByStage[stage] * getTotalScore(scoreConfig)
 }

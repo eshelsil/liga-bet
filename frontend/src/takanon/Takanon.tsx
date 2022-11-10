@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { generateDefaultScoresConfig } from '../tournamentConfig/utils';
-import { PrizesSelector, ScoresConfigSelector } from '../_selectors';
+import { generateDefaultScoresConfig } from '../utils';
+import { BetsFullScoresConfigSelector, PrizesSelector } from '../_selectors';
 import Disclaimer from './Disclaimer';
 import GeneralRules from './GeneralRules';
 import PrizesRules from './PrizesRules';
@@ -13,7 +13,7 @@ import './style.scss';
 
 function Takanon() {
     const prizes = useSelector(PrizesSelector);
-    const existingScoreConfig = useSelector(ScoresConfigSelector);
+    const existingScoreConfig = useSelector(BetsFullScoresConfigSelector);
     const scoreConfig = isEmpty(existingScoreConfig)
         ? generateDefaultScoresConfig()
         : existingScoreConfig

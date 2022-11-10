@@ -1,11 +1,12 @@
 import React from 'react';
-import { GameBetScoreConfig, Team, WinnerSide } from '../../types';
+import { GameBetBonusesScoreConfig, GameBetScoreConfig, Team, WinnerSide } from '../../types';
 import GameBetExamples from './GameBetExamples';
 import GameBetScore from './GameBetScore';
 
 
 interface Props {
     scoreConfig: GameBetScoreConfig
+    bonuses: GameBetBonusesScoreConfig
     homeTeam: Team
     awayTeam: Team
     gamesCount: number
@@ -13,17 +14,19 @@ interface Props {
 
 function KnockoutMatchRules({
     scoreConfig,
+    bonuses,
     homeTeam,
     awayTeam,
     gamesCount,
 }: Props) {
     return (
         <>
-            <div className="text-part">
+            <div className="takanonTextSection">
                 <h4>שלב הנוקאאוט – {gamesCount} משחקים</h4>
                 <GameBetScore
                     scoreConfig={scoreConfig}
                     gamesCount={gamesCount}
+                    bonuses={bonuses}
                 />
                 {awayTeam && homeTeam && (
                     <GameBetExamples

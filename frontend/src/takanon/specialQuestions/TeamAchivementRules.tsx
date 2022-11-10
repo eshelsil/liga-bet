@@ -1,9 +1,21 @@
 import React from 'react'
-import { sum } from 'lodash'
+import { sortBy, sum } from 'lodash'
+import { getHebCompetitionStageName } from '../../strings'
+import { CompetitionStageName, EnumRecord } from '../../types'
 
+
+function sortAchivementStage ([name, score]: [name: CompetitionStageName, score: number]) {
+    const stagesOrder = [
+        CompetitionStageName.QuarterFinal,
+        CompetitionStageName.SemiFinal,
+        CompetitionStageName.Final,
+        CompetitionStageName.Winning,
+    ]
+    return stagesOrder.indexOf(name)
+}
 interface Props {
     label: string
-    scoreConfig: Record<string, number>
+    scoreConfig: EnumRecord<CompetitionStageName, number>
 }
 
 function TeamAchivementRules({ label, scoreConfig }: Props) {
@@ -11,27 +23,27 @@ function TeamAchivementRules({ label, scoreConfig }: Props) {
     return (
         <>
             <h5 className="underlined">{label}</h5>
-            <h5>מקסימום נקודות - {maxScore}</h5>
             <p>כל העפלת שלב תזכה את המהמר במספר נקודות</p>
-            <table>
+            <table className='scoresConfigTable'>
                 <thead>
                     <tr>
-                        <th>הגעה לשלב</th>
-                        {Object.entries(scoreConfig).map(([name, score]) => (
-                            <th key={name}>{name}</th>
-                        ))}
+                        <th>הישג</th>
+                        <th>נקודות</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td className="bold">נקודות</td>
-                        {Object.entries(scoreConfig).map(([name, score]) => (
-                            <td key={name}>{score}</td>
+                        {sortBy(Object.entries(scoreConfig), sortAchivementStage).map(([name, score]) => (
+                            score > 0
+                            ? (
+                                <tr key={name}>
+                                    <td className='alignToRight'>{getHebCompetitionStageName(name as CompetitionStageName)}</td>
+                                    <td>{score}</td>
+                                </tr>
+                            ) : null
                         ))}
-                    </tr>
                 </tbody>
             </table>
-            <br />
+            <h5>מקסימום נקודות - {maxScore}</h5>
         </>
     )
 }

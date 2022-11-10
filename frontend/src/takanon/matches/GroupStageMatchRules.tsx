@@ -19,7 +19,7 @@ function GroupStageMatchRules({
 }: Props) {
     return (
         <>
-            <div className="text-part">
+            <div className="takanonTextSection">
                 <h4>שלב הבתים – {gamesCount} משחקים</h4>
                 <GameBetScore
                     gamesCount={gamesCount}

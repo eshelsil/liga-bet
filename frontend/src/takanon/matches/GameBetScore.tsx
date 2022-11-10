@@ -1,37 +1,59 @@
 import React from 'react';
-import { sum } from 'lodash';
-import { matchRuleToString } from '../../utils';
-import { GameBetScoreConfig } from '../../types';
+import { sumBy } from 'lodash';
+import { keysOf, matchRuleToString, valuesOf } from '../../utils';
+import { GameBetBonusesScoreConfig, GameBetScoreConfig, KnockoutStage } from '../../types';
+import { getHebStageName } from '../../strings';
+import { getBonusMaxScore, getTotalScore } from './utils';
 
 
 function GameBetScore({
     scoreConfig,
     gamesCount,
+    bonuses = {},
 }: {
     scoreConfig: GameBetScoreConfig
     gamesCount: number
+    bonuses?: GameBetBonusesScoreConfig
 }) {
-    const totalScore = sum(Object.values(scoreConfig).map(val => Number(val)))
-    const maxScore = totalScore * gamesCount
+    const bonusKeys = keysOf(bonuses).reverse()
+    const bonusValues = valuesOf(bonuses).reverse()
+
+
+    const totalScore = getTotalScore(scoreConfig)
+    const maxBonusesScore = sumBy(
+        Object.entries(bonuses),
+        ([stage, config]) => getBonusMaxScore(stage as KnockoutStage, config)
+    )
+    const maxScore = totalScore * gamesCount + maxBonusesScore
+
     return (
         <>
-            <table>
+            <table className='scoresConfigTable'>
                 <thead>
                     <tr>
-                        <th>הימור</th>
+                        <th></th>
                         <th>ניקוד</th>
+                        {bonusKeys.map(stageName => (
+                            <th key={stageName}>{getHebStageName(stageName)}</th>
+                        ))}
                     </tr>
                 </thead>
                 <tbody>
                     {Object.entries(scoreConfig).map(([rule, score]) => (
-                        <tr key={rule} className="bold">
-                            <td>{matchRuleToString[rule]}</td>
+                        <tr key={rule}>
+                            <td className='scoreRuleLabel'>{matchRuleToString[rule]}</td>
                             <td>{score}</td>
+                            {bonusValues.map((scoreConfig, index) => (
+                                <td key={index}>{score + scoreConfig[rule]}</td>
+                            ))}
                         </tr>
                     ))}
                     <tr className="divide">
-                        <td>סכום למשחק</td>
+                        <td className='scoreRuleLabel'>סכום למשחק</td>
                         <td>{totalScore}</td>
+                        {bonusValues.map((scoreConfig, index) => (
+                            <td key={index}>{totalScore + getTotalScore(scoreConfig)}</td>
+                        ))}
                     </tr>
                 </tbody>
             </table>

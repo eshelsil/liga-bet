@@ -2,7 +2,7 @@ import React from 'react'
 import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
 import { GroupRankBetWithRelations } from '../types'
 import CustomTable from '../widgets/Table/CustomTable'
-import GroupStandingsResult from './GroupStandingsResult'
+import GroupStandingsResult from '../widgets/GroupStandings'
 
 const GroupPositionBetsTable = ({
     bets,
