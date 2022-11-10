@@ -18,7 +18,7 @@ function SpecialQuestionsRules() {
                 <br/>
             </>)}
             {config?.runnerUp && (<>
-                <TeamAchivementRules label={'סגנית'} scoreConfig={config.runnerUp} />
+                <TeamAchivementRules label={'סגנית'} scoreConfig={config.runnerUp} isRunnerUp />
                 <br/>
             </>)}
             {config?.topScorer && (<>

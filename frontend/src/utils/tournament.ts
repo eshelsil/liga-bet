@@ -1,4 +1,5 @@
-import { GameBetType, KnockoutStage, Tournament, TournamentStatus, TournamentScoreConfig, GameBetScoreConfig, EachGoalBet, RoadToFinalBetScoreConfig, SpecialQuestionType, SpecialQuestionBetScoreConfig } from '../types'
+import { cloneDeep, isEmpty } from 'lodash'
+import { GameBetType, KnockoutStage, Tournament, TournamentStatus, TournamentScoreConfig, GameBetScoreConfig, EachGoalBet, RoadToFinalBetScoreConfig, SpecialQuestionType, SpecialQuestionBetScoreConfig, MatchBetsScoreConfig } from '../types'
 import { valuesOf } from './common'
 
 export function isTournamentStarted(tournament: Tournament) {
@@ -57,6 +58,24 @@ export function isQuestionBetEmpty<T extends keyof SpecialQuestionBetScoreConfig
 		return isRoadToFinalBetEmpty(config as RoadToFinalBetScoreConfig)
 	}
 	return isSimpleQuestionBetEmpty(config as number)
+}
+
+export function formatGameBetsConfig(scoresConfig: MatchBetsScoreConfig): MatchBetsScoreConfig{
+	const res = cloneDeep(scoresConfig)
+	
+	const hasQalifierBet = scoresConfig.knockout.qualifier > 0
+	if (!hasQalifierBet) {
+		delete res.knockout.qualifier['qualifier']
+	}
+	for (const [stage, config] of Object.entries(scoresConfig.bonuses)){
+		if (!hasQalifierBet) {
+			delete res['qualifier']
+		}
+		if (isGameBetScoreConfigEmpty(config)){
+			delete res.bonuses[stage]
+		}
+	}
+	return res
 }
 
 

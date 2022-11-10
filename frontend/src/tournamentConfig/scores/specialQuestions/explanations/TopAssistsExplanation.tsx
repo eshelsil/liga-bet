@@ -6,7 +6,7 @@ function TopAssistsExplanation(){
 		<div className='LB-ScoreConfigSection'>
             <ul>
                 <li>
-                    השחקן שסיים את הטורניר עם הכי הרבה שערים
+                    השחקן שסיים את הטורניר עם הכי הרבה בישולים
                 </li>
             </ul>
 		</div>

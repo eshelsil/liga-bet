@@ -15,13 +15,13 @@ function GameBetExamples({
     return (
         <ExamplesAccordion>
             <div>
-                    {examples.map((example, index) => (
-                        <GameExampleView
-                            key={index}
-                            example={example}
-                            scoresConfig={scoresConfig}
-                        />
-                    ))}
+                {examples.map((example, index) => (
+                    <GameExampleView
+                        key={index}
+                        example={example}
+                        scoresConfig={scoresConfig}
+                    />
+                ))}
             </div>
         </ExamplesAccordion>
     )

@@ -9,11 +9,12 @@ import { GameBetType, KnockoutStage } from '../../../types';
 import MatchBetsExplanation from './MatchBetsExplanation';
 import MatchBetStageConfig from './MatchBetStageConfig';
 import SectionTitle from '../SectionTitle';
-import { gameStageToString } from '../../../utils';
+import { formatGameBetsConfig, gameStageToString } from '../../../utils';
 import { Switch } from '@mui/material';
 import { Model as TableModel } from '../../../widgets/Table';
 import BonusesRow from './BonusesRow';
 import { CanUpdateScoreConfig } from '../../../_selectors';
+import { getGameParams } from '../../utils';
 
 
 interface StageConfigModel {
@@ -28,6 +29,7 @@ function MatchBetsConfig(formProps: ScoreConfigFormProps){
 	const scoreConfig = useWatch({control: formProps.control, name: 'gameBets'})
 	const optionsConfig = useWatch({control: formProps.control, name: 'gameBetOptions'})
 	const qualifierIsOn = optionsConfig.qualifier
+	const formattedScoreConfig = formatGameBetsConfig(getGameParams(scoreConfig, optionsConfig))
 
 	const onKoSwitchChange = (event: any, value: boolean) => {
 		formProps.setValue('gameBetOptions.qualifier', value as never);
@@ -123,7 +125,7 @@ function MatchBetsConfig(formProps: ScoreConfigFormProps){
 				<CustomTable models={models} cells={tableCells} />
 			</div>
 			<TakanonPreviewModal>
-				<MatchBetRules config={scoreConfig} />
+				<MatchBetRules config={formattedScoreConfig} />
 			</TakanonPreviewModal>
 		</div>
 	);

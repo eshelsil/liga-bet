@@ -1,7 +1,7 @@
 import { cloneDeep, isEmpty } from 'lodash';
 import { createSelector } from 'reselect'
 import { SpecialQuestionType } from '../../types';
-import { generateDefaultScoresConfig, isGameBetScoreConfigEmpty, isQuestionBetEmpty } from '../../utils';
+import { formatGameBetsConfig, generateDefaultScoresConfig, isQuestionBetEmpty } from '../../utils';
 import {
     CurrentTournament,
 } from './models'
@@ -30,18 +30,7 @@ export const BetsFullScoresConfigSelector = createSelector(
             : originalConfig
         const scoreConfig = cloneDeep(initialConfig)
         
-        const hasQalifierBet = scoreConfig.gameBets.knockout.qualifier > 0
-        if (!hasQalifierBet) {
-            delete scoreConfig.gameBets.knockout.qualifier['qualifier']
-        }
-        for (const [stage, config] of Object.entries(scoreConfig.gameBets.bonuses)){
-            if (!hasQalifierBet) {
-                delete config['qualifier']
-            }
-            if (isGameBetScoreConfigEmpty(config)){
-                delete scoreConfig.gameBets.bonuses[stage]
-            }
-        }
+        scoreConfig.gameBets = formatGameBetsConfig(scoreConfig.gameBets)        
 
         for (const [name, config] of Object.entries(scoreConfig.specialBets)){
             if (!scoreConfig.specialQuestionFlags[name] || isQuestionBetEmpty(name as SpecialQuestionType, config)){

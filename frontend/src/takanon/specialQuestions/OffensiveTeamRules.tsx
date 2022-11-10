@@ -10,7 +10,7 @@ function OffensiveTeamRules({ score }: Props) {
             <h5 className="underlined">ההתקפה החזקה בבתים</h5>
             <h5>הקבוצה שהבקיעה הכי הרבה שערים בשלב הבתים</h5>
             <h5>{score} נקודות</h5>
-            <ul style={{ marginTop: 8 }}>
+            <ul style={{ marginTop: 4 }}>
                 <li>
                     במקרה של תיקו - כל הימור על אחת מהקבוצות יזכה את המהמר במלוא
                     הנקודות

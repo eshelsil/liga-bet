@@ -11,6 +11,7 @@ function TopScorerRules({ scoreConfig }: Props) {
     return (
         <>
             <h5 className="underlined">מלך שערים</h5>
+            <h5>השחקן שסיים את הטורניר עם הכי הרבה שערים</h5>
             <table className='scoresConfigTable'>
                 <thead>
                     <tr>
@@ -24,17 +25,17 @@ function TopScorerRules({ scoreConfig }: Props) {
                         <td>{scoreConfig.eachGoal}</td>
                     </tr>
                     <tr>
-                        <td className='scoreRuleLabel'>זכייה בתואר</td>
+                        <td className='scoreRuleLabel'>זכייה בתואר "מלך השערים"</td>
                         <td>{scoreConfig.correct}</td>
                     </tr>
                 </tbody>
             </table>
-            <ul style={{ marginTop: 8 }}>
+            <ul style={{ marginTop: 4 }}>
                 <li>
                     לא ניתן להחליף מלך שערים במהלך הטורניר (גם אם שחקן נפצע)
                 </li>
                 <li>
-                    במידה ויש תיקו במלך שערים - כל הימור על אחד מהשחקנים יזכה את
+                    במידה ויש תיקו במלך השערים - כל הימור על אחד מהשחקנים יזכה את
                     המהמר ב{scoreConfig.correct} הנק' על זכייה בתואר
                 </li>
             </ul>

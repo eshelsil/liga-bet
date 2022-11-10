@@ -54,7 +54,7 @@ function RoadToFinalConfig(configProps: SpecialQuestionConfigProps){
 				<TeamAchivementRules label={'זוכה'} scoreConfig={scoreConfigWinner} />
 				{isOnRunnerUp && (<>
 					<br/>
-					<TeamAchivementRules label={'סגנית'} scoreConfig={scoreConfigRunnerUp} />
+					<TeamAchivementRules label={'סגנית'} scoreConfig={scoreConfigRunnerUp} isRunnerUp />
 				</>)}
 			</TakanonPreviewModal>
 		</div>

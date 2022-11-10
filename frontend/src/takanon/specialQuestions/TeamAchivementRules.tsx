@@ -16,9 +16,10 @@ function sortAchivementStage ([name, score]: [name: CompetitionStageName, score:
 interface Props {
     label: string
     scoreConfig: EnumRecord<CompetitionStageName, number>
+    isRunnerUp?: boolean
 }
 
-function TeamAchivementRules({ label, scoreConfig }: Props) {
+function TeamAchivementRules({ label, scoreConfig, isRunnerUp = false }: Props) {
     const maxScore = sum(Object.values(scoreConfig).map(val => Number(val)))
     return (
         <>
@@ -44,6 +45,13 @@ function TeamAchivementRules({ label, scoreConfig }: Props) {
                 </tbody>
             </table>
             <h5>מקסימום נקודות - {maxScore}</h5>
+            {isRunnerUp && (
+                <ul style={{ marginTop: 4 }}>
+                    <li>
+                        לא ניתן לבחור אותה קבוצה גם כ"סגנית" וגם כ"זוכה"
+                    </li>
+                </ul>
+            )}
         </>
     )
 }

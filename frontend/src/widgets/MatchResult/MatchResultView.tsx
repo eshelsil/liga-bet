@@ -46,11 +46,9 @@ function MatchResultView({home, away, qualifier, title}: MatchResultProps){
                                 120'
                             </div>
                         )}
-                        {isQualifierBettable && (
-                            <div className={'MatchResult-row'}>
-                                מעפילה
-                            </div>
-                        )}
+                        <div className={'MatchResult-row'}>
+                            מעפילה
+                        </div>
                     </>)}
                 </div>
                 <div className='MatchResult-side'>

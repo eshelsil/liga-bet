@@ -40,13 +40,16 @@ function GameBetScore({
                 </thead>
                 <tbody>
                     {Object.entries(scoreConfig).map(([rule, score]) => (
-                        <tr key={rule}>
-                            <td className='scoreRuleLabel'>{matchRuleToString[rule]}</td>
-                            <td>{score}</td>
-                            {bonusValues.map((scoreConfig, index) => (
-                                <td key={index}>{score + scoreConfig[rule]}</td>
-                            ))}
-                        </tr>
+                        score > 0
+                        ? (
+                            <tr key={rule}>
+                                <td className='scoreRuleLabel'>{matchRuleToString[rule]}</td>
+                                <td>{score}</td>
+                                {bonusValues.map((scoreConfig, index) => (
+                                    <td key={index}>{score + scoreConfig[rule]}</td>
+                                ))}
+                            </tr>
+                        ) : null
                     ))}
                     <tr className="divide">
                         <td className='scoreRuleLabel'>סכום למשחק</td>
