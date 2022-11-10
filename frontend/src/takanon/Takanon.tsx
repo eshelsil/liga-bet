@@ -1,22 +1,17 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { generateDefaultScoresConfig } from '../utils';
-import { BetsFullScoresConfigSelector, PrizesSelector } from '../_selectors';
+import { PrizesSelector } from '../_selectors';
 import Disclaimer from './Disclaimer';
 import GeneralRules from './GeneralRules';
 import PrizesRules from './PrizesRules';
 import ScoresRules from './ScoresRules';
 import SendingBetsExplanation from './SendingBetsExplanation';
-import { isEmpty } from 'lodash';
-import './style.scss';
+import './TakanonStyle'
 
 
 function Takanon() {
     const prizes = useSelector(PrizesSelector);
-    const existingScoreConfig = useSelector(BetsFullScoresConfigSelector);
-    const scoreConfig = isEmpty(existingScoreConfig)
-        ? generateDefaultScoresConfig()
-        : existingScoreConfig
+    
 
     return (
         <div className="LB-Takanon">
@@ -24,7 +19,7 @@ function Takanon() {
 
             <Disclaimer />
             <SendingBetsExplanation />
-            <ScoresRules config={scoreConfig} />
+            <ScoresRules />
             <PrizesRules prizes={prizes} />
             <br/>
 

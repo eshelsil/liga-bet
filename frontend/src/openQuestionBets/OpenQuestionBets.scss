@@ -18,6 +18,13 @@
     max-width: 100%;
     width: 900px;
     margin: auto;
+    .LigaBet-TakanonPreviewModal {
+        margin: 0 6px 0 0;
+        display: inline-block;
+        .openTakanonDemoLink {
+            font-size: 14px;
+        }
+    }
     .LigaBet-OpenQuestionBetView {
         border-radius: 12px;
         width: 330px;

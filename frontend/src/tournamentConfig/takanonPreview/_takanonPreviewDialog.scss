@@ -1,8 +1,20 @@
 .LigaBet-TakanonPreviewSection-Dialog {
-    .MuiPaper-root {
+    .MuiDialog-paper {
         max-width: 900px;
+        .closeButtonContainer{
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            cursor: pointer;
+        }
         .dialogContent {
             padding: 24px;
+        }
+        @media(max-width: 600px){
+            margin: 12px;
+            .dialogContent {
+                padding: 12px;
+            }
         }
     }
 }

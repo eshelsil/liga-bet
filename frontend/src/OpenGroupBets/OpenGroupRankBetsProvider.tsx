@@ -7,12 +7,16 @@ import { GroupWithABet, BetType, Team } from '../types'
 
 interface Props {
     groupsWithBet: GroupWithABet[]
+    competitionStartTime: Date
+    isAvailable: boolean
     sendBetAndStore: (params: SendGroupRankBetParams) => Promise<void>
 }
 
 const OpenGroupRankBetsProvider = ({
     groupsWithBet,
+    competitionStartTime,
     sendBetAndStore,
+    isAvailable,
 }: Props) => {
     async function sendGroupRankBet({
         groupId,
@@ -34,7 +38,9 @@ const OpenGroupRankBetsProvider = ({
     return (
         <OpenGroupRankBetsView
             groupsWithBet={groupsWithBet}
+            competitionStartTime={competitionStartTime}
             sendGroupRankBet={sendGroupRankBet}
+            isAvailable={isAvailable}
         />
     )
 }

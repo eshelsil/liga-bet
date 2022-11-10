@@ -61,7 +61,7 @@ function GroupRankBetConfig({
 				</tbody>
 			</table>
 			<TakanonPreviewModal>
-				<GroupStageRules scoreConfig={{perfect:perfectScore, minorMistake: minorMistakeScore}}/>
+				<GroupStageRules config={{perfect:perfectScore, minorMistake: minorMistakeScore}}/>
 			</TakanonPreviewModal>
 		</div>
 	);

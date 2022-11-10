@@ -1,3 +1,4 @@
+export * from './competition'
 export * from './dataFetcher'
 export * from './myBets'
 export * from './notifications'

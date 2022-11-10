@@ -1,22 +1,37 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { GroupWithABet } from '../types'
 import { Grid } from '@mui/material'
 import GroupRankBetView from './GroupRankBetView'
 import './openGroupRankBets.scss'
+import TakanonPreviewModal from '../tournamentConfig/takanonPreview/TakanonPreviewModal'
+import GroupStageRules from '../takanon/groupStandings/GroupStageRulesProvider'
+import dayjs from 'dayjs'
+import { DEFAULT_DATETIME_FORMAT } from '../utils'
 
 
 interface Props {
     groupsWithBet: GroupWithABet[]
+    competitionStartTime: Date
     sendGroupRankBet: (...args: any) => Promise<void>
+    isAvailable: boolean
 }
 
-const OpenGroupRankBetsView = ({ groupsWithBet, sendGroupRankBet }: Props) => {
-    const isAvaiable = true
+const OpenGroupRankBetsView = ({ groupsWithBet, sendGroupRankBet, competitionStartTime, isAvailable }: Props) => {
+    const startTimeString = competitionStartTime ? `(${dayjs(competitionStartTime).format(DEFAULT_DATETIME_FORMAT)})` : ''
     return (
         <>
-            {isAvaiable && (
+            {isAvailable && (
                 <div className='LB-OpenGroupRankBetsView'>
-                    <h2>הימורי בתים פתוחים</h2>
+                    <h2>ניחוש דירוגי בתים</h2>
+                    <ul>
+                        <li>ניתן לערוך את הניחושים עד שעת תתחילת המשחק הראשון בטורניר {' '}{startTimeString}</li>
+                        <li style={{marginTop: 8}}>
+                            ניתן לראות את שיטת הניקוד
+                            <TakanonPreviewModal label={'בלחיצה כאן'}>
+                                <GroupStageRules />
+                            </TakanonPreviewModal>
+                        </li>
+                    </ul>
                     <Grid container>
                         {groupsWithBet.map((groupWithBet) => (
                             <GroupRankBetView
@@ -28,7 +43,7 @@ const OpenGroupRankBetsView = ({ groupsWithBet, sendGroupRankBet }: Props) => {
                     </Grid>
                 </div>
             )}
-            {!isAvaiable && (
+            {!isAvailable && (
                 <h2>נסגרו הימורי הבתים! לא ניתן לעדכן הימורים אלה</h2>
             )}
         </>

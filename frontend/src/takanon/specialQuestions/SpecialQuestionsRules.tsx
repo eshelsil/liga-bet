@@ -4,14 +4,12 @@ import TopScorerRules from './TopScorerRules'
 import MostAssistsRules from './MostAssistsRules'
 import MvpRules from './MvpRules'
 import OffensiveTeamRules from './OffensiveTeamRules'
-import { SpecialQuestionBetScoreConfig } from '../../types'
+import { useSelector } from 'react-redux'
+import { FormattedSpecialQuestionsScoreConfig } from '../../_selectors'
 
 
-interface Props {
-    config: SpecialQuestionBetScoreConfig
-}
-
-function SpecialQuestionsRules({ config }: Props) {
+function SpecialQuestionsRules() {
+    const config = useSelector(FormattedSpecialQuestionsScoreConfig)
     return (
         <div className="takanonTextSection">
             <h4 style={{marginBottom: 24}}>הימורים מיוחדים</h4>

@@ -123,7 +123,7 @@ function MatchBetsConfig(formProps: ScoreConfigFormProps){
 				<CustomTable models={models} cells={tableCells} />
 			</div>
 			<TakanonPreviewModal>
-				<MatchBetRules scoreConfig={scoreConfig} />
+				<MatchBetRules config={scoreConfig} />
 			</TakanonPreviewModal>
 		</div>
 	);

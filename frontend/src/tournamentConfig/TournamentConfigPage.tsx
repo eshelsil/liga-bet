@@ -5,6 +5,7 @@ import { AnsweredUseDefaultScoreDialog, TournamentStatusSelector } from '../_sel
 import PrizesConfig from './prizes/PrizesConfigProvider';
 import UseDefaultConfigQuestion from './UseDefaultConfigQuestion';
 import './TournamentConfig.scss';
+import '../takanon/TakanonStyle';
 
 
 function TournamentConfigPage(){

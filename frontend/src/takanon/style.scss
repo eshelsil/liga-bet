@@ -5,63 +5,68 @@
     max-width: 100%;
     width: 900px;
     margin: auto;
-    .underlined {
-        text-decoration: underline;
-    }
     .takanonTextSection {
-        margin-bottom: 30px;
         border-radius: 12px;
         padding: 8px;
         box-shadow: $basic-shadow;
-        ul {
-            li {
-                margin-bottom: 6px;
+    }
+}
+
+.takanonTextSection {
+    margin-bottom: 30px;
+    .underlined {
+        text-decoration: underline;
+    }
+    ul {
+        li {
+            margin-bottom: 6px;
+        }
+    }
+}
+
+.LB-ExamplesAccordion {
+    margin-top: 12px;
+    &-link {
+        @include flexRow;
+        cursor: pointer;
+        &:hover {
+            text-decoration: underline;
+        }
+        &-title {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .expandArrowIcon {
+            margin-right: 4px;
+            transition: transform 0.3s;
+            &.arrowUp {
+                transform: rotate(180deg);
             }
         }
     }
-    .LB-ExamplesAccordion {
-        margin-top: 12px;
-        &-link {
-            @include flexRow;
-            cursor: pointer;
-            &:hover {
-                text-decoration: underline;
-            }
-            &-title {
-                font-size: 16px;
-                line-height: 1.5;
-            }
-            .expandArrowIcon {
-                margin-right: 4px;
-                transition: transform 0.4s;
-                &.arrowUp {
-                    transform: rotate(180deg);
-                }
-            }
-        }
+}
+
+.scoresConfigTable {
+    th, td {
+        padding-right: 5px;
+        padding-left: 5px;
+        vertical-align: top;
     }
-    .scoresConfigTable {
-        th, td {
-            padding-right: 5px;
-            padding-left: 5px;
-            vertical-align: top;
-        }
-        th {
+    th {
+        text-align: right;
+    }
+    td {
+        text-align: center;
+        &.scoreRuleLabel {
+            font-weight: 700;
             text-align: right;
         }
-        td {
-            text-align: center;
-            &.scoreRuleLabel {
-                font-weight: 700;
-                text-align: right;
-            }
-            &.alignToRight {
-                text-align: right;
-            }
+        &.alignToRight {
+            text-align: right;
         }
-        tr.divide {
-            border-top: 2px solid #000;
-        }
+    }
+    tr.divide {
+        border-top: 2px solid #000;
     }
 }
 

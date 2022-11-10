@@ -13,7 +13,7 @@ interface Props {
 }
 
 const OpenQuestionBetsProvider = ({ sendBetAndStore }: Props) => {
-    const { questionsWithBet } = useSelector(OpenQuestionBetsSelector)
+    const { questionsWithBet, competitionStartTime } = useSelector(OpenQuestionBetsSelector)
     async function sendQuestionBet({ questionId, answer }: QuestionBetParams) {
         const params = {
             betType: BetType.Question,
@@ -29,6 +29,7 @@ const OpenQuestionBetsProvider = ({ sendBetAndStore }: Props) => {
         <QuestionBetsView
             questions={questionsWithBet}
             sendQuestionBet={sendQuestionBet}
+            competitionStartTime={competitionStartTime}
         />
     )
 }

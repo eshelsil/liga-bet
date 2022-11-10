@@ -1,7 +1,7 @@
 import { groupBy } from 'lodash'
 import { createSelector } from 'reselect'
 import { SpecialQuestionWithABet } from '../types'
-import { MyQuestionBetsById } from './logic'
+import { CompetitionStartTime, MyQuestionBetsById } from './logic'
 import { QuestionBetsLinked } from './modelRelations'
 import { SpecialQuestionsWithRelations } from './modelRelations'
 
@@ -23,13 +23,14 @@ export const ClosedQuestionBetsSelector = createSelector(
 export const OpenQuestionBetsSelector = createSelector(
     MyQuestionBetsById,
     SpecialQuestionsWithRelations,
-    (myQuestionBets, specialQuestions) => {
+    CompetitionStartTime,
+    (myQuestionBets, specialQuestions, competitionStartTime) => {
         const questionsWithBet = Object.values(specialQuestions).map(
             (question): SpecialQuestionWithABet => ({
                 ...question,
                 bet: myQuestionBets[question.id],
             })
         )
-        return { questionsWithBet }
+        return { questionsWithBet, competitionStartTime }
     }
 )
