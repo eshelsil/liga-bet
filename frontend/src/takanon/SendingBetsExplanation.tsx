@@ -10,8 +10,6 @@ function MatchBetsExplanation() {
                     <br />
                     כלל ההימורים נחשפים בתחילת המשחק וניתנים לצפייה בלשונית
                     "צפייה בהימורים".
-                    <br />
-                    יש לבחור את התוצאה וללחוץ על "שלח" בסיום
                 </p>
             </div>
         </>
@@ -33,6 +31,7 @@ function PrimalBetsExplanation() {
         </>
     )
 }
+
 function SendingBetsExplanation() {
     return (
         <>

@@ -38,7 +38,7 @@ function TeamFlag({
     const tla = teamNameToCountryCode[name.toLowerCase()] ?? name.slice(0,2).toLowerCase()
     return (
         <div className='LB-TeamFlag'>
-            <CircleFlag countryCode={tla} height={size} />
+            <CircleFlag countryCode={tla} height={size} width={size} />
         </div>
     )
 }

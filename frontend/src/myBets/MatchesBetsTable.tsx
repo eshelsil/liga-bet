@@ -4,7 +4,7 @@ import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
 import { MatchBetWithRelations } from '../types'
 import { SHORT_DATE_FORMAT } from '../utils'
 import dayjs from 'dayjs'
-import MatchResult from './MatchResult'
+import MatchResultView from '../widgets/MatchResult'
 
 
 const MatchesBetsTable = ({ bets }: { bets: MatchBetWithRelations[] }) => {
@@ -34,7 +34,7 @@ const MatchesBetsTable = ({ bets }: { bets: MatchBetWithRelations[] }) => {
                 cell: 'alignToTop',
             },
 			getter: (bet: MatchBetWithRelations) => (
-                <MatchResult
+                <MatchResultView
                     home={{
                         team: bet.relatedMatch.home_team,
                         score: bet.result_home,
@@ -52,7 +52,7 @@ const MatchesBetsTable = ({ bets }: { bets: MatchBetWithRelations[] }) => {
 			header: 'תוצאה בפועל',
 			getter: (bet: MatchBetWithRelations) => (<>
                 {bet.relatedMatch.is_done && (
-                    <MatchResult
+                    <MatchResultView
                         home={{
                             team: bet.relatedMatch.home_team,
                             score: bet.relatedMatch.result_home,

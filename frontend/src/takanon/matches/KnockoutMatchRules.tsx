@@ -36,6 +36,7 @@ function KnockoutMatchRules({
                                     extraTime: [1, 2],
                                     awayTeam,
                                     homeTeam,
+                                    isKnockout: true,
                                 },
                             },
                             {
@@ -46,6 +47,7 @@ function KnockoutMatchRules({
                                     extraTime: [1, 2],
                                     awayTeam,
                                     homeTeam,
+                                    isKnockout: true,
                                 },
                             },
                             {
@@ -57,6 +59,7 @@ function KnockoutMatchRules({
                                     penalties: [5, 3],
                                     awayTeam,
                                     homeTeam,
+                                    isKnockout: true,
                                 },
                             },
                             {
@@ -65,6 +68,7 @@ function KnockoutMatchRules({
                                     fullTime: [4, 3],
                                     awayTeam,
                                     homeTeam,
+                                    isKnockout: true,
                                 },
                             },
                             {
@@ -73,6 +77,18 @@ function KnockoutMatchRules({
                                     fullTime: [1, 0],
                                     awayTeam,
                                     homeTeam,
+                                    isKnockout: true,
+                                },
+                            },
+                            {
+                                bet: [1, 0],
+                                game: {
+                                    fullTime: [1, 1],
+                                    extraTime: [2, 2],
+                                    penalties: [3, 5],
+                                    awayTeam,
+                                    homeTeam,
+                                    isKnockout: true,
                                 },
                             },
                         ]}

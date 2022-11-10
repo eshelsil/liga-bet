@@ -1,6 +1,6 @@
 import React from 'react'
 import TeamWithFlag from '../../widgets/TeamFlag/TeamWithFlag'
-import MatchResult from '../../widgets/MatchResult'
+import { MatchResultOld } from '../../widgets/MatchResult'
 import { MatchBetWithRelations } from '../../types'
 
 interface Props {
@@ -56,7 +56,7 @@ function MatchBetScore({ bet }: Props) {
                 </table>
             </div>
             <div className="col-xs-2 pull-right col-no-padding">
-                <MatchResult winner_class="bolded" matchData={relatedMatch} />
+                <MatchResultOld winner_class="bolded" matchData={relatedMatch} />
             </div>
         </li>
     )

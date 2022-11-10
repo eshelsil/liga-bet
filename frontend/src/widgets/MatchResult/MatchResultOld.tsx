@@ -1,12 +1,12 @@
 import React from 'react'
-import { MatchResult as MatchResultType, WinnerSide } from '../types'
+import { MatchResult as MatchResultType, WinnerSide } from '../../types'
 
 interface Props {
     matchData: MatchResultType
     winner_class?: string
 }
 
-function MatchResult({ matchData, winner_class = '' }: Props) {
+function MatchResultOld({ matchData, winner_class = '' }: Props) {
     const { winner_side, result_home, result_away } = matchData
     if (winner_side === WinnerSide.Home) {
         return (
@@ -30,4 +30,4 @@ function MatchResult({ matchData, winner_class = '' }: Props) {
     )
 }
 
-export default MatchResult
+export default MatchResultOld

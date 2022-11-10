@@ -1,7 +1,7 @@
 import React from 'react'
 import dayjs from 'dayjs'
 import { updateScoresFromApi } from '../api/matches'
-import MatchResult from '../widgets/MatchResult'
+import { MatchResultOld } from '../widgets/MatchResult'
 import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
 import { MatchWithBets } from '../_selectors'
 
@@ -93,7 +93,7 @@ function MatchGumblesList({ match }: { match: MatchWithBets }) {
                                             match-id: {match.id}
                                         </td>
                                         <td>
-                                            <MatchResult
+                                            <MatchResultOld
                                                 matchData={{
                                                     winner_side,
                                                     result_home,

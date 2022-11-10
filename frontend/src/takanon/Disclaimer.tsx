@@ -1,12 +1,15 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { CurrentTournamentOwner } from '../_selectors';
 
 
 function Disclaimer() {
+    const owner = useSelector(CurrentTournamentOwner)
     return (<>
         <h4>הצהרות</h4>
         <ul>
             <li>
-                התקנון נקבע על ידי מנהל הטורניר, ואין למנהלי האתר אחריות על הפרסים או על שיטת חלוקת הנקודות
+                התקנון נקבע על ידי מנהל הטורניר (המכונה אצליכם בחבר'ה "{owner?.name}"), ואין למנהלי האתר אחריות על הפרסים או על שיטת חלוקת הנקודות
             </li>
         </ul>
     </>);
