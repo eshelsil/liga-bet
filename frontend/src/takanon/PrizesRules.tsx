@@ -6,6 +6,9 @@ interface Props {
 }
 
 function PrizesRules({ prizes }: Props) {
+    if (prizes.length === 0){
+        return null
+    }
     return (
         <>
             <h3 style={{ marginBottom: 20 }}>פרסים</h3>
