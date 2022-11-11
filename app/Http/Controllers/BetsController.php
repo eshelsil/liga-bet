@@ -19,6 +19,7 @@ use App\Group;
 use App\Player;
 use App\SpecialBets\SpecialBet;
 use App\Exceptions\JsonException;
+use App\TournamentUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Builder;
@@ -101,8 +102,13 @@ class BetsController extends Controller
         $user = $this->getUser();
         $utl = $user->getTournamentUser($tournamentId);
         $betsInput = Request::json("bets", []);
+        $fillTournaments = Request::json("fillTournaments", null);
 
-        $this->validateBatch($betsInput, $utl);
+        $utlsToFill = $fillTournaments ? $this->getTournamentsToFill($user, $fillTournaments) : collect([]);
+        $utlsToSendFor = collect([$utl])->merge($utlsToFill);
+        foreach ($utlsToSendFor as $utlToSendFor){
+            $this->validateBatch($betsInput, $utlToSendFor);
+        }
 
         $bets = [];
         foreach ($betsInput as $betInput) {
@@ -113,23 +119,27 @@ class BetsController extends Controller
                     if (!$game->isOpenForBets()){
                         throw new \InvalidArgumentException("Game with id $game->id is closed for bets. cannot update bet");
                     }
-                    $betRequest = new BetMatchRequest(
-                        $game,
-                        $utl->tournament,
-                        $betInput->data
-                    );
-                    $bets[] = BetMatch::save($utl, $betRequest);
+                    foreach ($utlsToSendFor as $utl ){
+                        $betRequest = new BetMatchRequest(
+                            $game,
+                            $utl->tournament,
+                            $betInput->data
+                        );
+                        $bets[] = BetMatch::save($utl, $betRequest);
+                    }
                     break;
                 case BetTypes::GroupsRank:
                     if (!$utl->tournament->competition->areBetsOpen()){
                         throw new \InvalidArgumentException("GroupRank bets are closed. cannot update bet");
                     }
-                    $betRequest = new BetGroupRankRequest(
-                        Group::find($betInput->data["type_id"]),
-                        $utl->tournament,
-                        $betInput->data["value"]
-                    );
-                    $bets[] = BetGroupRank::save($utl, $betRequest);
+                    foreach ($utlsToSendFor as $utl ){
+                        $betRequest = new BetGroupRankRequest(
+                            Group::find($betInput->data["type_id"]),
+                            $utl->tournament,
+                            $betInput->data["value"]
+                        );
+                        $bets[] = BetGroupRank::save($utl, $betRequest);
+                    }
                     break;
                 case BetTypes::SpecialBet:
                     if (!$utl->tournament->competition->areBetsOpen()){
@@ -138,12 +148,25 @@ class BetsController extends Controller
                     $betValue = ["answer" => $betInput->data["answer"]];
                     $utlData = ["utl" => $utl];
                     $betRequestData = array_merge($betValue, $utlData);
+                    $specialBet = SpecialBet::find($betInput->data["type_id"]);
                     $betRequest = new BetSpecialBetsRequest(
-                        SpecialBet::find($betInput->data["type_id"]),
+                        $specialBet,
                         $utl->tournament,
                         $betRequestData
                     );
                     $bets[] = BetSpecialBets::save($utl, $betRequest);
+                    foreach ($utlsToFill as $utlToFill){
+                        $utlData = ["utl" => $utlToFill];
+                        $betRequestData = array_merge($betValue, $utlData);
+                        $tournament = $utlToFill->tournament;
+                        $correspondingSpecialBet = $tournament->specialBets->firstWhere("type", $specialBet->type);
+                        $betRequest = new BetSpecialBetsRequest(
+                            $correspondingSpecialBet,
+                            $tournament,
+                            $betRequestData
+                        );
+                        $bets[] = BetSpecialBets::save($utlToFill, $betRequest);
+                    }
                     break;
                 default:
                     throw new InvalidArgumentException();
@@ -155,6 +178,17 @@ class BetsController extends Controller
 
         return new JsonResponse(["bets" => $formattedBets->keyBy('id')], 200);
 
+    }
+
+    private function getTournamentsToFill(User $user, $tournamentIds) {
+        $utls = $user->utls->whereIn("tournament_id", $tournamentIds);
+        $confirmedUtls = $utls->filter(fn(TournamentUser $utl) => $utl->isConfirmed());
+        foreach ($tournamentIds as $id) {
+            if (!$confirmedUtls->firstWhere("tournament_id", $id)){
+                throw new JsonException("אין לך הרשאות לשלוח הימור לטורניר $id", 403);
+            }
+        }
+        return $confirmedUtls;
     }
 
     private function validateBatch($betsInput, $utl) {
