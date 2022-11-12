@@ -18,6 +18,11 @@
         display: flex;
         flex-wrap: wrap;
     }
+    .LB-MultiBetsSettings {
+        .MultiBetsSettings-content {
+            width: 402px;
+        }
+    }
     .LB-OpenMatchBet {
         border-radius: 12px;
         width: 400px;

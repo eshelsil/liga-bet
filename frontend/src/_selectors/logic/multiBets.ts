@@ -1,7 +1,7 @@
 import { groupBy, pickBy } from 'lodash'
 import { createSelector } from 'reselect'
 import { isUtlConfirmed } from '../../utils'
-import { CurrentCompetitionId, CurrentTournamentUserId, MyUtls } from '../base'
+import { CurrentCompetitionId, CurrentTournamentUserId, MultiBetsSettings, MyUtls } from '../base'
 
 
 export const BettableUTLsByCompetitionId = createSelector(
@@ -24,3 +24,15 @@ export const MyOtherBettableUTLs = createSelector(
     (utls, utlId) => utls.filter(utl => utl.id !== utlId)
 )
 
+export const MultiBetExplanationDialogSettings = createSelector(
+    MultiBetsSettings,
+    (settings) => settings.explainationDialog
+)
+
+export const AutoShowMultiBetExplanationDialog = createSelector(
+    MultiBetExplanationDialogSettings,
+    (explainationDialog) => {
+        const { seen, dontShowAgain, initialized } = explainationDialog
+        return initialized && !seen && !dontShowAgain
+    }
+)

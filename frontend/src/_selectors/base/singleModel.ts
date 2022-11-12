@@ -22,6 +22,7 @@ import {
     LeaderboardVersionsState,
     CurrentTournamentUserId,
     AppCrucialLoaders,
+    MultiBetsSettings,
 } from './models'
 
 export const TournamentIdSelector = createSelector(
@@ -145,4 +146,9 @@ export const IsLoadingAppCrucial = createSelector(
         }
         return false
     }
+)
+
+export const IsMultiBetDefaultForAll = createSelector(
+    MultiBetsSettings,
+    (settings) => settings.forAllTournaments
 )

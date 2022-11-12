@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Grid, IconButton, Switch } from '@mui/material'
 import { SpecialQuestionWithABet } from '../types'
@@ -14,7 +14,7 @@ import { useIsXsScreen } from '../hooks/useMedia'
 import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
 import { LoadingButton } from '../widgets/Buttons'
 import useCancelEdit from '../hooks/useCancelEdit'
-import { MyOtherBettableUTLs } from '../_selectors'
+import { IsMultiBetDefaultForAll, MyOtherBettableUTLs } from '../_selectors'
 
 
 interface Props {
@@ -69,8 +69,9 @@ function QuestionBetEditView({
 function OpenQuestionBetView({ questionWithBet, sendBet }: Props) {
     const otherTournaments = useSelector(MyOtherBettableUTLs);
     const hasOtherTournaments = otherTournaments.length > 0;
+    const isMultiBetDefault = useSelector(IsMultiBetDefaultForAll)
     const [edit, setEdit] = useState(false)
-    const [forAllTournaments, setForAllTournaments] = useState(false)
+    const [forAllTournaments, setForAllTournaments] = useState(isMultiBetDefault)
     const { getLastEditTs, cancelEdit } = useCancelEdit({edit, setEdit})
     const tournamentClass = useTournamentThemeClass();
     const isXsScreen = useIsXsScreen();
@@ -89,13 +90,20 @@ function OpenQuestionBetView({ questionWithBet, sendBet }: Props) {
         const ts = getLastEditTs()
         return await sendBet({...params, forAllTournaments})
             .then(function (data) {
-                window['toastr']['success']('ההימור נשלח')
+                let text = 'ההימור נשלח'
+                if (forAllTournaments){
+                    text += ` עבור ${otherTournaments.length + 1} טורנירים`
+                }
+                window['toastr']['success'](text)
                 cancelEdit(ts)
             })
             .catch(function (error) {
                 console.log('FAILED sending bet', error)
             })
     }
+    useEffect(()=> {
+        setForAllTournaments(isMultiBetDefault)
+    }, [edit, isMultiBetDefault, setForAllTournaments])
 
     return (
         <Grid item xs={isXsScreen ? 12 : null}>

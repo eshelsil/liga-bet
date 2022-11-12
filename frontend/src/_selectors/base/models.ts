@@ -34,6 +34,7 @@ export const DataFetcher = (state: RootState) => state.dataFetcher
 export const GameBetsFetcherState = (state: RootState) => state.gameBetsFetcher
 export const AppCrucialLoaders = (state: RootState) => state.appCrucialLoaders
 export const NotificationsState = (state: RootState) => state.notifications
+export const MultiBetsSettings = (state: RootState) => state.multiBetsSettings
 
 export const Notifications = createSelector(
     NotificationsState,

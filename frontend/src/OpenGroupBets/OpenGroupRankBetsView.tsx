@@ -8,6 +8,9 @@ import dayjs from 'dayjs'
 import { DEFAULT_DATETIME_FORMAT } from '../utils'
 import './openGroupRankBets.scss'
 import '../styles/openBets/EditableBetView.scss'
+import { useSelector } from 'react-redux'
+import { MyOtherBettableUTLs } from '../_selectors'
+import MultiBetsSettings from '../multiBetsSettings/MultiBetsSettingsProvider'
 
 
 interface Props {
@@ -19,6 +22,8 @@ interface Props {
 
 const OpenGroupRankBetsView = ({ groupsWithBet, sendGroupRankBet, competitionStartTime, isAvailable }: Props) => {
     const startTimeString = competitionStartTime ? `(${dayjs(competitionStartTime).format(DEFAULT_DATETIME_FORMAT)})` : ''
+    const otherTournaments = useSelector(MyOtherBettableUTLs);
+    const hasOtherTournaments = otherTournaments.length > 0;
     return (
         <>
             {isAvailable && (
@@ -33,6 +38,9 @@ const OpenGroupRankBetsView = ({ groupsWithBet, sendGroupRankBet, competitionSta
                             </TakanonPreviewModal>
                         </li>
                     </ul>
+                    {hasOtherTournaments && (
+                        <MultiBetsSettings />
+                    )}
                     <Grid container>
                         {groupsWithBet.map((groupWithBet) => (
                             <GroupRankBetView
