@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
+import { NotificationsByTournamentId } from '../types'
 
-type NotificationsCoutnByTournamentId = Record<number, number>
-type State = NotificationsCoutnByTournamentId
+
+type State = NotificationsByTournamentId
 
 const notifications = createSlice({
     name: 'notifications',

@@ -180,12 +180,16 @@ class TournamentUser extends Model
         return $groupsMissingBet;
     }
 
-    public function getMissingBetsCount()
+    public function getMissingBets()
     {
-        $gamesCount = count($this->getGamesMissingBet());
-        $questionsCount = count($this->getQuestionsMissingBet());
-        $groupsCount = count($this->getGroupsMissingRankBet());
+        $games = collect($this->getGamesMissingBet())->pluck('id');
+        $questions = collect($this->getQuestionsMissingBet())->pluck('id');
+        $groups = collect($this->getGroupsMissingRankBet())->pluck('id');
 
-        return $gamesCount + $questionsCount + $groupsCount;
+        return [
+            "games" => $games,
+            "questions" => $questions,
+            "groups" => $groups,
+        ];
     }
 }

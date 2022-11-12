@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 import { RootState } from '../../_helpers/store'
-import { pickBy, groupBy } from 'lodash'
+import { pickBy, groupBy, mapValues, sum } from 'lodash'
 import {
     BetType,
     GroupRankBetApiModel,
@@ -9,7 +9,7 @@ import {
     Tournament,
     UtlRole,
 } from '../../types'
-import { generateEmptyGameBetFetcher } from '../../utils'
+import { generateEmptyGameBetFetcher, valuesOf } from '../../utils'
 
 export const CurrentUser = (state: RootState) => state.currentUser
 export const CurrentTournamentUserId = (state: RootState) =>
@@ -33,7 +33,17 @@ export const Dialogs = (state: RootState) => state.dialogs
 export const DataFetcher = (state: RootState) => state.dataFetcher
 export const GameBetsFetcherState = (state: RootState) => state.gameBetsFetcher
 export const AppCrucialLoaders = (state: RootState) => state.appCrucialLoaders
-export const Notifications = (state: RootState) => state.notifications
+export const NotificationsState = (state: RootState) => state.notifications
+
+export const Notifications = createSelector(
+    NotificationsState,
+    (notifictionsState) => mapValues(
+        notifictionsState,
+        tournamentNotifications => sum(valuesOf(tournamentNotifications).map(
+            notifications => notifications.length
+        ))
+    )
+)
 
 
 export const CurrentTournamentUser = createSelector(

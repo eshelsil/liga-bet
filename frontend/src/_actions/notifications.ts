@@ -1,14 +1,14 @@
 import { AppDispatch, GetRootState } from '../_helpers/store'
 import notificationsSlice from '../_reducers/notifications'
 import { getTournamentNotifications } from '../api/tournaments'
-import { CurrentTournamentId, MissingBetsCount, MyOtherTournaments } from '../_selectors'
+import { CurrentTournamentId, MissingBetsByType, MyOtherTournaments } from '../_selectors'
 
 function updateCurrentTournamentNotifications() {
     return async (dispatch: AppDispatch, getState: GetRootState) => {
-        const missingBetsCount = MissingBetsCount(getState())
+        const missingBets = MissingBetsByType(getState())
         const tournamentId = CurrentTournamentId(getState())
         dispatch(notificationsSlice.actions.update({
-            [tournamentId]: missingBetsCount
+            [tournamentId]: missingBets
         }))
     }
 }
