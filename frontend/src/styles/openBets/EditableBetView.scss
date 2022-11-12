@@ -7,7 +7,7 @@
     &.#{$class} {
         background: $gradient;
         &.sendingforAllTournaments {
-            background: map_get($tournament_4, gradient);
+            background: simple_gradient(#d68eff, $purple-main);
         }
         .name {
             color: #fff;

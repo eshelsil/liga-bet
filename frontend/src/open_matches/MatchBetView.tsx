@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
 import { MatchWithABet, WinnerSide } from '../types'
 import { DEFAULT_DATE_FORMAT, DEFAULT_TIME_FORMAT } from '../utils/index'
@@ -8,7 +8,7 @@ import EditMatchBetView from './EditMatchBetView'
 import dayjs from 'dayjs'
 import useCancelEdit from '../hooks/useCancelEdit'
 import { useSelector } from 'react-redux'
-import { MyOtherBettableUTLs } from '../_selectors'
+import { IsMultiBetDefaultForAll, MyOtherBettableUTLs } from '../_selectors'
 import { Switch } from '@mui/material'
 import '../styles/openBets/EditableBetView.scss'
 
@@ -25,9 +25,10 @@ function OpenMatchBetView({
 
     const otherTournaments = useSelector(MyOtherBettableUTLs);
     const hasOtherTournaments = otherTournaments.length > 0;
+    const isMultiBetDefault = useSelector(IsMultiBetDefaultForAll)
     const tournamentClass = useTournamentThemeClass()
     const [edit, setEdit] = useState(false)
-    const [forAllTournaments, setForAllTournaments] = useState(false)
+    const [forAllTournaments, setForAllTournaments] = useState(isMultiBetDefault)
     const { getLastEditTs, cancelEdit } = useCancelEdit({edit, setEdit})
     const [editOpener, setEditOpener] = useState(null)
     const hasBet = bet?.result_away === undefined
@@ -44,7 +45,11 @@ function OpenMatchBetView({
             forAllTournaments,
         })
         .then(function (data) {
-            window['toastr']['success']('ההימור נשלח')
+            let text = 'ההימור נשלח'
+            if (forAllTournaments){
+                text += ` עבור ${otherTournaments.length + 1} טורנירים`
+            }
+            window['toastr']['success'](text)
             cancelEdit(ts)
         })
         .catch(function (error) {
@@ -61,6 +66,10 @@ function OpenMatchBetView({
         setEditOpener(null)
         setEdit(false)
     }
+
+    useEffect(()=> {
+        setForAllTournaments(isMultiBetDefault)
+    }, [edit, isMultiBetDefault, setForAllTournaments])
 
 
     // const isHomeKoWinner = winnerSide === WinnerSide.Home

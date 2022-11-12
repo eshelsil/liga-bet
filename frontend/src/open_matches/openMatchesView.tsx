@@ -5,6 +5,9 @@ import MatchBetView from './MatchBetView'
 import TakanonPreviewModal from '../tournamentConfig/takanonPreview/TakanonPreviewModal'
 import MatchBetRules from '../takanon/matches/MatchBetRulesProvider'
 import './MatchBets.scss'
+import { MyOtherBettableUTLs } from '../_selectors'
+import { useSelector } from 'react-redux'
+import MultiBetsSettings from '../multiBetsSettings/MultiBetsSettingsProvider'
 
 interface Props {
     matches: MatchWithABet[]
@@ -13,6 +16,8 @@ interface Props {
 
 const OpenMatchesView = ({ matches = [], sendBet }: Props) => {
     const hasMatches = matches.length > 0
+    const otherTournaments = useSelector(MyOtherBettableUTLs);
+    const hasOtherTournaments = otherTournaments.length > 0;
     return (
         <div className={'LB-OpenMatchesView'}>
             <h1>ניחוש משחקים</h1>
@@ -29,7 +34,10 @@ const OpenMatchesView = ({ matches = [], sendBet }: Props) => {
                 {dayjs().format('HH:mm  YYYY/MM/DD')}
             </span>
             {!hasMatches && <h3>אין משחקים פתוחים</h3>}
-            {hasMatches && (
+            {hasMatches && (<>
+                {hasOtherTournaments && (
+                    <MultiBetsSettings />
+                )}
                 <div className='gamesContainer'>
                     {matches.map((match) => (
                         <MatchBetView
@@ -39,7 +47,7 @@ const OpenMatchesView = ({ matches = [], sendBet }: Props) => {
                         />
                     ))}
                 </div>
-            )}
+            </>)}
         </div>
     )
 }

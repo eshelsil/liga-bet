@@ -1,0 +1,34 @@
+@import '../styles/colors';
+@import '../styles/mixins';
+
+.LB-MultiBetsSettings {
+    &.MultiBetsSettings-pinned {
+        position: sticky;
+        top: 70px;
+        z-index: 10;
+    }
+    .MultiBetsSettings-content {
+        border-radius: 12px;
+        border: 1px dashed $primary-main;
+        background-color: #badbf5;
+        width: 332px;
+        margin: auto;
+        max-width: 100%;
+        @include flexRow;
+        justify-content: space-between;
+    }
+    .MultiBetsSettings-header {
+        @include flexRow;
+        > p {
+            font-size: 16px;
+            margin: 8px 0px;
+        }
+        .MultiBetsSettings-pinIcon{
+
+        }
+    }
+    .MultiBetsSettings-isMultiBet {
+        @include flexRow;
+        justify-content: flex-end;
+    }
+}
