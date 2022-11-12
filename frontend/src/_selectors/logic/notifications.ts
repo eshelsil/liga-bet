@@ -3,46 +3,75 @@ import { isGameUpcoming, keysOf, valuesOf } from '../../utils'
 import { Games, Groups, Notifications, SpecialQuestions} from '../base'
 import { MyGameBetsById, MyGroupRankBetsById, MyQuestionBetsById } from './myBets'
 import { MyOtherTournaments } from './tournaments'
-import { pick } from 'lodash'
+import { map, pick } from 'lodash'
 import { HasFetchedAllTournamentInitialData } from './dataFetcher'
+import { TournamentNotifications } from '../../types'
 
 
-export const MissingQuestionBetsCount = createSelector(
+export const QuestionsMissingBet = createSelector(
     MyQuestionBetsById,
     SpecialQuestions,
     HasFetchedAllTournamentInitialData,
     (questionBets, specialQuestions, fetchedData) => {
-        if (!fetchedData) return 0
+        if (!fetchedData) return []
         const questionIds = keysOf(specialQuestions)
         const questionsWithoutBets = questionIds.filter(qId => !questionBets[qId])
-        return questionsWithoutBets.length
+        return map(questionsWithoutBets, 'id')
     }
 )
 
-export const MissingGameBetsCount = createSelector(
+export const GamesMissingBet = createSelector(
     Games,
     MyGameBetsById,
     HasFetchedAllTournamentInitialData,
     (games, gameBets, fetchedData) => {
-        if (!fetchedData) return 0
+        if (!fetchedData) return []
         const gameIds = keysOf(games)
         const gamesWithoutBets = gameIds.filter(gameId => (
             !gameBets[gameId] && isGameUpcoming(games[gameId])
         ))
-        return gamesWithoutBets.length
+        return map(gamesWithoutBets, 'id')
     }
 )
 
-export const MissingGroupRankBetsCount = createSelector(
+export const GroupsMissingBet = createSelector(
     Groups,
     MyGroupRankBetsById,
     HasFetchedAllTournamentInitialData,
     (groups, bets, fetchedData) => {
-        if (!fetchedData) return 0
+        if (!fetchedData) return []
         const groupIds = keysOf(groups)
         const groupsWithoutBets = groupIds.filter(gameId => !bets[gameId])
-        return groupsWithoutBets.length
+        return map(groupsWithoutBets, 'id')
     }
+)
+
+export const MissingBetsByType = createSelector(
+    QuestionsMissingBet,
+    GamesMissingBet,
+    GroupsMissingBet,
+    (missingQuestions, missingGames, missingGroups ): TournamentNotifications => {
+        return {
+            questions: missingQuestions,
+            games: missingGames,
+            groups: missingGroups,
+        }
+    }
+)
+
+export const MissingQuestionBetsCount = createSelector(
+    QuestionsMissingBet,
+    (questions) => questions.length
+)
+
+export const MissingGameBetsCount = createSelector(
+    GamesMissingBet,
+    (games) => games.length
+)
+
+export const MissingGroupRankBetsCount = createSelector(
+    GroupsMissingBet,
+    (groups) => groups.length
 )
 
 export const MissingBetsCount = createSelector(

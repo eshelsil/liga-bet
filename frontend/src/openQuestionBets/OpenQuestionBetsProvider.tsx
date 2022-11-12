@@ -7,6 +7,8 @@ import { BetType } from '../types'
 import { QuestionBetParams } from './types'
 import QuestionBetsView from './QuestionBetsView'
 import './OpenQuestionBets.scss'
+import '../styles/openBets/EditableBetView.scss'
+
 
 interface Props {
     sendBetAndStore: (params: SendQuestionBetParams) => Promise<void>
@@ -14,13 +16,14 @@ interface Props {
 
 const OpenQuestionBetsProvider = ({ sendBetAndStore }: Props) => {
     const { questionsWithBet, competitionStartTime } = useSelector(OpenQuestionBetsSelector)
-    async function sendQuestionBet({ questionId, answer }: QuestionBetParams) {
+    async function sendQuestionBet({ questionId, answer, forAllTournaments }: QuestionBetParams) {
         const params = {
             betType: BetType.Question,
             type_id: questionId,
             payload: {
                 answer,
             },
+            forAllTournaments,
         }
 
         return await sendBetAndStore(params)

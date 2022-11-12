@@ -7,6 +7,9 @@ import { SpecialQuestionWithABet } from '../types'
 import { DEFAULT_DATETIME_FORMAT } from '../utils'
 import OpenQuestionBetView from './OpenQuestionBet'
 import { QuestionBetParams } from './types'
+import { MyOtherBettableUTLs } from '../_selectors'
+import { useSelector } from 'react-redux'
+import MultiBetsSettings from '../multiBetsSettings/MultiBetsSettingsProvider'
 
 interface Props {
     questions: SpecialQuestionWithABet[]
@@ -16,6 +19,8 @@ interface Props {
 
 const QuestionBetsView = ({ questions, sendQuestionBet, competitionStartTime }: Props) => {
     const startTimeString = competitionStartTime ? `(${dayjs(competitionStartTime).format(DEFAULT_DATETIME_FORMAT)})` : ''
+    const otherTournaments = useSelector(MyOtherBettableUTLs)
+    const hasOtherTournaments = otherTournaments.length > 0
     return (
         <div className="LigaBet-QuestionBetsView">
             <h1>ניחושים מיוחדים</h1>
@@ -28,6 +33,9 @@ const QuestionBetsView = ({ questions, sendQuestionBet, competitionStartTime }: 
                     </TakanonPreviewModal>
                 </li>
             </ul>
+            {hasOtherTournaments && (
+                <MultiBetsSettings />
+            )}
             <div>
                 <Grid container>
                     {questions.map((question) => (

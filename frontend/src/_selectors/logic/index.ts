@@ -1,6 +1,7 @@
 export * from './competition'
 export * from './dataFetcher'
 export * from './myBets'
+export * from './multiBets'
 export * from './notifications'
 export * from './scoreboard'
 export * from './tournaments'

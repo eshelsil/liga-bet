@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import DraggableStandings from './DraggableStandings'
-import { Grid, IconButton } from '@mui/material'
+import { Grid, IconButton, Switch } from '@mui/material'
 import { useIsXsScreen } from '../hooks/useMedia'
 import { getHebGroupName } from '../strings/groups'
 import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
@@ -9,11 +10,17 @@ import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import { LoadingButton } from '../widgets/Buttons'
 import useCancelEdit from '../hooks/useCancelEdit'
+import { IsMultiBetDefaultForAll, MyOtherBettableUTLs } from '../_selectors'
 
 
-function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
+function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {    
     const { name, id, bet, teams } = groupWithBet
+
+    const otherTournaments = useSelector(MyOtherBettableUTLs);
+    const hasOtherTournaments = otherTournaments.length > 0;
+    const isMultiBetDefault = useSelector(IsMultiBetDefaultForAll)
     const [edit, setEdit] = useState(false)
+    const [forAllTournaments, setForAllTournaments] = useState(isMultiBetDefault)
     const { getLastEditTs, cancelEdit } = useCancelEdit({edit, setEdit})
     const [standingsInput, setStandingsInput] = useState(null)
     const tournamentClass = useTournamentThemeClass();
@@ -29,9 +36,13 @@ function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
     const exitEditMode = () => setEdit(false)
     const sendBet = async () => {
         const ts = getLastEditTs()
-        await sendGroupRankBet({ groupId: id, standings: groupStandings })
+        await sendGroupRankBet({ groupId: id, standings: groupStandings, forAllTournaments })
             .then(function (data) {
-                window['toastr']['success']('ההימור נשלח')
+                let text = 'ההימור נשלח'
+                if (forAllTournaments){
+                    text += ` עבור ${otherTournaments.length + 1} טורנירים`
+                }
+                window['toastr']['success'](text)
                 cancelEdit(ts)
             })
             .catch(function (error) {
@@ -43,13 +54,21 @@ function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
         if (!edit) {
             setStandingsInput(teamsByRank)
         }
-    }, [edit])
+        setForAllTournaments(isMultiBetDefault)
+    }, [edit, isMultiBetDefault, setForAllTournaments])
 
     return (
         <Grid item xs={isXsScreen ? 12 : null}>
-            <div className={'LB-GroupRankBetView'}>
-                <div className={`GroupRankBetView-header ${tournamentClass}`}>
+            <div className={'LB-GroupRankBetView LB-EditableBetView'}>
+                <div className={`EditableBetView-header ${tournamentClass} ${(edit && forAllTournaments) ? 'sendingforAllTournaments' : ''}`}>
                     <h4 className="name">{getHebGroupName(name)}</h4>
+                    {edit && hasOtherTournaments && (
+                        <Switch
+                            className='forAllTournamentsInput'
+                            checked={forAllTournaments}
+                            onChange={(e, value) => setForAllTournaments(value)}
+                        />
+                    )}
                 </div>
                 <div className={`GroupRankBetView-content ${edit ? 'onEdit' : ''}`}>
                     {hideStandings && (

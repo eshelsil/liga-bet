@@ -6,3 +6,8 @@ export const IsOpenDialogChangePassword = createSelector(
     Dialogs,
     (dialogs) => !!dialogs[DialogName.ChangePassword]
 )
+
+export const IsOpenMultiBetExplanationDialog = createSelector(
+    Dialogs,
+    (dialogs) => !!dialogs[DialogName.MultiBetExplanation]
+)

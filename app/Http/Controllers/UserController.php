@@ -144,14 +144,14 @@ class UserController extends Controller
         ])->validate();
 
         $user = $this->getUser();
-        $notificationsCountByTournament = collect($tournamentIds)->reduce(function($res, $id) use ($user) {
+        $notificationsByTournament = collect($tournamentIds)->reduce(function($res, $id) use ($user) {
             $utl = $user->getTournamentUser($id);
             if ($utl) {
-                $res[$id] = $utl->getMissingBetsCount();
+                $res[$id] = $utl->getMissingBets();
             }
             return $res;
         });
-        return new JsonResponse($notificationsCountByTournament, 200);
+        return new JsonResponse($notificationsByTournament, 200);
     }
 
     public function setPassword(Request $request){

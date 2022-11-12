@@ -3,17 +3,6 @@
 @import '../styles/themes/tournaments';
 
 
-@mixin themable_header($class, $tournament_theme){
-    $gradient: map_get($tournament_theme, gradient);
-  
-    &.#{$class} {
-        background: $gradient;
-        .name {
-            color: #fff;
-        }
-    }
-}
-
 .LB-OpenGroupRankBetsView {
     max-width: 100%;
     width: 1100px;
@@ -37,14 +26,7 @@
         @media(max-width: 600px){
             margin: 12px auto;
         }
-        .GroupRankBetView-header {
-            @include themable_header(tournament-theme, $tournament_1);
-            @include themable_header(tournament-theme-1, $tournament_1);
-            @include themable_header(tournament-theme-2, $tournament_2);
-            @include themable_header(tournament-theme-3, $tournament_3);
-            @include themable_header(tournament-theme-4, $tournament_4);
-            @include themable_header(tournament-theme-5, $tournament_5);
-            padding: 8px 12px;
+        .EditableBetView-header {
             .name {
                 margin: 0px;
                 text-align: center;

@@ -1,0 +1,34 @@
+@import '../themes/tournaments';
+
+
+@mixin themable_header($class, $tournament_theme){
+    $gradient: map_get($tournament_theme, gradient);
+  
+    &.#{$class} {
+        background: $gradient;
+        &.sendingforAllTournaments {
+            background: simple_gradient(#d68eff, $purple-main);
+        }
+        .name {
+            color: #fff;
+        }
+    }
+}
+
+.LB-EditableBetView {
+    .EditableBetView-header {
+        @include themable_header(tournament-theme, $tournament_1);
+        @include themable_header(tournament-theme-1, $tournament_1);
+        @include themable_header(tournament-theme-2, $tournament_2);
+        @include themable_header(tournament-theme-3, $tournament_3);
+        @include themable_header(tournament-theme-4, $tournament_4);
+        @include themable_header(tournament-theme-5, $tournament_5);
+        padding: 8px 12px;
+        position: relative;
+        .forAllTournamentsInput {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    }
+}

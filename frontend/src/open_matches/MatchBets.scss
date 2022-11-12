@@ -1,17 +1,6 @@
 @import '../styles/mixins';
 @import '../styles/shadows';
-@import '../styles/themes/tournaments';
-
-@mixin themable_header($class, $tournament_theme){
-    $gradient: map_get($tournament_theme, gradient);
-  
-    &.#{$class} {
-        background: $gradient;
-        .name {
-            color: #fff;
-        }
-    }
-}
+@import '../styles/colors';
 
 
 .LB-OpenMatchesView {
@@ -29,6 +18,11 @@
         display: flex;
         flex-wrap: wrap;
     }
+    .LB-MultiBetsSettings {
+        .MultiBetsSettings-content {
+            width: 402px;
+        }
+    }
     .LB-OpenMatchBet {
         border-radius: 12px;
         width: 400px;
@@ -40,15 +34,7 @@
         @media(max-width: 600px){
             margin: 12px auto;
         }
-        .headerRow {
-            @include themable_header(tournament-theme, $tournament_1);
-            @include themable_header(tournament-theme-1, $tournament_1);
-            @include themable_header(tournament-theme-2, $tournament_2);
-            @include themable_header(tournament-theme-3, $tournament_3);
-            @include themable_header(tournament-theme-4, $tournament_4);
-            @include themable_header(tournament-theme-5, $tournament_5);
-            padding: 8px 12px;
-            position: relative;
+        .EditableBetView-header {
             .timeLabel {
                 margin: 0px;
                 color: #fff;
