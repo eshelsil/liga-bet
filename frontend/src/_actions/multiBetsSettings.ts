@@ -4,6 +4,11 @@ import multiBetsSettingsSlice from '../_reducers/multiBetsSettings'
 
 function updateForAllTournamentsDefault(value: boolean) {
     return async (dispatch: AppDispatch, getState: GetRootState) => {
+        if (value){
+            localStorage.setItem('ligaBetIsMultipleBetsOn', '1')
+        } else {
+            localStorage.removeItem('ligaBetIsMultipleBetsOn')
+        }
         dispatch(multiBetsSettingsSlice.actions.update({forAllTournaments: value}))
     }
 }

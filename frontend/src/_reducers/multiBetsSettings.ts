@@ -15,7 +15,7 @@ interface State {
 const multiBetsSettings = createSlice({
     name: 'multiBetsSettings',
     initialState: {
-        forAllTournaments: false,
+        forAllTournaments: !!localStorage.getItem('ligaBetIsMultipleBetsOn'),
         explainationDialog: {
             seen: false,
             dontShowAgain: !!localStorage.getItem('ligaBetDontShowMultiBetExplanation'),
