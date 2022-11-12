@@ -37,14 +37,7 @@
         @media(max-width: 600px){
             margin: 12px auto;
         }
-        .OpenQuestionBetView-header {
-            @include themable_header(tournament-theme, $tournament_1);
-            @include themable_header(tournament-theme-1, $tournament_1);
-            @include themable_header(tournament-theme-2, $tournament_2);
-            @include themable_header(tournament-theme-3, $tournament_3);
-            @include themable_header(tournament-theme-4, $tournament_4);
-            @include themable_header(tournament-theme-5, $tournament_5);
-            padding: 8px 12px;
+        .EditableBetView-header {
             .name {
                 margin: 0px;
                 text-align: center;

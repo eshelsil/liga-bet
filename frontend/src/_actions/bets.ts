@@ -8,7 +8,7 @@ import {
 import { CollectionName, BetType, FetchGameBetsParams, GameBetsFetchType } from '../types'
 import { AppDispatch, GetRootState } from '../_helpers/store'
 import betsSlice from '../_reducers/bets'
-import { CurrentGameBetsFetcher, CurrentTournamentUserId, PrimalBets, TournamentIdSelector } from '../_selectors'
+import { CurrentGameBetsFetcher, CurrentTournamentUserId, MyOtherTournaments, PrimalBets, TournamentIdSelector } from '../_selectors'
 import gameBetsFetcher from '../_reducers/gameBetsFetcher'
 import { generateInitCollectionAction } from './utils'
 
@@ -41,17 +41,22 @@ export interface SendBetParams<T extends keyof UpdateBetPayload> {
     type_id: number
     betType: BetType
     payload: UpdateBetPayload[T]
+    forAllTournaments?: boolean
 }
 export type SendMatchBetParams = SendBetParams<BetType.Match>
 export type SendGroupRankBetParams = SendBetParams<BetType.GroupsRank>
 export type SendQuestionBetParams = SendBetParams<BetType.Question>
 
 function sendBetAndStore(params: SendBetParams<BetType>) {
-    const { betType, type_id, payload } = params
+    const { betType, type_id, payload, forAllTournaments } = params
     return async (dispatch: AppDispatch, getState: GetRootState) => {
         const tournamentId = TournamentIdSelector(getState())
-        const data = await sendBet(tournamentId, betType, type_id, payload)
-        dispatch(betsSlice.actions.updateMany({tournamentId, bets: data}))
+        let fillTournaments: number[]
+        if (forAllTournaments){
+            fillTournaments = MyOtherTournaments(getState())
+        }
+        const bets = await sendBet(tournamentId, betType, type_id, payload, fillTournaments)
+        dispatch(betsSlice.actions.updateOnManyTournaments(bets))
     }
 }
 

@@ -28,12 +28,14 @@ const OpenMatchesProvider = ({
         homeScore,
         awayScore,
         koWinner,
+        forAllTournaments,
     }: {
         matchId: number
         is_knockout: boolean
         homeScore: string
         awayScore: string
         koWinner: WinnerSide
+        forAllTournaments?: boolean
     }) {
         const valid_input_vals = [...Array(21).keys()]
         if (
@@ -71,6 +73,7 @@ const OpenMatchesProvider = ({
             betType: BetType.Match,
             type_id: matchId,
             payload,
+            forAllTournaments,
         })
     }
     return <OpenMatchesView matches={matches} sendBet={sendMatchBet} />
