@@ -1,4 +1,4 @@
-import { Tournament, TournamentConfig, TournamentPreferences, TournamentScoreConfig, TournamentStatus } from '../types'
+import { NotificationsByTournamentId, Tournament, TournamentConfig, TournamentNotifications, TournamentPreferences, TournamentScoreConfig, TournamentStatus } from '../types'
 import { sendApiRequest } from './common/apiRequest'
 
 export const createTournament = async ({
@@ -53,7 +53,7 @@ export const updateTournamentPreferences = async (tournamentId: number, prefs: P
     })
 }
 
-export const getTournamentNotifications = async (tournamentIds: number[], hideErrorToastr?: boolean): Promise<Record<number, number>> => {
+export const getTournamentNotifications = async (tournamentIds: number[], hideErrorToastr?: boolean): Promise<NotificationsByTournamentId> => {
     const queryString = `tournamentIds=${encodeURIComponent(JSON.stringify(tournamentIds))}`
     return await sendApiRequest({
         url: `/api/user/notifications?${queryString}`,
