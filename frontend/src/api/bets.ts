@@ -47,7 +47,8 @@ export const sendBet = async (
     tournamentId: number,
     betType: BetType,
     type_id: number,
-    params: UpdateBetPayload[keyof UpdateBetPayload]
+    params: UpdateBetPayload[keyof UpdateBetPayload],
+    fillTournaments?: number[],
 ): Promise<BetsApiResult> => {
     const { bets = {} } = await sendApiRequest({
         type: 'POST',
@@ -62,6 +63,7 @@ export const sendBet = async (
                     },
                 },
             ],
+            ...(fillTournaments ? {fillTournaments} : {}),
         },
     })
     return bets

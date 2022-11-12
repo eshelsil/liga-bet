@@ -7,6 +7,10 @@ import CurrentBetView from './CurrentBetView'
 import EditMatchBetView from './EditMatchBetView'
 import dayjs from 'dayjs'
 import useCancelEdit from '../hooks/useCancelEdit'
+import { useSelector } from 'react-redux'
+import { MyOtherBettableUTLs } from '../_selectors'
+import { Switch } from '@mui/material'
+import '../styles/openBets/EditableBetView.scss'
 
 
 
@@ -18,8 +22,12 @@ function OpenMatchBetView({
     sendBet: (...args: any) => Promise<void>
 }) {
     const { id, start_time, home_team, away_team, is_knockout, bet } = match
+
+    const otherTournaments = useSelector(MyOtherBettableUTLs);
+    const hasOtherTournaments = otherTournaments.length > 0;
     const tournamentClass = useTournamentThemeClass()
     const [edit, setEdit] = useState(false)
+    const [forAllTournaments, setForAllTournaments] = useState(false)
     const { getLastEditTs, cancelEdit } = useCancelEdit({edit, setEdit})
     const [editOpener, setEditOpener] = useState(null)
     const hasBet = bet?.result_away === undefined
@@ -33,6 +41,7 @@ function OpenMatchBetView({
             homeScore,
             awayScore,
             koWinner,
+            forAllTournaments,
         })
         .then(function (data) {
             window['toastr']['success']('ההימור נשלח')
@@ -42,7 +51,6 @@ function OpenMatchBetView({
             console.log('FAILED updating bet', error)
         })
     }
-    const saveBetAndExitEditMode = saveBet
 
     const goToEditMode = (opener?: WinnerSide) => {
         setEditOpener(opener ?? null)
@@ -59,10 +67,17 @@ function OpenMatchBetView({
     // const isAwayKoWinner = winnerSide === WinnerSide.Away
 
     return (
-        <div className='LB-OpenMatchBet'>
-            <div className={`headerRow ${tournamentClass}`}>
+        <div className='LB-OpenMatchBet LB-EditableBetView'>
+            <div className={`EditableBetView-header ${tournamentClass} ${(showEdit && forAllTournaments) ? 'sendingforAllTournaments' : ''}`}>
                 <div className='dateLabel'>{dayjs(start_time).format(DEFAULT_DATE_FORMAT)}</div>
                 <div className='timeLabel'>{dayjs(start_time).format(DEFAULT_TIME_FORMAT)}</div>
+                {showEdit && hasOtherTournaments && (
+                    <Switch
+                        className='forAllTournamentsInput'
+                        checked={forAllTournaments}
+                        onChange={(e, value) => setForAllTournaments(value)}
+                    />
+                )}
             </div>
             <div className='OpenMatchBet-body'>
                 <TeamWithFlag name={home_team.name} size={50} classes={{root: 'verticalTeam sideRight', name: 'verticalTeamName'}}/>
@@ -71,7 +86,7 @@ function OpenMatchBetView({
                         <EditMatchBetView
                             bet={bet}
                             onClose={exitEditMode}
-                            onSave={saveBetAndExitEditMode}
+                            onSave={saveBet}
                             opener={editOpener}
                         />
                     )}

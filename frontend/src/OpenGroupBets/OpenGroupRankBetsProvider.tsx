@@ -21,9 +21,11 @@ const OpenGroupRankBetsProvider = ({
     async function sendGroupRankBet({
         groupId,
         standings,
+        forAllTournaments,
     }: {
         groupId: number
         standings: Team[]
+        forAllTournaments: boolean
     }) {
         const params = {
             betType: BetType.GroupsRank,
@@ -31,6 +33,7 @@ const OpenGroupRankBetsProvider = ({
             payload: {
                 value: standings.map((team) => team.id),
             },
+            forAllTournaments,
         }
         return await sendBetAndStore(params)
     }

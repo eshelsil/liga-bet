@@ -2,11 +2,12 @@ import React from 'react'
 import { GroupWithABet } from '../types'
 import { Grid } from '@mui/material'
 import GroupRankBetView from './GroupRankBetView'
-import './openGroupRankBets.scss'
 import TakanonPreviewModal from '../tournamentConfig/takanonPreview/TakanonPreviewModal'
 import GroupStageRules from '../takanon/groupStandings/GroupStageRulesProvider'
 import dayjs from 'dayjs'
 import { DEFAULT_DATETIME_FORMAT } from '../utils'
+import './openGroupRankBets.scss'
+import '../styles/openBets/EditableBetView.scss'
 
 
 interface Props {
