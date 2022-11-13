@@ -1,7 +1,7 @@
 import { cloneDeep, isEmpty } from 'lodash';
 import { createSelector } from 'reselect'
 import { SpecialQuestionType } from '../../types';
-import { formatGameBetsConfig, generateDefaultScoresConfig, isQuestionBetEmpty } from '../../utils';
+import { formatGameBetsConfig, formatTopAssistsConfig, generateDefaultScoresConfig, isQuestionBetEmpty } from '../../utils';
 import {
     CurrentTournament,
 } from './models'
@@ -19,8 +19,20 @@ export const PrizesSelector = createSelector(
 
 export const ScoresConfigSelector = createSelector(
     CurrentTournamentConfig,
-    (config) => config?.scores
+    (config) => {
+        const scoresConfig = config?.scores
+        if (!scoresConfig) return undefined
+        return {
+            ...scoresConfig,
+            specialBets: {
+                ...scoresConfig.specialBets,
+                topAssists: formatTopAssistsConfig(scoresConfig.specialBets.topAssists)
+            }
+        }
+    }
 )
+
+export type ScoresConfigFromatted = ReturnType<typeof ScoresConfigSelector>
 
 export const BetsFullScoresConfigSelector = createSelector(
     ScoresConfigSelector,

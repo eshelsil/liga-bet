@@ -26,7 +26,7 @@ function SpecialQuestionsRules() {
                 <br/>
             </>)}
             {config?.topAssists && (<>
-                <MostAssistsRules score={config.topAssists} />
+                <MostAssistsRules scoreConfig={config.topAssists} />
                 <br/>
             </>)}
             {config?.mvp && (<>

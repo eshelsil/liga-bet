@@ -181,7 +181,7 @@ class BetSpecialBetsRequest extends AbstractBetRequest
         $score = 0;
         /** @var Player $player */
         $player = $this->tournament->competition->players->find($this->answer);
-        $score += $player->assists * $this->getScoreConfig("specialBets.topAssists.each");
+        $score += $player->assists * $this->getScoreConfig("specialBets.topAssists.eachGoal");
 
         $players = $this->getSpecialBet()->answer;
         if ($players && in_array($this->answer, explode(",", $players))) {

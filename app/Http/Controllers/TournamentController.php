@@ -122,7 +122,8 @@ class TournamentController extends Controller
             "specialBets.runnerUp.semiFinal",
             "specialBets.runnerUp.final",
             "specialBets.mvp",
-            "specialBets.topAssists",
+            "specialBets.topAssists.correct",
+            "specialBets.topAssists.eachGoal",
             "specialBets.topScorer.correct",
             "specialBets.topScorer.eachGoal",
         ];

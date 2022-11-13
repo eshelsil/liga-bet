@@ -1,15 +1,15 @@
 import React from 'react';
 import { Button } from '@mui/material';
-import { TournamentScoreConfig } from '../../types';
 import ScoreConfigFormView from './ScoreConfigForm';
 import useGoTo from '../../hooks/useGoTo';
+import { ScoresConfigFromatted } from '../../_selectors';
 
 
 
 
 interface Props {
-	scoreConfig: TournamentScoreConfig,
-	updateScoreConfig: (params: TournamentScoreConfig) => Promise<void>,
+	scoreConfig: ScoresConfigFromatted,
+	updateScoreConfig: (params: ScoresConfigFromatted) => Promise<void>,
 }
 
 function ScoresConfigPage({
