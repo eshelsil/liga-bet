@@ -132,9 +132,10 @@ class BetsController extends Controller
                     if (!$utl->tournament->competition->areBetsOpen()){
                         throw new \InvalidArgumentException("GroupRank bets are closed. cannot update bet");
                     }
+                    $group = Group::find($betInput->data["type_id"]);
                     foreach ($utlsToSendFor as $utl ){
                         $betRequest = new BetGroupRankRequest(
-                            Group::find($betInput->data["type_id"]),
+                            $group,
                             $utl->tournament,
                             $betInput->data["value"]
                         );

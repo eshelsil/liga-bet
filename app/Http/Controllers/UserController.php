@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\ImportMissingUtlBets;
 use App\Bet;
 use App\Http\Resources\ContestantResource;
 use App\Http\Resources\UtlResource;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Exceptions\JsonException;
 use App\Http\Resources\UserResource;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -164,6 +166,36 @@ class UserController extends Controller
         $user->password = Hash::make($password);
         $user->save();
         return response()->json(200);
+    }
+
+    public function importUtlBets(Request $request, $tournamentId){
+        $user = $this->getUser();
+        $utl = $user->getTournamentUser($tournamentId);
+        if (!$utl){
+            throw new JsonException("אין לך הרשאות לטורניר זה", 403);
+        }
+        $validated = $request->validate([
+            'from' => 'required|integer'
+        ]);
+        $utlFrom = $user->getTournamentUser($request->from);
+        if (!$utlFrom) {
+            throw new JsonException("אין לך הרשאות לטורניר זה", 403);
+        }
+        $competition = $utl->tournament->competition;
+        if ($utlFrom->tournament->competition->id != $competition->id) {
+            throw new JsonException("Cannot import bets from tournaments of a different competition", 400);
+        }
+        if (!$competition->areBetsOpen()){
+            throw new JsonException("אי אפשר לעדכן הימורים אחרי שהטורניר כבר התחיל", 400);
+        }
+
+        $imub = new ImportMissingUtlBets();
+        $bets = $imub->handle($utlFrom, $utl);
+        $formattedBets = (new Collection($bets))->map(function (Bet $bet) {
+            return $bet->export_data();
+        });
+
+        return new JsonResponse($formattedBets, 200);
     }
 
 
