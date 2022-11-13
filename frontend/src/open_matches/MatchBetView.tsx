@@ -76,8 +76,8 @@ function OpenMatchBetView({
     // const isAwayKoWinner = winnerSide === WinnerSide.Away
 
     return (
-        <div className='LB-OpenMatchBet LB-EditableBetView'>
-            <div className={`EditableBetView-header ${tournamentClass} ${(showEdit && forAllTournaments) ? 'sendingforAllTournaments' : ''}`}>
+        <div className={`LB-OpenMatchBet LB-EditableBetView  ${tournamentClass} ${(showEdit && forAllTournaments) ? 'sendingforAllTournaments' : ''}`}>
+            <div className={`EditableBetView-header`}>
                 <div className='dateLabel'>{dayjs(start_time).format(DEFAULT_DATE_FORMAT)}</div>
                 <div className='timeLabel'>{dayjs(start_time).format(DEFAULT_TIME_FORMAT)}</div>
                 {showEdit && hasOtherTournaments && (

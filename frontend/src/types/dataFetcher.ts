@@ -25,6 +25,7 @@ export enum GameBetsFetchType {
 export interface FetchGameBetsParams {
     type: GameBetsFetchType,
     ids: number[],
+    tournamentId: number,
 }
 
 

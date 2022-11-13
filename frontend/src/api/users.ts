@@ -1,5 +1,6 @@
 import { MyUtlsById, UtlWithTournament, User, UserPermissions } from '../types'
 import { sendApiRequest } from './common/apiRequest'
+import { isEmpty } from 'lodash'
 
 export interface GetUsersParams {
     offset?: string
@@ -44,9 +45,14 @@ export const updateUser = async (
 }
 
 export const getUserUTLs = async (): Promise<MyUtlsById> => {
-    return await sendApiRequest({
+    const res = await sendApiRequest({
         url: '/api/user/utls',
     })
+    if (isEmpty(res)) {
+        // handle response from server when null getting empty array [] instead of object {}
+        return {}
+    }
+    return res
 }
 
 export const joinTournament = async ({

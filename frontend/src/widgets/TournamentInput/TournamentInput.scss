@@ -1,0 +1,17 @@
+
+.LB-TournamentInput {
+    .TournamentInput-select {
+        .MuiSelect-select{
+            padding: 6px;
+        }
+        > .MuiSelect-icon {
+            color: #fff;
+        }
+    }
+}
+
+.TournamentInput-list {
+    .MuiMenuItem-root {
+        padding: 2px 6px;
+    }
+}

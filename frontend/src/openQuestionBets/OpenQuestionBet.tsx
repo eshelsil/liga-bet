@@ -107,8 +107,8 @@ function OpenQuestionBetView({ questionWithBet, sendBet }: Props) {
 
     return (
         <Grid item xs={isXsScreen ? 12 : null}>
-            <div className={'LigaBet-OpenQuestionBetView LB-EditableBetView'}>
-                <div className={`EditableBetView-header ${tournamentClass} ${(edit && forAllTournaments) ? 'sendingforAllTournaments' : ''}`}>
+            <div className={`LigaBet-OpenQuestionBetView LB-EditableBetView ${tournamentClass} ${(edit && forAllTournaments) ? 'sendingforAllTournaments' : ''}`}>
+                <div className={`EditableBetView-header`}>
                     <h4 className="name">{name}</h4>
                     {edit && hasOtherTournaments && (
                         <Switch
@@ -131,7 +131,7 @@ function OpenQuestionBetView({ questionWithBet, sendBet }: Props) {
                         {!hasBet && (
                             <div className="no_bet">
                                 <AddCircle
-                                    color='primary'
+                                    color={forAllTournaments ? 'secondary' : 'primary'}
                                     onClick={openEditMode}
                                     style={{fontSize: 48}}
                                 />

@@ -1,0 +1,47 @@
+@import '../../styles/shadows';
+@import '../../styles/mixins';
+@import '../../styles/themes/tournaments';
+
+
+@mixin themeable_tournament_input($class, $tournament_theme){
+    $gradient: map_get($tournament_theme, gradient);
+    &.#{$class} {
+        background: $gradient;
+        .TournamentDisplay-name, .TournamentDisplay-utlName {
+            color: #fff;
+        }
+        .tournamentIcon, .personIcon {
+            color: #fff;
+        }
+    }
+}
+
+.LB-TournamentDisplay {
+    @include themeable_tournament_input(tournament-theme, $tournament_1);
+    @include themeable_tournament_input(tournament-theme-1, $tournament_1);
+    @include themeable_tournament_input(tournament-theme-2, $tournament_2);
+    @include themeable_tournament_input(tournament-theme-3, $tournament_3);
+    @include themeable_tournament_input(tournament-theme-4, $tournament_4);
+    @include themeable_tournament_input(tournament-theme-5, $tournament_5);
+    border-radius: 12px;
+    box-shadow: $basic-shadow;
+    overflow: hidden;
+    width: 240px;
+    padding: 4px 12px;
+    .TournamentDisplay-header {
+        @include flexRow;
+        margin: 8px 0px;
+        .TournamentDisplay-name {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-right: 8px
+        }
+    }
+    .TournamentDisplay-content {
+        @include flexRow;
+        margin: 8px 0px;
+        .TournamentDisplay-utlName {
+            margin-right: 8px;
+        }
+    }
+}
