@@ -125,6 +125,7 @@ Route::get('/api/user/notifications', [UserController::class, 'getMissingBets'])
 Route::post('/api/user/utls', [UserController::class, 'joinTournament']);
 Route::delete('/api/user/utls/{tournamentId}', [UserController::class, 'leaveTournament']);
 Route::put('/api/user/utls/{tournamentId}', [UserController::class, 'updateUTL']);
+Route::post('/api/user/utls/{tournamentId}/import-bets', [UserController::class, 'importUtlBets']);
 Route::get('/api/user', [UserController::class, 'getUser']);
 Route::put('/api/user', [UserController::class, 'updateUser']);
 Route::get('/api/user/tournaments', [UserController::class, 'getOwnedTournaments']);
