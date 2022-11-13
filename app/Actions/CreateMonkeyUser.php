@@ -26,7 +26,7 @@ class CreateMonkeyUser
         $this->faker = app(FakerGenerator::class);
     }
 
-    public function handle(Tournament $tournament)
+    public function handle(Tournament $tournament): User
     {
         $user = $this->createUser();
         $name = 'monkey_' . rand(0, 9999);
@@ -38,8 +38,9 @@ class CreateMonkeyUser
         $tournament->competition->games
             ->each(fn(Game $game) => $this->betGame($game, $utl));
 
-        // TODO: from tournament
         $tournament->specialBets->each(fn(SpecialBet $specialBet) => $this->betSpecialBet($specialBet, $utl));
+
+        return $user;
     }
 
     /**
@@ -48,8 +49,7 @@ class CreateMonkeyUser
     protected function createUser(): User
     {
         return User::create([
-            'name'        => $this->faker->name,
-            'username'    => $this->faker->userName,
+            'email'       => $this->faker->safeEmail,
             'password'    => '',
             'permissions' => User::TYPE_MONKEY
         ]);
@@ -72,7 +72,7 @@ class CreateMonkeyUser
      *
      * @return void
      */
-    function betGroup($group, $utl): void
+    private function betGroup($group, $utl): void
     {
         $type_id = $group->getID();
         $data    = $group->generateRandomBetData();
@@ -85,7 +85,7 @@ class CreateMonkeyUser
      *
      * @return void
      */
-    function betGame(Game $game, $utl): void
+    private function betGame(Game $game, $utl): void
     {
         $type_id = $game->getID();
         $data    = $game->generateRandomBetData();
@@ -98,7 +98,7 @@ class CreateMonkeyUser
      *
      * @return void
      */
-    function betSpecialBet(SpecialBet $specialBet, $utl): void
+    private function betSpecialBet(SpecialBet $specialBet, $utl): void
     {
         $type_id = $specialBet->getID();
         $data    = $specialBet->generateRandomBetData();

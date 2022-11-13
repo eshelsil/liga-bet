@@ -39,8 +39,6 @@ class HomeController extends Controller
     //         $row->betsByType = $bets->get($row->id, collect())->groupBy("type");
     //     }
 
-    //     $teamsByExtId = Team::getTeamsByExternalId();
-
     //     return view('home')->with([
     //         "table" => $table,
     //         "matches" => Game::all(),
@@ -53,25 +51,6 @@ class HomeController extends Controller
     {
         $user_id = Auth::user()->id;
         Cache::put("TOURNAMENT_SUMMARY_MESSAGE". ":u_id:" . $user_id, "seen", now()->addMinutes(60));
-    }
-
-    public function showTodayMatches()
-    {
-        $matches = Game::orderBy("start_time")
-                       ->get();
-        $matches = $matches->filter(function (Game $match) {
-            return $match->isClosedForBets();
-        })->groupBy('is_done');
-        $done_matches = $matches[1] ?? collect([]);
-        $done_matches = $done_matches->reverse();
-        $onging_matches = $matches[0] ?? collect([]);
-        $teamsByExtId = Team::getTeamsByExternalId();
-
-        return view("matches-view")->with([
-            "done_matches" => $done_matches,
-            "current_matches" => $onging_matches,
-            "teamsByExtId" => $teamsByExtId,
-        ]);
     }
 
     public function showMyBets()

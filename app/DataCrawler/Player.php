@@ -14,8 +14,8 @@ class Player
         public readonly string $externalId,
         public readonly string $name,
         public readonly string $externalTeamId,
-        public readonly ?int $shirt,
-        public readonly ?string $position,
+        public readonly ?int $shirt = null,
+        public readonly ?string $position = null,
         public ?int $goals = null,
         public ?int $assists = null,
     ) { }

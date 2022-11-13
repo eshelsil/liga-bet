@@ -10,16 +10,7 @@ namespace App\Actions;
 
 use App\Bet;
 use App\Bets\BetMatch\BetMatchRequest;
-use App\Competition;
-use App\Enums\BetTypes;
 use App\Game;
-use App\Scorer;
-use App\SpecialBets\SpecialBet;
-use App\Team;
-use App\Tournament;
-use App\TournamentUser;
-use App\User;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
 
 class UpdateGameBets
@@ -32,12 +23,16 @@ class UpdateGameBets
 
         /** @var Bet $bet */
         foreach ($game->getBets()->load("tournament") as $bet) {
+            if (config("test.onlyTournamentId") && config("test.onlyTournamentId") != $bet->tournament->id) {
+                continue;
+            }
+
             $betRequest = $this->getBetRequest($game, $bet);
 
             $bet->score = $betRequest->calculate();
             $bet->save();
 
-            echo "User: {$bet->utl->user->name} Bet home: {$bet->getData("result-home")} Bet away: {$bet->getData("result-away")} Score: {$bet->score}<br><br>";
+            Log::debug( "User: {$bet->utl->user->name} Bet ID [{$bet->id}] home: {$bet->getData("result-home")} Bet away: {$bet->getData("result-away")} Score: {$bet->score}");
         }
 
         return "FINISHED";

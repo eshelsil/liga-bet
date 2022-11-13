@@ -8,13 +8,11 @@ use App\Tournament;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use \Illuminate\Support\Collection;
-use App\Game;
-use App\Bet;
 use App\Team;
 use App\Player;
 use App\Bets\BetSpecialBets\BetSpecialBetsRequest;
 use App\Enums\BetTypes;
+use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
 
 /**
@@ -86,30 +84,33 @@ class SpecialBet extends Model implements BetableInterface
         return $final->getKnockoutLoser();
     }
 
-    public function calculateBets(int $competitionId)
+    public function calculateBets()
     {
-        $competition = Competition::query()->with(["tournaments" => [
-            "bets" => function ($query) {
-                $query->where('type', BetTypes::SpecialBet)
-                      ->where("type_id", $this->id);
-            }]
-        ])->find($competitionId);
+        if (config("test.onlyTournamentId") && config("test.onlyTournamentId") != $this->tournament->id) {
+            return;
+        }
 
-        foreach ($competition->tournaments as $tournament) {
-            $tournament->setRelation("competition", $competition);
-            foreach ($tournament->bets as $bet) {
-                try {
-                    $betRequest = new BetSpecialBetsRequest($this, $tournament, $bet->getData());
-                    $score = $betRequest->calculate();
-                    $bet->score = $score;
-                    $bet->save();
+        Log::debug("[SpecialBet][calculateBets] Start [{$this->type}] for tournament {$this->tournament->id}");
 
-                    if ($score !== null){
-                        echo "USER {$bet->user_id} Score ({$bet->score}) RANKS: {$betRequest->toJson()}<br>";
-                    }
-                } catch (Exception $exception) {
-                    return $exception->getMessage();
+        $this->tournament->load(["bets" => function ($query) {
+            $query->where('type', BetTypes::SpecialBet)
+                  ->where("type_id", $this->id);
+        }]);
+
+        foreach ($this->tournament->bets->load("utl") as $bet) {
+            Log::debug("[SpecialBet][calculateBets] Start with bet {$bet->id}");
+
+            try {
+                $betRequest = new BetSpecialBetsRequest($this, $this->tournament, $bet->getData() + ["utl" => $bet->utl]);
+                $score = $betRequest->calculate();
+                $bet->score = $score;
+                $bet->save();
+
+                if ($score !== null){
+                    Log::debug("[SpecialBet][calculateBets] USER {$bet->user_tournament_id} Score ({$bet->score}) Data: {$betRequest->toJson()})");
                 }
+            } catch (Exception $e) {
+                Log::debug("[SpecialBet][calculateBets] Error! {$e->getMessage()} - {$e->getTraceAsString()}");
             }
         }
 
@@ -145,10 +146,10 @@ class SpecialBet extends Model implements BetableInterface
         $answer = null;
         switch ($this->type) {
             case SpecialBet::TYPE_MVP:
-                $answer = Player::all()->random()->name;
+                $answer = Player::all()->random()->id;
                 break;
             case SpecialBet::TYPE_MOST_ASSISTS:
-                $answer = Player::all()->random()->name;
+                $answer = Player::all()->random()->id;
                 break;
             case SpecialBet::TYPE_OFFENSIVE_TEAM:
                 $answer = Team::all()->random()->id;
@@ -160,7 +161,7 @@ class SpecialBet extends Model implements BetableInterface
                 $answer = Team::all()->random()->id;
                 break;
             case SpecialBet::TYPE_TOP_SCORER:
-                $answer = Player::all()->random()->external_id;
+                $answer = Player::all()->random()->id;
                 break;
             default:
                 throw new InvalidArgumentException("Invalid SpecialBet type \"{$this->type}\"");

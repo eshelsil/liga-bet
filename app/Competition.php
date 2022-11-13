@@ -166,4 +166,15 @@ class Competition extends Model
 
         return $this->players->where("goals", $maxGoals)->pluck("id");
     }
+
+    public function getMostAssistsIds()
+    {
+        if (!$this->isDone()) {
+            return collect();
+        }
+
+        $maxAssists = $this->players->max("assists") ?? -1; // -1 for Empty, means not ready. do not keep null to not try to recalculate?
+
+        return $this->players->where("assists", $maxAssists)->pluck("id");
+    }
 }

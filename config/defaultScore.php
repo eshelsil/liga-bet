@@ -44,7 +44,10 @@ return [
 
         ],
         "mvp"                    => 20,
-        "topAssists"             => 20,
+        "topAssists"             => [
+            "correct" => 20,
+            "each"    => 1,
+        ],
         "topScorer" => [
             "correct"            => 8,
             "eachGoal"           => 4,

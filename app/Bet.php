@@ -51,7 +51,7 @@ class Bet extends Model
 
     public function getData($key = null, $default = null)
     {
-        return data_get(json_decode($this->data), $key, $default);
+        return data_get(json_decode($this->data, true), $key, $default);
     }
 
     public function getAnswer()

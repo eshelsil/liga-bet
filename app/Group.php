@@ -115,9 +115,8 @@ class Group extends Model implements BetableInterface
                 $betRequest = new BetGroupRankRequest($this, $tournaments->get($bet->tournament_id), (array)$bet->getData());
                 $bet->score = $betRequest->calculate();
                 $bet->save();
-                Log::debug("USER {$bet->user_tournament_id} Score ({$bet->score}) RANKS: {$betRequest->toJson()}");
-            } catch (Exception $exception) {
-                return $exception->getMessage();
+            } catch (Exception $e) {
+                Log::debug("[Group][calculateBets] Got error: {$e->getMessage()}");
             }
         }
         echo "completed";

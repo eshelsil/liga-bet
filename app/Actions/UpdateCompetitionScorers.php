@@ -15,29 +15,41 @@ use Illuminate\Database\Eloquent\Collection;
 
 class UpdateCompetitionScorers
 {
-    private CalculateSpecialBets $calculateSpecialBets;
+    private ?\Illuminate\Support\Collection $fakeScorers = null;
 
-    public function __construct(CalculateSpecialBets $calculateSpecialBets) {
-        $this->calculateSpecialBets = $calculateSpecialBets;
+    public function __construct(private readonly CalculateSpecialBets $calculateSpecialBets) { }
+
+
+    public function fake(?\Illuminate\Support\Collection $scorers = null)
+    {
+        $this->fakeScorers = $scorers;
     }
 
     public function handle(Competition $competition, ?Collection $teams = null)
     {
         $teams ??= $competition->teams;
-        $scorers = $competition->getCrawler()->fetchScorers($teams->pluck("external_id"));
+        $scorers = $this->fakeScorers ?? $competition->getCrawler()->fetchScorers($teams->pluck("external_id"));
 
         $players = $competition->players->keyBy("external_id");
         /** @var \App\DataCrawler\Player $scorer */
         foreach ($scorers as $scorer) {
             /** @var Player $player */
             $player = $players->get($scorer->externalId);
-            $player->goals   = $scorer->goals   ?? $player->goals;
-            $player->assists = $scorer->assists ?? $player->assists;
-            $player->save();
+            \Log::debug("[UpdateScorers][handle] updating player ID [{$player->id}] external [{$scorer->externalId}] to G{$scorer->goals}A{$scorer->assists}");
+            // TODO: Create?
+            if ($player) {
+                $player->goals   = $scorer->goals   ?? $player->goals;
+                $player->assists = $scorer->assists ?? $player->assists;
+                $player->save();
+            }
         }
 
-        $answer = $competition->getTopScorersIds()->join(",") ?: null;
+        $competition->unsetRelation("players");
 
+        $answer = $competition->getTopScorersIds()->join(",") ?: null;
         $this->calculateSpecialBets->execute($competition->id, SpecialBet::TYPE_TOP_SCORER, $answer);
+
+        $answer = $competition->getMostAssistsIds()->join(",") ?: null;
+        $this->calculateSpecialBets->execute($competition->id, SpecialBet::TYPE_MOST_ASSISTS, $answer);
     }
 }
