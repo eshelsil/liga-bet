@@ -33,11 +33,11 @@ class ImportMissingUtlBets
 
             $existingBets = $utlTo->bets;
             $bets->each(function(Bet $bet) use ($newBets, $bets, $groups, $specialQuestions, $games, $existingBets, $utlTo){
-                if (!!$existingBets->first(fn(Bet $b) => $b->type == $bet->type && $b->type_id == $bet->type_id)){
-                    return;
-                }
                 switch ($bet->type) {
                     case BetTypes::Game:
+                        if ($existingBets->first(fn(Bet $b) => $b->type == $bet->type && $b->type_id == $bet->type_id)){
+                            break;
+                        }
                         $game = $games->find($bet->type_id);
                         $betRequest = new BetMatchRequest(
                             $game,
@@ -47,6 +47,9 @@ class ImportMissingUtlBets
                         $newBets[] = BetMatch::save($utlTo, $betRequest);
                         break;
                     case BetTypes::GroupsRank:
+                        if ($existingBets->first(fn(Bet $b) => $b->type == $bet->type && $b->type_id == $bet->type_id)){
+                            break;
+                        }
                         $group = $groups->find($bet->type_id);
                         $betRequest = new BetGroupRankRequest(
                             $group,
@@ -57,6 +60,10 @@ class ImportMissingUtlBets
                         break;
                     case BetTypes::SpecialBet:
                         $specialBetFrom = $specialQuestions->find($bet->type_id);
+                        $specialBet = $utlTo->tournament->specialBets->firstWhere('type', $specialBetFrom->type);
+                        if ($existingBets->first(fn(Bet $b) => $b->type == $bet->type && $b->type_id == $specialBet->id)){
+                            break;
+                        }
                         if ($specialBetFrom->type == SpecialBet::TYPE_RUNNER_UP){
                             $winnerSpecialBet = $specialQuestions->firstWhere('type', SpecialBet::TYPE_WINNER);
                             $winnerBet = $bets->first(fn($bet) => $bet->type == BetTypes::SpecialBet && $bet->type_id == $winnerSpecialBet->id );
@@ -64,7 +71,6 @@ class ImportMissingUtlBets
                                 break;
                             }
                         }
-                        $specialBet = $utlTo->tournament->specialBets->firstWhere('type', $specialBetFrom->type);
                         $utlData = ["utl" => $utlTo];
                         $betRequestData = array_merge($utlData, json_decode($bet->data, true));
                         $betRequest = new BetSpecialBetsRequest(

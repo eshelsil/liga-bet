@@ -44,7 +44,7 @@ class BetMatchRequest extends AbstractBetRequest
 
     protected function validateData($game, $data)
     {
-        Log::debug("Validating data: {$game->getID()}\r\nData: ". json_encode($data, JSON_PRETTY_PRINT));
+//        Log::debug("Validating data: {$game->getID()} -Data: ". json_encode($data));
         $resultHome = data_get($data, "result-home");
         if (!is_numeric($resultHome)) {
             throw new \InvalidArgumentException($resultHome);

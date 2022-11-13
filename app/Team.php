@@ -3,8 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class Team
@@ -17,6 +19,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $competition_id
+ * @property-read Collection|\App\Player[] $players
+ * @property-read int|null $players_count
  * @property-read \App\Competition|null $competition
  * @method static \Illuminate\Database\Eloquent\Builder|Team newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Team newQuery()
@@ -33,20 +37,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Team extends Model
 {
-    public static function getExternalIdToIdMap(){
-        return Team::all(['external_id', 'id'])->keyBy('external_id');
-    }
-
-    public static function getTeamsById(){
-        return Team::all()->keyBy('id');
-    }
-
-    public static function getTeamsByExternalId(){
-        return Team::all()->keyBy('external_id');
-    }
-
     public function competition(): BelongsTo
     {
         return $this->belongsTo(Competition::class, "competition_id");
+    }
+
+    public function players(): HasMany
+    {
+        return $this->hasMany(Player::class);
     }
 }

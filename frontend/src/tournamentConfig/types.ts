@@ -1,7 +1,8 @@
 import { Control, FormState, UseFormClearErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form';
-import { KnockoutStage, SpecialQuestionType, TournamentScoreConfig } from '../types';
+import { KnockoutStage } from '../types';
+import { ScoresConfigFromatted } from '../_selectors';
 
-export interface ScoreConfigForm extends TournamentScoreConfig {
+export interface ScoreConfigForm extends ScoresConfigFromatted {
 	specialQuestionOptions: {
 		roadToFinal: {
 			[KnockoutStage.SemiFinal]: boolean

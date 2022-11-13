@@ -1,4 +1,5 @@
-import { KnockoutStage, SpecialQuestionType, TournamentScoreConfig } from '../../types';
+import { KnockoutStage, SpecialQuestionType } from '../../types';
+import { ScoresConfigFromatted } from '../../_selectors';
 
 function isEnabled(
 	flag: boolean,
@@ -8,7 +9,7 @@ function isEnabled(
 	return ! disabled
 }
 
-export function getInitialOptionsConfig(config: TournamentScoreConfig){
+export function getInitialOptionsConfig(config: ScoresConfigFromatted){
 	const {specialBets: questionsConfig, gameBets: gameBetsConfig, specialQuestionFlags } = config
 
 	return {
@@ -16,7 +17,7 @@ export function getInitialOptionsConfig(config: TournamentScoreConfig){
 			[SpecialQuestionType.Winner]: true,
 			[SpecialQuestionType.RunnerUp]: isEnabled(specialQuestionFlags?.runnerUp, questionsConfig.runnerUp.final),
 			[SpecialQuestionType.TopScorer]: true,
-			[SpecialQuestionType.TopAssists]: isEnabled(specialQuestionFlags?.topAssists, questionsConfig.topAssists ),
+			[SpecialQuestionType.TopAssists]: isEnabled(specialQuestionFlags?.topAssists, questionsConfig.topAssists.correct),
 			[SpecialQuestionType.MVP]: isEnabled(specialQuestionFlags?.mvp, questionsConfig.mvp ),
 			[SpecialQuestionType.OffensiveTeamGroupStage]:  isEnabled(specialQuestionFlags?.offensiveTeam, questionsConfig.offensiveTeam ),
 		},

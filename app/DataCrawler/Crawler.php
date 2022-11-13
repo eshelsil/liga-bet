@@ -252,13 +252,10 @@ class Crawler
      */
     protected function fetchScorers365(Collection $teamIds): Collection
     {
-        $baseUrl
-            = "https://webws.365scores.com/web/stats/?appTypeId=5&langId=2&timezoneName=Asia/Jerusalem&userCountryId=6&competition=5421"; // 5930
+        $baseUrl = "https://webws.365scores.com/web/stats/?appTypeId=5&langId=2&timezoneName=Asia/Jerusalem&userCountryId=6&competition=5421"; // 5930
         $responses = Http::pool(function (Pool $pool) use ($teamIds, $baseUrl) {
             return $teamIds->map(
-                fn($teamId) => $pool->as($teamId)
-                                    ->get($baseUrl . "&competitor="
-                                          . self::translate365TeamId($teamId))
+                fn($teamId) => $pool->as($teamId)->get($baseUrl . "&competitor=" . self::translate365TeamId($teamId))
             )->toArray();
         });
 
@@ -278,15 +275,14 @@ class Crawler
 
             foreach ($response->collect("stats.1.rows") as $data) {
                 /** @var Player $player */
-                if ($player = $players->firstWhere("externalId",
-                    $data["entity"]["id"])
-                ) {
+                if ($player = $players->firstWhere("externalId", $data["entity"]["id"])) {
                     $player->setAssists($data["stats"][0]["value"]);
                 } else {
                     $players->add(new Player(
                         $data["entity"]["id"],
                         $data["entity"]["name"],
                         $teamId,
+                        null,
                         null,
                         null,
                         $data["stats"][0]["value"]

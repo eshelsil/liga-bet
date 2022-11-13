@@ -1,5 +1,6 @@
-import { cloneDeep, isEmpty } from 'lodash'
+import { cloneDeep } from 'lodash'
 import { GameBetType, KnockoutStage, Tournament, TournamentStatus, TournamentScoreConfig, GameBetScoreConfig, EachGoalBet, RoadToFinalBetScoreConfig, SpecialQuestionType, SpecialQuestionBetScoreConfig, MatchBetsScoreConfig } from '../types'
+import { ScoresConfigFromatted } from '../_selectors'
 import { valuesOf } from './common'
 
 export function isTournamentStarted(tournament: Tournament) {
@@ -51,7 +52,7 @@ export function isSimpleQuestionBetEmpty(config: number){
 }
 
 export function isQuestionBetEmpty<T extends keyof SpecialQuestionBetScoreConfig>(name: T, config: SpecialQuestionBetScoreConfig[T]) {
-	if (name === SpecialQuestionType.TopScorer){
+	if (name === SpecialQuestionType.TopScorer || name === SpecialQuestionType.TopAssists){
 		return isTopScorerBetEmpty(config as EachGoalBet)
 	}
 	if ([ SpecialQuestionType.Winner, SpecialQuestionType.RunnerUp ].includes(name)){
@@ -78,8 +79,18 @@ export function formatGameBetsConfig(scoresConfig: MatchBetsScoreConfig): MatchB
 	return res
 }
 
+export function formatTopAssistsConfig(config: number | EachGoalBet): EachGoalBet {
+	if (!isNaN(Number(config))){
+		return {
+			correct: config as number,
+			eachGoal: 0,
+		}
+	}
+	return config as EachGoalBet
+}
 
-export function generateDefaultScoresConfig(): TournamentScoreConfig {
+
+export function generateDefaultScoresConfig(): ScoresConfigFromatted {
 	return {
 		gameBets: {
 			groupStage: {
@@ -122,7 +133,10 @@ export function generateDefaultScoresConfig(): TournamentScoreConfig {
 				final: 20,
 			},
 			mvp: 20,
-			topAssists: 20,
+			topAssists: {
+				correct: 10,
+				eachGoal: 3,
+			},
 			topScorer: {
 				correct: 8,
 				eachGoal: 4,

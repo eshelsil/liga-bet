@@ -51,7 +51,7 @@ class BetSpecialBetsRequest extends AbstractBetRequest
      * @param array $data
      */
     protected function validateData($specialBet, $data) {
-        Log::debug("Validating data: {$specialBet->getID()}\r\nData: ". json_encode($data, JSON_PRETTY_PRINT));
+//        Log::debug("Validating data: [{$specialBet->type}] {$specialBet->getID()} - Data: ". json_encode($data));
         $answer = data_get($data, "answer");
         if (is_null($answer)) {
             throw new \InvalidArgumentException("Could not parse \"answer\" from bet value");
@@ -178,15 +178,17 @@ class BetSpecialBetsRequest extends AbstractBetRequest
 
     public function calcTopAssists()
     {
-        if (!$players = $this->getSpecialBet()->answer) {
-            return null;
+        $score = 0;
+        /** @var Player $player */
+        $player = $this->tournament->competition->players->find($this->answer);
+        $score += $player->assists * $this->getScoreConfig("specialBets.topAssists.eachGoal");
+
+        $players = $this->getSpecialBet()->answer;
+        if ($players && in_array($this->answer, explode(",", $players))) {
+            $score += $this->getScoreConfig("specialBets.topAssists.correct") ?? $this->getScoreConfig("specialBets.topAssists"); // Fallback to prevent BC
         }
 
-        if (!in_array($this->answer, explode(",", $players))) {
-            return 0;
-        }
-
-        return $this->getScoreConfig("specialBets.topAssists");
+        return $score;
     }
 
     public function calculateOffensiveTeam()

@@ -1,7 +1,8 @@
-import { MatchBetsScoreConfig, SpecialQuestionBetScoreConfig, SpecialQuestionType, TournamentScoreConfig } from '../../types';
+import { MatchBetsScoreConfig, SpecialQuestionType } from '../../types';
 import { keysOf } from '../../utils';
 import { ScoreConfigForm } from '../types';
 import { cloneDeep } from 'lodash';
+import { ScoresConfigFromatted } from '../../_selectors';
 
 
 export function getGameParams(config: MatchBetsScoreConfig, options: ScoreConfigForm['gameBetOptions']): MatchBetsScoreConfig {
@@ -24,7 +25,7 @@ export function getGameParams(config: MatchBetsScoreConfig, options: ScoreConfig
 
 
 
-function getSpecialBetParams(config: ScoreConfigForm): SpecialQuestionBetScoreConfig {
+function getSpecialBetParams(config: ScoreConfigForm): ScoreConfigForm['specialBets'] {
 	const { specialBets, specialQuestionOptions} = config
 	const params = cloneDeep(specialBets)
 	for (const stage of keysOf(specialQuestionOptions.roadToFinal)){
@@ -36,7 +37,7 @@ function getSpecialBetParams(config: ScoreConfigForm): SpecialQuestionBetScoreCo
 	return params;
 }
 
-export function mapFormStateToApiParams(formState: ScoreConfigForm): TournamentScoreConfig {
+export function mapFormStateToApiParams(formState: ScoreConfigForm): ScoresConfigFromatted {
 	return {
 		gameBets: getGameParams(formState.gameBets, formState.gameBetOptions),
 		groupRankBets: formState.groupRankBets,

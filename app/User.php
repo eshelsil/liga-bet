@@ -21,8 +21,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $fcm_token
- * @property-read Collection|\App\Bet[] $bets
- * @property-read int|null $bets_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
  * @property-read Collection|\App\Tournament[] $ownedTournaments
@@ -97,11 +95,6 @@ class User extends Authenticatable
     public function isMonkey()
     {
         return $this->permissions == self::TYPE_MONKEY;
-    }
-
-    public function bets()
-    {
-        return $this->hasMany('App\Bet');
     }
 
     public function tournaments(): \Illuminate\Database\Eloquent\Relations\BelongsToMany

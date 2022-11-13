@@ -2,7 +2,6 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from './schema';
-import { TournamentScoreConfig } from '../../types';
 import GroupRankBetConfig from './groupRankBets/GroupRankBetConfig';
 import MatchBetsConfig from './matchBets/MatchBetsConfig';
 import SpecialBetsConfig from './specialQuestions/SpecialBetsConfig';
@@ -11,11 +10,13 @@ import { mapFormStateToApiParams, getInitialOptionsConfig } from '../utils';
 import { generateDefaultScoresConfig } from '../../utils';
 import { isEmpty } from 'lodash';
 import { LoadingButton } from '../../widgets/Buttons';
+import { ScoresConfigFromatted } from '../../_selectors';
+
 
 
 interface Props {
-	config: TournamentScoreConfig,
-	updateConfig: (config: TournamentScoreConfig) => Promise<void>,
+	config: ScoresConfigFromatted,
+	updateConfig: (config: ScoresConfigFromatted) => Promise<void>,
 }
 
 function ScoreConfigFormView({

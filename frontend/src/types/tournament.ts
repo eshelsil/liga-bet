@@ -30,7 +30,7 @@ export interface EachGoalBet {
 };
 
 export interface SpecialQuestionBetScoreConfig {
-	[SpecialQuestionType.TopAssists]?: number,
+	[SpecialQuestionType.TopAssists]?: number | EachGoalBet,
 	[SpecialQuestionType.MVP]?: number,
 	[SpecialQuestionType.OffensiveTeamGroupStage]?: number,
 	[SpecialQuestionType.TopScorer]?: EachGoalBet,

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\CreateTournamentSpecialBets;
+use App\Actions\CreateTournament;
 use App\Competition;
 use App\SpecialBets\SpecialBet;
 use App\Tournament;
@@ -17,25 +17,12 @@ use Log;
 
 class TournamentController extends Controller
 {
-    public function createTournament(Request $request, CreateTournamentSpecialBets $ctsb)
+    public function createTournament(Request $request, CreateTournament $ct)
     {
         $user = $this->getUser();
-        $this->validateCreatePermissions();
         $this->validateCreateInputs($request);
-        $this->validateCreateLimitations($user);
-        $tournament                  = new Tournament();
-        $tournament->name            = $request->name;
-        $tournament->status          = Tournament::STATUS_INITIAL;
-        $tournament->config          = ["scores" => config('defaultScore'), "prizes" => []];
-        $tournament->competition_id  = $request->competition;
-        $tournament->code            = Str::lower(Str::random(6));
-        $tournament->creator_user_id = $user->id;
-        $tournament->save();
 
-        $ctsb->handle($tournament);
-        $tournamentPreferences                  = new TournamentPreferences();
-        $tournamentPreferences->tournament_id   = $tournament->id;
-        $tournamentPreferences->save();
+        $tournament = $ct->handle($user, Competition::findOrFail($request->competition), $request->name);
 
         return new JsonResponse((new TournamentResource($tournament))->toArray($request), 200);
     }
@@ -135,7 +122,8 @@ class TournamentController extends Controller
             "specialBets.runnerUp.semiFinal",
             "specialBets.runnerUp.final",
             "specialBets.mvp",
-            "specialBets.topAssists",
+            "specialBets.topAssists.correct",
+            "specialBets.topAssists.eachGoal",
             "specialBets.topScorer.correct",
             "specialBets.topScorer.eachGoal",
         ];
@@ -173,21 +161,6 @@ class TournamentController extends Controller
         }
     }
 
-    private function validateCreatePermissions()
-    {
-        return true;
-        // $user = $this->getUser();
-        // if (! $user->hasTournamentAdminPermissions()) {
-        //     throw new JsonException("אין לך את ההרשאות הדרושות כדי לפתוח טורניר משלך", 401);
-        // }
-
-        // if ($user->isTournamentAdmin()) {
-        //     if ($user->ownedTournaments()->count() > 0) {
-        //         throw new JsonException("לא ניתן לפתוח יותר מטורניר אחד", 401);
-        //     }
-        // }
-    }
-
     private function validateCreateInputs(Request $request) {
         $name = $request->name;
         if (!$name || strlen($name) < 4) {
@@ -199,25 +172,5 @@ class TournamentController extends Controller
             throw new JsonException("Invalid competition input", 400);
         }
         // TODO: handle not-started competition
-
-        if (Tournament::where('name', $name)->exists()) {
-            throw new JsonException("קיים כבר טורניר עם השם \"$name\"", 400);
-        }
-    }
-
-    private function validateCreateLimitations(User $user) {
-        $owned_tournaments_count = $user->ownedTournaments()->count();
-        if ($user->isAdmin()) {
-            if ($owned_tournaments_count >= 3) {
-                throw new JsonException("אדמינים לא יכולים ליצור מעל 3 טורנירים", 403);
-            }
-        } else {
-            if ($owned_tournaments_count >= 1) {
-                throw new JsonException("לא ניתן ליצור יותר מטורניר אחד", 403);
-            }
-        }
-        if (Tournament::count() >= 50) {
-            throw new JsonException("נפתחו כבר 50 טורנירים, לא ניתן ליצור טורניר חדש", 403);
-        }
     }
 }

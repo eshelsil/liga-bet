@@ -24,23 +24,7 @@ class UpdateCompetition
     private UpdateGameBets $updateGameBets;
     private UpdateLeaderboards $updateLeaderboards;
 
-    public static function aaa()
-    {
-        $game = Game::query()->find(2);
-        $game->forceFill(["result_home" => null, "result_away" => null])->save();
-        $game->getBets()->toQuery()->update(["score" => 0]);
-
-        $games = $game->competition->getCrawler()->fetchGames();
-        $games[1] = array_merge($games[1], [
-            "is_done" => true,
-            "result_home" => 1,
-            "result_away" => 2
-        ]);
-
-        /** @var static $u */
-        $u = app()->make(static::class);
-        $u->handle($game->competition, $games);
-    }
+    private ?Collection $fakeGames = null;
 
     public function __construct(
         CalculateSpecialBets $calculateSpecialBets,
@@ -56,14 +40,20 @@ class UpdateCompetition
         $this->updateLeaderboards = $updateLeaderboards;
     }
 
-    public function handle(Competition $competition, ?Collection $crawlerGames = null): void
+    public function fake(?Collection $games = null, ?Collection $scorers = null)
     {
-        $crawlerGames ??= $competition->getCrawler()->fetchGames();
+        $this->fakeGames = $games;
+        $this->updateScorers->fake($scorers);
+    }
+
+    public function handle(Competition $competition): void
+    {
+        $crawlerGames = $this->fakeGames ?? $competition->getCrawler()->fetchGames();
         $existingGames = $competition->games;
 
         $this->saveNewGames($competition, $crawlerGames, $existingGames);
 
-        $existingGamesWithNoScore = $existingGames->where("is_done", false)
+        $existingGamesWithNoScore = $existingGames//->where("is_done", false)
             ->keyBy("external_id");
 
         $gamesWithScore = $crawlerGames->filter(function($crawlerGame) use ($existingGamesWithNoScore){
@@ -142,7 +132,9 @@ class UpdateCompetition
             $game = $gamesWithNoScore->get($gameData['external_id']);
             $game->result_home = $gameData['result_home'];
             $game->result_away = $gameData['result_away'];
-            $game->ko_winner   = $teamsByExternalId[$gameData['ko_winner_external_id']];
+            if ($gameData['ko_winner_external_id'] ?? null) {
+                $game->ko_winner   = $teamsByExternalId[$gameData['ko_winner_external_id']];
+            }
             $game->save();
 
             $games->add($game);
