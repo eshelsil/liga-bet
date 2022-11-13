@@ -29,6 +29,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Exceptions\JsonException;
 use App\InvitaionsForTournamentAdmin;
+use App\Tournament;
 use Carbon\Carbon;
 use \Exception;
 use Illuminate\Http\JsonResponse;
@@ -72,6 +73,18 @@ class AdminController extends Controller
     public function showTools()
     {
         return view('admin.tools_index');
+    }
+
+    public function getRunningTournamentsData()
+    {
+        $data = Tournament::all()->map(function($t){
+            $t->contestants = $t->utls()->pluck('name');
+            $t->contestantsCount = count($t->contestants);
+            $t->creatorUser = User::find($t->creator_user_id)->email;
+            return $t;
+        });
+            
+        return new JsonResponse($data, 200);
     }
 
     public function grantTournamentAdminPermission(Request $request)
