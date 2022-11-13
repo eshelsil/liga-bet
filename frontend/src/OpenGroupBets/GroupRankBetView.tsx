@@ -59,8 +59,8 @@ function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
 
     return (
         <Grid item xs={isXsScreen ? 12 : null}>
-            <div className={'LB-GroupRankBetView LB-EditableBetView'}>
-                <div className={`EditableBetView-header ${tournamentClass} ${(edit && forAllTournaments) ? 'sendingforAllTournaments' : ''}`}>
+            <div className={`LB-GroupRankBetView LB-EditableBetView ${tournamentClass} ${(edit && forAllTournaments) ? 'sendingforAllTournaments' : ''}`}>
+                <div className={`EditableBetView-header`}>
                     <h4 className="name">{getHebGroupName(name)}</h4>
                     {edit && hasOtherTournaments && (
                         <Switch
@@ -74,7 +74,7 @@ function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
                     {hideStandings && (
                         <div className="noBet">
                             <AddCircle
-                                color='primary'
+                                color={forAllTournaments ? 'secondary' : 'primary'}
                                 onClick={openEditMode}
                                 style={{fontSize: 48}}
                             />

@@ -7,9 +7,7 @@ import { generateEmptyGameBetFetcher } from '../utils'
 
 type State = Dictionary<GameBetsFetcher>
 
-interface ActionPayload extends FetchGameBetsParams {
-    tournamentId: number,
-}
+type ActionPayload = FetchGameBetsParams
 
 interface RejectPayload extends ActionPayload {
     error: string

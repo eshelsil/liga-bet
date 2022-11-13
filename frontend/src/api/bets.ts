@@ -6,8 +6,7 @@ type BetsApiResult = Record<number, BetApiModel>
 
 
 export const fetchMatchBets = async (
-    tournamentId: number,
-    { type, ids }: FetchGameBetsParams,
+    { type, ids, tournamentId }: FetchGameBetsParams,
 ): Promise<BetsApiResult> => {
     let filterParam: string;
     if (type === GameBetsFetchType.Users) filterParam = 'user_ids'
@@ -64,6 +63,20 @@ export const sendBet = async (
                 },
             ],
             ...(fillTournaments ? {fillTournaments} : {}),
+        },
+    })
+    return bets
+}
+
+export const importUtlBets = async (
+    toTournamentId: number,
+    fromTournamentId: number,
+): Promise<BetsApiResult> => {
+    const { bets = {} } = await sendApiRequest({
+        type: 'POST',
+        url: `/api/user/utls/${toTournamentId}/import-bets`,
+        data: {
+            from: fromTournamentId,
         },
     })
     return bets

@@ -15,8 +15,8 @@ import { generateInitCollectionAction } from './utils'
 
 function fetchAndStoreGameBets(params: FetchGameBetsParams) {
     return async (dispatch: AppDispatch, getState: GetRootState) => {
-        const tournamentId = TournamentIdSelector(getState())
-        const bets = await fetchMatchBets(tournamentId, params)
+        const { tournamentId } = params
+        const bets = await fetchMatchBets(params)
         dispatch(betsSlice.actions.updateMany({tournamentId, bets: bets}))
     }
 }
@@ -24,7 +24,8 @@ function fetchAndStoreGameBets(params: FetchGameBetsParams) {
 function fetchMyGameBets() {
     return async (dispatch: AppDispatch, getState: GetRootState) => {
         const utlId = CurrentTournamentUserId(getState())
-        const params = {type: GameBetsFetchType.Users, ids: [utlId, 3]};
+        const tournamentId = TournamentIdSelector(getState())
+        const params = {tournamentId, type: GameBetsFetchType.Users, ids: [utlId, 3]};
         return fetchAndStoreGameBets(params)(dispatch, getState)
     }
 }
@@ -68,7 +69,6 @@ const initPrimalBets = generateInitCollectionAction({
 
 function fetchGameBetsThunk(params: FetchGameBetsParams){
     return async (dispatch: AppDispatch, getState: GetRootState) => {
-        const tournamentId = TournamentIdSelector(getState());
         const { fetched, currentlyFetching } = CurrentGameBetsFetcher(getState())[params.type];
         const relevantIds = without(params.ids, ...fetched)
         const newIds = without(relevantIds, ...currentlyFetching)
@@ -80,7 +80,6 @@ function fetchGameBetsThunk(params: FetchGameBetsParams){
         const fetchParams = {
             ...params,
             ids: relevantIds,
-            tournamentId,
         };
         dispatch(gameBetsFetcher.actions.fetch(fetchParams))
         dispatch(fetchAndStoreGameBets(params))

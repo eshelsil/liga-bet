@@ -2,11 +2,12 @@ import { getUserUTLs, joinTournament, leaveTournament } from '../api/users'
 import { updateMyUTL, PayloadUpdateMyUTL } from '../api/utls'
 import { AppDispatch, GetRootState } from '../_helpers/store'
 import { CurrentTournamentUserId, CurrentUser, TournamentIdSelector } from '../_selectors'
-import { MyUtlsById, User, UserPermissions, UtlWithTournament } from '../types'
+import { MyUtlsById, User, UtlWithTournament } from '../types'
 import tournamentUser from '../_reducers/tournamentUser'
 import utlsSlice from '../_reducers/myUtls'
 import contestantsSlice from '../_reducers/contestants'
 import { minBy, omit } from 'lodash'
+import { importBetsFromTournament } from './importBets'
 
 
 
@@ -61,15 +62,20 @@ function fetchAndStoreUtls() {
 function createUtl({
     name,
     tournamentCode,
+    importFromTournament,
 }: {
     name: string
     tournamentCode: string
+    importFromTournament?: number
 }) {
   return async (dispatch: AppDispatch) => {
       return joinTournament({name, code: tournamentCode})
       .then( (utl: UtlWithTournament )=> {
         dispatch(utlsSlice.actions.setOne(utl));
         dispatch(selectUtl(utl.id));
+        if (importFromTournament){
+          dispatch(importBetsFromTournament(importFromTournament))
+        }
       })
   }
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { TextField } from '@mui/material'
-import { MyTournamentCodes, NoSelector } from '../_selectors'
+import { Checkbox, FormControlLabel, TextField } from '@mui/material'
+import { CurrentTournamentId, MyTournamentCodes, NoSelector, TournamentsWithMyUtl } from '../_selectors'
 import { connect } from 'react-redux'
 import { createUtl } from '../_actions/tournamentUser'
 import useGoTo from '../hooks/useGoTo'
@@ -10,6 +10,8 @@ import TournamentIcon from '@mui/icons-material/EmojiEvents';
 import { reportApiError } from '../utils'
 import { LoadingButton } from '../widgets/Buttons'
 import { useSelector } from 'react-redux'
+import { isEmpty } from 'lodash'
+import TournamentInput from '../widgets/TournamentInput'
 
 
 interface Props {
@@ -19,17 +21,22 @@ interface Props {
 function JoinTournament({ onJoin }: Props) {
     const { tournamentId } = useParams<any>();
     const codeFromURL = tournamentId
-    const myTournaments = useSelector(MyTournamentCodes)
+    const myTournamentsById = useSelector(TournamentsWithMyUtl)
+    const currentTournamentId = useSelector(CurrentTournamentId)
+    const myTournamentCodes = useSelector(MyTournamentCodes)
     const [code, setCode] = useState(codeFromURL || '')
     const [name, setName] = useState('')
     const [tournamentName, setTournamentName] = useState('')
     const [isCodeFromUrlInvalid, setIsCodeFromUrlInvalid] = useState<boolean>()
+    const [shouldImport, setShouldImport] = useState(true)
+    const [exportedTournament, setExportedTournament] = useState(currentTournamentId)
     const { goToHome } = useGoTo();
 
-    const alreadyJoined = myTournaments.includes(codeFromURL)
+    const alreadyJoined = myTournamentCodes.includes(codeFromURL)
+    const hasTournaments = !isEmpty(myTournamentsById)
 
     async function join() {
-        await onJoin({ tournamentCode: code, name })
+        await onJoin({ tournamentCode: code, name, importFromTournament: shouldImport ? exportedTournament : undefined  })
             .then(() => {
                 window['toastr']['success']('נרשמת לטורניר בהצלחה')
                 goToHome()
@@ -37,6 +44,7 @@ function JoinTournament({ onJoin }: Props) {
             .catch(function (error) {
                 console.log('FAILED join tournament', error)
             })
+        
     }
 
     const isCodeAutoSet = !!codeFromURL && !isCodeFromUrlInvalid
@@ -55,6 +63,12 @@ function JoinTournament({ onJoin }: Props) {
                 })
         }
     }, [codeFromURL, alreadyJoined])
+
+    useEffect(()=> {
+        if (!exportedTournament) {
+            setExportedTournament(currentTournamentId)
+        }
+    }, [currentTournamentId])
     
 
     return (
@@ -80,6 +94,27 @@ function JoinTournament({ onJoin }: Props) {
                         label='כינוי'
                         onChange={(e) => setName(e.target.value)}
                     />
+                    {hasTournaments && (
+                        <div className='importBetsSection'>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        size='medium'
+                                        checked={shouldImport}
+                                        onChange={(e, value: boolean) => setShouldImport(value)}
+                                    />
+                                }
+                                label="ייבא ניחושים שמילאתי"
+                            />
+                            {shouldImport && (
+                                <TournamentInput
+                                    value={exportedTournament}
+                                    onChange={setExportedTournament}
+                                    tournamentsById={myTournamentsById}
+                                />
+                            )}
+                        </div>
+                    )}
                     <div className='buttonContainer'>
                         <LoadingButton action={join}>הצטרף לטורניר</LoadingButton>
                     </div>

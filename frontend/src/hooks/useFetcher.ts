@@ -114,7 +114,7 @@ export function usePrimalBets(refreshable?: boolean) {
 }
 
 
-export function useGameBets(params: FetchGameBetsParams){
+export function useGameBets(params: Omit<FetchGameBetsParams, "tournamentId">){
     const dispatch = useDispatch<AppDispatch>();
     const fetchFunc = (params: FetchGameBetsParams) => dispatch(fetchGameBetsThunk(params))
     const currentTournamentId = useSelector(TournamentIdSelector)
@@ -122,10 +122,11 @@ export function useGameBets(params: FetchGameBetsParams){
 
     
     useEffect(() => {
+        const ts = Number(new Date())
         if (!currentTournamentId || !isConfirmed){
             return
         }
-        fetchFunc(params)
+        fetchFunc({...params, tournamentId: currentTournamentId})
     }, [currentTournamentId, isConfirmed, params])
 
     return {

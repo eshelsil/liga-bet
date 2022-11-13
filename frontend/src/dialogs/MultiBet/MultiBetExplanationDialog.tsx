@@ -45,8 +45,8 @@ export default function MultiBetExplanationDialog({
                 <DialogContent className={'dialogContent'}>
                     <h5>ניתן לשלוח הימור מסוים לכל הטורנירים בהם אתה משתתף</h5>
                     <h5 style={{marginTop: -6}}>בעזרת המתג מצד שמאל למעלה שמופיע בזמן עריכת ההימור:</h5>
-                    <div className={'LB-EditableBetView'}>
-                        <div className={`EditableBetView-header ${tournamentClass} sendingforAllTournaments`}>
+                    <div className={`LB-EditableBetView ${tournamentClass} sendingforAllTournaments`}>
+                        <div className={`EditableBetView-header`}>
                             <Switch
                                 className='forAllTournamentsInput'
                                 checked={true}
@@ -54,15 +54,15 @@ export default function MultiBetExplanationDialog({
                         </div>
                     </div>
                     <h5>כשהמתג <span><b>דלוק</b></span> הרקע של הכותרת יהיה סגול ובלחיצה על "שלח" ההימור יישלח <span><b>לכל הטורנירים</b></span></h5>
-                    <div className={'LB-EditableBetView'}>
-                        <div className={`EditableBetView-header ${tournamentClass}`}>
+                    <div className={`LB-EditableBetView ${tournamentClass}`}>
+                        <div className={`EditableBetView-header`}>
                             <Switch
                                 className='forAllTournamentsInput'
                                 checked={false}
                             />
                         </div>
                     </div>
-                    <h5>כשהמתג <span><b>כבוי</b></span> הרקע של הכותרת יהיה בצבע של ובלחיצה על "שלח" ההימור יישלח רק <span><b>לטורניר הנוכחי</b></span></h5>
+                    <h5>כשהמתג <span><b>כבוי</b></span> הרקע של הכותרת יהיה בצבע של הטורניר הנוכחי ובלחיצה על "שלח" ההימור יישלח רק <span><b>לטורניר הנוכחי</b></span></h5>
                     <h5 style={{marginTop: 32}}>אפשר להגדיר ברירת מחדל למצב ההתחלתי של המתג:</h5>
                     <div style={{marginBottom: 12}}>
                         <MultiBetsSettingsView
