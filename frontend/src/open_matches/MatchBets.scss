@@ -24,12 +24,12 @@
         }
     }
     .LB-OpenMatchBet {
+        @include floatingFrame;
         border-radius: 12px;
         width: 400px;
         overflow: hidden;
         max-width: 100%;
         box-shadow: $medium-shadow;
-        background-color: #fff;
         margin: 24px;
         @media(max-width: 600px){
             margin: 12px auto;

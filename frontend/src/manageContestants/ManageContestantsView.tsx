@@ -49,14 +49,18 @@ function ManageContestantsView({
             {
                 <>
                     <h1 className='LB-TitleText'>משתתפים</h1>
-                    <ul>
-                        <li>באפשרותך לאשר או למחוק משתתפים בטורניר</li>
-                        <li>אתה יכול לבחור חברים שיעזרו לך לנהל את המשתתפים</li>
-                        <li>עוזר מנהל רשאי לאשר או למחוק משתתפים שאינם עוזרי מנהל</li>
-                    </ul>
-                    <AutoConfirmSelection updateAutoConfirmPref={updateAutoConfirmPref} />
+                    <div className='LB-FloatingFrame' style={{paddingRight: 0}}>
+                        <ul style={{margin: 0}}>
+                            <li>באפשרותך לאשר או למחוק משתתפים בטורניר</li>
+                            <li>אתה יכול לבחור חברים שיעזרו לך לנהל את המשתתפים</li>
+                            <li>עוזר מנהל רשאי לאשר או למחוק משתתפים שאינם עוזרי מנהל</li>
+                        </ul>
+                    </div>
+                    <div className='LB-FloatingFrame' style={{paddingBottom: 4}}>
+                        <AutoConfirmSelection updateAutoConfirmPref={updateAutoConfirmPref} />
+                    </div>
 
-                    <TableContainer component={Paper}>
+                    <TableContainer component={Paper} className='LB-CustomTable'>
                         <Table>
                             <TableHead>
                                 <TableRow>

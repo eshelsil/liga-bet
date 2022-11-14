@@ -24,15 +24,17 @@ const QuestionBetsView = ({ questions, sendQuestionBet, competitionStartTime }: 
     return (
         <div className="LigaBet-QuestionBetsView">
             <h1 className='LB-TitleText'>ניחושים מיוחדים</h1>
-            <ul>
-                <li>ניתן לערוך את הניחושים עד שעת תתחילת המשחק הראשון בטורניר {' '}{startTimeString}</li>
-                <li style={{marginTop: 8}}>
-                    ניתן לראות את שיטת הניקוד
-                    <TakanonPreviewModal label={'בלחיצה כאן'}>
-                        <SpecialQuestionsRules />
-                    </TakanonPreviewModal>
-                </li>
-            </ul>
+            <div className='LB-FloatingFrame'>
+                <ul>
+                    <li>ניתן לערוך את הניחושים עד שעת תתחילת המשחק הראשון בטורניר {' '}{startTimeString}</li>
+                    <li style={{marginTop: 8}}>
+                        ניתן לראות את שיטת הניקוד
+                        <TakanonPreviewModal label={'בלחיצה כאן'}>
+                            <SpecialQuestionsRules />
+                        </TakanonPreviewModal>
+                    </li>
+                </ul>
+            </div>
             {hasOtherTournaments && (
                 <MultiBetsSettings />
             )}

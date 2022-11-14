@@ -252,5 +252,11 @@ table {
     }
     .LB-FloatingFrame {
         @include floatingFrame;
+        border-radius: 12px;
+        padding: 12px;
+        margin-bottom: 16px;
+    }
+    .LB-CustomTable {
+        @include floatingTable;
     }
 }

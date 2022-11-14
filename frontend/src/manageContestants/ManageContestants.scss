@@ -9,6 +9,7 @@
         }
     }
     .LB-AutoConfirmSelection {
+        margin: 0;
         @include flexRow;
         .loaderContainer {
             margin-top: -3px;

@@ -21,15 +21,17 @@ const OpenMatchesView = ({ matches = [], sendBet }: Props) => {
     return (
         <div className={'LB-OpenMatchesView'}>
             <h1 className='LB-TitleText'>ניחוש משחקים</h1>
-            <ul className='LB-FloatingFrame'>
-                <li>ניחוש כל משחק יהיה פתוח לעריכה עד לשעת תחילת המשחק</li>
-                <li style={{marginTop: 8}}>
-                    ניתן לראות את שיטת הניקוד
-                    <TakanonPreviewModal label={'בלחיצה כאן'}>
-                        <MatchBetRules />
-                    </TakanonPreviewModal>
-                </li>
-            </ul>
+            <div className='LB-FloatingFrame'>
+                <ul>
+                    <li>ניחוש כל משחק יהיה פתוח לעריכה עד לשעת תחילת המשחק</li>
+                    <li style={{marginTop: 8}}>
+                        ניתן לראות את שיטת הניקוד
+                        <TakanonPreviewModal label={'בלחיצה כאן'}>
+                            <MatchBetRules />
+                        </TakanonPreviewModal>
+                    </li>
+                </ul>
+            </div>
             <span className="admin">
                 {dayjs().format('HH:mm  YYYY/MM/DD')}
             </span>

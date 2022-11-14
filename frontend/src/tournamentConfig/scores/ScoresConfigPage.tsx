@@ -22,9 +22,11 @@ function ScoresConfigPage({
 		<div className='LB-ScoresConfigPage'>
 			<div className='ScoresConfigPage-header'>
 				<h1 className='title LB-TitleText'>חוקי הטורניר</h1>
-				<ul>
-					<li>שים לב! לאחר שיתחיל הטורניר - לא יהיה ניתן יותר לערוך את שיטת הניקוד</li>
-				</ul>
+				<div className='LB-FloatingFrame' style={{paddingRight: 0}}>
+					<ul>
+						<li>שים לב! לאחר שיתחיל הטורניר - לא יהיה ניתן יותר לערוך את שיטת הניקוד</li>
+					</ul>
+				</div>
 				<div className='scoreFormContainer'>
 					<h3 className='scoreFormTitle LB-TitleText'>
 						הגדרות ניקוד

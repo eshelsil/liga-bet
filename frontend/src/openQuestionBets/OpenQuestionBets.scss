@@ -30,9 +30,8 @@
         width: 330px;
         overflow: hidden;
         max-width: 100%;
+        @include floatingFrame;
         box-shadow: $medium-shadow;
-        background-color: #fff;
-        
         margin: 12px;
         @media(max-width: 600px){
             margin: 12px auto;

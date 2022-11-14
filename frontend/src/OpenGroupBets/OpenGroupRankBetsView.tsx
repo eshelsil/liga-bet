@@ -29,15 +29,17 @@ const OpenGroupRankBetsView = ({ groupsWithBet, sendGroupRankBet, competitionSta
             {isAvailable && (
                 <div className='LB-OpenGroupRankBetsView'>
                     <h2 className='LB-TitleText'>ניחוש דירוגי בתים</h2>
-                    <ul>
-                        <li>ניתן לערוך את הניחושים עד שעת תתחילת המשחק הראשון בטורניר {' '}{startTimeString}</li>
-                        <li style={{marginTop: 8}}>
-                            ניתן לראות את שיטת הניקוד
-                            <TakanonPreviewModal label={'בלחיצה כאן'}>
-                                <GroupStageRules />
-                            </TakanonPreviewModal>
-                        </li>
-                    </ul>
+                    <div className='LB-FloatingFrame'>
+                        <ul>
+                            <li>ניתן לערוך את הניחושים עד שעת תתחילת המשחק הראשון בטורניר {' '}{startTimeString}</li>
+                            <li style={{marginTop: 8}}>
+                                ניתן לראות את שיטת הניקוד
+                                <TakanonPreviewModal label={'בלחיצה כאן'}>
+                                    <GroupStageRules />
+                                </TakanonPreviewModal>
+                            </li>
+                        </ul>
+                    </div>
                     {hasOtherTournaments && (
                         <MultiBetsSettings />
                     )}

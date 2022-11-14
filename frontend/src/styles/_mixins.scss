@@ -26,3 +26,8 @@
     text-shadow: -3px 2px 8px black;
     color: white;
 }
+
+@mixin floatingTable {
+    background-color: rgb(255 255 255 / 95%);
+    border-radius: 12px;
+}

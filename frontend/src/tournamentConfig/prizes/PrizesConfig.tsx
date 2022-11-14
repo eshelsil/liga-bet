@@ -101,7 +101,7 @@ function PrizesConfig({
 				<LoadingButton action={submit}>עדכן</LoadingButton>
 			</div>
 
-			<div className='forgotSomething'>
+			<div className='forgotSomething LB-FloatingFrame'>
 				<h5>שכחת משהו?</h5>
 				<Link
 					className={'linkToScoresConfig'}

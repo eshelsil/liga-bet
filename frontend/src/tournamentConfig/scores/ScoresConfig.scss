@@ -25,11 +25,12 @@
             }
         }
         .LigaBet-ScoreInput {
-            width: 64px;
+            width: 44px;
             .MuiInputBase-root {
                 border-radius: 12px;    
                 input {
                     border-radius: 12px;
+                    padding: 10px;
                     &.Mui-disabled {
                         background-color: #9c9c9c38;
                     }
@@ -64,8 +65,6 @@
             margin-bottom: 24px;
             @media (max-width: 600px) {
                 .matchesTableContainer, .LB-RoadToFinalMobileTable {
-                    width: calc(100% + $padding * 2);
-                    margin-right: -$padding;
                     position: relative;
                 }
             }
@@ -137,6 +136,10 @@
             }
         }
         .LB-simpleTable {
+            border-radius: 12px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            display: block;
             > tbody {
                 > tr {
                     > td {
