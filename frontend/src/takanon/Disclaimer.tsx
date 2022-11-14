@@ -6,7 +6,7 @@ import { CurrentTournamentOwner } from '../_selectors';
 function Disclaimer() {
     const owner = useSelector(CurrentTournamentOwner)
     return (<>
-        <h4>הצהרות</h4>
+        <h4 style={{marginTop: 4}}>הצהרות</h4>
         <ul>
             <li>
                 התקנון נקבע על ידי מנהל הטורניר (המכונה אצליכם בחבר'ה "{owner?.name}"), ואין למנהלי האתר אחריות על הפרסים או על שיטת חלוקת הנקודות

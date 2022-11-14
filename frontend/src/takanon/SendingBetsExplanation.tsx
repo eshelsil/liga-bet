@@ -35,7 +35,7 @@ function PrimalBetsExplanation() {
 function SendingBetsExplanation() {
     return (
         <>
-            <h3 style={{ marginBottom: 20 }}>שליחת ניחושים</h3>
+            <h3 className='LB-TitleText' style={{ marginBottom: 20 }}>שליחת ניחושים</h3>
             <MatchBetsExplanation />
             <PrimalBetsExplanation />
         </>

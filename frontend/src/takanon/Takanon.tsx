@@ -15,15 +15,21 @@ function Takanon() {
 
     return (
         <div className="LB-Takanon">
-            <h2 style={{ textAlign: 'center' }}>תקנון משחק - ליגה ב' מונדיאל 2022</h2>
+            <h2 className='LB-TitleText' style={{ textAlign: 'center' }}>תקנון משחק - ליגה ב' מונדיאל 2022</h2>
 
-            <Disclaimer />
+            <div className='LB-FloatingFrame'>
+                <Disclaimer />
+            </div>
             <SendingBetsExplanation />
             <ScoresRules />
-            <PrizesRules prizes={prizes} />
+            <div className='LB-FloatingFrame'>
+                <PrizesRules prizes={prizes} />
+            </div>
             <br/>
 
-            <GeneralRules />
+            <div className='LB-FloatingFrame'>
+                <GeneralRules />
+            </div>
             <br/>
         </div>
     )

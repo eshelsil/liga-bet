@@ -6,7 +6,7 @@ import SpecialQuestionsRules from './specialQuestions/SpecialQuestionsRules';
 
 function ScoresRules() {
     return (<>
-            <h3 style={{marginBottom: 20}}>ניקוד</h3>
+            <h3 className='LB-TitleText' style={{marginBottom: 20}}>ניקוד</h3>
             <MatchBetRules />
             <GroupStageRules />
             <SpecialQuestionsRules />

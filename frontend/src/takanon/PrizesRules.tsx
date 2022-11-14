@@ -11,7 +11,7 @@ function PrizesRules({ prizes }: Props) {
     }
     return (
         <>
-            <h3 style={{ marginBottom: 20 }}>פרסים</h3>
+            <h3 style={{ marginBottom: 20, marginTop: 8 }}>פרסים</h3>
             <ul style={{ marginTop: 8 }}>
                 {prizes.map((prize, index) => (
                     <li key={index}>
