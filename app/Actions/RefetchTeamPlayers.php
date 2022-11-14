@@ -60,7 +60,7 @@ class RefetchTeamPlayers
                                    ->pluck("id");
 
         Bet::query()
-            ->whereIn("type", BetTypes::SpecialBet)
+            ->where("type", BetTypes::SpecialBet)
             ->whereIn("type_id", $specialBetIds)
             ->where("data->answer", $player->id)
             ->delete();
