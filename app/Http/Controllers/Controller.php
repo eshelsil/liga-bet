@@ -18,8 +18,6 @@ class Controller extends BaseController
 
     protected $user = null;
 
-    protected $middleware = ['auth'];
-
     /**
      * Create a new controller instance.
      *
@@ -28,6 +26,7 @@ class Controller extends BaseController
     public function __construct()
     {
         Log::debug("[Controller][".static::class."][__construct] Received request!");
+        $this->middleware('auth');
     }
 
     /**

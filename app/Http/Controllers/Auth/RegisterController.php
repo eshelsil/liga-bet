@@ -31,7 +31,11 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/home';
 
-    protected $middleware = ['guest'];
+    public function __construct()
+    {
+        $this->middleware('guest');
+        // Do not call parent as it would require 'auth' middleware
+    }
 
     /**
      * Get a validator for an incoming registration request.
