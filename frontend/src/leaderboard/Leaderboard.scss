@@ -47,6 +47,9 @@
                 padding: 8px 16px;
             }
         }
+        .MuiTableContainer-root {
+            background-color: rgba(255,255,255, 0.95);
+        }
         .LigaBet-CustomTable {
             border-radius: 0 0 12px 12px;
             .tableHeaderCell {
@@ -63,7 +66,7 @@
             .LigaBet-CustomTableRow {
                 border-top: 1px solid #ddd;
                 &.currentUtl {
-                    background-color: #f1f1f1;
+                    background-color: rgba(220, 220, 220, 0.35);
                 }
                 .MuiTableCell-root {
                     font-size: 16px;

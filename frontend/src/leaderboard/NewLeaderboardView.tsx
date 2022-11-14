@@ -58,7 +58,7 @@ function NewLeaderboardView({ rows, hasData, currentUtlId, themeClass, tournamen
     )
     return (
         <div className={`LB-LeaderboardView ${themeClass}`}>
-            <h1>טבלת ניקוד</h1>
+            <h1 className='LB-TitleText'>טבלת ניקוד</h1>
 
             <div className='LeaderboardView-content'>
                 <div className='tableTitleContainer'>

@@ -21,3 +21,8 @@
     box-shadow: $basic-shadow;
     background-color: #fff;
 }
+
+@mixin headerText {
+    text-shadow: -3px 2px 8px black;
+    color: white;
+}

@@ -6,7 +6,6 @@ import './AppFooter.scss'
 
 
 function ImageLoader(){
-    const isXsScreen = useIsXsScreen()
     const [shouldLoad, setShouldLoad] = useState(false)
 
     useEffect(()=>{
@@ -21,12 +20,7 @@ function ImageLoader(){
     return (
         <>
             {shouldLoad && (<>
-                {isXsScreen && (
-                    <img className='AppFooter-image' src='/img/logo-small.svg' />
-                )}
-                {!isXsScreen && (
-                    <img className='AppFooter-image' src='/img/logo-big.svg' />
-                )}
+                <img className='AppFooter-image' src='/img/icon-no-bg.svg' />
             </>)}
         </>
     )

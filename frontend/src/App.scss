@@ -5,11 +5,20 @@ html {
         height: 100%;
         background-color: rgba(30,30,30,0.02);
         direction: rtl;
+        * {
+            font-family: "Helvetica", "Roboto", sans-serif;
+        }
         #root {
             height: 100%;
             display: flex;
             flex-direction: column;
             flex-wrap: nowrap;
+            background-image: url(https://www.pcclean.io/wp-content/uploads/2020/4/i26beu.jpg);
+            overflow: scroll;
+            box-shadow: inset 0 0 0 1000px rgb(0 67 131 / 21%);
+            background-position-x: 60%;
+            background-position-y: center;
+            background-size: cover;
         }
         .MuiPagination-ul {
             direction: ltr;

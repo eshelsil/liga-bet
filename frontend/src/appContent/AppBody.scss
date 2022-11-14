@@ -1,7 +1,8 @@
+@import '../styles/mixins';
+
 @mixin appSection {
     padding: 15px 20px;
     width: 100%;
-    background-color: #eee;
 }
 
 .LigaBet-AppBody {
@@ -17,9 +18,13 @@
     .LB-AppLinksView {
         @include appSection;
         padding-bottom: 5px;
+        background: linear-gradient(rgb(0 0 0), rgb(0 0 0 / 0%));
     }
     .LB-PrizesView {
         @include appSection;
         padding-bottom: 5px;
+    }
+    .LB-TitleText {
+        @include headerText;
     }
 }
