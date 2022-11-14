@@ -16,17 +16,17 @@ $tournament_1: (
 );
 
 $tournament_2: (
-	light: $warning-light,
-	main: $warning-main,
-	dark: $warning-dark,
-	gradient: simple_gradient($warning-light, $warning-main),
-);
-
-$tournament_3: (
 	light: $success-light,
 	main: $success-main,
 	dark: $success-dark,
 	gradient: simple_gradient($success-light, $success-main),
+);
+
+$tournament_3: (
+	light: $warning-light,
+	main: $warning-main,
+	dark: $warning-dark,
+	gradient: simple_gradient($warning-light, $warning-main),
 );
 	
 $tournament_4: (
