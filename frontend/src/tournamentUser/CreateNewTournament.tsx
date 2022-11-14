@@ -77,7 +77,7 @@ function CreateNewTournament({
 
     return (
         <div className='LB-CreateNewTournament'>
-            <h1>צור טורניר חדש</h1>
+            <h1 className='LB-TitleText'>צור טורניר חדש</h1>
             {tournamentWithNoUtl && (
                 
                 <div className='LB-UserJoinOwnedTournament'>

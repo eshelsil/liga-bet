@@ -74,7 +74,7 @@ function JoinTournament({ onJoin }: Props) {
     return (
         <div className='LB-JoinTournament'>
             {!alreadyJoined && (<>
-                <h1>הצטרף לטורניר קיים</h1>
+                <h1 className='LB-TitleText'>הצטרף לטורניר קיים</h1>
                 <div className='joinTournamentForm'>
                     {isCodeAutoSet && (
                         <div className='tournamentName'>

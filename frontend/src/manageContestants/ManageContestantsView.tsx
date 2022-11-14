@@ -41,14 +41,14 @@ function ManageContestantsView({
     return (
         <div className='LB-ManageContestantsView'>
             {!hasManagerPermissions && (
-                <h1>
+                <h1 className='LB-TitleText'>
                     כדי לצפות ברשימת המשתתפים עלייך להחזיק בהרשאות מנהל או עוזר מנהל לטורניר
                     זה
                 </h1>
             )}
             {
                 <>
-                    <h1>משתתפים</h1>
+                    <h1 className='LB-TitleText'>משתתפים</h1>
                     <ul>
                         <li>באפשרותך לאשר או למחוק משתתפים בטורניר</li>
                         <li>אתה יכול לבחור חברים שיעזרו לך לנהל את המשתתפים</li>

@@ -20,7 +20,7 @@ const OpenMatchesView = ({ matches = [], sendBet }: Props) => {
     const hasOtherTournaments = otherTournaments.length > 0;
     return (
         <div className={'LB-OpenMatchesView'}>
-            <h1>ניחוש משחקים</h1>
+            <h1 className='LB-TitleText'>ניחוש משחקים</h1>
             <ul>
                 <li>ניחוש כל משחק יהיה פתוח לעריכה עד לשעת תחילת המשחק</li>
                 <li style={{marginTop: 8}}>

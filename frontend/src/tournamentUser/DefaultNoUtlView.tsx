@@ -6,7 +6,7 @@ function DefaultNoUtlView() {
     const { goToJoinTournament, goToCreateTournament } = useGoTo()
     return (
         <div className='LB-DefaultNoUtlView'>
-            <h1 className={'title'}>ברוכים הבאים!</h1>
+            <h1 className={'title LB-TitleText'}>ברוכים הבאים!</h1>
             <div className='buttonsContainer'>
                 <Button variant="contained" color="primary" onClick={goToJoinTournament}>
                     הצטרף לטורניר קיים

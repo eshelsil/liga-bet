@@ -78,7 +78,7 @@ function ManageUsersView({
                     alignItems: 'center',
                 }}
             >
-                <h1>משתמשים באפליקציה</h1>
+                <h1 className='LB-TitleText'>משתמשים באפליקציה</h1>
                 {loading && (
                     <CircularProgress
                         color="inherit"

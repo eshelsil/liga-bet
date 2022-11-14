@@ -26,7 +26,7 @@ function LeaderboardView({ rows }: Props) {
     const rankDisplayById = getRankDisplayById(rows)
     return (
         <div className="LigaBet-LeaderboardView">
-            <h1>טבלת ניקוד</h1>
+            <h1 className='LB-TitleText'>טבלת ניקוד</h1>
             <div className="row" style={{ margin: 0, padding: '5px 15px' }}>
                 <div
                     className="col-xs-2 pull-right col-no-padding"

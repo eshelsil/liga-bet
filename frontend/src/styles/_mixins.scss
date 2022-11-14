@@ -19,7 +19,7 @@
 
 @mixin floatingFrame {
     box-shadow: $basic-shadow;
-    background-color: #fff;
+    background-color: rgba(255,255,255, 0.95);
 }
 
 @mixin headerText {
