@@ -62,7 +62,9 @@ class RefetchTeamPlayers
         Bet::query()
             ->where("type", BetTypes::SpecialBet)
             ->whereIn("type_id", $specialBetIds)
-            ->where("data->answer", $player->id)
+            ->get(["id", "data"])
+            ->filter(fn(Bet $bet) => $bet->getData("answer") == $player->id)
+            ->toQuery()
             ->delete();
 
         $player->delete();
