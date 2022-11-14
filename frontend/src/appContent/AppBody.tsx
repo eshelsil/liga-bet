@@ -1,6 +1,7 @@
 import React from 'react';
 import AppContent from '../appContent/AppContent';
 import TournamentPrizes from '../prizes/PrizesProvider';
+import AppFooter from '../appFooter/Footer';
 import './AppBody.scss';
 
 
@@ -11,6 +12,7 @@ function AppBody() {
 				<AppContent />
 			</div>
 			<TournamentPrizes />
+			<AppFooter />
 		</div>
 	);
 }

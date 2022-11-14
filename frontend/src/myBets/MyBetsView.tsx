@@ -16,7 +16,7 @@ const MyBetsView = () => {
 
     return (
         <div className="LB-MyBetsView">
-            <h1>הטופס שלי</h1>
+            <h1 className='LB-TitleText'>הטופס שלי</h1>
             <SpecialBetsTable bets={questionBets} />
             <MatchesBetsTable bets={matchBets} />
             <GroupPositionBetsTable bets={groupRankBets} />

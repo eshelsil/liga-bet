@@ -21,12 +21,12 @@ function ScoresConfigPage({
 	return (
 		<div className='LB-ScoresConfigPage'>
 			<div className='ScoresConfigPage-header'>
-				<h1 className='title'>חוקי הטורניר</h1>
+				<h1 className='title LB-TitleText'>חוקי הטורניר</h1>
 				<ul>
 					<li>שים לב! לאחר שיתחיל הטורניר - לא יהיה ניתן יותר לערוך את שיטת הניקוד</li>
 				</ul>
 				<div className='scoreFormContainer'>
-					<h3 className='scoreFormTitle'>
+					<h3 className='scoreFormTitle LB-TitleText'>
 						הגדרות ניקוד
 					</h3>
 					<ScoreConfigFormView config={scoreConfig} updateConfig={updateScoreConfig}/>

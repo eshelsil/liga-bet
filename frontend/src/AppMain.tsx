@@ -1,6 +1,5 @@
 import React, { lazy, Suspense } from 'react'
 import AppHeader from './appHeader/AppHeaderProvider'
-import AppFooter from './appFooter/Footer';
 import SuspenseWithLoader from './_helpers/SuspenseWithLoader';
 import { CrucialLoader } from './types';
 import './App.scss'
@@ -16,7 +15,6 @@ function AppMain() {
             <AppHeader />
             <SuspenseWithLoader name={CrucialLoader.Body}>
                 <AppBody />
-                <AppFooter />
             </SuspenseWithLoader>
             <Suspense fallback={<div></div>}>
                 <DialogsProvider />

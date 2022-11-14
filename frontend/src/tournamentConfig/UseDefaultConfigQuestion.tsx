@@ -30,7 +30,7 @@ function UseDefaultConfigQuestion({
 
 	return (
 		<div className='LB-UseDefaultConfigQuestion'>
-			<h2>קביעת שיטת הניקוד</h2>	
+			<h2 className='LB-TitleText'>קביעת שיטת הניקוד</h2>	
 			<div className='DefaultConfigQuestion-text'>
 				שיטת הניקוד לאורך כל הטורניר מחושבת בצורה אופטימלית ואנו ממליצים להשאיר את הגדרות ברירת המחדל.
 			</div>

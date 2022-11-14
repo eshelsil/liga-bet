@@ -7,6 +7,9 @@
 
 .LigaBet-AppBody {
     padding-top: 60px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     .AppContent {
         width: 100%;
         padding: 16px 32px;

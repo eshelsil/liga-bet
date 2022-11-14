@@ -71,8 +71,8 @@ function PrizesConfig({
 
 	return (
 		<div className='LigaBet-PrizesConfig'>
-			<h2>
-				הגדרות פרסים
+			<h2 className='LB-TitleText'>
+				ניהול טורניר
 			</h2>
 			<Grid container className='inputWithTakanon'>
 				<Grid item xs={12} sm={6}>

@@ -12,7 +12,7 @@ function InviteFriends() {
 
     return (
         <div className='LB-InviteFriends'>
-            <h2> הזמן חברים להשתתף בטורניר </h2>
+            <h2 className='LB-TitleText'> הזמן חברים להשתתף בטורניר </h2>
             <div className='contentSection'>
                 <div className='linkRow'>
                     <CopyLink 

@@ -21,7 +21,7 @@ const OpenMatchesView = ({ matches = [], sendBet }: Props) => {
     return (
         <div className={'LB-OpenMatchesView'}>
             <h1 className='LB-TitleText'>ניחוש משחקים</h1>
-            <ul>
+            <ul className='LB-FloatingFrame'>
                 <li>ניחוש כל משחק יהיה פתוח לעריכה עד לשעת תחילת המשחק</li>
                 <li style={{marginTop: 8}}>
                     ניתן לראות את שיטת הניקוד

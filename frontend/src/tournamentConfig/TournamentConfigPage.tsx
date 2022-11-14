@@ -28,7 +28,7 @@ function TournamentConfigPage(){
 				</>
 			)}
 			{hasTournamentStarted && (
-				<h2>הגדרות טורניר לא זמינות אחרי שהטורניר כבר התחיל</h2>
+				<h2 className='LB-TitleText'>הגדרות טורניר לא זמינות אחרי שהטורניר כבר התחיל</h2>
 			)}
 		</div>
 	);
