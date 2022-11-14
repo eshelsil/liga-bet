@@ -22,7 +22,7 @@ function ScoresConfigPage({
 		<div className='LB-ScoresConfigPage'>
 			<div className='ScoresConfigPage-header'>
 				<h1 className='title LB-TitleText'>חוקי הטורניר</h1>
-				<div className='LB-FloatingFrame' style={{paddingRight: 0}}>
+				<div className='LB-FloatingFrame' style={{paddingRight: 0, paddingBottom: 2}}>
 					<ul>
 						<li>שים לב! לאחר שיתחיל הטורניר - לא יהיה ניתן יותר לערוך את שיטת הניקוד</li>
 					</ul>
@@ -33,9 +33,12 @@ function ScoresConfigPage({
 					</h3>
 					<ScoreConfigFormView config={scoreConfig} updateConfig={updateScoreConfig}/>
 					<Button
-						variant='outlined'
-						color='primary'
+						variant='contained'
 						onClick={goToTournamentConfig}
+						style={{
+							backgroundColor: 'rgb(200,200,200)',
+							color: '#000',
+						}}
 					>
 						חזור
 					</Button>

@@ -259,4 +259,10 @@ table {
     .LB-CustomTable {
         @include floatingTable;
     }
+    .LB-AdminViewContainer {
+        background-color: #dddddde3;
+        width: calc(100% + 24px);
+        margin-right: -12px;
+        padding: 30px 12px;
+    }
 }

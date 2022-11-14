@@ -15,7 +15,7 @@ function SendInvitationForTournamentAdmin() {
             })
     }
     return (
-        <div className='LB-InvitaionForTourAdmin'>
+        <div className='LB-InvitaionForTourAdmin LB-AdminViewContainer'>
             <h3>הזמן מישהו להירשם כמנהל טורניר</h3>
             <h5>יקבל הרשאות שלמנהל טורניר מיד לאחר שירשם</h5>
             <h5>יקבל אימייל הזמנה לפתיחת טורניר</h5>

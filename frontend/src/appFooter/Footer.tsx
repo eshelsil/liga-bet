@@ -5,7 +5,7 @@ import { IsLoadingAppCrucial } from '../_selectors'
 import './AppFooter.scss'
 
 
-function ImageLoader(){
+function ImageLoader({loaded, setLoaded}: {loaded: boolean, setLoaded: (val: boolean) => void}){
     const [shouldLoad, setShouldLoad] = useState(false)
 
     useEffect(()=>{
@@ -20,7 +20,10 @@ function ImageLoader(){
     return (
         <>
             {shouldLoad && (<>
-                <img className='AppFooter-image' src='/img/icon-no-bg.svg' />
+                <img
+                    onLoad={() => setLoaded(true)}
+                    className='AppFooter-image' src='/img/icon-no-bg.svg'
+                />
             </>)}
         </>
     )
@@ -29,11 +32,15 @@ function ImageLoader(){
 
 function AppFooter() {
     const isLoadingAppCrucial = useSelector(IsLoadingAppCrucial)
+    const [loaded, setLoaded] = useState(false)
     return (
-        <div className='LB-AppFooter'>
+        <div className={`LB-AppFooter ${loaded ? 'AppFooter-loaded' : ''}`}>
             <div className='AppFooter-background'>
                 {!isLoadingAppCrucial && (
-                    <ImageLoader />
+                    <ImageLoader
+                        loaded={loaded}
+                        setLoaded={setLoaded}
+                    />
                 )}
             </div>
         </div>

@@ -11,6 +11,8 @@ import OpenGameBetsItem from './MenuItems/OpenGameBetsItem'
 import OpenGroupRankBetsItem from './MenuItems/OpenGroupRankBetsItem'
 import OpenQuestionBetsItem from './MenuItems/OpenQuestionBetsItem'
 import MyBetsItem from './MenuItems/MyBetsItem'
+import { useSelector } from 'react-redux'
+import { IsAppMenuEmpty } from '../_selectors'
 
 
 
@@ -34,6 +36,8 @@ function TournamentMenuItems({
     const isAManager = hasCurrentUtl && currentUtl.role === UtlRole.Manager
     const hasManagerPermissions = isTournamentAdmin || isAManager
     const canUpdateTournamentConfig = isTournamentAdmin && tournamentStatus === TournamentStatus.Initial;
+    
+    const isEmpty = useSelector(IsAppMenuEmpty)
 
     return (
         <>
@@ -127,7 +131,7 @@ function TournamentMenuItems({
                     </DropMenuItem>
                 )}
             </>)}
-            {!hasCurrentUtl && (<>
+            {(!hasCurrentUtl || isEmpty) && (<>
                 <LinkMenuItem
                     route={{
                         path: '',

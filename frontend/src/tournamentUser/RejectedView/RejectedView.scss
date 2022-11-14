@@ -1,9 +1,12 @@
 .LigaBet-RejectedView {
-    .RejectedView-msg {
+    .LB-FloatingFrame {
         margin-top: 24px;
-    }
-    .RejectedView-leaveButtonContainer {
-        margin-top: 24px;
-        margin-bottom: 16px;
+        .RejectedView-msg {
+            margin-top: 24px;
+        }
+        .RejectedView-leaveButtonContainer {
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
     }
 }

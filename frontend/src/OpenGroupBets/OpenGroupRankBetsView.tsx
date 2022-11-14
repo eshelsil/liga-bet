@@ -30,7 +30,7 @@ const OpenGroupRankBetsView = ({ groupsWithBet, sendGroupRankBet, competitionSta
                 <div className='LB-OpenGroupRankBetsView'>
                     <h2 className='LB-TitleText'>ניחוש דירוגי בתים</h2>
                     <div className='LB-FloatingFrame'>
-                        <ul>
+                        <ul style={{margin: 0}}>
                             <li>ניתן לערוך את הניחושים עד שעת תתחילת המשחק הראשון בטורניר {' '}{startTimeString}</li>
                             <li style={{marginTop: 8}}>
                                 ניתן לראות את שיטת הניקוד

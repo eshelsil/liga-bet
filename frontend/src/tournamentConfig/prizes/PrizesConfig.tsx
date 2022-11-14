@@ -74,32 +74,35 @@ function PrizesConfig({
 			<h2 className='LB-TitleText'>
 				ניהול טורניר
 			</h2>
-			<Grid container className='inputWithTakanon'>
-				<Grid item xs={12} sm={6}>
-					<div className={'prizesContainer'}>
-						{prizes.map((prize, index) => (
-							<PrizeInput
-								key={index}
-								label={prizeToString[index + 1]}
-								value={prize}
-								addPrize={shouldShowAddButton(index) ? addPrize : null}
-								updatePrize={(value: string) => updatePrize(index, value)}
-								removePrize={canDeletePrizes ? () => removePrize(index) : null}
-							/>
-						))}
-					</div>
+			<div className='inputWithTakanon'>
+				<Grid container>
+					<Grid item xs={12} sm={6}>
+						<div className={'prizesContainer'}>
+							{prizes.map((prize, index) => (
+								<PrizeInput
+									key={index}
+									label={prizeToString[index + 1]}
+									value={prize}
+									addPrize={shouldShowAddButton(index) ? addPrize : null}
+									updatePrize={(value: string) => updatePrize(index, value)}
+									removePrize={canDeletePrizes ? () => removePrize(index) : null}
+								/>
+							))}
+						</div>
+					</Grid>
+					<Grid item xs={12} sm={6}>
+						<TakanonPreviewSection>
+							{hasPrizes && (<>
+								<PrizesRules prizes={compactedPrizes}/>
+							</>)}
+						</TakanonPreviewSection>
+					</Grid>
 				</Grid>
-				<Grid item xs={12} sm={6}>
-					<TakanonPreviewSection>
-						{hasPrizes && (<>
-							<PrizesRules prizes={compactedPrizes}/>
-						</>)}
-					</TakanonPreviewSection>
-				</Grid>
-			</Grid>
-			<div className={'savePrizes'}>
-				<LoadingButton action={submit}>עדכן</LoadingButton>
+				<div className={'savePrizes'}>
+					<LoadingButton action={submit}>עדכן</LoadingButton>
+				</div>
 			</div>
+			
 
 			<div className='forgotSomething LB-FloatingFrame'>
 				<h5>שכחת משהו?</h5>

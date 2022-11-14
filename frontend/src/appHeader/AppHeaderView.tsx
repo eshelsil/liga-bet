@@ -11,6 +11,7 @@ interface Props {
     isTournamentStarted: boolean
     openDialogChangePassword: () => void
     tournamentIndex: number
+    isAppMenuEmpty: boolean
 }
 
 function AppHeader({
@@ -18,9 +19,10 @@ function AppHeader({
     currentUtl,
     openDialogChangePassword,
     tournamentIndex,
+    isAppMenuEmpty,
 }: Props) {
     const isSmallScreen = useIsSmScreen();
-    const showExpandableMenu = isSmallScreen && !!currentUtl
+    const showExpandableMenu = isSmallScreen && !isAppMenuEmpty
 
     return (
         <div className={`LigaBet-AppHeader tournament-theme tournament-theme-${tournamentIndex + 1}`}>

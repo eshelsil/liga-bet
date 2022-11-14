@@ -30,7 +30,7 @@ function ManageUsers({
     }
 
     return (
-        <>
+        <div className='LB-AdminViewContainer'>
             <ManageUserView
                 users={Object.values(usersById)}
                 totalCount={totalCount}
@@ -39,7 +39,7 @@ function ManageUsers({
                 revokeTournamentAdminPermissions={downgradeToRegularUser}
                 updateUserScoresConfigPermissions={updateUserScoresConfigPermissions}
             />
-        </>
+        </div>
     )
 }
 

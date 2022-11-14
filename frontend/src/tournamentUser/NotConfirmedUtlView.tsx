@@ -10,9 +10,11 @@ function NotConfirmedUtlView({ currentUTL }: Props) {
     const { name: tournamentName } = tournament
     return (
         <div>
-            <h2>תיכף זה מתחיל...</h2>
-            <h4 style={{ marginTop: 24 }}>נרשמת לטורניר "{tournamentName}"</h4>
-            <h4>ברגע שמנהלי הטורניר יאשרו אותך, תוכל להתחיל לשחק</h4>
+            <h2 className='LB-TitleText'>תיכף זה מתחיל...</h2>
+            <div className='LB-FloatingFrame' style={{ marginTop: 24 }}>
+                <h4>נרשמת לטורניר "{tournamentName}"</h4>
+                <h4>ברגע שמנהלי הטורניר יאשרו אותך, תוכל להתחיל לשחק</h4>
+            </div>
         </div>
     )
 }

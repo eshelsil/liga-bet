@@ -1,11 +1,13 @@
 .LB-AppFooter {
-    margin-top: auto;
+    &.AppFooter-loaded {
+        margin-top: auto;
+    }
     .AppFooter-background {
         display: flex;
         justify-content: center;
         width: 100%;
         position: relative;
-        background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgb(0 0 0 / 50%) 50%, rgba(255, 255, 255, 0) 100%)
+        background: linear-gradient(rgba(255, 255, 255, 0) 0%, rgb(0 0 0 / 50%) 65%, rgba(255, 255, 255, 0) 100%)
     }
     .AppFooter-image {
         max-width: 100%;

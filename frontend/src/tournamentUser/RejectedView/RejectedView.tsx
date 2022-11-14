@@ -13,15 +13,17 @@ function RejectedView({ currentUTL, onLeave }: Props) {
     const { name: tournamentName } = tournament
     return (
         <div className="LigaBet-RejectedView">
-            <h2>לא נעים, אבל...</h2>
-            <h4 className="RejectedView-msg">
-                השתתפותך בטורניר "{tournamentName}" נדחתה ע"י משתתפי הטורניר
-            </h4>
-            <div className={'RejectedView-leaveButtonContainer'}>
-                <Button variant="contained" color="error" onClick={onLeave}>
-                    {' '}
-                    עזוב את הטורניר{' '}
-                </Button>
+            <h2 className='LB-TitleText'>לא נעים, אבל...</h2>
+            <div className='LB-FloatingFrame'>
+                <h4 className="RejectedView-msg">
+                    השתתפותך בטורניר "{tournamentName}" נדחתה ע"י משתתפי הטורניר
+                </h4>
+                <div className={'RejectedView-leaveButtonContainer'}>
+                    <Button variant="contained" color="error" onClick={onLeave}>
+                        {' '}
+                        עזוב את הטורניר{' '}
+                    </Button>
+                </div>
             </div>
         </div>
     )

@@ -25,7 +25,7 @@ const QuestionBetsView = ({ questions, sendQuestionBet, competitionStartTime }: 
         <div className="LigaBet-QuestionBetsView">
             <h1 className='LB-TitleText'>ניחושים מיוחדים</h1>
             <div className='LB-FloatingFrame'>
-                <ul>
+                <ul style={{margin: 0}}>
                     <li>ניתן לערוך את הניחושים עד שעת תתחילת המשחק הראשון בטורניר {' '}{startTimeString}</li>
                     <li style={{marginTop: 8}}>
                         ניתן לראות את שיטת הניקוד
