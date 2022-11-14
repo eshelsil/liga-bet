@@ -13,7 +13,7 @@ interface Props {
 const QuestionBetsView = ({ questions, betsByQuestionId }: Props) => {
     return (
         <div>
-            <h1>הימורים מיוחדים</h1>
+            <h1 className='LB-TitleText'>ניחושים מיוחדים</h1>
             <div className="float-right">
                 <ul className="nav nav-tabs" style={{ paddingRight: 0 }}>
                     {Object.values(questions).map((question) => (

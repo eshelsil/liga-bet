@@ -12,7 +12,7 @@ function SpecialQuestionsRules() {
     const config = useSelector(FormattedSpecialQuestionsScoreConfig)
     return (
         <div className="takanonTextSection">
-            <h4 style={{marginBottom: 24}}>הימורים מיוחדים</h4>
+            <h4 style={{marginBottom: 24}}>ניחושים מיוחדים</h4>
             {config?.winner && (<>
                 <TeamAchivementRules label={'זוכה'} scoreConfig={config.winner} />
                 <br/>

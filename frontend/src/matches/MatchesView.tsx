@@ -58,16 +58,16 @@ function MatchGumblesList({ match }: { match: MatchWithBets }) {
                             {is_done && (
                                 <>
                                     <td className="admin">מזהה מוכר</td>
-                                    <th className="col-xs-3">הימור</th>
-                                    <th className="col-xs-6">מהמרים</th>
+                                    <th className="col-xs-3">ניחוש</th>
+                                    <th className="col-xs-6">מנחשים</th>
                                     <th className="col-xs-3">ניקוד</th>
                                 </>
                             )}
                             {!is_done && (
                                 <>
                                     <td className="admin">מזהה מוכר</td>
-                                    <th className="col-xs-6">הימור</th>
-                                    <th className="col-xs-6">מהמרים</th>
+                                    <th className="col-xs-6">ניחוש</th>
+                                    <th className="col-xs-6">מנחשים</th>
                                 </>
                             )}
                         </tr>
@@ -126,7 +126,7 @@ const MatchesView = ({
     const hasLiveMatches = live_matches.length > 0
     return (
         <div>
-            <h1>רשימת משחקים</h1>
+            <h1 className='LB-TitleText'>רשימת משחקים</h1>
             <div className="float-right">
                 <ul
                     className="nav nav-tabs float-right"

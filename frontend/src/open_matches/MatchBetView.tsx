@@ -45,7 +45,7 @@ function OpenMatchBetView({
             forAllTournaments,
         })
         .then(function (data) {
-            let text = 'ההימור נשלח'
+            let text = 'הניחוש נשלח'
             if (forAllTournaments){
                 text += ` עבור ${otherTournaments.length + 1} טורנירים`
             }

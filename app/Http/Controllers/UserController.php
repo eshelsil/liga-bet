@@ -186,7 +186,7 @@ class UserController extends Controller
             throw new JsonException("Cannot import bets from tournaments of a different competition", 400);
         }
         if (!$competition->areBetsOpen()){
-            throw new JsonException("אי אפשר לעדכן הימורים אחרי שהטורניר כבר התחיל", 400);
+            throw new JsonException("אי אפשר לעדכן ניחושים אחרי שהטורניר כבר התחיל", 400);
         }
 
         $imub = new ImportMissingUtlBets();

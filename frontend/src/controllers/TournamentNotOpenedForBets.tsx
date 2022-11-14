@@ -8,7 +8,7 @@ function TournamentNotOpenedForBets() {
     return (
         <div>
             <h2>{tournament?.name}</h2>
-            <h4 style={{ marginTop: 24 }}>מחכים שמנהל הטורניר (המכונה אצליכם בחברה "{owner?.name}") יפתח את הטורניר להימורים</h4>
+            <h4 style={{ marginTop: 24 }}>מחכים שמנהל הטורניר (המכונה אצליכם בחברה "{owner?.name}") יפתח את הטורניר לניחושים</h4>
         </div>
     )
 }

@@ -53,7 +53,7 @@ const OpenGroupRankBetsView = ({ groupsWithBet, sendGroupRankBet, competitionSta
                 </div>
             )}
             {!isAvailable && (
-                <h2>נסגרו הימורי הבתים! לא ניתן לעדכן הימורים אלה</h2>
+                <h2>נסגרו ניחושי הבתים! לא ניתן לעדכן ניחושים אלה</h2>
             )}
         </>
     )

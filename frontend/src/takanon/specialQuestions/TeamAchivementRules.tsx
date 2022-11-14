@@ -24,7 +24,7 @@ function TeamAchivementRules({ label, scoreConfig, isRunnerUp = false }: Props) 
     return (
         <>
             <h5 className="underlined">{label}</h5>
-            <p>כל העפלת שלב תזכה את המהמר במספר נקודות</p>
+            <p>כל העפלת שלב תזכה את המנחש במספר נקודות</p>
             <table className='scoresConfigTable'>
                 <thead>
                     <tr>

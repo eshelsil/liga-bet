@@ -14,7 +14,7 @@ const routes: Route[] = [
     },
     {
         path: 'closed-matches',
-        label: 'צפייה בהימורים',
+        label: 'צפייה בניחושים',
         iconClass: 'watch_bets_icon',
     },
     {
@@ -27,11 +27,11 @@ const routes: Route[] = [
     },
     {
         path: 'all-group-standings',
-        label: 'צפייה בהימורי בתים',
+        label: 'צפייה בניחושי דירוג בתים',
     },
     {
         path: 'all-questions',
-        label: 'צפייה בהימורים מיוחדים',
+        label: 'צפייה בניחושים מיוחדים',
     },
     {
         path: 'my-bets',

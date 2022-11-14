@@ -25,7 +25,7 @@ function AutoConfirmSelection({
                 if (value) {
                     (window as any).toastr["success"]('עודכן בהצלחה. מעכשיו משתמשים יאושרו אוטמטית');
                 } else {
-                    (window as any).toastr["success"]('עודכן בהצלחה. המשתמשים הבאים שירשמו לטורניר יחכו שתאשר אותם לפני שיוכלו להמר');
+                    (window as any).toastr["success"]('עודכן בהצלחה. המשתמשים הבאים שירשמו לטורניר יחכו שתאשר אותם לפני שיוכלו להתחיל לנחש');
                 }
             })
             .finally(() => {

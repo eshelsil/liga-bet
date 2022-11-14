@@ -31,8 +31,8 @@ function QuestionBetsList({
                         className="list-group-item row full-row"
                         style={{ background: '#d2d2d2' }}
                     >
-                        <div className="col-xs-5 pull-right">הימור</div>
-                        <div className="col-xs-5 pull-right">מהמרים</div>
+                        <div className="col-xs-5 pull-right">ניחוש</div>
+                        <div className="col-xs-5 pull-right">מנחשים</div>
                     </li>
                     {Object.values(betsByAnswer).map((bets) => {
                         const answer = bets[0].answer

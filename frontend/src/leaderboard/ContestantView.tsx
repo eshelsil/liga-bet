@@ -145,7 +145,7 @@ export function ContestantView({
                         </li>
                         <li style={{ float: 'right' }}>
                             <a data-toggle="tab" href={`#special-bets-${id}`}>
-                                הימורים מיוחדים
+                                ניחושים מיוחדים
                             </a>
                         </li>
                     </ul>
@@ -172,7 +172,7 @@ export function ContestantView({
                                         נק'
                                     </div>
                                     <div className="col-xs-9 pull-right col-no-padding">
-                                        הימור
+                                        ניחוש
                                     </div>
                                     <div className="col-xs-2 pull-right col-no-padding">
                                         תוצאה
@@ -201,7 +201,7 @@ export function ContestantView({
                                         ניקוד
                                     </div>
                                     <div className="col-xs-5 pull-right col-no-padding">
-                                        הימור
+                                        ניחוש
                                     </div>
                                     <div className="col-xs-5 pull-right col-no-padding">
                                         תוצאה
@@ -236,7 +236,7 @@ export function ContestantView({
                                         סוג
                                     </div>
                                     <div className="col-xs-4 pull-right col-no-padding">
-                                        הימור
+                                        ניחוש
                                     </div>
                                     <div className="col-xs-4 pull-right col-no-padding">
                                         תוצאה

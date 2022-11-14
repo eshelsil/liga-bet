@@ -55,7 +55,7 @@ function TournamentMenuItems({
                             anchorContent={
                                 <div className='flexRow'>
                                     <div>
-                                        הימורים של לפני הטורניר
+                                        ניחושים של לפני הטורניר
                                     </div>
                                     <ArrowDropDownIcon />
                                 </div>

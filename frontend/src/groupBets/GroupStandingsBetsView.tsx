@@ -52,8 +52,8 @@ function SingleGroupBets({ group, bets }: SingleGroupBetsProps) {
                         <table className="table">
                             <thead>
                                 <tr>
-                                    <th className="col-xs-4">הימור</th>
-                                    <th className="col-xs-7">מהמרים</th>
+                                    <th className="col-xs-4">ניחוש</th>
+                                    <th className="col-xs-7">מנחשים</th>
                                     <th className="col-xs-1">נק'</th>
                                 </tr>
                             </thead>
@@ -121,7 +121,7 @@ interface Props {
 const GroupStandingsBetsView = ({ groups, betsByGroupId }: Props) => {
     return (
         <div>
-            <h1>הימורי בתים</h1>
+            <h1>ניחושי בתים</h1>
             <div className="row">
                 <div className="col-xs-4 pull-right">בית</div>
                 <div className="col-xs-7 pull-right">קבוצות</div>

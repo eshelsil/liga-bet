@@ -186,7 +186,7 @@ class BetsController extends Controller
         $confirmedUtls = $utls->filter(fn(TournamentUser $utl) => $utl->isConfirmed());
         foreach ($tournamentIds as $id) {
             if (!$confirmedUtls->firstWhere("tournament_id", $id)){
-                throw new JsonException("אין לך הרשאות לשלוח הימור לטורניר $id", 403);
+                throw new JsonException("אין לך הרשאות לשלוח ניחושים לטורניר $id", 403);
             }
         }
         return $confirmedUtls;
@@ -198,7 +198,7 @@ class BetsController extends Controller
         foreach ($betsInput as $bet) {
             $bet = (object)$bet;
             if (!isset($bet->type) || !isset($bet->data) || !isset($bet->data["type_id"])) {
-                throw new JsonException("מבנה הימור לא תקין");
+                throw new JsonException("מבנה ניחוש לא תקין");
             }
             if (!isset($betsTypeGrouped[$bet->type])) {
                 $betsTypeGrouped[$bet->type] = [];

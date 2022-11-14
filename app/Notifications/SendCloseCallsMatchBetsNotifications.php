@@ -72,14 +72,14 @@ class SendCloseCallsMatchBetsNotifications
             $key = $missingBetsMatches->implode("id", ",");
 
             if ( ! array_key_exists($key, $notifications)) {
-                $subject = "הזדמנות אחרונה לשליחת הימורי חברים";
-                $body    = "עוד לא שלחת הימורים ל: " . $missingBetsMatches->map(function (Game $match) use ($teams) {
+                $subject = "הזדמנות אחרונה לשליחת ניחושים";
+                $body    = "עוד לא שלחת ניחושים ל: " . $missingBetsMatches->map(function (Game $match) use ($teams) {
                         return $teams->get($match->team_home_id)->name . " נגד " . $teams->get($match->team_away_id)->name;
                     })->implode(", ");
 
                 // Instantiate the push notification request object.
                 $notifications[$key] = (new \Fcm\Push\Notification())
-                    ->setClickAction("המר עכשיו")
+                    ->setClickAction("מלא עכשיו")
                     ->setTitle($body)
                     ->setBody($subject);
 
