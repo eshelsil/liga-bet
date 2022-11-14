@@ -57,7 +57,6 @@ Route::get('/admin/confirmed-users', [AdminController::class, 'showConfirmedUser
 Route::post('/admin/set-permission', [AdminController::class, 'setPermission']);
 Route::get('/admin/calc-special-bets', [AdminController::class, 'calculateSpecialBets']);
 Route::get('/admin/calc-special-bet/{name}', [AdminController::class, 'calculateSpecialBet']);
-Route::get('/admin/index', [AdminController::class, 'showTools']);
 Route::put('/admin/reset-user-pass/{id}', [AdminController::class, 'resetPass']);
 Route::put('/admin/format-custom-answers', [AdminController::class, 'formatSpecialBetsCustomAnswer']);
 Route::post('/admin/create-rank-row', [AdminController::class, 'createNewRankingRow']);
