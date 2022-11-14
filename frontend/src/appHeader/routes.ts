@@ -76,6 +76,10 @@ const routes: Route[] = [
         path: 'invite-friends',
 		label: 'הזמן חברים',
     },
+    {
+        path: 'admin/index',
+		label: 'Admin Tools',
+    },
     
 ]
 

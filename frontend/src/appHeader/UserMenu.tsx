@@ -8,7 +8,7 @@ import { routesMap } from './routes'
 import PopupMenu from '../widgets/Menu'
 import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
 import TeamFlag from '../widgets/TeamFlag/TeamFlag'
-import { MyWinnerTeamSelector } from '../_selectors'
+import { IsAdmin, MyWinnerTeamSelector } from '../_selectors'
 
 
 
@@ -37,6 +37,7 @@ function UserMenu({
     openDialogChangePassword,
 }: Props) {
     const themeClass = useTournamentThemeClass();
+    const isAdmin = useSelector(IsAdmin)
 
     return (
         <div className='LigaBet-UserMenu'>
@@ -49,6 +50,11 @@ function UserMenu({
                 <LinkMenuItem
                     route={routesMap['profile']}
                 />
+                {isAdmin && (
+                    <LinkMenuItem
+                        route={routesMap['admin/index']}
+                    />
+                )}
                 <LinkMenuItem
                     route={routesMap['set-password']}
                     onClick={openDialogChangePassword}
