@@ -10,7 +10,7 @@ function PrizesRules({ prizes }: Props) {
         return null
     }
     return (
-        <>
+        <div className='LB-FloatingFrame'>
             <h3 style={{ marginBottom: 20, marginTop: 8 }}>פרסים</h3>
             <ul style={{ marginTop: 8 }}>
                 {prizes.map((prize, index) => (
@@ -20,7 +20,7 @@ function PrizesRules({ prizes }: Props) {
                     </li>
                 ))}
             </ul>
-        </>
+        </div>
     )
 }
 

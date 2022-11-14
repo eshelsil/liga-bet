@@ -22,9 +22,7 @@ function Takanon() {
             </div>
             <SendingBetsExplanation />
             <ScoresRules />
-            <div className='LB-FloatingFrame'>
-                <PrizesRules prizes={prizes} />
-            </div>
+            <PrizesRules prizes={prizes} />
             <br/>
 
             <div className='LB-FloatingFrame'>
