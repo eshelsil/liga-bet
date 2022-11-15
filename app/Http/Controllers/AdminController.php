@@ -30,6 +30,7 @@ use Illuminate\Validation\Rule;
 use App\Exceptions\JsonException;
 use App\InvitaionsForTournamentAdmin;
 use App\Tournament;
+use App\TournamentUser;
 use Carbon\Carbon;
 use \Exception;
 use Illuminate\Http\JsonResponse;
@@ -77,10 +78,40 @@ class AdminController extends Controller
 
     public function getRunningTournamentsData()
     {
-        $data = Tournament::all()->map(function($t){
-            $t->contestants = $t->utls()->pluck('name');
+        $data = Tournament::all()->map(function( Tournament $t){
+            $utls = $t->utls;
+            $userIds = $utls->pluck('user_id');
+            $usersById = User::whereIn('id', $userIds)->get()->keyBy('id');
+            $t->contestants = $utls->map(function (TournamentUser $utl) use ($usersById){
+                $user = $usersById[$utl->user_id];
+                $bets = $utl->bets;
+                return [
+                    "id" => $utl->id,
+                    "name" => $utl->name,
+                    "email" => $user->email,
+                    "bets" => [
+                        BetTypes::Game => $bets->where('type', BetTypes::Game)->count(),
+                        BetTypes::GroupsRank => $bets->where('type', BetTypes::GroupsRank)->count(),
+                        BetTypes::SpecialBet => $bets->where('type', BetTypes::SpecialBet)->count(),
+                    ],
+                ];
+            });
+
+            $gamesCount = $t->competition->games->count();
+            $groupsCount = $t->competition->groups->count();
+            $questionsCount = $t->specialBets->filter(
+                fn( SpecialBet $question) => $question->isOn()
+            )->count();
+
+            $t->betEntities = [
+                BetTypes::Game => $gamesCount,
+                BetTypes::GroupsRank => $groupsCount,
+                BetTypes::SpecialBet => $questionsCount,
+            ];
+
+            $creatorUtl = $utls->firstWhere('user_id', $t->creator_user_id);
+            $t->creatorUtlId = $creatorUtl ? $creatorUtl->id : null;
             $t->contestantsCount = count($t->contestants);
-            $t->creatorUser = User::find($t->creator_user_id)->email;
             return $t;
         });
             

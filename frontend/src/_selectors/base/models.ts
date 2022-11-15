@@ -35,6 +35,12 @@ export const GameBetsFetcherState = (state: RootState) => state.gameBetsFetcher
 export const AppCrucialLoaders = (state: RootState) => state.appCrucialLoaders
 export const NotificationsState = (state: RootState) => state.notifications
 export const MultiBetsSettings = (state: RootState) => state.multiBetsSettings
+export const AdminData = (state: RootState) => state.admin
+
+export const AllTournamentsData = createSelector(
+    AdminData,
+    ({allTournaments}) => allTournaments
+)
 
 export const Notifications = createSelector(
     NotificationsState,

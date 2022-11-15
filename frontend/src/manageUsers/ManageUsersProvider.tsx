@@ -30,7 +30,7 @@ function ManageUsers({
     }
 
     return (
-        <div className='LB-AdminViewContainer'>
+        <div>
             <ManageUserView
                 users={Object.values(usersById)}
                 totalCount={totalCount}

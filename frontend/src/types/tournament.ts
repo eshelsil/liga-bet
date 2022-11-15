@@ -1,3 +1,4 @@
+import { BetType } from "./bet";
 import { EnumRecord } from "./common";
 import { KnockoutStage } from "./match";
 import { SpecialQuestionType } from "./specialQuestion";
@@ -85,4 +86,17 @@ export interface Tournament {
     code: string,
 	creatorUserId: number,
 	preferences?: TournamentPreferences,
+}
+
+
+export interface DetailedContestantData {
+	id: number,
+	name: string,
+	email: string,
+	bets: EnumRecord<BetType, number>
+}
+export interface DetailedTournamentData extends Tournament {
+	contestants: DetailedContestantData[],
+	betEntities: EnumRecord<BetType, number>
+	creatorUtlId: number,
 }

@@ -261,9 +261,10 @@ table {
         @include floatingTable;
     }
     .LB-AdminViewContainer {
-        background-color: #dddddde3;
-        width: calc(100% + 24px);
-        margin-right: -12px;
+        background-color: #eeeeeee3;
+        width: calc(100% + 16px);
+        margin-right: -8px;
         padding: 30px 12px;
+        border-radius: 24px;
     }
 }

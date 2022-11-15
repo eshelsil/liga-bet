@@ -8,6 +8,7 @@ import SelectedUTLController from './SelectedUTLController'
 import NoUTLsRoutes from './routes/NoUTLsRoutes'
 import AppCrucialDataLoader from '../appLoader/AppCrucialDataLoader'
 import { CrucialLoader } from '../types'
+import AdminController from './AdminController'
 
 interface Props {
     fetchAndStoreUtls: () => Promise<void>
@@ -36,22 +37,24 @@ function TournamentUserController({ fetchAndStoreUtls, fetchOwnedTournaments, ch
     const canSelectUtl = hasAnyUtl && !ownedTournamnetWithNoUtl
 
     return (
-        <NoUTLsRoutes>
-            {isLoading && (
-                <AppCrucialDataLoader name={CrucialLoader.MyUtls} />
-            )}
-            {!isLoading && initiated && (<>
-                {!canSelectUtl && (
-                    <UserWithNoTournamentsView isMissingUtl={!!ownedTournamnetWithNoUtl}/>
+        <AdminController>
+            <NoUTLsRoutes>
+                {isLoading && (
+                    <AppCrucialDataLoader name={CrucialLoader.MyUtls} />
                 )}
-                {canSelectUtl && (
-                    <SelectedUTLController currentUtl={currentUtl}>
-                        {children}
-                    </SelectedUTLController>
+                {!isLoading && initiated && (<>
+                    {!canSelectUtl && (
+                        <UserWithNoTournamentsView isMissingUtl={!!ownedTournamnetWithNoUtl}/>
+                    )}
+                    {canSelectUtl && (
+                        <SelectedUTLController currentUtl={currentUtl}>
+                            {children}
+                        </SelectedUTLController>
+                    )}
+                </>
                 )}
-            </>
-            )}
-        </NoUTLsRoutes>
+            </NoUTLsRoutes>
+        </AdminController>
     )
 }
 

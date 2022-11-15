@@ -1,0 +1,36 @@
+@import '../../../styles/colors';
+@import '../../../styles/mixins';
+
+.LB-TournamentView {
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(255,255,255, 0.9);
+    margin-bottom: 24px;
+    .TournameView-name {
+        background: $primary-light-main-gradient;
+        font-size: 16px;
+        color: #fff;
+        padding: 8px 16px;
+    }
+    .TournamentView-content {
+        padding: 8px;
+        .TournamentView-row {
+            padding: 6px 0px;
+        }
+        .contestantsExpandLink {
+            @include flexRow;
+        }
+        .contestantsTable {
+            border: 1px solid #ddd ;
+            border-radius: 12px;
+            padding: 8px;
+            display: block;
+            th, td {
+                vertical-align: top;
+                padding: 12px;
+                direction: rtl;
+                text-align: right;
+            }
+        }
+    }
+}
