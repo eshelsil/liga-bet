@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { Button, ClickAwayListener, Collapse, Tooltip } from '@mui/material'
+import { Button, Link, ClickAwayListener, Collapse, Tooltip } from '@mui/material'
 import useGoTo from '../../../hooks/useGoTo'
 import { AllTournamentsData, NoSelector } from '../../../_selectors'
 import { fetchAndStoreAllTournamentsDetails } from '../../../_actions/admin'
@@ -9,6 +9,7 @@ import { BetType, DetailedTournamentData } from '../../../types'
 import { valuesOf } from '../../../utils'
 import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import './SeeTournaments.scss'
+import TournamentConfigDialog from './TournamentConfigDialog'
 
 
 function ClickableTooltip({
@@ -44,6 +45,7 @@ function TournamentView({data}: {data: DetailedTournamentData}){
     const { creatorUtlId, contestants, betEntities, config, name} = data
     const creator = contestants.find(utl => utl.id === creatorUtlId)
     const [expand, setExpand] = useState(false)
+    const [openConfigDialog, setOpenConfigDialog] = useState(false)
     const toggleExpand = () => setExpand(!expand)
     return (
         <div className='LB-TournamentView'>
@@ -64,8 +66,10 @@ function TournamentView({data}: {data: DetailedTournamentData}){
                         <div>
                         <table className='contestantsTable'>
                             <thead>
-                                <th>שם</th>
-                                <th>ניחושים</th>
+                                <tr>
+                                    <th>שם</th>
+                                    <th>ניחושים</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 {contestants.map(utl => (
@@ -95,8 +99,17 @@ function TournamentView({data}: {data: DetailedTournamentData}){
                         </table>
                         </div>
                     </Collapse>
+                    <Link onClick={()=> setOpenConfigDialog(true)} style={{ marginTop: 16, display: 'block' }}>
+                        צפייה בהגדרות ניקוד
+                    </Link>
                 </div>
             </div>
+            <TournamentConfigDialog
+                name={name}
+                config={config.scores}
+                open={openConfigDialog}
+                onClose={() => {setOpenConfigDialog(false)}}
+            />
         </div>
     )
 }

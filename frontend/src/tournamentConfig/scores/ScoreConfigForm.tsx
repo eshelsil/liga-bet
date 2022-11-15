@@ -16,7 +16,7 @@ import { ScoresConfigFromatted } from '../../_selectors';
 
 interface Props {
 	config: ScoresConfigFromatted,
-	updateConfig: (config: ScoresConfigFromatted) => Promise<void>,
+	updateConfig?: (config: ScoresConfigFromatted) => Promise<void>,
 }
 
 function ScoreConfigFormView({
@@ -71,16 +71,18 @@ function ScoreConfigFormView({
 			<SpecialBetsConfig
 				{...formProps}
 			/>
-			<div className={'saveScoresButton'}>
-				<LoadingButton action={onSubmit}>
-					עדכן
-				</LoadingButton>
-			</div>
-			<div className={'resetButton'}>
-				<LoadingButton color='error' action={resetDefaultConfig}>
-					אפס לברירת מחדל
-				</LoadingButton>
-			</div>
+			{updateConfig && (<>
+				<div className={'saveScoresButton'}>
+					<LoadingButton action={onSubmit}>
+						עדכן
+					</LoadingButton>
+				</div>
+				<div className={'resetButton'}>
+					<LoadingButton color='error' action={resetDefaultConfig}>
+						אפס לברירת מחדל
+					</LoadingButton>
+				</div>
+			</>)}
 		</div>
 	);
 }
