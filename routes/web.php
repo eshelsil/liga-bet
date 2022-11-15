@@ -39,6 +39,7 @@ Route::get('/reset-password/${token}', [CustomResetPasswordController::class, 'r
 
 Auth::routes();
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/welcome', fn() => view('welcome.index'))->middleware("guest")->name('welcome');
 
 
 Route::post('register-token', [HomeController::class, 'registerFCMToken'])->middleware("auth");
