@@ -10,7 +10,7 @@ function useSessionReidrectPath() {
         if (sessionRedirectData) {
             const now = Number(new Date())
             const ts = Number(new Date(sessionRedirectData?.timestamp))
-            const timeToAuthenticate = 2 * 60 * 1000 // Two minutes
+            const timeToAuthenticate = 5 * 60 * 1000 // Five minutes
             if (now - ts < timeToAuthenticate) {
                 history.push(`/${sessionRedirectData.path}`)
             }

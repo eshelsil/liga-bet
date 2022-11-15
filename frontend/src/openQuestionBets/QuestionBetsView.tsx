@@ -39,7 +39,7 @@ const QuestionBetsView = ({ questions, sendQuestionBet, competitionStartTime }: 
                 <MultiBetsSettings />
             )}
             <div>
-                <Grid container>
+                <Grid container justifyContent="center">
                     {questions.map((question) => (
                         <OpenQuestionBetView
                             key={question.id}

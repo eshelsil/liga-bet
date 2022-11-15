@@ -43,7 +43,7 @@ const OpenGroupRankBetsView = ({ groupsWithBet, sendGroupRankBet, competitionSta
                     {hasOtherTournaments && (
                         <MultiBetsSettings />
                     )}
-                    <Grid container>
+                    <Grid container justifyContent="center">
                         {groupsWithBet.map((groupWithBet) => (
                             <GroupRankBetView
                                 key={groupWithBet.id}

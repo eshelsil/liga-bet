@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useIsXsScreen } from '../hooks/useMedia'
 import { IsLoadingAppCrucial } from '../_selectors'
 import './AppFooter.scss'
 
 
-function ImageLoader({loaded, setLoaded}: {loaded: boolean, setLoaded: (val: boolean) => void}){
+function ImageLoader(){
     const [shouldLoad, setShouldLoad] = useState(false)
 
     useEffect(()=>{
@@ -21,8 +20,8 @@ function ImageLoader({loaded, setLoaded}: {loaded: boolean, setLoaded: (val: boo
         <>
             {shouldLoad && (<>
                 <img
-                    onLoad={() => setLoaded(true)}
-                    className='AppFooter-image' src='/img/icon-no-bg.svg'
+                    className='AppFooter-image'
+                    src='/img/icon-no-bg.svg'
                 />
             </>)}
         </>
@@ -32,15 +31,11 @@ function ImageLoader({loaded, setLoaded}: {loaded: boolean, setLoaded: (val: boo
 
 function AppFooter() {
     const isLoadingAppCrucial = useSelector(IsLoadingAppCrucial)
-    const [loaded, setLoaded] = useState(false)
     return (
-        <div className={`LB-AppFooter ${loaded ? 'AppFooter-loaded' : ''}`}>
+        <div className={`LB-AppFooter`}>
             <div className='AppFooter-background'>
                 {!isLoadingAppCrucial && (
-                    <ImageLoader
-                        loaded={loaded}
-                        setLoaded={setLoaded}
-                    />
+                    <ImageLoader />
                 )}
             </div>
         </div>
