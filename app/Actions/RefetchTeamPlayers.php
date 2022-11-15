@@ -59,13 +59,14 @@ class RefetchTeamPlayers
                                    ->whereIn("type", [SpecialBet::TYPE_MVP, SpecialBet::TYPE_TOP_SCORER, SpecialBet::TYPE_MOST_ASSISTS])
                                    ->pluck("id");
 
-        Bet::query()
+        $betsOnPlayer = Bet::query()
             ->where("type", BetTypes::SpecialBet)
             ->whereIn("type_id", $specialBetIds)
             ->get(["id", "data"])
-            ->filter(fn(Bet $bet) => $bet->getData("answer") == $player->id)
-            ->toQuery()
-            ->delete();
+            ->filter(fn(Bet $bet) => $bet->getData("answer") == $player->id);
+        if ($betsOnPlayer->isNotEmpty()) {
+            $betsOnPlayer->toQuery()->delete();
+        }
 
         $player->delete();
     }
