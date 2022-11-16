@@ -1,7 +1,8 @@
 import React from 'react';
-import { Tab, Tabs } from '@mui/material';
+import { Tab } from '@mui/material';
 import { SimpleTabsProps } from './types';
 import TabPanel from './TabPanel';
+import StyledTabs from './StyledTabs';
 import './Tabs.scss';
 
 
@@ -18,7 +19,7 @@ function SimpleTabs({
 
     return (
         <div className='LigaBet-Tabs'>
-            <Tabs
+            <StyledTabs
                 value={selectedIndex}
                 onChange={handleChange}
                 variant='fullWidth'
@@ -30,7 +31,7 @@ function SimpleTabs({
                     label={label}
                 />
             ))}
-            </Tabs>
+            </StyledTabs>
             {tabs.map( ({id, children}, index) => (
                 <TabPanel
                     key={id}
