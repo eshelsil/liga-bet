@@ -12,7 +12,7 @@ export default function CustomTableRow<T extends Model>({
 	return (
 		<TableRow className={`LigaBet-CustomTableRow ${className || ''}`}>
 			{model.isFullRow && (
-				<TableCell colSpan={cells.length}>{model.fullRowContent}</TableCell>
+				<TableCell colSpan={cells.length} className={model.fullRowCellClass ?? ''}>{model.fullRowContent}</TableCell>
 			)}
 			{!model.isFullRow && (<>
 				{cells.map(cell => (

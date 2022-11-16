@@ -4,6 +4,7 @@ export interface Model {
     id: string | number;
     isFullRow?: boolean;
     fullRowContent?: ReactNode;
+    fullRowCellClass?: string;
 }
 
 export interface CellDescription<Model> {
