@@ -1,0 +1,112 @@
+@import '../styles/mixins';
+@import '../styles/themes/tournaments';
+
+@mixin themable_game_header($class, $tournament_theme){
+    $light: map_get($tournament_theme, light);
+    $dark: map_get($tournament_theme, dark);
+  
+    &.#{$class} {
+        .MuiTableContainer-root {
+            background: linear-gradient(
+                45deg,
+                rgba($light, 80%) 0%,
+                $dark 100%
+            );
+            
+        }
+    }
+}
+
+
+
+.LB-GamesView {
+    margin: auto;
+    width: 600px;
+    max-width: 100%;
+    .LB-GameGumblersList {
+        @include floatingFrame;
+        border-radius: 12px;
+        overflow: hidden;
+        width: 500px;
+        max-width: 100%;
+        margin: 24px auto;
+        
+        .LB-GameHeader {
+            @include flexRow;
+            justify-content: space-between;
+            @include themable_game_header(tournament-theme, $tournament_1);
+            @include themable_game_header(tournament-theme-1, $tournament_1);
+            @include themable_game_header(tournament-theme-2, $tournament_2);
+            @include themable_game_header(tournament-theme-3, $tournament_3);
+            @include themable_game_header(tournament-theme-4, $tournament_4);
+            @include themable_game_header(tournament-theme-5, $tournament_5);
+            .MuiTableContainer-root {
+                box-shadow: none;
+                border-radius: 0px;
+                padding: 8px 0px;
+                .MuiTable-root {
+                    // table-layout: fixed;
+                    // position: relative;
+                    // $delimiterWidth: 40px;
+                    .MuiTableCell-root {
+                        text-align: center;
+                        padding: 4px;
+                        padding-bottom: 0px;
+                        color: white;
+                        border: none;
+                        &.delimitierHeader {
+                            // padding: 4px;
+                            font-size: 24px;
+                        }
+                        &.teamDisplayCell {
+                            width: 50%;
+                            vertical-align: top;
+                            padding: 8px;
+                            padding-top: 0px;
+                        }
+                        &.dateRowCell {
+                            $border: 2px solid #eeeeee3b;
+                            border-top: $border;
+                            border-bottom: $border;
+                            padding: 4px;
+                            font-size: 16px;
+                            line-height: 1.5;
+                        }
+                        &.scoreCell {
+                            font-size: 20px;
+                            line-height: 1.2;
+                        }
+                    }
+                    .MuiTableBody-root {
+                        .MuiTableRow-root:first-of-type {
+                            border-top: 2px solid #eeeeee3b;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.LB-GumblersTable {
+    padding: 8px 0px;
+    .MuiTableContainer-root {
+        background: transparent;
+        box-shadow: none;
+        border-radius: 0px;
+    }
+    .MuiTableCell-root {
+        text-align: center;
+        padding: 8px;
+        border: none;
+        &.tableHeaderCell{
+            font-weight: 700;
+        }
+        .LB-MatchResult {
+            .MatchResult-content {
+                background-color: rgba(0,0,0,0.1);
+                padding: 8px;
+            }
+        }
+    }
+}

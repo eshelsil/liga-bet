@@ -30,10 +30,13 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            .MatchResult-row {
+                font-size: 18px;
+            }
         }
         .MatchResult-row {
             margin-top: 6px;
-            line-height: 14px;
+            line-height: 18px;
             text-align: center;
         }
     }

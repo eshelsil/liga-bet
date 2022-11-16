@@ -16,3 +16,7 @@ export function isGameUpcoming(game: MatchCommonBase) {
     const gameStart = dayjs(game.start_time)
     return gameStart.diff(now, 'day') < 2
 }
+
+export function isGameStarted(game: MatchCommonBase) {
+    return new Date(game.start_time) < new Date()
+}
