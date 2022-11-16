@@ -85,6 +85,28 @@
                 }
             }
         }
+        .GameGumblersList-expandIconContainer {
+            @include centerContainer;
+            cursor: pointer;
+            .arrowDownIcon {
+                transition: transform 0.3s;
+                margin: 8px;
+                font-size: 24px;
+            }
+        }
+        &.GameGumblersList-expanded {
+            .GameGumblersList-expandIconContainer {
+                border-top: 2px solid rgba(0,0,0, 0.1);
+                .arrowDownIcon {
+                    transform: rotate(180deg);
+                }
+            }
+        }
+    }
+    .LB-DoneGamesView {
+        .DoneViewGames-pagination {
+            width: fit-content;
+        }
     }
 }
 
@@ -103,6 +125,7 @@
             font-weight: 700;
         }
         .LB-MatchResult {
+            margin: auto;
             .MatchResult-content {
                 background-color: rgba(0,0,0,0.1);
                 padding: 8px;

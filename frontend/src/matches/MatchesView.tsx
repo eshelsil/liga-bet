@@ -26,14 +26,14 @@ function DoneGamesView({games}: {games: MatchWithBets[]}){
     };
 
     return (
-        <div>
+        <div className='LB-DoneGamesView'>
             {pagesCount > 1 && (
-                <div className='LB-FloatingFrame'>
+                <div className='LB-FloatingFrame DoneViewGames-pagination'>
                     <Pagination color='primary' count={pagesCount} onChange={handlePageChange}/>
                 </div>
             )}
             {gamesToShow.map((game) => (
-                <GameGumblersList key={game.id} match={game} />
+                <GameGumblersList key={game.id} match={game} withExpand />
             ))}
         </div>
     )

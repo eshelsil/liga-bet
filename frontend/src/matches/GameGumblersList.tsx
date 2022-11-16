@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { WinnerSide } from '../types'
 import { keysOf } from '../utils'
 import MatchResultView from '../widgets/MatchResult'
@@ -6,6 +6,8 @@ import CustomTable from '../widgets/Table/CustomTable'
 import { MatchWithBets } from '../_selectors'
 import GameHeader from './GameHeader'
 import { sortBy } from 'lodash'
+import { Collapse } from '@mui/material'
+import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 
 interface BetInstance {
@@ -17,8 +19,10 @@ interface BetInstance {
     gumblers: string[],
 }
 
-function GameGumblersList({ match }: { match: MatchWithBets }) {
+function GameGumblersList({ match, withExpand }: { match: MatchWithBets, withExpand?: boolean }) {
     const { home_team, away_team, betsByValue } = match
+    const [expand, setExpand] = useState(false)
+    const toggleExpand = () => setExpand(!expand)
 
     const models = keysOf(betsByValue).map((betVal): BetInstance => {
         const bets = betsByValue[betVal]
@@ -84,11 +88,23 @@ function GameGumblersList({ match }: { match: MatchWithBets }) {
     ]
 
     return (
-        <div className='LB-GameGumblersList'>
+        <div className={`LB-GameGumblersList ${expand ? 'GameGumblersList-expanded' : ''}`}>
             <GameHeader match={match}/>
-            <div className='LB-GumblersTable'>
-                <CustomTable models={sortedModels} cells={cells}/>
-            </div>
+            {withExpand && (<>
+                <Collapse in={expand}>
+                    <div className='LB-GumblersTable'>
+                        <CustomTable models={sortedModels} cells={cells}/>
+                    </div>
+                </Collapse>
+                <div className='GameGumblersList-expandIconContainer' onClick={toggleExpand}>
+                    <ArrowDownIcon className={`arrowDownIcon`} />
+                </div>
+            </>)}
+            {!withExpand && (
+                <div className='LB-GumblersTable'>
+                    <CustomTable models={sortedModels} cells={cells}/>
+                </div>
+            )}
         </div>
     )
 }
