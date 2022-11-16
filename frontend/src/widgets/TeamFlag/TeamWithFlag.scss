@@ -11,6 +11,17 @@
             font-size: 20px;
         }
     }
+    &.LB-TeamWithFlagVertical {
+        display: inline-flex;
+        justify-content: center;
+        flex-direction: column;
+        .TeamWithFlag-name {
+            margin: 0px;
+            margin-top: 8px;
+            font-size: 20px;
+            text-align: center;
+        }
+    }
 }
 
 .LB-TeamFlag {
