@@ -9,6 +9,7 @@ import {
     TableContainer,
     TableHead,
     TableRow,
+    Button,
 } from '@mui/material'
 import { User, UserPermissions } from '../types'
 import { UserPermissionsToRoleString } from '../utils'
@@ -17,6 +18,7 @@ import { GetUsersParams } from '../api/users'
 import UserRow from './UserRow'
 import SearchBar from '../widgets/SearchBar/SearchBar'
 import MultipleSelect from '../widgets/Select/MultipleSelect'
+import useGoTo from '../hooks/useGoTo'
 
 const loadingQueue = new Set()
 
@@ -39,6 +41,7 @@ function ManageUsersView({
     revokeTournamentAdminPermissions,
     updateUserScoresConfigPermissions,
 }: Props) {
+    const { goToAdminIndex } = useGoTo()
     const [page, setPage] = useState(1)
     const [search, setSearch] = useState('')
     const [roles, setRoles] = useState<UserPermissions[]>([])
@@ -154,6 +157,14 @@ function ManageUsersView({
                     />
                 )}
             </Paper>
+            <Button
+                variant='outlined'
+                color='primary'
+                onClick={goToAdminIndex}
+                style={{marginTop: 24}}
+            >
+                חזור
+            </Button>
         </>
     )
 }
