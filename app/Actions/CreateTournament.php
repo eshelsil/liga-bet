@@ -24,7 +24,7 @@ class CreateTournament
     {
         $this->validateCreatePermissions($user);
         $this->validateCreateLimitations($user);
-        $this->validateNameAlreadyInUse($name);
+        // $this->validateNameAlreadyInUse($name);
 
         $tournament                  = new Tournament();
         $tournament->name            = $name;
