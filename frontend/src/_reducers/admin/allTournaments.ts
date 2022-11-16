@@ -1,9 +1,9 @@
 import { createSlice, Dictionary } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { DetailedTournamentData } from '../../types'
+import { TournamentSummaryData } from '../../types'
 
 
-type State = Dictionary<DetailedTournamentData>
+type State = Dictionary<TournamentSummaryData>
 
 const allTournaments = createSlice({
     name: 'allTournaments',

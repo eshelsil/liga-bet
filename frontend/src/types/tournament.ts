@@ -95,7 +95,10 @@ export interface DetailedContestantData {
 	email: string,
 	bets: EnumRecord<BetType, number>
 }
-export interface DetailedTournamentData extends Tournament {
+export interface TournamentSummaryData {
+	id: number,
+	name: string,
+	config: TournamentConfig,
 	contestants: DetailedContestantData[],
 	betEntities: EnumRecord<BetType, number>
 	creatorUtlId: number,

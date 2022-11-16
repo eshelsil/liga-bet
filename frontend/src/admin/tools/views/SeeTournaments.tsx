@@ -5,7 +5,7 @@ import useGoTo from '../../../hooks/useGoTo'
 import { AllTournamentsData, NoSelector } from '../../../_selectors'
 import { fetchAndStoreAllTournamentsDetails } from '../../../_actions/admin'
 import { useSelector } from 'react-redux'
-import { BetType, DetailedTournamentData } from '../../../types'
+import { BetType, TournamentSummaryData } from '../../../types'
 import { valuesOf } from '../../../utils'
 import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import './SeeTournaments.scss'
@@ -41,7 +41,7 @@ function ClickableTooltip({
 }
 
 
-function TournamentView({data}: {data: DetailedTournamentData}){
+function TournamentView({data}: {data: TournamentSummaryData}){
     const { creatorUtlId, contestants, betEntities, config, name} = data
     const creator = contestants.find(utl => utl.id === creatorUtlId)
     const [expand, setExpand] = useState(false)

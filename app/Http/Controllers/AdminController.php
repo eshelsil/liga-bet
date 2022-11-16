@@ -79,10 +79,11 @@ class AdminController extends Controller
     public function getRunningTournamentsData()
     {
         $data = Tournament::all()->map(function( Tournament $t){
+            $res = [];
             $utls = $t->utls;
             $userIds = $utls->pluck('user_id');
             $usersById = User::whereIn('id', $userIds)->get()->keyBy('id');
-            $t->contestants = $utls->map(function (TournamentUser $utl) use ($usersById){
+            $res['contestants'] = $utls->map(function (TournamentUser $utl) use ($usersById){
                 $user = $usersById[$utl->user_id];
                 $bets = $utl->bets;
                 return [
@@ -103,16 +104,18 @@ class AdminController extends Controller
                 fn( SpecialBet $question) => $question->isOn()
             )->count();
 
-            $t->betEntities = [
+            $res['betEntities'] = [
                 BetTypes::Game => $gamesCount,
                 BetTypes::GroupsRank => $groupsCount,
                 BetTypes::SpecialBet => $questionsCount,
             ];
 
             $creatorUtl = $utls->firstWhere('user_id', $t->creator_user_id);
-            $t->creatorUtlId = $creatorUtl ? $creatorUtl->id : null;
-            $t->contestantsCount = count($t->contestants);
-            return $t;
+            $res['creatorUtlId'] = $creatorUtl ? $creatorUtl->id : null;
+            $res['id'] = $t->id;
+            $res['name'] = $t->name;
+            $res['config'] = $t->config;
+            return $res;
         });
             
         return new JsonResponse($data, 200);
