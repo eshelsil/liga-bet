@@ -4,7 +4,7 @@ import { keysOf } from '../utils'
 import CustomTable from '../widgets/Table/CustomTable'
 import { SpecialAnswer } from '../widgets/specialAnswer'
 import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
-import { groupBy, sortBy } from 'lodash'
+import { groupBy, orderBy } from 'lodash'
 
 
 interface BetInstance {
@@ -30,11 +30,21 @@ function QuestionBetGumblersList({ question, bets }: Props ) {
         return {
             id: answerId,
             answer: betSample.answer,
-            score: betSample.score || 23,
+            score: betSample.score,
             gumblers: bets.map((bet) => bet.utlName),
         }
     })
-    const sortedModels = sortBy(models, ['score', 'id'], ['desc', 'asc'])
+    const sortedModels = orderBy(
+        models,
+        [
+            'score',
+            ({gumblers}) => gumblers.length,
+        ],
+        [
+            'desc',
+            'desc',
+        ]
+    )
 
     const cells = [
         {
@@ -60,7 +70,9 @@ function QuestionBetGumblersList({ question, bets }: Props ) {
             },
             header: 'מנחשים',
             getter: (bet: BetInstance) => (
-                bet.gumblers.join('\n')
+                <div className='gumblersContainer'>
+                    {bet.gumblers.join('\n')}
+                </div>
             ),
         },
         {

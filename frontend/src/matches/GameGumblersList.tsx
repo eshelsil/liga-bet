@@ -5,7 +5,7 @@ import MatchResultView from '../widgets/MatchResult'
 import CustomTable from '../widgets/Table/CustomTable'
 import { MatchWithBets } from '../_selectors'
 import GameHeader from './GameHeader'
-import { sortBy } from 'lodash'
+import { orderBy } from 'lodash'
 import { Collapse } from '@mui/material'
 import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
@@ -36,7 +36,19 @@ function GameGumblersList({ match, withExpand }: { match: MatchWithBets, withExp
             gumblers: bets.map((bet) => bet.utlName),
         }
     })
-    const sortedModels = sortBy(models, ['score', 'id'], ['desc', 'asc'])
+    const sortedModels = orderBy(
+        models,
+        [
+            'score',
+            ({gumblers}) => gumblers.length,
+            'id',
+        ],
+        [
+            'desc',
+            'desc',
+            'asc',
+        ]
+    )
 
     const cells = [
         {
@@ -74,7 +86,9 @@ function GameGumblersList({ match, withExpand }: { match: MatchWithBets, withExp
             },
             header: 'מנחשים',
             getter: (bet: BetInstance) => (
-                bet.gumblers.join('\n')
+                <div className='gumblersContainer'>
+                    {bet.gumblers.join('\n')}
+                </div>
             ),
         },
         {

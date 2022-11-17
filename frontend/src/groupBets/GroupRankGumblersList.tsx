@@ -8,7 +8,7 @@ import { getHebGroupName } from '../strings'
 import CustomTable from '../widgets/Table/CustomTable'
 import { Collapse } from '@mui/material'
 import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { groupBy, sortBy } from 'lodash'
+import { groupBy, orderBy } from 'lodash'
 
 
 interface BetInstance {
@@ -38,11 +38,21 @@ function GroupRankGumblersList({ group, bets }: Props) {
         return {
             id: betVal,
             standings: betSample.standings,
-            score: betSample.score,
+            score: betSample.score || Math.ceil(Math.random() * 3),
             gumblers: bets.map((bet) => bet.utlName),
         }
     })
-    const sortedModels = sortBy(models, ['score', 'id'], ['desc', 'asc'])
+    const sortedModels = orderBy(
+        models,
+        [
+            'score',
+            ({gumblers}) => gumblers.length,
+        ],
+        [
+            'desc',
+            'desc',
+        ]
+    )
 
     const cells = [
         {
@@ -72,7 +82,9 @@ function GroupRankGumblersList({ group, bets }: Props) {
             },
             header: 'מנחשים',
             getter: (bet: BetInstance) => (
-                bet.gumblers.join('\n')
+                <div className='gumblersContainer'>
+                    {bet.gumblers.join('\n')}
+                </div>
             ),
         },
         {
