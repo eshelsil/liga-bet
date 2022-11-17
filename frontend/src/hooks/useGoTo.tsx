@@ -6,6 +6,7 @@ function useGoTo() {
 
     const goToMyProfile = () => history.push('/profile')
     const goToMyBets = () => history.push('/my-bets')
+    const goToHisBets = (id: number) => history.push(`/his-bets/${id}`)
     const goToJoinTournament = () => history.push('/join-tournament')
     const goToCreateTournament = () => history.push('/create-tournament')
     const goToLeaderboard = () => history.push('/leaderboard')
@@ -22,6 +23,7 @@ function useGoTo() {
     return {
         goToMyProfile,
         goToMyBets,
+        goToHisBets,
         goToJoinTournament,
         goToCreateTournament,
         goToHome,

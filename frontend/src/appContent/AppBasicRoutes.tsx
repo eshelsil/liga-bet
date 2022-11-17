@@ -10,6 +10,7 @@ import MyBetsView from '../myBets/MyBetsView';
 import Takanon from '../takanon/Takanon';
 import OpenQuestionBets from '../openQuestionBets/OpenQuestionBetsProvider';
 import RedirectToDefaultPage from './RedirectToDefaultPage';
+import HisBetsView from '../myBets/HisBetsView';
 
 
 function AppBasicRoutes() {
@@ -24,6 +25,7 @@ function AppBasicRoutes() {
             <Route path='/all-group-standings' component={GroupStandingsBetsView} />
             <Route path='/all-questions' component={AllQuestionBetsView} />
             <Route path='/my-bets' component={MyBetsView} />
+            <Route path='/his-bets/:utlId' component={HisBetsView} />
             <Route path='/'>
                 <RedirectToDefaultPage />
             </Route>

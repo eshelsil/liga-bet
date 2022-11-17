@@ -18,7 +18,6 @@ const MyGroupPositionBetsTable = ({
             <GroupRankBetsTable
                 bets={bets}
                 headers={{
-                    bet: 'הניחוש שלך',
                     result: 'תוצאה בפועל',
                 }}
             />

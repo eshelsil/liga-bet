@@ -15,7 +15,6 @@ const MyGameBetsTable = ({ bets }: { bets: MatchBetWithRelations[] }) => {
             <GameBetsTable
                 bets={bets}
                 headers={{
-                    bet: 'הניחוש שלך',
                     result: 'תוצאה בפועל',
                 }}
             />

@@ -34,8 +34,9 @@
                 text-align: center;
             }
         }
-        .MuiPaper-root {
+        .MuiTableContainer-root {
             background-color: rgb(255 255 255 / 95%);
+            border-radius: 0px;
             border-bottom-left-radius: 12px;
             border-bottom-right-radius: 12px;
             @media (max-width: 600px) {

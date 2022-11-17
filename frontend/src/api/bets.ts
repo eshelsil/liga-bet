@@ -9,7 +9,7 @@ export const fetchMatchBets = async (
     { type, ids, tournamentId }: FetchGameBetsParams,
 ): Promise<BetsApiResult> => {
     let filterParam: string;
-    if (type === GameBetsFetchType.Users) filterParam = 'user_ids'
+    if (type === GameBetsFetchType.Users) filterParam = 'utl_ids'
     if (type === GameBetsFetchType.Games) filterParam = 'game_ids'
     const queryString = `${filterParam}=${encodeURIComponent(JSON.stringify(ids))}`
     return await sendApiRequest({

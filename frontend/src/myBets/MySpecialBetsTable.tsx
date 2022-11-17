@@ -15,7 +15,6 @@ const MySpecialBetsTable = ({ bets }: { bets: QuestionBetWithRelations[] }) => {
             <SpecialBetsTable
                 bets={bets}
                 headers={{
-                    bet: 'הניחוש שלך',
                     result: 'תוצאה בפועל',
                 }}
             />

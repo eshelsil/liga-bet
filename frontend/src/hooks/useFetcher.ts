@@ -139,6 +139,10 @@ export function useMyGameBets(){
     useGameBets({type: GameBetsFetchType.Users, ids: [utlId]})
 }
 
+export function useGameBetsOfUtl(utlId: number){
+    useGameBets({type: GameBetsFetchType.Users, ids: [utlId]})
+}
+
 export function useAllGameBets(){
     const gameIds = useSelector(GameIds);
     useGameBets({type: GameBetsFetchType.Games, ids: gameIds})

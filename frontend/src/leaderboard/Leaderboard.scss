@@ -114,6 +114,7 @@
                 line-height: 1;
                 font-size: 12px;
                 margin-top: -1px;
+                box-shadow: $medium-shadow;
             }
         }
         .rankChange {
@@ -126,9 +127,11 @@
             align-items: center;
             border-radius: 20px;
             margin-top: -3px;
+            background-color: #eee;
             .rankChange-value {
                 font-size: 14px;
                 line-height: 1;
+                color: #000;
             }
             .rankChange-direction {
                 color: $success-main;
@@ -170,5 +173,9 @@
             width: calc(100% + 16px);
             margin-right: -8px;
         }
+    }
+    .hisBetsLink {
+        margin-bottom: 12px;
+        @include centerContainer;
     }
 }
