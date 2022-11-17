@@ -5,7 +5,7 @@ import useGoTo from '../../../hooks/useGoTo'
 import { AllTournamentsData, NoSelector } from '../../../_selectors'
 import { fetchAndStoreAllTournamentsDetails } from '../../../_actions/admin'
 import { useSelector } from 'react-redux'
-import { BetType, TournamentSummaryData } from '../../../types'
+import { BetType, TournamentSummaryData, UtlRole } from '../../../types'
 import { valuesOf } from '../../../utils'
 import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import './SeeTournaments.scss'
@@ -69,16 +69,19 @@ function TournamentView({data}: {data: TournamentSummaryData}){
                                 <tr>
                                     <th>שם</th>
                                     <th>ניחושים</th>
+                                    <th>הרשאות</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {contestants.map(utl => (
                                     <tr key={utl.id}>
                                         <td>
-                                            <ClickableTooltip
-                                                content={utl.name}
-                                                tooltipContent={utl.email}
-                                            />
+                                            <div style={utl.role === UtlRole.Rejected ? {textDecoration: 'line-through', color: 'red'} : {}}>
+                                                <ClickableTooltip
+                                                    content={utl.name}
+                                                    tooltipContent={utl.email}
+                                                />
+                                            </div>
                                         </td>
                                         <td>
                                             <div className='betsData'>
@@ -92,6 +95,9 @@ function TournamentView({data}: {data: TournamentSummaryData}){
                                                     משחקים: {utl.bets[BetType.Match]}/{betEntities[BetType.Match]}
                                                 </div>
                                             </div>
+                                        </td>
+                                        <td>
+                                            {utl.role}
                                         </td>
                                     </tr>
                                 ))}

@@ -89,6 +89,7 @@ class AdminController extends Controller
                 return [
                     "id" => $utl->id,
                     "name" => $utl->name,
+                    "role" => $utl->role,
                     "email" => $user->email,
                     "bets" => [
                         BetTypes::Game => $bets->where('type', BetTypes::Game)->count(),

@@ -2,6 +2,7 @@ import { BetType } from "./bet";
 import { EnumRecord } from "./common";
 import { KnockoutStage } from "./match";
 import { SpecialQuestionType } from "./specialQuestion";
+import { UtlRole } from "./utl";
 
 export enum TournamentStatus {
     Initial = 'initial',
@@ -92,6 +93,7 @@ export interface Tournament {
 export interface DetailedContestantData {
 	id: number,
 	name: string,
+	role: UtlRole,
 	email: string,
 	bets: EnumRecord<BetType, number>
 }
