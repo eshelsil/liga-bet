@@ -8,5 +8,5 @@ export interface TeamDisplayProps {
 
 export interface GroupStandingProps {
     standings: Team[],
-    name: string,
+    name?: string,
 }

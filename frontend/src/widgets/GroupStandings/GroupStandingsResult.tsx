@@ -20,11 +20,14 @@ function TeamDisplay({team, rank}: TeamDisplayProps){
 }
 
 function GroupStandingsResult({standings, name}: GroupStandingProps){
+    const extraClass = !name ? 'GroupStandingsResult-noName' : ''
     return (
-        <div className='LB-GroupStandingsResult'>
-            <div className='GroupStandingsResult-header'>
-                {getHebGroupName(name)}
-            </div>
+        <div className={`LB-GroupStandingsResult ${extraClass}`}>
+            {name && (
+                <div className='GroupStandingsResult-header'>
+                    {getHebGroupName(name)}
+                </div>
+            )}
             <div>
                 {standings.map((team, index) => (
                     <TeamDisplay key={team.id} team={team} rank={index + 1} />

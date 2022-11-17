@@ -1,0 +1,74 @@
+@import '../styles/mixins';
+@import '../styles/themes/tournaments';
+
+
+@mixin themable_group_header($class, $tournament_theme){
+    $light: map_get($tournament_theme, light);
+    $dark: map_get($tournament_theme, dark);
+  
+    &.#{$class} {
+        .GroupRankGumblersList-header{
+            background: linear-gradient(
+                45deg,
+                rgba($light, 80%) 0%,
+                $dark 100%
+            );
+            
+        }
+    }
+}
+
+
+
+.LB-GroupStandingsBetsView {
+    margin: auto;
+    width: 700;
+    max-width: 100%;
+    .LB-GroupRankGumblersList {
+        @include floatingFrame;
+        border-radius: 12px;
+        overflow: hidden;
+        width: 600px;
+        max-width: 100%;
+        margin: 24px auto;
+        @include themable_group_header(tournament-theme, $tournament_1);
+        @include themable_group_header(tournament-theme-1, $tournament_1);
+        @include themable_group_header(tournament-theme-2, $tournament_2);
+        @include themable_group_header(tournament-theme-3, $tournament_3);
+        @include themable_group_header(tournament-theme-4, $tournament_4);
+        @include themable_group_header(tournament-theme-5, $tournament_5);
+        
+        .GroupRankGumblersList-header {
+            cursor: pointer;
+            .GroupRankGumblersList-title {
+                text-align: center;
+                color: #fff;
+                font-size: 20px;
+                margin: 0 8px;
+            }
+            .GroupRankGumblersList-teams {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-evenly;
+                padding: 8px
+            }
+        }
+
+        .GroupRankGumblersList-expandIconContainer {
+            @include centerContainer;
+            border-top: 2px solid #eeeeee3b;
+            .arrowDownIcon {
+                transition: transform 0.3s;
+                font-size: 32px;
+                color: #eee;
+            }
+        }
+        &.GroupRankGumblersList-expanded {
+            .GroupRankGumblersList-expandIconContainer {
+                .arrowDownIcon {
+                    transform: rotate(180deg);
+                }
+            }
+        }
+    }
+}

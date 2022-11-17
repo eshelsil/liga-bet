@@ -1,117 +1,8 @@
-import React, { useState } from 'react'
-import { getStandingsBetValue } from '../utils/index'
-import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
+import React from 'react'
 import { GroupRankBetWithRelations, GroupWithTeams } from '../types'
-import { groupBy } from 'lodash'
+import GroupRankGumblersList from './GroupRankGumblersList'
+import './GroupStandingsBetsView.scss'
 
-interface SingleGroupBetsProps {
-    group: GroupWithTeams
-    bets: GroupRankBetWithRelations[]
-}
-
-function SingleGroupBets({ group, bets }: SingleGroupBetsProps) {
-    const { teams = [] } = group
-    const [open, setOpen] = useState(false)
-    const toggleOpen = () => setOpen(!open)
-    const betsByAnswer = groupBy(bets, (bet) =>
-        getStandingsBetValue(bet.standings)
-    )
-    return (
-        <div className="panel-group" style={{ marginBottom: 0 }}>
-            <div className="panel panel-default">
-                <div
-                    className="panel-heading row"
-                    style={{ marginRight: 0, marginLeft: 0, cursor: 'pointer' }}
-                    onClick={toggleOpen}
-                >
-                    <div className="col-xs-4 pull-right">
-                        <h4 className="panel-title">{group.name}</h4>
-                    </div>
-                    <div className="col-xs-7 pull-right">
-                        <div style={{ display: 'flex' }}>
-                            {teams.map((team) => (
-                                <div
-                                    key={team.id}
-                                    style={{
-                                        width: 30,
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                    }}
-                                >
-                                    <img
-                                        className="team_flag"
-                                        src={team.crest_url}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-                {open && (
-                    <div className="tab-content" style={{ marginTop: 25 }}>
-                        <table className="table">
-                            <thead>
-                                <tr>
-                                    <th className="col-xs-4">ניחוש</th>
-                                    <th className="col-xs-7">מנחשים</th>
-                                    <th className="col-xs-1">נק'</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {Object.entries(betsByAnswer).map(
-                                    ([value, bets]) => {
-                                        const betSample = bets[0]
-                                        const { standings, score } = betSample
-                                        const gumblers = bets.map(
-                                            (bet) => bet.utlName
-                                        )
-                                        return (
-                                            <tr key={value}>
-                                                <td>
-                                                    {standings.map(
-                                                        (team, i) => (
-                                                            <div
-                                                                key={i}
-                                                                className="flex-row"
-                                                            >
-                                                                <span>
-                                                                    ({i + 1}){' '}
-                                                                </span>
-                                                                <TeamWithFlag
-                                                                    key={
-                                                                        team.id
-                                                                    }
-                                                                    name={
-                                                                        team.name
-                                                                    }
-                                                                    crest_url={
-                                                                        team.crest_url
-                                                                    }
-                                                                />
-                                                            </div>
-                                                        )
-                                                    )}
-                                                </td>
-                                                <td>
-                                                    {gumblers.map((name) => (
-                                                        <div key={name}>
-                                                            {name}
-                                                        </div>
-                                                    ))}
-                                                </td>
-                                                <td>{score}</td>
-                                            </tr>
-                                        )
-                                    }
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
-            </div>
-        </div>
-    )
-}
 
 interface Props {
     groups: GroupWithTeams[]
@@ -120,19 +11,17 @@ interface Props {
 
 const GroupStandingsBetsView = ({ groups, betsByGroupId }: Props) => {
     return (
-        <div>
-            <h1>ניחושי בתים</h1>
-            <div className="row">
-                <div className="col-xs-4 pull-right">בית</div>
-                <div className="col-xs-7 pull-right">קבוצות</div>
+        <div className='LB-GroupStandingsBetsView'>
+            <h1 className='LB-TitleText'>ניחושים על דירוגי בתים</h1>
+            <div>
+                {groups.map((group) => (
+                    <GroupRankGumblersList
+                        key={group.id}
+                        group={group}
+                        bets={betsByGroupId[group.id]}
+                    />
+                ))}
             </div>
-            {groups.map((group) => (
-                <SingleGroupBets
-                    key={group.id}
-                    group={group}
-                    bets={betsByGroupId[group.id]}
-                />
-            ))}
         </div>
     )
 }
