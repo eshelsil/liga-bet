@@ -1,9 +1,13 @@
+import React, { useState } from 'react'
 import { Dictionary } from '@reduxjs/toolkit'
-import React from 'react'
 import { QuestionBetWithRelations, SpecialQuestion } from '../types'
-import { getSpecialQuestionName } from '../utils'
-import QuestionBetsList from './QuestionBetList'
-import QuestionTab from './QuestionTab'
+import { valuesOf } from '../utils'
+import SimpleTabs from '../widgets/Tabs/Tabs'
+import QuestionBetGumblersList from './QuestionBetGumblersList'
+import './QuestionBetsView.scss'
+import '../styles/closedBets/GumblersTable.scss'
+
+
 
 interface Props {
     questions: Dictionary<SpecialQuestion>
@@ -11,31 +15,22 @@ interface Props {
 }
 
 const QuestionBetsView = ({ questions, betsByQuestionId }: Props) => {
+    const [selectedTab, setSelectedTab] = useState(0)
+    const tabs = valuesOf(questions).map(question => ({
+        id: question.type,
+        label: question.name,
+        children: (
+            <QuestionBetGumblersList question={question} bets={betsByQuestionId[question.id]}/>
+        )
+    }))
     return (
-        <div>
+        <div className='LB-QuestionBetsView'>
             <h1 className='LB-TitleText'>ניחושים מיוחדים</h1>
-            <div className="float-right">
-                <ul className="nav nav-tabs" style={{ paddingRight: 0 }}>
-                    {Object.values(questions).map((question) => (
-                        <QuestionTab
-                            key={question.id}
-                            name={getSpecialQuestionName(question)}
-                            id={question.id}
-                        />
-                    ))}
-                </ul>
-
-                <div className="tab-content" style={{ marginTop: 25 }}>
-                    {Object.values(questions).map((question, i) => (
-                        <QuestionBetsList
-                            key={question.id}
-                            name={getSpecialQuestionName(question)}
-                            id={question.id}
-                            bets={betsByQuestionId[question.id]}
-                        />
-                    ))}
-                </div>
-            </div>
+            <SimpleTabs
+                tabs={tabs}
+                index={selectedTab}
+                onChange={setSelectedTab}
+            />
         </div>
     )
 }

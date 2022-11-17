@@ -9,13 +9,15 @@ import {
 import { specialQuestionToAnswerType } from '../../utils'
 import PlayerAnswerView from './PlayerAnswerView'
 import TeamAnswerView from './TeamAnswerView'
+import './SpecialAnswer.scss'
 
 interface Props {
-    answer?: SpecialQuestionAnswer
     type: SpecialQuestionType
+    answer?: SpecialQuestionAnswer
+    isVertical?: boolean
 }
 
-function SpecialAnswer({ answer, type }: Props) {
+function SpecialAnswer({ answer, type, isVertical }: Props) {
     const isTeamQuestion =
         specialQuestionToAnswerType[type] === SpecialAnswerType.Team
     const isPlayerQuestion =
@@ -25,7 +27,7 @@ function SpecialAnswer({ answer, type }: Props) {
         return null
     }
     return (
-        <div className={'LigaBet-SpecialAnswer'}>
+        <div className={`LigaBet-SpecialAnswer ${isVertical ? 'SpecialAnswer-vertical' : ''}`}>
             {isTeamQuestion && <TeamAnswerView team={answer as Team} />}
             {isPlayerQuestion && <PlayerAnswerView player={answer as Player} />}
         </div>

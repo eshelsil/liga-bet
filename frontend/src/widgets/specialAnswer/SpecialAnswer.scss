@@ -1,0 +1,18 @@
+.LigaBet-SpecialAnswer {
+    &.SpecialAnswer-vertical {
+        .TeamWithFlag {
+            flex-direction: column;
+            .TeamWithFlag-name {
+                margin: 0;
+                margin-top: 8px;
+            }
+        }
+        .LB-PlayerWithImg {
+            flex-direction: column;
+            .PlayerWithImg-name {
+                margin: 0;
+                margin-top: 8px;
+            }
+        }
+    }
+}

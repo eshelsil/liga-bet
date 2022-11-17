@@ -1,0 +1,26 @@
+.LB-GumblersTable {
+    padding: 8px 0px;
+    .MuiTableContainer-root {
+        background: transparent;
+        box-shadow: none;
+        border-radius: 0px;
+    }
+    .MuiTableCell-root {
+        text-align: center;
+        padding: 8px;
+        border: none;
+        &.tableHeaderCell{
+            font-weight: 700;
+        }
+        .LB-MatchResult {
+            margin: auto;
+            .MatchResult-content {
+                background-color: rgba(0,0,0,0.1);
+                padding: 8px;
+            }
+        }
+        &.scoreCell {
+            font-size: 22px;
+        }
+    }
+}

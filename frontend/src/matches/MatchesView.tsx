@@ -8,6 +8,7 @@ import { map } from 'lodash'
 import { useGameBets, useGames } from '../hooks/useFetcher'
 import { LoadingButton } from '../widgets/Buttons'
 import './GamesView.scss'
+import '../styles/closedBets/GumblersTable.scss'
 
 
 const GAMES_PER_PAGE = 10

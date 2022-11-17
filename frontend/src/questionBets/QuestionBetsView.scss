@@ -1,0 +1,62 @@
+@import '../styles/mixins';
+@import '../styles/themes/tournaments';
+
+
+@mixin themable_question_header($class, $tournament_theme){
+    $light: map_get($tournament_theme, light);
+    $dark: map_get($tournament_theme, dark);
+  
+    &.#{$class} {
+        .QuestionBetGumblersList-header{
+            background: linear-gradient(
+                45deg,
+                rgba($light, 80%) 0%,
+                $dark 100%
+            );
+            
+        }
+    }
+}
+
+
+
+.LB-QuestionBetsView {
+    margin: auto;
+    max-width: 700px;
+    .LB-QuestionBetGumblersList {
+        @include floatingFrame;
+        border-radius: 12px;
+        overflow: hidden;
+        width: 500px;
+        max-width: 100%;
+        margin: 24px auto;
+        @include themable_question_header(tournament-theme, $tournament_1);
+        @include themable_question_header(tournament-theme-1, $tournament_1);
+        @include themable_question_header(tournament-theme-2, $tournament_2);
+        @include themable_question_header(tournament-theme-3, $tournament_3);
+        @include themable_question_header(tournament-theme-4, $tournament_4);
+        @include themable_question_header(tournament-theme-5, $tournament_5);
+        
+        .QuestionBetGumblersList-header {
+            padding: 8px;
+            .QuestionBetGumblersList-title {
+                text-align: center;
+                color: white;
+                margin: 0;
+            }
+        }
+    }
+    .LigaBet-Tabs {
+        .MuiTabs-flexContainer {
+            display: flex;
+            flex-wrap: wrap;
+            .MuiTab-root {
+                padding: 4px;
+                max-width: 50%;
+            }
+        }
+        .MuiTabs-indicator {
+            display: none;
+        }
+    }
+}

@@ -45,9 +45,6 @@
                 border-radius: 0px;
                 padding: 8px 0px;
                 .MuiTable-root {
-                    // table-layout: fixed;
-                    // position: relative;
-                    // $delimiterWidth: 40px;
                     .MuiTableCell-root {
                         text-align: center;
                         padding: 4px;
@@ -55,7 +52,6 @@
                         color: white;
                         border: none;
                         &.delimitierHeader {
-                            // padding: 4px;
                             font-size: 24px;
                         }
                         &.teamDisplayCell {
@@ -106,30 +102,6 @@
     .LB-DoneGamesView {
         .DoneViewGames-pagination {
             width: fit-content;
-        }
-    }
-}
-
-.LB-GumblersTable {
-    padding: 8px 0px;
-    .MuiTableContainer-root {
-        background: transparent;
-        box-shadow: none;
-        border-radius: 0px;
-    }
-    .MuiTableCell-root {
-        text-align: center;
-        padding: 8px;
-        border: none;
-        &.tableHeaderCell{
-            font-weight: 700;
-        }
-        .LB-MatchResult {
-            margin: auto;
-            .MatchResult-content {
-                background-color: rgba(0,0,0,0.1);
-                padding: 8px;
-            }
         }
     }
 }
