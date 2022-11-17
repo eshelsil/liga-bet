@@ -4,7 +4,7 @@ import DraggableStandings from './DraggableStandings'
 import { Grid, IconButton, Switch } from '@mui/material'
 import { useIsXsScreen } from '../hooks/useMedia'
 import { getHebGroupName } from '../strings/groups'
-import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
+import { useTournamentThemeClass } from '../hooks/useThemeClass'
 import { AddCircle } from '@mui/icons-material'
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';

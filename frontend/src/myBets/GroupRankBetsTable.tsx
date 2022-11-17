@@ -1,15 +1,21 @@
 import React from 'react'
-import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
 import { GroupRankBetWithRelations } from '../types'
 import CustomTable from '../widgets/Table/CustomTable'
 import GroupStandingsResult from '../widgets/GroupStandings'
 
-const GroupPositionBetsTable = ({
+
+interface Props {
+    bets: GroupRankBetWithRelations[],
+    headers?: {
+        bet?: string,
+        result?: string,
+    },
+}
+
+const GroupRankBetsTable = ({
     bets,
-}: {
-    bets: GroupRankBetWithRelations[]
-}) => {
-    const tournamentClass = useTournamentThemeClass();
+    headers,
+}: Props) => {
 
     const cells = [
 		{
@@ -23,7 +29,7 @@ const GroupPositionBetsTable = ({
 		},
 		{
 			id: 'bet',
-			header: 'הניחוש שלך',
+			header: headers?.bet ?? 'ניחוש',
             classes: {
                 cell: 'alignToTop'
             },
@@ -36,7 +42,7 @@ const GroupPositionBetsTable = ({
 		},
 		{
 			id: 'result',
-			header: 'תוצאה בפועל',
+			header: headers?.result ?? 'תוצאה',
 			getter: (bet: GroupRankBetWithRelations) => (<>
                 {bet.relatedGroup.isDone && (
                     <GroupStandingsResult
@@ -49,17 +55,17 @@ const GroupPositionBetsTable = ({
 		{
 			id: 'score',
 			header: 'נק\'',
+            classes: {
+                cell: 'scoreCell',
+            },
 			getter: (bet: GroupRankBetWithRelations) => bet.score,
 		},
     ]
     return (
-        <div className='LB-MyGroupRankBetsTable LB-MyBetsSection'>
-            <div className={`MyBetsSection-header ${tournamentClass}`}>
-                <h4 className='MyBetsSection-title'>{'דירוגי בתים'}</h4>
-            </div>
+        <div className='LB-GroupRankBetsTable'>
             <CustomTable models={bets} cells={cells} />
         </div>
     )
 }
 
-export default GroupPositionBetsTable
+export default GroupRankBetsTable

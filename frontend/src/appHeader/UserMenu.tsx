@@ -2,11 +2,10 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import Avatar from '@mui/material/Avatar'
 import PersonIcon from '@mui/icons-material/Person';
-import { UtlWithTournament } from '../types'
 import LinkMenuItem from './LinkMenuItem'
 import { routesMap } from './routes'
 import PopupMenu from '../widgets/Menu'
-import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
+import { useTournamentThemeClass } from '../hooks/useThemeClass'
 import TeamFlag from '../widgets/TeamFlag/TeamFlag'
 import { IsAdmin, MyWinnerTeamSelector } from '../_selectors'
 

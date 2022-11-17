@@ -5,7 +5,7 @@ import DropMenuItem from './DropMenuItem'
 import { TournamentStatus, UtlRole, UtlWithTournament } from '../types'
 import { isUtlConfirmed } from '../utils'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
+import { useTournamentThemeClass } from '../hooks/useThemeClass'
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import OpenGameBetsItem from './MenuItems/OpenGameBetsItem'
 import OpenGroupRankBetsItem from './MenuItems/OpenGroupRankBetsItem'

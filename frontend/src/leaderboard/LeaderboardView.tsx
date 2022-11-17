@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ScoreboardRow, ScoreboardRowDetailed } from '../types'
 import { Dictionary } from 'lodash'
-import Contestant from './ContestantProvider'
+import CustomTable from '../widgets/Table/CustomTable'
+import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import ExpandedContestant from './ExpandedContestantProvider'
+import { usePrizesThemeClass } from '../hooks/useThemeClass'
+
 
 function getRankDisplayById(rows: ScoreboardRow[]) {
     const rankDisplayById = {} as Dictionary<string>
@@ -12,7 +16,7 @@ function getRankDisplayById(rows: ScoreboardRow[]) {
             rankDisplayById[id] = '-'
         } else {
             lastRank = rank
-            rankDisplayById[id] = `${rank}`
+            rankDisplayById[id] = `${rank}.`
         }
     }
     return rankDisplayById
@@ -20,40 +24,113 @@ function getRankDisplayById(rows: ScoreboardRow[]) {
 
 interface Props {
     rows: ScoreboardRowDetailed[]
+    hasData: boolean
+    currentUtlId: number
+    themeClass: string
+    tournamentName: string
 }
 
-function LeaderboardView({ rows }: Props) {
+function LeaderboardView({ rows, hasData, currentUtlId, themeClass, tournamentName }: Props) {
     const rankDisplayById = getRankDisplayById(rows)
+    const [expand, setExpand] = useState<number>(null)
+    const getPrizeTheme = usePrizesThemeClass()
+    const hasScores = !!rows.find(row => row.score > 0)
+    
+    const onRowClick = (model: ScoreboardRowDetailed) => {
+        if (expand === model.user_tournament_id){
+            setExpand(null)
+        } else {
+            setExpand(model.user_tournament_id)
+        }
+    }
+    const getExpandContent = (model: ScoreboardRowDetailed) => (
+        model.user_tournament_id === expand
+        ? (
+            <ExpandedContestant utlId={model.user_tournament_id} />
+        ) : null
+    )
+
+
+    const cells = [
+		{
+			id: 'rankChange',
+			header: '',
+            classes: {
+                header: 'rankChangeCell',
+                cell: 'rankChangeCell',
+            },
+            getter: (model: ScoreboardRowDetailed) => (
+                <>
+                    {!!model.change && (
+                        <div className={`rankChange ${model.change < 0 ? 'isNegative' : ''}`}>
+                            <span className='rankChange-value'>{Math.abs(model.change)}</span>
+                            <ArrowDownIcon className='rankChange-direction'/>
+                        </div>
+                    )}
+                </>
+            ),
+		},
+		{
+			id: 'rank',
+			header: '',
+            classes: {
+                header: 'rankCell',
+                cell: 'rankCell',
+            },
+            getter: (model: ScoreboardRowDetailed) => rankDisplayById[model.id],
+		},
+		{
+			id: 'name',
+			header: 'שם',
+			getter: (model: ScoreboardRowDetailed) => model.name,
+		},
+		{
+			id: 'score',
+			header: 'ניקוד',
+            classes: {
+                header: 'scoreCell',
+            },
+			getter: (model: ScoreboardRowDetailed) => (
+                <div className='scoreCell-container'>
+                    <div className='scoreCell-total'>
+                        {model.score}
+                    </div>
+                    {!!model.addedScore && (
+                        <div className='scoreCell-added'>
+                            <span>{model.addedScore}</span>
+                            <span>+</span>
+                        </div>
+                    )}
+                </div>
+            ),
+		},
+    ]
+
+    const getRowClassName = (model: ScoreboardRowDetailed) => {
+        const currentUtl = model.user_tournament_id === currentUtlId ? 'currentUtl' : ''
+        const index = rows.findIndex(row => row.id === model.id)
+        const prizeClass = hasScores ? getPrizeTheme(index + 1) : ''
+        return `${currentUtl} ${prizeClass}`
+    }
+
+
     return (
-        <div className="LigaBet-LeaderboardView">
+        <div className={`LB-LeaderboardView ${themeClass}`}>
             <h1 className='LB-TitleText'>טבלת ניקוד</h1>
-            <div className="row" style={{ margin: 0, padding: '5px 15px' }}>
-                <div
-                    className="col-xs-2 pull-right col-no-padding"
-                    style={{ textAlign: 'center' }}
-                >
-                    מיקום
+
+            <div className='LeaderboardView-content'>
+                <div className='tableTitleContainer'>
+                    <h4 className='tableTitle'>{tournamentName}</h4>
                 </div>
-                <div
-                    className="col-xs-8 pull-right col-no-padding"
-                    style={{ paddingRight: '7px' }}
-                >
-                    שם
-                </div>
-                <div
-                    className="col-xs-2 pull-right col-no-padding"
-                    style={{ paddingRight: '7px', textAlign: 'center' }}
-                >
-                    ניקוד
-                </div>
-            </div>
-            {Object.values(rows).map((row) => (
-                <Contestant
-                    key={row.id}
-                    scoreboardRow={row}
-                    rankDisplay={rankDisplayById[row.id]}
+                <CustomTable
+                    models={rows}
+                    cells={cells}
+                    getRowClassName={getRowClassName}
+                    onModelRowClick={onRowClick}
+                    getExpandContent={getExpandContent}
                 />
-            ))}
+            </div>
+
         </div>
     )
 }

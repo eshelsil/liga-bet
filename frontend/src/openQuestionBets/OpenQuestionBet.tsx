@@ -11,7 +11,7 @@ import AddCircle from '@mui/icons-material/AddCircle'
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import { useIsXsScreen } from '../hooks/useMedia'
-import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
+import { useTournamentThemeClass } from '../hooks/useThemeClass'
 import { LoadingButton } from '../widgets/Buttons'
 import useCancelEdit from '../hooks/useCancelEdit'
 import { IsMultiBetDefaultForAll, MyOtherBettableUTLs } from '../_selectors'

@@ -1,13 +1,19 @@
 import React from 'react'
-import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
 import { QuestionBetWithRelations } from '../types'
 import { SpecialAnswerSmall } from '../widgets/specialAnswer'
 import CustomTable from '../widgets/Table/CustomTable'
 
 
-const SpecialBetsTable = ({ bets }: { bets: QuestionBetWithRelations[] }) => {
-    const tournamentClass = useTournamentThemeClass();
+interface Props {
+    bets: QuestionBetWithRelations[],
+    headers?: {
+        bet?: string,
+        result?: string,
+    },
+}
 
+
+const SpecialBetsTable = ({ bets, headers }: Props) => {
 	const cells = [
 		{
 			id: 'id',
@@ -28,7 +34,7 @@ const SpecialBetsTable = ({ bets }: { bets: QuestionBetWithRelations[] }) => {
 		},
 		{
 			id: 'bet',
-			header: 'הניחוש שלך',
+			header: headers?.bet ?? 'ניחוש',
             classes: {
                 cell: 'alignToTop'
             },
@@ -41,7 +47,7 @@ const SpecialBetsTable = ({ bets }: { bets: QuestionBetWithRelations[] }) => {
 		},
 		{
 			id: 'result',
-			header: 'תוצאה בפועל',
+			header: headers?.result ?? 'תוצאה',
 			getter: (model: QuestionBetWithRelations) => (<>
                 {model.relatedQuestion.answer.map((answer) => (
                     <SpecialAnswerSmall
@@ -55,15 +61,15 @@ const SpecialBetsTable = ({ bets }: { bets: QuestionBetWithRelations[] }) => {
 		{
 			id: 'score',
 			header: 'נק\'',
+            classes: {
+                cell: 'scoreCell',
+            },
 			getter: (model: QuestionBetWithRelations) => model.score,
 		},
     ]
 	
     return (
-        <div className='LB-MyQuestionBetsTable LB-MyBetsSection'>
-            <div className={`MyBetsSection-header ${tournamentClass}`}>
-                <h4 className='MyBetsSection-title'>{'שאלות מיוחדות'}</h4>
-            </div>
+        <div className='LB-SpecialBetsTable'>
             <CustomTable models={bets} cells={cells} />
         </div>
     )

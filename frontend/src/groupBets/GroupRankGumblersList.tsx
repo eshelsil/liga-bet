@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
+import { useTournamentThemeClass } from '../hooks/useThemeClass'
 import { getStandingsBetValue, keysOf } from '../utils'
 import { GroupRankBetWithRelations, GroupWithTeams, Team } from '../types'
 import GroupStandingsResult from '../widgets/GroupStandings'

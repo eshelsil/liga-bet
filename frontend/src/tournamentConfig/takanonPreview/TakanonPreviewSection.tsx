@@ -4,7 +4,7 @@ function TakanonPreviewSection({children}){
 	return (
 		<div className='LigaBet-TakanonPreviewSection'>
 			<h4 className='takanonDemoTitle'>איך זה יראה בתקנון:</h4>
-			<div className='takanonDemo'>
+			<div>
 				{children}
 			</div>
 		</div>

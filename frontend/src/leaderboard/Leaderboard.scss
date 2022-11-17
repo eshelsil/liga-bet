@@ -1,5 +1,9 @@
 @use '../styles/common/rankBgColor.scss';
 @import '../styles/themes/tournaments';
+@import '../styles/themes/prizes';
+@import '../styles/mixins';
+@import '../styles/shadows';
+@import '../styles/colors';
 
 .LigaBet-LeaderboardView {
     .LigaBet-Contestant {
@@ -21,6 +25,15 @@
             .tableTitle {
                 color: #fff;
             }
+        }
+    }
+}
+
+@mixin themable_prize_row($class, $color){
+    &.#{$class} {
+        background-color: rgba($color, 0.95);
+        .MuiTableCell-root {
+            color: white;
         }
     }
 }
@@ -56,22 +69,106 @@
                 padding: 8px 16px;
                 font-size: 16px;
                 font-weight: 700;
-                &.rankCell {
-                    width: 50px;
-                }
-                &.scoreCell {
-                    width: 70px;
-                }
             }
             .LigaBet-CustomTableRow {
                 border-top: 1px solid #ddd;
+                @include themable_prize_row(prize-theme-1, $prize_1);
+                @include themable_prize_row(prize-theme-2, $prize_2);
+                @include themable_prize_row(prize-theme-3, $prize_3);
+                @include themable_prize_row(prize-theme-4, $prize_4);
+                @include themable_prize_row(prize-theme-5, $prize_5);
+                @include themable_prize_row(prize-theme-6, $prize_6);
                 &.currentUtl {
                     background-color: rgba(220, 220, 220, 0.35);
                 }
-                .MuiTableCell-root {
-                    font-size: 16px;
+            }
+            .MuiTableCell-root {
+                font-size: 16px;
+                &.rankChangeCell {
+                    width: 0px;
+                    padding-left: 0px;
+                    padding-right: 8px;
+                }
+                &.rankCell {
+                    width: 0px;
+                    padding-right: 8px;
+                }
+                &.scoreCell {
+                    width: 0px;
                 }
             }
+        }
+
+        .scoreCell-container {
+            display: flex;
+            align-items: center;
+            .scoreCell-total {
+                font-size: 18px;
+            }
+            .scoreCell-added {
+                padding: 3px 4px;
+                background-color: green;
+                margin-right: 8px;
+                color: #fff;
+                border-radius: 4px;
+                line-height: 1;
+                font-size: 12px;
+                margin-top: -1px;
+            }
+        }
+        .rankChange {
+            @include flexRow;
+            box-shadow: $basic-shadow;
+            border-radius: 50%;    display: flex;
+            padding-right: 6px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            border-radius: 20px;
+            margin-top: -3px;
+            .rankChange-value {
+                font-size: 14px;
+                line-height: 1;
+            }
+            .rankChange-direction {
+                color: $success-main;
+                transform: rotate(180deg);
+            }
+            &.isNegative {
+                .rankChange-direction {
+                    color: $error-main;
+                    transform: rotate(0deg);
+                }
+            }
+            
+        }
+    }
+}
+
+.LB-ExpanededContestantView {
+    .LB-SpecialBetsTable, .LB-GameBetsTable, .LB-GroupRankBetsTable {
+        .MuiTableContainer-root {
+            background-color: rgb(255 255 255 / 95%);
+            border-radius: 12px;
+            @media (max-width: 600px) {
+                .MuiTableCell-root {
+                    padding: 8px
+                }
+            }
+            .MuiTableCell-root {
+                &.alignToTop {
+                    vertical-align: top;
+                }
+                &.scoreCell {
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+    @media (max-width: 500px) {
+        .MuiTableContainer-root {
+            width: calc(100% + 16px);
+            margin-right: -8px;
         }
     }
 }

@@ -1,11 +1,10 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
+import { useTournamentThemeClass } from '../hooks/useThemeClass'
 import { ScoreboardRowDetailed, UTL } from '../types'
 import { CurrentTournamentName, CurrentTournamentUserId } from '../_selectors'
 import { LeaderboardSelector } from '../_selectors/leaderboard'
 import LeaderboardView from './LeaderboardView'
-import NewLeaderboardView from './NewLeaderboardView'
 import './Leaderboard.scss'
 
 
@@ -35,24 +34,13 @@ function Leaderboard() {
 
     return (
         <>
-            <NewLeaderboardView
+            <LeaderboardView
                 rows={rows}
                 currentUtlId={currentUtlId}
                 hasData={hasData}
                 themeClass={themeClass}
                 tournamentName={tournamentName}
             />
-            {/* {hasData && (
-                <LeaderboardView rows={rows} hasData={hasData} />
-            )}
-            {!hasData && (
-                <NewLeaderboardView
-                    rows={rows}
-                    currentUtlId={currentUtlId}
-                    hasData={hasData}
-                    themeClass={themeClass}
-                />
-            )} */}
         </>
     )
 }

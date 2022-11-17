@@ -9,7 +9,7 @@ export const LatestLeaderboard = createSelector(
         const latestVersion = versions[0]
         if (!latestVersion) return {}
         const prevVersion = versions[1]
-        const prevVersionContestantsById = prevVersion.leaderboard ?? {}
+        const prevVersionContestantsById = prevVersion?.leaderboard ?? {}
         const constestantsById = latestVersion.leaderboard
         return mapValues(constestantsById, (contestant: ScoreboardRow) => {
             const contestantOnPrevVersion =

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
+import { useTournamentThemeClass } from '../hooks/useThemeClass'
 import { MatchWithABet, WinnerSide } from '../types'
 import { DEFAULT_DATE_FORMAT, DEFAULT_TIME_FORMAT } from '../utils/index'
 import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'

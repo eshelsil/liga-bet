@@ -1,7 +1,7 @@
 import React from 'react'
-import SpecialBetsTable from './SpecialBetsTable'
-import MatchesBetsTable from './MatchesBetsTable'
-import GroupPositionBetsTable from './GroupPositionBetsTable'
+import MySpecialBetsTable from './MySpecialBetsTable'
+import MyGameBetsTable from './MyGameBetsTable'
+import GroupPositionBetsTable from './MyGroupPositionBetsTable'
 import { MyBetsSelector } from '../_selectors'
 import { useSelector } from 'react-redux'
 import { useMyGameBets } from '../hooks/useFetcher'
@@ -17,8 +17,8 @@ const MyBetsView = () => {
     return (
         <div className="LB-MyBetsView">
             <h1 className='LB-TitleText'>הטופס שלי</h1>
-            <SpecialBetsTable bets={questionBets} />
-            <MatchesBetsTable bets={matchBets} />
+            <MySpecialBetsTable bets={questionBets} />
+            <MyGameBetsTable bets={matchBets} />
             <GroupPositionBetsTable bets={groupRankBets} />
         </div>
     )

@@ -3,7 +3,7 @@ import { QuestionBetWithRelations, SpecialQuestionAnswer, SpecialQuestion } from
 import { keysOf } from '../utils'
 import CustomTable from '../widgets/Table/CustomTable'
 import { SpecialAnswer } from '../widgets/specialAnswer'
-import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
+import { useTournamentThemeClass } from '../hooks/useThemeClass'
 import { groupBy, orderBy } from 'lodash'
 
 

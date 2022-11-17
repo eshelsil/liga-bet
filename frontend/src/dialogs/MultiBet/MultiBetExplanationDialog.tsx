@@ -5,7 +5,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 import { Button, Checkbox, FormControlLabel, Switch } from '@mui/material'
-import { useTournamentThemeClass } from '../../hooks/useTournamentTheme'
+import { useTournamentThemeClass } from '../../hooks/useThemeClass'
 import MultiBetsSettingsView from '../../multiBetsSettings/MultiBetsSettingsView'
 
 interface Props {

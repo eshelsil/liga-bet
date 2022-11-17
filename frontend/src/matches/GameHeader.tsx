@@ -4,7 +4,7 @@ import CustomTable from '../widgets/Table/CustomTable'
 import { Match, WinnerSide } from '../types'
 import { Model as TableModel } from '../widgets/Table';
 import TeamWithFlagVertical from '../widgets/TeamFlag/TeamWithFlagVertical'
-import { useTournamentThemeClass } from '../hooks/useTournamentTheme'
+import { useTournamentThemeClass } from '../hooks/useThemeClass'
 
 
 interface RowModel {
@@ -34,8 +34,8 @@ function GameHeader({ match }: { match: Match }) {
         ...( true || is_done ? [
             {
                 id: '90min',
-                home: result_home || 5,
-                away: result_away || 7,
+                home: result_home,
+                away: result_away,
                 delimiter: is_knockout ? '90\'' : '',
             },
             ...(is_knockout ? [
