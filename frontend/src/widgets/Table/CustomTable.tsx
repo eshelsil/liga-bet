@@ -8,6 +8,8 @@ export default function CustomTable<T>({
 	models,
 	cells,
 	getRowClassName,
+	onModelRowClick,
+	getExpandContent,
 }: CustomTableProps<Model>) {
 	return (
 		<TableContainer className='LigaBet-CustomTable' component={Paper}>
@@ -26,6 +28,8 @@ export default function CustomTable<T>({
 							model={model}
 							cells={cells}
 							getRowClassName={getRowClassName}
+							onClick={onModelRowClick}
+							getExpandContent={getExpandContent}
 						/>
 					))}
 				</TableBody>
