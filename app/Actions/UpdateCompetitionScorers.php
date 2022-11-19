@@ -42,7 +42,7 @@ class UpdateCompetitionScorers
         $players = $competition->players->keyBy("external_id");
         $newGoalsAndAssistsData = [];
         /** @var \App\Game $game */
-        $game = null;
+        $hasDoneGames = false;
         /** @var \App\DataCrawler\Player $scorer */
         foreach ($scorers as $scorer) {
             /** @var Player $player */
@@ -53,7 +53,13 @@ class UpdateCompetitionScorers
                 
                 $game = $relevantGames->first(fn($g) => in_array($player->team_id, [$g->team_home_id, $g->team_away_id]));
                 $gameId = $game->id;
+
+                if (!is_null($scorer->goals) || !is_null($scorer->assists)){
+                    $this->savePleyerGameGoalsData->handle($player->id, $gameId, $scorer->goals ?? 0, $scorer->assists ?? 0);
+                }
+
                 if ($game->is_done){
+                    $hasDoneGames = true;
                     $goalsDiff = $scorer->goals - $player->goals;
                     $assistsDiff = $scorer->assists - $player->assists;
                     $hasGoalsChange = !is_null($scorer->goals) && $goalsDiff != 0;
@@ -74,19 +80,11 @@ class UpdateCompetitionScorers
                     $player->assists = $scorer->assists ?? $player->assists;
                     $player->save();
                 }
-
-
-
-                if (!is_null($scorer->goals) || !is_null($scorer->assists)){
-                    $this->savePleyerGameGoalsData->handle($player->id, $gameId, $scorer->goals ?? 0, $scorer->assists ?? 0);
-                }
             }
-            
         }
 
-        $competition->unsetRelation("players");
-
-        if ($game->is_done) {
+        if ($hasDoneGames) {
+            $competition->unsetRelation("players");
             $answer = $competition->getTopScorersIds()->join(",") ?: null;
             $this->calculateSpecialBets->execute($competition->id, SpecialBet::TYPE_TOP_SCORER, $answer);
             $answer = $competition->getMostAssistsIds()->join(",") ?: null;
@@ -94,5 +92,6 @@ class UpdateCompetitionScorers
     
             $this->updateLeaderboards->handleNewScorersData($competition, collect($newGoalsAndAssistsData));
         }
+
     }
 }
