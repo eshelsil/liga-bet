@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { LeaderboardVersionById } from '../types'
 import { LeaderboardVersionApiModel } from '../types'
-import { keyBy } from 'lodash'
+import { keyBy, orderBy } from 'lodash'
 
 
 type State = Record<number, LeaderboardVersionById>
@@ -24,7 +24,9 @@ const leaderboard = createSlice({
         ) => {
             const {tournamentId, leaderboardVersions} = action.payload
             state[tournamentId] = state[tournamentId] ?? {};
-            for (const version of leaderboardVersions) {
+            const formattedVersions = orderBy(leaderboardVersions, 'created_at', 'asc')
+                .map((version, index) => ({...version, order: index + 1}))
+            for (const version of formattedVersions) {
                 state[tournamentId][version.id] = {
                     ...version,
                     leaderboard: keyBy(

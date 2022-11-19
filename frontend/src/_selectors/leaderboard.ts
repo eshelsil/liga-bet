@@ -1,7 +1,5 @@
-import { groupBy, orderBy } from 'lodash'
 import { createSelector } from 'reselect'
-import { ScoreboardRowDetailed } from '../types'
-import { valuesOf } from '../utils'
+import { formatLeaderboardVersion, valuesOf } from '../utils'
 import { Contestants, IsTournamentStarted } from './base'
 import { LatestLeaderboard } from './logic/scoreboard'
 import {
@@ -9,21 +7,15 @@ import {
     MatchBetsWithPositiveScores,
     QuestionBetsByUserQuestionId,
 } from './modelRelations'
+import { groupBy } from 'lodash'
 
 export const LeaderboardSelector = createSelector(
     LatestLeaderboard,
     IsTournamentStarted,
     Contestants,
     (leaderboard, hasTournamentStarted, contestants) => {
-        const leaderBoardWithNames: ScoreboardRowDetailed[] = Object.values(leaderboard).map(
-            (scoreboardRow) => ({
-                ...scoreboardRow,
-                name: contestants[scoreboardRow.user_tournament_id]?.name ?? '',
-            })
-        )
-        const sortedScoreboard = orderBy(leaderBoardWithNames, 'rank')
         return {
-            leaderboard: sortedScoreboard,
+            leaderboard: formatLeaderboardVersion(leaderboard, contestants),
             contestants: valuesOf(contestants),
             hasTournamentStarted,
         }
