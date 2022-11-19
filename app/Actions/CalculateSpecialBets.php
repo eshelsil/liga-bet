@@ -10,6 +10,7 @@ namespace App\Actions;
 
 use App\Competition;
 use App\SpecialBets\SpecialBet;
+use Illuminate\Database\Eloquent\Collection;
 
 class CalculateSpecialBets
 {
@@ -17,7 +18,8 @@ class CalculateSpecialBets
         // TODO: SpecialBet -> Eloquent. add competitionId
         // ->where("competition_id", $competition->id)
         SpecialBet::where("type", $type)
-            ->when($answer, fn(SpecialBet $specialBet) => $specialBet->update(["answer" => $answer]))
+            ->get()
+            ->when($answer, fn(Collection $specialBets) => $specialBets->toQuery()->update(["answer" => $answer]))
             ->each(fn(SpecialBet $specialBet) => $specialBet->calculateBets());
 
         return "completed";

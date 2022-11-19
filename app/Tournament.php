@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\Competition|null $competition
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\LeaderboardsVersion[] $leaderboardVersions
  * @property-read int|null $leaderboard_versions_count
+ * @property-read \App\LeaderboardsVersion|null $leaderboardVersionsLatest
  * @property-read \Illuminate\Database\Eloquent\Collection|SpecialBet[] $specialBets
  * @property-read int|null $special_bets_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\TournamentUser[] $utls
@@ -82,6 +83,11 @@ class Tournament extends Model
     public function leaderboardVersions(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(LeaderboardsVersion::class);
+    }
+
+    public function leaderboardVersionsLatest(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(LeaderboardsVersion::class)->latestOfMany();
     }
 
     public function confirmedUtls()

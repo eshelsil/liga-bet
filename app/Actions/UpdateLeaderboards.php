@@ -25,6 +25,11 @@ class UpdateLeaderboards
 
     public function updateRanks(Tournament $tournament, string $versionDescription)
     {
+        if (config("test.onlyTournamentId") && config("test.onlyTournamentId") != $tournament->id) {
+            return;
+        }
+
+        \Log::debug("[UpdateLeaderboards][handle] Started!!!");
         $betsScoreSum = $tournament->bets()
                      ->select(["user_tournament_id", DB::raw("COALESCE(sum(bets.score), 0) as total_score")])
                      ->groupBy(["user_tournament_id"])
