@@ -93,7 +93,7 @@ class UpdateCompetition
             if (!$existingNonFinishedGames->has($crawlerGame->externalId)) {
                 return false;
             }
-            return true;
+            return $crawlerGame->isStarted;
         });
 
         $updatedGames = $this->updateGames($competition, $gamesWithScore, $existingNonFinishedGames);

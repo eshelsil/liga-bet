@@ -14,6 +14,7 @@ use App\Leaderboard;
 use App\LeaderboardsVersion;
 use App\SpecialBets\SpecialBet;
 use App\Tournament;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 use Log;
 
@@ -55,10 +56,13 @@ class UpdateLeaderboards
                 $rank = $i + 1;
             }
 
-            $leader = new Leaderboard();
-            $leader->tournament_id      = $tournament->id;
-            $leader->user_tournament_id = $userScore->user_tournament_id;
-            $leader->version_id         = $version->id;
+            $leader = $version->leaderboards->first(fn($l) => $l->user_tournament_id == $userScore->user_tournament_id);
+            if (!$leader) {
+                $leader = new Leaderboard();
+                $leader->tournament_id      = $tournament->id;
+                $leader->user_tournament_id = $userScore->user_tournament_id;
+                $leader->version_id         = $version->id;
+            }
             $leader->rank               = $rank;
             $leader->score = $lastScore = $userScore->total_score;
             $leader->save();
@@ -119,7 +123,7 @@ class UpdateLeaderboards
                 $scoreDiffByUtlId[$utlId] += $scoreDiff;
             }
         }
-        foreach ($utlsByTopAssitsId as $playerId => $scoreDiff) {
+        foreach ($assistsScoreDiffByPlayerId as $playerId => $scoreDiff) {
             foreach($utlsByTopScorerId[$playerId] as $utlId){
                 if (!array_key_exists($utlId, $scoreDiffByUtlId)){
                     $scoreDiffByUtlId[$utlId] = 0;
@@ -139,22 +143,31 @@ class UpdateLeaderboards
         
         $updatedGameIds = $scorersByGameId->keys();
         $allVersions = $tournament->leaderboardVersions->sortBy('created_at');
-        $existingVersions = $allVersions->whereIn('game_id', $updatedGameIds);
-        $earliestVersion = $existingVersions->first();
-        $versionsToUpdate = $earliestVersion ? $allVersions->slice($allVersions->search(fn($v) => $v->id = $earliestVersion->id)) : collect([]);
+        $earliestVersion = $allVersions->first(fn($version) => $updatedGameIds->contains($version->game_id));
+        if (!$earliestVersion){
+            return;
+        }
+        $versionsToUpdate = $allVersions->slice($allVersions->search(fn($v) => $v->id = $earliestVersion->id));
         $gameIdsByLeaderboardVersionOrder = $versionsToUpdate->pluck("game_id");
 
         $scorerSpecialBet = $tournament->specialBets->firstWhere("type", SpecialBet::TYPE_TOP_SCORER);
-        $utlsByTopScorerId = $tournament->bets
-            ->where(['type' => BetTypes::SpecialBet, "type_id" => $scorerSpecialBet->id])
-            ->groupBy(fn($bet) => $bet->getAnswer())
-            ->map(fn($bet) => $bet->user_tournament_id);
-
         $assistsSpecialBet = $tournament->specialBets->firstWhere("type", SpecialBet::TYPE_MOST_ASSISTS);
-        $utlsByTopAssitsId = $tournament->bets
-            ->where(['type' => BetTypes::SpecialBet, "type_id" => $assistsSpecialBet->id])
+        $topScorerAndAssistsBets = $tournament
+            ->load([
+                "bets" => function (HasMany $query) use ($scorerSpecialBet, $assistsSpecialBet) {
+                    $query->where(['type' => BetTypes::SpecialBet, "type_id" => $scorerSpecialBet->id]);
+                    $query->orWhere(['type' => BetTypes::SpecialBet, "type_id" => $assistsSpecialBet->id]);
+                }
+            ])->bets;
+        $utlsByTopScorerId = $topScorerAndAssistsBets
+            ->where("type_id", $scorerSpecialBet->id)
             ->groupBy(fn($bet) => $bet->getAnswer())
-            ->map(fn($bet) => $bet->user_tournament_id);
+            ->map(fn($bets) => $bets->map(fn($bet) => $bet->user_tournament_id));
+
+        $utlsByTopAssitsId = $tournament->bets
+            ->where("type_id", $assistsSpecialBet->id)
+            ->groupBy(fn($bet) => $bet->getAnswer())
+            ->map(fn($bets) => $bets->map(fn($bet) => $bet->user_tournament_id));
         
     
         $versionsToUpdate->each(function($version) use (
@@ -181,11 +194,28 @@ class UpdateLeaderboards
 
     public function updateVersionsByNewData(LeaderboardsVersion $version, $scoreDiffByUtlId)
     {
+        $hasChanges = false;
+        $scoreboardRows = $version->leaderboards;
         foreach($scoreDiffByUtlId as $utlId => $scoreDiff){
-            $leader = $version->leaderboards->firstWhere(fn($l) => $l->user_tournament_id == $utlId);
+            if ($scoreDiff != 0){
+                $hasChanges = true;
+            }
+            $leader = $scoreboardRows->firstWhere(fn($l) => $l->user_tournament_id == $utlId);
             $leader->score += $scoreDiff;
-            Log::debug("Updated leaderboard-row score: added $scoreDiff points to utl $utlId on version $version->id");
-            $leader->save();
+            Log::debug("Added $scoreDiff scores to scoreboard-row of utl $utlId on version $version->id");
+        }
+        if ($hasChanges){
+            $lastScore = null;
+            $rank = null;
+            $scoreboardRows->sortByDesc('score')->each(function($leader, $i) use($rank, $lastScore, $version) {
+                if ($lastScore != $leader->score) {
+                    $rank = $i + 1;
+                }
+                $leader->rank = $rank;
+                $lastScore = $leader->score;
+                $leader->save();
+                Log::debug("Updated ScoreboardRow data [utl:$leader->user_tournament_id | version:$version->id] (newScore:$leader->score, newRank: $leader->rank)");
+            });
         }
     }
 
