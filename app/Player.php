@@ -5,6 +5,7 @@ namespace App;
 use App\Game;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Validator;
 
 /**
@@ -41,6 +42,11 @@ class Player extends Model
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
+    }
+
+    public function goalsData(): HasMany
+    {
+        return $this->hasMany(GameDataGoal::class);
     }
 
     public static function generate(Team $team, \App\DataCrawler\Player $playerData)

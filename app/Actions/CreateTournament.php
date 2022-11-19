@@ -70,7 +70,7 @@ class CreateTournament
                 throw new JsonException("לא ניתן ליצור יותר מטורניר אחד", 403);
             }
         }
-        if (Tournament::count() >= 50) {
+        if (Tournament::count() >= 100) {
             throw new JsonException("נפתחו כבר 50 טורנירים, לא ניתן ליצור טורניר חדש", 403);
         }
     }

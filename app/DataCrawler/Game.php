@@ -16,7 +16,7 @@ class Game
         public readonly string $subType,
         public readonly string $teamHomeExternalId,
         public readonly string $teamAwayExternalId,
-        public readonly ?int $startTime,
+        public ?int $startTime,
         public ?int $resultHome,
         public ?int $resultAway,
         public ?int $koWinnerExternalId,
