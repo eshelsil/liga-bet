@@ -118,18 +118,18 @@ class CreateCompetition
 
     private function saveGames(Collection $games): Collection
     {
-        return $this->games = $games->map(function ($gameData) {
+        return $this->games = $games->map(function (\App\DataCrawler\Game $crawlerGame) {
             $game = new Game();
             $game->competition_id = $this->competition->id;
-            $game->external_id  = $gameData['external_id'];
-            $game->type         = $gameData['type'];
-            $game->sub_type     = $gameData['sub_type'];
-            $game->team_home_id = $this->teams->get($gameData['team_home_external_id'])->id;
-            $game->team_away_id = $this->teams->get($gameData['team_away_external_id'])->id;
-            $game->start_time   = $gameData['start_time'];
+            $game->external_id  = $crawlerGame->externalId;
+            $game->type         = $crawlerGame->type;
+            $game->sub_type     = $crawlerGame->subType;
+            $game->team_home_id = $this->teams->get($crawlerGame->teamHomeExternalId)->id;
+            $game->team_away_id = $this->teams->get($crawlerGame->teamAwayExternalId)->id;
+            $game->start_time   = $crawlerGame->startTime;
             $game->save();
 
-            Log::debug("Saving Game: {$game->team_home_id} {$this->teams->get($gameData['team_home_external_id'])->name} vs. {$game->team_away_id} {$this->teams->get($gameData['team_away_external_id'])->name}");
+            Log::debug("Saving Game: {$game->team_home_id} {$this->teams->get($crawlerGame->teamHomeExternalId)->name} vs. {$game->team_away_id} {$this->teams->get($crawlerGame->teamAwayExternalId)->name}");
 
             return $game;
         })->keyBy("external_id");
