@@ -5,6 +5,7 @@ export interface LeaderboardVersionBase {
     id: number
     description: string
     created_at: Date
+    order?: number
 }
 
 export interface LeaderboardVersionApiModel extends LeaderboardVersionBase {
