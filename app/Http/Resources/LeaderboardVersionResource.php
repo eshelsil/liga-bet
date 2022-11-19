@@ -19,13 +19,27 @@ class LeaderboardVersionResource extends JsonResource
     {
         /** @var LeaderboardsVersion $version */
         $version = $this->resource;
+
+        $leaderboards = static::calcScoreBoardRank($version->leaderboards->sortByDesc("score"));
+
         return [
             "id"              => $version->id,
             "description"     => $version->description,
             "created_at"      => $version->created_at,
-            "leaderboard"     => $version->leaderboards
-                ->sortByDesc("score")
+            "leaderboard"     => $leaderboards
                 ->map(fn (Leaderboard $l) => $l->only(["id", "user_tournament_id", "rank", "score"])),
         ];
+    }
+
+    public static function calcScoreBoardRank($scoreboardsDesc){
+        $lastScore = null;
+        $rank = null;
+        return $scoreboardsDesc->map(function($leader, $i) use($rank, $lastScore) {
+            if ($lastScore != $leader->score) {
+                $rank = $i + 1;
+            }
+            $leader->rank = $rank;
+            $lastScore = $leader->score;
+        });
     }
 }
