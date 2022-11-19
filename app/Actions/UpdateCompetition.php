@@ -19,6 +19,7 @@ use App\Tournament;
 use App\User;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
@@ -57,22 +58,20 @@ class UpdateCompetition
         $data = collect();
 
         try {
-            \DB::transaction(function() use ($competition, &$data) {
+            \DB::transaction(function() use ($competition, $data) {
                 $this->handle($competition, true);
-                $data = $competition->tournaments
-                    ->when(config("test.onlyTournamentId"), function (\Illuminate\Database\Eloquent\Collection $ts) {
-                        return $ts->filter(fn(Tournament $t) => config("test.onlyTournamentId") == $t->id);
-                    })
+                $competition->tournaments
+                    ->filter(fn(Tournament $t) => !config("test.onlyTournamentId") || config("test.onlyTournamentId") == $t->id)
                     ->load([
                         "leaderboardVersionsLatest.leaderboards",
                         "bets" => function (HasMany $query) {
                             $query->whereNotNull('score');
                         }
                     ])
-                    ->mapWithKeys(fn (Tournament $t) => [$t->id => [
+                    ->each(fn (Tournament $t) => $data[$t->id] = [
                         "leaderboard" => $t->leaderboardVersionsLatest,
                         "bets" => $t->bets->groupBy("user_tournament_id")
-                    ]]);
+                    ]);
             });
         } catch (\Throwable $e) {}
 
@@ -86,25 +85,21 @@ class UpdateCompetition
 
         $this->saveNewGames($competition, $crawlerGames, $existingGames);
 
-        $existingGamesWithNoScore = $existingGames//->where("is_done", false)
+        $existingNonFinishedGames = $existingGames->where("is_done", false)
             ->keyBy("external_id");
 
-        $gamesWithScore = $crawlerGames->filter(function(CrawlerGame $crawlerGame) use ($existingGamesWithNoScore, $updateExternalIncompleted) {
-            if (!$existingGamesWithNoScore->has($crawlerGame->externalId)) {
+
+        $gamesWithScore = $crawlerGames->filter(function(CrawlerGame $crawlerGame) use ($existingNonFinishedGames, $updateExternalIncompleted) {
+            if (!$existingNonFinishedGames->has($crawlerGame->externalId)) {
                 return false;
             }
-
-            return $updateExternalIncompleted ? $crawlerGame->isStarted : $crawlerGame->isDone;
+            return true;
         });
 
-        $updatedGames = $this->updateGames($competition, $gamesWithScore, $existingGamesWithNoScore);
+        $updatedGames = $this->updateGames($competition, $gamesWithScore, $existingNonFinishedGames);
+        $this->updateScorers->handle($competition);
 
         if ($gamesWithScore->isNotEmpty()) {
-            $teams = new EloquentCollection();
-            $updatedGames->load(["teamHome", "teamAway"])
-                         ->each(fn(Game $g) => $teams->add($g->teamHome)->add($g->teamAway));
-            $this->updateScorers->handle($competition, $teams);
-
             if ($competition->hasAllGroupsStandings()) {
                 $this->updateStandings->handle($competition);
             }
@@ -155,44 +150,47 @@ class UpdateCompetition
     /**
      * @param Competition        $competition
      * @param Collection $gamesWithScore
-     * @param EloquentCollection             $gamesWithNoScore
+     * @param EloquentCollection             $nonFinishedGames
      *
      * @return EloquentCollection
      */
     protected function updateGames(
         Competition $competition,
         Collection $gamesWithScore,
-        EloquentCollection $gamesWithNoScore
+        EloquentCollection $nonFinishedGames
     ): EloquentCollection {
         $teamsByExternalId = $competition->teams->pluck("id", "external_id");
         $games = new EloquentCollection();
         /** @var CrawlerGame $gameData */
         foreach ($gamesWithScore as $gameData) {
             /** @var Game $game */
-            $game = $gamesWithNoScore->get($gameData->externalId);
+            $game = $nonFinishedGames->get($gameData->externalId);
             $game->result_home = $gameData->resultHome;
             $game->result_away = $gameData->resultAway;
-            if ($gameData->koWinnerExternalId) {
+            $game->is_done = $gameData->isDone;
+            if ($gameData->isDone && $gameData->koWinnerExternalId) {
                 $game->ko_winner   = $teamsByExternalId[$gameData->koWinnerExternalId];
             }
             $game->save();
 
             $games->add($game);
 
-            Log::debug("Saving Result of Game: ext_id - " . $game->external_id . " | id - " . $game->id . "-> " . $game->result_home . " - " . $game->result_away);
-            $this->updateGameBets->handle($game);
-            $this->updateLeaderboards->handle($game->competition);
-
-            if ($game->isKnockout()) {
-                $winner = null;
-                $runnerUp = null;
-                if ($game->sub_type == 'FINAL') {
-                    $winner = $game->ko_winner;
-                    $runnerUp = $game->ko_winner == $game->team_home_id ? $game->team_away_id : $game->team_home_id;
+            Log::debug("Saving Result of Game: status - ".($game->is_done ? 'done' : 'live')."  ext_id - " . $game->external_id . " | id - " . $game->id . "-> " . $game->result_home . " - " . $game->result_away);
+            if ($game->is_done){
+                $this->updateGameBets->handle($game);
+                $this->updateLeaderboards->handle($game->competition, $game->id);
+    
+                if ($game->isKnockout()) {
+                    $winner = null;
+                    $runnerUp = null;
+                    if ($game->sub_type == 'FINAL') {
+                        $winner = $game->ko_winner;
+                        $runnerUp = $game->ko_winner == $game->team_home_id ? $game->team_away_id : $game->team_home_id;
+                    }
+    
+                    $this->calculateSpecialBets->execute($game->competition_id, SpecialBet::TYPE_WINNER, $winner);
+                    $this->calculateSpecialBets->execute($game->competition_id, SpecialBet::TYPE_RUNNER_UP, $runnerUp);
                 }
-
-                $this->calculateSpecialBets->execute($game->competition_id, SpecialBet::TYPE_WINNER, $winner);
-                $this->calculateSpecialBets->execute($game->competition_id, SpecialBet::TYPE_RUNNER_UP, $runnerUp);
             }
         }
 

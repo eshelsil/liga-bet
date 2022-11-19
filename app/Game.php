@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Arr;
 
@@ -109,6 +110,11 @@ class Game extends Model implements BetableInterface
         return $this->belongsTo(Competition::class, "competition_id");
     }
 
+    public function goalsData(): HasMany
+    {
+        return $this->hasMany(GameDataGoal::class);
+    }
+
     public function isClosedForBets()
     {
         return $this->start_time < time() + config("bets.lockBeforeSeconds");
@@ -184,11 +190,6 @@ class Game extends Model implements BetableInterface
         return $result_away.":".$result_home;
     }
 
-    public function getIsDoneAttribute()
-    {
-        return !is_null($this->attributes["result_home"]) &&
-               !is_null($this->attributes["result_away"]);
-    }
 
     /**
      * Scope a query to only include active users.
@@ -198,13 +199,7 @@ class Game extends Model implements BetableInterface
      */
     public function scopeIsDone($query, $isDone)
     {
-        return $query->when($isDone, function (Builder $b) {
-                $b->whereNotNull("result_home")
-                  ->whereNotNull("result_away");
-            },  function (Builder $b) {
-                $b->whereNull("result_home")
-                  ->whereNull("result_away");
-            });
+        return $query->where('is_done', $isDone);
     }
 
 
