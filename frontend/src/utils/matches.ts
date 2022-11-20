@@ -20,3 +20,7 @@ export function isGameUpcoming(game: MatchCommonBase) {
 export function isGameStarted(game: MatchCommonBase) {
     return new Date(game.start_time) < new Date()
 }
+
+export function isGameLive(game: MatchCommonBase) {
+    return isGameStarted(game) && !game.is_done
+}

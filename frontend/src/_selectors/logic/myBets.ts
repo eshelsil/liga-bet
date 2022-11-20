@@ -60,3 +60,19 @@ export const MyWinnerTeamSelector = createSelector(
         return winnerBet ? winnerBet.answer : null
     }
 )
+
+export const MyTopScorerSelector = createSelector(
+    MyQuestionBetsSelector,
+    (questionBets) => {
+        const topScorerBet = questionBets.find(bet => bet.relatedQuestion.type === SpecialQuestionType.TopScorer)
+        return topScorerBet ? topScorerBet.answer : null
+    }
+)
+
+export const MyTopAssistsSelector = createSelector(
+    MyQuestionBetsSelector,
+    (questionBets) => {
+        const topAssistsBet = questionBets.find(bet => bet.relatedQuestion.type === SpecialQuestionType.TopAssists)
+        return topAssistsBet ? topAssistsBet.answer : null
+    }
+)

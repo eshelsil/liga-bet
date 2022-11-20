@@ -89,6 +89,7 @@ Route::prefix("/api/tournaments/{tournamentId}/")->middleware("confirmed_user")
         Route::get('bets/primal', [BetsController::class, 'visiblePrimalBets']);
         Route::get('groups', [GroupsController::class, 'index']);
         Route::get('games', [GamesController::class, 'index']);
+        Route::get('goals', [GamesController::class, 'getGoalsData']);
         Route::get('players', [PlayersController::class, 'index']);
         Route::get("leaderboards", [LeaderboardController::class, 'index']);
         Route::get("contestants", [UserController::class, 'getTournamentUTLs']);

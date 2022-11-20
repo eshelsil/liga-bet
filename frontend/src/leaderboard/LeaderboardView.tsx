@@ -4,7 +4,7 @@ import { maxBy } from 'lodash'
 import SimpleTabs from '../widgets/Tabs/Tabs';
 import { getHistoryLeaderboard, valuesOf } from '../utils';
 import { useSelector } from 'react-redux';
-import { Contestants, LeaderboardVersions } from '../_selectors';
+import { Contestants, LeaderboardVersions, LiveScoreboard } from '../_selectors';
 import LeaderboardHistoryForm, { HistoryFormState } from './LeaderboardHistoryForm';
 import LeaderboardTable from './LeaderboardTable';
 
@@ -21,6 +21,7 @@ interface Props {
 function LeaderboardView({ rows, hasData, currentUtlId, themeClass, tournamentName, isTournamentStarted }: Props) {
     const versionsById = useSelector(LeaderboardVersions)
     const contestants = useSelector(Contestants)
+    const liveTable = useSelector(LiveScoreboard)
     const [selectedStateIndex, setSelectedStateIndex] = useState(0)
 
     const latestVersion = maxBy(valuesOf(versionsById), 'created_at')
@@ -52,9 +53,12 @@ function LeaderboardView({ rows, hasData, currentUtlId, themeClass, tournamentNa
     const historyVersion = historyForm.to
     const prevHistoryVersion = historyForm.from || valuesOf(versionsById).find(v => v.order  === (historyVersion?.order - 1))
     const showHistory = historyVersion && selectedState === 'history'
+    const showLiveTable = historyVersion && selectedState === 'history'
     const models = showHistory
         ? getHistoryLeaderboard({historyVersion, contestants, prevVersion: prevHistoryVersion})
-        : rows
+        : showLiveTable
+            ? liveTable
+            : rows
 
 
     return (

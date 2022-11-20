@@ -1,5 +1,5 @@
 import React from 'react'
-import { useContestants, useFetchNotifications, useGames, useGroups, useLeaderboard, useMyGameBets, usePlayers, usePrimalBets, useSpecialQuestions, useTeams } from '../hooks/useFetcher'
+import { useContestants, useFetchNotifications, useGameGoals, useGames, useGroups, useLeaderboard, useMyGameBets, usePlayers, usePrimalBets, useSpecialQuestions, useTeams } from '../hooks/useFetcher'
 import { useCurrentTournamentNotificationsUpdater } from '../hooks/useUpdater'
 
 function InitialDataFetcher({
@@ -7,6 +7,7 @@ function InitialDataFetcher({
 }) {
     useTeams()
     useGames()
+    useGameGoals()
     useGroups()
     usePlayers()
     useContestants()

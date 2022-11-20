@@ -1,5 +1,5 @@
 import { Dictionary, mapValues, orderBy } from 'lodash';
-import { LeaderboardVersion, LeaderboardVersionById, ScoreboardRow, ScoreboardRowDetailed, UTLsById } from '../types';
+import { LeaderboardVersion, LeaderboardVersionById, ScoreboardRow, ScoreboardRowDetailed, UTL, UTLsById } from '../types';
 import { valuesOf } from './common';
 
 export function sortLeaderboardVersions(versions: LeaderboardVersionById, direction: 'asc' | 'desc' = 'desc') {
@@ -79,6 +79,17 @@ export function getHistoryLeaderboard({
 }){
     const leaderboard = calcLeaderboardVersionsDiff(historyVersion, prevVersion)
     return formatLeaderboardVersion(leaderboard, contestants)
+}
 
 
+export function generateEmptyScoreboardRow(contestant: UTL): ScoreboardRowDetailed {
+    return {
+        id: contestant.id,
+        user_tournament_id: contestant.id,
+        name: contestant.name,
+        rank: 1,
+        score: 0,
+        change: 0,
+        addedScore: 0,
+    }
 }

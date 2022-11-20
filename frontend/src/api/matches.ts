@@ -1,4 +1,4 @@
-import { MatchApiModel } from '../types'
+import { GameGoalsData, MatchApiModel } from '../types'
 import { sendApiRequest } from './common/apiRequest'
 
 
@@ -33,5 +33,14 @@ export const updateScoresFromApi = async () => {
                 ;(window as any).toastr['error'](error_text)
             }
         },
+    })
+}
+
+
+export const fetchGamesGoalsData = async (
+    tournamentId: number
+): Promise<GameGoalsData[]> => {
+    return await sendApiRequest({
+        url: `/api/tournaments/${tournamentId}/goals`,
     })
 }

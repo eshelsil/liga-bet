@@ -36,6 +36,9 @@ export const AppCrucialLoaders = (state: RootState) => state.appCrucialLoaders
 export const NotificationsState = (state: RootState) => state.notifications
 export const MultiBetsSettings = (state: RootState) => state.multiBetsSettings
 export const AdminData = (state: RootState) => state.admin
+export const GameGoalsDataState = (state: RootState) => state.goalsData
+
+
 
 export const AllTournamentsData = createSelector(
     AdminData,
@@ -111,6 +114,14 @@ export const Games = createSelector(
     CurrentCompetitionId,
     (games, competitionId) => {
         return games[competitionId] ?? {}
+    }
+)
+
+export const GameGoalsDataSelector = createSelector(
+    GameGoalsDataState,
+    CurrentCompetitionId,
+    (gamesGoalsData, competitionId) => {
+        return gamesGoalsData[competitionId] ?? {}
     }
 )
 

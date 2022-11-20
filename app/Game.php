@@ -110,11 +110,6 @@ class Game extends Model implements BetableInterface
         return $this->belongsTo(Competition::class, "competition_id");
     }
 
-    public function goalsData(): HasMany
-    {
-        return $this->hasMany(GameDataGoal::class);
-    }
-
     public function isClosedForBets()
     {
         return $this->start_time < time() + config("bets.lockBeforeSeconds");

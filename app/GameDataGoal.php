@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class GameDataGoal extends Model
 {
-    use HasFactory;
 
     public function game(): BelongsTo
     {
