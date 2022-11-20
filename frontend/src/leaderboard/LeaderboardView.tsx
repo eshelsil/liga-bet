@@ -56,11 +56,12 @@ function LeaderboardView({ rows, hasData, currentUtlId, themeClass, tournamentNa
         ? getHistoryLeaderboard({historyVersion, contestants, prevVersion: prevHistoryVersion})
         : rows
 
+    const isLiveTableFeatureOn = false
 
     return (
         <div className={`LB-LeaderboardView ${themeClass}`}>
             <h1 className='LB-TitleText'>טבלת ניקוד</h1>
-            {isTournamentStarted && (
+            {isLiveTableFeatureOn && isTournamentStarted && (
                 <SimpleTabs
                     tabs={tabs}
                     index={selectedStateIndex}

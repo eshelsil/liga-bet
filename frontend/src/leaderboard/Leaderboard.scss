@@ -71,6 +71,7 @@
                 @include themable_prize_row(prize-theme-4, $prize_4);
                 @include themable_prize_row(prize-theme-5, $prize_5);
                 @include themable_prize_row(prize-theme-6, $prize_6);
+                cursor: pointer;
                 &.currentUtl {
                     .MuiTableCell-root {
                         $border: 2px solid #000;
@@ -205,5 +206,8 @@
     .hisBetsLink {
         margin-bottom: 12px;
         @include centerContainer;
+        .MuiLink-root {
+            cursor: pointer;
+        }
     }
 }
