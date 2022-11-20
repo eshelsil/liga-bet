@@ -35,3 +35,10 @@ export const updateScoresFromApi = async () => {
         },
     })
 }
+
+export const pingUpdateCompetition = async () => {
+    return await sendApiRequest({
+        url: `/api/users/ping`,
+        hideErrorToastr: true,
+    })
+}

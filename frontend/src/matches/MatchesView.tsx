@@ -9,6 +9,7 @@ import { useGameBets, useGames } from '../hooks/useFetcher'
 import { LoadingButton } from '../widgets/Buttons'
 import './GamesView.scss'
 import '../styles/closedBets/GumblersTable.scss'
+import { pingUpdateCompetition } from '../api/matches'
 
 
 const GAMES_PER_PAGE = 10
@@ -43,12 +44,16 @@ function DoneGamesView({games}: {games: MatchWithBets[]}){
 function LiveGamesView({games}: {games: MatchWithBets[]}){
     useGameBets({type: GameBetsFetchType.Games, ids: map(games, 'id')})
     const { refresh } = useGames()
+    const onRefresh = async() => {
+        pingUpdateCompetition()
+        await refresh()
+    }
 
     
     return (
         <div>
             <LoadingButton
-                action={refresh}
+                action={onRefresh}
             >
                 רענן משחקים
             </LoadingButton>
