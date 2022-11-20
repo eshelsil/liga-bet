@@ -9,6 +9,7 @@ use App\Bet;
 use App\Competition;
 use App\Enums\BetTypes;
 use App\Game;
+use App\GameDataGoal;
 use App\SpecialBets\SpecialBet;
 use App\Tournament;
 use App\TournamentUser;
@@ -54,12 +55,19 @@ class ExampleTest extends TestCase
         config()->set("test.onlyTournamentId", $this->tournament->id);
 
         $externalGames = $this->competition->getCrawler()->fetchGames();
+
+        $game3ExtId = $externalGames->first(fn($g) =>
+            $g->externalId != $externalGames[1]->externalId
+            && in_array($externalGames[1]->teamAwayExternalId, [$g->teamHomeExternalId, $g->teamAwayExternalId])
+        )->externalId;
+        $game3Index = $externalGames->search(fn($g) => $g->externalId == $game3ExtId);
         $betsData = collect([
             [
                 "utl" => $this->createMonkeyUser->handle($this->tournament)->utls->first(),
                 "games" => [
                     1 => ["guess" => [1,2]],
                     2 => ["guess" => [2,1]],
+                    $game3Index => ["guess" => [0,0]],
                 ],
                 "scorer"  => $utl1Scorer = $this->competition->teams->firstWhere("external_id", $externalGames[1]->teamAwayExternalId)->players->get(0),
                 "assists" => $utl1Assist = $this->competition->teams->firstWhere("external_id", $externalGames[1]->teamAwayExternalId)->players->get(1),
@@ -69,6 +77,7 @@ class ExampleTest extends TestCase
                 "games" => [
                     1 => ["guess" => [2,2]],
                     2 => ["guess" => [0,0]],
+                    $game3Index => ["guess" => [1,0]],
                 ],
                 "scorer"  => $utl2Scorer = $this->competition->teams->firstWhere("external_id", $externalGames[2]->teamAwayExternalId)->players->get(0),
                 "assists" => $utl2Assist = $this->competition->teams->firstWhere("external_id", $externalGames[2]->teamAwayExternalId)->players->get(1),
@@ -78,6 +87,7 @@ class ExampleTest extends TestCase
                 "games" => [
                     1 => ["guess" => [2,4]],
                     2 => ["guess" => [1,2]],
+                    $game3Index => ["guess" => [0,1]],
                 ],
                 "scorer"  => $utl3Scorer = $this->competition->teams->firstWhere("external_id", $externalGames[2]->teamHomeExternalId)->players->get(0),
                 "assists" => $utl3Assist = $this->competition->teams->firstWhere("external_id", $externalGames[2]->teamHomeExternalId)->players->get(1),
@@ -117,7 +127,12 @@ class ExampleTest extends TestCase
                 "$utlId1" => ["gameScore" => null, "scorerScore" => 8, "assistsScore" => 6],
                 "$utlId2" => ["gameScore" => null, "scorerScore" => 0, "assistsScore" => 0],
                 "$utlId3" => ["gameScore" => null, "scorerScore" => 0, "assistsScore" => 0],
-            ]
+            ],
+            "isDone" => false,
+            "goalsData" => [
+                $utl3Assist->external_id => ["goals" => 0, "assists" => 1],
+                $utl2Scorer->external_id => ["goals" => 1, "assists" => 0],
+            ],
         ]);
 
 
@@ -133,10 +148,32 @@ class ExampleTest extends TestCase
                 "$utlId1" => ["gameScore" => 0, "scorerScore" => 8, "assistsScore" => 6],
                 "$utlId2" => ["gameScore" => 2, "scorerScore" => 0, "assistsScore" => 3],
                 "$utlId3" => ["gameScore" => 0, "scorerScore" => 12, "assistsScore" => 3],
+            ],
+            "isDone" => true,
+            "scoredboardAddedScore" => [
+                "$utlId1" => 0,
+                "$utlId2" => 5,
+                "$utlId3" => 15,
+            ],
+        ]);
+
+
+        
+        //  Assert game 3
+        $scorers = collect([
+            new \App\DataCrawler\Player($utl1Scorer->external_id, "test", $utl1Scorer->team->external_id, goals: 3, assists: 1),
+            new \App\DataCrawler\Player($utl1Assist->external_id, "test", $utl1Assist->team->external_id, goals: 2, assists: 3),
+        ]);
+        $this->assertGame($externalGames, $game3Index, $betsData, 1, 1, $scorers, false, [
+            "betsByUtlId" => [
+                "$utlId1" => ["gameScore" => 2, "scorerScore" => 12, "assistsScore" => 9],
+                "$utlId2" => ["gameScore" => 0, "scorerScore" => 0, "assistsScore" => 3],
+                "$utlId3" => ["gameScore" => 0, "scorerScore" => 12, "assistsScore" => 3],
             ]
         ]);
 
-        // Assert game 2 - update scorers after game is done
+
+        // Assert game 2 - update scorers after game 3 is done
         $scorers = collect([
             new \App\DataCrawler\Player($utl2Scorer->external_id, "test", $utl2Scorer->team->external_id, goals: 2, assists: 0),
             new \App\DataCrawler\Player($utl2Assist->external_id, "test", $utl2Assist->team->external_id, goals: 1, assists: 0),
@@ -145,10 +182,15 @@ class ExampleTest extends TestCase
         ]);
         $this->assertGame($externalGames, 2, $betsData, 1, 1, $scorers, false, [
             "betsByUtlId" => [
-                "$utlId1" => ["gameScore" => 0, "scorerScore" => 8, "assistsScore" => 6],
+                "$utlId1" => ["gameScore" => 0, "scorerScore" => 12, "assistsScore" => 9],
                 "$utlId2" => ["gameScore" => 2, "scorerScore" => 8, "assistsScore" => 0],
                 "$utlId3" => ["gameScore" => 0, "scorerScore" => 8, "assistsScore" => 6],
-            ]
+            ],
+            "scoredboardTotalScore" => [
+                "$utlId1" => 29,
+                "$utlId2" => 10,
+                "$utlId3" => 16,
+            ],
         ]);
 
     }
@@ -210,10 +252,8 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    protected function assertGame(\Illuminate\Support\Collection $externalGames, int $externalId, \Illuminate\Support\Collection $betsData, int $resultHome, int $resultAway, ?\Illuminate\Support\Collection $scorers = null, bool $isLive = false, $validateScores = []): void
+    protected function assertGame(\Illuminate\Support\Collection $externalGames, int $externalId, \Illuminate\Support\Collection $betsData, int $resultHome, int $resultAway, ?\Illuminate\Support\Collection $scorers = null, bool $isLive = false, $validateData = []): void
     {
-        
-        
         /** @var \App\DataCrawler\Game $externalGame */
         $externalGame = $externalGames[$externalId];
         $externalGame->isDone               = !$isLive;
@@ -234,6 +274,13 @@ class ExampleTest extends TestCase
         $initialRelatedLBVersion = $this->tournament->leaderboardVersions->first(fn($v) => $v->game_id == $game->id);
 
 
+        $latestLBVersion = $this->tournament->leaderboardVersions->sortByDesc('id')->first();
+        $initialScoreByUtlId = $latestLBVersion
+            ? $latestLBVersion->leaderboards
+                ->keyBy("user_tournament_id")
+                ->map(fn($l) => $l->score)->toArray()
+            : [];
+
         foreach ($betsData as  $i => $betData) {
             $utl = $betData["utl"];
             $this->updateUserGameBet(
@@ -252,21 +299,47 @@ class ExampleTest extends TestCase
 
         $this->tournament->refresh();
         $currentLBVersionsCount = $this->tournament->leaderboardVersions->count();
+        $latestLBVersion = $this->tournament->leaderboardVersions->sortByDesc('id')->first();
+        $relatedLBVersion = $this->tournament->leaderboardVersions->first(fn($v) => $v->game_id == $game->id);
         if ($isLive){
-            Log::debug('live-eshhhhh', ["initialLBVersionsCount"=>$initialLBVersionsCount, "currentLBVersionsCount" =>$currentLBVersionsCount]);
             $this->assertEquals($initialLBVersionsCount, $currentLBVersionsCount);
         } else {
-            Log::debug('not-live eshhhhh', ["initialLBVersionsCount"=>$initialLBVersionsCount, "currentLBVersionsCount" =>$currentLBVersionsCount]);
-            $relatedLBVersion = $this->tournament->leaderboardVersions->first(fn($v) => $v->game_id == $game->id);
             $this->assertNotEmpty($relatedLBVersion);
             $this->assertEquals($currentLBVersionsCount, $initialLBVersionsCount + ($initialRelatedLBVersion ? 0 : 1) );
+        }
+        if ($relatedLBVersion){
+            $leaderboards = $relatedLBVersion->leaderboards;
+            $this->assertEquals($betsData->count(), $leaderboards->count());
+            $expectAddedScore = data_get($validateData, "scoredboardAddedScore");
+            if ($expectAddedScore){
+                foreach($expectAddedScore as $utlId => $addedScore){
+                    $currentScore = $leaderboards->first(fn($l) => $l->user_tournament_id == $utlId)->score - data_get($initialScoreByUtlId, $utlId, 0);
+                    $this->assertEquals($addedScore, $currentScore);
+                }
+            }
+            $expectFinalScore = data_get($validateData, "scoredboardTotalScore");
+            if ($expectFinalScore){
+                foreach($expectFinalScore as $utlId => $totalScore){
+                    $currentScore = $latestLBVersion->leaderboards->first(fn($l) => $l->user_tournament_id == $utlId)->score;
+                    $this->assertEquals($totalScore, $currentScore);
+                }
+            }
+        }
+
+        $expectGoalsData = data_get($validateData, "goalsData");
+        if ($expectGoalsData){
+            foreach($expectGoalsData as $playerExternalId => $expectedData){
+                $goalsData = $this->tournament->competition->players->firstWhere('external_id', $playerExternalId)->goalsData->firstWhere('game_id', $game->id);
+                $this->assertEquals($expectedData["goals"], $goalsData->goals);
+                $this->assertEquals($expectedData["assists"], $goalsData->assists);
+            }
         }
 
         foreach ($betsData as  $i => $betData) {
             $utl = $betData["utl"];
-            $expectedGameScore = data_get($validateScores, "betsByUtlId.$utl->id.gameScore");
-            $expectedScorerScore = data_get($validateScores, "betsByUtlId.$utl->id.scorerScore");
-            $expectedAssitsScore = data_get($validateScores, "betsByUtlId.$utl->id.assistsScore");
+            $expectedGameScore = data_get($validateData, "betsByUtlId.$utl->id.gameScore");
+            $expectedScorerScore = data_get($validateData, "betsByUtlId.$utl->id.scorerScore");
+            $expectedAssitsScore = data_get($validateData, "betsByUtlId.$utl->id.assistsScore");
             $utl->unsetRelation('bets');
             if ($expectedGameScore){
                 $gameBet = $utl->bets->first(fn(Bet $bet) => $bet->type == BetTypes::Game && $bet->type_id == $game->id);
@@ -280,6 +353,11 @@ class ExampleTest extends TestCase
                 $assistsBet = $utl->bets->first(fn(Bet $bet) => $bet->type == BetTypes::SpecialBet && $bet->type_id == $assistsSpecialBet->id);
                 $this->assertEquals($expectedAssitsScore, $assistsBet->score, "Bet[{$externalId}][{$isLive}] 'assists' of user (".($i+1).")");
             }
+        }
+
+        if (!is_null(data_get($validateData, "isDone", null))){
+            $game->refresh();
+            $this->assertEquals(data_get($validateData, "isDone"), $game->is_done);
         }
     }
 }

@@ -71,10 +71,10 @@ class UpdateCompetitionScorers
                         ];
                     }
                     if ($hasGoalsChange){
-                        $newGoalsAndAssistsData[$gameId]["scorers"] = $goalsDiff;
+                        $newGoalsAndAssistsData[$gameId]["scorers"][$player->id] = $goalsDiff;
                     }
                     if ($hasAssistsChange){
-                        $newGoalsAndAssistsData[$gameId]["assists"] = $goalsDiff;
+                        $newGoalsAndAssistsData[$gameId]["assists"][$player->id] = $assistsDiff;
                     }
                     $player->goals   = $scorer->goals   ?? $player->goals;
                     $player->assists = $scorer->assists ?? $player->assists;
@@ -90,6 +90,7 @@ class UpdateCompetitionScorers
             $answer = $competition->getMostAssistsIds()->join(",") ?: null;
             $this->calculateSpecialBets->execute($competition->id, SpecialBet::TYPE_MOST_ASSISTS, $answer);
     
+
             $this->updateLeaderboards->handleNewScorersData($competition, collect($newGoalsAndAssistsData));
         }
 
