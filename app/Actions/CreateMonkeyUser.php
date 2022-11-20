@@ -26,10 +26,10 @@ class CreateMonkeyUser
         $this->faker = app(FakerGenerator::class);
     }
 
-    public function handle(Tournament $tournament): User
+    public function handle(Tournament $tournament, ?string $name = null): User
     {
         $user = $this->createUser();
-        $name = 'monkey_' . rand(0, 9999);
+        $name ??= 'monkey_' . rand(0, 9999);
         $utl = $tournament->createUTL($user, $name);
 
         $tournament->competition->groups
@@ -72,7 +72,7 @@ class CreateMonkeyUser
      *
      * @return void
      */
-    private function betGroup($group, $utl): void
+    private function betGroup(Group $group, $utl): void
     {
         $type_id = $group->getID();
         $data    = $group->generateRandomBetData();
