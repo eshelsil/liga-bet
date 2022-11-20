@@ -148,7 +148,7 @@ class UserController extends Controller
     public function ping(UpdateCompetition $uc)
     {
         Cache::remember("updateCompetition", now()->addMinutes(2), function () use ($uc) {
-            return Cache::lock("updateCompetition:lock", now()->addMinute())
+            return Cache::lock("updateCompetition:lock", 60)
                 ->block(0, function () use ($uc){
                     $this->getUser()
                         ->utls
