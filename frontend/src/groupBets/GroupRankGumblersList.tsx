@@ -38,7 +38,7 @@ function GroupRankGumblersList({ group, bets }: Props) {
         return {
             id: betVal,
             standings: betSample.standings,
-            score: betSample.score || Math.ceil(Math.random() * 3),
+            score: betSample.score,
             gumblers: bets.map((bet) => bet.utlName),
         }
     })
