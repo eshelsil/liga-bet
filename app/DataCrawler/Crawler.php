@@ -263,7 +263,7 @@ class Crawler
      */
     protected function fetchScorers365(Collection $teamIds): Collection
     {
-        $baseUrl = "https://webws.365scores.com/web/stats/?appTypeId=5&langId=2&timezoneName=Asia/Jerusalem&userCountryId=6&competition=5421"; // 5930
+        $baseUrl = "https://webws.365scores.com/web/stats/?appTypeId=5&langId=2&timezoneName=Asia/Jerusalem&userCountryId=6&competition=5930";
         $responses = Http::pool(function (Pool $pool) use ($teamIds, $baseUrl) {
             return $teamIds->map(
                 fn($teamId) => $pool->as($teamId)->get($baseUrl . "&competitor=" . self::translate365TeamId($teamId))
