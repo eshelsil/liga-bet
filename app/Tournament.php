@@ -112,7 +112,8 @@ class Tournament extends Model
 
     public function start()
     {
-        return $this->status = static::STATUS_ONGOING;
+        $this->status = static::STATUS_ONGOING;
+        $this->save();
     }
 
     public function hasValidScoreConfig()
