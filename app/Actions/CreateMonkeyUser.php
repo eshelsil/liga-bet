@@ -17,13 +17,11 @@ use App\Tournament;
 use App\TournamentUser;
 use App\User;
 use Faker\Generator as FakerGenerator;
+use Illuminate\Support\Str;
 
 class CreateMonkeyUser
 {
-    protected FakerGenerator $faker;
-
     public function __construct() {
-        $this->faker = app(FakerGenerator::class);
     }
 
     public function handle(Tournament $tournament, ?string $name = null): User
@@ -49,7 +47,7 @@ class CreateMonkeyUser
     protected function createUser(): User
     {
         return User::create([
-            'email'       => $this->faker->safeEmail,
+            'email'       => Str::uuid()."@liga-bet.com",
             'password'    => '',
             'permissions' => User::TYPE_MONKEY
         ]);
