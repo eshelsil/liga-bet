@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Button, Grid, Link } from '@mui/material';
 import { prizeToString } from '../../utils';
 import { TournamentConfig } from '../../types';
@@ -7,6 +8,7 @@ import PrizesRules from '../../takanon/PrizesRules';
 import TakanonPreviewSection from '../takanonPreview/TakanonPreviewSection';
 import { compact } from 'lodash';
 import { LoadingButton } from '../../widgets/Buttons';
+import { IsTournamentStarted } from '../../_selectors';
 import './PrizesConfig.scss';
 
 
@@ -33,6 +35,7 @@ function PrizesConfig({
 }: Props){
 	const initialState = currentPrizes?.length > 0 ? currentPrizes : [''];
 	const [prizes, setPrizes] = useState(initialState);
+	const isTournamentStarted = useSelector(IsTournamentStarted)
 
 	const addPrize = () => {
 		setPrizes([
@@ -103,17 +106,18 @@ function PrizesConfig({
 				</div>
 			</div>
 			
+			{!isTournamentStarted && (
+				<div className='forgotSomething LB-FloatingFrame'>
+					<h5>שכחת משהו?</h5>
+					<Link
+						className={'linkToScoresConfig'}
+						onClick={onGoToScoresClick}
+					>
+						ערוך הגדרות ניקוד
+					</Link>
 
-			<div className='forgotSomething LB-FloatingFrame'>
-				<h5>שכחת משהו?</h5>
-				<Link
-					className={'linkToScoresConfig'}
-					onClick={onGoToScoresClick}
-				>
-					ערוך הגדרות ניקוד
-				</Link>
-
-			</div>
+				</div>
+			)}
 		</div>
 	);
 }

@@ -15,7 +15,7 @@ interface Props {
 }
 
 const OpenQuestionBetsProvider = ({ sendBetAndStore }: Props) => {
-    const { questionsWithBet, competitionStartTime } = useSelector(OpenQuestionBetsSelector)
+    const { questionsWithBet, competitionStartTime, isTournamentStarted  } = useSelector(OpenQuestionBetsSelector)
     async function sendQuestionBet({ questionId, answer, forAllTournaments }: QuestionBetParams) {
         const params = {
             betType: BetType.Question,
@@ -29,11 +29,18 @@ const OpenQuestionBetsProvider = ({ sendBetAndStore }: Props) => {
         return await sendBetAndStore(params)
     }
     return (
-        <QuestionBetsView
-            questions={questionsWithBet}
-            sendQuestionBet={sendQuestionBet}
-            competitionStartTime={competitionStartTime}
-        />
+        <div>
+            {!isTournamentStarted && (
+                <QuestionBetsView
+                    questions={questionsWithBet}
+                    sendQuestionBet={sendQuestionBet}
+                    competitionStartTime={competitionStartTime}
+                />
+            )}
+            {isTournamentStarted && (
+                <h2 className='LB-TitleText'>הטורניר כבר התחיל! הניחושים המיוחדים כבר נעולים</h2>
+            )}
+        </div>
     )
 }
 

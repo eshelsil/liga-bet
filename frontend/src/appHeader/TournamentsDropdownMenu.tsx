@@ -11,6 +11,7 @@ import useGoTo from '../hooks/useGoTo';
 import EmojiEventsOutlined from '@mui/icons-material/EmojiEventsOutlined'
 import { orderBy } from 'lodash';
 import { Badge } from '@mui/material';
+import { isTournamentStarted } from '../utils';
 
 
 function IconWithNotification({hasNotifications}: {hasNotifications: boolean}){
@@ -47,6 +48,8 @@ function TournamentsDropdownMenu({
     const sortedTournaments = orderBy(tournaments, t => t.linkedUtl.createdAt)
     const hasOnlyOneTournamnet = tournaments.length === 1
     const showNotifciations = !hasOnlyOneTournamnet && hasNotificationsOnOtherTournaments
+
+    const tournamentStarted = isTournamentStarted(selectedTournament)
     
 
     const onTournamentItemClick = (utlId: number) => {
@@ -81,7 +84,7 @@ function TournamentsDropdownMenu({
                     notifications={showNotifciations ? notificaitons[tournament.id] : 0}
                 />
             ))}
-            {canJoinAnotherTournament && (
+            {canJoinAnotherTournament && !tournamentStarted && (
                 <MenuItem
                     className={`buttonLink`}
                     onClick={joinTournament}
@@ -91,7 +94,7 @@ function TournamentsDropdownMenu({
                     </Button>
                 </MenuItem>
             )}
-            {canCreateNewTournament && (
+            {canCreateNewTournament && !tournamentStarted && (
                 <MenuItem
                     className={`buttonLink`}
                     onClick={createTournament}

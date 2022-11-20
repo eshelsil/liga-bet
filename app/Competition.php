@@ -133,6 +133,11 @@ class Competition extends Model
         return $startTime - $lockBeforeSecs > time();
     }
 
+    public function isStarted()
+    {
+        return time() > $this->getTournamentStartTime();
+    }
+
     public function getOffensiveTeams(){
         $matches = $this->getGroupStageGamesIfStageDone();
         if (!$matches) {

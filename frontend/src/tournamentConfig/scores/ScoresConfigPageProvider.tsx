@@ -4,7 +4,7 @@ import { TournamentScoreConfig } from '../../types';
 import {
 	updateScoreConfig
 } from '../../_actions/tournament';
-import { NoSelector, ScoresConfigSelector } from '../../_selectors';
+import { IsTournamentStarted, NoSelector, ScoresConfigSelector } from '../../_selectors';
 import ScoresConfigPage from './ScoresConfigPage';
 import './ScoresConfig.scss';
 
@@ -15,12 +15,20 @@ function ScoresConfigPageProvider({
 	updateScoreConfig: (config: TournamentScoreConfig ) => Promise<void>,
 }){
 	const scoresConfig = useSelector(ScoresConfigSelector);
+	const hasTournamentStarted = useSelector(IsTournamentStarted)
 
 	return (
-		<ScoresConfigPage
-			scoreConfig={scoresConfig}
-			updateScoreConfig={updateScoreConfig}
-		/>
+		<div>
+			{!hasTournamentStarted && (
+				<ScoresConfigPage
+					scoreConfig={scoresConfig}
+					updateScoreConfig={updateScoreConfig}
+				/>
+			)}
+			{hasTournamentStarted && (
+				<h2 className='LB-TitleText'>הגדרות טורניר לא זמינות אחרי שהטורניר כבר התחיל</h2>
+			)}
+		</div>
 	);
 }
 

@@ -17,18 +17,11 @@ function TournamentConfigPage(){
 
 	return (
 		<div className='LB-TournamentConfigPage'>
-			{!hasTournamentStarted && (
-				<>
-					{showDefaultScoreQuestion && (
-						<UseDefaultConfigQuestion onUseDefaultScore={()=> setShowDefaultScoreQuestion(false)}/>
-					)}
-					{!showDefaultScoreQuestion && (
-						<PrizesConfig onGoToScoresClick={() => setShowDefaultScoreQuestion(true)}/>
-					)}
-				</>
+			{showDefaultScoreQuestion && (
+				<UseDefaultConfigQuestion onUseDefaultScore={()=> setShowDefaultScoreQuestion(false)}/>
 			)}
-			{hasTournamentStarted && (
-				<h2 className='LB-TitleText'>הגדרות טורניר לא זמינות אחרי שהטורניר כבר התחיל</h2>
+			{!showDefaultScoreQuestion && (
+				<PrizesConfig onGoToScoresClick={() => setShowDefaultScoreQuestion(true)}/>
 			)}
 		</div>
 	);

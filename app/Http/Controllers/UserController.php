@@ -79,6 +79,10 @@ class UserController extends Controller
             throw new JsonException("לא נמצא טורניר עם הקוד $tournamentCode", 400);
         }
 
+        if ( $tournament->status != Tournament::STATUS_INITIAL) {
+            throw new JsonException("הטורניר כבר התחיל, מאוחר מדי להצטרף אליו...", 403);
+        }
+
         $user        = Auth::user();
         $existingUtl = $tournament->getUtlOfUser($user);
         if ($existingUtl) {

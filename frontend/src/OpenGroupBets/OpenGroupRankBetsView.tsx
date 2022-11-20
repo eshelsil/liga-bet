@@ -55,7 +55,7 @@ const OpenGroupRankBetsView = ({ groupsWithBet, sendGroupRankBet, competitionSta
                 </div>
             )}
             {!isAvailable && (
-                <h2>נסגרו ניחושי הבתים! לא ניתן לעדכן ניחושים אלה</h2>
+                <h2 className='LB-TitleText'>הטורניר כבר התחיל! דירוגי הבתים סגורים לניחושים</h2>
             )}
         </>
     )

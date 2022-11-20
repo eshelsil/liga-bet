@@ -15,9 +15,10 @@ interface Props {
     currentUtlId: number
     themeClass: string
     tournamentName: string
+    isTournamentStarted: boolean
 }
 
-function LeaderboardView({ rows, hasData, currentUtlId, themeClass, tournamentName }: Props) {
+function LeaderboardView({ rows, hasData, currentUtlId, themeClass, tournamentName, isTournamentStarted }: Props) {
     const versionsById = useSelector(LeaderboardVersions)
     const contestants = useSelector(Contestants)
     const [selectedStateIndex, setSelectedStateIndex] = useState(0)
@@ -59,12 +60,14 @@ function LeaderboardView({ rows, hasData, currentUtlId, themeClass, tournamentNa
     return (
         <div className={`LB-LeaderboardView ${themeClass}`}>
             <h1 className='LB-TitleText'>טבלת ניקוד</h1>
-            <SimpleTabs
-                tabs={tabs}
-                index={selectedStateIndex}
-                onChange={setSelectedStateIndex}
+            {isTournamentStarted && (
+                <SimpleTabs
+                    tabs={tabs}
+                    index={selectedStateIndex}
+                    onChange={setSelectedStateIndex}
 
-            />
+                />
+            )}
             {selectedState === 'history' && showHistoryForm && (
                 <LeaderboardHistoryForm
                     state={historyForm}

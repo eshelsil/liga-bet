@@ -35,7 +35,7 @@ function TournamentMenuItems({
     const isTournamentAdmin = hasCurrentUtl && currentUtl.role === UtlRole.Admin
     const isAManager = hasCurrentUtl && currentUtl.role === UtlRole.Manager
     const hasManagerPermissions = isTournamentAdmin || isAManager
-    const canUpdateTournamentConfig = isTournamentAdmin && tournamentStatus === TournamentStatus.Initial;
+    const canUpdateTournamentConfig = isTournamentAdmin;
     
     const isEmpty = useSelector(IsAppMenuEmpty)
 

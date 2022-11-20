@@ -98,6 +98,9 @@ class TournamentController extends Controller
         $this->validateUpdatePermissions($id);
         $user = $this->getUser();
         $tournament = $user->ownedTournaments->find($id);
+        if ($tournament->status != Tournament::STATUS_INITIAL){
+            throw new JsonException("לא ניתן לשנות את הגדרות הניקוד אחרי שהטורניר כבר התחיל", 403);
+        }
 
         $keys = [
             "gameBets.groupStage.winnerSide",
@@ -171,6 +174,8 @@ class TournamentController extends Controller
         if (!$competition) {
             throw new JsonException("Invalid competition input", 400);
         }
-        // TODO: handle not-started competition
+        if ( $competition->isStarted()) {
+            throw new JsonException("המונדיאל כבר התחיל, לא ניתן ליצור טורנירים חדשים", 403);
+        }
     }
 }
