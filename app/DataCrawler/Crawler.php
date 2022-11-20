@@ -274,30 +274,34 @@ class Crawler
 
         /** @var Response $response */
         foreach ($responses as $teamId => $response) {
-            $response->collect("stats.0.rows")
-                     ->each(fn($data) => $players->add(new Player(
-                         $data["entity"]["id"],
-                         $data["entity"]["name"],
-                         $teamId,
-                         null,
-                         null,
-                         $data["stats"][0]["value"]
-                     )));
+            $stats = $response->collect("stats");
 
-            foreach ($response->collect("stats.1.rows") as $data) {
-                /** @var Player $player */
-                if ($player = $players->firstWhere("externalId", $data["entity"]["id"])) {
-                    $player->setAssists($data["stats"][0]["value"]);
-                } else {
-                    $players->add(new Player(
-                        $data["entity"]["id"],
-                        $data["entity"]["name"],
-                        $teamId,
-                        null,
-                        null,
-                        null,
-                        $data["stats"][0]["value"]
-                    ));
+            if ($scorerStats = $stats->firstWhere("statsTypes.0.typeId", 1)) {
+                collect($scorerStats["rows"])->each(fn($data) => $players->add(new Player(
+                    $data["entity"]["id"],
+                    $data["entity"]["name"],
+                    $teamId,
+                    null,
+                    null,
+                    $data["stats"][0]["value"]
+                )));
+            }
+            if ($assistsStats = $stats->firstWhere("statsTypes.0.typeId", 2)) {
+                foreach ($assistsStats["rows"] as $data) {
+                    /** @var Player $player */
+                    if ($player = $players->firstWhere("externalId", $data["entity"]["id"])) {
+                        $player->setAssists($data["stats"][0]["value"]);
+                    } else {
+                        $players->add(new Player(
+                            $data["entity"]["id"],
+                            $data["entity"]["name"],
+                            $teamId,
+                            null,
+                            null,
+                            null,
+                            $data["stats"][0]["value"]
+                        ));
+                    }
                 }
             }
         }
