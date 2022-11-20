@@ -52,9 +52,7 @@ Route::post('/summary-msg-seen', [HomeController::class, 'summaryMessageSeen'])-
 
 Route::post('/admin/grant-tournament-admin', [AdminController::class, 'grantTournamentAdminPermission']);
 
-Route::post('/admin/send-global-notification', [AdminController::class, 'sendGlobalNotification']);
 Route::get('/admin/users-to-confirm', [AdminController::class, 'showUsersToConfirm'])->name('users-to-confirm');
-Route::get('/admin/confirmed-users', [AdminController::class, 'showConfirmedUsers'])->name('confirmed-users');
 Route::post('/admin/set-permission', [AdminController::class, 'setPermission']);
 Route::get('/admin/calc-special-bets', [AdminController::class, 'calculateSpecialBets']);
 Route::get('/admin/calc-special-bet/{name}', [AdminController::class, 'calculateSpecialBet']);
@@ -111,6 +109,7 @@ Route::prefix("/api/tournaments/{tournamentId}/")->middleware("confirmed_user")
 Route::prefix("/api/users")->middleware("admin")
     ->group(function () {
         Route::get('/', [UserController::class, 'index']);
+        Route::get('/ping', [UserController::class, 'ping']);
         Route::put('/{userId}', [UserController::class, 'update']);
     });
 Route::post('/api/tournaments', [TournamentController::class, 'createTournament']);

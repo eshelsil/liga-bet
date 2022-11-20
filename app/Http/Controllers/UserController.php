@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Actions\ImportMissingUtlBets;
+use App\Actions\UpdateCompetition;
 use App\Bet;
+use App\Competition;
 use App\Http\Resources\ContestantResource;
 use App\Http\Resources\UtlResource;
 use App\Tournament;
@@ -12,6 +14,7 @@ use App\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use App\Exceptions\JsonException;
 use App\Http\Resources\UserResource;
@@ -140,6 +143,25 @@ class UserController extends Controller
             ->keyBy("id");
 
         return new JsonResponse($data, 200);
+    }
+
+    public function ping(UpdateCompetition $uc)
+    {
+        Cache::remember("updateCompetition", now()->addMinutes(2), function () use ($uc) {
+            return Cache::lock("updateCompetition:lock", now()->addMinute())
+                ->block(0, function () use ($uc){
+                    $this->getUser()
+                        ->utls
+                        ->load("tournaments.competition")
+                        ->map(fn(TournamentUser $utl) => $utl->tournament->competition)
+                        ->unique()
+                        ->each(fn(Competition $competition) => $uc->handle($competition));
+
+                    return true;
+                });
+        });
+
+        return new JsonResponse(["pong"]);
     }
 
     public function getMissingBets(Request $request)

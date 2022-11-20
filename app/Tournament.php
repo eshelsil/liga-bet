@@ -110,6 +110,11 @@ class Tournament extends Model
         return $this->status != static::STATUS_INITIAL;
     }
 
+    public function start()
+    {
+        return $this->status = static::STATUS_ONGOING;
+    }
+
     public function hasValidScoreConfig()
     {
         return array_key_exists('scores', $this->config);

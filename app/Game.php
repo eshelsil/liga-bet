@@ -32,11 +32,11 @@ use Illuminate\Support\Arr;
  * @property int|null $result_away
  * @property int|null $score
  * @property int|null $ko_winner
+ * @property bool $is_done
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $competition_id
  * @property-read \App\Competition|null $competition
- * @property-read mixed $is_done
  * @property-read \App\Team|null $teamAway
  * @property-read \App\Team|null $teamHome
  * @method static Builder|Game isDone($isDone)

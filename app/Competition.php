@@ -182,4 +182,9 @@ class Competition extends Model
 
         return $this->players->where("assists", $maxAssists)->pluck("id");
     }
+
+    public function start()
+    {
+        $this->tournaments->each(fn(Tournament $t) => $t->start());
+    }
 }
