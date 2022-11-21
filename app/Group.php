@@ -56,10 +56,6 @@ class Group extends Model implements BetableInterface
         return $this->teams
             ->pluck("id")
             ->shuffle()
-            ->map(fn($teamId, $index) => [
-                "position" => $index + 1,
-                "team_id" => $teamId,
-            ])
             ->toArray();
     }
 
@@ -127,8 +123,8 @@ class Group extends Model implements BetableInterface
     public function generateRandomBetData(){
         $standings = $this->fartStandings();
         $res = [];
-        foreach($standings as $data){
-            $res[$data['position']] = $data['team_id'];
+        foreach($standings as $teamId){
+            $res[] = $teamId;
         }
         return json_encode($res);
     }
