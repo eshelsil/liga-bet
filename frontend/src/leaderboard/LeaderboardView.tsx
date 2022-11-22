@@ -8,6 +8,8 @@ import { Contestants, Games, LeaderboardVersions, LiveScoreboard } from '../_sel
 import LeaderboardHistoryForm, { HistoryFormState } from './LeaderboardHistoryForm';
 import LeaderboardTable from './LeaderboardTable';
 import LiveModeFrom from './LiveModeFrom';
+import { useLiveUpdate } from '../hooks/useLiveUpdate';
+import { LoadingButton } from '../widgets/Buttons';
 
 
 interface Props {
@@ -20,6 +22,7 @@ interface Props {
 }
 
 function LeaderboardView({ rows, hasData, currentUtlId, themeClass, tournamentName, isTournamentStarted }: Props) {
+    const { refresh: refreshTable } = useLiveUpdate()
     const versionsById = useSelector(LeaderboardVersions)
     const contestants = useSelector(Contestants)
     const liveTable = useSelector(LiveScoreboard)
@@ -78,12 +81,19 @@ function LeaderboardView({ rows, hasData, currentUtlId, themeClass, tournamentNa
                     versionsById={versionsById}
                 />
             )}
-            {!showHistory && (
+            {!showHistory && (<>
                 <LiveModeFrom
                     liveGameIds={liveGameIds}
                     liveMode={liveMode}
                     toggleLiveMode={toggleLiveMode}
                 />
+                <LoadingButton
+                    action={refreshTable}
+                    className='LeaderboardView-refreshTableButton'
+                >
+                    רענן טבלה
+                </LoadingButton>
+            </>
             )}
 
             <div className='LeaderboardView-content'>

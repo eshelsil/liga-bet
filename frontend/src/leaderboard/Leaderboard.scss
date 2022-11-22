@@ -43,7 +43,7 @@
     @include themable_table_header(tournament-theme-4, $tournament_4);
     @include themable_table_header(tournament-theme-5, $tournament_5);
     .LeaderboardView-content {
-        margin-top: 40px;
+        margin-top: 20px;
         .tableTitleContainer {
             border-radius: 12px 12px 0px 0px;
             .tableTitle {
@@ -108,6 +108,7 @@
         .scoreCell-container {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             .scoreCell-total {
                 font-size: 18px;
             }
@@ -185,13 +186,16 @@
         border: 1px dashed $primary-main;
         background-color: rgba(186, 219, 245, 0.95);
         padding: 4px;
-        margin-bottom: -20px;
+        margin-top: 24px;
         .MuiFormControlLabel-root {
             margin: 0px -4px 0px 0px;
             .MuiTypography-root {
                 font-size: 14px;
             }
         }
+    }
+    .LeaderboardView-refreshTableButton {
+        margin-top: 16px;
     }
 }
 

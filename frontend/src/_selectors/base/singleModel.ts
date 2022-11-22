@@ -1,10 +1,11 @@
-import { Dictionary, mapValues, orderBy } from 'lodash'
+import { Dictionary, mapValues, orderBy, pickBy } from 'lodash'
 import { createSelector } from 'reselect'
 import { SpecialQuestionApiModel, SpecialQuestionType, TournamentWithLinkedUtl } from '../../types'
 import {
     getScoreOfUtl,
     getSpecialQuestionName,
     isAdmin,
+    isGameLive,
     isTournamentStarted,
     isUtlConfirmed,
     keysOf,
@@ -157,5 +158,12 @@ export const WinnerSpecialQuestionId = createSelector(
     SpecialQuestions,
     (questions) => {
         return valuesOf(questions).find(q => q.type === SpecialQuestionType.Winner)?.id
+    }
+)
+
+export const LiveGamesIds = createSelector(
+    Games,
+    (gamesById) => {
+        return keysOf(pickBy(gamesById, game => isGameLive(game))) as number[]
     }
 )

@@ -11,6 +11,7 @@ import { fetchAndStorePlayers, initPlayers } from '../_actions/players';
 import { fetchAndStoreQuestions, initSpecialQuestions } from '../_actions/specialQuestions';
 import { fetchAndStoreTeams, initTeams } from '../_actions/teams'
 import { AppDispatch } from '../_helpers/store'
+import gameBetsFetcher from '../_reducers/gameBetsFetcher';
 import { CurrentTournamentUserId, GameIds, IsConfirmedUtl, TournamentIdSelector } from '../_selectors';
 import { HasAllOtherTournamentsNotifications, HasFetchedAllTournamentInitialData } from '../_selectors';
 
@@ -127,6 +128,11 @@ export function useGameBets(params: Omit<FetchGameBetsParams, "tournamentId">){
     const fetchFunc = (params: FetchGameBetsParams) => dispatch(fetchGameBetsThunk(params))
     const currentTournamentId = useSelector(TournamentIdSelector)
     const isConfirmed = useSelector(IsConfirmedUtl)
+    const refetch = async () => {
+        const allParams = {...params, tournamentId: currentTournamentId}
+        dispatch(gameBetsFetcher.actions.markUnfetched(allParams))
+        await fetchFunc(allParams)
+    }
 
     
     useEffect(() => {
@@ -139,6 +145,7 @@ export function useGameBets(params: Omit<FetchGameBetsParams, "tournamentId">){
 
     return {
         fetchFunc,
+        refetch,
     }
 }
 
