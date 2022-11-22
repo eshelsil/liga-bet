@@ -208,15 +208,17 @@ class UpdateLeaderboards
         if ($hasChanges){
             $lastScore = null;
             $rank = null;
-            $scoreboardRows->sortByDesc('score')->each(function($leader, $i) use($rank, $lastScore, $version) {
-                if (is_null($lastScore) || $lastScore != $leader->score) {
+            foreach ($scoreboardRows->sortByDesc('score')->values() as $i => $leader) {
+                if (is_null($rank)){
+                    $rank = 1;
+                } else if ($lastScore != $leader->score) {
                     $rank = $i + 1;
                 }
                 $leader->rank = $rank;
                 $lastScore = $leader->score;
                 $leader->save();
                 Log::debug("Updated ScoreboardRow data [utl:$leader->user_tournament_id | version:$version->id] (newScore:$leader->score, newRank: $leader->rank)");
-            });
+            }
         }
     }
 

@@ -10,6 +10,7 @@ use App\Competition;
 use App\Enums\BetTypes;
 use App\Game;
 use App\GameDataGoal;
+use App\Leaderboard;
 use App\SpecialBets\SpecialBet;
 use App\Tournament;
 use App\TournamentUser;
@@ -175,21 +176,26 @@ class ExampleTest extends TestCase
 
         // Assert game 2 - update scorers after game 3 is done
         $scorers = collect([
-            new \App\DataCrawler\Player($utl2Scorer->external_id, "test", $utl2Scorer->team->external_id, goals: 2, assists: 0),
+            new \App\DataCrawler\Player($utl2Scorer->external_id, "test", $utl2Scorer->team->external_id, goals: 7, assists: 0),
             new \App\DataCrawler\Player($utl2Assist->external_id, "test", $utl2Assist->team->external_id, goals: 1, assists: 0),
-            new \App\DataCrawler\Player($utl3Scorer->external_id, "test", $utl3Scorer->team->external_id, goals: 2, assists: 0),
-            new \App\DataCrawler\Player($utl3Assist->external_id, "test", $utl3Assist->team->external_id, goals: 1, assists: 2),
+            new \App\DataCrawler\Player($utl3Scorer->external_id, "test", $utl3Scorer->team->external_id, goals: 1, assists: 1),
+            new \App\DataCrawler\Player($utl3Assist->external_id, "test", $utl3Assist->team->external_id, goals: 1, assists: 8),
         ]);
         $this->assertGame($externalGames, 2, $betsData, 1, 1, $scorers, false, [
             "betsByUtlId" => [
                 "$utlId1" => ["gameScore" => 0, "scorerScore" => 12, "assistsScore" => 9],
-                "$utlId2" => ["gameScore" => 2, "scorerScore" => 8, "assistsScore" => 0],
-                "$utlId3" => ["gameScore" => 0, "scorerScore" => 8, "assistsScore" => 6],
+                "$utlId2" => ["gameScore" => 2, "scorerScore" => 28, "assistsScore" => 0],
+                "$utlId3" => ["gameScore" => 0, "scorerScore" => 4, "assistsScore" => 24],
             ],
             "scoredboardTotalScore" => [
                 "$utlId1" => 29,
-                "$utlId2" => 10,
-                "$utlId3" => 16,
+                "$utlId2" => 30,
+                "$utlId3" => 30,
+            ],
+            "targetVersionRanks" => [
+                "$utlId1" => 3,
+                "$utlId2" => 1,
+                "$utlId3" => 1,
             ],
         ]);
 
@@ -322,6 +328,13 @@ class ExampleTest extends TestCase
                 foreach($expectFinalScore as $utlId => $totalScore){
                     $currentScore = $latestLBVersion->leaderboards->first(fn($l) => $l->user_tournament_id == $utlId)->score;
                     $this->assertEquals($totalScore, $currentScore);
+                }
+            }
+            $targetVersionRanks = data_get($validateData, "targetVersionRanks");
+            if ($targetVersionRanks){
+                foreach($targetVersionRanks as $utlId => $expectedRank){
+                    $updatedRank = $leaderboards->first(fn(Leaderboard $l) => $l->user_tournament_id == $utlId)->rank;
+                    $this->assertEquals($expectedRank, $updatedRank, "Expected Rank of UTL $utlId");
                 }
             }
         }
