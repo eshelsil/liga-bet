@@ -21,6 +21,7 @@ import dialogs from './dialogs'
 import appCrucialLoaders from './appCrucialLoaders'
 import notifications from './notifications'
 import multiBetsSettings from './multiBetsSettings'
+import goalsData from './goalsData'
 import adminReducer from './admin/admin'
 
 const reducer = combineReducers({
@@ -46,6 +47,7 @@ const reducer = combineReducers({
     appCrucialLoaders: appCrucialLoaders.reducer,
     notifications: notifications.reducer,
     multiBetsSettings: multiBetsSettings.reducer,
+    goalsData: goalsData.reducer,
     admin: adminReducer,
 })
 

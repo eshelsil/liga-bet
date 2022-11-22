@@ -5,7 +5,7 @@ import { fetchAndStorePrimalBets, fetchGameBetsThunk, initPrimalBets } from '../
 import { fetchAndStoreContestants, initContestants } from '../_actions/contestants';
 import { fetchAndStoreGroups, initGroups } from '../_actions/groups';
 import { fetchAndStoreLeaderboard, initLeaderboard } from '../_actions/leaderboard';
-import { fetchAndStoreMatches, initGames } from '../_actions/matches';
+import { fetchAndStoreGoalsData, fetchAndStoreMatches, initGames, initGoalsData } from '../_actions/matches';
 import { fetchAndStoreNotifications } from '../_actions/notifications';
 import { fetchAndStorePlayers, initPlayers } from '../_actions/players';
 import { fetchAndStoreQuestions, initSpecialQuestions } from '../_actions/specialQuestions';
@@ -70,6 +70,14 @@ export function useGames(refreshable?: boolean) {
         refreshable,
         refreshFunc: fetchAndStoreMatches,
         initFunc: initGames,
+    })
+}
+
+export function useGameGoals(refreshable?: boolean) {
+    return useFetcher({
+        refreshable,
+        refreshFunc: fetchAndStoreGoalsData,
+        initFunc: initGoalsData,
     })
 }
 

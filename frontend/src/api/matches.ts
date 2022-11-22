@@ -1,4 +1,4 @@
-import { MatchApiModel } from '../types'
+import { GameGoalsData, MatchApiModel } from '../types'
 import { sendApiRequest } from './common/apiRequest'
 
 
@@ -40,5 +40,13 @@ export const pingUpdateCompetition = async () => {
     return await sendApiRequest({
         url: `/api/users/ping`,
         hideErrorToastr: true,
+    })
+}
+
+export const fetchGamesGoalsData = async (
+    tournamentId: number
+): Promise<GameGoalsData[]> => {
+    return await sendApiRequest({
+        url: `/api/tournaments/${tournamentId}/goals`,
     })
 }
