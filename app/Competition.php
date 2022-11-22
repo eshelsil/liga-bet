@@ -67,6 +67,11 @@ class Competition extends Model
         return $this->hasManyThrough(Player::class, Team::class);
     }
 
+    public function goalsData(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    {
+        return $this->hasManyThrough(GameDataGoal::class, Game::class);
+    }
+
     public function teams(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Team::class);
