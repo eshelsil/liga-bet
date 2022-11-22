@@ -1,6 +1,26 @@
-$prize_1: #11862b;
-$prize_2: #1f3e1a;
-$prize_3: #495057;
-$prize_4: #847881;
-$prize_5: #81868d;
-$prize_6: #8d8b89;
+// $prize_1: #11862b;
+// $prize_2: #1f3e1a;
+// $prize_3: #495057;
+// $prize_4: #847881;
+// $prize_5: #81868d;
+// $prize_6: #8d8b89;
+
+
+$prize_1: (
+    background: linear-gradient(to top, #BF953F 0%, #fdff9c 168%),
+);
+$prize_2: (
+    background: linear-gradient(to top, #b7b6b6 0%, #e6e6e6 100% ),
+);
+$prize_3: (
+    background: linear-gradient(to top, #aa8158 0%, #d4a96b 100%),
+);
+$prize_4: (
+    background: #847881,
+);
+$prize_5: (
+    background:  #81868d,
+);
+$prize_6: (
+    background:  #8d8b89,
+);

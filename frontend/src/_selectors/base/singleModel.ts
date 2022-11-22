@@ -1,6 +1,6 @@
 import { Dictionary, mapValues, orderBy } from 'lodash'
 import { createSelector } from 'reselect'
-import { SpecialQuestionApiModel, TournamentWithLinkedUtl, UserPermissions } from '../../types'
+import { SpecialQuestionApiModel, SpecialQuestionType, TournamentWithLinkedUtl } from '../../types'
 import {
     getScoreOfUtl,
     getSpecialQuestionName,
@@ -151,4 +151,11 @@ export const IsLoadingAppCrucial = createSelector(
 export const IsMultiBetDefaultForAll = createSelector(
     MultiBetsSettings,
     (settings) => settings.forAllTournaments
+)
+
+export const WinnerSpecialQuestionId = createSelector(
+    SpecialQuestions,
+    (questions) => {
+        return valuesOf(questions).find(q => q.type === SpecialQuestionType.Winner)?.id
+    }
 )

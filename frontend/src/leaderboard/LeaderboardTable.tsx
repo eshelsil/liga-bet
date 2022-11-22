@@ -1,19 +1,47 @@
 import React, { useState } from 'react'
-import { ScoreboardRowDetailed } from '../types'
+import { useSelector } from 'react-redux';
+import { QuestionBetWithRelations, ScoreboardRowDetailed } from '../types'
 import CustomTable from '../widgets/Table/CustomTable'
 import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import AddIcon from '@mui/icons-material/Add';
 import ExpandedContestant from './ExpandedContestantProvider'
 import { usePrizesThemeClass } from '../hooks/useThemeClass'
 import { getRankDisplayById } from './utils';
+import TeamFlag from '../widgets/TeamFlag/TeamFlag';
+import { WinnerBetByUtlId } from '../_selectors';
 
+
+function NameWithWinnerFlag({
+    name,
+    winnerBet,
+} : {
+    name: string,
+    winnerBet: QuestionBetWithRelations,
+}){
+    return (
+        <div className='LB-NameWithWinnerFlag'>
+            {winnerBet && (
+                <TeamFlag name={winnerBet.answer.name} size={24} />
+            )}
+            {!winnerBet && (
+                <div className='NameWithWinnerFlag-noWinner' />
+            )}
+            <div className="NameWithWinnerFlag-name">
+                {name}
+            </div>
+        </div>
+    )
+}
 
 interface Props {
     rows: ScoreboardRowDetailed[]
     currentUtlId: number
     expandable?: boolean
+    isLive?: boolean
 }
 
-function LeaderboardTable({ rows, currentUtlId, expandable = true }: Props) {
+function LeaderboardTable({ rows, currentUtlId, isLive, expandable = true }: Props) {
+    const winnerBetByUtlId = useSelector(WinnerBetByUtlId)
     const [expand, setExpand] = useState<number>(null)
     const getPrizeTheme = usePrizesThemeClass()
     const hasScores = !!rows.find(row => row.score > 0)
@@ -53,7 +81,12 @@ function LeaderboardTable({ rows, currentUtlId, expandable = true }: Props) {
             classes: {
                 cell: 'nameCell',
             },
-			getter: (model: ScoreboardRowDetailed) => model.name,
+			getter: (model: ScoreboardRowDetailed) => (
+                <NameWithWinnerFlag
+                    name={model.name}
+                    winnerBet={winnerBetByUtlId[model.user_tournament_id]}
+                />
+            ),
 		},
 		{
 			id: 'score',
@@ -69,7 +102,7 @@ function LeaderboardTable({ rows, currentUtlId, expandable = true }: Props) {
                     {!!model.addedScore && (
                         <div className='scoreCell-added'>
                             <span>{model.addedScore}</span>
-                            <span>+</span>
+                            <AddIcon className='scoreCell-addIcon'/>
                         </div>
                     )}
                 </div>
@@ -95,7 +128,7 @@ function LeaderboardTable({ rows, currentUtlId, expandable = true }: Props) {
     const getExpandContent = (model: ScoreboardRowDetailed) => (
         model.user_tournament_id === expand
         ? (
-            <ExpandedContestant utlId={model.user_tournament_id} />
+            <ExpandedContestant utlId={model.user_tournament_id} isLive={isLive} />
         ) : null
     )
     
