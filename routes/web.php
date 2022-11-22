@@ -90,6 +90,7 @@ Route::prefix("/api/tournaments/{tournamentId}/")->middleware("confirmed_user")
         Route::get('groups', [GroupsController::class, 'index']);
         Route::get('games', [GamesController::class, 'index']);
         Route::get('players', [PlayersController::class, 'index']);
+        Route::get('players/relevant', [PlayersController::class, 'getRelevantPlayers']);
         Route::get("leaderboards", [LeaderboardController::class, 'index']);
         Route::get("contestants", [UserController::class, 'getTournamentUTLs']);
         Route::get("teams", [TeamsController::class, 'index']);

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Enums\BetTypes;
 use App\SpecialBets\SpecialBet;
 use Illuminate\Database\Eloquent\Model;
 
@@ -114,6 +115,15 @@ class Tournament extends Model
     {
         $this->status = static::STATUS_ONGOING;
         $this->save();
+    }
+
+    public function getRelevantPlayerIds()
+    {
+        $playerSpecialQuestionIds = $this->specialBets
+            ->whereIn("type", [SpecialBet::TYPE_TOP_SCORER, SpecialBet::TYPE_MOST_ASSISTS, SpecialBet::TYPE_MVP])
+            ->pluck("id");
+        $relevantBets = $this->bets->where("type", BetTypes::SpecialBet)->whereIn("type_id", $playerSpecialQuestionIds);
+        return $relevantBets->map(fn($b) => $b->getAnswer())->unique();
     }
 
     public function hasValidScoreConfig()
