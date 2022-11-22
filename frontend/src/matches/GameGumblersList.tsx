@@ -19,7 +19,7 @@ interface BetInstance {
     gumblers: string[],
 }
 
-function GameGumblersList({ match, withExpand }: { match: MatchWithBets, withExpand?: boolean }) {
+function GameGumblersList({ match, withExpand, isLive }: { match: MatchWithBets, withExpand?: boolean, isLive?: boolean, }) {
     const { home_team, away_team, betsByValue } = match
     const [expand, setExpand] = useState(false)
     const toggleExpand = () => setExpand(!expand)
@@ -94,7 +94,7 @@ function GameGumblersList({ match, withExpand }: { match: MatchWithBets, withExp
         {
             id: 'score',
             classes: {
-                cell: 'scoreCell'
+                cell: `scoreCell ${isLive ? 'isLive' : ''}`,
             },
             header: 'ניקוד',
             getter: (bet: BetInstance) => bet.score,

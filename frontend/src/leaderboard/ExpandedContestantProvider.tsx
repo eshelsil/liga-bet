@@ -13,24 +13,31 @@ interface Props {
     matchBetsByUserId: Dictionary<MatchBetWithRelations[]>
     groupStandingBetsByUserId: Dictionary<GroupRankBetWithRelations[]>
     questionBetsByUserId: Dictionary<QuestionBetWithRelations[]>
+    liveGameBetsByUtlId: Dictionary<MatchBetWithRelations[]>
     utlId: number
+    isLive?: boolean
 }
 
 export function ExpandedContestantProvider({
     utlId,
+    isLive,
     matchBetsByUserId,
     groupStandingBetsByUserId,
     questionBetsByUserId,
+    liveGameBetsByUtlId,
 }: Props) {
     const matchBets = matchBetsByUserId[utlId] ?? []
+    const liveGameBets = liveGameBetsByUtlId[utlId] ?? []
     const questionBets = questionBetsByUserId[utlId] ?? []
     const groupStandingsBets =
         groupStandingBetsByUserId[utlId] ?? []
-
+    
     return (
         <ExpandedContestantView
             utlId={utlId}
+            isLive={isLive}
             matchBets={matchBets}
+            liveGameBets={liveGameBets}
             questionBets={questionBets}
             groupStandingsBets={groupStandingsBets}
         />

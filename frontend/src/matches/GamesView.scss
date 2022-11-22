@@ -30,7 +30,24 @@
         width: 500px;
         max-width: 100%;
         margin: 24px auto;
-        
+
+        .MuiTableContainer-root {
+            box-shadow: none;
+            border-radius: 0px;
+            padding: 8px 0px;
+            .MuiTable-root {
+                .LigaBet-CustomTableRow {
+                    .MuiTableCell-root {
+                        &.scoreCell {
+                            &.isLive {
+                                color: #077607d4;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+                    
         .LB-GameHeader {
             @include flexRow;
             justify-content: space-between;
@@ -102,6 +119,14 @@
     .LB-DoneGamesView {
         .DoneViewGames-pagination {
             width: fit-content;
+        }
+        .LB-GameGumblersList {
+            .LB-GumblersTable {
+                padding: 0px;
+                .MuiTableContainer-root {
+                    padding: 0px;
+                }
+            }
         }
     }
 }

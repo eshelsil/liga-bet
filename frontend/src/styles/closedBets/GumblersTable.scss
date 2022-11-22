@@ -6,14 +6,11 @@
         border-radius: 0px;
     }
     .MuiTableCell-root {
-        text-align: center;
         padding: 8px;
-        border: none;
         &.tableHeaderCell{
             font-weight: 700;
         }
         .LB-MatchResult {
-            margin: auto;
             .MatchResult-content {
                 background-color: rgba(0,0,0,0.1);
                 padding: 8px;
@@ -27,8 +24,6 @@
             line-height: 1.25;
             font-size: 16px;
             .gumblersContainer {
-                display: inline-block;
-                margin: auto;
                 text-align: right;
             }
         }

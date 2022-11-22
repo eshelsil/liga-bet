@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { formatLeaderboardVersion, valuesOf } from '../utils'
 import { Contestants, IsTournamentStarted } from './base'
-import { LatestLeaderboard } from './logic/scoreboard'
+import { LatestLeaderboard, LiveGameBetsWithScore, LiveGameBetsWithScoreByUtlId } from './logic'
 import {
     GroupStandingBetsByUserId,
     MatchBetsWithPositiveScores,
@@ -26,7 +26,8 @@ export const ContestantSelector = createSelector(
     MatchBetsWithPositiveScores,
     GroupStandingBetsByUserId,
     QuestionBetsByUserQuestionId,
-    (relevantMatchBets, groupStandingBetsByUserId, questionBetsByUserId) => {
+    LiveGameBetsWithScoreByUtlId,
+    (relevantMatchBets, groupStandingBetsByUserId, questionBetsByUserId, liveGameBetsByUtlId) => {
         const matchBetsByUserId = groupBy(
             relevantMatchBets,
             'user_tournament_id'
@@ -35,6 +36,7 @@ export const ContestantSelector = createSelector(
             matchBetsByUserId,
             groupStandingBetsByUserId,
             questionBetsByUserId,
+            liveGameBetsByUtlId,
         }
     }
 )
