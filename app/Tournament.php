@@ -119,10 +119,13 @@ class Tournament extends Model
 
     public function getRelevantPlayerIds()
     {
-        $playerSpecialQuestionIds = $this->specialBets
+        $playerSpecialQuestionIds = $this->specialBets()
             ->whereIn("type", [SpecialBet::TYPE_TOP_SCORER, SpecialBet::TYPE_MOST_ASSISTS, SpecialBet::TYPE_MVP])
-            ->pluck("id");
-        $relevantBets = $this->bets->where("type", BetTypes::SpecialBet)->whereIn("type_id", $playerSpecialQuestionIds);
+            ->get()->pluck("id");
+        $relevantBets = $this->bets()
+            ->where("type", BetTypes::SpecialBet)->whereIn("type_id", $playerSpecialQuestionIds)
+            ->get();
+        // TODO: add players from actual answers
         return $relevantBets->map(fn($b) => $b->getAnswer())->unique();
     }
 

@@ -26,6 +26,7 @@ class GamesController extends Controller
 
     public function getGoalsData(Request $request, string $tournamentId)
     {
+        // TODO: move to a better location?
         $utl = $this->getUser()->getTournamentUser($tournamentId);
 
         $data = $utl->tournament->competition->goalsData

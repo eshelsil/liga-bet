@@ -35,8 +35,8 @@ class PlayersController extends Controller
                 }
             );
 
-        $data = $utl->tournament->competition->players
-            ->whereIn("id", $relevantPlayerIds->unique())
+        $data = $utl->tournament->competition->players()
+            ->whereIn("players.id", $relevantPlayerIds->unique()->filter())->get()
             ->map(fn(Player $player) => (new PlayerResource($player))->toArray($request));
 
         return new JsonResponse($data, 200);
