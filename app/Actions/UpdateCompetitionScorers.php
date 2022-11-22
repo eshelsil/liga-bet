@@ -37,7 +37,7 @@ class UpdateCompetitionScorers
         $relevantGames->load(["teamHome", "teamAway"])
             ->each(fn(Game $g) => $teams->add($g->teamHome)->add($g->teamAway));
         $scorers = $this->fakeScorers ?? $competition->getCrawler()->fetchScorers($teams->pluck("external_id"));
-        \Log::debug("[UpdateScorers][handle] got {{$scorers->count()}} scorers", );
+        \Log::debug("[UpdateScorers][handle] got {{$scorers->count()}} scorers" );
 
         $players = $competition->players->keyBy("external_id");
         $newGoalsAndAssistsData = [];

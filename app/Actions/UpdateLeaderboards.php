@@ -207,11 +207,9 @@ class UpdateLeaderboards
         }
         if ($hasChanges){
             $lastScore = null;
-            $rank = null;
+            $rank = 1;
             foreach ($scoreboardRows->sortByDesc('score')->values() as $i => $leader) {
-                if (is_null($rank)){
-                    $rank = 1;
-                } else if ($lastScore != $leader->score) {
+                if ($lastScore != $leader->score) {
                     $rank = $i + 1;
                 }
                 $leader->rank = $rank;
