@@ -3,7 +3,8 @@ import { calcGainedPointsOnGameBet, calcLeaderboardVersionsDiff, formatLeaderboa
 import { calcLiveAddedScore, getLiveVersionScore } from '../../utils'
 import { BetsFullScoresConfigSelector, Contestants, GameGoalsDataSelector, LeaderboardVersionsDesc } from '../base'
 import { LiveGameBets, QuestionBetsByUtlId } from '../modelRelations'
-import { groupBy } from 'lodash'
+import { LeaderboardVersion } from '../../types'
+import { groupBy, keyBy } from 'lodash'
 
 
 export const LatestLeaderboard = createSelector(
@@ -24,7 +25,14 @@ export const LiveScoreboard = createSelector(
     QuestionBetsByUtlId,
     Contestants,
     (versions, liveGamesBets, scoresConfig, goalsData, questionBetsByUtlId, contestants) => {
-        const latestVersion = versions[0]
+        const latestVersion = Object.keys(versions[0] || {}).length > 0
+            ? versions[0]
+            : {
+                id: 1,
+                description: '',
+                created_at: new Date(),
+                leaderboard: keyBy(valuesOf(contestants).map(generateEmptyScoreboardRow), 'id')
+            } as LeaderboardVersion
         const liveGameBetsByUtlId = groupBy(valuesOf(liveGamesBets), 'user_tournament_id')
         const addedScorePerUtl = calcLiveAddedScore({
             betsByUtlId: liveGameBetsByUtlId,
@@ -33,9 +41,6 @@ export const LiveScoreboard = createSelector(
             config: scoresConfig,
         })
         const liveVersion = getLiveVersionScore(latestVersion, addedScorePerUtl)
-        if (Object.keys(liveVersion).length === 0){
-            return valuesOf(contestants).map(generateEmptyScoreboardRow)
-        }
         return formatLeaderboardVersion(liveVersion, contestants)
     }
 )
