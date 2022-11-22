@@ -12,7 +12,6 @@ use App\Competition;
 use App\Game;
 use App\Player;
 use App\SpecialBets\SpecialBet;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 class UpdateCompetitionScorers
@@ -38,6 +37,7 @@ class UpdateCompetitionScorers
         $relevantGames->load(["teamHome", "teamAway"])
             ->each(fn(Game $g) => $teams->add($g->teamHome)->add($g->teamAway));
         $scorers = $this->fakeScorers ?? $competition->getCrawler()->fetchScorers($teams->pluck("external_id"));
+        \Log::debug("[UpdateScorers][handle] got {{$scorers->count()}} scorers" );
 
         $players = $competition->players->keyBy("external_id");
         $newGoalsAndAssistsData = [];
