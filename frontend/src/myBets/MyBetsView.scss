@@ -75,4 +75,11 @@
             }
         }
     }
+    .GameBetsTable-live {
+        .MuiTableCell-root {
+            &.scoreCell {
+                color: green;
+            }
+        }
+    }
 }

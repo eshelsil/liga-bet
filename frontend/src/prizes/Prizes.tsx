@@ -1,6 +1,13 @@
 import React from 'react';
+import { usePrizesThemeClass } from '../hooks/useThemeClass';
 import { prizeToString } from '../utils';
 
+
+const rankToEmoji = {
+	1: "🥇",
+	2: "🥈",
+	3: "🥉",
+}
 
 function PrizeBlock({
 	prize,
@@ -9,8 +16,14 @@ function PrizeBlock({
 	prize: string,
 	rank: number,
 }){
-	return <div className={`LigaBet-Prize prize_rank_${rank}`}>
-		<p>{prizeToString[rank]}<br></br>{prize}</p>
+	const getPrizeThemeClass = usePrizesThemeClass()
+
+	return <div className={`LigaBet-Prize ${getPrizeThemeClass(rank)}`}>
+		<p className='LB-Prize-text'>
+			{prizeToString[rank]}{'  '}{rankToEmoji[rank] ?? ''}
+			<br></br>
+			{prize}
+		</p>
 	</div>
 }
 

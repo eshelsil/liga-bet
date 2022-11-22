@@ -14,17 +14,18 @@ import { Link } from '@mui/material'
 import { useGameBetsOfUtl } from '../hooks/useFetcher'
 
 
-function GameBetsView({totalScore, bets, utlId}: {
+function GameBetsView({totalScore, bets, utlId, showLive}: {
     bets: MatchBetWithRelations[],
     totalScore: number,
     utlId: number,
+    showLive?: boolean,
 }) {
     useGameBetsOfUtl(utlId)
 
     return (
         <div>
             <h3>סה"כ:{' '}{totalScore}</h3>
-            <GameBetsTable bets={bets} dropColumns={{date: true}} />
+            <GameBetsTable bets={bets} dropColumns={{date: true}} showLive={showLive} />
         </div>
     )
 }
@@ -32,21 +33,27 @@ function GameBetsView({totalScore, bets, utlId}: {
 interface Props {
     utlId: number
     matchBets: MatchBetWithRelations[]
+    liveGameBets: MatchBetWithRelations[]
     groupStandingsBets: GroupRankBetWithRelations[]
     questionBets: QuestionBetWithRelations[]
+    isLive?: boolean
 }
 
 export function ExpandedContestantView({
     utlId,
     matchBets,
+    liveGameBets,
     groupStandingsBets,
     questionBets,
+    isLive,
 }: Props) {
     const { goToHisBets } = useGoTo()
     const [selectedTab, setSelectedTab] = useState(0)
     const matchesScore = sumBetsScore(matchBets)
     const groupStandingsScore = sumBetsScore(groupStandingsBets)
     const specialBetScore = sumBetsScore(questionBets)
+
+    const gameBetsToShow = isLive ? [...liveGameBets, ...matchBets] : matchBets
 
     
     const tabs = [
@@ -55,9 +62,10 @@ export function ExpandedContestantView({
             label: 'משחקים',
             children: (
                 <GameBetsView
-                    bets={matchBets}
+                    bets={gameBetsToShow}
                     totalScore={matchesScore}
                     utlId={utlId}
+                    showLive={isLive}
                 />
             )
         },

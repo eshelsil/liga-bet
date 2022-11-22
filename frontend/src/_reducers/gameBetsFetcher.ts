@@ -17,6 +17,12 @@ const gameBetsFetcher = createSlice({
     name: 'gameBetsFetcher',
     initialState: {} as State,
     reducers: {
+        markUnfetched: (state, action: PayloadAction<ActionPayload>) => {
+            const { tournamentId, ids, type } = action.payload
+            state[tournamentId] = state[tournamentId] ?? generateEmptyGameBetFetcher();
+            const slice = state[tournamentId][type]
+            slice.fetched = without(slice.fetched, ...ids)
+        },
         fetch: (state, action: PayloadAction<ActionPayload>) => {
             const { tournamentId, ids, type } = action.payload
             state[tournamentId] = state[tournamentId] ?? generateEmptyGameBetFetcher();

@@ -4,7 +4,7 @@ import { MatchApiModelById } from '../types'
 import { Dictionary } from 'lodash'
 
 
-type State = Dictionary<MatchApiModelById>
+type State = Record<number, MatchApiModelById>
 
 interface UpdateManyPayload {
     competitionId: number,

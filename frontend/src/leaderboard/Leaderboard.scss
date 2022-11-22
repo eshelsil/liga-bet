@@ -1,4 +1,3 @@
-@use '../styles/common/rankBgColor.scss';
 @import '../styles/themes/tournaments';
 @import '../styles/themes/prizes';
 @import '../styles/mixins';
@@ -20,11 +19,13 @@
     }
 }
 
-@mixin themable_prize_row($class, $color){
+@mixin themable_prize_row($class, $prize_theme){
     &.#{$class} {
-        background-color: rgba($color, 0.95);
+        $background: map_get($prize_theme, "background");
+        background: $background;
         .MuiTableCell-root {
             color: white;
+            text-shadow: -1px 1px 5px rgb(0 0 0 / 90%)
         }
     }
 }
@@ -42,7 +43,7 @@
     @include themable_table_header(tournament-theme-4, $tournament_4);
     @include themable_table_header(tournament-theme-5, $tournament_5);
     .LeaderboardView-content {
-        margin-top: 40px;
+        margin-top: 20px;
         .tableTitleContainer {
             border-radius: 12px 12px 0px 0px;
             .tableTitle {
@@ -74,22 +75,14 @@
                 cursor: pointer;
                 &.currentUtl {
                     .MuiTableCell-root {
-                        $border: 2px solid #000;
-                        border-top: $border;
-                        border-bottom: $border;
                         &:first-of-type {
-                            border-right: $border;
+                            border-right: 6px solid $primary-main;
+                            .rankChange {
+                                margin-right: -2px;
+                            }
                         }
-                        &:last-of-type {
-                            border-left: $border;
-                        }
-
-                    }
-                }
-                &:first-of-type {
-                    .scoreCell-container {
-                        .scoreCell-added {
-                            box-shadow: rgb(60 64 67 / 50%) 0px 1px 6px 1px, rgb(60 64 67 / 15%) 0px 2px 6px 2px;
+                        &.nameCell {
+                            font-weight: 700;
                         }
                     }
                 }
@@ -115,6 +108,7 @@
         .scoreCell-container {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             .scoreCell-total {
                 font-size: 18px;
             }
@@ -123,16 +117,25 @@
                 background-color: green;
                 margin-right: 8px;
                 color: #fff;
-                border-radius: 4px;
+                border-radius: 12px;
                 line-height: 1;
                 font-size: 12px;
                 margin-top: -1px;
                 box-shadow: $medium-shadow;
+                text-shadow: none;
+                @include flexRow;
+                > span {
+                    margin-left: -1px;
+                    padding-right: 2px;
+                }
+                > .scoreCell-addIcon {
+                    font-size: 16px;
+                }
             }
         }
         .rankChange {
             @include flexRow;
-            box-shadow: $basic-shadow;
+            box-shadow: $medium-shadow;
             border-radius: 50%;    display: flex;
             padding-right: 6px;
             position: relative;
@@ -141,10 +144,14 @@
             border-radius: 20px;
             margin-top: -3px;
             background-color: #eee;
+            margin-right: 4px;
+            text-shadow: none;
+            height: 22px;
             .rankChange-value {
                 font-size: 14px;
                 line-height: 1;
                 color: #000;
+                margin-left: -2px;
             }
             .rankChange-direction {
                 color: $success-main;
@@ -173,6 +180,34 @@
                 margin: 12px;
             }
         }
+    }
+    .LeaderboardView-isLiveForm {
+        border-radius: 12px;
+        border: 1px dashed $primary-main;
+        background-color: rgba(186, 219, 245, 0.95);
+        padding: 4px;
+        margin-top: 24px;
+        .MuiFormControlLabel-root {
+            margin: 0px -4px 0px 0px;
+            .MuiTypography-root {
+                font-size: 14px;
+            }
+        }
+    }
+    .LeaderboardView-refreshTableButton {
+        margin-top: 16px;
+    }
+}
+
+.LB-NameWithWinnerFlag {
+    @include flexRow;
+    .NameWithWinnerFlag-name {
+        margin-right: 8px;
+        margin-bottom: -2px;
+    }
+    .NameWithWinnerFlag-noWinner {
+        width: 24px;
+        height: 24px;
     }
 }
 

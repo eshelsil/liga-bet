@@ -6,19 +6,8 @@ import { CurrentTournamentName, CurrentTournamentUserId, IsTournamentStarted } f
 import { LeaderboardSelector } from '../_selectors/leaderboard'
 import LeaderboardView from './LeaderboardView'
 import './Leaderboard.scss'
+import { generateEmptyScoreboardRow } from '../utils'
 
-
-function generateEmptyScoreboardRow(contestant: UTL): ScoreboardRowDetailed {
-    return {
-        id: contestant.id,
-        user_tournament_id: contestant.id,
-        name: contestant.name,
-        rank: 1,
-        score: 0,
-        change: 0,
-        addedScore: 0,
-    }
-}
 
 
 function Leaderboard() {

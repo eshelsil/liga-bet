@@ -1,7 +1,7 @@
 import { groupBy, mapValues, pickBy } from 'lodash'
 import { createSelector } from 'reselect'
 import { MatchBetWithRelations } from '../../types'
-import { valuesOf } from '../../utils'
+import { isGameLive, valuesOf } from '../../utils'
 import { MatchBets, Contestants } from '../base'
 import { MatchesWithTeams } from './matches'
 
@@ -45,3 +45,24 @@ export const MatchBetsByMatchId = createSelector(MatchBetsLinked, (bets) => {
 export const MatchBetsByUserId = createSelector(MatchBetsLinked, (bets) => {
     return groupBy(valuesOf(bets), 'user_tournament_id')
 })
+
+export const LiveGameBets = createSelector(
+    MatchBetsLinked,
+    (matchBets) => {
+        return pickBy(matchBets, (bet => isGameLive(bet.relatedMatch)))
+    }
+)
+
+export const DoneGameBets = createSelector(
+    MatchBetsLinked,
+    (matchBets) => {
+        return pickBy(matchBets, (bet => bet.relatedMatch.is_done))
+    }
+)
+
+export const DoneGameBetsByGameId = createSelector(
+    DoneGameBets,
+    (doneGameBets) => {
+        return groupBy(valuesOf(doneGameBets), bet => bet.relatedMatch.id)
+    }
+)

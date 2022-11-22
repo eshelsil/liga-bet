@@ -1,15 +1,30 @@
-@use '../styles/common/rankBgColor.scss';
-@use '../styles/shadows';
+@import '../styles/themes/prizes';
+
+
+@mixin themable_prize_block($class, $prize_theme){
+    &.#{$class} {
+        background: map_get($prize_theme, "background");
+    }
+}
 
 .LigaBet-Prize {
     min-height: 20px;
     max-width: 600px;
-    padding: 20px;
+    padding: 8px 12px;
     margin: auto;
     margin-bottom: 20px;
     border-radius: 4px;
     color: #fff;
     background-color: #8d8b89;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-    @extend .prize_rank_bg;
+    @include themable_prize_block(prize-theme-1, $prize_1);
+    @include themable_prize_block(prize-theme-2, $prize_2);
+    @include themable_prize_block(prize-theme-3, $prize_3);
+    @include themable_prize_block(prize-theme-4, $prize_4);
+    @include themable_prize_block(prize-theme-5, $prize_5);
+    @include themable_prize_block(prize-theme-6, $prize_6);
+    .LB-Prize-text {
+        margin: 0;
+        text-shadow: -1px 1px 5px rgb(0 0 0 / 95%)
+    }
 }

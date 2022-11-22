@@ -2,29 +2,36 @@ import { groupBy } from 'lodash'
 import { createSelector } from 'reselect'
 import { Match, MatchBetApiModel } from '../types'
 import { getMatchBetValue, isGameStarted } from '../utils'
-import { MatchBetsByMatchId, MatchesWithTeams } from './modelRelations'
+import { LiveGameBetsWithScoreByGameId } from './logic'
+import { DoneGameBetsByGameId, MatchesWithTeams } from './modelRelations'
 
 export interface MatchWithBets extends Match {
     betsByValue: Record<string, MatchBetApiModel[]>
 }
 
 export const ClosedMatchBetsSelector = createSelector(
-    MatchBetsByMatchId,
+    DoneGameBetsByGameId,
     MatchesWithTeams,
-    (matchBetsByMatchId, matches) => {
+    LiveGameBetsWithScoreByGameId,
+    (doneGameBetsByGameId, matches, liveGameBetsByUtlId) => {
         const done_matches: MatchWithBets[] = []
         const live_matches: MatchWithBets[] = []
         for (const match of Object.values(matches)) {
-            // if (!match.closed_for_bets) continue;
-            const bets = matchBetsByMatchId[match.id] ?? []
-            const betsByValue = groupBy(bets, getMatchBetValue)
-            const matchWithBetsByValue = {
-                ...match,
-                betsByValue,
-            }
             if (match.is_done) {
+                const bets = doneGameBetsByGameId[match.id] ?? []
+                const betsByValue = groupBy(bets, getMatchBetValue)
+                const matchWithBetsByValue = {
+                    ...match,
+                    betsByValue,
+                }
                 done_matches.push(matchWithBetsByValue)
             } else if (isGameStarted(match)) {
+                const bets = liveGameBetsByUtlId[match.id] ?? []
+                const betsByValue = groupBy(bets, getMatchBetValue)
+                const matchWithBetsByValue = {
+                    ...match,
+                    betsByValue,
+                }
                 live_matches.push(matchWithBetsByValue)
             }
         }

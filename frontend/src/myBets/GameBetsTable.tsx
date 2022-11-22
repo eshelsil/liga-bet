@@ -1,7 +1,7 @@
 import React from 'react'
 import CustomTable from '../widgets/Table/CustomTable'
 import { MatchBetWithRelations } from '../types'
-import { SHORT_DATE_FORMAT } from '../utils'
+import { isGameLive, SHORT_DATE_FORMAT } from '../utils'
 import dayjs from 'dayjs'
 import MatchResultView from '../widgets/MatchResult'
 import { orderBy } from 'lodash'
@@ -16,9 +16,10 @@ interface Props {
     dropColumns?: {
         date?: boolean
     }
+    showLive?: boolean
 }
 
-const GameBetsTable = ({ bets, headers, dropColumns }: Props) => {
+const GameBetsTable = ({ bets, headers, dropColumns, showLive }: Props) => {
     const cells = [
 		{
 			id: 'id',
@@ -63,7 +64,7 @@ const GameBetsTable = ({ bets, headers, dropColumns }: Props) => {
 			id: 'result',
 			header: headers?.bet ?? 'תוצאה',
 			getter: (bet: MatchBetWithRelations) => (<>
-                {bet.relatedMatch.is_done && (
+                {showLive || bet.relatedMatch.is_done ? (
                     <MatchResultView
                         home={{
                             team: bet.relatedMatch.home_team,
@@ -75,7 +76,7 @@ const GameBetsTable = ({ bets, headers, dropColumns }: Props) => {
                         }}
                         qualifier={bet.winner_side ? bet.relatedMatch.winner_side : undefined}
                     />
-                )}
+                ) : null}
             </>),
 		},
 		{
@@ -88,11 +89,15 @@ const GameBetsTable = ({ bets, headers, dropColumns }: Props) => {
 		},
     ]
 
+    const getRowClassName = (model: MatchBetWithRelations) => {
+        return (showLive && isGameLive(model.relatedMatch)) ? 'GameBetsTable-live' : ''
+    }
+
     const models = orderBy(bets, [bet => bet.relatedMatch.start_time], ['desc'])
 
     return (
         <div className='LB-GameBetsTable'>
-            <CustomTable models={models} cells={cells} />
+            <CustomTable models={models} cells={cells} getRowClassName={getRowClassName} />
         </div>
     )
 }

@@ -5,11 +5,11 @@ import GameGumblersList from './GameGumblersList'
 import { Pagination } from '@mui/material'
 import { GameBetsFetchType } from '../types'
 import { map } from 'lodash'
-import { useGameBets, useGames } from '../hooks/useFetcher'
+import { useGameBets } from '../hooks/useFetcher'
 import { LoadingButton } from '../widgets/Buttons'
-import './GamesView.scss'
+import { useLiveUpdate } from '../hooks/useLiveUpdate'
 import '../styles/closedBets/GumblersTable.scss'
-import { pingUpdateCompetition } from '../api/matches'
+import './GamesView.scss'
 
 
 const GAMES_PER_PAGE = 10
@@ -42,23 +42,18 @@ function DoneGamesView({games}: {games: MatchWithBets[]}){
 }
 
 function LiveGamesView({games}: {games: MatchWithBets[]}){
-    useGameBets({type: GameBetsFetchType.Games, ids: map(games, 'id')})
-    const { refresh } = useGames()
-    const onRefresh = async() => {
-        pingUpdateCompetition()
-        await refresh()
-    }
+    const { refresh } = useLiveUpdate()
 
     
     return (
         <div>
             <LoadingButton
-                action={onRefresh}
+                action={refresh}
             >
                 רענן משחקים
             </LoadingButton>
             {games.map((game) => (
-                <GameGumblersList key={game.id} match={game} />
+                <GameGumblersList key={game.id} match={game} isLive={true} />
             ))}
         </div>
     )
@@ -75,7 +70,7 @@ const MatchesView = ({
     
     return (
         <div className='LB-GamesView'>
-            <h1 className='LB-TitleText'>רשימת משחקים</h1>
+            <h1 className='LB-TitleText'>צפייה בניחושים</h1>
             <div>
                 <SimpleTabs
                     tabs={[

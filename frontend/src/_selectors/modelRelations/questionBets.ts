@@ -1,7 +1,7 @@
 import { groupBy, mapValues, pickBy } from 'lodash'
 import { createSelector } from 'reselect'
 import { QuestionBetWithRelations, SpecialQuestion } from '../../types'
-import { specialQuestionToAnswerType } from '../../utils'
+import { specialQuestionToAnswerType, valuesOf } from '../../utils'
 import { QuestionBets, Contestants, Teams } from '../base'
 import {
     getSpecialAnswerModel,
@@ -54,6 +54,10 @@ export const QuestionBetsLinked = createSelector(
 
 export const QuestionBetsById = createSelector(QuestionBetsLinked, (bets) => {
     return groupBy(Object.values(bets), 'type_id')
+})
+
+export const QuestionBetsByUtlId = createSelector(QuestionBetsLinked, (bets) => {
+    return groupBy(valuesOf(bets), 'user_tournament_id')
 })
 
 export const QuestionBetsByUserQuestionId = createSelector(

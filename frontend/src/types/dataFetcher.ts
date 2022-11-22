@@ -7,6 +7,7 @@ export enum CollectionName {
     Contestants = 'contestants',
     Leaderboard = 'leaderboard',
     PrimalBets = 'primalBets',
+    Goals = 'goalsData',
 }
 
 export interface CollectionFetcherData {

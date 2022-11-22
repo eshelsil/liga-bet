@@ -5,12 +5,13 @@ import { fetchAndStorePrimalBets, fetchGameBetsThunk, initPrimalBets } from '../
 import { fetchAndStoreContestants, initContestants } from '../_actions/contestants';
 import { fetchAndStoreGroups, initGroups } from '../_actions/groups';
 import { fetchAndStoreLeaderboard, initLeaderboard } from '../_actions/leaderboard';
-import { fetchAndStoreMatches, initGames } from '../_actions/matches';
+import { fetchAndStoreGoalsData, fetchAndStoreMatches, initGames, initGoalsData } from '../_actions/matches';
 import { fetchAndStoreNotifications } from '../_actions/notifications';
 import { fetchAndStorePlayers, initPlayers } from '../_actions/players';
 import { fetchAndStoreQuestions, initSpecialQuestions } from '../_actions/specialQuestions';
 import { fetchAndStoreTeams, initTeams } from '../_actions/teams'
 import { AppDispatch } from '../_helpers/store'
+import gameBetsFetcher from '../_reducers/gameBetsFetcher';
 import { CurrentTournamentUserId, GameIds, IsConfirmedUtl, TournamentIdSelector } from '../_selectors';
 import { HasAllOtherTournamentsNotifications, HasFetchedAllTournamentInitialData } from '../_selectors';
 
@@ -73,6 +74,14 @@ export function useGames(refreshable?: boolean) {
     })
 }
 
+export function useGameGoals(refreshable?: boolean) {
+    return useFetcher({
+        refreshable,
+        refreshFunc: fetchAndStoreGoalsData,
+        initFunc: initGoalsData,
+    })
+}
+
 export function useGroups(refreshable?: boolean) {
     return useFetcher({
         refreshable,
@@ -119,6 +128,11 @@ export function useGameBets(params: Omit<FetchGameBetsParams, "tournamentId">){
     const fetchFunc = (params: FetchGameBetsParams) => dispatch(fetchGameBetsThunk(params))
     const currentTournamentId = useSelector(TournamentIdSelector)
     const isConfirmed = useSelector(IsConfirmedUtl)
+    const refetch = async () => {
+        const allParams = {...params, tournamentId: currentTournamentId}
+        dispatch(gameBetsFetcher.actions.markUnfetched(allParams))
+        await fetchFunc(allParams)
+    }
 
     
     useEffect(() => {
@@ -131,6 +145,7 @@ export function useGameBets(params: Omit<FetchGameBetsParams, "tournamentId">){
 
     return {
         fetchFunc,
+        refetch,
     }
 }
 
