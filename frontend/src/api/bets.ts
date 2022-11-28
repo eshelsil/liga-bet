@@ -1,4 +1,4 @@
-import { BetApiModel, BetType, WinnerSide } from '../types'
+import { BetApiModel, BetType, MatchBetApiModel, WinnerSide } from '../types'
 import { FetchGameBetsParams, GameBetsFetchType } from '../types/dataFetcher'
 import { sendApiRequest } from './common/apiRequest'
 
@@ -7,7 +7,7 @@ type BetsApiResult = Record<number, BetApiModel>
 
 export const fetchMatchBets = async (
     { type, ids, tournamentId }: FetchGameBetsParams,
-): Promise<BetsApiResult> => {
+): Promise<Record<number, MatchBetApiModel>> => {
     let filterParam: string;
     if (type === GameBetsFetchType.Users) filterParam = 'utl_ids'
     if (type === GameBetsFetchType.Games) filterParam = 'game_ids'

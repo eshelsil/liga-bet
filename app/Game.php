@@ -226,7 +226,7 @@ class Game extends Model implements BetableInterface
             if ($goals == 2){
                 $goals = Arr::random([2,3]);
             }
-            $res[$key] = "{$goals}";
+            $res[$key] = $goals;
         }
         if($this->isKnockout() && $res['result-home'] == $res['result-away']){
             $res['ko_winner_side'] = Arr::random(['home','away']);
