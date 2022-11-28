@@ -1,5 +1,6 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
+import { ClosedBetsTab } from '../closedBets'
 
 function useGoTo() {
     const history = useHistory()
@@ -20,6 +21,12 @@ function useGoTo() {
     const goToAdminIndex = () => history.push('/admin')
     const goToAdminInviteTournamentAdmin = () => history.push('/admin/invite-tournament-admin')
 
+    const goToClosedBets = (tab: ClosedBetsTab) => history.push(`/closed-bets/${tab}`)
+    const goToClosedGameBets = () => goToClosedBets(ClosedBetsTab.Games)
+    const goToClosedGroupRankBets = () => goToClosedBets(ClosedBetsTab.Questions)
+    const goToClosedQuestionBets = () => goToClosedBets(ClosedBetsTab.Groups)
+
+
     return {
         goToMyProfile,
         goToMyBets,
@@ -36,6 +43,10 @@ function useGoTo() {
         goToTakanon,
         goToAdminIndex,
         goToAdminInviteTournamentAdmin,
+        goToClosedBets,
+        goToClosedGameBets,
+        goToClosedGroupRankBets,
+        goToClosedQuestionBets,
     }
 }
 

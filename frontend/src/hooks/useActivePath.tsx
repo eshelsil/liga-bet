@@ -1,12 +1,16 @@
 import React from 'react'
-import { useLocation } from 'react-router-dom'
+import { useRouteMatch } from 'react-router-dom'
 
 
-function useActivePath(path: string | string[]) {
+function useActivePath(path: string | string[]): boolean {
     const pathes = Array.isArray(path) ? path : [path]
-    const location = useLocation()
-    const currentRoute = location.pathname.substring(1)
-    return pathes.includes(currentRoute)
+    for (const path of pathes){
+        const match = useRouteMatch(`/${path}`)
+        if (match){
+            return true
+        }
+    }
+    return false
 }
 
 export default useActivePath

@@ -34,7 +34,9 @@ function LinkMenuItem({
             window.location = `/${path}` as any
             return
         }
-        history.push(`/${path}`)
+        if (!isActive) {
+            history.push(`/${path}`)
+        }
     }
     const action = onClick ?? goToRoute
     const onRouteClick = (e) => {
