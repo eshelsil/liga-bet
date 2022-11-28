@@ -8,6 +8,7 @@ import GameHeader from './GameHeader'
 import { orderBy } from 'lodash'
 import { Collapse } from '@mui/material'
 import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import GumblersList from '../gumblersList/GumblersList'
 
 
 interface BetInstance {
@@ -86,15 +87,14 @@ function GameGumblersList({ match, withExpand, isLive }: { match: MatchWithBets,
             },
             header: 'מנחשים',
             getter: (bet: BetInstance) => (
-                <div className='gumblersContainer'>
-                    {bet.gumblers.join('\n')}
-                </div>
+                <GumblersList gumblers={bet.gumblers} />
             ),
         },
         {
             id: 'score',
             classes: {
                 cell: `scoreCell ${isLive ? 'isLive' : ''}`,
+                header: 'scoreHeaderCell',
             },
             header: 'ניקוד',
             getter: (bet: BetInstance) => bet.score,

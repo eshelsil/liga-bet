@@ -9,6 +9,7 @@ import CustomTable from '../widgets/Table/CustomTable'
 import { Collapse } from '@mui/material'
 import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { groupBy, orderBy } from 'lodash'
+import GumblersList from '../gumblersList/GumblersList'
 
 
 interface BetInstance {
@@ -82,15 +83,14 @@ function GroupRankGumblersList({ group, bets }: Props) {
             },
             header: 'מנחשים',
             getter: (bet: BetInstance) => (
-                <div className='gumblersContainer'>
-                    {bet.gumblers.join('\n')}
-                </div>
+                <GumblersList gumblers={bet.gumblers} />
             ),
         },
         {
             id: 'score',
             classes: {
-                cell: 'scoreCell'
+                cell: 'scoreCell',
+                header: 'scoreHeaderCell',
             },
             header: 'ניקוד',
             getter: (bet: BetInstance) => bet.score,

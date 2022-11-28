@@ -18,6 +18,10 @@
         }
         &.scoreCell {
             font-size: 22px;
+            text-align: center;
+        }
+        &.scoreHeaderCell {
+            text-align: center;
         }
         &.gumblersCell {
             white-space: pre;

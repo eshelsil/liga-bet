@@ -64,6 +64,13 @@ export const CurrentTournamentUser = createSelector(
     }
 )
 
+export const CurrentUtlName = createSelector(
+    CurrentTournamentUser,
+    (utl) => {
+        return utl?.name
+    }
+)
+
 export const HasCurrentUtl = createSelector(
     CurrentTournamentUser,
     (utl) => !!utl
