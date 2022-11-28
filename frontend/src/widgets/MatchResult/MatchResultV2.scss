@@ -1,0 +1,61 @@
+@import '../../styles/mixins';
+
+
+.LB-MatchResultV2 {
+    max-width: 160px;
+    border-radius: 12px;
+    overflow: hidden;
+    .MatchResult-content {
+        display: flex;
+        justify-content: space-around;
+        padding: 4px;
+        .MatchResult-delimiter {
+            > :first-child {
+                @include centerContainer;
+                align-items: center;
+                height: 32px;
+                margin: 0px 4px
+            }
+            .qualifierDelimiter {
+                font-size: 12px;
+                line-height: 18px;
+                padding: 0px 4px;
+            }
+        }
+        .MatchResult-home {
+            .MatchResult-teamAndScore {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                .MatchResult-score {
+                    margin-right: 8px;
+                }
+            }
+            .MatchResult-qualifier {
+                margin-left: -3px;
+                text-align: left;
+            }
+        }
+        .MatchResult-away {
+            .MatchResult-teamAndScore {
+                display: flex;
+                flex-direction: row-reverse;
+                align-items: center;
+                .MatchResult-score {
+                    margin-left: 8px;
+                }
+            }
+            .MatchResult-qualifier {
+                margin-right: -3px;
+            }
+        }
+        .MatchResult-score {
+            font-size: 18px;
+            line-height: 1;
+        }
+        .MatchResult-qualifier {
+            font-size: 14px;
+            line-height: 18px;
+        }
+    }
+}

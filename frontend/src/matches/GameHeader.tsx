@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react'
-import dayjs from 'dayjs'
 import CustomTable from '../widgets/Table/CustomTable'
 import { Match, WinnerSide } from '../types'
 import { Model as TableModel } from '../widgets/Table';
@@ -14,23 +13,13 @@ interface RowModel {
     away?: ReactNode,
 }
 
-function GameHeader({ match }: { match: Match }) {
+function GameHeader({ match, onClick }: { match: Match, onClick?: () => void }) {
     const tournamentClass = useTournamentThemeClass()
     const { home_team, away_team, start_time, is_done, winner_side, result_away, result_home, id, is_knockout } = match
     let full_result_away: number;
     let full_result_home: number;
     const hasFullResult = false;
     const models: (RowModel | TableModel)[] = [
-        // {
-		// 	id: 'date',
-		// 	isFullRow: true,
-		// 	fullRowContent: (
-        //         <span className='GameHeader-date'>
-        //             {dayjs(start_time).format('DD/MM')}
-        //         </span>
-		// 	),
-        //     fullRowCellClass: 'dateRowCell'
-		// },
         ...( true || is_done ? [
             {
                 id: '90min',
@@ -95,7 +84,7 @@ function GameHeader({ match }: { match: Match }) {
         },
     ]
     return (
-        <div className={`LB-GameHeader ${tournamentClass}`}>
+        <div className={`LB-GameHeader ${tournamentClass} ${onClick ? 'GameHeader-clickable' : ''}`} onClick={onClick}>
             <CustomTable
                 models={models}
                 cells={cells}

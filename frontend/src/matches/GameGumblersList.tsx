@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { WinnerSide } from '../types'
 import { keysOf } from '../utils'
-import MatchResultView from '../widgets/MatchResult'
+import { MatchResultV2 } from '../widgets/MatchResult'
 import CustomTable from '../widgets/Table/CustomTable'
 import { MatchWithBets } from '../_selectors'
 import GameHeader from './GameHeader'
@@ -67,7 +67,7 @@ function GameGumblersList({ match, withExpand, isLive }: { match: MatchWithBets,
             },
             header: 'ניחוש',
             getter: (bet: BetInstance) => (
-                <MatchResultView
+                <MatchResultV2
                     home={{
                         team: home_team,
                         score: bet.resultHome
@@ -103,7 +103,7 @@ function GameGumblersList({ match, withExpand, isLive }: { match: MatchWithBets,
 
     return (
         <div className={`LB-GameGumblersList ${expand ? 'GameGumblersList-expanded' : ''}`}>
-            <GameHeader match={match}/>
+            <GameHeader match={match} onClick={withExpand ? toggleExpand : null} />
             {withExpand && (<>
                 <Collapse in={expand}>
                     <div className='LB-GumblersTable'>

@@ -57,6 +57,9 @@
             @include themable_game_header(tournament-theme-3, $tournament_3);
             @include themable_game_header(tournament-theme-4, $tournament_4);
             @include themable_game_header(tournament-theme-5, $tournament_5);
+            &.GameHeader-clickable {
+                cursor: pointer;
+            }
             .MuiTableContainer-root {
                 box-shadow: none;
                 border-radius: 0px;

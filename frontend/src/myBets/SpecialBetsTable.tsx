@@ -1,5 +1,7 @@
+import { orderBy } from 'lodash'
 import React from 'react'
 import { QuestionBetWithRelations } from '../types'
+import { specialQuestionsOrder } from '../utils'
 import { SpecialAnswerSmall } from '../widgets/specialAnswer'
 import CustomTable from '../widgets/Table/CustomTable'
 
@@ -14,6 +16,8 @@ interface Props {
 
 
 const SpecialBetsTable = ({ bets, headers }: Props) => {
+    const sortedBets = orderBy(bets, bet => specialQuestionsOrder.indexOf(bet.relatedQuestion.type))
+
 	const cells = [
 		{
 			id: 'id',
@@ -70,7 +74,7 @@ const SpecialBetsTable = ({ bets, headers }: Props) => {
 	
     return (
         <div className='LB-SpecialBetsTable'>
-            <CustomTable models={bets} cells={cells} />
+            <CustomTable models={sortedBets} cells={cells} />
         </div>
     )
 }
