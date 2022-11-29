@@ -48,6 +48,10 @@
                 &.alignToTop {
                     vertical-align: top;
                 }
+                &.scoreCell {
+                    font-size: 20px;
+                    text-align: center;
+                }
             }
             .tableHeaderCell {
                 font-weight: 700;
@@ -66,6 +70,7 @@
         }
     }
 }
+
 
 .LB-GameBetsTable {
     .MuiTableContainer-root {
