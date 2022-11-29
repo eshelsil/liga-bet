@@ -47,10 +47,11 @@ class UpdateCompetition
         $this->updateLeaderboards = $updateLeaderboards;
     }
 
-    public function fake(?Collection $games = null, ?Collection $scorers = null)
+    public function fake(?Collection $games = null, ?Collection $scorers = null, ?Collection $standings = null)
     {
         $this->fakeGames = $games;
         $this->updateScorers->fake($scorers);
+        $this->updateStandings->fake($standings);
     }
 
     public function handleLive(Competition $competition): Collection
@@ -98,14 +99,14 @@ class UpdateCompetition
 
         $updatedGames = $this->updateGames($competition, $gamesWithScore, $existingNonFinishedGames);
         $this->updateScorers->handle($competition);
+        $doneGames = $updatedGames->filter(fn($g) => $g->is_done);
 
-        if ($gamesWithScore->isNotEmpty()) {
-            if ($competition->hasAllGroupsStandings()) {
-                $this->updateStandings->handle($competition);
-            }
+        if ($updatedGames->filter(fn($g) => $g->is_done)->count() > 0) {
+            $this->updateStandings->handle($competition);
 
-            if ($competition->isGroupStageDone()) {
+            if ($doneGames->filter(fn($g) => $g->isGroupStage())->count() > 0 && $competition->isGroupStageDone()) {
                 $this->calculateSpecialBets->execute($competition->id, SpecialBet::TYPE_OFFENSIVE_TEAM, $competition->getOffensiveTeams()->join(","));
+                $this->updateLeaderboards->handle($competition, null, "{\"question\":".SpecialBet::TYPE_OFFENSIVE_TEAM."\"}");
             }
         }
     }

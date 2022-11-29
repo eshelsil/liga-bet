@@ -25,8 +25,8 @@
         }
         &.gumblersCell {
             white-space: pre;
-            line-height: 1.25;
             font-size: 16px;
+            vertical-align: baseline;
             .gumblersContainer {
                 text-align: right;
             }

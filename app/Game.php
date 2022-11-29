@@ -68,6 +68,11 @@ class Game extends Model implements BetableInterface
         return $this->type == "knockout";
     }
 
+    public function isGroupStage()
+    {
+        return $this->type == "group_stage";
+    }
+
     public function decompleteBets(){
         /** @var Bet $bet */
         foreach ($this->getBets() as $bet) {

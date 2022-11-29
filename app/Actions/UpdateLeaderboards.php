@@ -20,22 +20,25 @@ use Log;
 
 class UpdateLeaderboards
 {
-    public function handle(Competition $competition, int $gameId, string $versionDescription = "")
+    public function handle(Competition $competition, ?int $gameId, ?string $versionDescription = null)
     {
         $competition->tournaments->each(
             fn (Tournament $tournament) => $this->updateRanks($tournament, $gameId, $versionDescription)
         );
     }
 
-    public function updateRanks(Tournament $tournament, int $gameId, string $versionDescription)
+    public function updateRanks(Tournament $tournament, ?int $gameId, ?string $versionDescription)
     {
         if (config("test.onlyTournamentId") && config("test.onlyTournamentId") != $tournament->id) {
             return;
         }
         \Log::debug("[UpdateLeaderboards][handle] Started!!!");
 
-        $version = $tournament->leaderboardVersions->firstWhere('game_id', $gameId);
-        if ($version) return;
+        $version = null;
+        if ($gameId){
+            $version = $tournament->leaderboardVersions->firstWhere('game_id', $gameId);
+            if ($version) return;
+        }
 
         $betsScoreSum = $tournament->bets()
                      ->select(["user_tournament_id", DB::raw("COALESCE(sum(bets.score), 0) as total_score")])
@@ -43,11 +46,10 @@ class UpdateLeaderboards
                      ->orderBy("total_score", "desc")
                      ->get();
 
-        $version = $tournament->leaderboardVersions->firstWhere('game_id', $gameId) ;
         if (!$version){
             $version = new LeaderboardsVersion();
             $version->tournament_id = $tournament->id;
-            $version->description = $versionDescription || "game $gameId ended";
+            $version->description = $versionDescription ?? "game $gameId ended";
             $version->game_id = $gameId;
             $version->save();
         }
