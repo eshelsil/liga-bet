@@ -47,9 +47,9 @@ class UpdateCompetitionScorers
         foreach ($scorers as $scorer) {
             /** @var Player $player */
             $player = $players->get($scorer->externalId);
-            \Log::debug("[UpdateScorers][handle] updating player ID [{$player->id}] external [{$scorer->externalId}] to G{$scorer->goals}A{$scorer->assists}");
             // TODO: Create?
             if ($player) {
+                \Log::debug("[UpdateScorers][handle] updating player ID [{$player->id}] external [{$scorer->externalId}] to G{$scorer->goals}A{$scorer->assists}");
                 
                 $game = $relevantGames->first(fn($g) => in_array($player->team_id, [$g->team_home_id, $g->team_away_id]));
                 $gameId = $game->id;

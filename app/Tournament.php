@@ -124,15 +124,20 @@ class Tournament extends Model
             ->orderBy('id', 'desc')
             ->get();
         $latestVersion = $versionsDesc->first();
-        $lastGameVersionIndex = $versionsDesc->search(fn($v) => !is_null($v->game_id));
-        if (!($lastGameVersionIndex > -1)){
+        $lastGameVersion = $versionsDesc->first(fn(LeaderboardsVersion $v) => !is_null($v->game_id));
+        if (!$lastGameVersion){
             return collect([]);
         }
-        $indexOfversionBeforeLastGame = $lastGameVersionIndex + 1;
-        if ($indexOfversionBeforeLastGame >= $versionsDesc->count()){
+        $lastGameStartTime = Game::find($lastGameVersion->game_id)->start_time;
+        $latestGameIds =  $this->competition->games()->where('start_time', $lastGameStartTime)->get()->pluck('id');
+        $versionsAsc = collect($versionsDesc->reverse())->values();
+        $indexOfversionBeforeLatestGames = $versionsAsc->search(
+            fn($v) => !is_null($v->game_id) && $latestGameIds->contains($v->game_id)
+        ) - 1;
+        if ($indexOfversionBeforeLatestGames < 0){
             return collect([$latestVersion]);
         }
-        $versionBeforeLastGame = $versionsDesc[$indexOfversionBeforeLastGame];
+        $versionBeforeLastGame = $versionsAsc[$indexOfversionBeforeLatestGames];
         return collect([$latestVersion, $versionBeforeLastGame]);
     }
 
