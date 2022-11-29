@@ -201,13 +201,15 @@
 
 .LB-NameWithWinnerFlag {
     @include flexRow;
+    height: 24px;
+    margin-top: -4px;
     .NameWithWinnerFlag-name {
         margin-right: 8px;
-        margin-bottom: -2px;
+        margin-bottom: -1px;
     }
     .NameWithWinnerFlag-noWinner {
-        width: 24px;
-        height: 24px;
+        width: 32px;
+        height: 32px;
     }
 }
 
@@ -227,7 +229,8 @@
                     vertical-align: top;
                 }
                 &.scoreCell {
-                    font-size: 20px;
+                    font-size: 18px;
+                    text-align: center;
                 }
             }
         }

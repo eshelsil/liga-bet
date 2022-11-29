@@ -7,7 +7,7 @@ function BigPlayerWithImg(props: PlayerWithImgProps) {
     const {classes = {}, ...restProps} = props;
     return (
         <PlayerWithImg 
-            size={64}
+            size={60}
             classes={{
                 ...classes,
                 name: `nameBig ${classes.name ?? ''}`,

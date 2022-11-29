@@ -2,6 +2,7 @@ import React from 'react'
 import { GroupRankBetWithRelations } from '../types'
 import CustomTable from '../widgets/Table/CustomTable'
 import GroupStandingsResult from '../widgets/GroupStandings'
+import { orderBy } from 'lodash'
 
 
 interface Props {
@@ -16,6 +17,8 @@ const GroupRankBetsTable = ({
     bets,
     headers,
 }: Props) => {
+
+    const models = orderBy(bets, bet => bet.relatedGroup.name)
 
     const cells = [
 		{
@@ -63,7 +66,7 @@ const GroupRankBetsTable = ({
     ]
     return (
         <div className='LB-GroupRankBetsTable'>
-            <CustomTable models={bets} cells={cells} />
+            <CustomTable models={models} cells={cells} />
         </div>
     )
 }

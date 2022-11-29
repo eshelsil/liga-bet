@@ -1,6 +1,6 @@
 import { mapValues, pickBy } from 'lodash'
 import { createSelector } from 'reselect'
-import { GroupWithTeams } from '../../types'
+import { GroupWithTeams, Team } from '../../types'
 import { Groups, Teams, TeamsByGroupId } from '../base'
 
 export const GroupsWithTeams = createSelector(
@@ -11,7 +11,7 @@ export const GroupsWithTeams = createSelector(
         const groupsWithTemas = mapValues(groups, (group): GroupWithTeams => {
             const standings =
                 group.isDone && Object.keys(teamsById).length > 0
-                    ? group.standings.map((teamId: number) => teamsById[teamId])
+                    ? group.standings.map((team: Team) => teamsById[team.id])
                     : null
             return {
                 ...group,

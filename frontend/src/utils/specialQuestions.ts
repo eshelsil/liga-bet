@@ -73,3 +73,12 @@ export function getSpecialAnswerAttributes({
     }
     return empty
 }
+
+export const specialQuestionsOrder = [
+    SpecialQuestionType.Winner,
+    SpecialQuestionType.RunnerUp,
+    SpecialQuestionType.TopScorer,
+    SpecialQuestionType.TopAssists,
+    SpecialQuestionType.MVP,
+    SpecialQuestionType.OffensiveTeamGroupStage,
+]

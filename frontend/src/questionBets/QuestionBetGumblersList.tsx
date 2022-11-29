@@ -5,6 +5,7 @@ import CustomTable from '../widgets/Table/CustomTable'
 import { SpecialAnswer } from '../widgets/specialAnswer'
 import { useTournamentThemeClass } from '../hooks/useThemeClass'
 import { groupBy, orderBy } from 'lodash'
+import GumblersList from '../gumblersList/GumblersList'
 
 
 interface BetInstance {
@@ -70,15 +71,14 @@ function QuestionBetGumblersList({ question, bets }: Props ) {
             },
             header: 'מנחשים',
             getter: (bet: BetInstance) => (
-                <div className='gumblersContainer'>
-                    {bet.gumblers.join('\n')}
-                </div>
+                <GumblersList gumblers={bet.gumblers} />
             ),
         },
         {
             id: 'score',
             classes: {
-                cell: 'scoreCell'
+                cell: 'scoreCell',
+                header: 'scoreHeaderCell',
             },
             header: 'ניקוד',
             getter: (bet: BetInstance) => bet.score,

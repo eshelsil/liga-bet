@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { WinnerSide } from '../types'
 import { keysOf } from '../utils'
-import MatchResultView from '../widgets/MatchResult'
+import { MatchResultV2 } from '../widgets/MatchResult'
 import CustomTable from '../widgets/Table/CustomTable'
 import { MatchWithBets } from '../_selectors'
 import GameHeader from './GameHeader'
 import { orderBy } from 'lodash'
 import { Collapse } from '@mui/material'
 import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import GumblersList from '../gumblersList/GumblersList'
 
 
 interface BetInstance {
@@ -66,7 +67,7 @@ function GameGumblersList({ match, withExpand, isLive }: { match: MatchWithBets,
             },
             header: 'ניחוש',
             getter: (bet: BetInstance) => (
-                <MatchResultView
+                <MatchResultV2
                     home={{
                         team: home_team,
                         score: bet.resultHome
@@ -86,15 +87,14 @@ function GameGumblersList({ match, withExpand, isLive }: { match: MatchWithBets,
             },
             header: 'מנחשים',
             getter: (bet: BetInstance) => (
-                <div className='gumblersContainer'>
-                    {bet.gumblers.join('\n')}
-                </div>
+                <GumblersList gumblers={bet.gumblers} />
             ),
         },
         {
             id: 'score',
             classes: {
                 cell: `scoreCell ${isLive ? 'isLive' : ''}`,
+                header: 'scoreHeaderCell',
             },
             header: 'ניקוד',
             getter: (bet: BetInstance) => bet.score,
@@ -103,7 +103,7 @@ function GameGumblersList({ match, withExpand, isLive }: { match: MatchWithBets,
 
     return (
         <div className={`LB-GameGumblersList ${expand ? 'GameGumblersList-expanded' : ''}`}>
-            <GameHeader match={match}/>
+            <GameHeader match={match} onClick={withExpand ? toggleExpand : null} />
             {withExpand && (<>
                 <Collapse in={expand}>
                     <div className='LB-GumblersTable'>

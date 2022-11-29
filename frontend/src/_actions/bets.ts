@@ -1,4 +1,4 @@
-import { without } from 'lodash'
+import { mapValues, without } from 'lodash'
 import {
     fetchMatchBets,
     sendBet,
@@ -17,7 +17,12 @@ function fetchAndStoreGameBets(params: FetchGameBetsParams) {
     return async (dispatch: AppDispatch, getState: GetRootState) => {
         const { tournamentId } = params
         const bets = await fetchMatchBets(params)
-        dispatch(betsSlice.actions.updateMany({tournamentId, bets: bets}))
+        const formattedBets = mapValues(bets, bet => ({
+            ...bet,
+            result_home: bet.result_home ? Number(bet.result_home) : bet.result_home,
+            result_away: bet.result_away ? Number(bet.result_away) : bet.result_away, // handling legacy monkey-bets-data
+        }))
+        dispatch(betsSlice.actions.updateMany({tournamentId, bets: formattedBets}))
     }
 }
 

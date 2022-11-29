@@ -25,7 +25,7 @@ const QuestionBetsView = ({ questions, betsByQuestionId }: Props) => {
     }))
     return (
         <div className='LB-QuestionBetsView'>
-            <h1 className='LB-TitleText'>ניחושים מיוחדים</h1>
+            <h2 className='LB-TitleText'>ניחושים מיוחדים</h2>
             <SimpleTabs
                 tabs={tabs}
                 index={selectedTab}

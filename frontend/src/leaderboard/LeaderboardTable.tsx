@@ -21,7 +21,7 @@ function NameWithWinnerFlag({
     return (
         <div className='LB-NameWithWinnerFlag'>
             {winnerBet && (
-                <TeamFlag name={winnerBet.answer.name} size={24} />
+                <TeamFlag name={winnerBet.answer.name} size={32} />
             )}
             {!winnerBet && (
                 <div className='NameWithWinnerFlag-noWinner' />

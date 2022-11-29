@@ -117,6 +117,25 @@ class Tournament extends Model
         $this->save();
     }
 
+    public function get2LatestRelevantVersions()
+    {
+        $versionsDesc = $this->leaderboardVersions()
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
+            ->get();
+        $latestVersion = $versionsDesc->first();
+        $lastGameVersionIndex = $versionsDesc->search(fn($v) => !is_null($v->game_id));
+        if (!($lastGameVersionIndex > -1)){
+            return collect([]);
+        }
+        $indexOfversionBeforeLastGame = $lastGameVersionIndex + 1;
+        if ($indexOfversionBeforeLastGame >= $versionsDesc->count()){
+            return collect([$latestVersion]);
+        }
+        $versionBeforeLastGame = $versionsDesc[$indexOfversionBeforeLastGame];
+        return collect([$latestVersion, $versionBeforeLastGame]);
+    }
+
     public function getRelevantPlayerIds()
     {
         $playerSpecialQuestionIds = $this->specialBets()

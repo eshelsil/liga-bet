@@ -13,6 +13,7 @@ import OpenQuestionBetsItem from './MenuItems/OpenQuestionBetsItem'
 import MyBetsItem from './MenuItems/MyBetsItem'
 import { useSelector } from 'react-redux'
 import { IsAppMenuEmpty } from '../_selectors'
+import useGoTo from '../hooks/useGoTo'
 
 
 
@@ -28,6 +29,7 @@ function TournamentMenuItems({
     reRouteCallback,
 }: Props) {
     const themeClass = useTournamentThemeClass()
+    const { goToClosedGameBets } = useGoTo()
 
     const hasCurrentUtl = !!currentUtl
     const tournamentStatus = currentUtl?.tournament?.status
@@ -52,30 +54,10 @@ function TournamentMenuItems({
                             callback={reRouteCallback}
                         />
                         <LinkMenuItem
-                            route={routesMap['closed-matches']}
+                            route={routesMap['closed-bets']}
+                            onClick={goToClosedGameBets}
                             callback={reRouteCallback}
                         />
-                        <DropMenuItem
-                            anchorContent={
-                                <div className='flexRow'>
-                                    <div>
-                                        ניחושים של לפני הטורניר
-                                    </div>
-                                    <ArrowDropDownIcon />
-                                </div>
-                            }
-                            classes={{list: themeClass}}
-                            pathes={['all-questions', 'all-group-standings']}
-                        >
-                            <LinkMenuItem
-                                route={routesMap['all-questions']}
-                                callback={reRouteCallback}
-                            />
-                            <LinkMenuItem
-                                route={routesMap['all-group-standings']}
-                                callback={reRouteCallback}
-                            />
-                        </DropMenuItem>
                         <MyBetsItem
                             callback={reRouteCallback}
                         />

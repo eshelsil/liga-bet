@@ -69,15 +69,17 @@ class BetGroupRankRequest extends AbstractBetRequest
         $finalRanks = $this->group->getStandings();
         $ranking = $this->getRanking();
         $minorMistakesCounter = 0;
-        foreach($ranking as $position => $team_id){
+        foreach($ranking as $index => $team_id){
             $team_id = (string)$team_id;
 
-            if ($finalRanks[$position] == $team_id){
+            if ($finalRanks[$index] == $team_id){
                 continue;
             }
 
-            if ($this->isMinimalError($position, $finalRanks, $team_id)) {
+            if ($this->isMinimalError($index, $finalRanks, $team_id)) {
                 $minorMistakesCounter += 1;
+            } else {
+                return 0;
             }
 
             if ($minorMistakesCounter >= 3) {
@@ -110,12 +112,12 @@ class BetGroupRankRequest extends AbstractBetRequest
      * @return bool
      */
     protected function isMinimalError(
-        int|string $position,
+        int|string $index,
         array $finalRanks,
         string $team_id
     ): bool {
-        return ($position + 1 <= 4 && $finalRanks[$position + 1] == $team_id)
-               || ($position - 1 >= 1
-                   && $finalRanks[$position - 1] == $team_id);
+        return ($index + 1 <= 3 && $finalRanks[$index + 1] == $team_id)
+               || ($index - 1 >= 0
+                   && $finalRanks[$index - 1] == $team_id);
     }
 }

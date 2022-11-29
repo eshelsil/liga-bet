@@ -13,7 +13,8 @@ const routes: Route[] = [
         iconClass: 'bet_icon',
     },
     {
-        path: 'closed-matches',
+        id: 'closed-bets',
+        path: 'closed-bets/:tab?',
         label: 'צפייה בניחושים',
         iconClass: 'watch_bets_icon',
     },
@@ -83,4 +84,4 @@ const routes: Route[] = [
     
 ]
 
-export const routesMap = keyBy(routes, 'path')
+export const routesMap = keyBy(routes, route => route.id ?? route.path)

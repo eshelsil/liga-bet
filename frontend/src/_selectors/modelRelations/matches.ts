@@ -1,6 +1,7 @@
 import { mapValues, pickBy } from 'lodash'
 import { createSelector } from 'reselect'
 import { Match } from '../../types'
+import { isGameLive } from '../../utils'
 import { Games, Teams } from '../base'
 
 export const MatchesWithTeams = createSelector(
@@ -13,6 +14,10 @@ export const MatchesWithTeams = createSelector(
                 ...match,
                 home_team: teamsById[match.home_team],
                 away_team: teamsById[match.away_team],
+                ...(isGameLive(match) ? {
+                    result_away: match.result_away || 0,
+                    result_home: match.result_home || 0,
+                } : {})
             })
         )
         return pickBy(

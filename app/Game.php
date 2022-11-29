@@ -68,6 +68,11 @@ class Game extends Model implements BetableInterface
         return $this->type == "knockout";
     }
 
+    public function isGroupStage()
+    {
+        return $this->type == "group_stage";
+    }
+
     public function decompleteBets(){
         /** @var Bet $bet */
         foreach ($this->getBets() as $bet) {
@@ -226,7 +231,7 @@ class Game extends Model implements BetableInterface
             if ($goals == 2){
                 $goals = Arr::random([2,3]);
             }
-            $res[$key] = "{$goals}";
+            $res[$key] = $goals;
         }
         if($this->isKnockout() && $res['result-home'] == $res['result-away']){
             $res['ko_winner_side'] = Arr::random(['home','away']);

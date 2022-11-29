@@ -70,7 +70,7 @@ const MatchesView = ({
     
     return (
         <div className='LB-GamesView'>
-            <h1 className='LB-TitleText'>צפייה בניחושים</h1>
+            <h2 className='LB-TitleText'>רשימת משחקים</h2>
             <div>
                 <SimpleTabs
                     tabs={[

@@ -21,7 +21,7 @@ class GroupResource extends JsonResource
         $standings = null;
         if ($group->standings) {
             $teams = $group->teams->keyBy("id");
-            $teamsSortedByStandings = collect(json_encode($group->standings, true))
+            $teamsSortedByStandings = collect(json_decode($group->standings, true))
                 ->map(fn($teamId) => $teams->get($teamId));
             $standings = TeamResource::collection($teamsSortedByStandings);
         }
@@ -29,7 +29,7 @@ class GroupResource extends JsonResource
         return [
             "id"        => $group->id,
             "name"      => $group->name,
-            "isDone"    => false,
+            "isDone"    => !!$standings,
             "standings" => $standings,
         ];
     }

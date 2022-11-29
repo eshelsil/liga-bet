@@ -66,8 +66,9 @@ class Group extends Model implements BetableInterface
         }
     }
 
-    private function getStandings(){
-        return collect(json_decode($this->standings))->pluck('team_id', 'position')->toArray();
+    public function getStandings(): array
+    {
+        return json_decode($this->standings, true);
     }
 
     public static function findByExternalId($ext_id): Group
@@ -113,6 +114,7 @@ class Group extends Model implements BetableInterface
                 $bet->save();
             } catch (Exception $e) {
                 Log::debug("[Group][calculateBets] Got error: {$e->getMessage()}");
+                Log::debug("[Group][calculateBets] error traces: {$e->getTraceAsString()}");
             }
         }
         echo "completed";

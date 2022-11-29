@@ -12,7 +12,7 @@ interface Props {
 const GroupStandingsBetsView = ({ groups, betsByGroupId }: Props) => {
     return (
         <div className='LB-GroupStandingsBetsView'>
-            <h1 className='LB-TitleText'>ניחושים על דירוגי בתים</h1>
+            <h2 className='LB-TitleText'>ניחושים על דירוגי בתים</h2>
             <div>
                 {groups.map((group) => (
                     <GroupRankGumblersList

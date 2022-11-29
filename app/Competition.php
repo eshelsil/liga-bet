@@ -113,7 +113,7 @@ class Competition extends Model
     public function getGroupStageGamesIfStageDone(){
         $games = $this->getGroupStageGames();
 
-        $unfinishedGame = $games->first(fn(Game $game) => is_null($game->result_home) || is_null($game->result_away));
+        $unfinishedGame = $games->first(fn(Game $game) => !$game->is_done);
         if ($unfinishedGame) {
             return null;
         }

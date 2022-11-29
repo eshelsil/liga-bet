@@ -1,0 +1,33 @@
+@import '../styles/colors';
+
+.LB-ClosedBetsPage {
+    margin: auto;
+    width: 800px;
+    max-width: 100%;
+    .ClosedBetsPage-title {
+        margin-top: 0px;
+    }
+    .ClosedBetsPage-tabsWrapper {
+        .ClosedBetsPage-tabs {
+            &.MuiTabs-root {
+                background: rgba(255,255,255, 0.15);
+                border-radius: 8px;
+                .MuiTab-root {
+                    color: #fff;
+                    font-size: 15px;
+                    &.Mui-selected{
+                        background: rgba(255,255,255, 0.15);
+                        color: $primary-light;
+                        font-weight: 700;
+                        filter: none;
+                    }
+                }
+            }
+        }
+        > .LigaBet-Tabs {
+            > .LigaBet-TabPanel {
+                padding-top: 8px;
+            }
+        }
+    }
+}

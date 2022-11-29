@@ -14,12 +14,20 @@ use Illuminate\Support\Facades\Log;
 
 class UpdateCompetitionStandings
 {
+    public function __construct(
+        private readonly UpdateLeaderboards $updateLeaderboards,
+    ) { }
+
+    public function fake(?\Illuminate\Support\Collection $standings = null)
+    {
+        $this->fakeStandings = $standings;
+    }
+
     public function handle(Competition $competition)
     {
-        $finalStandings    = $competition->getCrawler()->fetchGroupStandings();
+        $finalStandings    = $this->fakeStandings ?? $competition->getCrawler()->fetchGroupStandings();
         $groupsNotCompleted = $competition->groups->filter(fn (Group $g) => !$g->isComplete())->keyBy("external_id");
-        $teamExtIdToId  = $competition->teams->pluck("external_id", "id");
-
+        $teamExtIdToId  = $competition->teams->pluck("id", "external_id");
         /**
          * @var int $groupId
          * @var \Illuminate\Support\Collection $standings
@@ -30,10 +38,11 @@ class UpdateCompetitionStandings
                 continue;
             }
 
-            $standings = $standings->map(function ($row) use ($teamExtIdToId) {
-                $row['team_id'] = $teamExtIdToId[$row['team_ext_id']];
-                return $row;
-            });
+            $standings = $standings
+                ->sortBy("position")
+                ->map(function ($row) use ($teamExtIdToId) {
+                    return $teamExtIdToId[$row['team_ext_id']];
+                });
 
             $group->standings = $standings->toJson();
             $group->save();
@@ -41,6 +50,7 @@ class UpdateCompetitionStandings
             Log::debug("updated final standings of group \"{$group->name}\"");
 
             $group->calculateBets();
+            $this->updateLeaderboards->handle($competition, null, "{\"group\":$group->id}");
         }
     }
 }
