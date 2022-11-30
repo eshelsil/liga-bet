@@ -31,7 +31,7 @@ function MatchResultView({home, away, isKnockout, qualifier, title}: MatchResult
                     </div>
                     {showFullScore && (
                         <div className={'MatchResult-row'}>
-                            {home.fullScore}
+                            ({home.fullScore})
                         </div>
                     )}
                     {isQualifierBettable && qualifier === WinnerSide.Home && (
@@ -44,18 +44,22 @@ function MatchResultView({home, away, isKnockout, qualifier, title}: MatchResult
                     <div>
                         -
                     </div>
-                    {isQualifierBettable && qualifier && (<>
-                        <div className={'MatchResult-row'}>
-                            90'
-                        </div>
+                    {isQualifierBettable && (<>
+                        {(!!qualifier || showFullScore) && (
+                            <div className={'MatchResult-row'}>
+                                90'
+                            </div>
+                        )}
                         {showFullScore && (
                             <div className={'MatchResult-row'}>
                                 120'
                             </div>
                         )}
-                        <div className={'MatchResult-row'}>
-                            מעפילה
-                        </div>
+                        {!!qualifier && (
+                            <div className={'MatchResult-row'}>
+                                מעפילה
+                            </div>
+                        )}
                     </>)}
                 </div>
                 <div className='MatchResult-side'>
@@ -65,7 +69,7 @@ function MatchResultView({home, away, isKnockout, qualifier, title}: MatchResult
                     </div>
                     {showFullScore && (
                         <div className={'MatchResult-row'}>
-                            {away.fullScore}
+                            ({away.fullScore})
                         </div>
                     )}
                     {isQualifierBettable && qualifier === WinnerSide.Away && (
