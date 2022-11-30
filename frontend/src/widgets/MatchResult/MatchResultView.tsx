@@ -1,14 +1,21 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import TeamFlag from '../TeamFlag/TeamFlag'
 import { WinnerSide } from '../../types'
 import { MatchResultProps } from './types'
+import { IsQualifierBetOn } from '../../_selectors'
+import { getWinnerSide } from '../../utils'
 import './MatchResult.scss'
 
 
-function MatchResultView({home, away, qualifier, title}: MatchResultProps){
-    const hasFullScore = (home.fullScore !== undefined) && (away.fullScore !== undefined)
-    const isQualifierBettable = !!qualifier
-    const showFullScore = isQualifierBettable && hasFullScore
+function MatchResultView({home, away, isKnockout, qualifier, title}: MatchResultProps){
+
+    const isQualifierBetOn = useSelector(IsQualifierBetOn)
+    const isQualifierBettable = isQualifierBetOn && isKnockout
+    
+    const isTiedGame = !getWinnerSide(home.score, away.score)
+    const hasFullScore = (typeof home.fullScore === 'number') && (typeof away.fullScore === 'number')
+    const showFullScore = isQualifierBettable && isTiedGame && hasFullScore
     return (
         <div className='LB-MatchResult'>
             {!!title && (
@@ -24,10 +31,10 @@ function MatchResultView({home, away, qualifier, title}: MatchResultProps){
                     </div>
                     {showFullScore && (
                         <div className={'MatchResult-row'}>
-                            {home.fullScore}
+                            ({home.fullScore})
                         </div>
                     )}
-                    {qualifier === WinnerSide.Home && (
+                    {isQualifierBettable && qualifier === WinnerSide.Home && (
                         <div className={'MatchResult-row'}>
                             ✌️
                         </div>
@@ -38,17 +45,21 @@ function MatchResultView({home, away, qualifier, title}: MatchResultProps){
                         -
                     </div>
                     {isQualifierBettable && (<>
-                        <div className={'MatchResult-row'}>
-                            90'
-                        </div>
+                        {(!!qualifier || showFullScore) && (
+                            <div className={'MatchResult-row'}>
+                                90'
+                            </div>
+                        )}
                         {showFullScore && (
                             <div className={'MatchResult-row'}>
                                 120'
                             </div>
                         )}
-                        <div className={'MatchResult-row'}>
-                            מעפילה
-                        </div>
+                        {!!qualifier && (
+                            <div className={'MatchResult-row'}>
+                                מעפילה
+                            </div>
+                        )}
                     </>)}
                 </div>
                 <div className='MatchResult-side'>
@@ -58,10 +69,10 @@ function MatchResultView({home, away, qualifier, title}: MatchResultProps){
                     </div>
                     {showFullScore && (
                         <div className={'MatchResult-row'}>
-                            {away.fullScore}
+                            ({away.fullScore})
                         </div>
                     )}
-                    {qualifier === WinnerSide.Away && (
+                    {isQualifierBettable && qualifier === WinnerSide.Away && (
                         <div className={'MatchResult-row'}>
                             ✌️
                         </div>

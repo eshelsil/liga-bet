@@ -76,6 +76,7 @@ function GameGumblersList({ match, withExpand, isLive }: { match: MatchWithBets,
                         team: away_team,
                         score: bet.resultAway
                     }}
+                    isKnockout={match.is_knockout}
                     qualifier={bet.qualifier}
                 />
             ),

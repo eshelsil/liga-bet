@@ -69,6 +69,16 @@ export const FormattedMatchBetScoreConfig = createSelector(
     (config) => config?.gameBets
 )
 
+export const IsQualifierBetOn = createSelector(
+    FormattedMatchBetScoreConfig,
+    (config) => config?.knockout?.qualifier > 0
+)
+
+export const IsRunnerUpBetOn = createSelector(
+    FormattedSpecialQuestionsScoreConfig,
+    (config) => !!config?.runnerUp
+)
+
 export const TournamentStatusSelector = createSelector(
     CurrentTournament,
     (tournament) => tournament?.status

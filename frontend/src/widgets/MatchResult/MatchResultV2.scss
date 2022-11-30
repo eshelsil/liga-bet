@@ -20,6 +20,9 @@
                 font-size: 12px;
                 line-height: 18px;
                 padding: 0px 4px;
+                &.qualifierDelimiter-hidden {
+                    opacity: 0;
+                }
             }
         }
         .MatchResult-home {

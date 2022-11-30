@@ -1,7 +1,7 @@
 import React from 'react'
 import CustomTable from '../widgets/Table/CustomTable'
 import { MatchBetWithRelations } from '../types'
-import { isGameLive, SHORT_DATE_FORMAT } from '../utils'
+import { getQualifierSide, isGameLive, SHORT_DATE_FORMAT } from '../utils'
 import dayjs from 'dayjs'
 import MatchResultView from '../widgets/MatchResult'
 import { orderBy } from 'lodash'
@@ -56,6 +56,7 @@ const GameBetsTable = ({ bets, headers, dropColumns, showLive }: Props) => {
                         team: bet.relatedMatch.away_team,
                         score: bet.result_away,
                     }}
+                    isKnockout={bet.relatedMatch.is_knockout}
                     qualifier={bet.winner_side}
                 />
             ),
@@ -69,12 +70,15 @@ const GameBetsTable = ({ bets, headers, dropColumns, showLive }: Props) => {
                         home={{
                             team: bet.relatedMatch.home_team,
                             score: bet.relatedMatch.result_home,
+                            fullScore: bet.relatedMatch.full_result_home,
                         }}
                         away={{
                             team: bet.relatedMatch.away_team,
                             score: bet.relatedMatch.result_away,
+                            fullScore: bet.relatedMatch.full_result_away,
                         }}
-                        qualifier={bet.winner_side ? bet.relatedMatch.winner_side : undefined}
+                        isKnockout={bet.relatedMatch.is_knockout}
+                        qualifier={getQualifierSide(bet.relatedMatch)}
                     />
                 ) : null}
             </>),

@@ -1,14 +1,19 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import TeamFlag from '../TeamFlag/TeamFlag'
 import { WinnerSide } from '../../types'
 import { MatchResultProps } from './types'
+import { IsQualifierBetOn } from '../../_selectors'
+import { getWinnerSide } from '../../utils'
 import './MatchResultV2.scss'
 
 
-function MatchResultV2({home, away, qualifier, title}: MatchResultProps){
-    const hasFullScore = (home.fullScore !== undefined) && (away.fullScore !== undefined)
-    const isQualifierBettable = !!qualifier
-    const showFullScore = isQualifierBettable && hasFullScore
+function MatchResultV2({home, away, isKnockout, qualifier, title}: MatchResultProps){
+    const isQualifierBetOn = useSelector(IsQualifierBetOn)
+    const isQualifierBettable = isQualifierBetOn && isKnockout
+    const koWinner = isQualifierBettable ? getWinnerSide(home.score, away.score, qualifier) : null
+    const isTiedBet = !getWinnerSide(home.score, away.score)
+
     return (
         <div className='LB-MatchResultV2'>
             {!!title && (
@@ -24,7 +29,7 @@ function MatchResultV2({home, away, qualifier, title}: MatchResultProps){
                             {home.score}
                         </div>
                     </div>
-                        {qualifier === WinnerSide.Home && (
+                        {koWinner === WinnerSide.Home && (
                             <div className={'MatchResult-qualifier'}>
                                 ✌️
                             </div>
@@ -35,7 +40,7 @@ function MatchResultV2({home, away, qualifier, title}: MatchResultProps){
                         -
                     </div>
                     {isQualifierBettable && (<>
-                        <div className={'qualifierDelimiter'}>
+                        <div className={`qualifierDelimiter ${!isTiedBet ? 'qualifierDelimiter-hidden' : ''}`}>
                             מעפילה
                         </div>
                     </>)}
@@ -47,7 +52,7 @@ function MatchResultV2({home, away, qualifier, title}: MatchResultProps){
                             {away.score}
                         </div>
                     </div>
-                    {qualifier === WinnerSide.Away && (
+                    {koWinner === WinnerSide.Away && (
                         <div className={'MatchResult-qualifier'}>
                             ✌️
                         </div>

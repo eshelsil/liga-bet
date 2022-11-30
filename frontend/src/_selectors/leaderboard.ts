@@ -1,13 +1,14 @@
 import { createSelector } from 'reselect'
-import { formatLeaderboardVersion, valuesOf } from '../utils'
+import { formatLeaderboardVersion, keysOf, valuesOf } from '../utils'
 import { Contestants, IsTournamentStarted } from './base'
-import { LatestLeaderboard, LiveGameBetsWithScore, LiveGameBetsWithScoreByUtlId } from './logic'
+import { LatestLeaderboard, LiveGameBetsWithScoreByUtlId, LiveGroupRankBetsWithScoreByUtlId, LiveRunnerUpBets, LiveRunnerUpBetsWithScoreByUtlId, LiveWinnerBets, LiveWinnerBetsWithScoreByUtlId } from './logic'
 import {
     GroupStandingBetsByUserId,
+    LiveGroupStandingsWithTeams,
     MatchBetsWithPositiveScores,
     QuestionBetsByUserQuestionId,
 } from './modelRelations'
-import { groupBy } from 'lodash'
+import { concat, groupBy, mapValues } from 'lodash'
 
 export const LeaderboardSelector = createSelector(
     LatestLeaderboard,
@@ -27,16 +28,45 @@ export const ContestantSelector = createSelector(
     GroupStandingBetsByUserId,
     QuestionBetsByUserQuestionId,
     LiveGameBetsWithScoreByUtlId,
-    (relevantMatchBets, groupStandingBetsByUserId, questionBetsByUserId, liveGameBetsByUtlId) => {
+    LiveGroupRankBetsWithScoreByUtlId,
+    LiveGroupStandingsWithTeams,
+    LiveWinnerBetsWithScoreByUtlId,
+    LiveRunnerUpBetsWithScoreByUtlId,
+    (
+        relevantMatchBets,
+        groupStandingBetsByUserId,
+        questionBetsByUserId,
+        liveGameBetsByUtlId,
+        liveGroupRankBetsByUtlId,
+        liveStandingsByGroupId,
+        liveWinnerBetsByUtlId,
+        liveRunnerUpBetsByUtlId,
+    ) => {
         const matchBetsByUserId = groupBy(
             relevantMatchBets,
             'user_tournament_id'
         )
+        const liveQuestionBetsByUtlId: Record<number, any> = {}
+        for (const utlId of keysOf(liveWinnerBetsByUtlId) as number[]) {
+            if (!liveQuestionBetsByUtlId[utlId]) {
+                liveQuestionBetsByUtlId[utlId] = []
+            }
+            liveQuestionBetsByUtlId[utlId].push(liveWinnerBetsByUtlId[utlId])
+        }
+        for (const utlId of keysOf(liveRunnerUpBetsByUtlId) as number[]) {
+            if (!liveQuestionBetsByUtlId[utlId]) {
+                liveQuestionBetsByUtlId[utlId] = []
+            }
+            liveQuestionBetsByUtlId[utlId].push(liveRunnerUpBetsByUtlId[utlId])
+        }
         return {
             matchBetsByUserId,
             groupStandingBetsByUserId,
             questionBetsByUserId,
             liveGameBetsByUtlId,
+            liveGroupRankBetsByUtlId,
+            liveStandingsByGroupId,
+            liveQuestionBetsByUtlId: mapValues(liveQuestionBetsByUtlId, betsSlices => concat(...betsSlices)),
         }
     }
 )

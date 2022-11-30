@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash'
-import { GameBetType, KnockoutStage, Tournament, TournamentStatus, TournamentScoreConfig, GameBetScoreConfig, EachGoalBet, RoadToFinalBetScoreConfig, SpecialQuestionType, SpecialQuestionBetScoreConfig, MatchBetsScoreConfig } from '../types'
+import { GameBetType, KnockoutStage, Tournament, TournamentStatus, GameBetScoreConfig, EachGoalBet, RoadToFinalBetScoreConfig, SpecialQuestionType, SpecialQuestionBetScoreConfig, MatchBetsScoreConfig, CompetitionStageName } from '../types'
 import { ScoresConfigFromatted } from '../_selectors'
 import { valuesOf } from './common'
 
@@ -15,6 +15,13 @@ export const gameStageToString = {
     [KnockoutStage.SemiFinal]: 'חצי גמר',
     [KnockoutStage.QuarterFinal]: 'רבע גמר',
     [KnockoutStage.Last16]: 'שמינית גמר',
+}
+
+export const koStageToNextCompetitionStage = {
+    [KnockoutStage.Last16]: CompetitionStageName.QuarterFinal,
+    [KnockoutStage.QuarterFinal]: CompetitionStageName.SemiFinal,
+    [KnockoutStage.SemiFinal]: CompetitionStageName.Final,
+    [KnockoutStage.Final]: CompetitionStageName.Winning,
 }
 
 export function isGameBetScoreConfigEmpty(config: GameBetScoreConfig){

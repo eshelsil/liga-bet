@@ -19,6 +19,8 @@ class Game
         public ?int $startTime,
         public ?int $resultHome,
         public ?int $resultAway,
+        public ?int $fullResultHome,
+        public ?int $fullResultAway,
         public ?int $koWinnerExternalId,
         public bool $isDone,
         public bool $isStarted,

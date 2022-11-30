@@ -12,10 +12,12 @@ interface Props {
         bet?: string,
         result?: string,
     },
+    liveBetIds?: number[]
+    showLive?: boolean,
 }
 
 
-const SpecialBetsTable = ({ bets, headers }: Props) => {
+const SpecialBetsTable = ({ bets, headers, showLive, liveBetIds = [] }: Props) => {
     const sortedBets = orderBy(bets, bet => specialQuestionsOrder.indexOf(bet.relatedQuestion.type))
 
 	const cells = [
@@ -71,10 +73,18 @@ const SpecialBetsTable = ({ bets, headers }: Props) => {
 			getter: (model: QuestionBetWithRelations) => model.score,
 		},
     ]
+
+    const getRowClassName = (model: QuestionBetWithRelations) => {
+        return (showLive && liveBetIds.includes(model.id) ) ? 'SpecialBetsTable-live' : ''
+    }
 	
     return (
         <div className='LB-SpecialBetsTable'>
-            <CustomTable models={sortedBets} cells={cells} />
+            <CustomTable
+                models={sortedBets}
+                cells={cells}
+                getRowClassName={getRowClassName}
+            />
         </div>
     )
 }

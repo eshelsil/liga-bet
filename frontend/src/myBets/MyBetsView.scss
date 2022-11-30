@@ -69,6 +69,14 @@
             }
         }
     }
+    .SpecialBetsTable-live {
+        .MuiTableCell-root {
+            &.scoreCell {
+                color: green;
+                font-weight: 700;
+            }
+        }
+    }
 }
 
 
@@ -84,6 +92,18 @@
         .MuiTableCell-root {
             &.scoreCell {
                 color: green;
+                font-weight: 700;
+            }
+        }
+    }
+}
+
+.LB-GroupRankBetsTable {
+    .GroupRankBetsTable-live {
+        .MuiTableCell-root {
+            &.scoreCell {
+                color: green;
+                font-weight: 700;
             }
         }
     }

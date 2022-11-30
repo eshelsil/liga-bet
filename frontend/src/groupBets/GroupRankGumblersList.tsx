@@ -22,9 +22,10 @@ interface BetInstance {
 interface Props {
     group: GroupWithTeams
     bets: GroupRankBetWithRelations[]
+    isLive?: boolean
 }
 
-function GroupRankGumblersList({ group, bets }: Props) {
+function GroupRankGumblersList({ group, bets, isLive }: Props) {
     const { teams = [] } = group
     const tournamentClass = useTournamentThemeClass()
     const [open, setOpen] = useState(false)
@@ -89,7 +90,7 @@ function GroupRankGumblersList({ group, bets }: Props) {
         {
             id: 'score',
             classes: {
-                cell: 'scoreCell',
+                cell: `scoreCell ${isLive ? 'isLive' : ''}`,
                 header: 'scoreHeaderCell',
             },
             header: 'ניקוד',

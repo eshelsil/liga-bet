@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import dayjs from 'dayjs'
 import { MatchWithABet, WinnerSide } from '../types'
 import { DEFAULT_DATETIME_FORMAT } from '../utils/index'
-import KoWinnerInput from '../widgets/koWinnerInput/koWinnerInput'
+import { KoWinnerInputOld } from '../widgets/koWinnerInput'
 import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
 
 function EditMatchBet({
@@ -14,6 +14,7 @@ function EditMatchBet({
     onCancel: () => void
     onSave: (...args: any) => void
 }) {
+    // Component is deprecated
     const { id, start_time, home_team, away_team, is_knockout, bet } = match
     const [koWinner, setKoWinner] = useState(bet?.winner_side ?? null)
     const [homeScore, setHomeScore] = useState(bet?.result_home ?? '')
@@ -78,7 +79,7 @@ function EditMatchBet({
             </td>
             <td className="open-matches-bet-cell">
                 {showKoWinnerInput && (
-                    <KoWinnerInput value={koWinner} setValue={koWinnerChange} />
+                    <KoWinnerInputOld value={koWinner} setValue={koWinnerChange} />
                 )}
                 <div className="row full-row">
                     <div className="spaced-row">

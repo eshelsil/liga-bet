@@ -1,5 +1,6 @@
 export * from './competition'
 export * from './dataFetcher'
+export * from './liveQuestionBets'
 export * from './menu'
 export * from './myBets'
 export * from './multiBets'

@@ -4,6 +4,7 @@ import {
     GroupRankBetWithRelations,
     MatchBetWithRelations,
     QuestionBetWithRelations,
+    Team,
 } from '../types'
 import SimpleTabs from '../widgets/Tabs/Tabs'
 import SpecialBetsTable from '../myBets/SpecialBetsTable'
@@ -12,6 +13,8 @@ import GroupRankBetsTable from '../myBets/GroupRankBetsTable'
 import useGoTo from '../hooks/useGoTo'
 import { Link } from '@mui/material'
 import { useGameBetsOfUtl } from '../hooks/useFetcher'
+import { keyBy, map } from 'lodash'
+import { keysOf } from '../utils'
 
 
 function GameBetsView({totalScore, bets, utlId, showLive}: {
@@ -35,7 +38,10 @@ interface Props {
     matchBets: MatchBetWithRelations[]
     liveGameBets: MatchBetWithRelations[]
     groupStandingsBets: GroupRankBetWithRelations[]
+    liveGroupRankBets: GroupRankBetWithRelations[]
     questionBets: QuestionBetWithRelations[]
+    liveQuestionBets: QuestionBetWithRelations[]
+    liveStandingsByGroupId: Record<number, Team[]>
     isLive?: boolean
 }
 
@@ -44,16 +50,38 @@ export function ExpandedContestantView({
     matchBets,
     liveGameBets,
     groupStandingsBets,
+    liveGroupRankBets,
     questionBets,
+    liveStandingsByGroupId,
+    liveQuestionBets,
     isLive,
 }: Props) {
     const { goToHisBets } = useGoTo()
     const [selectedTab, setSelectedTab] = useState(0)
-    const matchesScore = sumBetsScore(matchBets)
-    const groupStandingsScore = sumBetsScore(groupStandingsBets)
-    const specialBetScore = sumBetsScore(questionBets)
-
+    
+    const liveGroupRankBetsById = keyBy(liveGroupRankBets, 'id')
+    const liveQuestionBetsById = keyBy(liveQuestionBets, 'id')
     const gameBetsToShow = isLive ? [...liveGameBets, ...matchBets] : matchBets
+    const groupRankBetsToShow = isLive
+        ? groupStandingsBets.map(
+            bet => ({
+                ...bet,
+                score: liveGroupRankBetsById[bet.id]?.score ?? bet.score
+            })
+        )
+        : groupStandingsBets
+    const questionBetsToShow = isLive
+        ? questionBets.map(
+            bet => ({
+                ...bet,
+                score: !!liveQuestionBetsById[bet.id] ?  ((bet.score || 0) + liveQuestionBetsById[bet.id].score) : bet.score,
+            })
+        )
+        : questionBets
+
+    const matchesScore = sumBetsScore(gameBetsToShow)
+    const groupStandingsScore = sumBetsScore(groupRankBetsToShow)
+    const specialBetScore = sumBetsScore(questionBetsToShow)
 
     
     const tabs = [
@@ -75,7 +103,11 @@ export function ExpandedContestantView({
             children: (
                 <div>
                     <h3>סה"כ:{' '}{specialBetScore}</h3>
-                    <SpecialBetsTable bets={questionBets} />
+                    <SpecialBetsTable
+                        bets={questionBetsToShow}
+                        showLive={isLive}
+                        liveBetIds={map(keysOf(liveQuestionBetsById), id => Number(id))}
+                    />
                 </div>
             )
         },
@@ -85,7 +117,11 @@ export function ExpandedContestantView({
             children: (
                 <div>
                     <h3>סה"כ:{' '}{groupStandingsScore}</h3>
-                    <GroupRankBetsTable bets={groupStandingsBets} />
+                    <GroupRankBetsTable
+                        bets={groupRankBetsToShow}
+                        liveStandings={liveStandingsByGroupId}
+                        showLive={isLive}
+                    />
                 </div>
             )
         },

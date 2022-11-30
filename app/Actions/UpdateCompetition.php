@@ -168,6 +168,8 @@ class UpdateCompetition
             $game = $nonFinishedGames->get($gameData->externalId);
             $game->result_home = $gameData->resultHome;
             $game->result_away = $gameData->resultAway;
+            $game->full_result_home = $gameData->fullResultHome;
+            $game->full_result_away = $gameData->fullResultAway;
             $game->is_done = $gameData->isDone;
             if ($gameData->isDone && $gameData->koWinnerExternalId) {
                 $game->ko_winner   = $teamsByExternalId[$gameData->koWinnerExternalId];

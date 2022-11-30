@@ -51,6 +51,7 @@ function GameExampleView({
                             team: awayTeam,
                             score: bet[1],
                         }}
+                        isKnockout={isKnockout}
                         qualifier={hasQualifierBet ? qualifier : undefined}
                     />
                 </div>
@@ -68,6 +69,7 @@ function GameExampleView({
                             score: fullTime[1],
                             fullScore: extraTime ? extraTime[1] : undefined,
                         }}
+                        isKnockout={isKnockout}
                         qualifier={actualQualifier}
                     />
                 </div>

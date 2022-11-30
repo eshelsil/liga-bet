@@ -6,7 +6,7 @@ const prod = process.env.NODE_ENV === 'production'
 module.exports = {
     entry: './src/index.tsx',
     output: {
-        filename: 'main.js',
+        filename: 'appMain.js',
         chunkFilename: 'chunk.[name].[chunkhash].js',
         path: path.resolve(__dirname, '../public/js/react-app'),
         clean: true,
