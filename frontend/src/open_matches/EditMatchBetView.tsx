@@ -4,11 +4,16 @@ import { MatchBetWithRelations, WinnerSide } from '../types'
 import CloseIcon from '@mui/icons-material/CloseRounded'
 import { isEmpty } from 'lodash'
 import { LoadingButton } from '../widgets/Buttons'
+import { useSelector } from 'react-redux'
+import { IsQualifierBetOn } from '../_selectors'
+import KoWinnerInput from '../widgets/koWinnerInput'
+import { getWinnerSide } from '../utils'
 
 
 
 interface Props  {
     bet: MatchBetWithRelations
+    isKnockout: boolean
     onClose: () => void
     onSave: (...args: any) => Promise<void>
     opener?: WinnerSide
@@ -16,6 +21,7 @@ interface Props  {
 
 function EditMatchBetView({
     bet,
+    isKnockout,
     onClose,
     onSave,
     opener,
@@ -25,7 +31,12 @@ function EditMatchBetView({
     const awayInputRef = useRef<HTMLInputElement>()
     const [homeScore, setHomeScore] = useState(bet?.result_home ?? '')
     const [awayScore, setAwayScore] = useState(bet?.result_away ?? '')
+    const [koWinner, setKoWinner] = useState(bet?.winner_side ?? null)
     const hasBet = !isEmpty(bet)
+    const isQualifierBetOn = useSelector(IsQualifierBetOn)
+    const hasQualifierBet = isQualifierBetOn && isKnockout
+
+    const isFilled = homeScore !== '' &&  awayScore !== ''
 
     
     const homeScoreChange = (e: any) => {
@@ -43,6 +54,7 @@ function EditMatchBetView({
         await onSave({
             homeScore,
             awayScore,
+            koWinner,
         })
     }
 
@@ -54,20 +66,11 @@ function EditMatchBetView({
         }
     }, [opener])
 
+    const isBetTied = Number(homeScore) === Number(awayScore)
 
-    // const hasBet = bet?.id !== undefined
-    // let winnerSide: WinnerSide
-    // if (hasBet && is_knockout) {
-    //     if (bet.result_home > bet.result_away) {
-    //         winnerSide = WinnerSide.Home
-    //     } else if (bet.result_home < bet.result_away) {
-    //         winnerSide = WinnerSide.Away
-    //     } else {
-    //         winnerSide = bet.winner_side
-    //     }
-    // }
-    // const isHomeKoWinner = winnerSide === WinnerSide.Home
-    // const isAwayKoWinner = winnerSide === WinnerSide.Away
+    const winnerSide = (hasQualifierBet && isKnockout)
+        ? getWinnerSide(Number(homeScore), Number(awayScore), koWinner)
+        : undefined
 
     return (
         <div className='LB-EditMatchBetView'>
@@ -96,6 +99,13 @@ function EditMatchBetView({
                     />
                 </div>
             </div>
+            {hasQualifierBet && (
+                <KoWinnerInput
+                    value={isFilled ? winnerSide : undefined}
+                    setValue={setKoWinner}
+                    onlyDisplay={!isBetTied || !isFilled}
+                />
+            )}
             <div className='buttonContainer'>
                 <div className='buttonsWrapper'>
                     <LoadingButton

@@ -76,7 +76,12 @@ function OpenMatchBetView({
     // const isAwayKoWinner = winnerSide === WinnerSide.Away
 
     return (
-        <div className={`LB-OpenMatchBet LB-EditableBetView  ${tournamentClass} ${(showEdit && forAllTournaments) ? 'sendingforAllTournaments' : ''}`}>
+        <div className={`
+            LB-OpenMatchBet LB-EditableBetView ${tournamentClass}
+            ${(showEdit && forAllTournaments) ? 'sendingforAllTournaments' : ''}
+            ${is_knockout ? 'OpenMatchBet-knockout' : ''}
+            ${showEdit ? 'OpenMatchBet-edit' : ''}
+        `}>
             <div className={`EditableBetView-header`}>
                 <div className='dateLabel'>{dayjs(start_time).format(DEFAULT_DATE_FORMAT)}</div>
                 <div className='timeLabel'>{dayjs(start_time).format(DEFAULT_TIME_FORMAT)}</div>
@@ -94,6 +99,7 @@ function OpenMatchBetView({
                     {showEdit && (
                         <EditMatchBetView
                             bet={bet}
+                            isKnockout={is_knockout}
                             onClose={exitEditMode}
                             onSave={saveBet}
                             opener={editOpener}

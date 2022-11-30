@@ -10,6 +10,7 @@ export interface TeamMacthData {
 export interface MatchResultProps {
     home: TeamMacthData
     away: TeamMacthData,
+    isKnockout: boolean,
     qualifier?: WinnerSide,
     title?: string,
 }

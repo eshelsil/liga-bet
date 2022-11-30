@@ -1,8 +1,8 @@
-import { GameBetScoreConfig, GameGoalsData, GameGoalsDataById, LeaderboardVersion, MatchBetWithRelations, QuestionBetWithRelations, SpecialQuestionType } from '../types'
+import { GameBetScoreConfig, GameGoalsData, GameGoalsDataById, LeaderboardVersion, MatchBetsScoreConfig, MatchBetWithRelations, QuestionBetWithRelations, SpecialQuestionType } from '../types'
 import { cloneDeep, keyBy, mapValues, orderBy } from 'lodash'
 import { calcLeaderboardVersionsDiff } from './leaderboard'
 import { ScoresConfigFromatted } from '../_selectors'
-import { getWinnerSide, isGameLive } from './matches'
+import { getQualifierSide, getWinnerSide, isGameLive } from './matches'
 import { valuesOf } from './common'
 
 
@@ -81,8 +81,7 @@ export function calcTotalPointsGainedOnGame({
     topAssistsId: number
     config: ScoresConfigFromatted
 }){
-    // TODO: handle on KO
-    const gameScore = calcGainedPointsOnGameBet(bet, config.gameBets.groupStage)
+    const gameScore = calcGainedPointsOnGameBet(bet, config.gameBets)
 
     const specialBetsScore = calcGainedPointsOnGameGoals({
         goalsDataByPlayerId: keyBy(goalsDataRows, 'playerId'),
@@ -93,19 +92,31 @@ export function calcTotalPointsGainedOnGame({
         topScorer: topScorerId,
         topAssists: topAssistsId,
     })
+    // TODO: handle on KO qualifier
     return gameScore + specialBetsScore
 }
 
 
-export function calcGainedPointsOnGameBet(bet: MatchBetWithRelations, config: GameBetScoreConfig){
+export function calcGainedPointsOnGameBet(bet: MatchBetWithRelations, config: MatchBetsScoreConfig){
     let score = 0;
-    const {relatedMatch: game, result_home: bet_home, result_away: bet_away} = bet
-    const {result_home, result_away} = game
+    const {relatedMatch: game, result_home: bet_home, result_away: bet_away, winner_side: bet_qualifier} = bet
+    const {result_home, result_away, is_knockout, subType} = game
+    const scoreConfig = is_knockout ? config.knockout : config.groupStage
+    const bonusConfig: GameBetScoreConfig = (is_knockout ? config.bonuses[subType] : undefined) ?? {result: 0,  winnerSide: 0, qualifier: 0}
     if (result_home === bet_home && result_away === bet_away){
-        score += config.result
+        score += scoreConfig.result
+        score += bonusConfig.result
     }
     if (getWinnerSide(result_home, result_away) === getWinnerSide(bet_home, bet_away)){
-        score += config.winnerSide
+        score += scoreConfig.winnerSide
+        score += bonusConfig.winnerSide
+    }
+    if (
+        is_knockout && scoreConfig.qualifier > 0
+        && getQualifierSide(game) === getWinnerSide(bet_home, bet_away, bet_qualifier)
+    ){
+        score += scoreConfig.qualifier
+        score += bonusConfig.qualifier
     }
     return score;
 }

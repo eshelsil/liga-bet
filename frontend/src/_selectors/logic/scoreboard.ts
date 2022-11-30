@@ -52,8 +52,7 @@ export const LiveGameBetsWithScore = createSelector(
         return valuesOf(liveGameBetsById).map(
             gameBet => ({
                 ...gameBet,
-                score: calcGainedPointsOnGameBet(gameBet, scoresConfig.gameBets.groupStage)
-                // TODO: handle on KO
+                score: calcGainedPointsOnGameBet(gameBet, scoresConfig.gameBets)
             })
         )
     }

@@ -12,15 +12,24 @@ export enum KnockoutStage {
 	Last16 = 'last16',
 }
 
+export enum GameType {
+	Knockout = 'knockout',
+	GroupStage = 'group_stage',
+}
+
 export interface MatchCommonBase {
     id: number
     result_home: number
     result_away: number
+    full_result_home: number
+    full_result_away: number
     winner_side: WinnerSide
     is_done: boolean
     closed_for_bets: boolean
     start_time: Date
-    is_knockout?: boolean
+    type: GameType
+    subType: KnockoutStage | number
+    is_knockout: boolean
 }
 
 export interface MatchApiModel extends MatchCommonBase {

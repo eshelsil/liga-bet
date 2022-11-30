@@ -1,14 +1,14 @@
 import { MatchCommonBase, WinnerSide } from '../types'
 import dayjs from 'dayjs'
 
-export function getWinnerSide(homeScore: number, awayScore: number) {
+export function getWinnerSide(homeScore: number, awayScore: number, qualifier?: WinnerSide) {
     if (homeScore > awayScore) {
         return WinnerSide.Home
     }
     if (homeScore < awayScore) {
         return WinnerSide.Away
     }
-    return null
+    return qualifier ? qualifier : null
 }
 
 export function isGameUpcoming(game: MatchCommonBase) {
@@ -23,4 +23,25 @@ export function isGameStarted(game: MatchCommonBase) {
 
 export function isGameLive(game: MatchCommonBase) {
     return isGameStarted(game) && !game.is_done
+}
+
+export function getQualifierSide(game: MatchCommonBase) {
+    const {is_done, is_knockout, winner_side, result_away, result_home, full_result_home, full_result_away} = game
+    if (!is_knockout){
+        return null
+    }
+    if (is_done) {
+        return winner_side 
+    }
+    const regularTimeWinner = getWinnerSide(result_home, result_away)
+    if (regularTimeWinner) {
+        return regularTimeWinner
+    }
+    if (typeof result_home === 'number' && typeof result_away === 'number'){
+        const fullTimeWinner = getWinnerSide(full_result_home, full_result_away)
+        if (fullTimeWinner) {
+            return fullTimeWinner
+        }
+    }
+    return null
 }

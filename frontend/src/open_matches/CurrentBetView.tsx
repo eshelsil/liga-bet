@@ -2,6 +2,10 @@ import React from 'react'
 import { IconButton } from '@mui/material'
 import { MatchBetWithRelations, WinnerSide } from '../types'
 import EditIcon from '@mui/icons-material/Edit';
+import { useSelector } from 'react-redux';
+import { IsQualifierBetOn } from '../_selectors';
+import KoWinnerInput from '../widgets/koWinnerInput';
+import { getWinnerSide } from '../utils';
 
 
 
@@ -12,11 +16,19 @@ function CurrentBetView({
     bet: MatchBetWithRelations
     onEdit: (opener?: WinnerSide) => void
 }) {
-    const { result_home: homeScore, result_away: awayScore} = bet
-
+    const { result_home: homeScore, result_away: awayScore, winner_side: koWinner, relatedMatch} = bet
+    
     const clickOnHomeScore = () => onEdit(WinnerSide.Home)
     const clickOnAwayScore = () => onEdit(WinnerSide.Away)
     const clickOnEditIcon = () => onEdit()
+
+    const isKnockout = relatedMatch?.is_knockout
+    const isQualifierBetOn = useSelector(IsQualifierBetOn)
+    const hasQualifierBet = isQualifierBetOn && isKnockout
+
+    const winnerSide = (hasQualifierBet && isKnockout)
+        ? getWinnerSide(homeScore, awayScore, koWinner)
+        : undefined
 
 
     return (
@@ -40,6 +52,13 @@ function CurrentBetView({
                     </div>
                 </div>
             </div>
+            {hasQualifierBet && (
+                <KoWinnerInput
+                    value={winnerSide}
+                    setValue={() => {}}
+                    onlyDisplay
+                />
+            )}
             <div className='buttonContainer'>
                 <IconButton onClick={clickOnEditIcon}>
                     <EditIcon />

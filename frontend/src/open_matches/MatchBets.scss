@@ -34,6 +34,20 @@
         @media(max-width: 600px){
             margin: 12px auto;
         }
+        &.OpenMatchBet-knockout {
+            .OpenMatchBet-body {
+                margin-bottom: 30px;
+            }
+            &:not(.OpenMatchBet-edit){
+                .OpenMatchBet-body {
+                    .scoreForm {
+                        .buttonContainer {
+                            margin-top: 0px;
+                        }
+                    }
+                }
+            }
+        }
         .EditableBetView-header {
             .timeLabel {
                 margin: 0px;

@@ -1,0 +1,76 @@
+@import '../../styles/shadows';
+@import '../../styles/colors';
+
+.LB-KoWinnerInput {
+    position: relative;
+    margin-top: 6px;
+    padding-bottom: 2px;
+    .KoWinnerInput-content {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        .KoWinnerInput-side {
+            width: 36px;
+            height: 26px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .KoWinnerInput-button {
+                width: 26px;
+                height: 26px;
+                line-height: 26px;
+                border-radius: 50%;
+                box-shadow: $basic-shadow;
+                text-align: center;
+                background: rgb(204 229 253 / 84%);
+                font-size: 15px;
+                transition: background-color 0.3s, height 0.1s, width 0.1s;
+                cursor: pointer;
+            }
+            &.KoWinnerInput-selected {
+                .KoWinnerInput-button {
+                    background-color: $primary-main;
+                    border: 1px solid rgb(0 0 0 / 70%);
+                    cursor: default;
+                }
+            }
+            &:not(.KoWinnerInput-selected) {
+                .KoWinnerInput-button {
+                    width: 22px;
+                    height: 22px;
+                    line-height: 22px;
+                    &:hover {
+                        filter: brightness(90%);
+                    }
+                }
+            }
+        }
+        .KoWinnerInput-home {
+            .KoWinnerInput-button {
+                transform: translateX(-40%);
+            }
+        }
+        .KoWinnerInput-away {
+            .KoWinnerInput-button {
+                transform: translateX(40%);
+            }
+        }
+        .KoWinnerInput-delimiter {
+            font-size: 12px;
+        }
+    }
+    &.KoWinnerInput-displayOnly {
+        .KoWinnerInput-content {
+            .KoWinnerInput-delimiter{
+                opacity: 0;
+            }
+            .KoWinnerInput-side:not(.KoWinnerInput-selected) {
+                opacity: 0;
+                * {
+                    cursor: default;
+                }
+            }
+        }
+    }
+}

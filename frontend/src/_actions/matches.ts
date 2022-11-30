@@ -6,16 +6,19 @@ import matches from '../_reducers/matches'
 import goalsDataReducer from '../_reducers/goalsData'
 import { CurrentTournament, GameGoalsDataSelector, Games } from '../_selectors'
 import { generateInitCollectionAction } from './utils'
-import { GameGoalsDataById } from '../types'
+import { GameGoalsDataById, GameType } from '../types'
 
 function fetchAndStoreMatches() {
     return async (dispatch: AppDispatch, getState: GetRootState) => {
         const tournament = CurrentTournament(getState())
         const { competitionId, id: tournamentId } = tournament;
         const games = await fetchMatches(tournamentId)
+        const formattedGames = games.map(
+            game => ({...game, is_knockout: game.type === GameType.Knockout})
+        )
         dispatch(matches.actions.updateMany({
             competitionId,
-            games: keyBy(games, 'id'),
+            games: keyBy(formattedGames, 'id'),
         }))
     }
 }
