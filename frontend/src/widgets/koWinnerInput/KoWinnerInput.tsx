@@ -10,7 +10,6 @@ interface Props {
 }
 
 function KoWinnerInput({ value, setValue, onlyDisplay = false }: Props) {
-    console.log({value});
     const onChange = (winner: WinnerSide) => {
         setValue(winner)
     }
