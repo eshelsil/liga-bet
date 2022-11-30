@@ -161,9 +161,23 @@ export const WinnerSpecialQuestionId = createSelector(
     }
 )
 
-export const LiveGamesIds = createSelector(
+export const RunnerUpSpecialQuestionId = createSelector(
+    SpecialQuestions,
+    (questions) => {
+        return valuesOf(questions).find(q => q.type === SpecialQuestionType.RunnerUp)?.id
+    }
+)
+
+export const LiveGames = createSelector(
     Games,
     (gamesById) => {
-        return keysOf(pickBy(gamesById, game => isGameLive(game))) as number[]
+        return pickBy(gamesById, game => isGameLive(game))
+    }
+)
+
+export const LiveGamesIds = createSelector(
+    LiveGames,
+    (liveGames) => {
+        return keysOf(liveGames) as number[]
     }
 )

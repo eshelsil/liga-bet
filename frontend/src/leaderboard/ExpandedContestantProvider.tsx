@@ -17,6 +17,7 @@ interface Props {
     liveGameBetsByUtlId: Dictionary<MatchBetWithRelations[]>
     liveGroupRankBetsByUtlId: Dictionary<GroupRankBetWithRelations[]>
     liveStandingsByGroupId: Record<number, Team[]>
+    liveQuestionBetsByUtlId: Dictionary<QuestionBetWithRelations[]>
     utlId: number
     isLive?: boolean
 }
@@ -30,6 +31,7 @@ export function ExpandedContestantProvider({
     liveGameBetsByUtlId,
     liveGroupRankBetsByUtlId,
     liveStandingsByGroupId,
+    liveQuestionBetsByUtlId,
 }: Props) {
     const matchBets = matchBetsByUserId[utlId] ?? []
     const liveGameBets = liveGameBetsByUtlId[utlId] ?? []
@@ -37,6 +39,7 @@ export function ExpandedContestantProvider({
     const groupStandingsBets =
         groupStandingBetsByUserId[utlId] ?? []
     const liveGroupRankBets = liveGroupRankBetsByUtlId[utlId] ?? []
+    const liveQuestionBets = liveQuestionBetsByUtlId[utlId] ?? []
     
     return (
         <ExpandedContestantView
@@ -48,6 +51,7 @@ export function ExpandedContestantProvider({
             liveStandingsByGroupId={liveStandingsByGroupId}
             questionBets={questionBets}
             groupStandingsBets={groupStandingsBets}
+            liveQuestionBets={liveQuestionBets}
         />
     )
 }

@@ -1,4 +1,4 @@
-import { MatchCommonBase, WinnerSide } from '../types'
+import { MatchApiModel, MatchCommonBase, WinnerSide } from '../types'
 import dayjs from 'dayjs'
 
 export function getWinnerSide(homeScore: number, awayScore: number, qualifier?: WinnerSide) {
@@ -23,6 +23,10 @@ export function isGameStarted(game: MatchCommonBase) {
 
 export function isGameLive(game: MatchCommonBase) {
     return isGameStarted(game) && !game.is_done
+}
+
+export function isTeamParticipate(game: MatchApiModel, teamId: number) {
+    return game.away_team === teamId || game.home_team === teamId
 }
 
 export function getQualifierSide(game: MatchCommonBase) {
