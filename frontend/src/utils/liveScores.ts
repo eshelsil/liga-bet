@@ -149,3 +149,53 @@ export function calcGainedPointsOnGameGoals({
     }
     return score
 }
+
+export function calcGainedPointsOnStandingsBet({
+    bet,
+    answer,
+    scoreConfig,
+}: {
+    bet: number[],
+    answer: number[],
+    scoreConfig: {
+        perfect: number,
+        minorMistake: number,
+    },
+}){
+    let minorMistakesCounter = 0
+    for (const i in bet){
+        const index = Number(i)
+        const teamId = bet[index]
+        if (answer[index] === teamId){
+            continue
+        }
+
+        if (isMinorMistake(index, answer, teamId)) {
+            minorMistakesCounter += 1
+        } else {
+            return 0;
+        }
+
+        if (minorMistakesCounter >= 3) {
+            return 0;
+        }
+    }
+
+    if (minorMistakesCounter > 0) {
+        return scoreConfig.minorMistake;
+    }
+    return scoreConfig.perfect;
+}
+
+
+
+function isMinorMistake(
+    index: number,
+    finalRanks: number[],
+    teamId: number
+): boolean {
+    return (
+        (index + 1 <= 3 && finalRanks[index + 1] === teamId)
+        || (index - 1 >= 0 && finalRanks[index - 1] == teamId)
+    )
+}

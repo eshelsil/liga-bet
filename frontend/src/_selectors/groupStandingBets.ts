@@ -2,15 +2,17 @@ import { groupBy } from 'lodash'
 import { createSelector } from 'reselect'
 import { GroupWithABet, TournamentStatus } from '../types'
 import { TournamentStatusSelector } from './base'
-import { CompetitionStartTime, MyGroupRankBetsById } from './logic'
+import { CompetitionStartTime, LiveGroupRankBetsWithScoreByGroupId, MyGroupRankBetsById } from './logic'
 import { GroupStandingBetsLinked, GroupsWithTeams } from './modelRelations'
 
 export const AllGroupStandingsBets = createSelector(
     GroupStandingBetsLinked,
     GroupsWithTeams,
-    (bets, groups) => {
+    LiveGroupRankBetsWithScoreByGroupId, 
+    (bets, groups, liveBetsByGroupId) => {
         const betsByGroupId = groupBy(bets, (bet) => bet.relatedGroup.id)
         return {
+            liveBetsByGroupId,
             betsByGroupId,
             groups: Object.values(groups),
         }

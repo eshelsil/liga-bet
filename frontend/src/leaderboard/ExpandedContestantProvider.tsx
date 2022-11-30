@@ -4,6 +4,7 @@ import {
     GroupRankBetWithRelations,
     MatchBetWithRelations,
     QuestionBetWithRelations,
+    Team,
 } from '../types'
 import { ContestantSelector } from '../_selectors'
 import ExpandedContestantView from './ExpandedContestantView'
@@ -14,6 +15,8 @@ interface Props {
     groupStandingBetsByUserId: Dictionary<GroupRankBetWithRelations[]>
     questionBetsByUserId: Dictionary<QuestionBetWithRelations[]>
     liveGameBetsByUtlId: Dictionary<MatchBetWithRelations[]>
+    liveGroupRankBetsByUtlId: Dictionary<GroupRankBetWithRelations[]>
+    liveStandingsByGroupId: Record<number, Team[]>
     utlId: number
     isLive?: boolean
 }
@@ -25,12 +28,15 @@ export function ExpandedContestantProvider({
     groupStandingBetsByUserId,
     questionBetsByUserId,
     liveGameBetsByUtlId,
+    liveGroupRankBetsByUtlId,
+    liveStandingsByGroupId,
 }: Props) {
     const matchBets = matchBetsByUserId[utlId] ?? []
     const liveGameBets = liveGameBetsByUtlId[utlId] ?? []
     const questionBets = questionBetsByUserId[utlId] ?? []
     const groupStandingsBets =
         groupStandingBetsByUserId[utlId] ?? []
+    const liveGroupRankBets = liveGroupRankBetsByUtlId[utlId] ?? []
     
     return (
         <ExpandedContestantView
@@ -38,6 +44,8 @@ export function ExpandedContestantProvider({
             isLive={isLive}
             matchBets={matchBets}
             liveGameBets={liveGameBets}
+            liveGroupRankBets={liveGroupRankBets}
+            liveStandingsByGroupId={liveStandingsByGroupId}
             questionBets={questionBets}
             groupStandingsBets={groupStandingsBets}
         />

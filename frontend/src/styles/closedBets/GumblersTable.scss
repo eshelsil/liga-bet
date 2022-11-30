@@ -19,6 +19,9 @@
         &.scoreCell {
             font-size: 22px;
             text-align: center;
+            &.isLive {
+                color: #077607d4;
+            }
         }
         &.scoreHeaderCell {
             text-align: center;

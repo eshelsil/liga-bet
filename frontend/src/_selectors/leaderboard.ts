@@ -1,9 +1,10 @@
 import { createSelector } from 'reselect'
 import { formatLeaderboardVersion, valuesOf } from '../utils'
 import { Contestants, IsTournamentStarted } from './base'
-import { LatestLeaderboard, LiveGameBetsWithScore, LiveGameBetsWithScoreByUtlId } from './logic'
+import { LatestLeaderboard, LiveGameBetsWithScoreByUtlId, LiveGroupRankBetsWithScoreByUtlId } from './logic'
 import {
     GroupStandingBetsByUserId,
+    LiveGroupStandingsWithTeams,
     MatchBetsWithPositiveScores,
     QuestionBetsByUserQuestionId,
 } from './modelRelations'
@@ -27,7 +28,9 @@ export const ContestantSelector = createSelector(
     GroupStandingBetsByUserId,
     QuestionBetsByUserQuestionId,
     LiveGameBetsWithScoreByUtlId,
-    (relevantMatchBets, groupStandingBetsByUserId, questionBetsByUserId, liveGameBetsByUtlId) => {
+    LiveGroupRankBetsWithScoreByUtlId,
+    LiveGroupStandingsWithTeams,
+    (relevantMatchBets, groupStandingBetsByUserId, questionBetsByUserId, liveGameBetsByUtlId, liveGroupRankBetsByUtlId, liveStandingsByGroupId) => {
         const matchBetsByUserId = groupBy(
             relevantMatchBets,
             'user_tournament_id'
@@ -37,6 +40,8 @@ export const ContestantSelector = createSelector(
             groupStandingBetsByUserId,
             questionBetsByUserId,
             liveGameBetsByUtlId,
+            liveGroupRankBetsByUtlId,
+            liveStandingsByGroupId,
         }
     }
 )
