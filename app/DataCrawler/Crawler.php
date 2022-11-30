@@ -58,6 +58,8 @@ class Crawler
 
         $resultHome = null;
         $resultAway = null;
+        $aggResultHome = null;
+        $aggResultAway = null;
         if ($isStarted) {
             $resultHomeFt = data_get($match_json, 'score.fullTime.homeTeam');
             $resultAwayFt = data_get($match_json, 'score.fullTime.awayTeam');
@@ -72,9 +74,13 @@ class Crawler
             } else if ($duration === 'EXTRA_TIME') {
                 $resultHome = $resultHomeFt - $resultHomeEt;
                 $resultAway = $resultAwayFt - $resultAwayEt;
+                $aggResultHome = $resultHomeFt;
+                $aggResultAway = $resultAwayFt;
             } else if ($duration === 'PENALTY_SHOOTOUT') {
                 $resultHome = $resultHomeFt - $resultHomeEt - $resultHome_penalties;
                 $resultAway = $resultAwayFt - $resultAwayEt - $resultAway_penalties;
+                $aggResultHome = $resultHomeFt - $resultHome_penalties;
+                $aggResultAway = $resultAwayFt - $resultAway_penalties;
             } else {
                 throw new \Exception("Cannot parse score from match due to unrecognised 'duration' value: [${$duration}]");
             }
@@ -89,6 +95,8 @@ class Crawler
             $startTime ? $startTime->format("U") : null,
             $resultHome,
             $resultAway,
+            $aggResultHome,
+            $aggResultAway,
             $koWinner,
             $isDone,
             $isStarted,
