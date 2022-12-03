@@ -19,7 +19,14 @@ class CalculateSpecialBets
         // ->where("competition_id", $competition->id)
         SpecialBet::where("type", $type)
             ->get()
-            ->when($answer, fn(Collection $specialBets) => $specialBets->toQuery()->update(["answer" => $answer]))
+            ->when($answer, function(Collection $specialBets) use ($answer) {
+                $specialBets->toQuery()->update(["answer" => $answer]);
+
+                // update by toQuery allows bulk but not updates the model
+                $specialBets->each(fn(SpecialBet $s) => $s->answer = $answer);
+
+                return $specialBets;
+            })
             ->each(fn(SpecialBet $specialBet) => $specialBet->calculateBets());
 
         return "completed";

@@ -10,16 +10,12 @@ namespace App\Actions;
 
 use App\Competition;
 use App\DataCrawler\Game as CrawlerGame;
-use App\Enums\BetTypes;
 use App\Game;
-use App\Http\Resources\LeaderboardVersionResource;
-use App\LeaderboardsVersion;
 use App\SpecialBets\SpecialBet;
 use App\Tournament;
 use App\User;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
@@ -101,10 +97,11 @@ class UpdateCompetition
         $this->updateScorers->handle($competition);
         $doneGames = $updatedGames->filter(fn($g) => $g->is_done);
 
-        if ($updatedGames->filter(fn($g) => $g->is_done)->count() > 0) {
+        if ($updatedGames->first(fn(Game $g) => $g->is_done)) {
             $this->updateStandings->handle($competition);
 
-            if ($doneGames->filter(fn($g) => $g->isGroupStage())->count() > 0 && $competition->isGroupStageDone()) {
+            // TODO: There was a bug here. i think we should refresh the games before check $competition->isGroupStageDone()
+            if ($doneGames->first(fn($g) => $g->isGroupStage()) && $competition->isGroupStageDone()) {
                 $this->calculateSpecialBets->execute($competition->id, SpecialBet::TYPE_OFFENSIVE_TEAM, $competition->getOffensiveTeams()->join(","));
                 $this->updateLeaderboards->handle($competition, null, "{\"question\":".SpecialBet::TYPE_OFFENSIVE_TEAM."\"}");
             }

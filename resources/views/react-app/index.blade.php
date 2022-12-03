@@ -39,7 +39,7 @@
 <body dir="rtl">
     <div id="root"></div>
 </body>
-<script src="/js/react-app/appMain.js"></script>
+<script src="/js/react-app/appMain.js?v={{ config("app.version") }}"></script>
 
 <script>
     $(function () {

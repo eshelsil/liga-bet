@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import {connect, useSelector} from 'react-redux'
 import { MyOpenMatchBetsSelector } from '../_selectors/openMatches'
 import {
     sendBetAndStore,
@@ -9,6 +9,7 @@ import OpenMatchesView from './openMatchesView'
 import { BetType, MatchWithABet, WinnerSide } from '../types'
 import { MatchBetUpdatePayload } from '../api/bets'
 import { useAllGameBets, useGames } from '../hooks/useFetcher'
+import {IsQualifierBetOn} from "../_selectors";
 
 interface Props {
     matches: MatchWithABet[]
@@ -19,6 +20,9 @@ const OpenMatchesProvider = ({
     matches,
     sendBetAndStore,
 }: Props) => {
+
+    const hasQualifierBet = useSelector(IsQualifierBetOn)
+
     useGames(true);
     useAllGameBets();
 
@@ -60,7 +64,7 @@ const OpenMatchesProvider = ({
             'result-home': Number(homeScore),
             'result-away': Number(awayScore),
         }
-        if (is_knockout && homeScore == awayScore) {
+        if (is_knockout && homeScore == awayScore && hasQualifierBet) {
             payload.winner_side = koWinner
             if (!koWinner) {
                 window['toastr']['error'](
