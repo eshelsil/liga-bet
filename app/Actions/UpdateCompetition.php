@@ -190,6 +190,7 @@ class UpdateCompetition
     
                     $this->calculateSpecialBets->execute($game->competition_id, SpecialBet::TYPE_WINNER, $winner);
                     $this->calculateSpecialBets->execute($game->competition_id, SpecialBet::TYPE_RUNNER_UP, $runnerUp);
+                    $this->updateLeaderboards->handle($competition, null, "{\"question\":".SpecialBet::TYPE_WINNER."\"}");
                 }
             }
         }
