@@ -40,6 +40,7 @@ class SpecialQuestionResource extends JsonResource
     protected function translateAnswers(SpecialBet $specialQuestion)
     {
         $ids = explode(",", $specialQuestion->answer);
+        return $ids;
 
         if (in_array($specialQuestion->type, [SpecialBet::TYPE_TOP_SCORER, SpecialBet::TYPE_MOST_ASSISTS, SpecialBet::TYPE_MVP])) {
             return PlayerResource::collection(Player::findMany($ids));
