@@ -26,11 +26,14 @@ class SpecialQuestionResource extends JsonResource
         /** @var SpecialBet $specialQuestions */
         $specialQuestions = $this->resource;
         $type = $specialQuestions->type;
+
+        $answerType = "team"; // "player" switch
         return [
             "id"              => $specialQuestions->id,
             "type"            => static::$typeToAttribute[$type] ?? $type,
-            "tournament_id"           => $specialQuestions->tournament_id,
-            "answer"           => $specialQuestions->answer,
+            "tournament_id"   => $specialQuestions->tournament_id,
+            "answer"          => $specialQuestions->answer ? collect(explode(",", $specialQuestions->answer))
+                ->map(fn (int $id) => ["id" => $id, "type" => $answerType]) : null
         ];
     }
 }
