@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Player;
 use App\SpecialBets\SpecialBet;
+use App\Team;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SpecialQuestionResource extends JsonResource
@@ -23,17 +25,26 @@ class SpecialQuestionResource extends JsonResource
      */
     public function toArray($request)
     {
-        /** @var SpecialBet $specialQuestions */
-        $specialQuestions = $this->resource;
-        $type = $specialQuestions->type;
+        /** @var SpecialBet $specialQuestion */
+        $specialQuestion = $this->resource;
+        $type = $specialQuestion->type;
 
-        $answerType = "team"; // "player" switch
         return [
-            "id"              => $specialQuestions->id,
+            "id"              => $specialQuestion->id,
             "type"            => static::$typeToAttribute[$type] ?? $type,
-            "tournament_id"   => $specialQuestions->tournament_id,
-            "answer"          => $specialQuestions->answer ? collect(explode(",", $specialQuestions->answer))
-                ->map(fn (int $id) => ["id" => $id, "type" => $answerType]) : null
+            "tournament_id"   => $specialQuestion->tournament_id,
+            "answer"          => $specialQuestion->answer ? $this->translateAnswers($specialQuestion) : null
         ];
+    }
+
+    protected function translateAnswers(SpecialBet $specialQuestion)
+    {
+        $ids = explode(",", $specialQuestion->answer);
+
+        if (in_array($specialQuestion->type, [SpecialBet::TYPE_TOP_SCORER, SpecialBet::TYPE_MOST_ASSISTS, SpecialBet::TYPE_MVP])) {
+            return PlayerResource::collection(Player::findMany($ids));
+        }
+
+        return TeamResource::collection(Team::findMany($ids));
     }
 }
