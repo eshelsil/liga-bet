@@ -55,7 +55,7 @@ class BetMatchRequest extends AbstractBetRequest
         }
         if ($game->isKnockout()){
             $koWinnerSide = data_get($data, "winner_side");
-            if ((int)$resultAway == (int)$resultHome && !in_array($koWinnerSide, ["home", "away"])){
+            if ((int)$resultAway == (int)$resultHome && !in_array($koWinnerSide, ["home", "away"]) && data_get($this->tournament->config, "scores.gameBets.knockout.qualifier")) {
                 $paramString = is_null($koWinnerSide) ? "null" : $koWinnerSide;
                 throw new \InvalidArgumentException("Knockout Bet's \"winner_side\" parameter must be one of [\"away\", \"home\"] if score is tied. <br>Got: {$paramString}");
             }
