@@ -90,8 +90,11 @@ class Competition extends Model
     }
     public function getKnockoutGames(?int $teamId = null): Collection
     {
-        return $this->games->where('type', 'knockout')
-            ->when($teamId, fn(Game $g) => in_array($teamId, [$g->team_home_id, $g->team_away_id]));
+        $games = $this->games->where('type', 'knockout');
+        if ($teamId) {
+            return $games->filter(fn(Game $g) => in_array($teamId, [$g->team_home_id, $g->team_away_id]));
+        }
+        return $games;
     }
 
     public function isDone() {

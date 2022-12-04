@@ -209,20 +209,16 @@ class BetSpecialBetsRequest extends AbstractBetRequest
         $koGames = $this->tournament->competition->getKnockoutGames($this->answer);
 
         $score = 0;
-
-        if ($koGames->contains("sub_type", GameSubTypes::QUARTER_FINALS)) {
-            $score += $this->getScoreConfig("specialBets.{$type}.quarterFinal");
-
-            if ($koGames->contains("sub_type", GameSubTypes::SEMI_FINALS)) {
-                $score += $this->getScoreConfig("specialBets.{$type}.semiFinal");
-
-                /** @var ?Game $final */
-                if ($final = $koGames->firstWhere("sub_type", GameSubTypes::FINAL)) {
+        foreach ($koGames as $game) {
+            if ($game->getKnockoutWinner() == $this->answer){
+                if ($game->sub_type == GameSubTypes::LAST_16) {
+                    $score += $this->getScoreConfig("specialBets.{$type}.quarterFinal");
+                } else if ($game->sub_type == GameSubTypes::QUARTER_FINALS) {
+                    $score += $this->getScoreConfig("specialBets.{$type}.semiFinal");
+                } else if ($game->sub_type == GameSubTypes::SEMI_FINALS) {
                     $score += $this->getScoreConfig("specialBets.{$type}.final");
-
-                    if ($final->getKnockoutWinner() == $this->answer) {
-                        $score += $this->getScoreConfig("specialBets.{$type}.winning");
-                    }
+                } else if ($game->sub_type == GameSubTypes::FINAL) {
+                    $score += $this->getScoreConfig("specialBets.{$type}.winning");
                 }
             }
         }
