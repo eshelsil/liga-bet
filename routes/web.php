@@ -62,6 +62,7 @@ Route::post('/admin/create-rank-row', [AdminController::class, 'createNewRanking
 Route::post('/admin/update-last-rank-row', [AdminController::class, 'updateLastRankingRow']);
 Route::post('/admin/delete-last-rank-row', [AdminController::class, 'removeLastRankingRow']);
 Route::get('/admin/running-tournaments-data', [AdminController::class, 'getRunningTournamentsData']);
+Route::get('/admin/fill-monkey-missing-game-bets', [AdminController::class, 'FillMissingMonkeyGameBets']);
 
 Route::get('/admin/decomplete-match/{id}', [AdminController::class, 'removeMatchResult']);
 Route::get('/admin/complete-match/{id}/{scoreHome?}/{scoreAway?}/{isAwayWinner?}', [AdminController::class, 'completeMatch']);

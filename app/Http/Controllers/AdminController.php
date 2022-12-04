@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\MonkeyAutoBetCompetitionGames;
 use App\Actions\UpdateGameBets;
 use App\Actions\UpdateLeaderboards;
 use App\Bet;
@@ -189,6 +190,15 @@ class AdminController extends Controller
         $user->password = Hash::make($password);
         $user->save();
         return response()->json(200);
+    }
+
+    public function FillMissingMonkeyGameBets(Request $request) {
+        $koGames = Game::where('type', 'knockout');
+        $autoBet = (new MonkeyAutoBetCompetitionGames());
+        $koGames->each(function(Game $game) use ($autoBet){
+            User::getMonkeyUsers()->each(fn(User $monkey) => $autoBet->handle($monkey, $game));
+        });
+        return "OK";
     }
 
     public function resetPass($id) {
