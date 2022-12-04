@@ -141,27 +141,37 @@ class SpecialBet extends Model implements BetableInterface
                          ->first();
     }
 
+    private function getRandomPlayerId()
+    {
+        return $this->tournament->competition->players->random()->id;
+    }
+
+    private function getRandomTeamId()
+    {
+        return $this->tournament->competition->teams->random()->id;
+    }
+
     public function generateRandomBetData()
     {
         $answer = null;
         switch ($this->type) {
             case SpecialBet::TYPE_MVP:
-                $answer = Player::all()->random()->id;
+                $answer = $this->getRandomPlayerId();
                 break;
             case SpecialBet::TYPE_MOST_ASSISTS:
-                $answer = Player::all()->random()->id;
+                $answer = $this->getRandomPlayerId();
                 break;
             case SpecialBet::TYPE_OFFENSIVE_TEAM:
-                $answer = Team::all()->random()->id;
+                $answer = $this->getRandomTeamId();
                 break;
             case SpecialBet::TYPE_WINNER:
-                $answer = Team::all()->random()->id;
+                $answer = $this->getRandomTeamId();
                 break;
             case SpecialBet::TYPE_RUNNER_UP:
-                $answer = Team::all()->random()->id;
+                $answer = $this->getRandomTeamId();
                 break;
             case SpecialBet::TYPE_TOP_SCORER:
-                $answer = Player::all()->random()->id;
+                $answer = $this->getRandomPlayerId();
                 break;
             default:
                 throw new InvalidArgumentException("Invalid SpecialBet type \"{$this->type}\"");

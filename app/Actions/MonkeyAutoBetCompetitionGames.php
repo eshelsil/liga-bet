@@ -26,9 +26,9 @@ class MonkeyAutoBetCompetitionGames
             throw new \InvalidArgumentException("Cannot auto-generate bets for a user who is not a monkey");
         }
 
-        $user->loadMissing("utls.tournaments");
+        $user->loadMissing("utls.tournament");
         $tournamentUsers = $user->utls
-            ->where("utls.tournaments.competition_id", $game->competition_id);
+            ->where("tournament.competition_id", $game->competition_id);
 
         $tournamentUsers->loadMissing(["bets" => function ($query) {
             $query->where('type', BetTypes::Game);
@@ -42,12 +42,14 @@ class MonkeyAutoBetCompetitionGames
         if ($tournamentUser->bets->firstWhere("game_id", $game->id)) {
             return;
         }
+        $isQualifierBetOn = data_get($tournamentUser->tournament->config, "scores.gameBets.knockout.qualifier");
 
         $bet = new Bet();
         $bet->user_tournament_id = $tournamentUser->id;
+        $bet->tournament_id = $tournamentUser->tournament->id;
         $bet->type = BetTypes::Game;
         $bet->type_id = $game->getID();
-        $bet->data = $game->generateRandomBetData();
+        $bet->data = $game->generateRandomBetData($isQualifierBetOn);
         $bet->save();
     }
 }

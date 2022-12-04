@@ -220,7 +220,7 @@ class Game extends Model implements BetableInterface
         return !!$final_match;
     }
 
-    public function generateRandomBetData()
+    public function generateRandomBetData(?bool $qualifierBetIsOn = true)
     {
         $res = [];
         foreach(['result-home', 'result-away'] as $key){
@@ -233,7 +233,7 @@ class Game extends Model implements BetableInterface
             }
             $res[$key] = $goals;
         }
-        if($this->isKnockout() && $res['result-home'] == $res['result-away']){
+        if($this->isKnockout() && $res['result-home'] == $res['result-away'] && $qualifierBetIsOn){
             $res['ko_winner_side'] = Arr::random(['home','away']);
         }
         return json_encode($res);
