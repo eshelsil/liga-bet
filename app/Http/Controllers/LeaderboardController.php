@@ -26,4 +26,16 @@ class LeaderboardController extends Controller
         );
         
     }
+
+    public function getLatestFromBetsData(Request $request, string $tournamentId)
+    {
+        $utl = $this->getUser()->getTournamentUser($tournamentId);
+
+        LeaderboardVersionResource::withoutWrapping();
+        
+        return LeaderboardVersionResource::collection(
+            $utl->tournament->getLatestLeaderboard()
+        );
+        
+    }
 }

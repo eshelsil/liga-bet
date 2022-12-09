@@ -114,6 +114,11 @@ class Game extends Model implements BetableInterface
     {
         return $this->belongsTo(Competition::class, "competition_id");
     }
+    
+    public function scorers()
+    {
+        return $this->hasMany(GameDataGoal::class);
+    }
 
     public function isClosedForBets()
     {

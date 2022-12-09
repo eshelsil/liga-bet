@@ -4,6 +4,7 @@ namespace App;
 
 use App\Enums\BetTypes;
 use App\SpecialBets\SpecialBet;
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -96,6 +97,11 @@ class Tournament extends Model
         return $this->utls->filter(fn(TournamentUser $utl) => $utl->isConfirmed());
     }
 
+    public function competingUtls()
+    {
+        return $this->utls->filter(fn(TournamentUser $utl) => $utl->isCompeting());
+    }
+
     public function getUtlOfUser(User $user)
     {
         return $this->utls->firstWhere('user_id', $user->id);
@@ -139,6 +145,68 @@ class Tournament extends Model
         }
         $versionBeforeLastGame = $versionsAsc[$indexOfversionBeforeLatestGames];
         return collect([$latestVersion, $versionBeforeLastGame]);
+    }
+
+    public function getLatestGameScore()
+    {
+        $game = $this->competition->games->where('is_done', true)->sortByDesc('start_time')->first();
+        $scoreGainedPerUtl = [];
+        foreach ($this->competingUtls() as $utl) {
+            $scoreGainedPerUtl[$utl->id] = $utl->calcScoreGainedForGame($game);
+        }
+        return $scoreGainedPerUtl;
+    }
+
+    public function getLatestLeaderboard()
+    {
+        $betsScoreSum = $this->bets()
+                     ->select(["user_tournament_id", DB::raw("COALESCE(sum(bets.score), 0) as total_score")])
+                     ->groupBy(["user_tournament_id"])
+                     ->orderBy("total_score", "desc")
+                     ->get();
+        $version1 = new LeaderboardsVersion();
+        $version1->id = 1;
+        $version1->tournament_id = $this->id;
+        $version1->description = "";
+        $version1->leaderboards = $this->calcRanks($betsScoreSum, $version1->id);
+
+        $latestGameScoreByUtlId = $this->getLatestGameScore();
+        $prevVersionScoreSum = $betsScoreSum->map(function($utlScore) use ($latestGameScoreByUtlId){
+            $res = $utlScore->replicate();
+            $res->total_score = $utlScore->total_score - ($latestGameScoreByUtlId[$utlScore->user_tournament_id] ?? 0);
+            return $res;
+        });
+
+        $version2 = new LeaderboardsVersion();
+        $version2->id = 2;
+        $version2->tournament_id = $this->id;
+        $version2->description = "";
+        $version2->leaderboards = $this->calcRanks($prevVersionScoreSum, $version1->id);
+        
+        return collect([$version1, $version2]);
+    }
+
+    public function calcRanks($betsScoreSum, $versionId)
+    {
+
+        $lastScore = null;
+        $rank = null;
+        $leaderboardRows = collect([]);
+        foreach ($betsScoreSum as $i => $userScore) {
+            if ($lastScore != $userScore->total_score) {
+                $rank = $i + 1;
+            }
+
+            $leader = new Leaderboard();
+            $leader->id                 = $i + $versionId;
+            $leader->tournament_id      = $this->id;
+            $leader->user_tournament_id = $userScore->user_tournament_id;
+            $leader->version_id         = $versionId;
+            $leader->rank               = $rank;
+            $leader->score = $lastScore = 0 + $userScore->total_score;
+            $leaderboardRows->push($leader);
+        }
+        return $leaderboardRows;
     }
 
     public function getRelevantPlayerIds()

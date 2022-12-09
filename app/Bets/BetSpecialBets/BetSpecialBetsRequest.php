@@ -73,15 +73,17 @@ class BetSpecialBetsRequest extends AbstractBetRequest
                 break;
             case SpecialBet::TYPE_WINNER:
                 $this->validateTeamSelection($answer);
-                if ($this->hasUserBet(SpecialBet::TYPE_RUNNER_UP, $answer, $utl)) {
-                    throw new \InvalidArgumentException("לא ניתן לבחור אותה קבוצה כזוכה וגם כסגנית");
-                }
+                // Removed to prevent errors thrown during calculation (it should be relevant only for when updateing the bet's answer)
+                // if ($this->hasUserBet(SpecialBet::TYPE_RUNNER_UP, $answer, $utl)) {
+                //     throw new \InvalidArgumentException("לא ניתן לבחור אותה קבוצה כזוכה וגם כסגנית");
+                // }
                 break;
             case SpecialBet::TYPE_RUNNER_UP:
                 $this->validateTeamSelection($answer);
-                if ($this->hasUserBet(SpecialBet::TYPE_WINNER, $answer, $utl)) {
-                    throw new \InvalidArgumentException("לא ניתן לבחור אותה קבוצה כזוכה וגם כסגנית");
-                }
+                // Removed to prevent errors thrown during calculation (it should be relevant only for when updateing the bet's answer)
+                // if ($this->hasUserBet(SpecialBet::TYPE_WINNER, $answer, $utl)) {
+                //     throw new \InvalidArgumentException("לא ניתן לבחור אותה קבוצה כזוכה וגם כסגנית");
+                // }
                 break;
             case SpecialBet::TYPE_TOP_SCORER:
                 $this->validatePlayerSelection($answer);
@@ -147,6 +149,22 @@ class BetSpecialBetsRequest extends AbstractBetRequest
             SpecialBet::TYPE_WINNER => $this->calcRoadToFinal("winner"),
             SpecialBet::TYPE_RUNNER_UP => $this->calcRoadToFinal("runnerUp"),
             SpecialBet::TYPE_TOP_SCORER => $this->calcTopScorer(),
+            default => throw new InvalidArgumentException("Invalid SpecialBet name \"{$this->getEntity()->type}\""),
+        };
+    }
+
+    public function calculateScoreForGame(Game $game): int
+    {
+        if (!$game->is_done){
+            return 0;
+        }
+        return match ($this->getEntity()->type) {
+            SpecialBet::TYPE_MVP => $this->calcMVPForGame($game),
+            SpecialBet::TYPE_MOST_ASSISTS => $this->calcTopAssistsForGame($game),
+            SpecialBet::TYPE_OFFENSIVE_TEAM => $this->calculateOffensiveTeamForGame($game),
+            SpecialBet::TYPE_WINNER => $this->calcRoadToFinalForGame($game, "winner"),
+            SpecialBet::TYPE_RUNNER_UP => $this->calcRoadToFinalForGame($game, "runnerUp"),
+            SpecialBet::TYPE_TOP_SCORER => $this->calcTopScorerForGame($game),
             default => throw new InvalidArgumentException("Invalid SpecialBet name \"{$this->getEntity()->type}\""),
         };
     }
@@ -235,6 +253,77 @@ class BetSpecialBetsRequest extends AbstractBetRequest
         $players = $this->getSpecialBet()->answer;
         if ($players && in_array($this->answer, explode(",", $players))) {
             $score += $this->getScoreConfig("specialBets.topScorer.correct");
+        }
+
+        return $score;
+    }
+
+
+
+    public function calcMVPForGame(Game $game)
+    {
+        if ($game->sub_type == 'FINAL') {
+            return $this->calcMVP();
+        }
+        return 0;
+    }
+
+    public function calcTopAssistsForGame(Game $game)
+    {
+        $score = 0;
+        $goalsData = $game->scorers->firstWhere('player_id', $this->answer);
+        if ($goalsData) {
+            $score += $goalsData->assists * $this->getScoreConfig("specialBets.topAssists.eachGoal");
+        }
+
+        if ($game->sub_type == 'FINAL') {
+            $players = $this->getSpecialBet()->answer;
+            if ($players && in_array($this->answer, explode(",", $players))) {
+                $score += $this->getScoreConfig("specialBets.topAssists.correct") ?? $this->getScoreConfig("specialBets.topAssists"); // Fallback to prevent BC
+            }
+        }
+
+        return $score;
+    }
+
+    public function calculateOffensiveTeamForGame(Game $game)
+    {
+        // TODO - calc offensive team if gameId is last game of groupStage
+        return 0;
+    }
+
+    public function calcRoadToFinalForGame(Game $game, string $type): int
+    {
+        if ($game->type != 'knockout') {
+            return 0;
+        }
+        if ($game->getKnockoutWinner() == $this->answer){
+            if ($game->sub_type == GameSubTypes::LAST_16) {
+                return $this->getScoreConfig("specialBets.{$type}.quarterFinal");
+            } else if ($game->sub_type == GameSubTypes::QUARTER_FINALS) {
+                return $this->getScoreConfig("specialBets.{$type}.semiFinal");
+            } else if ($game->sub_type == GameSubTypes::SEMI_FINALS) {
+                return $this->getScoreConfig("specialBets.{$type}.final");
+            } else if ($game->sub_type == GameSubTypes::FINAL) {
+                return $this->getScoreConfig("specialBets.{$type}.winning");
+            }
+        }
+        return 0;
+    }
+
+    public function calcTopScorerForGame(Game $game)
+    {
+        $score = 0;
+        $goalsData = $game->scorers->firstWhere('player_id', $this->answer);
+        if ($goalsData) {
+            $score += $goalsData->goals * $this->getScoreConfig("specialBets.topScorer.eachGoal");
+        }
+
+        if ($game->sub_type == 'FINAL') {
+            $players = $this->getSpecialBet()->answer;
+            if ($players && in_array($this->answer, explode(",", $players))) {
+                $score += $this->getScoreConfig("specialBets.topScorer.correct");
+            }
         }
 
         return $score;

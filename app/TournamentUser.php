@@ -2,11 +2,14 @@
 
 namespace App;
 
+use App\Bets\BetSpecialBets\BetSpecialBetsRequest;
 use App\Enums\BetTypes;
 use App\SpecialBets\SpecialBet;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Log;
 
 /**
  * App\TournamentUser
@@ -191,5 +194,29 @@ class TournamentUser extends Model
             "questions" => $questions,
             "groups" => $groups,
         ];
+    }
+
+    public function calcScoreGainedForGame(Game $game)
+    {
+        $score = 0;
+
+        $gameBet = $this->bets->firstWhere(["type" => BetTypes::Game, "type_id" => $game->id]);
+        if ($gameBet) {
+            $score += $gameBet->score;
+        }
+
+        foreach ($this->bets->where("type", BetTypes::SpecialBet) as $questionBet) {
+            try {
+                $specialQuestion = $this->tournament->specialBets->firstWhere("id", $questionBet->type_id);
+                if ($specialQuestion) {
+                    $betRequest = new BetSpecialBetsRequest($specialQuestion, $this->tournament, $questionBet->getData() + ["utl" => $this]);
+                    $score += $betRequest->calculateScoreForGame($game);
+                }
+            } catch (Exception $e) {
+                Log::debug("[TournamentUser][calcScoreGainedForGame] Error! {$e->getMessage()} - {$e->getTraceAsString()}");
+            }
+        }
+
+        return $score;
     }
 }
