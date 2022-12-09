@@ -74,7 +74,7 @@ export function ExpandedContestantView({
         ? questionBets.map(
             bet => ({
                 ...bet,
-                score: !!liveQuestionBetsById[bet.id] ?  ((bet.score || 0) + liveQuestionBetsById[bet.id].score) : bet.score,
+                score: !!liveQuestionBetsById[bet.id] ? liveQuestionBetsById[bet.id].score : bet.score,
             })
         )
         : questionBets

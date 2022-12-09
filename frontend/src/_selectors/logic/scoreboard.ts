@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { calcGainedPointsOnGameBet, calcGainedPointsOnStandingsBet, calcLeaderboardVersionsDiff, formatLeaderboardVersion, generateEmptyScoreboardRow, keysOf, valuesOf } from '../../utils'
 import { calcLiveAddedScore, getLiveVersionScore } from '../../utils'
-import { BetsFullScoresConfigSelector, Contestants, GameGoalsDataSelector, LeaderboardVersionsDesc } from '../base'
+import { BetsFullScoresConfigSelector, Contestants, GameGoalsDataSelector, LeaderboardVersionsDesc, QuestionBets } from '../base'
 import { LiveGameBets, LiveGroupStandingBets, LiveGroupStandings, QuestionBetsByUtlId } from '../modelRelations'
 import { LeaderboardVersion } from '../../types'
 import { groupBy, keyBy, map, mapValues, sumBy } from 'lodash'
@@ -89,7 +89,8 @@ export const LiveScoreboard = createSelector(
     GameGoalsDataSelector,
     QuestionBetsByUtlId,
     Contestants,
-    (versions, liveGamesBets, liveGroupBetsByUtlId, liveWinnerBets, liveRunnerUpBets, scoresConfig, goalsData, questionBetsByUtlId, contestants) => {
+    QuestionBets,
+    (versions, liveGamesBets, liveGroupBetsByUtlId, liveWinnerBets, liveRunnerUpBets, scoresConfig, goalsData, questionBetsByUtlId, contestants, questionBetsById) => {
         const latestVersion = Object.keys(versions[0] || {}).length > 0
             ? versions[0]
             : {
@@ -106,8 +107,16 @@ export const LiveScoreboard = createSelector(
             config: scoresConfig,
         })
         const addedScoreForGroupRankPerUtl: Record<number, number> = mapValues(liveGroupBetsByUtlId, bets => sumBy(bets, 'score'))
-        const addedScoreForWinnerBetPerUtl: Record<number, number> = mapValues(liveWinnerBets, bets => sumBy(bets, 'score'))
-        const addedScoreForRunnerUpBetPerUtl: Record<number, number> = mapValues(liveRunnerUpBets, bets => sumBy(bets, 'score'))
+        const addedScoreForWinnerBetPerUtl: Record<number, number> = mapValues(liveWinnerBets, bets => {
+            const currentScore = sumBy(bets, 'score')
+            const prevScore = sumBy(bets, bet => questionBetsById[bet.id]?.score ?? 0)
+            return currentScore - prevScore
+        })
+        const addedScoreForRunnerUpBetPerUtl: Record<number, number> = mapValues(liveRunnerUpBets, bets => {
+            const currentScore = sumBy(bets, 'score')
+            const prevScore = sumBy(bets, bet => questionBetsById[bet.id]?.score ?? 0)
+            return currentScore - prevScore
+        })
         const addedScorePerUtl: Record<number, number> = {}
         for (const utlId of keysOf(addedScoreForGamePerUtl)){
             if (!addedScorePerUtl[utlId]){
