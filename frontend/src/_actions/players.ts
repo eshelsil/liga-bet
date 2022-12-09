@@ -20,10 +20,20 @@ function fetchAndStorePlayers() {
     }
 }
 
+function fetchAndStoreAllPlayers() {
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const tournament = CurrentTournament(getState())
+        const {id: tournamentId, competitionId} = tournament;
+        const players = await fetchPlayers(tournamentId)
+        const playersById = keyBy(players, 'id')
+        dispatch(playersSlice.actions.setMany({competitionId, players: playersById}))
+    }
+}
+
 const initPlayers = generateInitCollectionAction({
     collectionName: CollectionName.Players,
     selector: Players,
     fetchAction: fetchAndStorePlayers,
 })
 
-export { fetchAndStorePlayers, initPlayers }
+export { fetchAndStorePlayers, fetchAndStoreAllPlayers, initPlayers }

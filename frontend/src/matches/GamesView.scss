@@ -23,102 +23,6 @@
     margin: auto;
     width: 600px;
     max-width: 100%;
-    .LB-GameGumblersList {
-        @include floatingFrame;
-        border-radius: 12px;
-        overflow: hidden;
-        width: 500px;
-        max-width: 100%;
-        margin: 24px auto;
-
-        .MuiTableContainer-root {
-            box-shadow: none;
-            border-radius: 0px;
-            padding: 8px 0px;
-            .MuiTable-root {
-                .LigaBet-CustomTableRow {
-                    .MuiTableCell-root {
-                        &.scoreCell {
-                            &.isLive {
-                                color: #077607d4;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-                    
-        .LB-GameHeader {
-            @include flexRow;
-            justify-content: space-between;
-            @include themable_game_header(tournament-theme, $tournament_1);
-            @include themable_game_header(tournament-theme-1, $tournament_1);
-            @include themable_game_header(tournament-theme-2, $tournament_2);
-            @include themable_game_header(tournament-theme-3, $tournament_3);
-            @include themable_game_header(tournament-theme-4, $tournament_4);
-            @include themable_game_header(tournament-theme-5, $tournament_5);
-            &.GameHeader-clickable {
-                cursor: pointer;
-            }
-            .MuiTableContainer-root {
-                box-shadow: none;
-                border-radius: 0px;
-                padding: 8px 0px;
-                .MuiTable-root {
-                    .MuiTableCell-root {
-                        text-align: center;
-                        padding: 4px;
-                        padding-bottom: 0px;
-                        color: white;
-                        border: none;
-                        &.delimitierHeader {
-                            font-size: 24px;
-                        }
-                        &.teamDisplayCell {
-                            width: 50%;
-                            vertical-align: top;
-                            padding: 8px;
-                            padding-top: 0px;
-                        }
-                        &.dateRowCell {
-                            $border: 2px solid #eeeeee3b;
-                            border-top: $border;
-                            border-bottom: $border;
-                            padding: 4px;
-                            font-size: 16px;
-                            line-height: 1.5;
-                        }
-                        &.scoreCell {
-                            font-size: 20px;
-                            line-height: 1.2;
-                        }
-                    }
-                    .MuiTableBody-root {
-                        .MuiTableRow-root:first-of-type {
-                            border-top: 2px solid #eeeeee3b;
-                        }
-                    }
-                }
-            }
-        }
-        .GameGumblersList-expandIconContainer {
-            @include centerContainer;
-            cursor: pointer;
-            .arrowDownIcon {
-                transition: transform 0.3s;
-                margin: 8px;
-                font-size: 32px;
-            }
-        }
-        &.GameGumblersList-expanded {
-            .GameGumblersList-expandIconContainer {
-                border-top: 2px solid rgba(0,0,0, 0.1);
-                .arrowDownIcon {
-                    transform: rotate(180deg);
-                }
-            }
-        }
-    }
     .LB-DoneGamesView {
         .DoneViewGames-pagination {
             width: fit-content;
@@ -129,6 +33,103 @@
                 .MuiTableContainer-root {
                     padding: 0px;
                 }
+            }
+        }
+    }
+}
+
+.LB-GameGumblersList {
+    @include floatingFrame;
+    border-radius: 12px;
+    overflow: hidden;
+    width: 500px;
+    max-width: 100%;
+    margin: 24px auto;
+
+    .MuiTableContainer-root {
+        box-shadow: none;
+        border-radius: 0px;
+        padding: 8px 0px;
+        .MuiTable-root {
+            .LigaBet-CustomTableRow {
+                .MuiTableCell-root {
+                    &.scoreCell {
+                        &.isLive {
+                            color: #077607d4;
+                        }
+                    }
+                }
+            }
+        }
+    }
+                
+    .LB-GameHeader {
+        @include flexRow;
+        justify-content: space-between;
+        @include themable_game_header(tournament-theme, $tournament_1);
+        @include themable_game_header(tournament-theme-1, $tournament_1);
+        @include themable_game_header(tournament-theme-2, $tournament_2);
+        @include themable_game_header(tournament-theme-3, $tournament_3);
+        @include themable_game_header(tournament-theme-4, $tournament_4);
+        @include themable_game_header(tournament-theme-5, $tournament_5);
+        &.GameHeader-clickable {
+            cursor: pointer;
+        }
+        .MuiTableContainer-root {
+            box-shadow: none;
+            border-radius: 0px;
+            padding: 8px 0px;
+            .MuiTable-root {
+                .MuiTableCell-root {
+                    text-align: center;
+                    padding: 4px;
+                    padding-bottom: 0px;
+                    color: white;
+                    border: none;
+                    &.delimitierHeader {
+                        font-size: 24px;
+                    }
+                    &.teamDisplayCell {
+                        width: 50%;
+                        vertical-align: top;
+                        padding: 8px;
+                        padding-top: 0px;
+                    }
+                    &.dateRowCell {
+                        $border: 2px solid #eeeeee3b;
+                        border-top: $border;
+                        border-bottom: $border;
+                        padding: 4px;
+                        font-size: 16px;
+                        line-height: 1.5;
+                    }
+                    &.scoreCell {
+                        font-size: 20px;
+                        line-height: 1.2;
+                    }
+                }
+                .MuiTableBody-root {
+                    .MuiTableRow-root:first-of-type {
+                        border-top: 2px solid #eeeeee3b;
+                    }
+                }
+            }
+        }
+    }
+    .GameGumblersList-expandIconContainer {
+        @include centerContainer;
+        cursor: pointer;
+        .arrowDownIcon {
+            transition: transform 0.3s;
+            margin: 8px;
+            font-size: 32px;
+        }
+    }
+    &.GameGumblersList-expanded {
+        .GameGumblersList-expandIconContainer {
+            border-top: 2px solid rgba(0,0,0, 0.1);
+            .arrowDownIcon {
+                transform: rotate(180deg);
             }
         }
     }

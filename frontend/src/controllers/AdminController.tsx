@@ -6,6 +6,7 @@ import { IsAdmin } from '../_selectors';
 import AdminTools from '../admin/tools/AdminTools';
 import AdminSeeTournaments from '../admin/tools/views/SeeTournaments';
 import SendInvitationForTournamentAdmin from '../admin/tools/actions/SendInvitationForTournamentAdmin';
+import AdminSeeGameGoalsData from '../admin/tools/views/SeeGameGoalsData';
 
 
 function AdminController({children}) {
@@ -20,6 +21,7 @@ function AdminController({children}) {
                                 <Route path='/admin/users' component={ManageUsers} />
                                 <Route path='/admin/invite-tournament-admin' component={SendInvitationForTournamentAdmin} />
                                 <Route path='/admin/see-tournaments' component={AdminSeeTournaments} />
+                                <Route path='/admin/see-scorers' component={AdminSeeGameGoalsData} />
                                 <Route>
                                     <AdminTools />
                                 </Route>
