@@ -7,7 +7,6 @@ use App\SpecialBets\SpecialBet;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
-
 /**
  * App\Tournament
  *
@@ -188,11 +187,12 @@ class Tournament extends Model
 
     public function calcRanks($betsScoreSum, $versionId)
     {
+        $orderedScores = collect($betsScoreSum->sortByDesc('total_score')->values());
 
         $lastScore = null;
         $rank = null;
         $leaderboardRows = collect([]);
-        foreach ($betsScoreSum as $i => $userScore) {
+        foreach ($orderedScores as $i => $userScore) {
             if ($lastScore != $userScore->total_score) {
                 $rank = $i + 1;
             }
