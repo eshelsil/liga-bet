@@ -200,7 +200,7 @@ class TournamentUser extends Model
     {
         $score = 0;
 
-        $gameBet = $this->bets->firstWhere(["type" => BetTypes::Game, "type_id" => $game->id]);
+        $gameBet = $this->bets->first(fn($bet) => $bet->type == BetTypes::Game && $bet->type_id == $game->id);
         if ($gameBet) {
             $score += $gameBet->score;
         }
