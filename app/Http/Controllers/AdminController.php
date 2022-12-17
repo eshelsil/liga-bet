@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CalculateSpecialBets;
 use App\Actions\MonkeyAutoBetCompetitionGames;
 use App\Actions\UpdateGameBets;
 use App\Actions\UpdateLeaderboards;
@@ -141,6 +142,19 @@ class AdminController extends Controller
         });
 
         return new JsonResponse('email sent', 200);
+    }
+
+    public function announceMVP(CalculateSpecialBets $calculateSpecialBets, Request $request){
+        $playerId = $request->mvp;
+        $competitionId = $request->competition;
+        if ($playerId && !Player::find($playerId)){
+            throw new JsonException("Player with id {{$playerId}} does not exist", 400);
+        }
+        if (!Competition::find($competitionId)){
+            throw new JsonException("Competition with id {{$competitionId}} does not exist", 400);
+        }
+        $calculateSpecialBets->execute($competitionId, SpecialBet::TYPE_MVP, $playerId, !$playerId);
+        return new JsonResponse([], 200);
     }
 
     public function calculateGroupRanks(){

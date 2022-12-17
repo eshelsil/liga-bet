@@ -10,3 +10,14 @@ export const sendInvitationForTournamentAdmin = async (
         data: {email},
     })
 }
+
+export const announceMvp = async (
+    competitionId: number,
+    playerId: number
+): Promise<any> => {
+    return await sendApiRequest({
+        url: `/admin/announce-mvp`,
+        type: 'POST',
+        data: {mvp: playerId, competition: competitionId},
+    })
+}

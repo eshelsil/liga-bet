@@ -14,12 +14,12 @@ use Illuminate\Database\Eloquent\Collection;
 
 class CalculateSpecialBets
 {
-    public function execute(int $competitionId, string $type, $answer = null) {
+    public function execute(int $competitionId, string $type, $answer = null, $useNullAnswer = false) {
         // TODO: SpecialBet -> Eloquent. add competitionId
         // ->where("competition_id", $competition->id)
         SpecialBet::where("type", $type)
             ->get()
-            ->when($answer, function(Collection $specialBets) use ($answer) {
+            ->when(($answer || $useNullAnswer), function(Collection $specialBets) use ($answer) {
                 $specialBets->toQuery()->update(["answer" => $answer]);
 
                 // update by toQuery allows bulk but not updates the model

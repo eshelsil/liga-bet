@@ -14,6 +14,7 @@ function AdminTools() {
                 <Link onClick={() => history.push('/admin/see-tournaments')}>צפה בטורנירים</Link>
                 <Link onClick={() => history.push('/admin/users')}>Manage users</Link>
                 <Link onClick={() => history.push('/admin/see-scorers')}>צפה במבקיעים</Link>
+                <Link onClick={() => history.push('/admin/set-mvp')}>עדכן mvp</Link>
                 <Link onClick={goToAdminInviteTournamentAdmin}>שלח הזמנה לפתיחת טורניר</Link>
             </div>
 

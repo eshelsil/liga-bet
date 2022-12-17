@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import { pingUpdateCompetition } from '../api/matches';
 import { GameBetsFetchType } from '../types';
 import { LiveGamesIds } from '../_selectors';
-import { useGameBets, useGameGoals, useGames, useLeaderboard, usePrimalBets } from './useFetcher';
+import { useGameBets, useGameGoals, useGames, useLeaderboard, usePrimalBets, useSpecialQuestions } from './useFetcher';
 
 
 export function useLiveUpdate(){
@@ -12,6 +12,7 @@ export function useLiveUpdate(){
     const { refresh: refreshGoalsData } = useGameGoals()
     const { refresh: refreshLeaderboard } = useLeaderboard()
     const { refresh: refreshPrimalBets } = usePrimalBets()
+    const { refresh: refreshSpecialQuestions } = useSpecialQuestions()
 
     const fetchRelevantData = async () => {
         await Promise.all([
@@ -20,6 +21,7 @@ export function useLiveUpdate(){
             refreshGameBets(),
             refreshGoalsData(),
             refreshPrimalBets(),
+            refreshSpecialQuestions(),
         ])
     }
 
