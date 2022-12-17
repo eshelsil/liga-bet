@@ -1,4 +1,4 @@
-import { MatchApiModel, MatchCommonBase, WinnerSide } from '../types'
+import { KnockoutStage, MatchApiModel, MatchCommonBase, WinnerSide } from '../types'
 import dayjs from 'dayjs'
 
 export function getWinnerSide(homeScore: number, awayScore: number, qualifier?: WinnerSide) {
@@ -23,6 +23,10 @@ export function isGameStarted(game: MatchCommonBase) {
 
 export function isGameLive(game: MatchCommonBase) {
     return isGameStarted(game) && !game.is_done
+}
+
+export function isFinalGame(game: MatchCommonBase) {
+    return game.subType === KnockoutStage.Final
 }
 
 export function isTeamParticipate(game: MatchApiModel, teamId: number) {

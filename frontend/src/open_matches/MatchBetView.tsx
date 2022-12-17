@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { useTournamentThemeClass } from '../hooks/useThemeClass'
 import { MatchWithABet, WinnerSide } from '../types'
-import { DEFAULT_DATE_FORMAT, DEFAULT_TIME_FORMAT } from '../utils/index'
+import { DEFAULT_DATE_FORMAT, DEFAULT_TIME_FORMAT, isFinalGame } from '../utils/index'
 import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
 import CurrentBetView from './CurrentBetView'
 import EditMatchBetView from './EditMatchBetView'
 import dayjs from 'dayjs'
 import useCancelEdit from '../hooks/useCancelEdit'
 import { useSelector } from 'react-redux'
-import { IsMultiBetDefaultForAll, MyOtherBettableUTLs } from '../_selectors'
+import { IsMultiBetDefaultForAll, IsOurTournament, MyOtherBettableUTLs } from '../_selectors'
 import { Switch } from '@mui/material'
 import '../styles/openBets/EditableBetView.scss'
+import DaShubi from './DaShubi'
 
 
 
@@ -22,6 +23,9 @@ function OpenMatchBetView({
     sendBet: (...args: any) => Promise<void>
 }) {
     const { id, start_time, home_team, away_team, is_knockout, bet } = match
+
+    const isOurTournament = useSelector(IsOurTournament);
+    const [showShubi, setShowShubi] = useState(false);
 
     const otherTournaments = useSelector(MyOtherBettableUTLs);
     const hasOtherTournaments = otherTournaments.length > 0;
@@ -35,6 +39,7 @@ function OpenMatchBetView({
     const showEdit = edit || hasBet
 
     const saveBet = async ({ homeScore, awayScore, koWinner }) => {
+        setShowShubi(false)
         const ts = getLastEditTs()
         await sendBet({
             matchId: id,
@@ -51,6 +56,9 @@ function OpenMatchBetView({
             }
             window['toastr']['success'](text)
             cancelEdit(ts)
+            if (isFinalGame(match) && isOurTournament) {
+                setShowShubi(true)
+            }
         })
         .catch(function (error) {
             console.log('FAILED updating bet', error)
@@ -111,6 +119,9 @@ function OpenMatchBetView({
                 </div>
                 <TeamWithFlag name={away_team.name} size={50} classes={{root: 'verticalTeam sideLeft', name: 'verticalTeamName'}}/>
             </div>
+            {showShubi && isOurTournament && (
+                <DaShubi dismiss={()=> setShowShubi(false)}/>
+            )}
         </div>
     )
 }
