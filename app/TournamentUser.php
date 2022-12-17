@@ -183,11 +183,21 @@ class TournamentUser extends Model
         return $groupsMissingBet;
     }
 
-    public function getMissingBets()
+    public function getMissingOpenBets()
     {
-        $games = collect($this->getGamesMissingBet())->pluck('id');
-        $questions = collect($this->getQuestionsMissingBet())->pluck('id');
-        $groups = collect($this->getGroupsMissingRankBet())->pluck('id');
+        $tournamentStarted = $this->tournament->hasStarted();
+        
+        $games = collect($this->getGamesMissingBet())
+            ->filter(fn(Game $game) => $game->isOpenForBets())
+            ->pluck('id');
+        $questions = $tournamentStarted
+            ? []
+            : collect($this->getQuestionsMissingBet())
+                ->pluck('id');
+        $groups = $tournamentStarted
+            ? []
+            : collect($this->getGroupsMissingRankBet())
+                ->pluck('id');
 
         return [
             "games" => $games,

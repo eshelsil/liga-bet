@@ -168,7 +168,7 @@ class UserController extends Controller
         return new JsonResponse(["pong"]);
     }
 
-    public function getMissingBets(Request $request)
+    public function getMissingOpenBets(Request $request)
     {
         $tournamentIds = json_decode($request->input('tournamentIds'));
         $validator = Validator::make(["tournamentIds" => $tournamentIds], [
@@ -179,7 +179,7 @@ class UserController extends Controller
         $notificationsByTournament = collect($tournamentIds)->reduce(function($res, $id) use ($user) {
             $utl = $user->getTournamentUser($id);
             if ($utl) {
-                $res[$id] = $utl->getMissingBets();
+                $res[$id] = $utl->getMissingOpenBets();
             }
             return $res;
         });

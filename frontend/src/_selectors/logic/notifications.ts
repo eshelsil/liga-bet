@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
-import { isGameUpcoming, keysOf, valuesOf } from '../../utils'
-import { Games, Groups, Notifications, SpecialQuestions} from '../base'
+import { isGameStarted, isTournamentStarted, keysOf, valuesOf } from '../../utils'
+import { CurrentTournament, Games, Groups, Notifications, SpecialQuestions} from '../base'
 import { MyGameBetsById, MyGroupRankBetsById, MyQuestionBetsById } from './myBets'
 import { MyOtherTournaments } from './tournaments'
 import { map, pick } from 'lodash'
@@ -12,8 +12,10 @@ export const QuestionsMissingBet = createSelector(
     MyQuestionBetsById,
     SpecialQuestions,
     HasFetchedAllTournamentInitialData,
-    (questionBets, specialQuestions, fetchedData) => {
+    CurrentTournament,
+    (questionBets, specialQuestions, fetchedData, tournament) => {
         if (!fetchedData) return []
+        if (isTournamentStarted(tournament)) return []
         const questionIds = keysOf(specialQuestions)
         const questionsWithoutBets = questionIds.filter(qId => !questionBets[qId])
         return map(questionsWithoutBets, 'id')
@@ -28,7 +30,7 @@ export const GamesMissingBet = createSelector(
         if (!fetchedData) return []
         const gameIds = keysOf(games)
         const gamesWithoutBets = gameIds.filter(gameId => (
-            !gameBets[gameId] && isGameUpcoming(games[gameId])
+            !gameBets[gameId] && !isGameStarted(games[gameId])
         ))
         return map(gamesWithoutBets, 'id')
     }
@@ -38,8 +40,10 @@ export const GroupsMissingBet = createSelector(
     Groups,
     MyGroupRankBetsById,
     HasFetchedAllTournamentInitialData,
-    (groups, bets, fetchedData) => {
+    CurrentTournament,
+    (groups, bets, fetchedData, tournament) => {
         if (!fetchedData) return []
+        if (isTournamentStarted(tournament)) return []
         const groupIds = keysOf(groups)
         const groupsWithoutBets = groupIds.filter(gameId => !bets[gameId])
         return map(groupsWithoutBets, 'id')
