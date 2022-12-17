@@ -12,7 +12,7 @@ import OpenGroupRankBetsItem from './MenuItems/OpenGroupRankBetsItem'
 import OpenQuestionBetsItem from './MenuItems/OpenQuestionBetsItem'
 import MyBetsItem from './MenuItems/MyBetsItem'
 import { useSelector } from 'react-redux'
-import { IsAppMenuEmpty } from '../_selectors'
+import { IsAppMenuEmpty, ManageTournamentIsAccessible } from '../_selectors'
 import useGoTo from '../hooks/useGoTo'
 
 
@@ -40,6 +40,7 @@ function TournamentMenuItems({
     const canUpdateTournamentConfig = isTournamentAdmin;
     
     const isEmpty = useSelector(IsAppMenuEmpty)
+    const showTournamentManage = useSelector(ManageTournamentIsAccessible)
 
     return (
         <>
@@ -81,7 +82,7 @@ function TournamentMenuItems({
                         />
                     </>)}
                 </>)}
-                {hasManagerPermissions && (
+                {hasManagerPermissions && showTournamentManage && (
                     <DropMenuItem
                         anchorContent={
                             <div className='flexRow'>

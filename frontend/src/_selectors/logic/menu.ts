@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { HasCurrentUtl, HasManagerPermissions, IsConfirmedUtl } from '../base'
+import { FinalGame, HasCurrentUtl, HasManagerPermissions, IsConfirmedUtl } from '../base'
 
 
 export const IsAppMenuEmpty = createSelector(
@@ -14,5 +14,15 @@ export const IsAppMenuEmpty = createSelector(
             return true
         }
         return false
+    }
+)
+
+export const ManageTournamentIsAccessible = createSelector(
+    FinalGame,
+    (final) => {
+        if (final) {
+            return false
+        }
+        return true
     }
 )

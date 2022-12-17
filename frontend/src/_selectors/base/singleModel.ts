@@ -5,6 +5,7 @@ import {
     getScoreOfUtl,
     getSpecialQuestionName,
     isAdmin,
+    isFinalGame,
     isGameLive,
     isTournamentStarted,
     isUtlConfirmed,
@@ -179,5 +180,12 @@ export const LiveGamesIds = createSelector(
     LiveGames,
     (liveGames) => {
         return keysOf(liveGames) as number[]
+    }
+)
+
+export const FinalGame = createSelector(
+    Games,
+    (games) => {
+        return valuesOf(games).find(game => isFinalGame(game))
     }
 )
