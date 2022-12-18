@@ -2,7 +2,7 @@ import { createSelector } from 'reselect'
 import { IsMvpBetOn, MvpSpecialQuestion } from '../base'
 import { IsCompetitionDone } from '../modelRelations'
 
-export const IsMissingMvpBet = createSelector(
+export const IsMissingMvpAnswer = createSelector(
     IsMvpBetOn,
     MvpSpecialQuestion,
     (isMvpBetOn, mvpQuestion) => {
@@ -17,7 +17,7 @@ export const IsMissingMvpBet = createSelector(
 )
 
 export const IsWaitingForMissingMvpAnswer = createSelector(
-    IsMissingMvpBet,
+    IsMissingMvpAnswer,
     IsCompetitionDone,
     (isMissing, isCompetitionDone) => isCompetitionDone && isMissing
 )

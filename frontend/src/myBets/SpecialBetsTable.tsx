@@ -79,11 +79,13 @@ const SpecialBetsTable = ({ bets, headers, showLive, liveBetsById = {}, liveAnsw
                 const answersToShow = showLiveAnswers ? liveAnswers : model.relatedQuestion.answer
                 return (<>
                     {answersToShow.map((answer) => (
-                        <SpecialAnswerSmall
-                            key={answer.id}
-                            answer={answer}
-                            type={model.relatedQuestion.type}
-                        />
+                        answer ? (
+                            <SpecialAnswerSmall
+                                key={answer.id}
+                                answer={answer}
+                                type={model.relatedQuestion.type}
+                            />
+                        ): null
                     ))}
                 </>)
             },
