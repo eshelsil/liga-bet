@@ -169,9 +169,9 @@ class Competition extends Model
             ->keys();
     }
 
-    public function getTopScorersIds()
+    public function getTopScorersIds($live = false)
     {
-        if (!$this->isDone()) {
+        if (!$this->isDone() && !$live) {
             return collect();
         }
 
@@ -180,9 +180,9 @@ class Competition extends Model
         return $this->players->where("goals", $maxGoals)->pluck("id");
     }
 
-    public function getMostAssistsIds()
+    public function getMostAssistsIds($live = false)
     {
-        if (!$this->isDone()) {
+        if (!$this->isDone() && !$live) {
             return collect();
         }
 

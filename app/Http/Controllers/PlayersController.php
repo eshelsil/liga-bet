@@ -25,6 +25,7 @@ class PlayersController extends Controller
     {
         $user = $this->getUser();
         $utl = $user->getTournamentUser($tournamentId);
+        $competition = $utl->tournament->competition;
         $relevantPlayerIds = collect([]);
         $user->utls
             ->each(
@@ -34,6 +35,10 @@ class PlayersController extends Controller
                     });
                 }
             );
+        
+        $topScorers = $competition->getTopScorersIds(true);
+        $topAssists = $competition->getMostAssistsIds(true);
+        $relevantPlayerIds = $relevantPlayerIds->merge($topScorers)->merge($topAssists);
 
         $data = $utl->tournament->competition->players()
             ->whereIn("players.id", $relevantPlayerIds->unique()->filter())->get()
