@@ -223,7 +223,7 @@ class BetsController extends Controller
                 })->get();
 
             if ($notAllowedMatches->isNotEmpty()) {
-                throw new JsonException("משחקים ({$notAllowedMatches->implode("id", ", ")} לא יכולים להשלח", 201);
+                throw new JsonException("משחקים ({$notAllowedMatches->implode("id", ", ")} לא יכולים להשלח", 400);
             }
         }
 

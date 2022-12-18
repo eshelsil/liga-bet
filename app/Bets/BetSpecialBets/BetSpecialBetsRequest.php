@@ -263,7 +263,7 @@ class BetSpecialBetsRequest extends AbstractBetRequest
     public function calcMVPForGame(Game $game)
     {
         if ($game->sub_type == 'FINAL') {
-            return $this->calcMVP();
+            return $this->calcMVP() ?? 0;
         }
         return 0;
     }
