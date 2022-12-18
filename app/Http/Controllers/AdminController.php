@@ -199,6 +199,30 @@ class AdminController extends Controller
         return new JsonResponse([], 200);
     }
 
+    public function UpdatePlayerFromGoalsData(CalculateSpecialBets $calculateSpecialBets, Request $request){
+        $gameId = $request->gameId;
+        $game = Game::find($gameId);
+        $competitionId = $game->competition_id;
+        $competition = Competition::find($competitionId);
+        $updatedPlayers = collect([]);
+        $game->scorers->each(function(GameDataGoal $scorer) use ($updatedPlayers) {
+            $player = $scorer->player;
+            $allGamesData = $player->goalsData;
+            $player->assists = $allGamesData->sum('assists');
+            $player->goals = $allGamesData->sum('goals');
+            $player->save();
+            $updatedPlayers->push($player);
+        });
+
+        $competition->unsetRelation("players");
+        $answer = $competition->getTopScorersIds()->join(",") ?: null;
+        $calculateSpecialBets->execute($competition->id, SpecialBet::TYPE_TOP_SCORER, $answer);
+        $answer = $competition->getMostAssistsIds()->join(",") ?: null;
+        $calculateSpecialBets->execute($competition->id, SpecialBet::TYPE_MOST_ASSISTS, $answer);
+        
+        return new JsonResponse($updatedPlayers, 200);
+    }
+
     public function calculateGroupRanks(){
         $completedGroups = Group::all()->filter(function($g){
             return $g->isComplete();

@@ -8,13 +8,14 @@ import CustomTable from '../../../widgets/Table/CustomTable';
 import LoadingVIcon from '../../../widgets/LoadingVIcon';
 import EditIcon from '@mui/icons-material/Edit'
 import CloseIcon from '@mui/icons-material/Close'
-import { setGameGoalData } from '../../../api/admin';
+import { setGameGoalData, updateScorersFromGoalsData } from '../../../api/admin';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../_helpers/store';
 import { fetchAndStoreGoalsData } from '../../../_actions/matches';
 import { LoadingButton } from '../../../widgets/Buttons';
 import NewGoalDialog from './NewGoalDialog';
 import { keyBy } from 'lodash';
+import { isFinalGame } from '../../../utils';
 
 
 function GameScorersList({ match }: { match: MatchWithGoalsData }) {
@@ -30,6 +31,15 @@ function GameScorersList({ match }: { match: MatchWithGoalsData }) {
 
     const models = match.scorers
     const modelOnEdit = models.find(m => m.id === idOnEdit)
+
+    const showOverrideScorersButton = isFinalGame(match) && match.is_done;
+
+    const onOverrideScorersTotalData = async () => {
+        let areYouSure = prompt("Are you sure? only Eshel knows what it does. Enter 10 or above to approve");
+        if (Number(areYouSure) >= 10) {
+            await updateScorersFromGoalsData(match.id)
+        }
+    }
 
     const updatePlayerGoalsData = async () => {
         await setGameGoalData(match.id, {
@@ -177,6 +187,15 @@ function GameScorersList({ match }: { match: MatchWithGoalsData }) {
                                 submit={submitNewGoal}
                                 goalsDataByPlayerId={goalsDataByPlayerId}
                             />
+                        )}
+                        {!!showOverrideScorersButton && (
+                            <LoadingButton
+                                color='error'
+                                action={onOverrideScorersTotalData}
+                                style={{margin: '32px auto 16px', padding: '2px 10px', display: 'block', fontSize: 12}}
+                            >
+                                דרוס ניקוד הימורים לפי טבלה זו
+                            </LoadingButton>
                         )}
                     </div>
                 </div>

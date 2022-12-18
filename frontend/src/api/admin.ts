@@ -38,3 +38,13 @@ export const setGameGoalData = async (
         data: {gameId, players},
     })
 }
+
+export const updateScorersFromGoalsData = async (
+    gameId: number,
+): Promise<any> => {
+    return await sendApiRequest({
+        url: `/admin/update-scorers-from-goals-data`,
+        type: 'POST',
+        data: {gameId},
+    })
+}
