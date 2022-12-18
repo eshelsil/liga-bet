@@ -4,6 +4,8 @@ import { UtlBase } from '../../types';
 import { Button } from '@mui/material';
 import { useIsSmScreen, useIsXsScreen } from '../../hooks/useMedia';
 import { getSummaryMsg } from './utils';
+import { useSelector } from 'react-redux';
+import { IsOurTournament } from '../../_selectors';
 
 
 interface Props {
@@ -14,6 +16,7 @@ interface Props {
 
 function CongratsAnimation({ currentUtl, rank, onSeenAnimation }: Props) {
     
+    const isOurTournament = useSelector(IsOurTournament)
     const isXsScreen = useIsXsScreen()
     const isSmScreen = useIsSmScreen()
     const [takenPrize, setTakenPrize] = useState(false)
@@ -35,7 +38,7 @@ function CongratsAnimation({ currentUtl, rank, onSeenAnimation }: Props) {
     const hasMoneyBags = showCenterMoneyBag || showLeftMoneyBag || showRightMoneyBag
     const hasConfetti = rank === 1
 
-    const {title, msg} = getSummaryMsg(rank);
+    const {title, msg} = getSummaryMsg(rank, isOurTournament);
 
     const finishAnimation = () => setFinished(true)
 
