@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash'
+import { cloneDeep, mapValues } from 'lodash'
 import { GameBetType, KnockoutStage, Tournament, TournamentStatus, GameBetScoreConfig, EachGoalBet, RoadToFinalBetScoreConfig, SpecialQuestionType, SpecialQuestionBetScoreConfig, MatchBetsScoreConfig, CompetitionStageName } from '../types'
 import { ScoresConfigFromatted } from '../_selectors'
 import { valuesOf } from './common'
@@ -89,11 +89,11 @@ export function formatGameBetsConfig(scoresConfig: MatchBetsScoreConfig): MatchB
 export function formatTopAssistsConfig(config: number | EachGoalBet): EachGoalBet {
 	if (!isNaN(Number(config))){
 		return {
-			correct: config as number,
+			correct: Number(config),
 			eachGoal: 0,
 		}
 	}
-	return config as EachGoalBet
+	return mapValues(config as EachGoalBet, score => Number(score))
 }
 
 
