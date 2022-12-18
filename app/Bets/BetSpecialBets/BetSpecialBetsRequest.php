@@ -203,7 +203,8 @@ class BetSpecialBetsRequest extends AbstractBetRequest
 
         $players = $this->getSpecialBet()->answer;
         if ($players && in_array($this->answer, explode(",", $players))) {
-            $score += $this->getScoreConfig("specialBets.topAssists.correct") ?? $this->getScoreConfig("specialBets.topAssists"); // Fallback to prevent BC
+            $correctScore = array_get($this->tournament->config, "scores.specialBets.topAssists.correct", null);
+            $score += ($correctScore ?? $this->getScoreConfig("specialBets.topAssists")); // Fallback to prevent BC
         }
 
         return $score;
