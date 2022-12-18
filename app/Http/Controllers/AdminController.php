@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Exceptions\JsonException;
+use App\GameDataGoal;
 use App\InvitaionsForTournamentAdmin;
 use App\Tournament;
 use App\TournamentUser;
@@ -154,6 +155,47 @@ class AdminController extends Controller
             throw new JsonException("Competition with id {{$competitionId}} does not exist", 400);
         }
         $calculateSpecialBets->execute($competitionId, SpecialBet::TYPE_MVP, $playerId, !$playerId);
+        return new JsonResponse([], 200);
+    }
+
+    public function setGameGoalsData(Request $request){
+        $gameId = $request->gameId;
+        $players = $request->players;
+        foreach($players as $playerId => $data){
+            $scorerRow = GameDataGoal::where(['game_id' => $gameId, 'player_id' => $playerId])->first();
+            if ($scorerRow){
+                $goals = data_get($data, 'goals', null);
+                $assists = data_get($data, 'assists', null);
+                if (!is_null($goals)) {
+                    $scorerRow->goals = $goals;
+                }
+                if (!is_null($assists)) {
+                    $scorerRow->assists = $assists;
+                }
+                if ($scorerRow->goals > 0 || $scorerRow->assists > 0) {
+                    $scorerRow->save();
+                    Log::debug("[AdminController][setGameGoalsData] Updated Player $playerId on Game $gameId  G-$goals  A-$assists");
+                } else {
+                    $scorerRow->delete();
+                    Log::debug("[AdminController][setGameGoalsData] Removed GameDataGoal rows for Player $playerId on Game $gameId");
+                }
+            } else {
+                $goals = data_get($data, 'goals', 0);
+                $assists = data_get($data, 'assists', 0);
+                if ($goals > 0 || $assists > 0) {
+                    $scorerRow = new GameDataGoal(
+                        [
+                            'game_id' => $gameId,
+                            'player_id' => $playerId,
+                            'goals' => $goals,
+                            'assists' => $assists,
+                        ],
+                    );
+                    $scorerRow->save();
+                    Log::debug("[AdminController][setGameGoalsData] Created GoalsData row for Player $playerId on Game $gameId  G-$goals  A-$assists");
+                }
+            }
+        }
         return new JsonResponse([], 200);
     }
 

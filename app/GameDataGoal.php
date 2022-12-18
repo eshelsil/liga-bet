@@ -10,6 +10,8 @@ class GameDataGoal extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['game_id', 'player_id', 'goals', 'assists'];
+
     public function game(): BelongsTo
     {
         return $this->belongsTo(Game::class);

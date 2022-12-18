@@ -15,7 +15,29 @@
 
 .LB-AdminTools {
     .MuiLink-root {
-        margin-bottom: 10px;
+        margin-bottom: 14px;
         display: block;
+    }
+}
+
+.LB-AdminViewContainer {
+    .MuiTableCell-root {
+        &.editButtonCell {
+            padding-right: 0px;
+            .LB-LoadingVIcon {
+                width: unset;
+                height: unset;
+                margin-bottom: 10px;
+                .MuiButtonBase-root {
+                    padding: 0px;
+                }
+            }
+        }
+    }
+    .LB-GoalDataInput {
+        .MuiInputBase-input {
+            padding: 8px;
+            width: 12px;
+        }
     }
 }

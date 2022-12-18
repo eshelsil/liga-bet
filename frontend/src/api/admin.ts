@@ -21,3 +21,20 @@ export const announceMvp = async (
         data: {mvp: playerId, competition: competitionId},
     })
 }
+
+
+export interface PlayerGameGoalsData {
+    goals?: number
+    assists?: number
+}
+
+export const setGameGoalData = async (
+    gameId: number,
+    players: Record<number, PlayerGameGoalsData>
+): Promise<any> => {
+    return await sendApiRequest({
+        url: `/admin/set-game-goals-data`,
+        type: 'POST',
+        data: {gameId, players},
+    })
+}
