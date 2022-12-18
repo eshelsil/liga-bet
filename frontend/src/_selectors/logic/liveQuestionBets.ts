@@ -1,10 +1,17 @@
 import { createSelector } from 'reselect'
 import { WinnerSpecialQuestionId, RunnerUpSpecialQuestionId, LiveGamesIds, LiveGames, IsRunnerUpBetOn, FormattedSpecialQuestionsScoreConfig, TopScorerSpecialQuestionId, TopAssistsSpecialQuestionId, Players, IsTopAssistsBetOn, GameGoalsDataSelector } from '../base'
-import { KnockoutStage, SpecialQuestionAnswer, Team, WinnerSide } from '../../types'
+import { KnockoutStage, MatchCommonBase, SpecialQuestionAnswer, Team, WinnerSide } from '../../types'
 import { getQualifierSide, isGameLive, isTeamParticipate, koStageToNextCompetitionStage, valuesOf } from '../../utils'
 import { FinalGame, MatchesWithTeams, PlayersWithTeams, QuestionBetsLinked } from '../modelRelations'
 import { groupBy, map, mapValues, maxBy, pickBy } from 'lodash'
 
+
+function isTheFinalGameLive(finalGame?: MatchCommonBase) {
+    if (!finalGame){
+        return false
+    }
+    return isGameLive(finalGame)
+}
 
 export const LiveTeamsPLayingKnockout = createSelector(
     LiveGamesIds,
@@ -125,7 +132,7 @@ export const LiveRunnerUpBets = createSelector(
         if (!isOn) {
             return {}
         }
-        if (isGameLive(finalGame)){
+        if (isTheFinalGameLive(finalGame)){
             return {}
         }
         return pickBy(betsById, bet => !!playingTeams[bet.answer.id])
@@ -153,7 +160,7 @@ export const LiveTopScorerBets = createSelector(
     TopScorersBetsById,
     FinalGame,
     (betsById, finalGame) => {
-        if (!isGameLive(finalGame)){
+        if (!isTheFinalGameLive(finalGame)){
             return {}
         }
         return betsById
@@ -168,7 +175,7 @@ export const LiveTopAssistsBets = createSelector(
         if (!isOn) {
             return {}
         }
-        if (!isGameLive(finalGame)){
+        if (!isTheFinalGameLive(finalGame)){
             return {}
         }
         return betsById
@@ -335,7 +342,7 @@ export const LiveSpecialAnswers = createSelector(
     ) => {
         const answersByQuestionId: Record<number, SpecialQuestionAnswer[]> = {}
 
-        if (isGameLive(finalGame)){
+        if (isTheFinalGameLive(finalGame)){
             const winnerSide = getQualifierSide(finalGame)
             if (winnerSide === WinnerSide.Home){
                 answersByQuestionId[winnerSpecialQuestionId] = [finalGame.home_team]
