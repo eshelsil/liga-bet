@@ -11,3 +11,8 @@ export const IsOpenMultiBetExplanationDialog = createSelector(
     Dialogs,
     (dialogs) => !!dialogs[DialogName.MultiBetExplanation]
 )
+
+export const IsOpenWaitForMvpDialog = createSelector(
+    Dialogs,
+    (dialogs) => !!dialogs[DialogName.WaitForMvp]
+)

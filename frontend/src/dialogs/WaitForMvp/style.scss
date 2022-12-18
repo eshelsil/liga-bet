@@ -1,0 +1,18 @@
+@import '../../styles/mixins';
+
+.LB-WaitForMvpDialog {
+    .MuiDialog-paper {
+        @media (max-width: 450px){
+            margin: 12px;
+        }
+    }
+    .closeButton {
+        position: absolute;
+        left: 8px;
+        top: 8px;
+    }
+    .buttonContainer {
+        margin-top: 40px;
+        @include centerContainer;
+    }
+}
