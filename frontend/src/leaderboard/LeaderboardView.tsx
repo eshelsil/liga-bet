@@ -8,9 +8,15 @@ import { Contestants, Games, LeaderboardVersions, LiveScoreboard } from '../_sel
 import LeaderboardHistoryForm, { HistoryFormState } from './LeaderboardHistoryForm';
 import LeaderboardTable from './LeaderboardTable';
 import LiveModeFrom from './LiveModeFrom';
-import { useLiveUpdate } from '../hooks/useLiveUpdate';
+import { useLiveUpdate, useMissingPlayersFetcher } from '../hooks/useLiveUpdate';
 import { LoadingButton } from '../widgets/Buttons';
 
+
+
+function EnsureMissingPlayerFetched() {
+    useMissingPlayersFetcher()
+    return null
+}
 
 interface Props {
     rows: ScoreboardRowDetailed[]
@@ -107,7 +113,9 @@ function LeaderboardView({ rows, hasData, currentUtlId, themeClass, tournamentNa
                     isLive={showLiveTable}
                 />
             </div>
-
+            {showLiveTable && (
+                <EnsureMissingPlayerFetched />
+            )}
         </div>
     )
 }

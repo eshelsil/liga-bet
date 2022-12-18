@@ -46,4 +46,21 @@ class PlayersController extends Controller
 
         return new JsonResponse($data, 200);
     }
+
+    public function getPlayersPlayingLive(Request $request, string $tournamentId)
+    {
+        $utl = $this->getUser()->getTournamentUser($tournamentId);
+        $competition = $utl->tournament->competition;
+        $liveGames = $competition->games->filter(fn(\App\Game $game) => $game->isLive());
+
+        $playingTeams = collect([]);
+        $liveGames->each(function(\App\Game $game) use ($playingTeams){
+            $playingTeams->push($game->team_home_id);
+            $playingTeams->push($game->team_away_id);
+        });
+
+        $data = $utl->tournament->competition->players()->whereIn('team_id', $playingTeams)->get()
+            ->map(fn(Player $player) => (new PlayerResource($player))->toArray($request));
+        return new JsonResponse($data, 200);
+    }
 }

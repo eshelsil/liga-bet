@@ -1,5 +1,5 @@
 import { keyBy } from 'lodash'
-import { fetchPlayers, fetchRelevantPlayers } from '../api/players'
+import { fetchPlayers, fetchPlayersPlayingLive, fetchRelevantPlayers } from '../api/players'
 import { CollectionName } from '../types/dataFetcher'
 import { isTournamentStarted } from '../utils'
 import { AppDispatch, GetRootState } from '../_helpers/store'
@@ -30,10 +30,20 @@ function fetchAndStoreAllPlayers() {
     }
 }
 
+function fetchAndStoreLivePlayingPlayers() {
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const tournament = CurrentTournament(getState())
+        const {id: tournamentId, competitionId} = tournament;
+        const players = await fetchPlayersPlayingLive(tournamentId)
+        const playersById = keyBy(players, 'id')
+        dispatch(playersSlice.actions.setMany({competitionId, players: playersById}))
+    }
+}
+
 const initPlayers = generateInitCollectionAction({
     collectionName: CollectionName.Players,
     selector: Players,
     fetchAction: fetchAndStorePlayers,
 })
 
-export { fetchAndStorePlayers, fetchAndStoreAllPlayers, initPlayers }
+export { fetchAndStorePlayers, fetchAndStoreAllPlayers, initPlayers, fetchAndStoreLivePlayingPlayers }

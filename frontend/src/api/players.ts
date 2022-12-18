@@ -18,3 +18,11 @@ export const fetchRelevantPlayers = async (
         url: `/api/tournaments/${tournamentId}/players/relevant`,
     })
 }
+
+export const fetchPlayersPlayingLive = async (
+    tournamentId: number,
+): Promise<PlayersApiResult> => {
+    return await sendApiRequest({
+        url: `/api/tournaments/${tournamentId}/players/playing-live`,
+    })
+}

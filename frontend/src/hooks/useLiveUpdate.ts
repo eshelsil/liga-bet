@@ -1,6 +1,10 @@
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { pingUpdateCompetition } from '../api/matches';
 import { GameBetsFetchType } from '../types';
+import { fetchAndStoreLivePlayingPlayers } from '../_actions/players';
+import { AppDispatch } from '../_helpers/store';
 import { LiveGamesIds } from '../_selectors';
 import { useGameBets, useGameGoals, useGames, useLeaderboard, usePrimalBets, useSpecialQuestions } from './useFetcher';
 
@@ -38,4 +42,19 @@ export function useLiveUpdate(){
     return {
         refresh,
     }
+}
+
+export function useMissingPlayersFetcher(){
+    const dispatch = useDispatch<AppDispatch>()
+    const liveGameIds = useSelector(LiveGamesIds)
+
+
+    useEffect(() => {
+        if (liveGameIds.length > 0) {
+            dispatch(fetchAndStoreLivePlayingPlayers())
+        }
+    }, [liveGameIds])
+
+
+    return {}
 }
