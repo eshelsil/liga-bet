@@ -79,6 +79,16 @@ export const IsRunnerUpBetOn = createSelector(
     (config) => !!config?.runnerUp
 )
 
+export const IsTopAssistsBetOn = createSelector(
+    FormattedSpecialQuestionsScoreConfig,
+    (config) => config?.topAssists?.eachGoal > 0 || config?.topAssists?.correct > 0
+)
+
+export const IsMvpBetOn = createSelector(
+    FormattedSpecialQuestionsScoreConfig,
+    (config) => config?.mvp > 0
+)
+
 export const TournamentStatusSelector = createSelector(
     CurrentTournament,
     (tournament) => tournament?.status

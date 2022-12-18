@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { formatLeaderboardVersion, keysOf, valuesOf } from '../utils'
 import { Contestants, IsTournamentStarted } from './base'
-import { LatestLeaderboard, LiveGameBetsWithScoreByUtlId, LiveGroupRankBetsWithScoreByUtlId, LiveRunnerUpBets, LiveRunnerUpBetsWithScoreByUtlId, LiveWinnerBets, LiveWinnerBetsWithScoreByUtlId } from './logic'
+import { LatestLeaderboard, LiveGameBetsWithScoreByUtlId, LiveGroupRankBetsWithScoreByUtlId, LiveRunnerUpBetsWithScoreByUtlId, LiveSpecialAnswers, LiveTopAssistsBetsWithScoreByUtlId, LiveTopScorerBets, LiveTopScorerBetsWithScoreByUtlId, LiveWinnerBets, LiveWinnerBetsWithScoreByUtlId } from './logic'
 import {
     GroupStandingBetsByUserId,
     LiveGroupStandingsWithTeams,
@@ -32,6 +32,9 @@ export const ContestantSelector = createSelector(
     LiveGroupStandingsWithTeams,
     LiveWinnerBetsWithScoreByUtlId,
     LiveRunnerUpBetsWithScoreByUtlId,
+    LiveTopScorerBetsWithScoreByUtlId,
+    LiveTopAssistsBetsWithScoreByUtlId,
+    LiveSpecialAnswers,
     (
         relevantMatchBets,
         groupStandingBetsByUserId,
@@ -41,6 +44,9 @@ export const ContestantSelector = createSelector(
         liveStandingsByGroupId,
         liveWinnerBetsByUtlId,
         liveRunnerUpBetsByUtlId,
+        liveTopScorerBetsByUtlId,
+        liveTopAssistsBetsByUtlId,
+        liveSpecialAnswers,
     ) => {
         const matchBetsByUserId = groupBy(
             relevantMatchBets,
@@ -59,6 +65,18 @@ export const ContestantSelector = createSelector(
             }
             liveQuestionBetsByUtlId[utlId].push(liveRunnerUpBetsByUtlId[utlId])
         }
+        for (const utlId of keysOf(liveTopScorerBetsByUtlId) as number[]) {
+            if (!liveQuestionBetsByUtlId[utlId]) {
+                liveQuestionBetsByUtlId[utlId] = []
+            }
+            liveQuestionBetsByUtlId[utlId].push(liveTopScorerBetsByUtlId[utlId])
+        }
+        for (const utlId of keysOf(liveTopAssistsBetsByUtlId) as number[]) {
+            if (!liveQuestionBetsByUtlId[utlId]) {
+                liveQuestionBetsByUtlId[utlId] = []
+            }
+            liveQuestionBetsByUtlId[utlId].push(liveTopAssistsBetsByUtlId[utlId])
+        }
         return {
             matchBetsByUserId,
             groupStandingBetsByUserId,
@@ -67,6 +85,7 @@ export const ContestantSelector = createSelector(
             liveGroupRankBetsByUtlId,
             liveStandingsByGroupId,
             liveQuestionBetsByUtlId: mapValues(liveQuestionBetsByUtlId, betsSlices => concat(...betsSlices)),
+            liveSpecialAnswers,
         }
     }
 )

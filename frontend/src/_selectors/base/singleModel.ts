@@ -5,7 +5,6 @@ import {
     getScoreOfUtl,
     getSpecialQuestionName,
     isAdmin,
-    isFinalGame,
     isGameLive,
     isTournamentStarted,
     isUtlConfirmed,
@@ -169,6 +168,27 @@ export const RunnerUpSpecialQuestionId = createSelector(
     }
 )
 
+export const TopScorerSpecialQuestionId = createSelector(
+    SpecialQuestions,
+    (questions) => {
+        return valuesOf(questions).find(q => q.type === SpecialQuestionType.TopScorer)?.id
+    }
+)
+
+export const TopAssistsSpecialQuestionId = createSelector(
+    SpecialQuestions,
+    (questions) => {
+        return valuesOf(questions).find(q => q.type === SpecialQuestionType.TopAssists)?.id
+    }
+)
+
+export const MvpSpecialQuestion = createSelector(
+    SpecialQuestions,
+    (questions) => {
+        return valuesOf(questions).find(q => q.type === SpecialQuestionType.MVP)
+    }
+)
+
 export const LiveGames = createSelector(
     Games,
     (gamesById) => {
@@ -180,12 +200,5 @@ export const LiveGamesIds = createSelector(
     LiveGames,
     (liveGames) => {
         return keysOf(liveGames) as number[]
-    }
-)
-
-export const FinalGame = createSelector(
-    Games,
-    (games) => {
-        return valuesOf(games).find(game => isFinalGame(game))
     }
 )

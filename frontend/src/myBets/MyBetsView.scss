@@ -69,14 +69,6 @@
             }
         }
     }
-    .SpecialBetsTable-live {
-        .MuiTableCell-root {
-            &.scoreCell {
-                color: green;
-                font-weight: 700;
-            }
-        }
-    }
 }
 
 
@@ -105,6 +97,23 @@
                 color: green;
                 font-weight: 700;
             }
+        }
+    }
+}
+
+.LB-LiveBetScore {
+    width: fit-content;
+    margin: auto;
+    font-weight: 700;
+    .LiveBetScore-prev {
+        text-align: center;
+    }
+    .LiveBetScore-live {
+        color: green;
+        &.LiveBetScore-addedScore {
+            font-size: 12px;
+            text-align: center;
+            direction: ltr;
         }
     }
 }

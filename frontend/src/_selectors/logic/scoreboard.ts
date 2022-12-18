@@ -1,11 +1,11 @@
 import { createSelector } from 'reselect'
 import { calcGainedPointsOnGameBet, calcGainedPointsOnStandingsBet, calcLeaderboardVersionsDiff, formatLeaderboardVersion, generateEmptyScoreboardRow, keysOf, valuesOf } from '../../utils'
 import { calcLiveAddedScore, getLiveVersionScore } from '../../utils'
-import { BetsFullScoresConfigSelector, Contestants, GameGoalsDataSelector, LeaderboardVersionsDesc, QuestionBets } from '../base'
-import { LiveGameBets, LiveGroupStandingBets, LiveGroupStandings, QuestionBetsByUtlId } from '../modelRelations'
+import { BetsFullScoresConfigSelector, Contestants, LeaderboardVersionsDesc, QuestionBets } from '../base'
+import { LiveGameBets, LiveGroupStandingBets, LiveGroupStandings } from '../modelRelations'
 import { LeaderboardVersion } from '../../types'
 import { groupBy, keyBy, map, mapValues, sumBy } from 'lodash'
-import { LiveRunnerUpBetsWithScoreByUtlId, LiveWinnerBetsWithScoreByUtlId } from './liveQuestionBets'
+import { LiveRunnerUpBetsWithScoreByUtlId, LiveTopAssistsBetsWithScoreByUtlId, LiveTopScorerBetsWithScoreByUtlId, LiveWinnerBetsWithScoreByUtlId } from './liveQuestionBets'
 
 
 export const LatestLeaderboard = createSelector(
@@ -85,12 +85,23 @@ export const LiveScoreboard = createSelector(
     LiveGroupRankBetsWithScoreByUtlId,
     LiveWinnerBetsWithScoreByUtlId,
     LiveRunnerUpBetsWithScoreByUtlId,
+    LiveTopScorerBetsWithScoreByUtlId,
+    LiveTopAssistsBetsWithScoreByUtlId,
     BetsFullScoresConfigSelector,
-    GameGoalsDataSelector,
-    QuestionBetsByUtlId,
     Contestants,
     QuestionBets,
-    (versions, liveGamesBets, liveGroupBetsByUtlId, liveWinnerBets, liveRunnerUpBets, scoresConfig, goalsData, questionBetsByUtlId, contestants, questionBetsById) => {
+    (
+        versions,
+        liveGamesBets,
+        liveGroupBetsByUtlId,
+        liveWinnerBets,
+        liveRunnerUpBets,
+        liveTopScorers,
+        liveTopAssists,
+        scoresConfig,
+        contestants,
+        questionBetsById
+    ) => {
         const latestVersion = Object.keys(versions[0] || {}).length > 0
             ? versions[0]
             : {
@@ -102,8 +113,6 @@ export const LiveScoreboard = createSelector(
         const liveGameBetsByUtlId = groupBy(valuesOf(liveGamesBets), 'user_tournament_id')
         const addedScoreForGamePerUtl = calcLiveAddedScore({
             betsByUtlId: liveGameBetsByUtlId,
-            goalsData,
-            questionBetsByUtlId,
             config: scoresConfig,
         })
         const addedScoreForGroupRankPerUtl: Record<number, number> = mapValues(liveGroupBetsByUtlId, bets => sumBy(bets, 'score'))
@@ -113,6 +122,16 @@ export const LiveScoreboard = createSelector(
             return currentScore - prevScore
         })
         const addedScoreForRunnerUpBetPerUtl: Record<number, number> = mapValues(liveRunnerUpBets, bets => {
+            const currentScore = sumBy(bets, 'score')
+            const prevScore = sumBy(bets, bet => questionBetsById[bet.id]?.score ?? 0)
+            return currentScore - prevScore
+        })
+        const addedScoreForTopScorerBetPerUtl: Record<number, number> = mapValues(liveTopScorers, bets => {
+            const currentScore = sumBy(bets, 'score')
+            const prevScore = sumBy(bets, bet => questionBetsById[bet.id]?.score ?? 0)
+            return currentScore - prevScore
+        })
+        const addedScoreForTopAssistsBetPerUtl: Record<number, number> = mapValues(liveTopAssists, bets => {
             const currentScore = sumBy(bets, 'score')
             const prevScore = sumBy(bets, bet => questionBetsById[bet.id]?.score ?? 0)
             return currentScore - prevScore
@@ -141,6 +160,18 @@ export const LiveScoreboard = createSelector(
                 addedScorePerUtl[utlId] = 0
             }
             addedScorePerUtl[utlId] += addedScoreForRunnerUpBetPerUtl[utlId] ?? 0
+        }
+        for (const utlId of keysOf(addedScoreForTopScorerBetPerUtl) ){
+            if (!addedScorePerUtl[utlId]){
+                addedScorePerUtl[utlId] = 0
+            }
+            addedScorePerUtl[utlId] += addedScoreForTopScorerBetPerUtl[utlId] ?? 0
+        }
+        for (const utlId of keysOf(addedScoreForTopAssistsBetPerUtl) ){
+            if (!addedScorePerUtl[utlId]){
+                addedScorePerUtl[utlId] = 0
+            }
+            addedScorePerUtl[utlId] += addedScoreForTopAssistsBetPerUtl[utlId] ?? 0
         }
         const liveVersion = getLiveVersionScore(latestVersion, addedScorePerUtl)
         return formatLeaderboardVersion(liveVersion, contestants)

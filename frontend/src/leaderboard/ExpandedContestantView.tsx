@@ -4,6 +4,7 @@ import {
     GroupRankBetWithRelations,
     MatchBetWithRelations,
     QuestionBetWithRelations,
+    SpecialQuestionAnswer,
     Team,
 } from '../types'
 import SimpleTabs from '../widgets/Tabs/Tabs'
@@ -13,8 +14,7 @@ import GroupRankBetsTable from '../myBets/GroupRankBetsTable'
 import useGoTo from '../hooks/useGoTo'
 import { Link } from '@mui/material'
 import { useGameBetsOfUtl } from '../hooks/useFetcher'
-import { keyBy, map } from 'lodash'
-import { keysOf } from '../utils'
+import { keyBy } from 'lodash'
 
 
 function GameBetsView({totalScore, bets, utlId, showLive}: {
@@ -42,6 +42,7 @@ interface Props {
     questionBets: QuestionBetWithRelations[]
     liveQuestionBets: QuestionBetWithRelations[]
     liveStandingsByGroupId: Record<number, Team[]>
+    liveSpecialAnswers: Record<number, SpecialQuestionAnswer[]>
     isLive?: boolean
 }
 
@@ -54,6 +55,7 @@ export function ExpandedContestantView({
     questionBets,
     liveStandingsByGroupId,
     liveQuestionBets,
+    liveSpecialAnswers,
     isLive,
 }: Props) {
     const { goToHisBets } = useGoTo()
@@ -70,7 +72,7 @@ export function ExpandedContestantView({
             })
         )
         : groupStandingsBets
-    const questionBetsToShow = isLive
+    const questionBetsToSum = isLive
         ? questionBets.map(
             bet => ({
                 ...bet,
@@ -81,7 +83,7 @@ export function ExpandedContestantView({
 
     const matchesScore = sumBetsScore(gameBetsToShow)
     const groupStandingsScore = sumBetsScore(groupRankBetsToShow)
-    const specialBetScore = sumBetsScore(questionBetsToShow)
+    const specialBetScore = sumBetsScore(questionBetsToSum)
 
     
     const tabs = [
@@ -104,9 +106,10 @@ export function ExpandedContestantView({
                 <div>
                     <h3>סה"כ:{' '}{specialBetScore}</h3>
                     <SpecialBetsTable
-                        bets={questionBetsToShow}
+                        bets={questionBets}
                         showLive={isLive}
-                        liveBetIds={map(keysOf(liveQuestionBetsById), id => Number(id))}
+                        liveBetsById={liveQuestionBetsById}
+                        liveAnswersByQuestionId={liveSpecialAnswers}
                     />
                 </div>
             )

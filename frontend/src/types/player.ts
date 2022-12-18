@@ -6,7 +6,8 @@ export interface PlayerBaseModel {
     name: string
     externalId: number
     number: number
-    goalsScored: number
+    goals: number
+    assists: number
     img: string
 }
 

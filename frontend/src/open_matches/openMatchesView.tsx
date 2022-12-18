@@ -35,7 +35,7 @@ const OpenMatchesView = ({ matches = [], sendBet }: Props) => {
             <span className="admin">
                 {dayjs().format('HH:mm  YYYY/MM/DD')}
             </span>
-            {!hasMatches && <h3>אין משחקים פתוחים</h3>}
+            {!hasMatches && <h3 className='LB-TitleText'>אין משחקים פתוחים</h3>}
             {hasMatches && (<>
                 {hasOtherTournaments && (
                     <MultiBetsSettings />

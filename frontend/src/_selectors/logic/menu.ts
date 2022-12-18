@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
-import { FinalGame, HasCurrentUtl, HasManagerPermissions, IsConfirmedUtl } from '../base'
+import { HasCurrentUtl, HasManagerPermissions, IsConfirmedUtl } from '../base'
+import { FinalGame } from '../modelRelations'
 
 
 export const IsAppMenuEmpty = createSelector(

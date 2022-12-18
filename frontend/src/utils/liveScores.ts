@@ -1,5 +1,5 @@
-import { GameBetScoreConfig, GameGoalsData, GameGoalsDataById, LeaderboardVersion, MatchBetsScoreConfig, MatchBetWithRelations, QuestionBetWithRelations, SpecialQuestionType } from '../types'
-import { cloneDeep, keyBy, mapValues, orderBy } from 'lodash'
+import { GameBetScoreConfig, LeaderboardVersion, MatchBetsScoreConfig, MatchBetWithRelations } from '../types'
+import { cloneDeep, mapValues, orderBy } from 'lodash'
 import { calcLeaderboardVersionsDiff } from './leaderboard'
 import { ScoresConfigFromatted } from '../_selectors'
 import { getQualifierSide, getWinnerSide, isGameLive } from './matches'
@@ -35,67 +35,20 @@ export function getLiveVersionScore(currentVersion: LeaderboardVersion, addedSco
 
 export function calcLiveAddedScore({
     betsByUtlId,
-    goalsData,
-    questionBetsByUtlId,
     config
 }: {
     betsByUtlId: Record<number, MatchBetWithRelations[]>,
-    goalsData: GameGoalsDataById,
-    questionBetsByUtlId: Record<number, QuestionBetWithRelations[]>,
     config: ScoresConfigFromatted
 }){
     return mapValues(betsByUtlId, (matchBets, utlId): number => {
-        const questionBets: QuestionBetWithRelations[] = questionBetsByUtlId[utlId] ?? [] 
-        const topScorerId = questionBets.find((bet) => bet.relatedQuestion.type === SpecialQuestionType.TopScorer)?.answer?.id
-        const topAssistsId = questionBets.find((bet) => bet.relatedQuestion.type === SpecialQuestionType.TopAssists)?.answer?.id
         const liveMatchBets = matchBets.filter(bet => isGameLive(bet.relatedMatch))
         let addedScore = 0;
         for (const gameBet of liveMatchBets ){
-            const gameId = gameBet.relatedMatch.id
-            const goalsDataRows = goalsData[gameId] ?? []
-            addedScore += calcTotalPointsGainedOnGame({
-                bet: gameBet,
-                goalsDataRows,
-                topAssistsId,
-                topScorerId,
-                config,
-            })
+            addedScore += calcGainedPointsOnGameBet(gameBet, config.gameBets)
         }
         return addedScore
     })
-    
 }
-
-
-
-export function calcTotalPointsGainedOnGame({
-    bet,
-    goalsDataRows,
-    topScorerId,
-    topAssistsId,
-    config,
-}: {
-    bet: MatchBetWithRelations
-    goalsDataRows: GameGoalsData[]
-    topScorerId: number
-    topAssistsId: number
-    config: ScoresConfigFromatted
-}){
-    const gameScore = calcGainedPointsOnGameBet(bet, config.gameBets)
-
-    const specialBetsScore = calcGainedPointsOnGameGoals({
-        goalsDataByPlayerId: keyBy(goalsDataRows, 'playerId'),
-        scoreConfig:{
-            goal: config.specialBets.topScorer.eachGoal,
-            assist: config.specialBets.topAssists?.eachGoal,
-        },
-        topScorer: topScorerId,
-        topAssists: topAssistsId,
-    })
-    // TODO: handle on KO qualifier
-    return gameScore + specialBetsScore
-}
-
 
 export function calcGainedPointsOnGameBet(bet: MatchBetWithRelations, config: MatchBetsScoreConfig){
     let score = 0;
@@ -119,35 +72,6 @@ export function calcGainedPointsOnGameBet(bet: MatchBetWithRelations, config: Ma
         score += bonusConfig.qualifier
     }
     return score;
-}
-
-
-
-export function calcGainedPointsOnGameGoals({
-    goalsDataByPlayerId,
-    scoreConfig,
-    topScorer,
-    topAssists,
-}: {
-    goalsDataByPlayerId: Record<number, GameGoalsData>,
-    scoreConfig: {
-        goal: number,
-        assist: number,
-    },
-    topScorer: number,
-    topAssists: number,
-}){
-    const topScorerData = goalsDataByPlayerId[topScorer]
-    const topAssistsData = goalsDataByPlayerId[topAssists]
-
-    let score = 0;
-    if (topScorerData) {
-        score += scoreConfig.goal * (topScorerData?.goals || 0)
-    }
-    if (topAssistsData) {
-        score += scoreConfig.assist * (topAssistsData?.goals || 0)
-    }
-    return score
 }
 
 export function calcGainedPointsOnStandingsBet({

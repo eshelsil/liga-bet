@@ -1,9 +1,28 @@
-import { orderBy } from 'lodash'
 import React from 'react'
-import { QuestionBetWithRelations } from '../types'
+import { Dictionary, orderBy } from 'lodash'
+import { QuestionBetWithRelations, SpecialQuestionAnswer } from '../types'
 import { specialQuestionsOrder } from '../utils'
 import { SpecialAnswerSmall } from '../widgets/specialAnswer'
 import CustomTable from '../widgets/Table/CustomTable'
+
+
+const LiveBetScore = ({ liveScore, prevScore }: { liveScore: number, prevScore: number }) => {
+    const addedScore = liveScore - prevScore
+    const hasChange = addedScore != 0
+    return (
+        <div className='LB-LiveBetScore'>
+            {hasChange && (<>
+                <div className='LiveBetScore-prev'>{prevScore}</div>
+                <div className='LiveBetScore-live LiveBetScore-addedScore'>
+                    (+{addedScore})
+                </div>
+            </>)}
+            {!hasChange && (
+                <div className='LiveBetScore-live'>{liveScore}</div>
+            )}
+        </div>
+    )    
+}
 
 
 interface Props {
@@ -12,12 +31,12 @@ interface Props {
         bet?: string,
         result?: string,
     },
-    liveBetIds?: number[]
+    liveBetsById?: Dictionary<QuestionBetWithRelations> 
+    liveAnswersByQuestionId?: Record<number, SpecialQuestionAnswer[]>
     showLive?: boolean,
 }
 
-
-const SpecialBetsTable = ({ bets, headers, showLive, liveBetIds = [] }: Props) => {
+const SpecialBetsTable = ({ bets, headers, showLive, liveBetsById = {}, liveAnswersByQuestionId = {} }: Props) => {
     const sortedBets = orderBy(bets, bet => specialQuestionsOrder.indexOf(bet.relatedQuestion.type))
 
 	const cells = [
@@ -54,15 +73,20 @@ const SpecialBetsTable = ({ bets, headers, showLive, liveBetIds = [] }: Props) =
 		{
 			id: 'result',
 			header: headers?.result ?? 'תוצאה',
-			getter: (model: QuestionBetWithRelations) => (<>
-                {model.relatedQuestion.answer.map((answer) => (
-                    <SpecialAnswerSmall
-                        key={answer.id}
-                        answer={answer}
-                        type={model.relatedQuestion.type}
-                    />
-                ))}
-            </>),
+			getter: (model: QuestionBetWithRelations) => {
+                const liveAnswers = liveAnswersByQuestionId[model.relatedQuestion.id]
+                const showLiveAnswers = showLive && liveAnswersByQuestionId[model.relatedQuestion.id]?.length > 0
+                const answersToShow = showLiveAnswers ? liveAnswers : model.relatedQuestion.answer
+                return (<>
+                    {answersToShow.map((answer) => (
+                        <SpecialAnswerSmall
+                            key={answer.id}
+                            answer={answer}
+                            type={model.relatedQuestion.type}
+                        />
+                    ))}
+                </>)
+            },
 		},
 		{
 			id: 'score',
@@ -70,20 +94,19 @@ const SpecialBetsTable = ({ bets, headers, showLive, liveBetIds = [] }: Props) =
             classes: {
                 cell: 'scoreCell',
             },
-			getter: (model: QuestionBetWithRelations) => model.score,
+			getter: (model: QuestionBetWithRelations) => (
+                (showLive && liveBetsById[model.id])
+                    ? <LiveBetScore prevScore={model.score} liveScore={liveBetsById[model.id].score} />
+                    : model.score
+            ),
 		},
     ]
 
-    const getRowClassName = (model: QuestionBetWithRelations) => {
-        return (showLive && liveBetIds.includes(model.id) ) ? 'SpecialBetsTable-live' : ''
-    }
-	
     return (
         <div className='LB-SpecialBetsTable'>
             <CustomTable
                 models={sortedBets}
                 cells={cells}
-                getRowClassName={getRowClassName}
             />
         </div>
     )

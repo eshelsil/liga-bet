@@ -1,7 +1,7 @@
 import { mapValues, pickBy } from 'lodash'
 import { createSelector } from 'reselect'
 import { Match } from '../../types'
-import { isGameLive } from '../../utils'
+import { isFinalGame, isGameLive, valuesOf } from '../../utils'
 import { Games, Teams } from '../base'
 
 export const MatchesWithTeams = createSelector(
@@ -34,4 +34,21 @@ export const GroupStageGames = createSelector(MatchesWithTeams, (matches) => {
 export const GroupStageGamesCount = createSelector(
     GroupStageGames,
     (games) => Object.keys(games).length
+)
+
+export const FinalGame = createSelector(
+    MatchesWithTeams,
+    (games) => {
+        return valuesOf(games).find(game => isFinalGame(game))
+    }
+)
+
+export const IsCompetitionDone = createSelector(
+    FinalGame,
+    (finalGame) => {
+        if (finalGame?.is_done) {
+            return true
+        }
+        return false
+    }
 )
