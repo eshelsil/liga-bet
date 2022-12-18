@@ -48,7 +48,11 @@ class UpdateCompetitionScorers
             /** @var Player $player */
             $player = $players->get($scorer->externalId);
             // TODO: Create?
-            if ($player) {
+
+            // Workaround for 365 worng-socrers-data bug
+            $perisicExternalId = 59;
+            $dontUpdate = ($scorer->externalId == $perisicExternalId);
+            if ($player && !$dontUpdate) {
                 \Log::debug("[UpdateScorers][handle] updating player ID [{$player->id}] external [{$scorer->externalId}] to G{$scorer->goals}A{$scorer->assists}");
                 
                 $game = $relevantGames->first(fn($g) => in_array($player->team_id, [$g->team_home_id, $g->team_away_id]));
