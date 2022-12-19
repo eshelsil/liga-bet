@@ -223,6 +223,19 @@ class AdminController extends Controller
         return new JsonResponse($updatedPlayers, 200);
     }
 
+    public function removeFlaggedOffSpeicalQuestionBets(){
+        $tournaments = Tournament::all();
+        $tournaments->map(function(Tournament $t){
+            $flags = collect($t->config['scores']['specialQuestionFlags']);
+            $flagsOff = $flags->filter(fn($isOn) => !$isOn);
+            $offQuestionTypes = $flagsOff->keys()->map(fn($flagName) => collect(SpecialBet::$typeToFlagName)->search($flagName));
+            $offQuestionIds = $t->specialBets()->whereIn('type', $offQuestionTypes)->get()->pluck('id');
+            $flggedOffBetsQuery = $t->bets()->where('type', BetTypes::SpecialBet)->whereIn('type_id', $offQuestionIds->toArray());
+            Log::debug('removing bets', $flggedOffBetsQuery->get()->toArray());
+            $flggedOffBetsQuery->delete();
+        });
+    }
+
     public function calculateGroupRanks(){
         $completedGroups = Group::all()->filter(function($g){
             return $g->isComplete();
