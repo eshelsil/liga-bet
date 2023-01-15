@@ -148,10 +148,28 @@ class Tournament extends Model
 
     public function getLatestGameScore()
     {
-        $game = $this->competition->games->where('is_done', true)->sortByDesc('start_time')->first();
+        $doneGames = $this->competition->games->filter(fn($g) => $g->is_done);
+        $latestStartTime = $doneGames->max('start_time');
+        $games = $doneGames->where('start_time', $latestStartTime);
+        $relevantGroupIds = collect([]);
+        foreach ($games as $game) {
+            if ($game->isGroupStage() && !$relevantGroupIds->contains($game->sub_type)){
+                $relevantGroupIds->add($game->sub_type);
+            }
+        }
+        $relevantGroups = $this->competition->groups->whereIn('external_id', $relevantGroupIds)->filter(fn($group) => $group->isComplete());
+
         $scoreGainedPerUtl = [];
-        foreach ($this->competingUtls() as $utl) {
-            $scoreGainedPerUtl[$utl->id] = $utl->calcScoreGainedForGame($game);
+        if ($games->count() > 0) {
+            foreach ($this->competingUtls() as $utl) {
+                $scoreGainedPerUtl[$utl->id] = 0;
+                foreach ($games as $game) {
+                    $scoreGainedPerUtl[$utl->id] += $utl->calcScoreGainedForGame($game);
+                }
+                foreach ($relevantGroups as $group) {
+                    $scoreGainedPerUtl[$utl->id] += $utl->calcScoreGainedForGroupRank($group);
+                }
+            }
         }
         return $scoreGainedPerUtl;
     }

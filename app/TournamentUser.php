@@ -229,4 +229,13 @@ class TournamentUser extends Model
 
         return $score;
     }
+
+    public function calcScoreGainedForGroupRank(Group $group)
+    {
+        $bet = $this->bets->first(fn($bet) => $bet->type == BetTypes::GroupsRank && $bet->type_id == $group->id);
+        if (!$bet) {
+            return 0;
+        }
+        return $bet->score;
+    }
 }
