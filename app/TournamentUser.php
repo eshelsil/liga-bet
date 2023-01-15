@@ -137,7 +137,7 @@ class TournamentUser extends Model
     {
         $upcomingGames = $this->tournament->competition->games
             ->filter(fn($game) => (
-                $game->isOpenForBets() && $game->start_time - time() < (60 * 60 * 24 * 2)
+                $game->isOpenForBets()
             ));
         $betsByGameId = $this->bets->where('type', BetTypes::Game)
             ->keyBy('type_id')->toArray();
