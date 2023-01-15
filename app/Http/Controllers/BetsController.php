@@ -217,9 +217,14 @@ class BetsController extends Controller
                                      ->where(function(Builder $q) {
                     $q->whereNull("team_home_id")
                       ->orWhereNull("team_away_id")
-                      ->orWhereNotNull("result_home")
-                      ->orWhereNotNull("result_away")
-                      ->orWhere("start_time", "<", time() + config("bets.lockBeforeSeconds"));
+                      //   Demo - uncomment:
+                    //   ->orWhereNotNull("result_home")
+                    //   ->orWhereNotNull("result_away")
+
+
+                    //   ->orWhere("start_time", "<", time() + config("bets.lockBeforeSeconds"));
+                    // Demo remove :
+                        ->orWhere("start_time", "<", \Tests\TimeUtils::time() + config("bets.lockBeforeSeconds"));
                 })->get();
 
             if ($notAllowedMatches->isNotEmpty()) {

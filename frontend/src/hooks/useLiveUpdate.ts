@@ -35,8 +35,9 @@ export function useLiveUpdate(){
     }
 
     const refresh = async () => {
-        const isTournamentDone = true
-        await fetchRelevantData()
+        // const isTournamentDone = true
+        const isTournamentDone = false
+        // await fetchRelevantData()
         if (!isTournamentDone) {
             await sendPingRequestAndRefresh()
         }

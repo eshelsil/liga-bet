@@ -97,7 +97,10 @@ class Game extends Model implements BetableInterface
 
     public function isOpenForBets()
     {
-        return $this->start_time > time() + config("bets.lockBeforeSeconds");
+        // return $this->start_time > time() + config("bets.lockBeforeSeconds");
+
+        // Demo remove
+        return $this->start_time > \Tests\TimeUtils::time() + config("bets.lockBeforeSeconds");
     }
 
     public function teamHome(): BelongsTo
@@ -120,14 +123,26 @@ class Game extends Model implements BetableInterface
         return $this->hasMany(GameDataGoal::class);
     }
 
+    // Demo remove :
+    public function getIsDoneAttribute()
+    {
+        return $this->start_time < \Tests\TimeUtils::now()->subHours(2.5)->timestamp;
+    }
+
     public function isClosedForBets()
     {
-        return $this->start_time < time() + config("bets.lockBeforeSeconds");
+        // return $this->start_time < time() + config("bets.lockBeforeSeconds");
+
+        // Demo remove
+        return $this->start_time < \Tests\TimeUtils::time() + config("bets.lockBeforeSeconds");
     }
 
     public function isLive()
     {
-        return ($this->start_time < time()) && !$this->is_done;
+        // return ($this->start_time < time()) && !$this->is_done;
+
+        // Demo remove
+        return ($this->start_time < \Tests\TimeUtils::time()) && !$this->is_done;
     }
 
     public function getGoalsData()
@@ -209,7 +224,14 @@ class Game extends Model implements BetableInterface
      */
     public function scopeIsDone($query, $isDone)
     {
-        return $query->where('is_done', $isDone);
+        // return $query->where('is_done', $isDone);
+        
+        // Demo remove :
+        if ($isDone) {
+            return $query->where('start_time', '<', \Tests\TimeUtils::now()->subHours(2.5)->timestamp);
+        } else {
+            return $query->where('start_time', '>=', \Tests\TimeUtils::now()->subHours(2.5)->timestamp);
+        }
     }
 
 
@@ -220,7 +242,10 @@ class Game extends Model implements BetableInterface
 
     public static function hasOneWaitingForResult()
     {
-        return Game::where('start_time', '<', time() - (60 * 90))
+        // return Game::where('start_time', '<', time() - (60 * 90))
+        
+        // Demo remove
+        return Game::where('start_time', '<', \Tests\TimeUtils::time() - (60 * 90))
                 ->isDone(false)
                 ->exists();
     }

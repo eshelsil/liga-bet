@@ -21,6 +21,11 @@ class GamesController extends Controller
         $data = $utl->tournament->competition->games
             ->map(fn(Game $group) => (new GameResource($group))->toArray($request));
 
+        // Demo remove : 
+        // $data = $utl->tournament->competition->games()
+        //     ->where('start_time', '<', strtotime('2022-12-22'))->get()
+        //     ->map(fn(Game $group) => (new GameResource($group))->toArray($request));
+
         return new JsonResponse($data, 200);
     }
 

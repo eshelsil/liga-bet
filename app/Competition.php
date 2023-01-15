@@ -138,12 +138,18 @@ class Competition extends Model
     {
         $startTime = $this->getTournamentStartTime();
         $lockBeforeSecs = config('bets.lockBetsBeforeTournamentSeconds');
-        return $startTime - $lockBeforeSecs > time();
+        // return $startTime - $lockBeforeSecs > time();
+        
+        // Demo remove
+        return $startTime - $lockBeforeSecs > \Tests\TimeUtils::time();
     }
 
     public function isStarted()
     {
-        return time() > $this->getTournamentStartTime();
+        // return time() > $this->getTournamentStartTime();
+     
+        // Demo - remove
+        return \Tests\TimeUtils::time() > $this->getTournamentStartTime();
     }
 
     public function getOffensiveTeams(){

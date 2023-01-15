@@ -34,6 +34,7 @@ class SpecialQuestionResource extends JsonResource
             "type"            => static::$typeToAttribute[$type] ?? $type,
             "tournament_id"   => $specialQuestion->tournament_id,
             "answer"          => $specialQuestion->answer ? $this->translateAnswers($specialQuestion) : null
+            // "answer"          => null
         ];
     }
 

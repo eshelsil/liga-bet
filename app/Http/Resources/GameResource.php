@@ -17,6 +17,10 @@ class GameResource extends JsonResource
      */
     public function toArray($request)
     {
+
+        $mockGames = [
+            // 142 => [2,2,3,3,],
+        ];
         /** @var Game $game */
         $game = $this->resource;
 
@@ -35,13 +39,26 @@ class GameResource extends JsonResource
             "id"                => $game->id,
             "home_team"         => $game->team_home_id,
             "away_team"         => $game->team_away_id,
-            "result_home"       => $game->result_home,
-            "result_away"       => $game->result_away,
-            "full_result_home"  => $game->full_result_home,
-            "full_result_away"  => $game->full_result_away,
+
+            // "result_home"       => $game->result_home,
+            // "result_away"       => $game->result_away,
+            // "full_result_home"  => $game->full_result_home,
+            // "full_result_away"  => $game->full_result_away,
+            
+            // Demo remove :
+            "result_home"       => array_key_exists($game->id, $mockGames) ? $mockGames[$game->id][0] : $game->result_home,
+            "result_away"       => array_key_exists($game->id, $mockGames) ? $mockGames[$game->id][1] : $game->result_away,
+            "full_result_home"  => array_key_exists($game->id, $mockGames) ? data_get($mockGames[$game->id], 2, null) : $game->full_result_home,
+            "full_result_away"  => array_key_exists($game->id, $mockGames) ? data_get($mockGames[$game->id], 3, null) : $game->full_result_away,
+
             "winner_side"       => $game->getKnockoutWinnerSide(),
             "is_done"           => $game->is_done,
-            "closed_for_bets"   => $game->start_time < time(),
+
+            // "closed_for_bets"   => $game->start_time < time(),
+
+            // Demo remove :
+            "closed_for_bets"   => $game->isClosedForBets(),
+
             "type"              => $game->type,
             "subType"           => $subType,
             "start_time"        => Carbon::createFromTimestamp($game->start_time),

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 use App\Player;
 use App\Team;
 use App\Bet;
+use App\Competition;
 use App\Enums\BetTypes;
 use Illuminate\Support\Facades\Validator;
 use App\Exceptions\JsonException;
@@ -198,8 +199,13 @@ class BetSpecialBetsRequest extends AbstractBetRequest
     {
         $score = 0;
         /** @var Player $player */
-        $player = $this->tournament->competition->players->find($this->answer);
-        $score += $player->assists * $this->getScoreConfig("specialBets.topAssists.eachGoal");
+        // $player = $this->tournament->competition->players->find($this->answer);
+        // $score += $player->assists * $this->getScoreConfig("specialBets.topAssists.eachGoal");
+        
+        // Demo - remove :
+        $doneGameIds = $this->tournament->competition->games->filter(fn($g) => $g->is_done)->pluck('id');
+        $assists = $this->tournament->competition->goalsData()->whereIn('game_id', $doneGameIds)->where('player_id', $this->answer)->get()->sum('assists');
+        $score += $assists * $this->getScoreConfig("specialBets.topAssists.eachGoal");
 
         $players = $this->getSpecialBet()->answer;
         if ($players && in_array($this->answer, explode(",", $players))) {
@@ -229,7 +235,9 @@ class BetSpecialBetsRequest extends AbstractBetRequest
 
         $score = 0;
         foreach ($koGames as $game) {
-            if ($game->getKnockoutWinner() == $this->answer){
+            // if ($game->getKnockoutWinner() == $this->answer){
+            // Demo :
+            if ($game->is_done && $game->getKnockoutWinner() == $this->answer){
                 if ($game->sub_type == GameSubTypes::LAST_16) {
                     $score += $this->getScoreConfig("specialBets.{$type}.quarterFinal");
                 } else if ($game->sub_type == GameSubTypes::QUARTER_FINALS) {
@@ -248,8 +256,15 @@ class BetSpecialBetsRequest extends AbstractBetRequest
     public function calcTopScorer()
     {
         $score = 0;
-        $player = $this->tournament->competition->players->find($this->answer);
-        $score += $player->goals * $this->getScoreConfig("specialBets.topScorer.eachGoal");
+        // $player = $this->tournament->competition->players->find($this->answer);
+        // $score += $player->goals * $this->getScoreConfig("specialBets.topScorer.eachGoal");
+        
+        // Demo - remove :
+        $doneGameIds = $this->tournament->competition->games->filter(fn($g) => $g->is_done)->pluck('id');
+        $goals = $this->tournament->competition->goalsData()->whereIn('game_id', $doneGameIds)
+            ->where('player_id', $this->answer)
+            ->get()->sum('goals');
+        $score += $goals * $this->getScoreConfig("specialBets.topScorer.eachGoal");
 
         $players = $this->getSpecialBet()->answer;
         if ($players && in_array($this->answer, explode(",", $players))) {

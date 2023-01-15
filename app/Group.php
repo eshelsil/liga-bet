@@ -39,7 +39,14 @@ use Illuminate\Support\Facades\Log;
 class Group extends Model implements BetableInterface
 {
     public function isComplete(){
-        return !is_null($this->standings);
+        // return !is_null($this->standings);
+        
+        // Demo remove :
+        
+        $competition = Competition::find($this->competition_id);
+        return !is_null($this->standings) && $competition->games()->where('sub_type', $this->external_id)->get()
+            ->filter(fn($game) => $game->is_done)
+            ->count() == 6;
     }
 
     public function getTeamIDByPosition($position_case){
@@ -117,7 +124,6 @@ class Group extends Model implements BetableInterface
                 Log::debug("[Group][calculateBets] error traces: {$e->getTraceAsString()}");
             }
         }
-        echo "completed";
     }
 
 

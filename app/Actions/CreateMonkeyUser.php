@@ -30,6 +30,15 @@ class CreateMonkeyUser
         $name ??= 'monkey_' . rand(0, 9999);
         $utl = $tournament->createUTL($user, $name);
 
+        $this->handleUtl($utl);
+        
+        return $user;
+    }
+
+    public function handleUtl(TournamentUser $utl): void
+    {
+        $tournament = $utl->tournament;
+
         $tournament->competition->groups
             ->each(fn (Group $group) => $this->betGroup($group, $utl));
 
@@ -37,8 +46,6 @@ class CreateMonkeyUser
             ->each(fn(Game $game) => $this->betGame($game, $utl));
 
         $tournament->specialBets->each(fn(SpecialBet $specialBet) => $this->betSpecialBet($specialBet, $utl));
-
-        return $user;
     }
 
     /**

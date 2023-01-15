@@ -24,7 +24,8 @@ function CongratsAnimationProvider({ currentUtl, rank }: Props) {
     const seenCongratsData = localStorage.getItem('LigaBetSeenCongratsAnimationV2')
     let lastSeenPerTournamentId: Record<number, number> = seenCongratsData ? JSON.parse(seenCongratsData) : {}
     const lastSeenTimestamp = lastSeenPerTournamentId[tournamentId]
-    const seenRecently = lastSeenTimestamp ? (dayjs().diff(dayjs(lastSeenTimestamp), 'hours') < 72) : false
+    // const seenRecently = lastSeenTimestamp ? (dayjs().diff(dayjs(lastSeenTimestamp), 'hours') < 72) : false
+    const seenRecently = false
 
     const onSeenAnimation = () => {
         if (seenCongratsData) {

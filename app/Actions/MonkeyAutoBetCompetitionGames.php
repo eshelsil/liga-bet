@@ -37,6 +37,13 @@ class MonkeyAutoBetCompetitionGames
         $tournamentUsers->each(fn (TournamentUser $tournamentUser) => $this->betTournament($game, $tournamentUser));
     }
 
+    public function handleUtlMissingGames(TournamentUser $utl)
+    {
+
+        $bettableGames = $utl->tournament->competition->games->filter(fn(Game $g) => $g->isOpenForBets());
+        $bettableGames->each(fn (Game $game) => $this->betTournament($game, $utl));
+    }
+
     public function betTournament(Game $game, TournamentUser $tournamentUser)
     {
         if ($tournamentUser->bets->firstWhere("game_id", $game->id)) {

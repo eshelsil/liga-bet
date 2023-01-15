@@ -21,6 +21,9 @@ export const IsAppMenuEmpty = createSelector(
 export const ManageTournamentIsAccessible = createSelector(
     FinalGame,
     (final) => {
+        // Demo remove :
+        return false
+        
         if (final) {
             return false
         }

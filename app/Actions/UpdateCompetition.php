@@ -11,6 +11,7 @@ namespace App\Actions;
 use App\Competition;
 use App\DataCrawler\Game as CrawlerGame;
 use App\Game;
+use App\Group;
 use App\SpecialBets\SpecialBet;
 use App\Tournament;
 use App\User;
@@ -75,6 +76,21 @@ class UpdateCompetition
         return $data;
     }
 
+    // Demo - remove :
+    public function handleFixStartTime(Competition $competition): void
+    {
+        $crawlerGames = $this->fakeGames ?? $competition->getCrawler()->fetchGames();
+        // dd($crawlerGames->count());
+        $existingGames = $competition->games;
+
+        $crawlerGames->each(function($crawlerGame) use ($existingGames){
+            Log::debug("$crawlerGame->externalId game id");
+            $game = $existingGames->first(fn($g) => $g->external_id == $crawlerGame->externalId);
+            $game->start_time = $crawlerGame->startTime;
+            $game->save();
+        });
+    }
+
     public function handle(Competition $competition, $updateExternalIncompleted = false): void
     {
         $crawlerGames = $this->fakeGames ?? $competition->getCrawler()->fetchGames();
@@ -104,6 +120,48 @@ class UpdateCompetition
             if ($doneGames->first(fn($g) => $g->isGroupStage()) && $competition->isGroupStageDone()) {
                 $this->calculateSpecialBets->execute($competition->id, SpecialBet::TYPE_OFFENSIVE_TEAM, $competition->getOffensiveTeams()->join(","));
                 $this->updateLeaderboards->handle($competition, null, "{\"question\":".SpecialBet::TYPE_OFFENSIVE_TEAM."\"}");
+            }
+        }
+    }
+
+    // Demo - remove :
+    public function demoHandle(Competition $competition, $updateExternalIncompleted = false): void
+    {
+
+
+
+        $existingGames = $competition->games;
+
+        $existingFinishedGames = $existingGames->filter(fn($g) => $g->is_done);
+        $existingFinishedGames = $existingFinishedGames->slice(-1);
+
+        $existingFinishedGames->each(function($game) {
+            $this->updateGameBets->handle($game);
+        });
+
+        // updateScorersScore
+        $answer = $competition->getTopScorersIds()->join(",") ?: null;
+        $this->calculateSpecialBets->execute($competition->id, SpecialBet::TYPE_TOP_SCORER, $answer);
+        $answer = $competition->getMostAssistsIds()->join(",") ?: null;
+        $this->calculateSpecialBets->execute($competition->id, SpecialBet::TYPE_MOST_ASSISTS, $answer);
+
+
+        $groupsCompleted = $competition->groups->filter(fn (Group $g) => $g->isComplete());
+        foreach ($groupsCompleted as $group){
+            $group->calculateBets();
+        }
+
+        foreach ($existingFinishedGames as $game){
+            if ($game->isKnockout()) {
+                $winner = null;
+                $runnerUp = null;
+                if ($game->sub_type == 'FINAL') {
+                    $winner = $game->ko_winner;
+                    $runnerUp = $game->ko_winner == $game->team_home_id ? $game->team_away_id : $game->team_home_id;
+                }
+
+                $this->calculateSpecialBets->execute($game->competition_id, SpecialBet::TYPE_WINNER, $winner);
+                $this->calculateSpecialBets->execute($game->competition_id, SpecialBet::TYPE_RUNNER_UP, $runnerUp);
             }
         }
     }

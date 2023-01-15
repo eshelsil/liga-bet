@@ -26,8 +26,11 @@ class PlayerResource extends JsonResource
             "name"            => $player->name,
             "externalId"      => $player->external_id,
             "shirt"           => $player->shirt,
-            "goals"           => $player->goals,
-            "assists"         => $player->assists,
+            // "goals"           => $player->goals,
+            // "assists"         => $player->assists,
+            // Demo - remove:
+            "goals"           => $player->goalsData->sum('goals'),
+            "assists"         => $player->goalsData->sum('assists'),
             "team"            => $player->team_id,
             "img"             => $imgUrl,
         ];

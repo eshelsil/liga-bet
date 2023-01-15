@@ -38,6 +38,23 @@ class UpdateGameBets
         return "FINISHED";
     }
 
+    public function calculateBets(Game $game)
+    {
+
+        /** @var Bet $bet */
+        foreach ($game->getBets() as $bet) {
+
+            $betRequest = $this->getBetRequest($game, $bet);
+
+            $bet->score = $betRequest->calculate();
+            $bet->save();
+
+            Log::debug( "User: {$bet->utl->user->name} Bet ID [{$bet->id}] home: {$bet->getData("result-home")} Bet away: {$bet->getData("result-away")} Score: {$bet->score}");
+        }
+
+        return "FINISHED";
+    }
+
     /**
      * @param mixed $scoreHome
      * @param mixed $scoreAway

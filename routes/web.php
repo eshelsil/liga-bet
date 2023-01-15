@@ -114,10 +114,11 @@ Route::prefix("/api/tournaments/{tournamentId}/")->middleware("confirmed_user")
             // Route::post("/config", [TournamentController::class, 'update']);
         });
     });
+Route::get('/api/users/ping', [UserController::class, 'ping']);
 Route::prefix("/api/users")->middleware("admin")
     ->group(function () {
         Route::get('/', [UserController::class, 'index']);
-        Route::get('/ping', [UserController::class, 'ping']);
+        // Route::get('/ping', [UserController::class, 'ping']);
         Route::put('/{userId}', [UserController::class, 'update']);
     });
 Route::post('/api/tournaments', [TournamentController::class, 'createTournament']);
