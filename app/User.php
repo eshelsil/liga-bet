@@ -117,6 +117,16 @@ class User extends Authenticatable
         return $this->utls->filter(fn(TournamentUser $utl) => $utl->isRegistered());
     }
 
+    public function wasAnActiveUser()
+    {
+        foreach($this->utls as $utl){
+            if ($utl->wasAnActiveUser()){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function getGroupBetsById() {
         $groups = Group::all();
         $bets = Bet::query()

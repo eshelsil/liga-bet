@@ -4,6 +4,7 @@ namespace App;
 
 use App\Bets\BetSpecialBets\BetSpecialBetsRequest;
 use App\Enums\BetTypes;
+use App\Enums\GameSubTypes;
 use App\SpecialBets\SpecialBet;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
@@ -131,6 +132,16 @@ class TournamentUser extends Model
     public function bets(): HasMany
     {
         return $this->hasMany(Bet::class, "user_tournament_id");
+    }
+
+    public function wasAnActiveUser(): bool
+    {
+        $gameBets = $this->bets()->where('type', BetTypes::Game)->get();
+        $relevantGames = $this->tournament->competition->games()
+            ->whereNotIn('sub_type', [GameSubTypes::FINAL, GameSubTypes::THIRD_PLACE, GameSubTypes::SEMI_FINALS])
+            ->get();
+        $relevantGameIds = $relevantGames->pluck('id');
+        return $gameBets->whereIn('type_id', $relevantGameIds)->count() >= ($relevantGameIds->count() - 6);
     }
 
     public function getGamesMissingBet()

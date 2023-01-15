@@ -6,6 +6,7 @@ final class GameSubTypes extends AbstractEnum {
     private function __construct() { }
 
     const FINAL          = "FINAL";
+    const THIRD_PLACE    = "THIRD_PLACE";
     const SEMI_FINALS    = "SEMI_FINALS";
     const QUARTER_FINALS = "QUARTER_FINALS";
     const LAST_16        = "LAST_16";
