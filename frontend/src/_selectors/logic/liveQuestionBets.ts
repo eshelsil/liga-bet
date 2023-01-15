@@ -6,14 +6,36 @@ import { FinalGame, MatchesWithTeams, PlayersWithTeams, QuestionBetsLinked } fro
 import { groupBy, map, mapValues, maxBy, pickBy } from 'lodash'
 
 
-function isTheFinalGameLive(finalGame?: MatchCommonBase) {
-    if (!finalGame){
-        return false
+export const IsFinalGameLiveSelector = createSelector(
+    FinalGame,
+    MatchesWithTeams,
+    (finalGame) => {
+        if (!finalGame){
+            return false
+        }
+        return isGameLive(finalGame)
     }
-    return isGameLive(finalGame)
-}
+)
 
-export const LiveTeamsPLayingKnockout = createSelector(
+export const LivePlayingTeams = createSelector(
+    LiveGamesIds,
+    MatchesWithTeams,
+    (liveGameIds, gamesById) => {
+        const playingTeams: Record<number, Team> = {};
+        for (const gameId of liveGameIds){
+            const game = gamesById[gameId]
+            if (!game) {
+                continue
+            }
+            const {away_team, home_team} = game
+            playingTeams[away_team.id] = away_team
+            playingTeams[home_team.id] = home_team
+        }
+        return playingTeams
+    }
+)
+
+export const LiveTeamsPlayingKnockout = createSelector(
     LiveGamesIds,
     MatchesWithTeams,
     (liveGameIds, gamesById) => {
@@ -80,7 +102,11 @@ export const LiveScorersById = createSelector(
 
 export const LiveTopScorersAnswer = createSelector(
     LiveScorersById,
-    (scorersById) => {
+    IsFinalGameLiveSelector,
+    (scorersById, isFinalGameLive) => {
+        if (!isFinalGameLive){
+            return []
+        }
         const scorers = valuesOf(scorersById)
         const maxGoals = maxBy(scorers, 'goals')?.goals
         const topScorers = scorers.filter(scorer => scorer.goals == maxGoals)
@@ -90,11 +116,15 @@ export const LiveTopScorersAnswer = createSelector(
 
 export const LiveTopAssistsAnswer = createSelector(
     LiveScorersById,
-    (scorersById) => {
+    IsFinalGameLiveSelector,
+    (scorersById, isFinalGameLive) => {
+        if (!isFinalGameLive){
+            return []
+        }
         const scorers = valuesOf(scorersById)
         const maxAssists = maxBy(scorers, 'assists')?.assists
-        const topASsists = scorers.filter(scorer => scorer.assists == maxAssists)
-        return map(topASsists, 'id')
+        const topAssists = scorers.filter(scorer => scorer.assists == maxAssists)
+        return map(topAssists, 'id')
     }
 )
 
@@ -108,7 +138,7 @@ export const WinnerBetsById = createSelector(
 )
 export const LiveWinnerBets = createSelector(
     WinnerBetsById,
-    LiveTeamsPLayingKnockout,
+    LiveTeamsPlayingKnockout,
     (betsById, playingTeams) => {
         return pickBy(betsById, bet => !!playingTeams[bet.answer.id])
     }
@@ -125,14 +155,14 @@ export const RunnerUpBetsById = createSelector(
 
 export const LiveRunnerUpBets = createSelector(
     RunnerUpBetsById,
-    LiveTeamsPLayingKnockout,
+    LiveTeamsPlayingKnockout,
     IsRunnerUpBetOn,
-    FinalGame,
-    (betsById, playingTeams, isOn, finalGame) => {
+    IsFinalGameLiveSelector,
+    (betsById, playingTeams, isOn, isFinalGameLive) => {
         if (!isOn) {
             return {}
         }
-        if (isTheFinalGameLive(finalGame)){
+        if (isFinalGameLive){
             return {}
         }
         return pickBy(betsById, bet => !!playingTeams[bet.answer.id])
@@ -158,27 +188,41 @@ export const TopAssistsBetsById = createSelector(
 
 export const LiveTopScorerBets = createSelector(
     TopScorersBetsById,
-    FinalGame,
-    (betsById, finalGame) => {
-        if (!isTheFinalGameLive(finalGame)){
-            return {}
+    IsFinalGameLiveSelector,
+    Players,
+    LivePlayingTeams,
+    (betsById, isFinalGameLive, playersById, livePlayingTeams) => {
+        if (isFinalGameLive){
+            return betsById
         }
-        return betsById
+        return pickBy(betsById, bet => {
+            const player = playersById[bet.answer?.id]
+            if (!player) return false
+            const relevantTeamIds = map(livePlayingTeams, 'id')
+            return relevantTeamIds.includes(player.team)
+        })
     }
 )
 
 export const LiveTopAssistsBets = createSelector(
     TopAssistsBetsById,
     IsTopAssistsBetOn,
-    FinalGame,
-    (betsById, isOn, finalGame) => {
+    IsFinalGameLiveSelector,
+    Players,
+    LivePlayingTeams,
+    (betsById, isOn, isFinalGameLive, playersById, livePlayingTeams) => {
         if (!isOn) {
             return {}
         }
-        if (!isTheFinalGameLive(finalGame)){
-            return {}
+        if (isFinalGameLive){
+            return betsById
         }
-        return betsById
+        return pickBy(betsById, bet => {
+            const player = playersById[bet.answer?.id]
+            if (!player) return false
+            const relevantTeamIds = map(livePlayingTeams, 'id')
+            return relevantTeamIds.includes(player.team)
+        })
     }
 )
 
@@ -325,6 +369,7 @@ export const LiveSpecialAnswers = createSelector(
     LiveTopScorersAnswer,
     LiveTopAssistsAnswer,
     FinalGame,
+    IsFinalGameLiveSelector,
     PlayersWithTeams,
     WinnerSpecialQuestionId,
     RunnerUpSpecialQuestionId,
@@ -334,6 +379,7 @@ export const LiveSpecialAnswers = createSelector(
         topScorerIds,
         topAssistsIds,
         finalGame,
+        isFinalGameLive,
         players,
         winnerSpecialQuestionId,
         runnerUpSpecialQuestionId,
@@ -342,7 +388,7 @@ export const LiveSpecialAnswers = createSelector(
     ) => {
         const answersByQuestionId: Record<number, SpecialQuestionAnswer[]> = {}
 
-        if (isTheFinalGameLive(finalGame)){
+        if (isFinalGameLive){
             const winnerSide = getQualifierSide(finalGame)
             if (winnerSide === WinnerSide.Home){
                 answersByQuestionId[winnerSpecialQuestionId] = [finalGame.home_team]
