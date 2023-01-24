@@ -36,7 +36,7 @@ Web application for creating soccer prediction game with friends.
 # Examples
 
 Fifa World Cup 2022 tournament flow example:
-https://user-images.githubusercontent.com/10271715/212762020-5159c5ba-f702-41f7-bee8-54675d1c0e2c.mp4
+https://youtu.be/oCUWt63Pi0o
 
 
 Screenshots:
