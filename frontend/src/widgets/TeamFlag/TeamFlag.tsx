@@ -24,6 +24,16 @@ const teamNameToCountryCode = {
     'serbia': 'rs',
     'switzerland': 'ch',
     'south korea': 'kr',
+
+    'nigeria': 'ng',
+    'iceland': 'is',
+    'sweden': 'se',
+    'turkey': 'tr',
+    'austria': 'at',
+    'ukraine': 'ua',
+    'north macedonia': 'mk',
+    scotland: 'gb-sct',
+    slovakia: 'sk',
 }
 
 interface Props {

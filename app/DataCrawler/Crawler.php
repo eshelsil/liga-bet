@@ -262,6 +262,7 @@ class Crawler
             765  => 5028, // Portugal
             772  => 2383, // South Korea
             758  => 5073, // Uruguay
+            default => $teamId,
         };
     }
 
