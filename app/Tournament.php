@@ -122,6 +122,19 @@ class Tournament extends Model
         $this->save();
     }
 
+    public function getMvpId()
+    {
+        $specialQuestion = $this->specialBets()->where('type', SpecialBet::TYPE_MVP)->first();
+        if (!$specialQuestion) {
+            return null;
+        }
+        $mvpId = $specialQuestion->answer;
+        if (!$mvpId){
+            return null;
+        }
+        return (int) $mvpId;
+    }
+
     public function get2LatestRelevantVersions()
     {
         $versionsDesc = $this->leaderboardVersions()

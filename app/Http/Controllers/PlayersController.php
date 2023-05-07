@@ -40,6 +40,11 @@ class PlayersController extends Controller
         $topAssists = $competition->getMostAssistsIds(true);
         $relevantPlayerIds = $relevantPlayerIds->merge($topScorers)->merge($topAssists);
 
+        $mvpId = $utl->tournament->getMvpId();
+        if ($mvpId){
+            $relevantPlayerIds->push($mvpId);
+        }
+
         $data = $utl->tournament->competition->players()
             ->whereIn("players.id", $relevantPlayerIds->unique()->filter())->get()
             ->map(fn(Player $player) => (new PlayerResource($player))->toArray($request));
