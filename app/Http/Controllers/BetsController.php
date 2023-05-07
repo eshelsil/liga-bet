@@ -322,7 +322,7 @@ class BetsController extends Controller
                                                  "name",
                                                  "crest_url"
                                              ]),
-                        "away_team" => $teams->get($game->team_home_id)
+                        "away_team" => $teams->get($game->team_away_id)
                                              ->only([
                                                  "id",
                                                  "name",
