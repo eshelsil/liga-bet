@@ -35,6 +35,7 @@ export interface SpecialQuestionBetScoreConfig {
 	[SpecialQuestionType.TopAssists]?: number | EachGoalBet,
 	[SpecialQuestionType.MVP]?: number,
 	[SpecialQuestionType.OffensiveTeamGroupStage]?: number,
+	[SpecialQuestionType.DefensiveTeamGroupStage]?: number,
 	[SpecialQuestionType.TopScorer]?: EachGoalBet,
 	[SpecialQuestionType.Winner]?: RoadToFinalBetScoreConfig,
 	[SpecialQuestionType.RunnerUp]?: RoadToFinalBetScoreConfig,

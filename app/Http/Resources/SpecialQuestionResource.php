@@ -15,6 +15,7 @@ class SpecialQuestionResource extends JsonResource
         'top_scorer' => 'topScorer',
         'most_assists' => 'topAssists',
         'offensive_team' => 'offensiveTeam',
+        'defensive_team' => 'defensiveTeam',
     ];
 
     /**

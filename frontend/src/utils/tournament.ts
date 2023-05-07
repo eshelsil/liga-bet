@@ -156,6 +156,7 @@ export function generateDefaultScoresConfig(): ScoresConfigFromatted {
 			mvp: true,
 			topAssists: true,
 			offensiveTeam: true,
+			defensiveTeam: false,
 		}
 	}
 }

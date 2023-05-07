@@ -20,6 +20,7 @@ export function getInitialOptionsConfig(config: ScoresConfigFromatted){
 			[SpecialQuestionType.TopAssists]: isEnabled(specialQuestionFlags?.topAssists, questionsConfig.topAssists.correct),
 			[SpecialQuestionType.MVP]: isEnabled(specialQuestionFlags?.mvp, questionsConfig.mvp ),
 			[SpecialQuestionType.OffensiveTeamGroupStage]:  isEnabled(specialQuestionFlags?.offensiveTeam, questionsConfig.offensiveTeam ),
+			[SpecialQuestionType.DefensiveTeamGroupStage]:  isEnabled(specialQuestionFlags?.defensiveTeam, questionsConfig.defensiveTeam ),
 		},
 		specialQuestionOptions: {
 			roadToFinal: {
@@ -30,12 +31,12 @@ export function getInitialOptionsConfig(config: ScoresConfigFromatted){
 		gameBetOptions: {
 			qualifier: gameBetsConfig.knockout.qualifier > 0,
 			bonuses: {
-				[KnockoutStage.Final]: gameBetsConfig.bonuses.final.result > 0
-					|| gameBetsConfig.bonuses.final.winnerSide > 0
-					|| gameBetsConfig.bonuses.final.qualifier > 0,
-				[KnockoutStage.SemiFinal]: gameBetsConfig.bonuses.semiFinal.result > 0
-					|| gameBetsConfig.bonuses.semiFinal.winnerSide > 0
-					|| gameBetsConfig.bonuses.semiFinal.qualifier > 0,
+				[KnockoutStage.Final]: gameBetsConfig.bonuses?.final?.result > 0
+					|| gameBetsConfig.bonuses?.final?.winnerSide > 0
+					|| gameBetsConfig.bonuses?.final?.qualifier > 0,
+				[KnockoutStage.SemiFinal]: gameBetsConfig.bonuses?.semiFinal?.result > 0
+					|| gameBetsConfig.bonuses?.semiFinal?.winnerSide > 0
+					|| gameBetsConfig.bonuses?.semiFinal?.qualifier > 0,
 			}
 		}
 	}

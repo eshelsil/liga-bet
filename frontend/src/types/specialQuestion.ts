@@ -9,6 +9,7 @@ export enum SpecialQuestionType {
     TopAssists = 'topAssists',
     MVP = 'mvp',
     OffensiveTeamGroupStage = 'offensiveTeam',
+    DefensiveTeamGroupStage = 'defensiveTeam',
 }
 
 export enum SpecialAnswerType {

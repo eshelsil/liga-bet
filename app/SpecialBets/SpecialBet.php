@@ -47,6 +47,7 @@ class SpecialBet extends Model implements BetableInterface
     const TYPE_MOST_ASSISTS = "most_assists";
     const TYPE_MVP = "mvp";
     const TYPE_OFFENSIVE_TEAM = "offensive_team";
+    const TYPE_DEFENSIVE_TEAM = "defensive_team";
 
     static $typeToFlagName = [
         "winner" => "winner",
@@ -55,6 +56,7 @@ class SpecialBet extends Model implements BetableInterface
         "most_assists" => "topAssists",
         "mvp" => "mvp",
         "offensive_team" => "offensiveTeam",
+        "defensive_team" => "defensiveTeam",
     ];
 
     protected static $unguarded = true;
