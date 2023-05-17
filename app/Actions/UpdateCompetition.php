@@ -75,7 +75,7 @@ class UpdateCompetition
         return $data;
     }
 
-    public function handle(Competition $competition, $updateExternalIncompleted = false): void
+    public function handle(Competition $competition): void
     {
         $crawlerGames = $this->fakeGames ?? $competition->getCrawler()->fetchGames();
         $existingGames = $competition->games;
@@ -86,25 +86,31 @@ class UpdateCompetition
             ->keyBy("external_id");
 
 
-        $gamesWithScore = $crawlerGames->filter(function(CrawlerGame $crawlerGame) use ($existingNonFinishedGames, $updateExternalIncompleted) {
-            if (!$existingNonFinishedGames->has($crawlerGame->externalId)) {
-                return false;
-            }
-            return $crawlerGame->isStarted;
+        $gamesWithScore = $crawlerGames->filter(function(CrawlerGame $crawlerGame) use ($existingNonFinishedGames) {
+            return $crawlerGame->isStarted && $existingNonFinishedGames->has($crawlerGame->externalId);
         });
 
         $updatedGames = $this->updateGames($competition, $gamesWithScore, $existingNonFinishedGames);
         $this->updateScorers->handle($competition);
+        $gameIdsUpdatedScorers = $this->updateScorers->getRelevantGameIds();
         $doneGames = $updatedGames->filter(fn($g) => $g->is_done);
 
-        if ($updatedGames->first(fn(Game $g) => $g->is_done)) {
+        if ($doneGames->count() > 0) {
             $this->updateStandings->handle($competition);
 
-            // TODO: There was a bug here. i think we should refresh the games before check $competition->isGroupStageDone()
-            if ($doneGames->first(fn($g) => $g->isGroupStage()) && $competition->isGroupStageDone()) {
+            // TODO: There was a bug here. i think we should refresh the games before check $competition->isGroupStageDone() -->  should verify `->load("games")` solves the issue
+            if ($doneGames->first(fn($g) => $g->isGroupStage()) && $competition->load("games")->isGroupStageDone()) {
                 $this->calculateSpecialBets->execute($competition->id, SpecialBet::TYPE_OFFENSIVE_TEAM, $competition->getOffensiveTeams()->join(","));
-                $this->updateLeaderboards->handle($competition, null, "{\"question\":".SpecialBet::TYPE_OFFENSIVE_TEAM."\"}");
             }
+
+        }
+
+        $gameIdsAffectingLeaderboard = $doneGames->pluck('id')->concat($gameIdsUpdatedScorers);
+        if ($gameIdsAffectingLeaderboard->count() > 0){
+            $firstAffectedGameId = $competition->getSortedGameIds()->first(
+                fn($id) => $gameIdsAffectingLeaderboard->contains($id)
+            );
+            $this->updateLeaderboards->handle($competition, $firstAffectedGameId);
         }
     }
 
@@ -178,7 +184,6 @@ class UpdateCompetition
             Log::debug("Saving Result of Game: status - ".($game->is_done ? 'done' : 'live')."  ext_id - " . $game->external_id . " | id - " . $game->id . "-> " . $game->result_home . " - " . $game->result_away);
             if ($game->is_done){
                 $this->updateGameBets->handle($game);
-                $this->updateLeaderboards->handle($game->competition, $game->id);
     
                 if ($game->isKnockout()) {
                     $winner = null;
@@ -190,7 +195,6 @@ class UpdateCompetition
     
                     $this->calculateSpecialBets->execute($game->competition_id, SpecialBet::TYPE_WINNER, $winner);
                     $this->calculateSpecialBets->execute($game->competition_id, SpecialBet::TYPE_RUNNER_UP, $runnerUp);
-                    $this->updateLeaderboards->handle($competition, null, "{\"question\":".SpecialBet::TYPE_WINNER."\"}");
                 }
             }
         }

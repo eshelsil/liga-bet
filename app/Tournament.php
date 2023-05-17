@@ -187,6 +187,18 @@ class Tournament extends Model
         return $scoreGainedPerUtl;
     }
 
+    public function getGameScorePerUtl(int $gameId)
+    {
+        $game = $this->competition->games()->where('id', $gameId)->first();
+        if (!$game){
+            throw new \RuntimeException("Cannot find game with id $gameId on this tournament (id: $this->id)");
+        }
+
+        $scoreGainedPerUtl = $this->competingUtls()->keyBy('id')
+            ->map(fn(TournamentUser $utl) => $game->is_done ? $utl->calcScoreGainedForGame($game) : 0);
+        return $scoreGainedPerUtl;
+    }
+
     public function getLatestLeaderboard()
     {
         $betsScoreSum = $this->bets()

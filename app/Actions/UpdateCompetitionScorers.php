@@ -18,8 +18,9 @@ class UpdateCompetitionScorers
 {
     private ?\Illuminate\Support\Collection $fakeScorers = null;
 
+    private $relevantGames;
+
     public function __construct(private readonly CalculateSpecialBets $calculateSpecialBets,
-        private readonly UpdateLeaderboards $updateLeaderboards,
         private readonly SavePleyerGameGoalsData $savePleyerGameGoalsData,
     ) { }
 
@@ -29,12 +30,19 @@ class UpdateCompetitionScorers
         $this->fakeScorers = $scorers;
     }
 
+    public function getRelevantGameIds(){
+        if ($this->relevantGames){
+            return $this->relevantGames->pluck('id');
+        }
+        return collect([]);
+    }
+
             
     public function handle(Competition $competition)
     {
-        $relevantGames = $competition->games->whereBetween('start_time', [now()->subHours(24)->timestamp, now()->timestamp]);
+        $this->relevantGames = $competition->games->whereBetween('start_time', [now()->subHours(24)->timestamp, now()->timestamp]);
         $teams = new Collection();
-        $relevantGames->load(["teamHome", "teamAway"])
+        $this->relevantGames->load(["teamHome", "teamAway"])
             ->each(fn(Game $g) => $teams->add($g->teamHome)->add($g->teamAway));
         $scorers = $this->fakeScorers ?? $competition->getCrawler()->fetchScorers($teams->pluck("external_id"));
         \Log::debug("[UpdateScorers][handle] got {{$scorers->count()}} scorers" );
@@ -51,7 +59,7 @@ class UpdateCompetitionScorers
             if ($player) {
                 \Log::debug("[UpdateScorers][handle] updating player ID [{$player->id}] external [{$scorer->externalId}] to G{$scorer->goals}A{$scorer->assists}");
                 
-                $game = $relevantGames->first(fn($g) => in_array($player->team_id, [$g->team_home_id, $g->team_away_id]));
+                $game = $this->relevantGames->first(fn($g) => in_array($player->team_id, [$g->team_home_id, $g->team_away_id]));
                 $gameId = $game->id;
 
                 if (!is_null($scorer->goals) || !is_null($scorer->assists)){
@@ -91,9 +99,6 @@ class UpdateCompetitionScorers
             $this->calculateSpecialBets->execute($competition->id, SpecialBet::TYPE_TOP_SCORER, $answer);
             $answer = $competition->getMostAssistsIds()->join(",") ?: null;
             $this->calculateSpecialBets->execute($competition->id, SpecialBet::TYPE_MOST_ASSISTS, $answer);
-    
-
-            $this->updateLeaderboards->handleNewScorersData($competition, collect($newGoalsAndAssistsData));
         }
 
     }

@@ -63,6 +63,9 @@ class Game extends Model implements BetableInterface
 {
     protected $table = 'matches';
 
+    const TYPE_KNOCKOUT = 'knockout';
+    const TYPE_GROUP_STAGE = 'group_stage';
+
     public function isKnockout()
     {
         return $this->type == "knockout";
@@ -113,6 +116,12 @@ class Game extends Model implements BetableInterface
     public function competition(): BelongsTo
     {
         return $this->belongsTo(Competition::class, "competition_id");
+    }
+
+    public function group(): BelongsTo
+    {
+        return $this->belongsTo(Group::class, 'sub_type', 'external_id')
+                ->where('competition_id', $this->competition_id);
     }
     
     public function scorers()
@@ -228,6 +237,14 @@ class Game extends Model implements BetableInterface
     public static function isTournamentDone() {
         $final_match = Game::getFinalMatchIfDone();
         return !!$final_match;
+    }
+
+    public function isTheLastGameOfGroupStage() {
+        return $this->id == $this->competition->getLastGroupStageGameId();
+    }
+
+    public function isTheLastGameOnGroup() {
+        return $this->competition->getIdsOfLastGroupGames()->contains($this->id);
     }
 
     public function generateRandomBetData(?bool $qualifierBetIsOn = true)

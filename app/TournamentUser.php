@@ -221,12 +221,12 @@ class TournamentUser extends Model
     {
         $score = 0;
 
-        $gameBet = $this->bets->first(fn($bet) => $bet->type == BetTypes::Game && $bet->type_id == $game->id);
+        $gameBet = $this->bets()->firstWhere(['type' => BetTypes::Game, 'type_id' => $game->id]);
         if ($gameBet) {
             $score += $gameBet->score;
         }
 
-        foreach ($this->bets->where("type", BetTypes::SpecialBet) as $questionBet) {
+        foreach ($this->bets()->where("type", BetTypes::SpecialBet)->get() as $questionBet) {
             try {
                 $specialQuestion = $this->tournament->specialBets->firstWhere("id", $questionBet->type_id);
                 if ($specialQuestion) {
@@ -238,12 +238,16 @@ class TournamentUser extends Model
             }
         }
 
+        if ($game->isTheLastGameOnGroup()){
+            $score += $this->calcScoreGainedForGroupRank($game->group);
+        }
+
         return $score;
     }
 
     public function calcScoreGainedForGroupRank(Group $group)
     {
-        $bet = $this->bets->first(fn($bet) => $bet->type == BetTypes::GroupsRank && $bet->type_id == $group->id);
+        $bet = $this->bets()->firstWhere(['type' => BetTypes::GroupsRank, 'type_id' => $group->id]);
         if (!$bet) {
             return 0;
         }

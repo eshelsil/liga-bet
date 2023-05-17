@@ -14,9 +14,6 @@ use Illuminate\Support\Facades\Log;
 
 class UpdateCompetitionStandings
 {
-    public function __construct(
-        private readonly UpdateLeaderboards $updateLeaderboards,
-    ) { }
 
     public function fake(?\Illuminate\Support\Collection $standings = null)
     {
@@ -50,7 +47,6 @@ class UpdateCompetitionStandings
             Log::debug("updated final standings of group \"{$group->name}\"");
 
             $group->calculateBets();
-            $this->updateLeaderboards->handle($competition, null, "{\"group\":$group->id}");
         }
     }
 }

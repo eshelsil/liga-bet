@@ -263,7 +263,7 @@ class BetSpecialBetsRequest extends AbstractBetRequest
 
     public function calcMVPForGame(Game $game)
     {
-        if ($game->sub_type == 'FINAL') {
+        if ($game->sub_type == GameSubTypes::FINAL) {
             return $this->calcMVP() ?? 0;
         }
         return 0;
@@ -277,7 +277,7 @@ class BetSpecialBetsRequest extends AbstractBetRequest
             $score += $goalsData->assists * $this->getScoreConfig("specialBets.topAssists.eachGoal");
         }
 
-        if ($game->sub_type == 'FINAL') {
+        if ($game->sub_type == GameSubTypes::FINAL) {
             $players = $this->getSpecialBet()->answer;
             if ($players && in_array($this->answer, explode(",", $players))) {
                 $score += $this->getScoreConfig("specialBets.topAssists.correct") ?? $this->getScoreConfig("specialBets.topAssists"); // Fallback to prevent BC
@@ -289,8 +289,11 @@ class BetSpecialBetsRequest extends AbstractBetRequest
 
     public function calculateOffensiveTeamForGame(Game $game)
     {
-        // TODO - calc offensive team if gameId is last game of groupStage
-        return 0;
+        if (!$game->isTheLastGameOfGroupStage()) {
+            return 0;
+        }
+        
+        return $this->calculateOffensiveTeam() ?? 0;
     }
 
     public function calcRoadToFinalForGame(Game $game, string $type): int

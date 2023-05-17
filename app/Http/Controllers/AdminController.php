@@ -312,7 +312,7 @@ class AdminController extends Controller
             throw new \InvalidArgumentException("Score is tied on a knockout game and \"isAwayWinner\" param is not given");
         }
         $updateGameBets->handle($game, $scoreHome, $scoreAway, $isAwayWinner);
-        $updateLeaderboards->handle($game->competition);
+        $updateLeaderboards->handle($game->competition, $id);
         return "completed";
     }
 

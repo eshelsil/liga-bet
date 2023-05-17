@@ -42,6 +42,9 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class Competition extends Model
 {
+    private $sortedGames;
+    private $endingGroupGameIds;
+    private $lastGroupStageGameId;
 
     protected $casts = [
         "config" => "array"
@@ -80,6 +83,55 @@ class Competition extends Model
     public function getCrawler()
     {
         return Crawler::getInstance($this->config["external_id"]);
+    }
+
+    private function getGamesSorted()
+    {
+        // TODO: save game's finish_time on db when marking [is_done=true] & use it to sort
+        if (!$this->sortedGames) {
+            $this->sortedGames = $this->games()
+                ->orderBy('start_time', 'asc')
+                ->orderBy('id', 'asc')
+                ->get();
+        }
+        return $this->sortedGames;
+    }
+
+    public function getSortedGameIds()
+    {
+        return $this->getGamesSorted()->pluck('id');
+    }
+
+    public function getIdsOfLastGroupGames()
+    {
+        if (!$this->endingGroupGameIds) {
+            $this->endingGroupGameIds = collect([]);
+            foreach ($this->groups->pluck('external_id') as $groupExternalId){
+                $lastGame = $this->getGamesSorted()
+                    ->where('type', Game::TYPE_GROUP_STAGE)
+                    ->where('sub_type', $groupExternalId)
+                    ->last();
+                if ($lastGame){
+                    $this->endingGroupGameIds->add($lastGame->id);
+                }
+            }
+        }
+
+        return $this->endingGroupGameIds;
+    }
+
+    public function getLastGroupStageGameId()
+    {
+        if (!$this->lastGroupStageGameId) {
+            $lastGame = $this->getGamesSorted()
+                ->where('type', Game::TYPE_GROUP_STAGE)
+                ->last();
+            if ($lastGame){
+                $this->lastGroupStageGameId = $lastGame->id;
+            }
+        }
+
+        return $this->lastGroupStageGameId;
     }
 
 
@@ -126,7 +178,7 @@ class Competition extends Model
 
     public function getGroupStageGames()
     {
-        return $this->games->where('type', 'group_stage');
+        return $this->games->where('type', Game::TYPE_GROUP_STAGE);
     }
 
     public function getTournamentStartTime()
