@@ -36,7 +36,10 @@ class ExampleTest extends TestCase
         $this->createTournament = app()->make(CreateTournament::class);
         $this->createMonkeyUser = app()->make(CreateMonkeyUser::class);
         $this->updateCompetition = app()->make(UpdateCompetition::class);
-        $this->competition = Competition::query()->latest()->first();
+
+        $this->competition = Competition::first();
+        // TODO - create 1 test-competition & use it
+
         $this->competition->players()->update(["goals" => 0, "assists" => 0]);
     }
 
@@ -269,9 +272,6 @@ class ExampleTest extends TestCase
         
         /** @var Game $game */
         $game = $this->competition->games->firstWhere("external_id", $externalGame->externalId);
-        $game->start_time            = Carbon::now()->subHours(1)->timestamp;
-        $game->save();
-        $tournamentId = $this->tournament->id;
 
         $scorerSpecialBet = $this->tournament->specialBets->firstWhere("type", SpecialBet::TYPE_TOP_SCORER);
         $assistsSpecialBet = $this->tournament->specialBets->firstWhere("type", SpecialBet::TYPE_MOST_ASSISTS);

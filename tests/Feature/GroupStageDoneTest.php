@@ -37,7 +37,10 @@ class GroupStageDoneTest extends TestCase
         $this->createTournament = app()->make(CreateTournament::class);
         $this->createMonkeyUser = app()->make(CreateMonkeyUser::class);
         $this->updateCompetition = app()->make(UpdateCompetition::class);
-        $this->competition = Competition::query()->latest()->first();
+        
+        $this->competition = Competition::query()->first();
+        // TODO - create 1 test-competition & use it
+
         $this->competition->players()->update(["goals" => 0, "assists" => 0]);
         $this->competition->groups()->update(["standings" => null]);
         $this->competition->games()->update(["is_done" => false]);
@@ -425,11 +428,6 @@ class GroupStageDoneTest extends TestCase
             $externalGame->resultHome           = $gameData["resultHome"];
             $externalGame->resultAway           = $gameData["resultAway"];
             $games->add($externalGame);
-
-            /** @var Game $game */
-            $game = $this->competition->games->firstWhere("external_id", $externalGame->externalId);
-            $game->start_time            = Carbon::now()->subHours(1)->timestamp;
-            $game->save();
         });
 
         $offensiveTeamSpecialBet = $this->tournament->specialBets->firstWhere("type", SpecialBet::TYPE_OFFENSIVE_TEAM);
