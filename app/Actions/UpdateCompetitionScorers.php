@@ -63,9 +63,7 @@ class UpdateCompetitionScorers
                 $gameId = $game->id;
 
                 if (!is_null($scorer->goals) || !is_null($scorer->assists)){
-                    if ($game->is_done){ // This is to prevent overriding manual-filled-data with wrong data from API (because currently the 365Scores API does not calculate live-game goals on scorers-data)
-                        $this->savePleyerGameGoalsData->handle($player->id, $gameId, $scorer->goals ?? 0, $scorer->assists ?? 0);
-                    }
+                    $this->savePleyerGameGoalsData->handle($player->id, $gameId, $scorer->goals ?? 0, $scorer->assists ?? 0);
                 }
 
                 if ($game->is_done){
