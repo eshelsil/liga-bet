@@ -69,6 +69,7 @@ class BetSpecialBetsRequest extends AbstractBetRequest
                 $this->validatePlayerSelection($answer);
                 break;
             case SpecialBet::TYPE_OFFENSIVE_TEAM:
+            case SpecialBet::TYPE_DEFENSIVE_TEAM:
                 $this->validateTeamSelection($answer);
                 break;
             case SpecialBet::TYPE_WINNER:
@@ -149,6 +150,7 @@ class BetSpecialBetsRequest extends AbstractBetRequest
             SpecialBet::TYPE_WINNER => $this->calcRoadToFinal("winner"),
             SpecialBet::TYPE_RUNNER_UP => $this->calcRoadToFinal("runnerUp"),
             SpecialBet::TYPE_TOP_SCORER => $this->calcTopScorer(),
+            SpecialBet::TYPE_DEFENSIVE_TEAM => $this->calculateDefensiveTeam(),
             default => throw new InvalidArgumentException("Invalid SpecialBet name \"{$this->getEntity()->type}\""),
         };
     }
@@ -165,6 +167,7 @@ class BetSpecialBetsRequest extends AbstractBetRequest
             SpecialBet::TYPE_WINNER => $this->calcRoadToFinalForGame($game, "winner"),
             SpecialBet::TYPE_RUNNER_UP => $this->calcRoadToFinalForGame($game, "runnerUp"),
             SpecialBet::TYPE_TOP_SCORER => $this->calcTopScorerForGame($game),
+            SpecialBet::TYPE_DEFENSIVE_TEAM => $this->calculateDefensiveTeamForGame($game),
             default => throw new InvalidArgumentException("Invalid SpecialBet name \"{$this->getEntity()->type}\""),
         };
     }
@@ -221,6 +224,19 @@ class BetSpecialBetsRequest extends AbstractBetRequest
         }
 
         return $this->getScoreConfig("specialBets.offensiveTeam");
+    }
+
+    public function calculateDefensiveTeam()
+    {
+        if (!$teams = $this->getSpecialBet()->answer) {
+            return null;
+        }
+
+        if (!in_array($this->answer, explode(",", $teams))) {
+            return 0;
+        }
+
+        return $this->getScoreConfig("specialBets.defensiveTeam");
     }
 
     public function calcRoadToFinal(string $type): int
@@ -295,6 +311,15 @@ class BetSpecialBetsRequest extends AbstractBetRequest
         }
         
         return $this->calculateOffensiveTeam() ?? 0;
+    }
+
+    public function calculateDefensiveTeamForGame(Game $game)
+    {
+        if (!$game->isTheLastGameOfGroupStage()) {
+            return 0;
+        }
+        
+        return $this->calculateDefensiveTeam() ?? 0;
     }
 
     public function calcRoadToFinalForGame(Game $game, string $type): int
