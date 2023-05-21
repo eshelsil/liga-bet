@@ -209,7 +209,6 @@ class Tournament extends Model
         $version1 = new LeaderboardsVersion();
         $version1->id = 1;
         $version1->tournament_id = $this->id;
-        $version1->description = "";
         $version1->leaderboards = $this->calcRanks($betsScoreSum, $version1->id);
 
         $latestGameScoreByUtlId = $this->getLatestGameScore();
@@ -222,7 +221,6 @@ class Tournament extends Model
         $version2 = new LeaderboardsVersion();
         $version2->id = 2;
         $version2->tournament_id = $this->id;
-        $version2->description = "";
         $version2->leaderboards = $this->calcRanks($prevVersionScoreSum, $version1->id);
         
         return collect([$version1, $version2]);

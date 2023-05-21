@@ -48,7 +48,6 @@ class UpdateLeaderboards
             $version = new LeaderboardsVersion();
             $version->tournament_id = $tournament->id;
             $version->game_id = $gameId;
-            $version->description = '';
             $version->save();
         }
 
