@@ -6,6 +6,7 @@ export enum CollectionName {
     SpecialQuestions = 'specialQuestions',
     Contestants = 'contestants',
     Leaderboard = 'leaderboard',
+    LeaderboardVersions = 'leaderboardVersions',
     PrimalBets = 'primalBets',
     Goals = 'goalsData',
 }
@@ -21,6 +22,17 @@ export interface CollectionFetcherData {
 export enum GameBetsFetchType {
     Users = 'users',
     Games = 'games',
+}
+
+export interface FetchLeaderboardsParams {
+    ids: number[],
+    tournamentId: number,
+}
+
+export interface LeaderboardsFetcher {
+    fetched: number[],
+    currentlyFetching: number[],
+    error: string,
 }
 
 export interface FetchGameBetsParams {

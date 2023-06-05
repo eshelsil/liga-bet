@@ -1,13 +1,12 @@
-import { GameBetScoreConfig, LeaderboardVersion, MatchBetsScoreConfig, MatchBetWithRelations } from '../types'
-import { cloneDeep, mapValues, orderBy } from 'lodash'
-import { calcLeaderboardVersionsDiff } from './leaderboard'
+import { GameBetScoreConfig, MatchBetsScoreConfig, MatchBetWithRelations, ScoreboardRowById } from '../types'
+import { mapValues, orderBy } from 'lodash'
 import { ScoresConfigFromatted } from '../_selectors'
 import { getQualifierSide, getWinnerSide, isGameLive } from './matches'
 import { valuesOf } from './common'
 
 
-export function getLiveVersionScore(currentVersion: LeaderboardVersion, addedScoreByUtlId: Record<number, number>){
-    const newLeaderboard = mapValues(cloneDeep(currentVersion.leaderboard), (row, utlId) => {
+export function getLiveVersionScore(currentLeaderboard: ScoreboardRowById, addedScoreByUtlId: Record<number, number>){
+    const liveLeaderboard = mapValues(currentLeaderboard, (row, utlId) => {
         const score = row.score + (addedScoreByUtlId[utlId] ?? 0);
         return {
             ...row,
@@ -16,7 +15,7 @@ export function getLiveVersionScore(currentVersion: LeaderboardVersion, addedSco
     })
     let lastScore: number
     let lastRank: number
-    for (const [index, row] of Object.entries(orderBy(valuesOf(newLeaderboard), 'score', 'desc'))) {
+    for (const [index, row] of Object.entries(orderBy(valuesOf(liveLeaderboard), 'score', 'desc'))) {
         if (lastRank === undefined) {
             lastRank = 1
         } else if (lastScore !== row.score) {
@@ -25,11 +24,7 @@ export function getLiveVersionScore(currentVersion: LeaderboardVersion, addedSco
         row.rank = lastRank
         lastScore = row.score
     }
-    const liveVersion = {
-        ...currentVersion,
-        leaderboard: newLeaderboard,
-    }
-    return calcLeaderboardVersionsDiff(liveVersion, currentVersion)
+    return liveLeaderboard
 }
 
 

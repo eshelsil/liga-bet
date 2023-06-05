@@ -4,7 +4,7 @@ import { AsyncAction, GameBetsFetchType, FetchGameBetsParams } from '../types';
 import { fetchAndStorePrimalBets, fetchGameBetsThunk, initPrimalBets } from '../_actions/bets';
 import { fetchAndStoreContestants, initContestants } from '../_actions/contestants';
 import { fetchAndStoreGroups, initGroups } from '../_actions/groups';
-import { fetchAndStoreLeaderboard, initLeaderboard } from '../_actions/leaderboard';
+import { fetchAndStoreLeaderboardVersions, fetchLeaderboardsThunk, initLeaderboardVersions } from '../_actions/leaderboard';
 import { fetchAndStoreGoalsData, fetchAndStoreMatches, initGames, initGoalsData } from '../_actions/matches';
 import { fetchAndStoreNotifications } from '../_actions/notifications';
 import { fetchAndStorePlayers, initPlayers } from '../_actions/players';
@@ -12,8 +12,11 @@ import { fetchAndStoreQuestions, initSpecialQuestions } from '../_actions/specia
 import { fetchAndStoreTeams, initTeams } from '../_actions/teams'
 import { AppDispatch } from '../_helpers/store'
 import gameBetsFetcher from '../_reducers/gameBetsFetcher';
-import { CurrentTournamentUserId, GameIds, IsConfirmedUtl, TournamentIdSelector } from '../_selectors';
+import { CurrentTournamentUserId, GameIds, IsConfirmedUtl, MyUtls, ScoreboardSettingsState, TournamentIdSelector } from '../_selectors';
 import { HasAllOtherTournamentsNotifications, HasFetchedAllTournamentInitialData } from '../_selectors';
+import leaderboardsFetcher from '../_reducers/leaderboardsFetcher';
+import { isUtlConfirmed, valuesOf } from '../utils';
+import { filter } from 'lodash';
 
 function useFetcher({
     refreshable,
@@ -106,12 +109,48 @@ export function useSpecialQuestions(refreshable?: boolean) {
     })
 }
 
-export function useLeaderboard(refreshable?: boolean) {
+export function useLeaderboardVersions(refreshable?: boolean) {
     return useFetcher({
         refreshable,
-        refreshFunc: fetchAndStoreLeaderboard,
-        initFunc: initLeaderboard,
+        refreshFunc: fetchAndStoreLeaderboardVersions,
+        initFunc: initLeaderboardVersions,
     })
+}
+
+
+export function useLeaderboard(targetTournamentId?: number){
+    const dispatch = useDispatch<AppDispatch>();
+    const currentTournamentId = useSelector(TournamentIdSelector)
+    const scoreboardSettingsState = useSelector(ScoreboardSettingsState)
+    const utlsById = useSelector(MyUtls)
+    
+    const tournamentId = targetTournamentId ?? currentTournamentId
+    const utl = valuesOf(utlsById).find(utl => utl.tournament.id === tournamentId)
+    const scoreboardSettings = scoreboardSettingsState[tournamentId]
+    const { liveMode, upToDateMode, showChange, originVersion, destinationVersion } = scoreboardSettings || {}
+    const ids = liveMode ? [] : filter([
+        showChange ? originVersion?.id : null,
+        !upToDateMode ? destinationVersion?.id : null
+    ])
+    const fetchFunc = () => dispatch(fetchLeaderboardsThunk(ids, tournamentId))
+    const isConfirmed = !!utl && isUtlConfirmed(utl)
+    const refetch = async () => {
+        dispatch(leaderboardsFetcher.actions.markUnfetched({ids, tournamentId}))
+        await fetchFunc()
+    }
+
+    
+    useEffect(() => {
+        if (!tournamentId || !isConfirmed){
+            return
+        }
+        fetchFunc()
+    }, [tournamentId, isConfirmed, JSON.stringify(ids)])
+
+    return {
+        fetchFunc,
+        refetch,
+    }
 }
 
 export function usePrimalBets(refreshable?: boolean) {

@@ -1,20 +1,17 @@
 import { createSelector } from 'reselect'
-import { calcGainedPointsOnGameBet, calcGainedPointsOnStandingsBet, calcLeaderboardVersionsDiff, formatLeaderboardVersion, generateEmptyScoreboardRow, keysOf, valuesOf } from '../../utils'
-import { calcLiveAddedScore, getLiveVersionScore } from '../../utils'
-import { BetsFullScoresConfigSelector, Contestants, LeaderboardVersionsDesc, QuestionBets } from '../base'
+import { calcLiveAddedScore, getLiveVersionScore, calcGainedPointsOnGameBet, calcGainedPointsOnStandingsBet, calcLeaderboardDiff, formatLeaderboardVersion, generateEmptyScoreboardRow, getLatestScoreboard, keysOf, valuesOf } from '../../utils'
+import { ScoreboardRowById } from '../../types'
+import { BetsFullScoresConfigSelector, Contestants, CurrentTournamentUserId, LeaderboardRows, LeaderboardVersions, LeaderboardVersionsDesc, QuestionBets, ScoreboardSettings } from '../base'
 import { LiveGameBets, LiveGroupStandingBets, LiveGroupStandings } from '../modelRelations'
-import { LeaderboardVersion } from '../../types'
-import { groupBy, keyBy, map, mapValues, sumBy } from 'lodash'
 import { LiveRunnerUpBetsWithScoreByUtlId, LiveTopAssistsBetsWithScoreByUtlId, LiveTopScorerBetsWithScoreByUtlId, LiveWinnerBetsWithScoreByUtlId } from './liveQuestionBets'
+import { groupBy, isEmpty, map, mapValues, sumBy } from 'lodash'
 
 
 export const LatestLeaderboard = createSelector(
     LeaderboardVersionsDesc,
-    (versions) => {
-        const latestVersion = versions[0]
-        if (!latestVersion) return {}
-        const prevVersion = versions[1]
-        return calcLeaderboardVersionsDiff(latestVersion, prevVersion)
+    LeaderboardRows,
+    (versions, leaderboardRows) => {
+        return getLatestScoreboard(versions, leaderboardRows)
     }
 )
 
@@ -80,7 +77,7 @@ export const LiveGroupRankBetsWithScoreByGroupId = createSelector(
 
 
 export const LiveScoreboard = createSelector(
-    LeaderboardVersionsDesc,
+    LatestLeaderboard,
     LiveGameBets,
     LiveGroupRankBetsWithScoreByUtlId,
     LiveWinnerBetsWithScoreByUtlId,
@@ -88,10 +85,9 @@ export const LiveScoreboard = createSelector(
     LiveTopScorerBetsWithScoreByUtlId,
     LiveTopAssistsBetsWithScoreByUtlId,
     BetsFullScoresConfigSelector,
-    Contestants,
     QuestionBets,
     (
-        versions,
+        latestLeaderboard,
         liveGamesBets,
         liveGroupBetsByUtlId,
         liveWinnerBets,
@@ -99,17 +95,8 @@ export const LiveScoreboard = createSelector(
         liveTopScorers,
         liveTopAssists,
         scoresConfig,
-        contestants,
         questionBetsById
     ) => {
-        const latestVersion = Object.keys(versions[0] || {}).length > 0
-            ? versions[0]
-            : {
-                id: 1,
-                description: '',
-                created_at: new Date(),
-                leaderboard: keyBy(valuesOf(contestants).map(generateEmptyScoreboardRow), 'id')
-            } as LeaderboardVersion
         const liveGameBetsByUtlId = groupBy(valuesOf(liveGamesBets), 'user_tournament_id')
         const addedScoreForGamePerUtl = calcLiveAddedScore({
             betsByUtlId: liveGameBetsByUtlId,
@@ -128,7 +115,7 @@ export const LiveScoreboard = createSelector(
         })
         const addedScoreForTopScorerBetPerUtl: Record<number, number> = mapValues(liveTopScorers, bets => {
             const currentScore = sumBy(bets, 'score')
-            const prevScore = sumBy(bets, bet => questionBetsById[bet.id]?.score ?? 0)
+            const prevScore = sumBy(bets, (bet) => questionBetsById[bet.id]?.score ?? 0)
             return currentScore - prevScore
         })
         const addedScoreForTopAssistsBetPerUtl: Record<number, number> = mapValues(liveTopAssists, bets => {
@@ -173,7 +160,70 @@ export const LiveScoreboard = createSelector(
             }
             addedScorePerUtl[utlId] += addedScoreForTopAssistsBetPerUtl[utlId] ?? 0
         }
-        const liveVersion = getLiveVersionScore(latestVersion, addedScorePerUtl)
-        return formatLeaderboardVersion(liveVersion, contestants)
+        return getLiveVersionScore(latestLeaderboard, addedScorePerUtl)
+    }
+)
+
+
+export const CurrentLeaderboard = createSelector(
+    ScoreboardSettings,
+    LatestLeaderboard,
+    LeaderboardRows,
+    LiveScoreboard,
+    (settings, latestLeaderboard, leaderboardsByVersionId, liveLeaderboard): ScoreboardRowById => {
+        if (settings.liveMode){
+            return liveLeaderboard
+        }
+        if (settings.upToDateMode){
+            return latestLeaderboard
+        }
+        return leaderboardsByVersionId[settings.destinationVersion?.id] ?? {}
+    }
+)
+
+export const IsCurrentLeaderboardMissing = createSelector(
+    CurrentLeaderboard,
+    LeaderboardVersions,
+    (currentLeaderboard, leaderboardVersions): boolean => {
+        return isEmpty(currentLeaderboard) && leaderboardVersions.length > 0
+    }
+)
+
+
+export const OriginLeaderboard = createSelector(
+    ScoreboardSettings,
+    LatestLeaderboard,
+    LeaderboardRows,
+    (settings, latestLeaderboard, leaderboardsByVersionId): ScoreboardRowById => {
+        if (settings.liveMode){
+            return latestLeaderboard
+        }
+        if (settings.showChange){
+            return leaderboardsByVersionId[settings.originVersion?.id] ?? {}
+        }
+        return {}
+    }
+)
+
+
+export const ScoreboardSelector = createSelector(
+    CurrentLeaderboard,
+    OriginLeaderboard,
+    Contestants,
+    (currentLeaderboard, oldLeaderboard, contestants) => {
+        const leaderboard = Object.values(calcLeaderboardDiff(currentLeaderboard, oldLeaderboard))
+        if (leaderboard.length === 0) {
+            return valuesOf(contestants).map(generateEmptyScoreboardRow)
+        }
+        return formatLeaderboardVersion(leaderboard, contestants)
+    }
+)
+
+
+export const CurrentUtlRank = createSelector(
+    CurrentTournamentUserId,
+    ScoreboardSelector,
+    (currentUtlId, leaderboardRows) => {
+        return leaderboardRows.find(row => row.user_tournament_id == currentUtlId)?.rank
     }
 )

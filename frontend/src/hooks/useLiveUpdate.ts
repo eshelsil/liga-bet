@@ -6,7 +6,7 @@ import { GameBetsFetchType } from '../types';
 import { fetchAndStoreLivePlayingPlayers } from '../_actions/players';
 import { AppDispatch } from '../_helpers/store';
 import { LiveGamesIds } from '../_selectors';
-import { useGameBets, useGameGoals, useGames, useLeaderboard, usePrimalBets, useSpecialQuestions } from './useFetcher';
+import { useGameBets, useGameGoals, useGames, useLeaderboardVersions, usePrimalBets, useSpecialQuestions } from './useFetcher';
 
 
 export function useLiveUpdate(){
@@ -14,7 +14,7 @@ export function useLiveUpdate(){
     const { refetch: refreshGameBets } = useGameBets({type: GameBetsFetchType.Games, ids: liveGames})
     const { refresh: refreshGames } = useGames()
     const { refresh: refreshGoalsData } = useGameGoals()
-    const { refresh: refreshLeaderboard } = useLeaderboard()
+    const { refresh: refreshLeaderboard } = useLeaderboardVersions()
     const { refresh: refreshPrimalBets } = usePrimalBets()
     const { refresh: refreshSpecialQuestions } = useSpecialQuestions()
 

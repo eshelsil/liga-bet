@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
-import { formatLeaderboardVersion, keysOf, valuesOf } from '../utils'
-import { Contestants, IsTournamentStarted } from './base'
-import { LatestLeaderboard, LiveGameBetsWithScoreByUtlId, LiveGroupRankBetsWithScoreByUtlId, LiveRunnerUpBetsWithScoreByUtlId, LiveSpecialAnswers, LiveTopAssistsBetsWithScoreByUtlId, LiveTopScorerBets, LiveTopScorerBetsWithScoreByUtlId, LiveWinnerBets, LiveWinnerBetsWithScoreByUtlId } from './logic'
+import { keysOf } from '../utils'
+import { IsTournamentStarted } from './base'
+import { IsCurrentLeaderboardMissing, LiveGameBetsWithScoreByUtlId, LiveGroupRankBetsWithScoreByUtlId, LiveRunnerUpBetsWithScoreByUtlId, LiveSpecialAnswers, LiveTopAssistsBetsWithScoreByUtlId, LiveTopScorerBetsWithScoreByUtlId, LiveWinnerBetsWithScoreByUtlId, ScoreboardSelector } from './logic'
 import {
     GroupStandingBetsByUserId,
     LiveGroupStandingsWithTeams,
@@ -11,13 +11,13 @@ import {
 import { concat, groupBy, mapValues } from 'lodash'
 
 export const LeaderboardSelector = createSelector(
-    LatestLeaderboard,
+    ScoreboardSelector,
+    IsCurrentLeaderboardMissing,
     IsTournamentStarted,
-    Contestants,
-    (leaderboard, hasTournamentStarted, contestants) => {
+    (leaderboard, isCurrentLeaderboardMissing, hasTournamentStarted) => {
         return {
-            leaderboard: formatLeaderboardVersion(leaderboard, contestants),
-            contestants: valuesOf(contestants),
+            leaderboard: leaderboard,
+            isCurrentLeaderboardMissing,
             hasTournamentStarted,
         }
     }

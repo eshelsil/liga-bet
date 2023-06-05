@@ -1,0 +1,44 @@
+@import '../styles/mixins';
+@import '../styles/colors';
+
+.LB-TableSettings {
+    &.LB-StickyConfig {
+        .StickyConfig-content {
+            width: 100%;
+            max-width: 450px;
+        }
+    }
+
+    .TableSettings-header {
+        @include flexRow;
+        justify-content: space-between;
+        .TableSettings-title {
+            font-size: 18px;
+        }
+        .TableSettings-expandArrow{
+            transition: transform 0.3s;
+            &.TableSettings-expanded{
+                transform: rotate(180deg);
+            }
+        }
+    }
+    .TableSettings-configRow{
+        padding: 8px 6px;
+        border-top: 1px solid #00000033;
+        .TableSettings-label {
+            font-size: 16px;    
+            &.TableSettings-bolded {
+                font-weight: 700;
+            }
+        }
+    }
+    .TableSettings-flexRow{
+        @include flexRow;
+        &.TableSettings-destVersionRow{
+            padding-right: 8px;
+            .MuiSwitch-root {
+                margin: 0px 4px;
+            }
+        }
+    }
+}

@@ -36,11 +36,10 @@ function NameWithWinnerFlag({
 interface Props {
     rows: ScoreboardRowDetailed[]
     currentUtlId: number
-    expandable?: boolean
     isLive?: boolean
 }
 
-function LeaderboardTable({ rows, currentUtlId, isLive, expandable = true }: Props) {
+function LeaderboardTable({ rows, currentUtlId, isLive }: Props) {
     const winnerBetByUtlId = useSelector(WinnerBetByUtlId)
     const [expand, setExpand] = useState<number>(null)
     const getPrizeTheme = usePrizesThemeClass()
@@ -138,8 +137,8 @@ function LeaderboardTable({ rows, currentUtlId, isLive, expandable = true }: Pro
             models={rows}
             cells={cells}
             getRowClassName={getRowClassName}
-            onModelRowClick={expandable ? onRowClick : undefined}
-            getExpandContent={expandable ? getExpandContent : undefined}
+            onModelRowClick={onRowClick}
+            getExpandContent={getExpandContent}
         />
     )
 }

@@ -2,14 +2,12 @@ import { Dictionary, mapValues, orderBy, pickBy } from 'lodash'
 import { createSelector } from 'reselect'
 import { SpecialQuestionApiModel, SpecialQuestionType, TournamentWithLinkedUtl } from '../../types'
 import {
-    getScoreOfUtl,
     getSpecialQuestionName,
     isAdmin,
     isGameLive,
     isTournamentStarted,
     isUtlConfirmed,
     keysOf,
-    sortLeaderboardVersions,
     valuesOf,
 } from '../../utils'
 import {
@@ -20,11 +18,12 @@ import {
     SpecialQuestions,
     MyUtls,
     Games,
-    LeaderboardVersionsState,
-    CurrentTournamentUserId,
     AppCrucialLoaders,
     MultiBetsSettings,
+    ScoreboardSettings,
+    CurrentLeaderboardsFetcher,
 } from './models'
+
 
 export const TournamentIdSelector = createSelector(
     CurrentTournament,
@@ -55,22 +54,7 @@ export const IsConfirmedUtl = createSelector(
 export const LeaderboardVersionsDesc = createSelector(
     LeaderboardVersions,
     (versions) => {
-        return sortLeaderboardVersions(versions)
-    }
-)
-
-export const MyScoreByTournamentId = createSelector(
-    LeaderboardVersionsState,
-    CurrentTournamentUserId,
-    (versionsByTournaentId, utlId) => {
-        return mapValues({...versionsByTournaentId}, (versionsByUtlId) => getScoreOfUtl(versionsByUtlId, utlId))
-    }
-)
-
-export const LatestLeaderboardVersion = createSelector(
-    LeaderboardVersionsDesc,
-    (versions) => {
-        return versions[0] ?? {}
+        return versions
     }
 )
 
@@ -200,5 +184,38 @@ export const LiveGamesIds = createSelector(
     LiveGames,
     (liveGames) => {
         return keysOf(liveGames) as number[]
+    }
+)
+
+export const IsShowingLatestLeaderboard = createSelector(
+    ScoreboardSettings,
+    (settings) => {
+        const { upToDateMode, liveMode } = settings
+        return upToDateMode && !liveMode
+    }
+)
+
+export const IsShowingHistoricScoreboard = createSelector(
+    ScoreboardSettings,
+    (settings) => {
+        const { upToDateMode, liveMode, destinationVersion } = settings
+        if (liveMode || upToDateMode){
+            return false
+        }
+        return !!destinationVersion
+    }
+)
+
+export const CurrentlyFetchingLeaderboardVersions = createSelector(
+    CurrentLeaderboardsFetcher,
+    (fetcher) => {
+        return fetcher.currentlyFetching || []
+    }
+)
+
+export const FetchedLeaderboardVersions = createSelector(
+    CurrentLeaderboardsFetcher,
+    (fetcher) => {
+        return fetcher.fetched || []
     }
 )

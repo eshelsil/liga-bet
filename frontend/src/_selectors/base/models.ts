@@ -9,7 +9,7 @@ import {
     Tournament,
     UtlRole,
 } from '../../types'
-import { generateEmptyGameBetFetcher, valuesOf } from '../../utils'
+import { generateDefaultScoreboardSettings, generateEmptyFetcherSlice, generateEmptyGameBetFetcher, valuesOf } from '../../utils'
 
 export const CurrentUser = (state: RootState) => state.currentUser
 export const CurrentTournamentUserId = (state: RootState) =>
@@ -20,6 +20,7 @@ export const MyUtls = (state: RootState) => state.myUtls
 export const BetsState = (state: RootState) => state.bets
 export const LeaderboardVersionsState = (state: RootState) =>
     state.leaderboardVersions
+export const LeaderboardRowsState = (state: RootState) => state.leaderboardRows
 export const TeamsState = (state: RootState) => state.teams
 export const GamesState = (state: RootState) => state.matches
 export const PlayersState = (state: RootState) => state.players
@@ -32,9 +33,11 @@ export const UsersTotalCount = (state: RootState) => state.usersTotalCount
 export const Dialogs = (state: RootState) => state.dialogs
 export const DataFetcher = (state: RootState) => state.dataFetcher
 export const GameBetsFetcherState = (state: RootState) => state.gameBetsFetcher
+export const LeaderboardsFetcherState = (state: RootState) => state.leaderboardsFetcher
 export const AppCrucialLoaders = (state: RootState) => state.appCrucialLoaders
 export const NotificationsState = (state: RootState) => state.notifications
 export const MultiBetsSettings = (state: RootState) => state.multiBetsSettings
+export const ScoreboardSettingsState = (state: RootState) => state.scoreboardSettings
 export const AdminData = (state: RootState) => state.admin
 export const GameGoalsDataState = (state: RootState) => state.goalsData
 
@@ -156,11 +159,27 @@ export const SpecialQuestions = createSelector(
     }
 )
 
+export const ScoreboardSettings = createSelector(
+    ScoreboardSettingsState,
+    CurrentTournamentId,
+    (settingsByRouenamentId, tournamentId) => {
+        return settingsByRouenamentId[tournamentId] ?? generateDefaultScoreboardSettings()
+    }
+)
+
 export const LeaderboardVersions = createSelector(
     LeaderboardVersionsState,
     CurrentTournamentId,
     (leaderboardVersions, tournamentId) => {
-        return leaderboardVersions[tournamentId] ?? {}
+        return leaderboardVersions[tournamentId] ?? []
+    }
+)
+
+export const LeaderboardRows = createSelector(
+    LeaderboardRowsState,
+    CurrentTournamentId,
+    (leaderboardRows, tournamentId) => {
+        return leaderboardRows[tournamentId] ?? {}
     }
 )
 
@@ -177,6 +196,14 @@ export const CurrentGameBetsFetcher = createSelector(
     CurrentTournamentId,
     (gameBetsFetchers, tournamentId) => {
         return gameBetsFetchers[tournamentId] ?? generateEmptyGameBetFetcher()
+    }
+)
+
+export const CurrentLeaderboardsFetcher = createSelector(
+    LeaderboardsFetcherState,
+    CurrentTournamentId,
+    (fetchers, tournamentId) => {
+        return fetchers[tournamentId] ?? generateEmptyFetcherSlice()
     }
 )
 

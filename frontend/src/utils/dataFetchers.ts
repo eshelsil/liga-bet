@@ -1,6 +1,6 @@
 import { CollectionName, GameBetsFetcher, GameBetsFetcherSliceData, GameBetsFetchType } from '../types'
 
-export function generateEmptyGameBetFetcherSlice(): GameBetsFetcherSliceData{
+export function generateEmptyFetcherSlice(): GameBetsFetcherSliceData{
     return {
         fetched: [],
         currentlyFetching: [],
@@ -10,8 +10,8 @@ export function generateEmptyGameBetFetcherSlice(): GameBetsFetcherSliceData{
 
 export function generateEmptyGameBetFetcher(): GameBetsFetcher{
     return {
-        [GameBetsFetchType.Users]: generateEmptyGameBetFetcherSlice(),
-        [GameBetsFetchType.Games]: generateEmptyGameBetFetcherSlice(),
+        [GameBetsFetchType.Users]: generateEmptyFetcherSlice(),
+        [GameBetsFetchType.Games]: generateEmptyFetcherSlice(),
     }
 }
 

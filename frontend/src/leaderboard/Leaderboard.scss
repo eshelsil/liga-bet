@@ -166,34 +166,6 @@
             
         }
     }
-    .LB-LeaderboardHistoryForm {
-        padding: 8px 4px 0px 4px;
-        .LeaderboardHistoryForm-title {
-            font-size: 22px;
-            text-align: center;
-        }
-        .LeaderboardHistoryForm-inputsWrapper {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            .LB-LeaderboardVersionInput {
-                margin: 12px;
-            }
-        }
-    }
-    .LeaderboardView-isLiveForm {
-        border-radius: 12px;
-        border: 1px dashed $primary-main;
-        background-color: rgba(186, 219, 245, 0.95);
-        padding: 4px;
-        margin-top: 24px;
-        .MuiFormControlLabel-root {
-            margin: 0px -4px 0px 0px;
-            .MuiTypography-root {
-                font-size: 14px;
-            }
-        }
-    }
     .LeaderboardView-refreshTableButton {
         margin-top: 16px;
     }

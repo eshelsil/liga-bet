@@ -1,18 +1,24 @@
 import { Dictionary } from '@reduxjs/toolkit'
-import { ScoreboardRow, ScoreboardRowById } from './leaderboard'
+import { ScoreboardRowById } from './leaderboard'
+import { Match } from './match'
 
-export interface LeaderboardVersionBase {
+export interface LeaderboardVersionApiModel {
     id: number
     description: string
-    created_at: Date
-    order?: number
+    created_at: string
+    gameId: number
 }
 
-export interface LeaderboardVersionApiModel extends LeaderboardVersionBase {
-    leaderboard: ScoreboardRow[]
+export interface LeaderboardVersion extends LeaderboardVersionApiModel {
+    order: number
+    isPlaceholder?: boolean
 }
 
-export interface LeaderboardVersion extends LeaderboardVersionBase {
+export interface LeaderboardVersionWithGame extends LeaderboardVersion {
+    game: Match
+}
+
+export interface LeaderboardVersionWithScoreboard extends LeaderboardVersion {
     leaderboard: ScoreboardRowById
 }
 

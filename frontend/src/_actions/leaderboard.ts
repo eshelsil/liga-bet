@@ -1,23 +1,85 @@
-import { fetchLeaderboard } from '../api/leaderboard'
+import { fetchLeaderboards, fetchLeaderboardVersions } from '../api/leaderboard'
 import { CollectionName } from '../types/dataFetcher'
 import { AppDispatch, GetRootState } from '../_helpers/store'
-import leaderboard from '../_reducers/leaderboard'
-import { IsTournamentStarted, LeaderboardVersions, TournamentIdSelector } from '../_selectors'
+import leaderboardVersionsReducer from '../_reducers/leaderboardVersions'
+import leaderboardRowsReducer from '../_reducers/leaderboardRows'
+import { CurrentLeaderboardsFetcher, CurrentTournamentId, IsTournamentStarted, LeaderboardsFetcherState, LeaderboardVersionsState, LeaderboardVersionsWithGames, TournamentIdSelector } from '../_selectors'
 import { generateInitCollectionAction } from './utils'
+import leaderboardsFetcher, { LATEST_VERSION_FETCH_ID } from '../_reducers/leaderboardsFetcher'
+import { generateEmptyFetcherSlice, getLatestScoreboard, keysOf } from '../utils'
+import { isEmpty, keyBy, mapValues, without } from 'lodash'
 
-function fetchAndStoreLeaderboard() {
+
+function fetchAndStoreLeaderboards(ids: number[], tournamentId: number) {
     return async (dispatch: AppDispatch, getState: GetRootState) => {
-        const tournamentId = TournamentIdSelector(getState())
-        const leaderboardVersions = await fetchLeaderboard(tournamentId)
-        dispatch(leaderboard.actions.setRows({tournamentId, leaderboardVersions}))
+        const isFetchingLatestVersion = ids.length === 0
+        const leaderboardRowsByVersionId = await fetchLeaderboards(tournamentId, ids)
+        const rowsByUtlIdByVersionId = mapValues(leaderboardRowsByVersionId, rows => keyBy(rows, 'user_tournament_id'))
+        if (isFetchingLatestVersion){
+            const latestVersionId = keysOf(rowsByUtlIdByVersionId)[0]
+            dispatch(leaderboardVersionsReducer.actions.createPlaceholderVersionIfMissing({tournamentId, id: latestVersionId}))
+        }
+        dispatch(leaderboardRowsReducer.actions.updateMany({tournamentId, leaderboardRowsByVersionId: rowsByUtlIdByVersionId}))
     }
 }
 
-const initLeaderboard = generateInitCollectionAction({
-    collectionName: CollectionName.Leaderboard,
-    selector: LeaderboardVersions,
-    fetchAction: fetchAndStoreLeaderboard,
+function fetchAndStoreLeaderboardVersions() {
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const tournamentId = TournamentIdSelector(getState())
+        const leaderboardVersions = await fetchLeaderboardVersions(tournamentId)
+        dispatch(leaderboardVersionsReducer.actions.set({tournamentId, leaderboardVersions}))
+    }
+}
+
+const initLeaderboardVersions = generateInitCollectionAction({
+    collectionName: CollectionName.LeaderboardVersions,
+    selector: LeaderboardVersionsWithGames,
+    fetchAction: fetchAndStoreLeaderboardVersions,
     shouldFetchSelector: IsTournamentStarted,
 })
 
-export { fetchAndStoreLeaderboard, initLeaderboard }
+
+function fetchLeaderboardsThunk(idsToFetch: number[], targetTournamentId?: number){
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const tournamentId = targetTournamentId ?? CurrentTournamentId(getState())
+        const { fetched, currentlyFetching } = targetTournamentId
+            ? (LeaderboardsFetcherState(getState())[tournamentId] ?? generateEmptyFetcherSlice())
+            : CurrentLeaderboardsFetcher(getState())
+        const shouldFetchLatest = idsToFetch.length === 0
+        let ids = shouldFetchLatest ? [LATEST_VERSION_FETCH_ID] : idsToFetch;
+        if (shouldFetchLatest){
+            const leaderboardVersionsByTournament = LeaderboardVersionsState(getState())
+            const leaderboardRowsByTournament = LeaderboardVersionsState(getState())
+            const leaderboardVersions = leaderboardVersionsByTournament[tournamentId] || []
+            const leaderboardRowsByVersionId = leaderboardRowsByTournament[tournamentId] || {}
+            const latestVersion = getLatestScoreboard(leaderboardVersions, leaderboardRowsByVersionId)
+            if (!isEmpty(latestVersion)){
+                return
+            }
+        }
+        ids = without(ids, ...[...currentlyFetching, ...fetched])
+        if (ids.length === 0){
+            return
+        }
+
+        const fetchParams = {tournamentId, ids}
+        dispatch(leaderboardsFetcher.actions.fetch(fetchParams))
+        dispatch(fetchAndStoreLeaderboards( (shouldFetchLatest ? [] : ids), tournamentId))
+            .then(() => dispatch(leaderboardsFetcher.actions.resolve(fetchParams)))
+            .catch(
+                (error) => dispatch(
+                    leaderboardsFetcher.actions.reject({
+                        ...fetchParams,
+                        error: error?.responseJSON?.message ?? JSON.stringify(error)
+                    })
+                )
+            )
+    }
+}
+
+
+export {
+    fetchAndStoreLeaderboardVersions,
+    initLeaderboardVersions,
+    fetchLeaderboardsThunk,
+}

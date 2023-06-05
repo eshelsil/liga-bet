@@ -1,22 +1,15 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
-import { MatchesWithTeams } from '../_selectors';
 import TeamFlag from '../widgets/TeamFlag/TeamFlag';
+import { LeaderboardVersionWithGame } from '../types';
+import { getHebGameStage, getHebTeamName } from '../strings';
 
 
 interface Props {
-    description: string,
-    order: number,
+    version: LeaderboardVersionWithGame
 }
 
-function LeaderboardVersionDisplay({
-    description,
-    order,
-}: Props) {
-    const data = JSON.parse(description)
-    const gamesById = useSelector(MatchesWithTeams)
-    const { game: gameId } = data || {}
-    const game = gamesById[gameId]
+function LeaderboardVersionDisplay({version}: Props) {
+    const {game, description, order} = version
 
     if (!game) {
         return (
@@ -32,12 +25,32 @@ function LeaderboardVersionDisplay({
                 {description}
             </>)}
             {game && (
-                <div className='VersionDisplay'>
-                    <span>({order}) </span>
-                    <span>סוף משחק</span>
-                    <TeamFlag name={game.home_team.name} size={24} />
-                    <span>-</span>
-                    <TeamFlag name={game.away_team.name} size={24} />
+                <div className='VersionDisplay-game'>
+                    <div className='VersionDisplay-gameHeader'>
+                        <span>
+                            סוף משחק - <b>{getHebGameStage(game)}</b>
+                        </span>
+                        <span className='VersionDisplay-order'>
+                            <span>.</span><span>{order}</span>
+                        </span>
+                    </div>
+                    <div className='VersionDisplay-gameContent'>
+                        <div className='VersionDisplay-teamWrapper'>
+                            <div className='VersionDisplay-team'>
+                                <span className='VersionDisplay-score'>{game.full_result_home || game.result_home}</span>
+                                <TeamFlag name={game.home_team.name} size={24} />
+                                <div className='VersionDisplay-teamName'>{getHebTeamName(game.home_team.name)}</div>
+                            </div>
+                        </div>
+                        <span className='VersionDisplay-delimiter'>-</span>
+                        <div className='VersionDisplay-teamWrapper'>
+                            <div className='VersionDisplay-team'>
+                                <span className='VersionDisplay-score'>{game.full_result_away || game.result_away}</span>
+                                <TeamFlag name={game.away_team.name} size={24} />
+                                <div className='VersionDisplay-teamName'>{getHebTeamName(game.away_team.name)}</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

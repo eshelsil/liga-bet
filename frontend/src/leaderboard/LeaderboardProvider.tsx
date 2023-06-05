@@ -1,11 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useTournamentThemeClass } from '../hooks/useThemeClass'
-import { ScoreboardRowDetailed } from '../types'
-import { CurrentTournamentName, CurrentTournamentUser, IsTournamentStarted, IsWaitingForMissingMvpAnswer } from '../_selectors'
+import { CurrentTournamentName, CurrentTournamentUserId, IsShowingHistoricScoreboard, IsWaitingForMissingMvpAnswer, ScoreboardSettings } from '../_selectors'
 import { LeaderboardSelector } from '../_selectors/leaderboard'
 import LeaderboardView from './LeaderboardView'
-import { generateEmptyScoreboardRow } from '../utils'
 import { AppDispatch } from '../_helpers/store'
 import { openDialog } from '../_actions/dialogs'
 import { DialogName } from '../dialogs/types'
@@ -16,20 +14,16 @@ import './Leaderboard.scss'
 
 function Leaderboard() {
     const dispatch = useDispatch<AppDispatch>()
-    const { leaderboard, contestants } = useSelector(LeaderboardSelector)
+    const { leaderboard, isCurrentLeaderboardMissing } = useSelector(LeaderboardSelector)
     const themeClass =  useTournamentThemeClass()
     const isWaitingForMvp = useSelector(IsWaitingForMissingMvpAnswer)
-    const currentUtl = useSelector(CurrentTournamentUser)
-    const currentUtlId = currentUtl?.id
-    const hasTournamentStatrted = useSelector(IsTournamentStarted)
+    const currentUtlId = useSelector(CurrentTournamentUserId)
     const tournamentName = useSelector(CurrentTournamentName)
-    const hasData = leaderboard.length > 0
-    let rows: ScoreboardRowDetailed[] = leaderboard
-    if (!hasData) {
-        rows = contestants.map(generateEmptyScoreboardRow)
-    }
+    const tableSettings = useSelector(ScoreboardSettings)
+    const isShowingHistoricTable = useSelector(IsShowingHistoricScoreboard)
+    
+    const [rows, setRows] = useState(leaderboard);
 
-    const currentUtlRank = rows.find(row => row.user_tournament_id == currentUtlId)?.rank
 
     const openWaitForMvpDialog = () => {
         dispatch(openDialog(DialogName.WaitForMvp))
@@ -41,17 +35,24 @@ function Leaderboard() {
         }
     }, [isWaitingForMvp])
 
+    useEffect(() => {
+        if (!isCurrentLeaderboardMissing){
+            setRows(leaderboard)
+        }
+    }, [isCurrentLeaderboardMissing, leaderboard])
+
+
     return (
         <>
             <LeaderboardView
                 rows={rows}
                 currentUtlId={currentUtlId}
-                hasData={hasData}
+                tableSettings={tableSettings}
                 themeClass={themeClass}
                 tournamentName={tournamentName}
-                isTournamentStarted={hasTournamentStatrted}
+                isShowingHistoricTable={isShowingHistoricTable}
             />
-            <CongratsAnimationProvider currentUtl={currentUtl} rank={currentUtlRank} />
+            <CongratsAnimationProvider />
         </>
     )
 }

@@ -2,9 +2,12 @@ import { combineReducers } from 'redux'
 import bets from './bets'
 import dataFetcher from './dataFetcher'
 import gameBetsFetcher from './gameBetsFetcher'
+import leaderboardsFetcher from './leaderboardsFetcher'
 import currentUser from './currentUser'
 import groups from './groups'
-import leaderboard from './leaderboard'
+import leaderboardVersions from './leaderboardVersions'
+import leaderboardRows from './leaderboardRows'
+import scoreboardSettings from './scoreboardSettings'
 import matches from './matches'
 import myUtls from './myUtls'
 import tournamentUTLs from './tournamentUTLs'
@@ -28,8 +31,11 @@ const reducer = combineReducers({
     bets: bets.reducer,
     dataFetcher: dataFetcher.reducer,
     gameBetsFetcher: gameBetsFetcher.reducer,
+    leaderboardsFetcher: leaderboardsFetcher.reducer,
     teams: teams.reducer,
-    leaderboardVersions: leaderboard.reducer,
+    leaderboardVersions: leaderboardVersions.reducer,
+    leaderboardRows: leaderboardRows.reducer,
+    scoreboardSettings: scoreboardSettings.reducer,
     specialQuestions: specialQuestions.reducer,
     players: players.reducer,
     matches: matches.reducer,

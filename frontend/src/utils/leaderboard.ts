@@ -1,39 +1,20 @@
-import { Dictionary, mapValues, orderBy } from 'lodash';
-import { LeaderboardVersion, LeaderboardVersionById, ScoreboardRow, ScoreboardRowDetailed, UTL, UTLsById } from '../types';
-import { valuesOf } from './common';
+import { isEmpty, mapValues, orderBy } from 'lodash';
+import { LeaderboardVersion, ScoreboardRow, ScoreboardRowById, ScoreboardRowDetailed, UTL, UTLsById } from '../types';
+import { ScoreboardConfig } from '../_reducers/scoreboardSettings';
+import { ScoreboardRowsByVersionId } from '../_reducers/leaderboardRows';
 
-export function sortLeaderboardVersions(versions: LeaderboardVersionById, direction: 'asc' | 'desc' = 'desc') {
-    return orderBy(valuesOf(versions), 'created_at', direction)
-}
 
-export function getScoreOfUtl(versions: LeaderboardVersionById, utlId: number) {
-    const sortedVersions = sortLeaderboardVersions(versions)
-    const currentVersion = sortedVersions[0]
-    if (!currentVersion){
-        return undefined
+export function calcLeaderboardDiff(leaderboard: ScoreboardRowById, prevLeaderboard?: ScoreboardRowById) {
+    if (isEmpty(prevLeaderboard)){
+        return mapValues(leaderboard, (contestant: ScoreboardRow) => ({
+            ...contestant,
+            addedScore: 0,
+            change: 0,
+        }))
     }
-    const currentVersionRow = currentVersion[utlId]
-    if (!currentVersionRow){
-        return undefined
-    }
-    const prevVersion = sortedVersions[1]
-    const prevVersionRow = prevVersion ? prevVersion[utlId] : undefined
-    const {rank, score} = currentVersionRow
-    const {rank: prevRank, score: prevScore} = prevVersionRow || {}
-    return {
-        ...currentVersionRow,
-        addedScore: score - (prevScore ?? 0),
-        change: prevRank ? prevRank - rank : 0,
-    }
-
-}
-
-export function calcLeaderboardVersionsDiff(version: LeaderboardVersion, prevVersion?: LeaderboardVersion) {
-    const prevVersionContestantsById = prevVersion?.leaderboard ?? {}
-    const constestantsById = version.leaderboard
-    return mapValues(constestantsById, (contestant: ScoreboardRow) => {
+    return mapValues(leaderboard, (contestant: ScoreboardRow) => {
         const contestantOnPrevVersion =
-            prevVersionContestantsById[contestant.user_tournament_id]
+            prevLeaderboard[contestant.user_tournament_id]
         const { rank, score } = contestant
         const { rank: prevRank, score: prevScore } =
             contestantOnPrevVersion ?? {}
@@ -47,7 +28,7 @@ export function calcLeaderboardVersionsDiff(version: LeaderboardVersion, prevVer
 }
 
 export function formatLeaderboardVersion(
-    leaderboard: Dictionary<Omit<ScoreboardRowDetailed, 'name'>>,
+    leaderboard: Omit<ScoreboardRowDetailed, 'name'>[],
     contestants?: UTLsById,
 ) {
     const leaderBoardWithNames: ScoreboardRowDetailed[] = addNameToScoreBoardRows(leaderboard, contestants)
@@ -57,28 +38,15 @@ export function formatLeaderboardVersion(
 }
 
 export function addNameToScoreBoardRows(
-    leaderboard: Dictionary<Omit<ScoreboardRowDetailed, 'name'>>,
+    leaderboardRows: Omit<ScoreboardRowDetailed, 'name'>[],
     contestants = {} as UTLsById,
 ): ScoreboardRowDetailed[] {
-    return valuesOf(leaderboard).map(
+    return leaderboardRows.map(
         (scoreboardRow) => ({
             ...scoreboardRow,
             name: contestants[scoreboardRow.user_tournament_id]?.name ?? '',
         })
     )
-}
-
-export function getHistoryLeaderboard({
-    historyVersion,
-    contestants,
-    prevVersion,
-}: {
-    historyVersion: LeaderboardVersion,
-    contestants: UTLsById
-    prevVersion?: LeaderboardVersion
-}){
-    const leaderboard = calcLeaderboardVersionsDiff(historyVersion, prevVersion)
-    return formatLeaderboardVersion(leaderboard, contestants)
 }
 
 
@@ -92,4 +60,18 @@ export function generateEmptyScoreboardRow(contestant: UTL): ScoreboardRowDetail
         change: 0,
         addedScore: 0,
     }
+}
+
+export function generateDefaultScoreboardSettings(): ScoreboardConfig {
+    return {
+        liveMode: false,
+        upToDateMode: true,
+        showChange: false,
+    }
+}
+
+export function getLatestScoreboard(versions: LeaderboardVersion[], leaderboardRows: ScoreboardRowsByVersionId): ScoreboardRowById {
+    const latestVersion = versions[0]
+    if (!latestVersion) return {}
+    return leaderboardRows[latestVersion.id] ?? {}
 }

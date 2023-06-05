@@ -14,6 +14,7 @@ import { useTournamentLink } from '../hooks/useTournamentLink'
 import CopyLink from '../widgets/CopyToClipboard/CopyLink'
 import useCancelEdit from '../hooks/useCancelEdit'
 import LoadingVIcon from '../widgets/LoadingVIcon'
+import { useLeaderboard } from '../hooks/useFetcher'
 
 interface Props {
     utl: UtlWithTournament
@@ -28,6 +29,7 @@ interface Props {
 }
 
 function UtlCard({ utl, utlIndex, isSelected,  updateUTL, selectUtl, socreboardRow }: Props) {
+    useLeaderboard(utl.tournament.id)
     const { goToMyBets, goToTakanon } = useGoTo()
     const joinLink = useTournamentLink(utl.tournament.code);
     const [edit, setEdit] = useState(false)
