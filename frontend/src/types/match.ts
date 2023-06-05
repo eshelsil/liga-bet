@@ -1,4 +1,5 @@
 import { GameGoalsDataWithPlayer } from './goalsData'
+import { Group } from './group'
 import { Team } from './teams'
 
 export enum WinnerSide {
@@ -42,6 +43,7 @@ export interface MatchApiModel extends MatchCommonBase {
 export interface Match extends MatchCommonBase {
     home_team: Team
     away_team: Team
+    group?: Group
 }
 
 export interface MatchWithGoalsData extends Match {
