@@ -24,6 +24,7 @@ class GameResource extends JsonResource
         ? $game->competition->groups->firstWhere('external_id', $game->sub_type)?->id
         : match ($game->sub_type) {
             GameSubTypes::FINAL          => "final",
+            GameSubTypes::THIRD_PLACE    => "thirdPlace",
             GameSubTypes::SEMI_FINALS    => "semiFinal",
             GameSubTypes::QUARTER_FINALS => "quarterFinal",
             GameSubTypes::LAST_16        => "last16",

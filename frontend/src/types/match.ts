@@ -8,6 +8,7 @@ export enum WinnerSide {
 
 export enum KnockoutStage {
 	Final = 'final',
+	ThirdPlace = 'thirdPlace',
 	SemiFinal = 'semiFinal',
     QuarterFinal = 'quarterFinal',
 	Last16 = 'last16',

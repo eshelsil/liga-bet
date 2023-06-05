@@ -2,6 +2,7 @@ import { CompetitionStageName, KnockoutStage } from '../types'
 
 export const stageNameToHeb = {
     [KnockoutStage.Final]: 'גמר',
+    [KnockoutStage.ThirdPlace]: 'מקום 3-4',
     [KnockoutStage.SemiFinal]: 'חצי גמר',
     [KnockoutStage.QuarterFinal]: 'רבע גמר',
     [KnockoutStage.Last16]: 'שמינית גמר',

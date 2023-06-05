@@ -14,6 +14,7 @@ final class GameSubTypes extends AbstractEnum {
 
     protected static $aliases = [
         GameSubTypes::FINAL          => "FINAL",
+        GameSubTypes::THIRD_PLACE    => "THIRD_PLACE",
         GameSubTypes::SEMI_FINALS    => "SEMI_FINALS",
         GameSubTypes::QUARTER_FINALS => "QUARTER_FINALS",
         GameSubTypes::LAST_16        => "LAST_16",
