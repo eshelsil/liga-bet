@@ -23,9 +23,7 @@ class LeaderboardVersionResource extends JsonResource
             "id"              => $version->id,
             "description"     => $version->description,
             "created_at"      => $version->created_at,
-            "leaderboard"     => $version->leaderboards
-                ->sortByDesc("score")
-                ->map(fn (Leaderboard $l) => $l->only(["id", "user_tournament_id", "rank", "score"])),
+            "gameId"          => $version->game_id,
         ];
     }
 }
