@@ -17,7 +17,6 @@ interface Props {
 function MultiBetsSettingsProvider({ setForAllTournaments, openDialog, initializeMultiBetExplanationDialog }: Props) {
     const forAllTournaments = useSelector(IsMultiBetDefaultForAll)
     const [pinned, setPinned] = useState(true)
-    const togglePinned = () => setPinned(!pinned)
     const openExplanationDialog = () => openDialog(DialogName.MultiBetExplanation)
 
     useEffect(()=> {
@@ -30,7 +29,7 @@ function MultiBetsSettingsProvider({ setForAllTournaments, openDialog, initializ
             forAllTournaments={forAllTournaments}
             setForAllTournaments={setForAllTournaments}
             pinned={pinned}
-            togglePinned={togglePinned}
+            setPinned={setPinned}
         />
     )
 }

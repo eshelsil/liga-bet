@@ -1,0 +1,29 @@
+@import '../../styles/colors';
+@import '../../styles/mixins';
+
+.LB-StickyConfig {
+    &.StickyConfig-pinned {
+        position: sticky;
+        top: 70px;
+        z-index: 10;
+    }
+    .StickyConfig-content {
+        border-radius: 12px;
+        border: 1px dashed $primary-main;
+        background-color: rgb(186 219 245 / 95%);
+        margin: auto;
+        width: 332px;
+        max-width: 100%;
+        padding: 6px;
+    }
+    .StickyConfig-headerWrapper {
+        @include flexRow;
+        width: 100%;
+        .StickyConfig-header {
+            flex: 1 auto;
+        }
+    }
+    .StickyConfig-form {
+        display: block;
+    }
+}

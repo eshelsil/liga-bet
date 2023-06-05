@@ -19,8 +19,10 @@
         flex-wrap: wrap;
     }
     .LB-MultiBetsSettings {
-        .MultiBetsSettings-content {
-            width: 402px;
+        .LB-StickyConfig {
+            .StickyConfig-content {
+                width: 402px;
+            }
         }
     }
     .LB-OpenMatchBet {

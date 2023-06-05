@@ -67,10 +67,9 @@ export default function MultiBetExplanationDialog({
                     <div style={{marginBottom: 12}}>
                         <MultiBetsSettingsView
                             pinned={true}
-                            togglePinned={() => null}
+                            setPinned={() => null}
                             forAllTournaments={true}
                             setForAllTournaments={() => null}
-                            onInfoClick={() => null}
                         />
                     </div>
                     {isAutoShown && (<>
