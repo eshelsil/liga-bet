@@ -1,10 +1,10 @@
 import { createSelector } from 'reselect'
 import { calcLiveAddedScore, getLiveVersionScore, calcGainedPointsOnGameBet, calcGainedPointsOnStandingsBet, calcLeaderboardDiff, formatLeaderboardVersion, generateEmptyScoreboardRow, getLatestScoreboard, keysOf, valuesOf } from '../../utils'
 import { ScoreboardRowById } from '../../types'
-import { BetsFullScoresConfigSelector, Contestants, CurrentTournamentUserId, LeaderboardRows, LeaderboardVersions, LeaderboardVersionsDesc, QuestionBets, ScoreboardSettings } from '../base'
-import { LiveGameBets, LiveGroupStandingBets, LiveGroupStandings } from '../modelRelations'
+import { BetsFullScoresConfigSelector, Contestants, CurrentTournamentUserId, IsShowingHistoricScoreboard, LeaderboardRows, LeaderboardVersions, LeaderboardVersionsDesc, QuestionBets, ScoreboardSettings } from '../base'
+import { LiveGameBets, LiveGroupStandingBets, LiveGroupStandings, MatchesWithTeams } from '../modelRelations'
 import { LiveRunnerUpBetsWithScoreByUtlId, LiveTopAssistsBetsWithScoreByUtlId, LiveTopScorerBetsWithScoreByUtlId, LiveWinnerBetsWithScoreByUtlId } from './liveQuestionBets'
-import { groupBy, isEmpty, map, mapValues, sumBy } from 'lodash'
+import { filter, groupBy, isEmpty, map, mapValues, sumBy } from 'lodash'
 
 
 export const LatestLeaderboard = createSelector(
@@ -225,5 +225,53 @@ export const CurrentUtlRank = createSelector(
     ScoreboardSelector,
     (currentUtlId, leaderboardRows) => {
         return leaderboardRows.find(row => row.user_tournament_id == currentUtlId)?.rank
+    }
+)
+
+
+export const GamesOrderedByLeaderboardVersion = createSelector(
+    MatchesWithTeams,
+    LeaderboardVersions,
+    (
+        gamesById,
+        leaderboardVersions,
+    ) => {
+        return filter(map(leaderboardVersions, version => gamesById[version.gameId]))
+    }
+)
+
+export const GamesIncludedInCurrentLeaderboard = createSelector(
+    GamesOrderedByLeaderboardVersion,
+    IsShowingHistoricScoreboard,
+    ScoreboardSettings,
+    (
+        gamesOrdered,
+        isHistoryTable,
+        scoreboardSettings,
+    ) => {
+        if (!isHistoryTable){
+            return gamesOrdered
+        }
+        const { destinationVersion } = scoreboardSettings
+        const index = gamesOrdered.findIndex(game => game.id === destinationVersion.gameId)
+        return gamesOrdered.slice(index)
+    }
+)
+
+export const PrimalBetsScoresOverrideByLeaderboardSettings = createSelector(
+    IsShowingHistoricScoreboard,
+    CurrentLeaderboard,
+    (
+        isShowingHistoricState,
+        leaderboardRows,
+    ) => {
+        if (!isShowingHistoricState){
+            return {}
+        }
+        const primalBetsScoreOverride = {} as Record<number, number>
+        for (const leaderboardRow of valuesOf(leaderboardRows)){
+            Object.assign(primalBetsScoreOverride, leaderboardRow.betScoreOverride)
+        }
+        return primalBetsScoreOverride
     }
 )

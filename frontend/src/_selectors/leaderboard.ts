@@ -1,14 +1,14 @@
 import { createSelector } from 'reselect'
 import { keysOf } from '../utils'
 import { IsTournamentStarted } from './base'
-import { IsCurrentLeaderboardMissing, LiveGameBetsWithScoreByUtlId, LiveGroupRankBetsWithScoreByUtlId, LiveRunnerUpBetsWithScoreByUtlId, LiveSpecialAnswers, LiveTopAssistsBetsWithScoreByUtlId, LiveTopScorerBetsWithScoreByUtlId, LiveWinnerBetsWithScoreByUtlId, ScoreboardSelector } from './logic'
+import { GamesIncludedInCurrentLeaderboard, IsCurrentLeaderboardMissing, LiveGameBetsWithScoreByUtlId, LiveGroupRankBetsWithScoreByUtlId, LiveRunnerUpBetsWithScoreByUtlId, LiveSpecialAnswers, LiveTopAssistsBetsWithScoreByUtlId, LiveTopScorerBetsWithScoreByUtlId, LiveWinnerBetsWithScoreByUtlId, PrimalBetsScoresOverrideByLeaderboardSettings, ScoreboardSelector } from './logic'
 import {
-    GroupStandingBetsByUserId,
+    GroupStandingBetsLinked,
     LiveGroupStandingsWithTeams,
-    MatchBetsWithPositiveScores,
-    QuestionBetsByUserQuestionId,
+    MatchBetsLinked,
+    QuestionBetsLinked,
 } from './modelRelations'
-import { concat, groupBy, mapValues } from 'lodash'
+import { concat, groupBy, keyBy, mapValues, pickBy } from 'lodash'
 
 export const LeaderboardSelector = createSelector(
     ScoreboardSelector,
@@ -24,9 +24,11 @@ export const LeaderboardSelector = createSelector(
 )
 
 export const ContestantSelector = createSelector(
-    MatchBetsWithPositiveScores,
-    GroupStandingBetsByUserId,
-    QuestionBetsByUserQuestionId,
+    MatchBetsLinked,
+    GroupStandingBetsLinked,
+    QuestionBetsLinked,
+    GamesIncludedInCurrentLeaderboard,
+    PrimalBetsScoresOverrideByLeaderboardSettings,
     LiveGameBetsWithScoreByUtlId,
     LiveGroupRankBetsWithScoreByUtlId,
     LiveGroupStandingsWithTeams,
@@ -36,9 +38,11 @@ export const ContestantSelector = createSelector(
     LiveTopAssistsBetsWithScoreByUtlId,
     LiveSpecialAnswers,
     (
-        relevantMatchBets,
-        groupStandingBetsByUserId,
-        questionBetsByUserId,
+        matchBets,
+        groupStandingBets,
+        questionBets,
+        gamesIncludedInLeaderboard,
+        primalBetsScoreOverride,
         liveGameBetsByUtlId,
         liveGroupRankBetsByUtlId,
         liveStandingsByGroupId,
@@ -48,10 +52,21 @@ export const ContestantSelector = createSelector(
         liveTopAssistsBetsByUtlId,
         liveSpecialAnswers,
     ) => {
+        const gamesIncludedById = keyBy(gamesIncludedInLeaderboard, 'id')
+        const relevantMatchBets = pickBy(matchBets, (bet) => bet.score > 0 && !!gamesIncludedById[bet.type_id])
         const matchBetsByUserId = groupBy(
             relevantMatchBets,
             'user_tournament_id'
         )
+        const groupStandingBetsByUserId = groupBy(
+            mapValues(groupStandingBets, bet => ({...bet, score: primalBetsScoreOverride[bet.id] ?? bet.score})),
+            'user_tournament_id'
+        )
+        const questionBetsByUserId = groupBy(
+            mapValues(questionBets, bet => ({...bet, score: primalBetsScoreOverride[bet.id] ?? bet.score})),
+            'user_tournament_id'
+        )
+
         const liveQuestionBetsByUtlId: Record<number, any> = {}
         for (const utlId of keysOf(liveWinnerBetsByUtlId) as number[]) {
             if (!liveQuestionBetsByUtlId[utlId]) {

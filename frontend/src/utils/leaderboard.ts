@@ -59,6 +59,7 @@ export function generateEmptyScoreboardRow(contestant: UTL): ScoreboardRowDetail
         score: 0,
         change: 0,
         addedScore: 0,
+        betScoreOverride: {}
     }
 }
 

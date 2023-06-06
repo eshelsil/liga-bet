@@ -5,6 +5,7 @@ export interface ScoreboardRow {
     user_tournament_id: number
     rank: number
     score: number
+    betScoreOverride: Record<number, number>
 }
 
 export type ScoreboardRowById = Dictionary<ScoreboardRow>

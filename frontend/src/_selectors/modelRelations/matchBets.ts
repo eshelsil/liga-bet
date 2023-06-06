@@ -31,13 +31,6 @@ export const MatchBetsLinked = createSelector(
     }
 )
 
-export const MatchBetsWithPositiveScores = createSelector(
-    MatchBetsLinked,
-    (bets) => {
-        return pickBy(bets, (bet) => bet.score > 0)
-    }
-)
-
 export const MatchBetsByMatchId = createSelector(MatchBetsLinked, (bets) => {
     return groupBy(Object.values(bets), 'type_id')
 })

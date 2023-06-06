@@ -63,6 +63,12 @@ function TableSettings({ updateSetting, settings, hasLiveGames, fetchScoreboards
         }
     }, [])
 
+    useEffect(() => {
+        if (!hasLiveGames && liveMode){
+            toggleLiveMode()
+        }
+    }, [hasLiveGames, liveMode])
+
 
     return (
         showSettings && (
