@@ -99,7 +99,6 @@ Route::prefix("/api/tournaments/{tournamentId}/")->middleware("confirmed_user")
         Route::get('players/playing-live', [PlayersController::class, 'getPlayersPlayingLive']);
         Route::get("leaderboardVersions", [LeaderboardController::class, 'index']);
         Route::get("leaderboards", [LeaderboardController::class, 'getLeaderboards']);
-        Route::get("leaderboards-v2", [LeaderboardController::class, 'getLatestFromBetsData']);
         Route::get("contestants", [UserController::class, 'getTournamentUTLs']);
         Route::get("teams", [TeamsController::class, 'index']);
         Route::get("special-questions", [SpecialQuestionsController::class, 'index']);
