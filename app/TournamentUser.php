@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use Log;
 
 /**
@@ -217,13 +218,16 @@ class TournamentUser extends Model
         ];
     }
 
-    public function calcScoreGainedForGame(Game $game)
+    /**
+     * @return Collection|Bet[]
+    */
+    public function getBetsWithScoreGainedForGame(Game $game): Collection
     {
-        $score = 0;
+        $bets = collect([]);
 
         $gameBet = $this->bets()->firstWhere(['type' => BetTypes::Game, 'type_id' => $game->id]);
         if ($gameBet) {
-            $score += $gameBet->score;
+            $bets->add($gameBet);
         }
 
         foreach ($this->bets()->where("type", BetTypes::SpecialBet)->get() as $questionBet) {
@@ -231,26 +235,27 @@ class TournamentUser extends Model
                 $specialQuestion = $this->tournament->specialBets->firstWhere("id", $questionBet->type_id);
                 if ($specialQuestion) {
                     $betRequest = new BetSpecialBetsRequest($specialQuestion, $this->tournament, $questionBet->getData() + ["utl" => $this]);
-                    $score += $betRequest->calculateScoreForGame($game);
+                    $bet = $questionBet->replicate();
+                    $bet->setAttribute($bet->getKeyName(), $questionBet->getKey());
+                    $bet->score = $betRequest->calculateScoreForGame($game);
+                    $bets->add($bet);
                 }
             } catch (Exception $e) {
-                Log::debug("[TournamentUser][calcScoreGainedForGame] Error! {$e->getMessage()} - {$e->getTraceAsString()}");
+                Log::debug("[TournamentUser][getBetsWithScoreGainedForGame] Error! {$e->getMessage()} - {$e->getTraceAsString()}");
             }
         }
 
-        if ($game->isTheLastGameOnGroup()){
-            $score += $this->calcScoreGainedForGroupRank($game->group);
+        foreach ($this->bets()->where("type", BetTypes::GroupsRank)->get() as $groupRankBet) {
+            $bet = $groupRankBet->replicate();
+            $bet->setAttribute($bet->getKeyName(), $groupRankBet->getKey());
+            $score = 0;
+            if ($game->isGroupStage() && $groupRankBet->type_id == $game->group->id && $game->isTheLastGameOnGroup()){
+                $score = $groupRankBet->score;
+            }
+            $bet->score = $score;
+            $bets->add($bet);
         }
 
-        return $score;
-    }
-
-    public function calcScoreGainedForGroupRank(Group $group)
-    {
-        $bet = $this->bets()->firstWhere(['type' => BetTypes::GroupsRank, 'type_id' => $group->id]);
-        if (!$bet) {
-            return 0;
-        }
-        return $bet->score;
+        return $bets;
     }
 }

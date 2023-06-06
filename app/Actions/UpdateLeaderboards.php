@@ -2,11 +2,14 @@
 
 namespace App\Actions;
 
+use App\Bet;
 use App\Competition;
+use App\Enums\BetTypes;
 use App\Game;
 use App\Leaderboard;
 use App\LeaderboardsVersion;
 use App\Tournament;
+use Illuminate\Support\Collection;
 use Log;
 
 class UpdateLeaderboards
@@ -28,6 +31,7 @@ class UpdateLeaderboards
         $latestVersionGameId = null;
         $shouldUpdateVersions = false;
         foreach($sortedGameIds as $gameId){
+            Log::debug("[UpdateLeaderboards][updateRanks] Going over game $gameId");
             if ($gameId == $firstGameId){
                 $shouldUpdateVersions = true;
             }
@@ -52,25 +56,36 @@ class UpdateLeaderboards
         }
 
         if ($prevGameId){
-            $prevVersion = $tournament->leaderboardVersions()->with('leaderboards')->firstWhere('game_id', $prevGameId);
-            $prevScoreByUtlId = $prevVersion->leaderboards
-                ->keyBy('user_tournament_id')
-                ->map(fn(Leaderboard $l) => $l->score);
+            $prevVersion = $tournament->leaderboardVersions()->firstWhere('game_id', $prevGameId);
+            $prevScoreboardRowByUtlId = $prevVersion->load('leaderboards')->leaderboards
+                ->keyBy('user_tournament_id');
         } else {
-            $prevScoreByUtlId = $tournament->competingUtls()->keyBy('id')->map(fn($utl) => 0);
+            $prevScoreboardRowByUtlId = collect();
         }
 
-        $betsScoreSum = $tournament->getGameScorePerUtl($gameId)
-            ->map(fn(int $score, int $utlId) => [
-                "score" => $score + ($prevScoreByUtlId->get($utlId) ?? 0),
-                "utlId" => $utlId,
-            ])->sortByDesc('score')->values();
+        $betsScoreSum = $tournament->getBetsScorePerUtlForGame($gameId)
+            ->map(function(Collection $betsWithGainedScore, int $utlId) use ($prevScoreboardRowByUtlId) {
+                $currentScore = $betsWithGainedScore->sum('score');
+                $utlPrevRow = $prevScoreboardRowByUtlId->get($utlId);
+                $prevScore = $utlPrevRow ? $utlPrevRow->score : 0;
+                $primalBetsById = $betsWithGainedScore->filter(fn(Bet $bet) => $bet->type != BetTypes::Game)->keyBy('id');
+                return [
+                    "score" => $currentScore + $prevScore,
+                    "utlId" => $utlId,
+                    "bet_score_override" => $primalBetsById->map(function(Bet $bet) use($utlPrevRow) {
+                        $prevBetsScoreOverride = $utlPrevRow ? json_decode($utlPrevRow->bet_score_override, true) : [];
+                        $prevBetScore = $prevBetsScoreOverride[$bet->id] ?? 0;
+                        return $bet->score + $prevBetScore;
+                    }),
+                ];
+            })->sortByDesc('score')->values();
 
         $lastScore = -1;
         $rank = null;
         foreach ($betsScoreSum as $i => $userScore) {
             $score = $userScore['score'];
             $utlId = $userScore['utlId'];
+            $betScoreOverride = $userScore['bet_score_override'];
             if ($lastScore != $score) {
                 $rank = $i + 1;
             }
@@ -84,6 +99,7 @@ class UpdateLeaderboards
             }
             $leader->rank               = $rank;
             $leader->score = $lastScore = $score;
+            $leader->bet_score_override = $betScoreOverride;
             $leader->save();
         }
     }

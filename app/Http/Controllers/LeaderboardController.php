@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\LeaderboardRowResource;
 use App\Http\Resources\LeaderboardVersionResource;
 use App\Leaderboard;
 use Illuminate\Http\JsonResponse;
@@ -51,21 +52,9 @@ class LeaderboardController extends Controller
             ->with("leaderboards")->get()->keyBy('id')
             ->map(
                 fn($v) => $v->leaderboards->sortByDesc("score")->map(
-                    fn (Leaderboard $l) => $l->only(["id", "user_tournament_id", "rank", "score"])
+                    fn(Leaderboard $l) => (new LeaderboardRowResource($l))->toArray($request)
                 )
             ));
-        
-    }
-
-    public function getLatestFromBetsData(Request $request, string $tournamentId)
-    {
-        $utl = $this->getUser()->getTournamentUser($tournamentId);
-
-        LeaderboardVersionResource::withoutWrapping();
-        
-        return LeaderboardVersionResource::collection(
-            $utl->tournament->getLatestLeaderboard()
-        );
         
     }
 }

@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $version_id
  * @property int $rank
  * @property int $score
+ * @property array $bet_score_override
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\LeaderboardsVersion|null $leaderboardVersions

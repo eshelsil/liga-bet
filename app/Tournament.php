@@ -4,7 +4,7 @@ namespace App;
 
 use App\Enums\BetTypes;
 use App\SpecialBets\SpecialBet;
-use DB;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -159,71 +159,16 @@ class Tournament extends Model
         return collect([$latestVersion, $versionBeforeLastGame]);
     }
 
-    public function getLatestGameScore()
-    {
-        $doneGames = $this->competition->games->filter(fn($g) => $g->is_done);
-        $latestStartTime = $doneGames->max('start_time');
-        $games = $doneGames->where('start_time', $latestStartTime);
-        $relevantGroupIds = collect([]);
-        foreach ($games as $game) {
-            if ($game->isGroupStage() && !$relevantGroupIds->contains($game->sub_type)){
-                $relevantGroupIds->add($game->sub_type);
-            }
-        }
-        $relevantGroups = $this->competition->groups->whereIn('external_id', $relevantGroupIds)->filter(fn($group) => $group->isComplete());
-
-        $scoreGainedPerUtl = [];
-        if ($games->count() > 0) {
-            foreach ($this->competingUtls() as $utl) {
-                $scoreGainedPerUtl[$utl->id] = 0;
-                foreach ($games as $game) {
-                    $scoreGainedPerUtl[$utl->id] += $utl->calcScoreGainedForGame($game);
-                }
-                foreach ($relevantGroups as $group) {
-                    $scoreGainedPerUtl[$utl->id] += $utl->calcScoreGainedForGroupRank($group);
-                }
-            }
-        }
-        return $scoreGainedPerUtl;
-    }
-
-    public function getGameScorePerUtl(int $gameId)
+    public function getBetsScorePerUtlForGame(int $gameId)
     {
         $game = $this->competition->games()->where('id', $gameId)->first();
         if (!$game){
             throw new \RuntimeException("Cannot find game with id $gameId on this tournament (id: $this->id)");
         }
 
-        $scoreGainedPerUtl = $this->competingUtls()->keyBy('id')
-            ->map(fn(TournamentUser $utl) => $game->is_done ? $utl->calcScoreGainedForGame($game) : 0);
-        return $scoreGainedPerUtl;
-    }
-
-    public function getLatestLeaderboard()
-    {
-        $betsScoreSum = $this->bets()
-                     ->select(["user_tournament_id", DB::raw("COALESCE(sum(bets.score), 0) as total_score")])
-                     ->groupBy(["user_tournament_id"])
-                     ->orderBy("total_score", "desc")
-                     ->get();
-        $version1 = new LeaderboardsVersion();
-        $version1->id = 1;
-        $version1->tournament_id = $this->id;
-        $version1->leaderboards = $this->calcRanks($betsScoreSum, $version1->id);
-
-        $latestGameScoreByUtlId = $this->getLatestGameScore();
-        $prevVersionScoreSum = $betsScoreSum->map(function($utlScore) use ($latestGameScoreByUtlId){
-            $res = $utlScore->replicate();
-            $res->total_score = $utlScore->total_score - ($latestGameScoreByUtlId[$utlScore->user_tournament_id] ?? 0);
-            return $res;
-        });
-
-        $version2 = new LeaderboardsVersion();
-        $version2->id = 2;
-        $version2->tournament_id = $this->id;
-        $version2->leaderboards = $this->calcRanks($prevVersionScoreSum, $version1->id);
-        
-        return collect([$version1, $version2]);
+        $betsWithScoreGainedPerUtl = $this->competingUtls()->keyBy('id')
+            ->map(fn(TournamentUser $utl) => $game->is_done ? $utl->getBetsWithScoreGainedForGame($game) : new Collection());
+        return $betsWithScoreGainedPerUtl;
     }
 
     public function calcRanks($betsScoreSum, $versionId)
