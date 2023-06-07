@@ -1,10 +1,11 @@
 import { createSelector } from 'reselect'
-import { calcLiveAddedScore, getLiveVersionScore, calcGainedPointsOnGameBet, calcGainedPointsOnStandingsBet, calcLeaderboardDiff, formatLeaderboardVersion, generateEmptyScoreboardRow, getLatestScoreboard, keysOf, valuesOf } from '../../utils'
-import { ScoreboardRowById } from '../../types'
-import { BetsFullScoresConfigSelector, Contestants, CurrentTournamentUserId, IsShowingHistoricScoreboard, LeaderboardRows, LeaderboardVersions, LeaderboardVersionsDesc, QuestionBets, ScoreboardSettings } from '../base'
-import { LiveGameBets, LiveGroupStandingBets, LiveGroupStandings, MatchesWithTeams } from '../modelRelations'
+import { calcLiveAddedScore, getLiveVersionScore, calcGainedPointsOnGameBet, calcGainedPointsOnStandingsBet, calcLeaderboardDiff, formatLeaderboardVersion, generateEmptyScoreboardRow, getLatestScoreboard, keysOf, valuesOf, isFinalGame } from '../../utils'
+import { ScoreboardRowById, SpecialQuestionType } from '../../types'
+import { BetsFullScoresConfigSelector, Contestants, CurrentTournamentUserId, Groups, IsShowingHistoricScoreboard, LeaderboardRows, LeaderboardVersions, LeaderboardVersionsDesc, QuestionBets, ScoreboardSettings } from '../base'
+import { GroupsWithTeams, LiveGameBets, LiveGroupStandingBets, LiveGroupStandings, MatchesWithTeams, SpecialQuestionsWithRelations } from '../modelRelations'
 import { LiveRunnerUpBetsWithScoreByUtlId, LiveTopAssistsBetsWithScoreByUtlId, LiveTopScorerBetsWithScoreByUtlId, LiveWinnerBetsWithScoreByUtlId } from './liveQuestionBets'
-import { filter, groupBy, isEmpty, map, mapValues, sumBy } from 'lodash'
+import { filter, groupBy, isEmpty, keyBy, map, mapValues, sumBy, union } from 'lodash'
+import { isThisTypeNode } from 'typescript'
 
 
 export const LatestLeaderboard = createSelector(
@@ -255,6 +256,84 @@ export const GamesIncludedInCurrentLeaderboard = createSelector(
         const { destinationVersion } = scoreboardSettings
         const index = gamesOrdered.findIndex(game => game.id === destinationVersion.gameId)
         return gamesOrdered.slice(index)
+    }
+)
+
+export const GamesDiscludedInCurrentLeaderboard = createSelector(
+    GamesOrderedByLeaderboardVersion,
+    GamesIncludedInCurrentLeaderboard,
+    (
+        games,
+        gamesIncluded,
+    ) => {
+        const gamesIncludedById = keyBy(gamesIncluded, 'id')
+        return games.filter(game => !gamesIncludedById[game.id])
+    }
+)
+
+export const GroupStandingsDiscludedByHistoricLeaderboard = createSelector(
+    GamesDiscludedInCurrentLeaderboard,
+    IsShowingHistoricScoreboard,
+    (
+        gamesDiscluded,
+        isHistoryTable,
+    ) => {
+        if (!isHistoryTable){
+            return []
+        }
+        return union(filter(gamesDiscluded.map(game => game.group?.id)))
+    }
+)
+
+export const IsFinalGameDiscludedByHistoricLeaderboard = createSelector(
+    GamesDiscludedInCurrentLeaderboard,
+    IsShowingHistoricScoreboard,
+    (
+        gamesDiscluded,
+        isHistoryTable,
+    ) => {
+        if (!isHistoryTable){
+            return false
+        }
+        return !!gamesDiscluded.find(game => isFinalGame(game))
+    }
+)
+
+export const SpecialBetAnswersDiscludedByHistoricLeaderboard = createSelector(
+    IsShowingHistoricScoreboard,
+    SpecialQuestionsWithRelations,
+    GroupStandingsDiscludedByHistoricLeaderboard,
+    IsFinalGameDiscludedByHistoricLeaderboard,
+    (
+        isHistoryTable,
+        specialQuestionsById,
+        groupIdsOverridedAsNotDone,
+        isFinalGameDiscluded,
+    ) => {
+        if (!isHistoryTable){
+            return []
+        }
+        const considerGroupStageUnfinished = groupIdsOverridedAsNotDone.length > 0
+        return map(
+            valuesOf(specialQuestionsById).filter(specialQuestion => {
+                if ([
+                    SpecialQuestionType.Winner,
+                    SpecialQuestionType.RunnerUp,
+                    SpecialQuestionType.TopScorer,
+                    SpecialQuestionType.TopAssists,
+                    SpecialQuestionType.MVP,
+                ].includes(specialQuestion.type)){
+                    return isFinalGameDiscluded
+                } else if ([
+                    SpecialQuestionType.OffensiveTeamGroupStage,
+                    SpecialQuestionType.DefensiveTeamGroupStage,
+                ].includes(specialQuestion.type)) {
+                    return considerGroupStageUnfinished
+                }
+                return true
+            }),
+            'id'
+        )
     }
 )
 

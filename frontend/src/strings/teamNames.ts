@@ -49,6 +49,7 @@ export const teamNameToHebrew = {
     scotland: 'סקוטלנד',
     slovakia: 'סלובקיה',
     hungary: 'הונגריה',
+    peru: 'פרו',
 }
 
 export function getHebTeamName(name: string){

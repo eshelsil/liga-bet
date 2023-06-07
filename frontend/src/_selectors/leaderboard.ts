@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { keysOf } from '../utils'
 import { IsTournamentStarted } from './base'
-import { GamesIncludedInCurrentLeaderboard, IsCurrentLeaderboardMissing, LiveGameBetsWithScoreByUtlId, LiveGroupRankBetsWithScoreByUtlId, LiveRunnerUpBetsWithScoreByUtlId, LiveSpecialAnswers, LiveTopAssistsBetsWithScoreByUtlId, LiveTopScorerBetsWithScoreByUtlId, LiveWinnerBetsWithScoreByUtlId, PrimalBetsScoresOverrideByLeaderboardSettings, ScoreboardSelector } from './logic'
+import { GamesIncludedInCurrentLeaderboard, GroupStandingsDiscludedByHistoricLeaderboard, IsCurrentLeaderboardMissing, LiveGameBetsWithScoreByUtlId, LiveGroupRankBetsWithScoreByUtlId, LiveRunnerUpBetsWithScoreByUtlId, LiveSpecialAnswers, LiveTopAssistsBetsWithScoreByUtlId, LiveTopScorerBetsWithScoreByUtlId, LiveWinnerBetsWithScoreByUtlId, PrimalBetsScoresOverrideByLeaderboardSettings, ScoreboardSelector, SpecialBetAnswersDiscludedByHistoricLeaderboard } from './logic'
 import {
     GroupStandingBetsLinked,
     LiveGroupStandingsWithTeams,
@@ -29,6 +29,8 @@ export const ContestantSelector = createSelector(
     QuestionBetsLinked,
     GamesIncludedInCurrentLeaderboard,
     PrimalBetsScoresOverrideByLeaderboardSettings,
+    GroupStandingsDiscludedByHistoricLeaderboard,
+    SpecialBetAnswersDiscludedByHistoricLeaderboard,
     LiveGameBetsWithScoreByUtlId,
     LiveGroupRankBetsWithScoreByUtlId,
     LiveGroupStandingsWithTeams,
@@ -43,6 +45,8 @@ export const ContestantSelector = createSelector(
         questionBets,
         gamesIncludedInLeaderboard,
         primalBetsScoreOverride,
+        groupIdsOverridedAsNotDone,
+        specialQuestionIdsOverridedAsNotDone,
         liveGameBetsByUtlId,
         liveGroupRankBetsByUtlId,
         liveStandingsByGroupId,
@@ -59,11 +63,29 @@ export const ContestantSelector = createSelector(
             'user_tournament_id'
         )
         const groupStandingBetsByUserId = groupBy(
-            mapValues(groupStandingBets, bet => ({...bet, score: primalBetsScoreOverride[bet.id] ?? bet.score})),
+            mapValues(groupStandingBets, bet => ({
+                ...bet,
+                relatedGroup: {
+                    ...bet.relatedGroup,
+                    ...(groupIdsOverridedAsNotDone.includes(bet.relatedGroup.id) ? {
+                        isDone: false
+                    } : {}),
+                },
+                score: primalBetsScoreOverride[bet.id] ?? bet.score,
+            })),
             'user_tournament_id'
         )
         const questionBetsByUserId = groupBy(
-            mapValues(questionBets, bet => ({...bet, score: primalBetsScoreOverride[bet.id] ?? bet.score})),
+            mapValues(questionBets, bet => ({
+                ...bet,
+                relatedQuestion: {
+                    ...bet.relatedQuestion,
+                    ...(specialQuestionIdsOverridedAsNotDone.includes(bet.relatedQuestion.id) ? {
+                        answer: []
+                    } : {}),
+                },
+                score: primalBetsScoreOverride[bet.id] ?? bet.score
+            })),
             'user_tournament_id'
         )
 
