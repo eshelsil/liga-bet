@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import { useSelector } from 'react-redux';
 import { QuestionBetWithRelations, ScoreboardRowDetailed } from '../types'
 import CustomTable from '../widgets/Table/CustomTable'
@@ -9,6 +9,7 @@ import { usePrizesThemeClass } from '../hooks/useThemeClass'
 import { getRankDisplayById } from './utils';
 import TeamFlag from '../widgets/TeamFlag/TeamFlag';
 import { WinnerBetByUtlId } from '../_selectors';
+import { ExpandedContestantContext } from './ExpandedContestantContext';
 
 
 function NameWithWinnerFlag({
@@ -41,7 +42,8 @@ interface Props {
 
 function LeaderboardTable({ rows, currentUtlId, isLive }: Props) {
     const winnerBetByUtlId = useSelector(WinnerBetByUtlId)
-    const [expand, setExpand] = useState<number>(null)
+    const { expandedUtl: expand, setExpandedUtl: setExpand } = useContext(ExpandedContestantContext);
+
     const getPrizeTheme = usePrizesThemeClass()
     const hasScores = !!rows.find(row => row.score > 0)
     const rankDisplayById = getRankDisplayById(rows)

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import { sumBetsScore } from './utils'
 import {
     GroupRankBetWithRelations,
@@ -14,6 +14,7 @@ import GroupRankBetsTable from '../myBets/GroupRankBetsTable'
 import useGoTo from '../hooks/useGoTo'
 import { Link } from '@mui/material'
 import { useGameBetsOfUtl } from '../hooks/useFetcher'
+import { ExpandedContestantContext } from './ExpandedContestantContext'
 import { keyBy } from 'lodash'
 
 
@@ -59,7 +60,7 @@ export function ExpandedContestantView({
     isLive,
 }: Props) {
     const { goToHisBets } = useGoTo()
-    const [selectedTab, setSelectedTab] = useState(0)
+    const { selectedTab, setSelectedTab } = useContext(ExpandedContestantContext);
     
     const liveGroupRankBetsById = keyBy(liveGroupRankBets, 'id')
     const liveQuestionBetsById = keyBy(liveQuestionBets, 'id')

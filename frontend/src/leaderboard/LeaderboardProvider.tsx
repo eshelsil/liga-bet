@@ -8,6 +8,7 @@ import { AppDispatch } from '../_helpers/store'
 import { openDialog } from '../_actions/dialogs'
 import { DialogName } from '../dialogs/types'
 import CongratsAnimationProvider from './animations/CongratsAnimationProvider'
+import { ExpandedContestantContextProvider } from './ExpandedContestantContext';
 import './Leaderboard.scss'
 
 
@@ -44,14 +45,16 @@ function Leaderboard() {
 
     return (
         <>
-            <LeaderboardView
-                rows={rows}
-                currentUtlId={currentUtlId}
-                tableSettings={tableSettings}
-                themeClass={themeClass}
-                tournamentName={tournamentName}
-                isShowingHistoricTable={isShowingHistoricTable}
-            />
+            <ExpandedContestantContextProvider>
+                <LeaderboardView
+                    rows={rows}
+                    currentUtlId={currentUtlId}
+                    tableSettings={tableSettings}
+                    themeClass={themeClass}
+                    tournamentName={tournamentName}
+                    isShowingHistoricTable={isShowingHistoricTable}
+                />
+            </ExpandedContestantContextProvider>
             <CongratsAnimationProvider />
         </>
     )

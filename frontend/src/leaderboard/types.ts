@@ -5,3 +5,10 @@ export interface TableConfig {
     originVersionId?: number,
     destinationVersionId?: number,
 }
+
+export type ExpandedContestantContextType = {
+    selectedTab: number,
+    setSelectedTab: (tab: number) => void,
+    expandedUtl: number,
+    setExpandedUtl: (id: number) => void,
+}  
