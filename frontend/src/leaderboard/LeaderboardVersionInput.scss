@@ -37,6 +37,7 @@
 }
 
 .LB-LeaderboardVersionDisplay {
+    // min-width: 210px;
     $bgColor: rgba($color: $primary-light, $alpha: 0.8);
     $border: 1px solid $primary-main;
     .VersionDisplay-game {
@@ -119,6 +120,13 @@
             &:hover {
                 .LB-LeaderboardVersionDisplay {
                     filter: brightness(0.9);
+                }
+            }
+            &:not(:hover){
+                &.Mui-selected{
+                    .LB-LeaderboardVersionDisplay {
+                        filter: brightness(0.8);
+                    }
                 }
             }
         }

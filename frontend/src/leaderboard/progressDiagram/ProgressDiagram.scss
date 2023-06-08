@@ -1,0 +1,151 @@
+@import '../../styles/mixins';
+@import '../../styles/colors';
+@import '../../styles/shadows';
+
+.eshel {
+    position: relative;
+    max-height: 95%;
+    width: 90%;
+    max-width: 900px;
+    margin: auto;
+    // pointer-events: none;
+}
+.LB-ProgressDiagram {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    background-color:#fffaf2;
+    border-radius: 8px;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+	max-height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 5%;
+    position: relative;
+    $topTransition: top 0.4s ease-in-out;
+    .closeButton {
+        position: absolute;
+        right: 8px;
+        top: 8px;
+    }
+    .dataSection {
+        position: relative;
+        display: flex;
+        flex-direction: row-reverse;
+        opacity: 0;
+        padding-top: 16px;
+        .usersSection {
+            position: relative;
+            // max-width: 35%;
+            .userContainer {
+                @include flexRow;
+                transition: $topTransition;
+                margin-bottom: 8px;
+                position: absolute;
+	            height: 30px;
+                white-space: nowrap;
+                .userName {
+                    flex: 1 auto;
+                    $margin: 8px;
+                    font-weight: 700;
+                    margin-right: $margin;
+                }
+            }
+        }
+        .scoresSection {
+            padding-right: 36px;
+            padding-left: 8px;
+            flex: 1 auto;
+            position: relative;
+            > div {
+                position: relative;
+                height: 100%;
+            }
+            .barContainer {
+                transition: $topTransition;
+                width: 100%;
+                position: absolute;
+                display: flex;
+                flex-direction: row-reverse;
+                align-items: center;
+                height: 30px;
+                margin-bottom: 8px;
+                .bar {
+                    height: 20px;
+                    min-width: 20px;
+                    padding: 0px 4px;
+                    border-radius: 8px;
+                    transition: width 1s linear;
+                    display: flex;
+                    align-items: center;
+                    .addedScore {
+                        color: #fff;
+                        font-size: 14px;
+                        font-weight: 700;
+                        white-space: nowrap;
+                        max-width: 100%;
+                    }
+                    .scores {
+                        position: absolute;
+                        transform: translateX(calc(10px + 100%));
+                        line-height: 16px;
+                        font-size: 16px;
+                        font-weight: 700,
+                    }
+                }
+            }
+        }
+        .axis {
+            $color: #562b0866;
+            position: absolute;
+            height: 100%;
+            width: 0px;
+            border-left: 1px dashed $color;
+            transition:  left 0.7s linear;
+            > span {
+                color: $color;
+                transform: translateX(50%) translateY(-100%);
+                position: absolute;
+            }
+        }
+    }
+    .versions {
+        width: 100%;
+        overflow: hidden;
+        height: 100px;
+        position: relative;
+        padding: 12px 0px;
+        margin-bottom: 8px;
+        margin-left: 0;
+        transform: translateX(0);
+        transition: transform 1s linear;
+        &.emptyVersions {
+            transform: translateX(50%);
+        }
+        .version {
+            position: absolute;
+            width: 300px;
+            padding: 0px 45px;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            transition: transform 0.7s ease-out, left 0.7s linear;
+            transform: translateX(-50%);
+            &.currentVersion {
+                transform: translateX(-50%) scale(1.2);
+            }
+        }
+    }
+    .mediaPlayerContainer {
+        display: flex;
+        justify-content: center;
+        .mediaPlayer {
+            .icon {
+                &:not(.Mui-disabled){
+                    color: #000;
+                }
+            }
+        }
+    }
+}

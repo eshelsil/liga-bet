@@ -1,0 +1,35 @@
+.EllipsisTooltip-text {
+    cursor: default;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.EllipsisTooltip-virtualText {
+    cursor: default;
+    white-space: nowrap;
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+html {
+    body {
+        .MuiTooltip-popper[data-popper-placement*="top"] {
+            .LigaBet-EllipsisTooltip-Tooltip {
+                background-color: #fff;
+                border-radius: 16px;
+                box-shadow: rgb(67 71 85 / 59%) 0px 0px 0.25em, rgb(90 125 188 / 25%) 0px 0.25em 1em;
+                color: #333;
+                &.MuiTooltip-tooltip {
+                    margin: 0;
+                }
+                .MuiTooltip-arrow {
+                    &::before {
+                        background: white;
+                        box-shadow: rgb(67 71 85 / 59%) 0px 0px 0.25em, rgb(90 125 188 / 25%) 0px 0.25em 1em;
+                    }
+                }
+            }
+        }
+    }
+}

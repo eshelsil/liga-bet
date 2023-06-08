@@ -1,0 +1,17 @@
+
+Progress Histogram
+
+
+
+Todo:
+- must break down to smaller files
+
+Issues:
+- when too high can't scroll
+- when too narrow name takes too much space
+- when rewinding seeing the wrong change (should show "-" with proper value)
+
+
+Additional abilities:
+- add button to always keep the change seen
+- add buttons to determine animation speed factor (x0.25, x0.5 x0.75 x1 x1.5 x2)

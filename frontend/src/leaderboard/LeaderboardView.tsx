@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ScoreboardRowDetailed } from '../types'
 import { useLiveUpdate, useMissingPlayersFetcher } from '../hooks/useLiveUpdate';
 import { LoadingButton } from '../widgets/Buttons';
@@ -6,7 +6,9 @@ import { ScoreboardConfig } from '../_reducers/scoreboardSettings';
 import { useLeaderboard } from '../hooks/useFetcher';
 import LeaderboardTable from './LeaderboardTable';
 import TableSettingsProvider from './TableSettingsProvider';
-
+import { Button, Icon } from '@mui/material';
+import ScoreboardProgressDiagramProvider from './progressDiagram/ProgressDiagramProvider';
+import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 
 
 function EnsureMissingPlayerFetched() {
@@ -28,6 +30,7 @@ function LeaderboardView({ rows, tableSettings, currentUtlId, themeClass, tourna
 
     const { liveMode } = tableSettings
     const { refetch, fetchFunc } = useLeaderboard()
+    const [showProgressDiagram, setShowProgressDiagram] = useState(false)
     
 
     return (
@@ -35,12 +38,25 @@ function LeaderboardView({ rows, tableSettings, currentUtlId, themeClass, tourna
             <h1 className='LB-TitleText'>טבלת ניקוד</h1>
             <TableSettingsProvider fetchScoreboards={fetchFunc} />
             {!isShowingHistoricTable && (
-                <LoadingButton
-                    action={refreshTable}
-                    className='LeaderboardView-refreshTableButton'
-                >
-                    רענן טבלה
-                </LoadingButton>
+                <div className='LeaderboardView-buttons'>
+                    <LoadingButton
+                        action={refreshTable}
+                        className='LeaderboardView-refreshTableButton'
+                    >
+                        רענן טבלה
+                    </LoadingButton>
+                    <Button
+                        variant="contained"
+                        color="warning"
+                        onClick={() => setShowProgressDiagram(true)}
+                    >
+                        מה היה לנו פה?
+                        <OndemandVideoIcon style={{marginRight: '4px'}} />
+                    </Button>
+                </div>
+            )}
+            {showProgressDiagram && (
+                <ScoreboardProgressDiagramProvider onClose={() => setShowProgressDiagram(false)}/>
             )}
 
             <div className='LeaderboardView-content'>

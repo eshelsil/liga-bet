@@ -118,7 +118,7 @@ export function useLeaderboardVersions(refreshable?: boolean) {
 }
 
 
-export function useLeaderboard(targetTournamentId?: number){
+export function useLeaderboard(targetTournamentId?: number, ids?: number[]){
     const dispatch = useDispatch<AppDispatch>();
     const currentTournamentId = useSelector(TournamentIdSelector)
     const scoreboardSettingsState = useSelector(ScoreboardSettingsState)
@@ -128,10 +128,12 @@ export function useLeaderboard(targetTournamentId?: number){
     const utl = valuesOf(utlsById).find(utl => utl.tournament.id === tournamentId)
     const scoreboardSettings = scoreboardSettingsState[tournamentId]
     const { liveMode, upToDateMode, showChange, originVersion, destinationVersion } = scoreboardSettings || {}
-    const ids = liveMode ? [] : filter([
-        showChange ? originVersion?.id : null,
-        !upToDateMode ? destinationVersion?.id : null
-    ])
+    if (!ids){
+        ids = liveMode ? [] : filter([
+            showChange ? originVersion?.id : null,
+            !upToDateMode ? destinationVersion?.id : null
+        ])
+    }
     const fetchFunc = () => dispatch(fetchLeaderboardsThunk(ids, tournamentId))
     const isConfirmed = !!utl && isUtlConfirmed(utl)
     const refetch = async () => {

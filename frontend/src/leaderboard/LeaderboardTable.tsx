@@ -12,7 +12,7 @@ import { WinnerBetByUtlId } from '../_selectors';
 import { ExpandedContestantContext } from './ExpandedContestantContext';
 
 
-function NameWithWinnerFlag({
+export function NameWithWinnerFlag({
     name,
     winnerBet,
 } : {

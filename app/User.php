@@ -4,10 +4,12 @@ namespace App;
 
 use App\Enums\BetTypes;
 use App\SpecialBets\SpecialBet;
+use Carbon\Carbon;
 use Fcm\FcmClient;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Log;
 
 /**
  * Class User
@@ -69,6 +71,51 @@ class User extends Authenticatable
     const TYPE_TOURNAMENT_ADMIN = 1;
     const TYPE_USER = 0;
     const TYPE_MONKEY = -1;
+
+    static function clearTests(){
+        $t = Carbon::createFromFormat('Y-m-d H', '2023-05-17 17');
+        $competition = Competition::first();
+        SpecialBet::where('created_at', '>', $t)->delete();
+        Bet::where('created_at', '>', $t)->delete();
+        User::where('created_at', '>', $t)->delete();
+        TournamentUser::where('created_at', '>', $t)->delete();
+        Tournament::where('created_at', '>', $t)->delete();
+        LeaderboardsVersion::where('created_at', '>', $t)->delete();
+        Leaderboard::where('created_at', '>', $t)->delete();
+        $competition->games()->update(['is_done' => false]);
+    }
+
+    static function getAllFinalScores(){
+        $t = Carbon::createFromFormat('Y-m-d H', '2023-05-17 17');
+        // $competition = Competition::find(1);
+        $utls = collect([]);
+        Tournament::all()->each(function(Tournament $t) use($utls){
+            if($t->id != 2021){
+                return;
+            }
+            $lastGameId = $t->competition->getSortedGameIds()->last();
+            $version = $t->leaderboardVersions()->firstWhere('game_id', $lastGameId);
+            $newData = $version->leaderboards->sortByDesc('score')->map(fn($l) => ["user_tournament_id" => $l->user_tournament_id, "total_score" => $l->score]);
+            $newData->each(function($d) use($utls){
+                $utls->push($d);
+            });
+        });
+        return json_encode($utls->sortBy('user_tournament_id')->values());
+    }
+
+    static function getTest(){
+        $rows = collect([]);
+        foreach(Tournament::all() as $t){
+            $versions = $t->competition->getSortedGameIds()->map(fn($gameId) => $t->leaderboardVersions->firstWhere('game_id', $gameId))->filter()->values();
+            foreach($versions as $v){
+                $rows = $rows->concat($v->leaderboards->sortBy('user_tournament_id')->map(fn($l) => ["$l->user_tournament_id" => $l->score]));
+            };
+            Log::debug("Count rows: ".$rows->count());
+            // Log::debug("row example: ".json_encode($rows));
+        }
+        // dd($rows);
+        return json_encode($rows->values());
+    }
 
     public function isAdmin()
     {

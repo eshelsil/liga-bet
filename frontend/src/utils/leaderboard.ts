@@ -2,6 +2,7 @@ import { isEmpty, mapValues, orderBy } from 'lodash';
 import { LeaderboardVersion, ScoreboardRow, ScoreboardRowById, ScoreboardRowDetailed, UTL, UTLsById } from '../types';
 import { ScoreboardConfig } from '../_reducers/scoreboardSettings';
 import { ScoreboardRowsByVersionId } from '../_reducers/leaderboardRows';
+import { valuesOf } from './common';
 
 
 export function calcLeaderboardDiff(leaderboard: ScoreboardRowById, prevLeaderboard?: ScoreboardRowById) {
@@ -75,4 +76,12 @@ export function getLatestScoreboard(versions: LeaderboardVersion[], leaderboardR
     const latestVersion = versions[0]
     if (!latestVersion) return {}
     return leaderboardRows[latestVersion.id] ?? {}
+}
+
+export function getLeaderboardRowsWithDiff(currentLeaderboard: ScoreboardRowById, oldLeaderboard: ScoreboardRowById, contestants: UTL[]) {
+    const leaderboard = Object.values(calcLeaderboardDiff(currentLeaderboard, oldLeaderboard))
+    if (leaderboard.length === 0) {
+        return contestants.map(generateEmptyScoreboardRow)
+    }
+    return leaderboard
 }
