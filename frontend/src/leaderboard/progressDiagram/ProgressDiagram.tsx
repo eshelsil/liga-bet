@@ -12,6 +12,7 @@ import SkipNextRoundedIcon from '@mui/icons-material/SkipNextRounded';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
 import CloseIcon from '@mui/icons-material/Close'
+import YAxes from './YAxes';
 
 
 
@@ -21,32 +22,6 @@ interface ProgressDiagramProps {
 	versions: LeaderboardVersionWithGame[],
 	utls: UTLsById,
 	onClose: () => void,
-}
-
-
-function getAxis(max: number){
-	if (max <= 50){
-		return [25, 50]
-	}
-	const digitsCount = `${max}`.length
-	let jump: number;
-	let maxAxisCount: number;
-	const first2Digits = Number(`${max}`.slice(0,2))
-	if (first2Digits < 20){
-		jump = 10 ** (digitsCount - 2) * 5
-		maxAxisCount = 4
-	} else if (first2Digits < 50){
-		jump = 10 ** (digitsCount - 2) * 10
-		maxAxisCount = 5
-	} else {
-		jump = 10 ** (digitsCount - 2) * 25
-		maxAxisCount = 4
-	}
-	const axis = []
-	for (let i = 1; i <= maxAxisCount; i++){
-		axis.push(jump * i)
-	}
-	return axis
 }
 
 
@@ -175,8 +150,6 @@ function ScoreboardProgressDiagram ({ onClose, winnerBetByUtlId, scoreboardsByVe
 		setUserContainerWidth()
 	}, [])
 
-	const axis = getAxis(maxScore)
-
   	return (
     <Modal open={true} onClose={onClose}>
 		<div className='eshel'>
@@ -243,11 +216,7 @@ function ScoreboardProgressDiagram ({ onClose, winnerBetByUtlId, scoreboardsByVe
 		  		</div>
 				<div className='scoresSection'>
 					<div>
-						{axis.map(x => (
-							<div key={x} className='axis' style={{left: `${x / maxScore * 100}%`}}>
-								<span>{x}</span>
-							</div>
-						))}
+						<YAxes maxScore={maxScore}/>
 						{keysOf(utls).map( utlId => {
 							const row = rowByUtlId[utlId]
 							if (!row) {
