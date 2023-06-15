@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Paper from '@mui/material/Paper';
-import { LeaderboardVersionWithGame, QuestionBetWithRelations, UTLsById } from '../../types';
+import { LeaderboardVersionWithGame, QuestionBetWithRelations, Team, UTLsById } from '../../types';
 import { ScoreboardRowsByVersionId } from '../../_reducers/leaderboardRows';
 import { calcLeaderboardDiff, generateEmptyScoreboardRow, keysOf, valuesOf } from '../../utils';
 import { map, mapValues, sortBy, zipObject } from 'lodash';
@@ -13,6 +13,9 @@ import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
 import CloseIcon from '@mui/icons-material/Close'
 import YAxes from './YAxes';
+import ScoresBar from './ScoresBar';
+import UserDetails from './UserDetails';
+import { WinnerBetByUtlId } from '../../_selectors';
 
 
 
@@ -150,6 +153,8 @@ function ScoreboardProgressDiagram ({ onClose, winnerBetByUtlId, scoreboardsByVe
 		setUserContainerWidth()
 	}, [])
 
+	const utlIds = keysOf(utls)
+
   	return (
     <Modal open={true} onClose={onClose}>
 		<div className='eshel'>
@@ -192,55 +197,37 @@ function ScoreboardProgressDiagram ({ onClose, winnerBetByUtlId, scoreboardsByVe
 			</div>
 		  	<div className='dataSection' ref={setDataContainerRef} style={{height: utlsCount * 36}}>
 				<div className='usersSection' ref={setUserContainerRef}>
-					{keysOf(utls).map( utlId => {
-						const row = rowByUtlId[utlId]
-						if (!row) {
-							return
-						}
-						const userColor = userColors[row.user_tournament_id];
-						const top = heightByUtlId[utlId];
-						const winnerTeam = winnerBetByUtlId[row.user_tournament_id]?.answer?.name
-            			return (
-							<div
-								className={`userContainer`}
-								style={{top}}
-								key={utlId}
-							>
-								<div >
-									<TeamFlag name={winnerTeam ?? ''} size={24} />
-								</div>
-								<div className={'userName'} style={{ color: userColor }}>{utls[row.user_tournament_id]?.name}</div>
-							</div>
+					{utlIds.map(
+						utlId => (
+							!!rowByUtlId[utlId] ? (
+								<UserDetails
+									key={utlId}
+									utl={utls[utlId]}
+									top={heightByUtlId[utlId]}
+									winnerTeam={winnerBetByUtlId[utlId]?.answer as Team}
+									userColor={userColors[utlId]}
+								/>
+							): null
 						)
-          			})}
+					)}
 		  		</div>
 				<div className='scoresSection'>
 					<div>
 						<YAxes maxScore={maxScore}/>
-						{keysOf(utls).map( utlId => {
-							const row = rowByUtlId[utlId]
-							if (!row) {
-								return
-							}
-							const userColor = userColors[row.user_tournament_id];
-							const top = heightByUtlId[utlId];
-							return (
-								<div className={'barContainer'}
-									style={{top}}
-									key={utlId}
-								>
-									<div
-										className={'bar'}
-										style={{ width: `${(row.score / maxScore) * 100}%`, backgroundColor: userColor}}
-									>
-										<div className={'addedScore'}>
-											{showChange && row.addedScore > 0 ? `${row.addedScore} +` : ''}
-										</div>
-										<div className={'scores'} style={{ color: userColor }}>{row.score}</div>
-									</div>
-								</div>
+						{utlIds.map(
+							utlId => (
+								!!rowByUtlId[utlId] ? (
+									<ScoresBar
+										key={utlId}
+										row={rowByUtlId[utlId]}
+										userColor={userColors[utlId]}
+										top={heightByUtlId[utlId]}
+										showChange={showChange}
+										maxScore={maxScore}
+									/>
+								) : null
 							)
-						})}
+						)}
 					</div>
 		  		</div>
 		  	</div>

@@ -38,14 +38,14 @@
         .usersSection {
             position: relative;
             // max-width: 35%;
-            .userContainer {
+            .LB-ProgressRowUserDetails {
                 @include flexRow;
                 transition: $topTransition;
                 margin-bottom: 8px;
                 position: absolute;
 	            height: 30px;
                 white-space: nowrap;
-                .userName {
+                .ProgressRowUserDetails-userName {
                     flex: 1 auto;
                     $margin: 8px;
                     font-weight: 700;
@@ -62,7 +62,7 @@
                 position: relative;
                 height: 100%;
             }
-            .barContainer {
+            .LB-ScoresBar {
                 transition: $topTransition;
                 width: 100%;
                 position: absolute;
@@ -71,7 +71,7 @@
                 align-items: center;
                 height: 30px;
                 margin-bottom: 8px;
-                .bar {
+                .ScoresBar-bar {
                     height: 20px;
                     min-width: 20px;
                     padding: 0px 4px;
@@ -79,14 +79,14 @@
                     transition: width 1s linear;
                     display: flex;
                     align-items: center;
-                    .addedScore {
+                    .ScoresBar-addedScore {
                         color: #fff;
                         font-size: 14px;
                         font-weight: 700;
                         white-space: nowrap;
                         max-width: 100%;
                     }
-                    .scores {
+                    .ScoresBar-scores {
                         position: absolute;
                         transform: translateX(calc(10px + 100%));
                         line-height: 16px;
