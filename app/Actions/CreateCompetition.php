@@ -41,7 +41,7 @@ class CreateCompetition
         }
 
         $playersByTeam = $teams->mapWithKeys(function($team) use ($crawler) {
-            Log::debug("[CreateCompetition][handle] Getting team {$team["id"]}");
+            Log::debug("[CreateCompetition][handle] Getting team {$team["id"]} {$team["name"]}");
             return [$team["id"] => $crawler->fetchPlayersByTeamId($team["id"])];
         });
 
