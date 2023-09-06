@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Checkbox, FormControlLabel, TextField } from '@mui/material'
-import { CurrentTournamentId, MyTournamentCodes, NoSelector, TournamentsWithMyUtl } from '../_selectors'
+import { CurrentTournamentId, MyTournamentCodes, NoSelector, LiveTournamentsWithMyUtl } from '../_selectors'
 import { connect } from 'react-redux'
 import { createUtl } from '../_actions/tournamentUser'
 import useGoTo from '../hooks/useGoTo'
@@ -21,7 +21,7 @@ interface Props {
 function JoinTournament({ onJoin }: Props) {
     const { tournamentId } = useParams<any>();
     const codeFromURL = tournamentId
-    const myTournamentsById = useSelector(TournamentsWithMyUtl)
+    const myRelevantTournamentsById = useSelector(LiveTournamentsWithMyUtl   )
     const currentTournamentId = useSelector(CurrentTournamentId)
     const myTournamentCodes = useSelector(MyTournamentCodes)
     const [code, setCode] = useState(codeFromURL || '')
@@ -33,7 +33,7 @@ function JoinTournament({ onJoin }: Props) {
     const { goToHome } = useGoTo();
 
     const alreadyJoined = myTournamentCodes.includes(codeFromURL)
-    const hasTournaments = !isEmpty(myTournamentsById)
+    const hasTournaments = !isEmpty(myRelevantTournamentsById)
 
     async function join() {
         await onJoin({ tournamentCode: code, name, importFromTournament: shouldImport ? exportedTournament : undefined  })
@@ -107,10 +107,11 @@ function JoinTournament({ onJoin }: Props) {
                                 label="ייבא ניחושים שמילאתי"
                             />
                             {shouldImport && (
+                                // Todo: handle importable & which tournament can import from and is the proper tournament & colors & show competition
                                 <TournamentInput
                                     value={exportedTournament}
                                     onChange={setExportedTournament}
-                                    tournamentsById={myTournamentsById}
+                                    tournamentsById={myRelevantTournamentsById}
                                 />
                             )}
                         </div>

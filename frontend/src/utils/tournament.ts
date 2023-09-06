@@ -1,5 +1,5 @@
 import { cloneDeep, mapValues } from 'lodash'
-import { GameBetType, KnockoutStage, Tournament, TournamentStatus, GameBetScoreConfig, EachGoalBet, RoadToFinalBetScoreConfig, SpecialQuestionType, SpecialQuestionBetScoreConfig, MatchBetsScoreConfig, CompetitionStageName } from '../types'
+import { GameBetType, KnockoutStage, Tournament, TournamentStatus, GameBetScoreConfig, EachGoalBet, RoadToFinalBetScoreConfig, SpecialQuestionType, SpecialQuestionBetScoreConfig, MatchBetsScoreConfig, CompetitionStageName, CompetitionStatus } from '../types'
 import { ScoresConfigFromatted } from '../_selectors'
 import { valuesOf } from './common'
 
@@ -159,4 +159,9 @@ export function generateDefaultScoresConfig(): ScoresConfigFromatted {
 			defensiveTeam: false,
 		}
 	}
+}
+
+export function isTournamentLive(tournament: Tournament){
+	// TODO: keep tournament live for 7 days (mas o menos) after finished
+	return tournament.competition.status !== CompetitionStatus.Done
 }

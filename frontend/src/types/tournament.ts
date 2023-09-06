@@ -1,5 +1,6 @@
 import { BetType } from "./bet";
 import { EnumRecord } from "./common";
+import { Competition } from "./competition";
 import { KnockoutStage } from "./match";
 import { SpecialQuestionType } from "./specialQuestion";
 import { UtlRole } from "./utl";
@@ -84,6 +85,7 @@ export interface Tournament {
     name: string,
     status: TournamentStatus,
     competitionId: number,
+    competition: Competition,
     config: TournamentConfig,
     code: string,
 	creatorUserId: number,

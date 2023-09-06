@@ -9,7 +9,6 @@ import { createUtl } from '../_actions/tournamentUser'
 import { fetchAndStoreCompetitions } from '../_actions/competition'
 import { CreateNewTournamentSelector } from '../_selectors'
 import {
-    Button,
     FormControlLabel,
     Radio,
     RadioGroup,
@@ -42,7 +41,8 @@ function CreateNewTournament({
     const { goToHome } = useGoTo();
 
     const competitionIds = keysOf(competitionsById)
-    const disabled = competitionIds.length === 1
+    const isOnlyOneCompetition = competitionIds.length === 1
+    const disabled = isOnlyOneCompetition
 
     async function createTournament() {
         return await createNewTournament({ competitionId: competition, name })
@@ -75,6 +75,8 @@ function CreateNewTournament({
         }
     }, [competitionIds])
 
+    const selectedCompetition = competitionsById[competition]
+
     return (
         <div className='LB-CreateNewTournament'>
             <h1 className='LB-TitleText'>צור טורניר חדש</h1>
@@ -95,25 +97,36 @@ function CreateNewTournament({
             )}
             {!tournamentWithNoUtl && (
                 <div className='LB-CreateNewTournament-content'>
-                    <div className='LB-CompetitionTitle'>
-                        <div className='competitionIcon' />
-                        <h2>מונדיאל 2022</h2>
-                    </div>
-                    {/* <h3 className={'LB-CreateNewTournament-title'}>בחר תחרות:</h3>
-                    <RadioGroup
-                        value={competition || null}
-                        onChange={(e) => setCompetition(Number(e.target.value))}
-                        name="competitions"
-                    >
-                        {Object.values(competitionsById).map((competition) => (
-                            <FormControlLabel
-                                key={competition.id}
-                                value={competition.id}
-                                control={<Radio disabled={disabled} />}
-                                label={competition.name}
-                            />
-                        ))}
-                    </RadioGroup> */}
+                    {isOnlyOneCompetition && selectedCompetition && (
+                        <div className='LB-CompetitionTitle'>
+                            <div className='competitionIcon' style={{backgroundImage: `url('${selectedCompetition.emblem}')`}} />
+                            <h2>{selectedCompetition.name}</h2>
+                        </div>
+                    )}
+                    {!isOnlyOneCompetition && (<>
+                        <h3 className={'LB-CreateNewTournament-title'}>בחר תחרות:</h3>
+                        <RadioGroup
+                            value={competition || null}
+                            onChange={(e) => setCompetition(Number(e.target.value))}
+                            name="competitions"
+                        >
+                            {Object.values(competitionsById).map((competition) => (
+                                <FormControlLabel
+                                    key={competition.id}
+                                    value={competition.id}
+                                    control={<Radio disabled={disabled} />}
+                                    label={
+                                        <div>
+                                            {competition.emblem && (
+                                                <img className="LB-CompetitionEmblem" src={competition.emblem} />
+                                            )}
+                                            {competition.name}
+                                        </div>
+                                    }
+                                />
+                            ))}
+                        </RadioGroup>
+                    </>)}
                     <div className='nameInputContainer'>
                         <h3>שם הטורניר:</h3>
                         <TextField
