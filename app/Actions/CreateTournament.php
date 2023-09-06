@@ -23,7 +23,7 @@ class CreateTournament
     public function handle(User $user, Competition $competition, string $name): Tournament
     {
         $this->validateCreatePermissions($user);
-        $this->validateCreateLimitations($user);
+        $this->validateCreateLimitations($user, $competition);
         // $this->validateNameAlreadyInUse($name);
 
         $tournament                  = new Tournament();
@@ -59,19 +59,19 @@ class CreateTournament
         // }
     }
 
-    private function validateCreateLimitations(User $user) {
-        $owned_tournaments_count = $user->ownedTournaments()->count();
+    private function validateCreateLimitations(User $user, Competition $competition) {
+        $owned_tournaments_count = $user->ownedTournaments()->where('competition_id', $competition->id)->count();
         if ($user->isAdmin()) {
-            if ($owned_tournaments_count >= 3) {
-                throw new JsonException("אדמינים לא יכולים ליצור מעל 3 טורנירים", 403);
+            if ($owned_tournaments_count >= 4) {
+                throw new JsonException("אדמינים לא יכולים ליצור מעל 4 טורנירים לאותה תחרות", 403);
             }
         } else {
             if ($owned_tournaments_count >= 1) {
-                throw new JsonException("לא ניתן ליצור יותר מטורניר אחד", 403);
+                throw new JsonException("לא ניתן ליצור יותר מטורניר אחד לתחרות", 403);
             }
         }
         if (Tournament::count() >= 100) {
-            throw new JsonException("נפתחו כבר 50 טורנירים, לא ניתן ליצור טורניר חדש", 403);
+            throw new JsonException("נפתחו כבר 100 טורנירים לתחרות זו, לא ניתן ליצור טורניר חדש", 403);
         }
     }
 
