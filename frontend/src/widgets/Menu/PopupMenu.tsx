@@ -5,13 +5,14 @@ import './PopupMenu.scss'
 
 
 
-function PopupMenu({ anchorContent, children, classes }: PopupMenuProps) {
+function PopupMenu({ anchorContent, children, classes, onClose }: PopupMenuProps) {
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement>(null)
     const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
         setAnchorEl(event.currentTarget)
     }
     const handleClose = () => {
         setAnchorEl(null)
+        onClose && onClose()
     }
 
     return (
