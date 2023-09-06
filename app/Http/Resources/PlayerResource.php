@@ -20,7 +20,11 @@ class PlayerResource extends JsonResource
         $player = $this->resource;
 
         // TODO: Save in DB or make $player->competition->getCrawler()->getPlayerFlag()
-        $imgUrl = "https://imagecache.365scores.com/image/upload/f_png,w_40,h_40,c_limit,q_auto:eco,dpr_2,d_Athletes:{$player->external_id}.png,r_max,c_thumb,g_face,z_0.65/Athletes/NationalTeam/{$player->external_id}";
+        $imgUrl = "https://imagecache.365scores.com/image/upload/f_png,w_100,h_100,c_limit,q_auto:eco,dpr_2,d_Athletes:{$player->external_id}.png,r_max,c_thumb,g_face,z_0.65/Athletes/NationalTeam/{$player->external_id}";
+        $isClubPlayer = $player->team->competition->isClubsCompetition();
+        if ($isClubPlayer){
+            $imgUrl = "https://imagecache.365scores.com/image/upload/f_png,w_100,h_100,c_limit,q_auto:eco,dpr_2,d_Athletes:default.png,r_max,c_thumb,g_face,z_0.65/v27/Athletes/{$player->external_id}";
+        }
         return [
             "id"              => $player->id,
             "name"            => $player->name,

@@ -80,6 +80,11 @@ class Competition extends Model
         return $this->hasMany(Team::class);
     }
 
+    public function isClubsCompetition()
+    {
+        return collect($this->config)->get("isForClubs") || false;
+    }
+
     public function getCrawler()
     {
         return Crawler::getInstance($this->config["external_id"]);
