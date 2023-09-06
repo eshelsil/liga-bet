@@ -17,6 +17,7 @@ import { HasAllOtherTournamentsNotifications, HasFetchedAllTournamentInitialData
 import leaderboardsFetcher from '../_reducers/leaderboardsFetcher';
 import { isUtlConfirmed, valuesOf } from '../utils';
 import { filter } from 'lodash';
+import { fetchAndStoreCompetitions } from '../_actions/competition';
 
 function useFetcher({
     refreshable,
@@ -52,6 +53,13 @@ function useFetcher({
 }
 
 
+
+export function useCompetitions() {
+    const dispatch = useDispatch<AppDispatch>();
+    useEffect(()=> {
+        dispatch(fetchAndStoreCompetitions())
+    }, [])
+}
 
 export function useTeams(refreshable?: boolean) {
     return useFetcher({
