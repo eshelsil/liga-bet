@@ -26,6 +26,11 @@
 
 .LB-TeamFlag {
     display: inline;
-    box-shadow: $medium-shadow;
     border-radius: 100%;
+    &.TeamFlag-shadow {
+        box-shadow: $medium-shadow;
+    }
+    .TeamFlag-clubImage {
+        object-fit: contain;
+    }
 }

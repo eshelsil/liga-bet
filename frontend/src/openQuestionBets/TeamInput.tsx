@@ -42,7 +42,7 @@ function TeamInput({
                     if (!team) return
                     return (
                         <TeamWithFlag
-                            name={team.name}
+                            team={team}
                             size={32}
                         />
                     )
@@ -58,7 +58,7 @@ function TeamInput({
                 {teamsSortedByName.map((team) => (
                     <MenuItem key={team.id} value={team.id} style={{}}>
                         <TeamWithFlag
-                            name={team.name}
+                            team={team}
                             size={32}
                         />
                     </MenuItem>

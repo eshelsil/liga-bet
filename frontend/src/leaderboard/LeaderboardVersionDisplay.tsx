@@ -38,7 +38,7 @@ function LeaderboardVersionDisplay({version}: Props) {
                         <div className='VersionDisplay-teamWrapper'>
                             <div className='VersionDisplay-team'>
                                 <span className='VersionDisplay-score'>{game.full_result_home || game.result_home}</span>
-                                <TeamFlag name={game.home_team.name} size={24} />
+                                <TeamFlag team={game.home_team} size={24} />
                                 <div className='VersionDisplay-teamName'>{getHebTeamName(game.home_team.name)}</div>
                             </div>
                         </div>
@@ -46,7 +46,7 @@ function LeaderboardVersionDisplay({version}: Props) {
                         <div className='VersionDisplay-teamWrapper'>
                             <div className='VersionDisplay-team'>
                                 <span className='VersionDisplay-score'>{game.full_result_away || game.result_away}</span>
-                                <TeamFlag name={game.away_team.name} size={24} />
+                                <TeamFlag team={game.away_team} size={24} />
                                 <div className='VersionDisplay-teamName'>{getHebTeamName(game.away_team.name)}</div>
                             </div>
                         </div>

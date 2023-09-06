@@ -3,8 +3,7 @@ import { Team } from '../../types'
 import BigTeamWithFlag from '../TeamFlag/BigTeamWithFlag'
 
 function TeamAnswerView({ team }: { team: Team }) {
-    const { name } = team
-    return <BigTeamWithFlag name={name} />
+    return <BigTeamWithFlag team={team} />
 }
 
 export default TeamAnswerView

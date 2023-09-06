@@ -25,7 +25,7 @@ function MatchResultView({home, away, isKnockout, qualifier, title}: MatchResult
             )}
             <div className='MatchResult-content'>
                 <div className='MatchResult-side'>
-                    <TeamFlag size={32} name={home.team.name} />
+                    <TeamFlag size={32} team={home.team} />
                     <div className={'MatchResult-row'}>
                         {home.score}
                     </div>
@@ -63,7 +63,7 @@ function MatchResultView({home, away, isKnockout, qualifier, title}: MatchResult
                     </>)}
                 </div>
                 <div className='MatchResult-side'>
-                    <TeamFlag size={32} name={away.team.name} />
+                    <TeamFlag size={32} team={away.team} />
                     <div className={'MatchResult-row'}>
                         {away.score}
                     </div>

@@ -1,5 +1,6 @@
 import React from 'react'
 import { CircleFlag } from 'react-circle-flags'
+import { Team } from '../../types'
 
 
 const teamNameToCountryCode = {
@@ -37,18 +38,24 @@ const teamNameToCountryCode = {
 }
 
 interface Props {
-    name: string
+    team: Team
     size?: number
 }
 
 function TeamFlag({
-    name,
+    team,
     size = 50,
 }: Props) {
+    const {name, is_club} = team
     const tla = teamNameToCountryCode[name.toLowerCase()] ?? name.slice(0,2).toLowerCase()
     return (
-        <div className='LB-TeamFlag'>
-            <CircleFlag countryCode={tla} height={size} width={size} />
+        <div className={`LB-TeamFlag ${is_club ? '' : 'TeamFlag-shadow'}`}>
+            {is_club && (
+                <img className="TeamFlag-clubImage" src={team.crest_url} height={size} width={size} />
+            )}
+            {!is_club && (
+                <CircleFlag countryCode={tla} height={size} width={size} />
+            )}
         </div>
     )
 }

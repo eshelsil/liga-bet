@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useSelector } from 'react-redux';
-import { QuestionBetWithRelations, ScoreboardRowDetailed } from '../types'
+import { QuestionBetWithRelations, ScoreboardRowDetailed, Team } from '../types'
 import CustomTable from '../widgets/Table/CustomTable'
 import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AddIcon from '@mui/icons-material/Add';
@@ -22,7 +22,7 @@ function NameWithWinnerFlag({
     return (
         <div className='LB-NameWithWinnerFlag'>
             {winnerBet && (
-                <TeamFlag name={winnerBet.answer.name} size={32} />
+                <TeamFlag team={winnerBet.answer as Team} size={32} />
             )}
             {!winnerBet && (
                 <div className='NameWithWinnerFlag-noWinner' />

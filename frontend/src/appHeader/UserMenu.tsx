@@ -15,8 +15,8 @@ function UserIcon(){
     const winnerTeam = useSelector(MyWinnerTeamSelector)
     return (<>
         {winnerTeam && (
-            <div className='LB-UserIcon'>
-                <TeamFlag name={winnerTeam.name} />
+            <div className={`LB-UserIcon ${winnerTeam.is_club ? '' : 'UserIcon-withShadow'}`}>
+                <TeamFlag team={winnerTeam} />
                 <PersonIcon className='personIcon' />
             </div>
         )}

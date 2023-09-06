@@ -54,7 +54,7 @@ function GameHeader({ match, onClick }: { match: Match, onClick?: () => void }) 
             id: 'home',
             header: (
                 <TeamWithFlagVertical
-                    name={home_team.name}
+                    team={home_team}
                 />
             ),
             classes: {
@@ -77,7 +77,7 @@ function GameHeader({ match, onClick }: { match: Match, onClick?: () => void }) 
             id: 'away',
             header: (
                 <TeamWithFlagVertical
-                    name={away_team.name}
+                    team={away_team}
                 />
             ),
             classes: {

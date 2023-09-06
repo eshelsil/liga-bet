@@ -158,7 +158,7 @@ export default function NewGoalDialog({
                             if (!team) return
                             return (
                                 <TeamWithFlag
-                                    name={team.name}
+                                    team={team}
                                     size={32}
                                 />
                             )
@@ -174,7 +174,7 @@ export default function NewGoalDialog({
                         {teams.map((team) => (
                             <MenuItem key={team.id} value={team.id}>
                                 <TeamWithFlag
-                                    name={team.name}
+                                    team={team}
                                     size={32}
                                 />
                             </MenuItem>

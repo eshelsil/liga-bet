@@ -1,6 +1,7 @@
+import { Team } from "../../types"
 
 export interface TeamWithFlagProps {
-    name: string
+    team: Team
     classes?: {
         name?: string
         root?: string

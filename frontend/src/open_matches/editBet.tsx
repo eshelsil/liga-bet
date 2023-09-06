@@ -67,13 +67,13 @@ function EditMatchBet({
             <td className="open-match-teams-cell v-align-center">
                 <TeamWithFlag
                     crest_url={home_team.crest_url}
-                    name={home_team.name}
+                    team={home_team}
                     is_ko_winner={isHomeWinner}
                 />
                 <br />
                 <TeamWithFlag
                     crest_url={away_team.crest_url}
-                    name={away_team.name}
+                    team={away_team}
                     is_ko_winner={isAwayWinner}
                 />
             </td>

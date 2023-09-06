@@ -104,7 +104,7 @@ function GroupRankGumblersList({ group, bets, isLive }: Props) {
                 <div className='GroupRankGumblersList-title'>{getHebGroupName(group.name)}</div>
                 <div className='GroupRankGumblersList-teams'>
                     {teams.map(team => (
-                        <TeamFlag key={team.id} name={team.name} size={48} />
+                        <TeamFlag key={team.id} team={team} size={48} />
                     ))}
                 </div>
                 <div className='GroupRankGumblersList-expandIconContainer'>

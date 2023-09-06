@@ -9,12 +9,11 @@ interface Props extends Team {
 }
 
 function TeamStanding({isDisabled, ...team}: Props) {
-    const { name } = team
     return (
         <div
             className="LB-TeamStanding"
         >
-            <TeamWithFlag name={name} />
+            <TeamWithFlag team={team} />
             {!isDisabled && (
                 <DragHandleRoundedIcon className='dragIcon' />
             )}

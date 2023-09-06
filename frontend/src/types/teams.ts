@@ -5,6 +5,7 @@ export interface Team {
     crest_url: string
     group_id: number | string
     competition_id: number
+    is_club: boolean
 }
 
 export type TeamsById = Record<number, Team>

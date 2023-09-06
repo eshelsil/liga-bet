@@ -14,7 +14,7 @@ function TeamDisplay({team, rank}: TeamDisplayProps){
             <div className='TeamDisplay-rank'>
                 {rank}
             </div>
-            <TeamWithFlag size={size} name={team.name} />
+            <TeamWithFlag size={size} team={team} />
         </div>
     )
 }

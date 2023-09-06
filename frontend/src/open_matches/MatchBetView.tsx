@@ -102,7 +102,7 @@ function OpenMatchBetView({
                 )}
             </div>
             <div className='OpenMatchBet-body'>
-                <TeamWithFlag name={home_team.name} size={50} classes={{root: 'verticalTeam sideRight', name: 'verticalTeamName'}}/>
+                <TeamWithFlag team={home_team} size={50} classes={{root: 'verticalTeam sideRight', name: 'verticalTeamName'}}/>
                 <div className='scoreForm'>
                     {showEdit && (
                         <EditMatchBetView
@@ -117,7 +117,7 @@ function OpenMatchBetView({
                         <CurrentBetView bet={bet} onEdit={goToEditMode} />
                     )}
                 </div>
-                <TeamWithFlag name={away_team.name} size={50} classes={{root: 'verticalTeam sideLeft', name: 'verticalTeamName'}}/>
+                <TeamWithFlag team={away_team} size={50} classes={{root: 'verticalTeam sideLeft', name: 'verticalTeamName'}}/>
             </div>
             {showShubi && isOurTournament && (
                 <DaShubi dismiss={()=> setShowShubi(false)}/>

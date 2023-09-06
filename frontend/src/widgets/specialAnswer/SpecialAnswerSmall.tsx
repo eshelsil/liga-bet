@@ -4,6 +4,7 @@ import {
     SpecialAnswerType,
     SpecialQuestionAnswer,
     SpecialQuestionType,
+    Team,
 } from '../../types'
 import { specialQuestionToAnswerType } from '../../utils'
 import PlayerWithImg from '../Player'
@@ -26,7 +27,7 @@ function SpecialAnswerSmall({ answer, type }: Props) {
     }
     return (
         <div className={'LB-SpecialAnswerSmall'}>
-            {isTeamQuestion && <TeamWithFlag name={answer?.name} size={36} />}
+            {isTeamQuestion && <TeamWithFlag team={answer as Team} size={36} />}
             {isPlayerQuestion && <PlayerWithImg player={answer as Player} size={36} />}
         </div>
     )

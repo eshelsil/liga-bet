@@ -96,9 +96,11 @@
       .LB-UserIcon {
           position: relative;
           display: block;
-          border-radius: 100%;
-          overflow: hidden;
-          box-shadow: $medium-shadow;
+          &.UserIcon-withShadow {
+            border-radius: 100%;
+            overflow: hidden;
+            box-shadow: $medium-shadow;
+          }
           .personIcon {
             position: absolute;
             bottom: -6px;

@@ -7,14 +7,15 @@ import './TeamWithFlag.scss'
 
 
 function TeamWithFlag({
-    name,
+    team,
     classes,
     is_ko_winner,
     size = 32,
 }: TeamWithFlagProps) {
+    const name = team.name
     return (
         <div className={`TeamWithFlag ${classes?.root ?? ''}`}>
-            <TeamFlag name={name} size={size} />
+            <TeamFlag team={team} size={size} />
             {name && (
                 <div
                     className={`TeamWithFlag-name ${classes?.name ?? ''}`}
