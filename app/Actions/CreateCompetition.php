@@ -78,6 +78,7 @@ class CreateCompetition
         $competition         = new Competition();
         $competition->type   = 1; // TODO: One day..
         $competition->name   = "";
+        $competition->status = Competition::STATUS_INITIAL;
         $competition->config = [
             "crawler" => "football-data.org",
             "external_id" => $id,

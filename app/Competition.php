@@ -46,6 +46,10 @@ class Competition extends Model
     private $endingGroupGameIds;
     private $lastGroupStageGameId;
 
+    const STATUS_DONE = 'done';
+    const STATUS_ONGOING = 'ongoing';
+    const STATUS_INITIAL = 'initial';
+
     protected $casts = [
         "config" => "array"
     ];
