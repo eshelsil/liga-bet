@@ -18,6 +18,15 @@
   }
   .LigaBet-PopupMenu-list {
     &.tournamentsMenu {
+      .TournamentMenu-CompetitionTitle{
+        font-size: 15px;
+        text-align: center;
+        text-decoration: underline;
+        padding: 8px;
+        padding-bottom: 0px;
+        cursor: default;
+        background-color: #9e54eb3d;
+      }
       .LigaBet-TournamentItemLink {
         border-radius: 2px;
         color: white;
@@ -87,6 +96,22 @@
         background-color: #9f9f9f57;
         padding: 8px;
         @include centerContainer;
+      }
+      .changeLiveMode{
+        @include centerContainer;
+        cursor: pointer;
+        background-color: #c7768985;
+        width: 100%;
+        border-radius: 10px;
+        padding: 5px;
+        margin-bottom: 12px;
+        transition: background-color 0.4s;
+        &:hover {
+          background-color: #b5385585;
+        }
+        > svg {
+          margin-left: 8px;
+        }
       }
     }
   }
