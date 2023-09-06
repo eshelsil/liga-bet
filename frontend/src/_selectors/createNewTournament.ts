@@ -1,11 +1,14 @@
 import { createSelector } from 'reselect'
-import { Competitions, MyUtls, OwnedTournaments, TournamentsWithMyUtl } from './base'
+import { OpenCompetitions, OwnedTournaments, TournamentsWithMyUtl } from './base'
+import { pickBy } from 'lodash'
+import { isTournamentLive } from '../utils'
 
 export const OwnedTournamentWithNoUtl = createSelector(
     OwnedTournaments,
     TournamentsWithMyUtl,
     (ownedTournaments, tournamentsWithUtl) => {
-        for (const tournament of Object.values(ownedTournaments)) {
+        const relevantOwnedTournaments = pickBy(ownedTournaments, t => isTournamentLive(t))
+        for (const tournament of Object.values(relevantOwnedTournaments)) {
             if (!tournamentsWithUtl[tournament.id]) {
                 return tournament
             }
@@ -14,7 +17,7 @@ export const OwnedTournamentWithNoUtl = createSelector(
     }
 )
 export const CreateNewTournamentSelector = createSelector(
-    Competitions,
+    OpenCompetitions,
     OwnedTournamentWithNoUtl,
     (competitionsById, tournamentWithNoUtl) => {
         return {

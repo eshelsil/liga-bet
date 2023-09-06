@@ -1,10 +1,11 @@
 import { Dictionary, mapValues, orderBy, pickBy } from 'lodash'
 import { createSelector } from 'reselect'
-import { SpecialQuestionApiModel, SpecialQuestionType, TournamentWithLinkedUtl } from '../../types'
+import { CompetitionStatus, SpecialQuestionApiModel, SpecialQuestionType, TournamentWithLinkedUtl } from '../../types'
 import {
     getSpecialQuestionName,
     isAdmin,
     isGameLive,
+    isTournamentLive,
     isTournamentStarted,
     isUtlConfirmed,
     keysOf,
@@ -22,6 +23,7 @@ import {
     MultiBetsSettings,
     ScoreboardSettings,
     CurrentLeaderboardsFetcher,
+    Competitions,
 } from './models'
 
 
@@ -97,6 +99,13 @@ export const TournamentsWithMyUtl = createSelector(
             };
         }
         return tournamentsById;
+    }
+)
+
+export const LiveTournamentsWithMyUtl = createSelector(
+    TournamentsWithMyUtl,
+    (tournamentsWithUtl) => {
+        return pickBy(tournamentsWithUtl, t => isTournamentLive(t))
     }
 )
 
@@ -217,5 +226,12 @@ export const FetchedLeaderboardVersions = createSelector(
     CurrentLeaderboardsFetcher,
     (fetcher) => {
         return fetcher.fetched || []
+    }
+)
+
+export const OpenCompetitions = createSelector(
+    Competitions,
+    (competitions) => {
+        return pickBy(competitions, c => c.status === CompetitionStatus.Initial)
     }
 )

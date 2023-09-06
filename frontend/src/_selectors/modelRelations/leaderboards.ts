@@ -21,6 +21,9 @@ export const MyScoreByTournamentId = createSelector(
                 return null
             }
             const leaderboardRows = leaderboardRowsByVersionId[latestVersion.id]
+            if (!leaderboardRows){
+                return null
+            }
             let utlRow: ScoreboardRow = null
             for (const utlId of keysOf(myUtls)){
                 utlRow = leaderboardRows[utlId] || null

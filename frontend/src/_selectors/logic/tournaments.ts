@@ -1,10 +1,28 @@
-import { without } from 'lodash';
+import { groupBy, orderBy, pickBy, some, without } from 'lodash';
 import { createSelector } from 'reselect'
-import { isAdmin } from '../../utils';
-import { Contestants, CurrentTournament, CurrentTournamentUserId, CurrentUser, MyTournamentIds, MyUtls, MyUtlsSorted, OwnedTournaments, TournamentIdSelector } from '../base';
+import { isAdmin, isTournamentLive, keysOf, valuesOf } from '../../utils';
+import { Contestants, CurrentTournament, CurrentTournamentUserId, CurrentUser, MyUtls, OpenCompetitions, OwnedTournaments, TournamentIdSelector } from '../base';
+
+
+export const MyUtlsOfCurrentCompetition = createSelector(
+    MyUtls,
+    CurrentTournament,
+    (myUtlsById, tournament) => {
+        return pickBy(myUtlsById, utl => utl.tournament.competitionId === tournament.competitionId)
+    }
+)
+
+export const MyUtlsOfCurrentCompSorted = createSelector(
+    MyUtlsOfCurrentCompetition,
+    (myUtlsById) => {
+        return orderBy(valuesOf(myUtlsById), utl => utl.createdAt)
+    }
+)
+
+
 
 export const ChosenTournamentIndex = createSelector(
-    MyUtlsSorted,
+    MyUtlsOfCurrentCompSorted,
     CurrentTournamentUserId,
     (utlsByDate, currentUtlId) => {
         const chosenUtlIndex = utlsByDate.findIndex(utl => utl.id === currentUtlId);
@@ -12,23 +30,53 @@ export const ChosenTournamentIndex = createSelector(
     }
 )
 
+export const MyUtlsByCompetitionId = createSelector(
+    MyUtls,
+    (utlsById) => {
+        return groupBy(valuesOf(utlsById), utl => utl.tournament.competitionId)
+    }
+)
+
+export const LiveUTLsByCompetitionId = createSelector(
+    MyUtlsByCompetitionId,
+    (utlsBycompId) => {
+        return pickBy(utlsBycompId, utls => isTournamentLive(utls[0].tournament))
+    }
+)
+
+export const OldUTLsByCompetitionId = createSelector(
+    MyUtlsByCompetitionId,
+    (utlsBycompId) => {
+        return pickBy(utlsBycompId, utls => !isTournamentLive(utls[0].tournament))
+    }
+)
+
 export const CanJoinAnotherTournament = createSelector(
     MyUtls,
+    OpenCompetitions,
     CurrentUser,
-    (myUtlsById, currentUser) => {
-        const tournamentsCount = Object.values(myUtlsById).length;
+    (myUtlsById, openCompetitions, currentUser) => {
+        let allowedUtlsPerCompetition = 3
         if (isAdmin(currentUser)){
-            return tournamentsCount < 5;
+            allowedUtlsPerCompetition = 5;
         }
-        return tournamentsCount < 3;
+        const utlsPerCompetition = groupBy(myUtlsById, utl => utl.tournament.competitionId)
+        return some(keysOf(openCompetitions),
+            compId => (utlsPerCompetition[compId] ?? []).length < allowedUtlsPerCompetition
+        )
+
     }
 )
 
 export const CanCreateNewTournament = createSelector(
     OwnedTournaments,
+    OpenCompetitions,
     CurrentUser,
-    (ownedTournaments, currentUser) => {
-        const hasOwnedTournament = Object.keys(ownedTournaments).length > 0;
+    (ownedTournaments, openCompetitions, currentUser) => {
+        const ownedTournamentsPerCompetition = groupBy(ownedTournaments, t => t.competitionId)
+        const openCompetitionWithoutTournamentExists = some(keysOf(openCompetitions),
+            cId => (ownedTournamentsPerCompetition[cId] ?? []).length === 0
+        )
         if (isAdmin(currentUser)){
             return true;
         }
@@ -36,7 +84,7 @@ export const CanCreateNewTournament = createSelector(
         //     return !hasOwnedTournament;
         // }
         // return false;
-        return !hasOwnedTournament;
+        return openCompetitionWithoutTournamentExists;
     }
 )
 
@@ -50,9 +98,9 @@ export const CurrentTournamentOwner = createSelector(
 )
 
 export const MyOtherTournaments = createSelector(
-    MyTournamentIds,
+    MyUtlsOfCurrentCompetition,
     TournamentIdSelector,
-    (myTournamentIds, tournamentId) => {
-        return without(myTournamentIds, tournamentId)
+    (utls, tournamentId) => {
+        return without(valuesOf(utls).map(utl => utl.tournament.id), tournamentId)
     }
 )
