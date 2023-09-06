@@ -11,86 +11,110 @@
         text-align: center;
         margin-bottom: 30px;
     }
-    .utlsCollection {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-evenly;
-        max-width: 100%;
-        .LB-UtlCard {
-            @include floatingFrame;
-            $borderRadius: 12px;
-            width: 350px;
+    .LB-MyUtlsOfCompetition{
+        margin-bottom: 60px;
+        .LB-CompetitionTile {
+            border-radius: 38px;
+            background-color: rgb(247 229 202 / 90%);
+            padding: 8px 32px 8px 16px;
+            font-size: 24px;
+            @include flexRow;
+            .CompetitionTile-emblem{
+                width: 75px;
+                height: 75px;
+                margin-left: 16px;
+            }
+        }
+        .utlsCollection {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
             max-width: 100%;
-            margin: 12px;
-            border-radius: $borderRadius;
-            overflow: hidden;
-            
-            .cardHeader {
-                @include flexRow;
-                $headerXPadding: 16px;
-                padding: 4px $headerXPadding;
-                position: relative;
-                cursor: pointer;
-                &:hover {
-                    filter: brightness(120%);
-                }
-                .tournamentName {
-                    margin-right: 10px;
-                }
-                .selectedUtl {
-                    position: absolute;
-                    width: 100%;
-                    height: 100%;
-                    margin-right: -$headerXPadding;
-                    border-radius: $borderRadius $borderRadius 0px 0px;
-                    border: 4px solid rgb(0 0 0 / 30%);
-                }
-            }
-            .cardBody {
-                padding: 12px;
-                $nameWidth: 90px;
-                .utlAttribute {
-                    font-size: 14px;
-                    margin-bottom: 16px;
-                    .attributeName {
-                        display: inline-block;
-                        width: $nameWidth;
-                        font-weight: 700;
-                    }
-                    .value {
-                        width: calc(100% - $nameWidth);
-                        display: inline-flex;
-                    }
-                }
-                .linksContainer {
-                    @include centerContainer;
-                    flex-direction: column;
-                    .takanonLink {
-                        margin-top: 8px;
-                    }
-                }
-                .buttonsContinaer {
+            .LB-UtlCard {
+                @include floatingFrame;
+                $borderRadius: 12px;
+                width: 350px;
+                max-width: 100%;
+                margin: 12px;
+                border-radius: $borderRadius;
+                overflow: hidden;
+                
+                .cardHeader {
+                    @include flexRow;
+                    $headerXPadding: 16px;
+                    padding: 4px $headerXPadding;
                     position: relative;
-                    margin-top: 4px;
-                    height: 40px;
+                    cursor: pointer;
+                    &:hover {
+                        filter: brightness(120%);
+                    }
+                    .tournamentName {
+                        margin-right: 10px;
+                    }
+                    .selectedUtl {
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        margin-right: -$headerXPadding;
+                        border-radius: $borderRadius $borderRadius 0px 0px;
+                        border: 4px solid rgb(0 0 0 / 30%);
+                    }
+                }
+                .cardBody {
+                    padding: 12px;
+                    $nameWidth: 90px;
+                    .utlAttribute {
+                        font-size: 14px;
+                        margin-bottom: 16px;
+                        .attributeName {
+                            display: inline-block;
+                            width: $nameWidth;
+                            font-weight: 700;
+                        }
+                        .value {
+                            width: calc(100% - $nameWidth);
+                            display: inline-flex;
+                        }
+                    }
+                    .linksContainer {
+                        @include centerContainer;
+                        flex-direction: column;
+                        .takanonLink {
+                            margin-top: 8px;
+                        }
+                    }
+                    .buttonsContinaer {
+                        position: relative;
+                        margin-top: 4px;
+                        height: 40px;
+                    }
                 }
             }
+    
+    
+    
+            .editButton {
+                position: absolute;
+                left: 0px;
+                bottom: 0px;
+            }
+            .LB-LoadingVIcon {
+                position: absolute;
+                right: 0px;
+                top: 0px;
+            }
+            .nameInput {
+                width: 180px;
+            }
         }
-
-
-
-        .editButton {
-            position: absolute;
-            left: 0px;
-            bottom: 0px;
-        }
-        .LB-LoadingVIcon {
-            position: absolute;
-            right: 0px;
-            top: 0px;
-        }
-        .nameInput {
-            width: 180px;
+    }
+    .UTLPage-showOld {
+        margin: 20px;
+        .UTLPage-showOldArrowDown {
+            transition: transform 0.3s;
+            &.showOldArrowDown-expanded {
+                transform: rotate(180deg);
+            }
         }
     }
 }
