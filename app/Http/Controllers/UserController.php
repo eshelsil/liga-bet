@@ -6,6 +6,7 @@ use App\Actions\ImportMissingUtlBets;
 use App\Actions\UpdateCompetition;
 use App\Bet;
 use App\Competition;
+use App\Http\Resources\TournamentResource;
 use App\Http\Resources\ContestantResource;
 use App\Http\Resources\UtlResource;
 use App\Tournament;
@@ -128,7 +129,8 @@ class UserController extends Controller
     public function getOwnedTournaments(Request $request)
     {
         $tournaments = $this->getUser()->ownedTournaments;
-        return new JsonResponse($tournaments, 200);
+        $data = $tournaments->map(fn(Tournament $t) => (new TournamentResource($t)));
+        return new JsonResponse($data, 200);
     }
 
     public function getTournamentUTLs(Request $request, string $tournamentId)

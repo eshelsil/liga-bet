@@ -22,6 +22,7 @@ class TournamentResource extends JsonResource
             "id"              => $t->id,
             "name"            => $t->name,
             "competitionId"   => $t->competition_id,
+            "competition"     => new CompetitionResource($t->competition),
             "status"          => $t->status,
             "config"          => $t->config,
             "creatorUserId"   => $t->creator_user_id,
