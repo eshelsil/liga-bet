@@ -55,7 +55,7 @@ function Leaderboard() {
                     isShowingHistoricTable={isShowingHistoricTable}
                 />
             </ExpandedContestantContextProvider>
-            <CongratsAnimationProvider />
+            {/* <CongratsAnimationProvider /> */}
         </>
     )
 }
