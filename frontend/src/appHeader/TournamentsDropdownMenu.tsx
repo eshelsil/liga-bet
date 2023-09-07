@@ -50,9 +50,10 @@ function TournamentsDropdownMenu({
     const canCreateNewTournament = useSelector(CanCreateNewTournament);
 
     const [isLive, setIsLive] = useState(true)
+    const isOldAvailable = false // hid old menu for now
     const utlsByCompId = isLive ? liveUtlsByCompId : oldUtlsByCompId
     const hasOldBets = keysOf(oldUtlsByCompId).length > 0
-    const showHistoryButton = isLive && hasOldBets
+    const showHistoryButton = isLive && hasOldBets && isOldAvailable
     const showLiveButton = !isLive
 
     const competitions = valuesOf(utlsByCompId).map(utls => utls[0].tournament.competition);
@@ -91,7 +92,9 @@ function TournamentsDropdownMenu({
         >
             {sortedCompetitions.map(competition => (
                 <div key={competition.id} className="TournamentMenu-Competition">
-                    <div onClick={(e) => e.stopPropagation()} className="TournamentMenu-CompetitionTitle">{competition.name}</div>
+                    {isOldAvailable && (
+                        <div onClick={(e) => e.stopPropagation()} className="TournamentMenu-CompetitionTitle">{competition.name}</div>
+                    )}
                     {orderBy(utlsByCompId[competition.id], 'createdAt').map(utl => (
                         <TournamentItemLink
                             key={utl.tournament.id}
