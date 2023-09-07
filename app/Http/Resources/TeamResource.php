@@ -19,12 +19,17 @@ class TeamResource extends JsonResource
         /** @var Team $team */
         $team = $this->resource;
 
-        $teamId365 = Crawler::translate365TeamId($team->external_id);
+        $name = $team->name;
+        $crest_url = $team->crest_url;
+        if ($team->competition->isSupports365TeamExtId()){
+            $teamId365 = Crawler::translate365TeamId($team->external_id);
+            $name = static::getHebNameFrom365($teamId365) ?? $team->name;
+            $crest_url = "https://imagecache.365scores.com/image/upload/f_png,w_82,h_82,c_limit,q_auto:eco,dpr_2,d_Competitors:default1.png/v1/Competitors/{$teamId365}";
+        }
         $isClub = $team->competition->isClubsCompetition();
-        $name = static::getHebNameFrom365($teamId365) ?? $team->name;
 
         $team = $team->only(["name", "id", "crest_url", "group_id"]);
-        $team["crest_url"] = "https://imagecache.365scores.com/image/upload/f_png,w_82,h_82,c_limit,q_auto:eco,dpr_2,d_Competitors:default1.png/v1/Competitors/{$teamId365}";
+        $team["crest_url"] = $crest_url ;
         $team["is_club"] = $isClub;
         $team["name"] = $name;
         return $team;

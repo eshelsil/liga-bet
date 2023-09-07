@@ -89,6 +89,11 @@ class Competition extends Model
         return collect($this->config)->get("isForClubs") || false;
     }
 
+    public function isSupports365TeamExtId()
+    {
+        return !(collect($this->config)->get("ignore365TeamExtId") || false);
+    }
+
     public function getCrawler()
     {
         return Crawler::getInstance($this->config["external_id"]);
