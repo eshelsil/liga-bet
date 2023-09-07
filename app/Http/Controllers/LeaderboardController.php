@@ -31,7 +31,7 @@ class LeaderboardController extends Controller
 
         $ids = json_decode($request->ids);
         $validator = Validator::make(['ids' => $ids], [
-            'ids' => 'nullable|array|max:2',
+            'ids' => 'nullable|array|max:10',
         ])->validate();
 
         LeaderboardVersionResource::withoutWrapping();
