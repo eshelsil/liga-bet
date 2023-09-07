@@ -117,6 +117,13 @@ class User extends Authenticatable
         return $this->utls->filter(fn(TournamentUser $utl) => $utl->isRegistered());
     }
 
+    public function canJoinAnotherTournament($competitionId)
+    {
+        $MAX_TOURNAMENTS_PER_USER_LIMIT = 3;
+        $participatingTournamentsCount = $this->registeredUtls()->filter(fn($utl) => $utl->tournament->competition->id == $competitionId)->count();
+        return $participatingTournamentsCount < $MAX_TOURNAMENTS_PER_USER_LIMIT;
+    }
+
     public function wasAnActiveUser()
     {
         foreach($this->utls as $utl){

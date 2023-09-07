@@ -19,10 +19,15 @@ class TournamentController extends Controller
 {
     public function createTournament(Request $request, CreateTournament $ct)
     {
+        $competition = $request->competition;
+
         $user = $this->getUser();
+        if (!$user->isAdmin() && !$user->canJoinAnotherTournament($competition)){
+            throw new JsonException("המשתמש כבר רשום ל-3 טורנירים בתחרות זו, לא ניתן ליצור טורניר נוסף", 400);
+        }
         $this->validateCreateInputs($request);
 
-        $tournament = $ct->handle($user, Competition::findOrFail($request->competition), $request->name);
+        $tournament = $ct->handle($user, Competition::findOrFail($competition), $request->name);
 
         return new JsonResponse((new TournamentResource($tournament))->toArray($request), 200);
     }

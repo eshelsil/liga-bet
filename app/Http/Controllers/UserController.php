@@ -93,9 +93,8 @@ class UserController extends Controller
             throw new JsonException("המשתמש כבר רשום לטורניר זה", 400);
         }
         if (!$user->isAdmin()){
-            $MAX_TOURNAMENTS_PER_USER_LIMIT = 3;
-            if ($user->registeredUtls()->count() >= $MAX_TOURNAMENTS_PER_USER_LIMIT){
-                throw new JsonException("המשתמש כבר רשום ל-3 טורנירים, לא ניתן להצטרף לטורניר נוסף", 400);
+            if (!$user->canJoinAnotherTournament($tournament->competition_id)){
+                throw new JsonException("המשתמש כבר רשום ל-3 טורנירים בתחרות \"{$tournament->competition->name}\", לא ניתן להצטרף לטורניר נוסף", 400);
             }
         }
 
