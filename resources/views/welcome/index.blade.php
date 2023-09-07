@@ -109,7 +109,7 @@
         .examples .flexBox {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
+            justify-content: space-evenly;
             align-items: end;
         }
         .example {
@@ -137,8 +137,8 @@
             .example {
                 margin: 24px 10px;
             }
-            .example > img {
-                width: 170px;
+            .example, .example > img, .example > h {
+                width: 190px;
             }
         }
         .footer {
@@ -177,7 +177,7 @@
                     ברוכים הבאים למשחק הניחושים של ליגה ב'!
                 </h1>
                 <h2>
-                    פתחו טורניר עם חברים ונחשו את תוצאות המונדיאל
+                    פתחו טורניר עם חברים ונחשו את תוצאות המשחקים בליגת האלופות
                 </h2>
                 <h4>
                     כל מה שצריך לעשות זה:
