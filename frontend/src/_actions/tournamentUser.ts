@@ -8,6 +8,7 @@ import utlsSlice from '../_reducers/myUtls'
 import contestantsSlice from '../_reducers/contestants'
 import { minBy, omit } from 'lodash'
 import { importBetsFromTournament } from './importBets'
+import { isTournamentLive } from '../utils'
 
 
 
@@ -26,14 +27,18 @@ function getDefaultUtlId(
       return utl.id
     }
   }
-  const utlOfMyOwnTournament = utls.find(utl => utl.tournament.creatorUserId === currentUser.id);
+  const liveUtls = utls.filter(utl => isTournamentLive(utl.tournament))
+  if (liveUtls.length === 0){
+    return
+  }
+  const utlOfMyOwnTournament = liveUtls.find(utl => utl.tournament.creatorUserId === currentUser.id);
   if (utlOfMyOwnTournament) {
     return utlOfMyOwnTournament.id
   }
-  if (utls.length === 1) {
-    return utls[0].id
+  if (liveUtls.length === 1) {
+    return liveUtls[0].id
   }
-  const firstUtl = minBy(utls, 'createdAt')
+  const firstUtl = minBy(liveUtls, 'createdAt')
   return firstUtl.id
 }
 
