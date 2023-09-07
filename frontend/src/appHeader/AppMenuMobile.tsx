@@ -12,7 +12,7 @@ import TournamentMenuItems from './TournamentMenuItems'
 import TournamentsDropdownMenu from './TournamentsDropdownMenu'
 import { Badge } from '@mui/material'
 import { useSelector } from 'react-redux'
-import { MissingBetsCount } from '../_selectors'
+import { CurrentTournament, MissingBetsCount } from '../_selectors'
 
 
 function MenuWithNotification(){
@@ -46,6 +46,7 @@ function AppMenuMobile({
     const menuClickedHandler = () => setMenuOpen(!menuOpen)
     const closeMenuHandler = () => setMenuOpen(false)
 
+    const tournament = useSelector(CurrentTournament)
 
     return (
         <ClickAwayListener onClickAway={closeMenuHandler}>
@@ -66,7 +67,7 @@ function AppMenuMobile({
                             }
                         </IconButton>
                         <Typography variant="h5" className="appName">
-                            מונדיאל 2022
+                            ליגה ב' - {tournament?.competition?.name ?? ''}
                         </Typography>
                         <div className='AppMenuMobile-leftSide'>
                             <TournamentsDropdownMenu />

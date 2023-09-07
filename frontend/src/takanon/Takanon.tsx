@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { PrizesSelector } from '../_selectors';
+import { CurrentTournament, PrizesSelector } from '../_selectors';
 import Disclaimer from './Disclaimer';
 import GeneralRules from './GeneralRules';
 import PrizesRules from './PrizesRules';
@@ -11,11 +11,12 @@ import './TakanonStyle'
 
 function Takanon() {
     const prizes = useSelector(PrizesSelector);
+    const tournament = useSelector(CurrentTournament)
     
 
     return (
         <div className="LB-Takanon">
-            <h2 className='LB-TitleText' style={{ textAlign: 'center' }}>תקנון משחק - ליגה ב' מונדיאל 2022</h2>
+            <h2 className='LB-TitleText' style={{ textAlign: 'center' }}>תקנון משחק - ליגה ב' {tournament?.competition?.name ?? ''}</h2>
 
             <div className='LB-FloatingFrame'>
                 <Disclaimer />

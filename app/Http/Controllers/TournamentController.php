@@ -175,7 +175,7 @@ class TournamentController extends Controller
             throw new JsonException("Invalid competition input", 400);
         }
         if ( $competition->isStarted()) {
-            throw new JsonException("המונדיאל כבר התחיל, לא ניתן ליצור טורנירים חדשים", 403);
+            throw new JsonException("התחרות כבר החלה, לא ניתן ליצור טורנירים חדשים", 403);
         }
     }
 }
