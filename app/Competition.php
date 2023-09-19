@@ -50,6 +50,9 @@ class Competition extends Model
     const STATUS_ONGOING = 'ongoing';
     const STATUS_INITIAL = 'initial';
 
+    const TYPE_WC = 'WC';
+    const TYPE_UCL = 'UCL';
+
     protected $casts = [
         "config" => "array"
     ];
@@ -87,6 +90,11 @@ class Competition extends Model
     public function isClubsCompetition()
     {
         return collect($this->config)->get("isForClubs") || false;
+    }
+
+    public function getCompetitionType()
+    {
+        return collect($this->config)->get("type") || false;
     }
 
     public function isSupports365TeamExtId()
