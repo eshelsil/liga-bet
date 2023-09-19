@@ -146,11 +146,6 @@ class UserController extends Controller
         return new JsonResponse($data, 200);
     }
 
-    public function ping()
-    {
-        return new JsonResponse(["pong"]);
-    }
-
     public function getMissingOpenBets(Request $request)
     {
         $tournamentIds = json_decode($request->input('tournamentIds'));

@@ -117,7 +117,6 @@ Route::prefix("/api/tournaments/{tournamentId}/")->middleware("confirmed_user")
 Route::prefix("/api/users")->middleware("admin")
     ->group(function () {
         Route::get('/', [UserController::class, 'index']);
-        Route::get('/ping', [UserController::class, 'ping']);
         Route::put('/{userId}', [UserController::class, 'update']);
     });
 Route::post('/api/tournaments', [TournamentController::class, 'createTournament']);
