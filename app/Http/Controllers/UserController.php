@@ -146,27 +146,8 @@ class UserController extends Controller
         return new JsonResponse($data, 200);
     }
 
-    public function ping(UpdateCompetition $uc)
+    public function ping()
     {
-        try {
-            Cache::remember("updateCompetition", now()->addMinutes(2), function () use ($uc) {
-                return Cache::lock("updateCompetition:lock", 60)
-                    ->block(0, function () use ($uc){
-                        $this->getUser()
-                            ->utls
-                            ->load("tournament.competition")
-                            ->map(fn(TournamentUser $utl) => $utl->tournament->competition)
-                            ->unique()
-                            ->filter(fn(Competition $c) => $c->status == Competition::STATUS_ONGOING)
-                            ->each(fn(Competition $competition) => $uc->handle($competition));
-    
-                        return true;
-                    });
-            });
-        } catch (\Throwable $e) {
-            return response("SERVER_ERROR_MSG:".$e->getMessage()."TRACE: ".$e->getTraceAsString(), 500);
-        }
-
         return new JsonResponse(["pong"]);
     }
 

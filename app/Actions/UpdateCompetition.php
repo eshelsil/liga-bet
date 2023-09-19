@@ -17,6 +17,7 @@ use App\User;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class UpdateCompetition
@@ -26,6 +27,7 @@ class UpdateCompetition
     private UpdateCompetitionStandings $updateStandings;
     private UpdateGameBets $updateGameBets;
     private UpdateLeaderboards $updateLeaderboards;
+    private Collection $crawlerGames;
 
     private ?Collection $fakeGames = null;
 
@@ -77,57 +79,58 @@ class UpdateCompetition
 
     public function handle(Competition $competition): void
     {
-        $crawlerGames = $this->fakeGames ?? $competition->getCrawler()->fetchGames();
-        $existingGames = $competition->games;
+        Cache::lock("updateCompetition:{$competition->id}", 120)
+            ->block(0, function () use ($competition) {
+                Log::debug("[UpdateCompetition][handle] Entered new request!");
+                if (! $this->hasOpenGames($competition)) {
+                    Log::debug("[UpdateCompetition][handle] No waiting games...");
+                    return;
+                }
 
-        $this->saveNewGames($competition, $crawlerGames, $existingGames);
+                $this->crawlerGames = $this->fakeGames ?? $competition->getCrawler()->fetchGames();
 
-        $existingNonFinishedGames = $existingGames->where("is_done", false)
-            ->keyBy("external_id");
+                $this->saveNewGames($competition);
 
+                $existingNonFinishedGames = $competition->games->where("is_done", false)
+                    ->keyBy("external_id");
 
-        $gamesWithScore = $crawlerGames->filter(function(CrawlerGame $crawlerGame) use ($existingNonFinishedGames) {
-            return $crawlerGame->isStarted && $existingNonFinishedGames->has($crawlerGame->externalId);
-        });
+                $gamesWithScore = $this->crawlerGames->filter(function (CrawlerGame $crawlerGame) use ($existingNonFinishedGames) {
+                    return $crawlerGame->isStarted && $existingNonFinishedGames->has($crawlerGame->externalId);
+                });
 
-        $updatedGames = $this->updateGames($competition, $gamesWithScore, $existingNonFinishedGames);
-        $this->updateScorers->handle($competition);
-        $gameIdsUpdatedScorers = $this->updateScorers->getRelevantGameIds();
-        $doneGames = $updatedGames->filter(fn($g) => $g->is_done);
+                $updatedGames = $this->updateGames($competition, $gamesWithScore, $existingNonFinishedGames);
+                $this->updateScorers->handle($competition);
+                $gameIdsUpdatedScorers = $this->updateScorers->getRelevantGameIds();
+                $doneGames = $updatedGames->filter(fn($g) => $g->is_done);
 
-        if ($doneGames->count() > 0) {
-            $this->updateStandings->handle($competition);
+                if ($doneGames->count() > 0) {
+                    $this->updateStandings->handle($competition);
 
-            // TODO: There was a bug here. i think we should refresh the games before check $competition->isGroupStageDone() -->  should verify `->load("games")` solves the issue
-            if ($doneGames->first(fn($g) => $g->isGroupStage()) && $competition->load("games")->isGroupStageDone()) {
-                $this->calculateSpecialBets->execute($competition->id, SpecialBet::TYPE_OFFENSIVE_TEAM, $competition->getOffensiveTeams()->join(","));
-            }
+                    // TODO: There was a bug here. i think we should refresh the games before check $competition->isGroupStageDone() -->  should verify `->load("games")` solves the issue
+                    if ($doneGames->first(fn($g) => $g->isGroupStage()) && $competition->load("games")->isGroupStageDone()) {
+                        $this->calculateSpecialBets->execute($competition->id, SpecialBet::TYPE_OFFENSIVE_TEAM, $competition->getOffensiveTeams()->join(","));
+                    }
 
-        }
+                }
 
-        $gameIdsAffectingLeaderboard = $doneGames->pluck('id')->concat($gameIdsUpdatedScorers);
-        if ($gameIdsAffectingLeaderboard->count() > 0){
-            $firstAffectedGameId = $competition->getSortedGameIds()->first(
-                fn($id) => $gameIdsAffectingLeaderboard->contains($id)
-            );
-            $this->updateLeaderboards->handle($competition, $firstAffectedGameId);
-        }
+                $gameIdsAffectingLeaderboard = $doneGames->pluck('id')->concat($gameIdsUpdatedScorers);
+                if ($gameIdsAffectingLeaderboard->count() > 0) {
+                    $firstAffectedGameId = $competition->getSortedGameIds()->first(
+                        fn($id) => $gameIdsAffectingLeaderboard->contains($id)
+                    );
+                    $this->updateLeaderboards->handle($competition, $firstAffectedGameId);
+                }
+            });
     }
 
     /**
      * @param Competition        $competition
-     * @param Collection         $crawlerGames
-     * @param EloquentCollection $existingGames
      *
      * @return void
      */
-    protected function saveNewGames(
-        Competition $competition,
-        Collection $crawlerGames,
-        EloquentCollection $existingGames
-    ): void {
-        $crawlerNewGames = $crawlerGames->filter(fn (
-            CrawlerGame $game) => !$existingGames->contains('external_id', $game->externalId));
+    protected function saveNewGames(Competition $competition): void
+    {
+        $crawlerNewGames = $this->crawlerGames->filter(fn (CrawlerGame $game) => !$competition->games->contains('external_id', $game->externalId));
 
         $autoBet = (new MonkeyAutoBetCompetitionGames());
 
@@ -200,5 +203,13 @@ class UpdateCompetition
         }
 
         return $games;
+    }
+
+    function hasOpenGames(Competition $competition): bool
+    {
+        return $competition->games()
+            ->where("start_time", ">=", now()->timestamp)
+            ->where("is_done", false)
+            ->exists();
     }
 }
