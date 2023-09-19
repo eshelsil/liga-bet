@@ -5,12 +5,14 @@ import { pingUpdateCompetition } from '../api/matches';
 import { GameBetsFetchType } from '../types';
 import { fetchAndStoreLivePlayingPlayers } from '../_actions/players';
 import { AppDispatch } from '../_helpers/store';
-import { LiveGamesIds } from '../_selectors';
+import { CurrentTournament, LiveGamesIds } from '../_selectors';
 import { useGameBets, useGameGoals, useGames, useLeaderboardVersions, usePrimalBets, useSpecialQuestions } from './useFetcher';
+import { isTournamentDone } from '../utils';
 
 
 export function useLiveUpdate(){
     const liveGames = useSelector(LiveGamesIds)
+    const tournament = useSelector(CurrentTournament)
     const { refetch: refreshGameBets } = useGameBets({type: GameBetsFetchType.Games, ids: liveGames})
     const { refresh: refreshGames } = useGames()
     const { refresh: refreshGoalsData } = useGameGoals()
@@ -35,9 +37,9 @@ export function useLiveUpdate(){
     }
 
     const refresh = async () => {
-        const isTournamentDone = true
+        const isDone = isTournamentDone(tournament)
         await fetchRelevantData()
-        if (!isTournamentDone) {
+        if (!isDone) {
             await sendPingRequestAndRefresh()
         }
     }

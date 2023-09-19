@@ -165,3 +165,7 @@ export function isTournamentLive(tournament: Tournament){
 	// TODO: keep tournament live for 7 days (mas o menos) after finished
 	return tournament.competition.status !== CompetitionStatus.Done
 }
+
+export function isTournamentDone(tournament: Tournament){
+	return tournament.competition.status === CompetitionStatus.Done
+}
