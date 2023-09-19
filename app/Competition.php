@@ -268,5 +268,7 @@ class Competition extends Model
     public function start()
     {
         $this->tournaments->each(fn(Tournament $t) => $t->start());
+        $this->status = self::STATUS_ONGOING;
+        $this->save();
     }
 }
