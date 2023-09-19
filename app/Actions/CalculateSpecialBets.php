@@ -15,9 +15,10 @@ use Illuminate\Database\Eloquent\Collection;
 class CalculateSpecialBets
 {
     public function execute(int $competitionId, string $type, $answer = null, $useNullAnswer = false) {
-        // TODO: SpecialBet -> Eloquent. add competitionId
-        // ->where("competition_id", $competition->id)
         SpecialBet::where("type", $type)
+            ->whereHas('tournament.competition', function ($query) use ($competitionId) {
+                $query->where('id', $competitionId);
+            })
             ->get()
             ->when(($answer || $useNullAnswer), function(Collection $specialBets) use ($answer) {
                 $specialBets->toQuery()->update(["answer" => $answer]);

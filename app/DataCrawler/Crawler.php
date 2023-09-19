@@ -334,13 +334,15 @@ class Crawler
             "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1",
         ];
 
-
+        
         $responses = Http::pool(function (Pool $pool) use ($teamIds, $userAgents) {
             return $teamIds->map(
                 function($teamId) use($pool, $userAgents) {
                     $langId = rand(1,50);
-                    $baseUrl = "https://webws.365scores.com/web/stats/?appTypeId=5&langId=$langId&userCountryId=6&competition=5930";
-                    return $pool->as($teamId)->withUserAgent(Arr::random($userAgents))->get($baseUrl . "&competitor=" . self::translate365TeamId($teamId));
+                    // $competition365Id = 5930; // WC 2022
+                    $competition365Id = 572; // UCL 23/24
+                    $baseUrl = "https://webws.365scores.com/web/stats/?appTypeId=5&langId=$langId&userCountryId=6&competitions=$competition365Id";
+                    return $pool->as($teamId)->withUserAgent(Arr::random($userAgents))->get($baseUrl . "&competitors=" . self::translate365TeamId($teamId));
                 }
             )->toArray();
         });
