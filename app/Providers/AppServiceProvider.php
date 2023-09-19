@@ -34,8 +34,16 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         App::terminating(function() {
-            Log::debug("[Runtime][" . Request::method() . "] " . Request::getRequestUri() . " " .
-                       (defined('LARAVEL_START') ? round((microtime(true) - LARAVEL_START), 4) : 0));
+            if (app()->runningInConsole()) {
+                $method = "Console";
+                $path = join(" ", $_SERVER['argv']);
+            } else {
+                $method = Request::method();
+                $path = Request::getRequestUri();
+            }
+
+            $time = (defined('LARAVEL_START') ? round((microtime(true) - LARAVEL_START), 4) : 0);
+            Log::debug("[Runtime][{$method}] {$path} {$time}");
         });
     }
 }
