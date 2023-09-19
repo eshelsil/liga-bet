@@ -1,18 +1,15 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { pingUpdateCompetition } from '../api/matches';
 import { GameBetsFetchType } from '../types';
 import { fetchAndStoreLivePlayingPlayers } from '../_actions/players';
 import { AppDispatch } from '../_helpers/store';
-import { CurrentTournament, LiveGamesIds } from '../_selectors';
+import { LiveGamesIds } from '../_selectors';
 import { useGameBets, useGameGoals, useGames, useLeaderboardVersions, usePrimalBets, useSpecialQuestions } from './useFetcher';
-import { isTournamentDone } from '../utils';
 
 
 export function useLiveUpdate(){
     const liveGames = useSelector(LiveGamesIds)
-    const tournament = useSelector(CurrentTournament)
     const { refetch: refreshGameBets } = useGameBets({type: GameBetsFetchType.Games, ids: liveGames})
     const { refresh: refreshGames } = useGames()
     const { refresh: refreshGoalsData } = useGameGoals()
@@ -31,17 +28,8 @@ export function useLiveUpdate(){
         ])
     }
 
-    const sendPingRequestAndRefresh = async () => {
-        await pingUpdateCompetition()
-        await fetchRelevantData()
-    }
-
     const refresh = async () => {
-        const isDone = isTournamentDone(tournament)
         await fetchRelevantData()
-        if (!isDone) {
-            await sendPingRequestAndRefresh()
-        }
     }
 
     return {
