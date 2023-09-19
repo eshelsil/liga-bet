@@ -61,12 +61,12 @@ class Crawler
         $aggResultHome = null;
         $aggResultAway = null;
         if ($isStarted) {
-            $resultHomeFt = data_get($match_json, 'score.fullTime.homeTeam');
-            $resultAwayFt = data_get($match_json, 'score.fullTime.awayTeam');
-            $resultHomeEt = data_get($match_json, 'score.extraTime.homeTeam');
-            $resultAwayEt = data_get($match_json, 'score.extraTime.awayTeam');
-            $resultHome_penalties = data_get($match_json, 'score.penalties.homeTeam');
-            $resultAway_penalties = data_get($match_json, 'score.penalties.awayTeam');
+            $resultHomeFt = data_get($match_json, 'score.fullTime.home');
+            $resultAwayFt = data_get($match_json, 'score.fullTime.away');
+            $resultHomeEt = data_get($match_json, 'score.extraTime.home');
+            $resultAwayEt = data_get($match_json, 'score.extraTime.away');
+            $resultHome_penalties = data_get($match_json, 'score.penalties.home');
+            $resultAway_penalties = data_get($match_json, 'score.penalties.away');
             $duration = data_get($match_json, 'score.duration');
             if ($duration === 'REGULAR'){
                 $resultHome = $resultHomeFt;
