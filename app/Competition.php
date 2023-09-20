@@ -97,6 +97,11 @@ class Competition extends Model
         return collect($this->config)->get("type") || false;
     }
 
+    public function get365Id()
+    {
+        return collect($this->config)->get("id_on_365");
+    }
+
     public function isSupports365TeamExtId()
     {
         return !(collect($this->config)->get("ignore365TeamExtId") || false);

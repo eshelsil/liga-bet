@@ -16,6 +16,7 @@ class SavePleyerGameGoalsData
 {
     public function handle(int $id, int $gameId, int $totalGoals, int $totalAssists)
     {
+        // Todo: deprecate
         $player = Player::find($id);
         $prevGoalsData = $player->goalsData->filter(fn($goalsData) => $goalsData->game_id != $gameId);
         $prevGoals = $prevGoalsData->sum('goals');

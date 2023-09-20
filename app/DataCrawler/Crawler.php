@@ -156,12 +156,43 @@ class Crawler
 
     public function fetchScorers(Collection $teamIds): Collection
     {
+        // TODO: deprecate
         return $this->fetchScorers365($teamIds);
 
         $data = $this->apiCall('/scorers?limit=300');
         $scorers = $data;
 
         return collect($scorers);
+    }
+
+    public function fetchScorersOfLatestGames(int $competition365Id, Collection $dbGamesCollection, int $startedBeforeMins = 60 * 4): Collection
+    {
+        
+        $relevantGames = $this->fetchLatestGamesFrom365($competition365Id, $startedBeforeMins);
+        $gameIdOn365ToDbGameIdMap = $this->map365GameIdsToDbGames($dbGamesCollection, $relevantGames);
+
+        \Log::debug("[Crawler][fetchScorersOfLatestGames] - Going to send requests for games:\n".$gameIdOn365ToDbGameIdMap->keys()->toJson()."\n whose matching db game ids are: \n".$gameIdOn365ToDbGameIdMap->values()->toJson());
+
+        $userAgents = $this->getUserAgents();
+        $responses = Http::pool(function (Pool $pool) use ($gameIdOn365ToDbGameIdMap, $userAgents) {
+            return $gameIdOn365ToDbGameIdMap->keys()->map(
+                function($gameId) use($pool, $userAgents) {
+                    $langId = rand(1,50);
+                    $baseUrl = "https://webws.365scores.com/web/game/?appTypeId=1&langId=$langId&userCountryId=6";
+                    return $pool->as($gameId)->withUserAgent(Arr::random($userAgents))->get($baseUrl . "&gameId=$gameId");
+                }
+            )->toArray();
+        });
+
+        $scorersDataPerGameId = collect();
+
+        foreach ($responses as $gameId => $response) {
+            $gameData = $response->collect("game");
+            $dbGameId = $gameIdOn365ToDbGameIdMap->get($gameId);
+            $scorersDataPerGameId[$dbGameId] = $this->getScoresrsDataFromGame($gameData);
+        }
+
+        return $scorersDataPerGameId;
     }
 
     public function fetchPlayersByTeamId($teamId)//450
@@ -308,31 +339,7 @@ class Crawler
      */
     protected function fetchScorers365(Collection $teamIds): Collection
     {
-        $userAgents = [
-            "Mozilla/5.0 (Linux; Android 12; SM-S906N Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/80.0.3987.119 Mobile Safari/537.36",
-            "Mozilla/5.0 (Linux; Android 10; SM-G996U Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Mobile Safari/537.36",
-            "Mozilla/5.0 (Linux; Android 9; SM-G973U Build/PPR1.180610.011) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36",
-            "Mozilla/5.0 (Linux; Android 8.0.0; SM-G960F Build/R16NW) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.84 Mobile Safari/537.36",
-            "Mozilla/5.0 (Linux; Android 7.0; SM-G930VC Build/NRD90M; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/58.0.3029.83 Mobile Safari/537.36",
-            "Mozilla/5.0 (Linux; Android 10; Google Pixel 4 Build/QD1A.190821.014.C2; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/78.0.3904.108 Mobile Safari/537.36",
-            "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 6P Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.83 Mobile Safari/537.36",
-            "Mozilla/5.0 (Linux; Android 9; J8110 Build/55.0.A.0.552; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/71.0.3578.99 Mobile Safari/537.36",
-            "Mozilla/5.0 (Linux; Android 7.1.1; G8231 Build/41.2.A.0.219; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/59.0.3071.125 Mobile Safari/537.36",
-            "Mozilla/5.0 (Linux; Android 6.0; HTC One M9 Build/MRA58K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.98 Mobile Safari/537.3",
-            "Mozilla/5.0 (iPhone12,1; U; CPU iPhone OS 13_0 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/15E148 Safari/602.1",
-            "Mozilla/5.0 (iPhone13,2; U; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/15E148 Safari/602.1",
-            "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/13.2b11866 Mobile/16A366 Safari/605.1.15",
-            "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/69.0.3497.105 Mobile/15E148 Safari/605.1",
-            "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.34 (KHTML, like Gecko) Version/11.0 Mobile/15A5341f Safari/604.1",
-            "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A5370a Safari/604.1",
-            "Mozilla/5.0 (Windows Phone 10.0; Android 6.0.1; Microsoft; RM-1152) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Mobile Safari/537.36 Edge/15.15254",
-            "Mozilla/5.0 (Linux; Android 11; Lenovo YT-J706X) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36",
-            "Mozilla/5.0 (Linux; Android 7.0; Pixel C Build/NRD90M; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/52.0.2743.98 Safari/537.36",
-            "Mozilla/5.0 (Linux; Android 4.4.3; KFTHWI Build/KTU84M) AppleWebKit/537.36 (KHTML, like Gecko) Silk/47.1.79 like Chrome/47.0.2526.80 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9",
-            "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1",
-        ];
+        $userAgents = $this->getUserAgents();
 
         
         $responses = Http::pool(function (Pool $pool) use ($teamIds, $userAgents) {
@@ -384,6 +391,152 @@ class Crawler
         }
 
         return $players;
+    }
+
+    protected function getUserAgents(): array
+    {
+        $userAgents = [
+            "Mozilla/5.0 (Linux; Android 12; SM-S906N Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/80.0.3987.119 Mobile Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 10; SM-G996U Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Mobile Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 9; SM-G973U Build/PPR1.180610.011) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 8.0.0; SM-G960F Build/R16NW) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.84 Mobile Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 7.0; SM-G930VC Build/NRD90M; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/58.0.3029.83 Mobile Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 10; Google Pixel 4 Build/QD1A.190821.014.C2; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/78.0.3904.108 Mobile Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 6P Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.83 Mobile Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 9; J8110 Build/55.0.A.0.552; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/71.0.3578.99 Mobile Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 7.1.1; G8231 Build/41.2.A.0.219; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/59.0.3071.125 Mobile Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 6.0; HTC One M9 Build/MRA58K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.98 Mobile Safari/537.3",
+            "Mozilla/5.0 (iPhone12,1; U; CPU iPhone OS 13_0 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/15E148 Safari/602.1",
+            "Mozilla/5.0 (iPhone13,2; U; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/15E148 Safari/602.1",
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/13.2b11866 Mobile/16A366 Safari/605.1.15",
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/69.0.3497.105 Mobile/15E148 Safari/605.1",
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.34 (KHTML, like Gecko) Version/11.0 Mobile/15A5341f Safari/604.1",
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A5370a Safari/604.1",
+            "Mozilla/5.0 (Windows Phone 10.0; Android 6.0.1; Microsoft; RM-1152) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Mobile Safari/537.36 Edge/15.15254",
+            "Mozilla/5.0 (Linux; Android 11; Lenovo YT-J706X) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 7.0; Pixel C Build/NRD90M; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/52.0.2743.98 Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 4.4.3; KFTHWI Build/KTU84M) AppleWebKit/537.36 (KHTML, like Gecko) Silk/47.1.79 like Chrome/47.0.2526.80 Safari/537.36",
+            "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9",
+            "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1",
+        ];
+        return $userAgents;
+    }
+
+    protected function fetchLatestGamesFrom365(int $competition365Id, int $startedBeforeMins): Collection
+    {
+        $userAgents = $this->getUserAgents();
+
+        $url = "https://webws.365scores.com/web/games/current/?appTypeId=5&langId=2&userCountryId=6&competitions=$competition365Id";
+
+        $response = Http::withUserAgent(Arr::random($userAgents))->get($url);
+
+        \Log::debug("[Crawler][fetchLatestGamesFrom365] Got response for request \"$url\" |\n Body: \n ".$response->body());
+
+        $gamesData = null;
+        if ($response->ok()) {
+            $responseData = $response->json();
+            $gamesData = $responseData["games"];
+        } else {
+            \Log::error("[Crawler][fetchLatestGamesFrom365] Got error for http request (status: " .$response->status() . ")");
+            return collect([]);
+        }
+
+        $currentTimestamp = time();
+
+        $maxStartTime = $currentTimestamp - $startedBeforeMins * 60;
+
+        $relevantGames = collect();
+
+        foreach ($gamesData as $game) {
+            $startTimeTimestamp = strtotime($game['startTime']);
+
+            if ($startTimeTimestamp >= $maxStartTime && $startTimeTimestamp <= $currentTimestamp) {
+                $relevantGames->add($game);
+            }
+        }
+        return $relevantGames;
+    }
+
+
+    protected function getScoresrsDataFromGame($gameData) {
+        $gameId = $gameData->get("id");
+        $events = collect($gameData->get("events"));
+        $playerIdsMap = collect($gameData->get("members"))->keyBy('id')->map(fn($member) => $member["athleteId"]);
+        
+        
+        $GOAL_EVENT_ID = 1; // constant
+        $OWN_GOAL_SUB_TYPE_ID = 2; // constant
+
+        $playerStats = $events->reduce(function ($carry, $event) use ($GOAL_EVENT_ID, $OWN_GOAL_SUB_TYPE_ID) {
+            $playerId = $event['playerId'];
+            $eventType = $event['eventType']['id'];
+
+            if ($eventType == $GOAL_EVENT_ID && $event['eventType']['subTypeId'] != $OWN_GOAL_SUB_TYPE_ID) {
+                if (!isset($carry[$playerId])){
+                    $carry[$playerId] = collect();
+                }
+                $carry[$playerId]['goals'] = ($carry[$playerId]['goals'] ?? 0) + 1;
+                if (isset($event['extraPlayers']) && count($event['extraPlayers']) > 0) {
+                    $assistPlayerId = $event['extraPlayers'][0];
+                    if (!isset($carry[$assistPlayerId])){
+                        $carry[$assistPlayerId] = collect();
+                    }
+                    $carry[$assistPlayerId]['assists'] = ($carry[$assistPlayerId]['assists'] ?? 0) + 1;
+                }
+            }
+            return $carry;
+        }, collect([]));
+    
+        $result = collect($playerStats)->map(function ($stats, $playerId) use ($playerIdsMap, $gameId) {
+            $playerIdOnDB = $playerIdsMap->get($playerId);
+            $goals = $stats['goals'] ?? 0;
+            $assists = $stats['assists'] ?? 0;
+            \Log::debug("Got scorer data for game $gameId" . " -> player $playerIdOnDB: $goals goals, $assists assists");
+            return [
+                'playerOriginalId' => $playerIdOnDB,
+                'goals' => $goals,
+                'assists' => $assists,
+            ];
+        })->values()->keyBy("playerOriginalId");
+    
+        return $result;
+    }
+
+    protected function map365GameIdsToDbGames(Collection $dbGamesCollection, Collection $gamesFrom365) {
+        $result = collect([]);
+        foreach ($gamesFrom365 as $gameData){
+            $matchingGameFromDb = $dbGamesCollection->first(function ($dbGame) use ($gameData) {
+                // Check if teams match (home or away)
+                $dbTeams = collect([
+                    $this->translate365TeamId($dbGame["team_away_id"]),
+                    $this->translate365TeamId($dbGame["team_home_id"])
+                ])->sort()->values()->toJson();
+                $teamsFromGameData = collect([
+                    $gameData['homeCompetitor']['id'],
+                    $gameData['awayCompetitor']['id']
+                ])->sort()->values()->toJson();
+                if ($dbTeams != $teamsFromGameData){
+                    return false;
+                }
+
+                // Check if start times are within +- 2 hours for safety
+                if (abs(strtotime($gameData['startTime']) - $dbGame['start_time']) >  60 * 60 * 2){
+                    return false;
+                };
+    
+                return true;
+            });
+            if ($matchingGameFromDb){
+                $dbGameId = $matchingGameFromDb["id"];
+                $result[$gameData["id"]] = $dbGameId;
+                $dbGamesCollection->forget($dbGameId);
+                \Log::debug("[Crawler][map365GameIdsToDbGames]: mapping 365 gameId ".$gameData["id"]." to db gameId $dbGameId");
+            } else {
+                \Log::error("[Crawler][map365GameIdsToDbGames] could not find matching game for game ".$gameData["id"]."! \n dbGamesCollection: \n". $dbGamesCollection->toJson());
+            }
+        }
+        return $result;
     }
 
 }

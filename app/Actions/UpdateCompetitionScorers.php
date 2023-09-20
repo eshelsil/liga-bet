@@ -11,6 +11,7 @@ namespace App\Actions;
 use App\Competition;
 use App\Game;
 use App\Player;
+use App\GameDataGoal;
 use App\SpecialBets\SpecialBet;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -38,8 +39,10 @@ class UpdateCompetitionScorers
     }
 
             
-    public function handle(Competition $competition)
+    public function handleOld(Competition $competition)
     {
+
+        // TODO: deprecate
         $this->relevantGames = $competition->games->whereBetween('start_time', [now()->subHours(24)->timestamp, now()->timestamp]);
         $teams = new Collection();
         $this->relevantGames->load(["teamHome", "teamAway"])
@@ -87,6 +90,85 @@ class UpdateCompetitionScorers
                     $player->goals   = $scorer->goals   ?? $player->goals;
                     $player->assists = $scorer->assists ?? $player->assists;
                     $player->save();
+                }
+            }
+        }
+
+        if ($hasDoneGames) {
+            $competition->unsetRelation("players");
+            $answer = $competition->getTopScorersIds()->join(",") ?: null;
+            $this->calculateSpecialBets->execute($competition->id, SpecialBet::TYPE_TOP_SCORER, $answer);
+            $answer = $competition->getMostAssistsIds()->join(",") ?: null;
+            $this->calculateSpecialBets->execute($competition->id, SpecialBet::TYPE_MOST_ASSISTS, $answer);
+        }
+
+    }
+
+    public function handle(Competition $competition)
+    {
+        $extId = $competition->get365Id();
+        if (!$extId){
+            return $this->handleOld($competition);
+        }
+
+        $startedBeforeMins = 60 * 24;
+        $safetyRangeMins = 60 * 2;
+        $relevantDbGames = $competition->games->whereBetween('start_time', [now()->subMinutes($startedBeforeMins)->subMinutes($safetyRangeMins)->timestamp, now()->addMinutes($safetyRangeMins)->timestamp]);
+        $dbGamesCollection = $relevantDbGames->map(fn(Game $g) => collect([
+            "id" => $g->id,
+            "start_time" => $g->start_time,
+            "team_home_id" => $g->teamHome->external_id,
+            "team_away_id" => $g->teamAway->external_id,
+        ]))->keyBy('id');
+        $scorersByGameId = $this->fakeScorers ?? $competition->getCrawler()->fetchScorersOfLatestGames($extId, $dbGamesCollection, $startedBeforeMins);
+        foreach ($scorersByGameId as $gameId => $scorers){
+            \Log::debug("[UpdateScorers][handle] got {{$scorers->count()}} scorers for game $gameId");
+        }
+
+
+        $players = $competition->players->keyBy("external_id");
+        $newGoalsAndAssistsData = [];
+        /** @var \App\Game $game */
+        $hasDoneGames = false;
+        /** @var \App\DataCrawler\Player $scorer */
+        foreach ($scorersByGameId as $gameId => $scorers) {
+            /** @var Player $player */
+            $game = Game::find($gameId);
+            $gameId = $game->id;
+            $isGameDone = $game->is_done;
+            $updatedPlayers = collect([]);
+            foreach($scorers as $playerExtId => $scorerData){
+                $player = $players->get($playerExtId);
+                if ($player){
+                    $goals = $scorerData["goals"];
+                    $assists = $scorerData["assists"];
+                    \Log::debug("[UpdateScorers][handle] updating player ID [{$player->id}] external [{$playerExtId}] to G{$goals}A{$assists}");
+                    GameDataGoal::updateOrInsert(
+                        ['game_id' => $gameId, 'player_id' => $player->id],
+                        ['goals' => $goals, 'assists' => $assists, 'created_at' => now(), 'updated_at' => now()],
+                    );
+                    \Log::debug("[UpdateScorers][handle] Updated Player $player->id on Game $gameId  G-$goals  A-$assists");
+
+                    $updatedPlayers->add($player->id);
+                } else {
+                    \Log::error("[UpdateScorers][handle] Got scorer data but could not find player on database. playerExtId: $playerExtId");
+                }
+            }
+            $goalsDataToRemove = $game->scorers()->whereNotIn("player_id", $updatedPlayers)->get();
+            foreach ($goalsDataToRemove as $gameGoalsData){
+                $playerId = $gameGoalsData["player_id"];
+                \Log::warning("[UpdateScorers][handle] Removing existing gameGoalsData row of player $playerId on game $gameId because he had no goals/assists.");
+                $updatedPlayers->add($playerId);
+                $gameGoalsData->delete();
+            }
+            if ($isGameDone){
+                $hasDoneGames = true;
+                foreach($updatedPlayers as $playerId) {
+                    $player = Player::find($playerId);
+                    $player->goals = $player->goalsData->sum("goals", 0);
+                    $player->assists = $player->goalsData->sum("assists", 0);
+                    $player->save();
+                    \Log::debug("[UpdateScorers][handle] Updated Player $player->id total scorer-data:  G-$player->goals  A-$player->assists");
                 }
             }
         }
