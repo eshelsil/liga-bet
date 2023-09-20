@@ -111,7 +111,7 @@ class UpdateCompetitionScorers
             return $this->handleOld($competition);
         }
 
-        $startedBeforeMins = 60 * 24;
+        $startedBeforeMins = 60 * 4;
         $safetyRangeMins = 60 * 2;
         $relevantDbGames = $competition->games->whereBetween('start_time', [now()->subMinutes($startedBeforeMins)->subMinutes($safetyRangeMins)->timestamp, now()->addMinutes($safetyRangeMins)->timestamp]);
         $dbGamesCollection = $relevantDbGames->map(fn(Game $g) => collect([
