@@ -114,10 +114,10 @@ class Competition extends Model
 
     private function getGamesSorted()
     {
-        // TODO: save game's finish_time on db when marking [is_done=true] & use it to sort
         if (!$this->sortedGames) {
             $this->sortedGames = $this->games()
                 ->orderBy('start_time', 'asc')
+                ->orderBy('done_time', 'asc')
                 ->orderBy('id', 'asc')
                 ->get();
         }
