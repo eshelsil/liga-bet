@@ -114,6 +114,8 @@ class UpdateCompetitionScorers
         $startedBeforeMins = 60 * 4;
         $safetyRangeMins = 60 * 1;
         $relevantDbGames = $competition->games->whereBetween('start_time', [now()->subMinutes($startedBeforeMins)->subMinutes($safetyRangeMins)->timestamp, now()->addMinutes($safetyRangeMins)->timestamp]);
+        $gamesToFixScorers = $competition->games->whereIn('id', $competition->getGamesToFixScorers());
+        $relevantDbGames = $relevantDbGames->merge($gamesToFixScorers);
         $this->relevantGames = $relevantDbGames;
         $dbGamesCollection = $relevantDbGames->map(fn(Game $g) => collect([
             "id" => $g->id,
@@ -121,9 +123,15 @@ class UpdateCompetitionScorers
             "team_home_id" => $g->teamHome->external_id,
             "team_away_id" => $g->teamAway->external_id,
         ]))->keyBy('id');
+        $gamesToFixColection = $gamesToFixScorers->map(fn(Game $g) => collect([
+            "id" => $g->id,
+            "start_time" => $g->start_time,
+            "team_home_id" => $g->teamHome->external_id,
+            "team_away_id" => $g->teamAway->external_id,
+        ]));
 
         try {
-            $scorersByGameId = $this->fakeScorers ?? $competition->getCrawler()->fetchScorersOfLatestGames($extId, $dbGamesCollection, $startedBeforeMins);
+            $scorersByGameId = $this->fakeScorers ?? $competition->getCrawler()->fetchScorersOfLatestGames($extId, $dbGamesCollection, $gamesToFixColection, $startedBeforeMins);
             foreach ($scorersByGameId as $gameId => $scorers){
                 \Log::debug("[UpdateScorers][handle] got {{$scorers->count()}} scorers for game $gameId");
             }

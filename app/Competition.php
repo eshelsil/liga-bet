@@ -97,6 +97,15 @@ class Competition extends Model
         return collect($this->config)->get("type") || false;
     }
 
+    public function getGamesToFixScorers()
+    {
+        $fromConf = collect($this->config)->get("games_to_fix_scores");
+        if ($fromConf){
+            return collect(json_decode($fromConf));
+        }
+        return collect([]);
+    }
+
     public function get365Id()
     {
         return collect($this->config)->get("id_on_365");

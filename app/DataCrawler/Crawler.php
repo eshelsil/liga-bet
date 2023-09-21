@@ -165,10 +165,10 @@ class Crawler
         return collect($scorers);
     }
 
-    public function fetchScorersOfLatestGames(int $competition365Id, Collection $dbGamesCollection, int $startedBeforeMins = 60 * 4): Collection
+    public function fetchScorersOfLatestGames(int $competition365Id, Collection $dbGamesCollection, $gamesToFixScorers = [], int $startedBeforeMins = 60 * 4): Collection
     {
         
-        $relevantGames = $this->fetchLatestGamesFrom365($competition365Id, $startedBeforeMins);
+        $relevantGames = $this->fetchLatestGamesFrom365($competition365Id, $gamesToFixScorers, $startedBeforeMins);
         $gameIdOn365ToDbGameIdMap = $this->map365GameIdsToDbGames($dbGamesCollection, $relevantGames);
 
         \Log::debug("[Crawler][fetchScorersOfLatestGames] - Going to send requests for games:\n".$gameIdOn365ToDbGameIdMap->keys()->toJson()."\n whose matching db game ids are: \n".$gameIdOn365ToDbGameIdMap->values()->toJson());
@@ -423,7 +423,7 @@ class Crawler
         return $userAgents;
     }
 
-    protected function fetchLatestGamesFrom365(int $competition365Id, int $startedBeforeMins): Collection
+    protected function fetchLatestGamesFrom365(int $competition365Id, $gamesToFixScorers, int $startedBeforeMins): Collection
     {
         $userAgents = $this->getUserAgents();
 
@@ -453,6 +453,12 @@ class Crawler
 
             if ($startTimeTimestamp >= $maxStartTime && $startTimeTimestamp <= $currentTimestamp) {
                 $relevantGames->add($game);
+            } else {
+                foreach($gamesToFixScorers as $gameToFix){
+                    if ($this->isGameDataMatchDbGame($game, $gameToFix)){
+                        $relevantGames->add($game);
+                    }
+                }
             }
         }
         return $relevantGames;
@@ -506,27 +512,7 @@ class Crawler
     protected function map365GameIdsToDbGames(Collection $dbGamesCollection, Collection $gamesFrom365) {
         $result = collect([]);
         foreach ($gamesFrom365 as $gameData){
-            $matchingGameFromDb = $dbGamesCollection->first(function ($dbGame) use ($gameData) {
-                // Check if teams match (home or away)
-                $dbTeams = collect([
-                    $this->translate365TeamId($dbGame["team_away_id"]),
-                    $this->translate365TeamId($dbGame["team_home_id"])
-                ])->sort()->values()->toJson();
-                $teamsFromGameData = collect([
-                    $gameData['homeCompetitor']['id'],
-                    $gameData['awayCompetitor']['id']
-                ])->sort()->values()->toJson();
-                if ($dbTeams != $teamsFromGameData){
-                    return false;
-                }
-
-                // Check if start times are within +- 2 hours for safety
-                if (abs(strtotime($gameData['startTime']) - $dbGame['start_time']) >  60 * 60 * 2){
-                    return false;
-                };
-    
-                return true;
-            });
+            $matchingGameFromDb = $dbGamesCollection->first(fn ($dbGame) => $this->isGameDataMatchDbGame($gameData, $dbGame));
             if ($matchingGameFromDb){
                 $dbGameId = $matchingGameFromDb["id"];
                 $result[$gameData["id"]] = $dbGameId;
@@ -537,6 +523,30 @@ class Crawler
             }
         }
         return $result;
+    }
+
+    protected function isGameDataMatchDbGame($gameData, $dbGame){
+        // Check if teams match (home or away)
+        $dbTeams = collect([
+            $this->translate365TeamId($dbGame["team_away_id"]),
+            $this->translate365TeamId($dbGame["team_home_id"])
+        ])->sort()->values()->toJson();
+        $teamsFromGameData = collect([
+            $gameData['homeCompetitor']['id'],
+            $gameData['awayCompetitor']['id']
+        ])->sort()->values()->toJson();
+        \Log::debug("teamsFromGameData $teamsFromGameData");
+        \Log::debug("dbTeams $dbTeams");
+        if ($dbTeams != $teamsFromGameData){
+            return false;
+        }
+
+        // Check if start times are within +- 2 hours for safety
+        if (abs(strtotime($gameData['startTime']) - $dbGame['start_time']) >  60 * 60 * 2){
+            return false;
+        };
+
+        return true;
     }
 
 }
