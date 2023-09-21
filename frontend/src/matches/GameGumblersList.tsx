@@ -1,13 +1,9 @@
-import React, { useState } from 'react'
-import { WinnerSide } from '../types'
+import React from 'react'
+import { GameWithBetsAndGoalsData, WinnerSide } from '../types'
 import { keysOf } from '../utils'
 import { MatchResultV2 } from '../widgets/MatchResult'
 import CustomTable from '../widgets/Table/CustomTable'
-import { MatchWithBets } from '../_selectors'
-import GameHeader from './GameHeader'
 import { orderBy } from 'lodash'
-import { Collapse } from '@mui/material'
-import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import GumblersList from '../gumblersList/GumblersList'
 
 
@@ -20,10 +16,8 @@ interface BetInstance {
     gumblers: string[],
 }
 
-function GameGumblersList({ match, withExpand, isLive }: { match: MatchWithBets, withExpand?: boolean, isLive?: boolean, }) {
+function GameGumblersList({ match, isLive }: { match: GameWithBetsAndGoalsData, isLive?: boolean, }) {
     const { home_team, away_team, betsByValue } = match
-    const [expand, setExpand] = useState(false)
-    const toggleExpand = () => setExpand(!expand)
 
     const models = keysOf(betsByValue).map((betVal): BetInstance => {
         const bets = betsByValue[betVal]
@@ -103,23 +97,8 @@ function GameGumblersList({ match, withExpand, isLive }: { match: MatchWithBets,
     ]
 
     return (
-        <div className={`LB-GameGumblersList ${expand ? 'GameGumblersList-expanded' : ''}`}>
-            <GameHeader match={match} onClick={withExpand ? toggleExpand : null} />
-            {withExpand && (<>
-                <Collapse in={expand}>
-                    <div className='LB-GumblersTable'>
-                        <CustomTable models={sortedModels} cells={cells}/>
-                    </div>
-                </Collapse>
-                <div className='GameGumblersList-expandIconContainer' onClick={toggleExpand}>
-                    <ArrowDownIcon className={`arrowDownIcon`} />
-                </div>
-            </>)}
-            {!withExpand && (
-                <div className='LB-GumblersTable'>
-                    <CustomTable models={sortedModels} cells={cells}/>
-                </div>
-            )}
+        <div className='LB-GumblersTable'>
+            <CustomTable models={sortedModels} cells={cells}/>
         </div>
     )
 }

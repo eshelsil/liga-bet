@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import { MatchWithBets } from '../_selectors'
 import SimpleTabs from '../widgets/Tabs/Tabs'
-import GameGumblersList from './GameGumblersList'
+import GameView from './GameView'
 import { Pagination } from '@mui/material'
-import { GameBetsFetchType } from '../types'
+import { GameBetsFetchType, GameWithBetsAndGoalsData } from '../types'
 import { map } from 'lodash'
 import { useGameBets } from '../hooks/useFetcher'
 import { LoadingButton } from '../widgets/Buttons'
@@ -14,7 +13,7 @@ import './GamesView.scss'
 
 const GAMES_PER_PAGE = 10
 
-function DoneGamesView({games}: {games: MatchWithBets[]}){
+function DoneGamesView({games}: {games: GameWithBetsAndGoalsData[]}){
     const pagesCount = Math.ceil(games.length / GAMES_PER_PAGE)
     const [page, setPage] = React.useState(1);
     
@@ -35,13 +34,13 @@ function DoneGamesView({games}: {games: MatchWithBets[]}){
                 </div>
             )}
             {gamesToShow.map((game) => (
-                <GameGumblersList key={game.id} match={game} withExpand />
+                <GameView key={game.id} match={game} withExpand />
             ))}
         </div>
     )
 }
 
-function LiveGamesView({games}: {games: MatchWithBets[]}){
+function LiveGamesView({games}: {games: GameWithBetsAndGoalsData[]}){
     const { refresh } = useLiveUpdate()
 
     
@@ -53,7 +52,7 @@ function LiveGamesView({games}: {games: MatchWithBets[]}){
                 רענן משחקים
             </LoadingButton>
             {games.map((game) => (
-                <GameGumblersList key={game.id} match={game} isLive={true} />
+                <GameView key={game.id} match={game} isLive={true} />
             ))}
         </div>
     )
@@ -63,8 +62,8 @@ const MatchesView = ({
     done_matches,
     live_matches,
 }: {
-    done_matches: MatchWithBets[]
-    live_matches: MatchWithBets[]
+    done_matches: GameWithBetsAndGoalsData[]
+    live_matches: GameWithBetsAndGoalsData[]
 }) => {
     const [selectedTab, setSelectedTab] = useState(0)
     

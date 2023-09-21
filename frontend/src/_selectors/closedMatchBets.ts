@@ -1,13 +1,10 @@
 import { groupBy } from 'lodash'
 import { createSelector } from 'reselect'
-import { Match, MatchBetApiModel } from '../types'
+import { MatchWithBets } from '../types'
 import { getMatchBetValue, isGameStarted } from '../utils'
 import { LiveGameBetsWithScoreByGameId } from './logic'
 import { DoneGameBetsByGameId, MatchesWithTeams } from './modelRelations'
 
-export interface MatchWithBets extends Match {
-    betsByValue: Record<string, MatchBetApiModel[]>
-}
 
 export const ClosedMatchBetsSelector = createSelector(
     DoneGameBetsByGameId,

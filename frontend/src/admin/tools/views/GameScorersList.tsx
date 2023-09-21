@@ -167,7 +167,7 @@ function GameScorersList({ match }: { match: MatchWithGoalsData }) {
     const goalsDataByPlayerId = keyBy(models, 'playerId')
 
     return (
-        <div className={`LB-GameGumblersList ${expand ? 'GameGumblersList-expanded' : ''}`}>
+        <div className={`LB-GameView ${expand ? 'GameView-expanded' : ''}`}>
             <GameHeader match={match} onClick={toggleExpand} />
             <Collapse in={expand}>
                 <div className='LB-GumblersTable'>
@@ -200,7 +200,7 @@ function GameScorersList({ match }: { match: MatchWithGoalsData }) {
                     </div>
                 </div>
             </Collapse>
-            <div className='GameGumblersList-expandIconContainer' onClick={toggleExpand}>
+            <div className='GameView-expandIconContainer' onClick={toggleExpand}>
                 <ArrowDownIcon className={`arrowDownIcon`} />
             </div>
         </div>

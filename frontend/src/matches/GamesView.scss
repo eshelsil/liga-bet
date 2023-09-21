@@ -27,29 +27,38 @@
         .DoneViewGames-pagination {
             width: fit-content;
         }
-        .LB-GameGumblersList {
+        .LB-GameView {
             .LB-GumblersTable {
-                padding: 0px;
-                .MuiTableContainer-root {
-                    padding: 0px;
-                }
+                padding-bottom: 0px;
             }
         }
     }
 }
 
-.LB-GameGumblersList {
+.LB-GameView {
     @include floatingFrame;
     border-radius: 12px;
     overflow: hidden;
     width: 500px;
     max-width: 100%;
     margin: 24px auto;
+    .LigaBet-Tabs {
+        .MuiTabs-root{
+            border-radius: 0px;
+            background: transparent;
+        }
+        .LigaBet-TabPanel {
+            padding: 0px;
+        }
+    }
+
+    .LB-GumblersTable {
+        padding-top: 0px;
+    }
 
     .MuiTableContainer-root {
         box-shadow: none;
         border-radius: 0px;
-        padding: 8px 0px;
         .MuiTable-root {
             .LigaBet-CustomTableRow {
                 .MuiTableCell-root {
@@ -59,6 +68,30 @@
                         }
                     }
                 }
+            }
+        }
+    }
+
+    .LB-ScorersTableView{
+        .MuiTableContainer-root {
+            background: transparent;
+            .tableHeaderCell {
+                font-weight: 700;
+                padding: 8px;
+                &.assistsHeader {
+                    padding: 6px 8px;
+                }
+            }
+            .goalsScoredIcon {
+                height: 24px;
+                width: 24px;
+            }
+            .goalsAssistedIcon {
+                height: 28px;
+                width: 28px;
+            }
+            .centerContent {
+                text-align: center;
             }
         }
     }
@@ -116,7 +149,7 @@
             }
         }
     }
-    .GameGumblersList-expandIconContainer {
+    .GameView-expandIconContainer {
         @include centerContainer;
         cursor: pointer;
         .arrowDownIcon {
@@ -125,8 +158,8 @@
             font-size: 32px;
         }
     }
-    &.GameGumblersList-expanded {
-        .GameGumblersList-expandIconContainer {
+    &.GameView-expanded {
+        .GameView-expandIconContainer {
             border-top: 2px solid rgba(0,0,0, 0.1);
             .arrowDownIcon {
                 transform: rotate(180deg);
