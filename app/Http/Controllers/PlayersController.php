@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PlayerResource;
 use App\Player;
+use App\Game;
 use App\TournamentUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -39,13 +40,16 @@ class PlayersController extends Controller
         $topScorers = $competition->getTopScorersIds(true);
         $topAssists = $competition->getMostAssistsIds(true);
         $relevantPlayerIds = $relevantPlayerIds->merge($topScorers)->merge($topAssists);
-
+        foreach ($competition->games as $g){
+            $relevantPlayerIds = $relevantPlayerIds->merge($g->scorers->pluck('player_id'));
+        }
+        
         $mvpId = $utl->tournament->getMvpId();
         if ($mvpId){
             $relevantPlayerIds->push($mvpId);
         }
 
-        $data = $utl->tournament->competition->players()
+        $data = $competition->players()
             ->whereIn("players.id", $relevantPlayerIds->unique()->filter())->get()
             ->map(fn(Player $player) => (new PlayerResource($player))->toArray($request));
 
