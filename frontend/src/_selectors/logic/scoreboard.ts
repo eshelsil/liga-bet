@@ -1,20 +1,26 @@
 import { createSelector } from 'reselect'
 import { calcLiveAddedScore, getLiveVersionScore, calcGainedPointsOnGameBet, calcGainedPointsOnStandingsBet, calcLeaderboardDiff, formatLeaderboardVersion, generateEmptyScoreboardRow, getLatestScoreboard, keysOf, valuesOf, isFinalGame } from '../../utils'
 import { ScoreboardRowById, SpecialQuestionType } from '../../types'
-import { BetsFullScoresConfigSelector, Contestants, CurrentTournamentUserId, Groups, IsShowingHistoricScoreboard, LeaderboardRows, LeaderboardVersions, LeaderboardVersionsDesc, QuestionBets, ScoreboardSettings } from '../base'
-import { GroupsWithTeams, LiveGameBets, LiveGroupStandingBets, LiveGroupStandings, MatchesWithTeams, SpecialQuestionsWithRelations } from '../modelRelations'
+import { BetsFullScoresConfigSelector, Contestants, CurrentTournamentUserId, IsShowingHistoricScoreboard, LeaderboardRows, LeaderboardVersions, LeaderboardVersionsDesc, QuestionBets, ScoreboardSettings } from '../base'
+import { LiveGameBets, LiveGroupStandingBets, LiveGroupStandings, MatchesWithTeams, SpecialQuestionsWithRelations } from '../modelRelations'
 import { LiveRunnerUpBetsWithScoreByUtlId, LiveTopAssistsBetsWithScoreByUtlId, LiveTopScorerBetsWithScoreByUtlId, LiveWinnerBetsWithScoreByUtlId } from './liveQuestionBets'
 import { filter, groupBy, isEmpty, keyBy, map, mapValues, sumBy, union } from 'lodash'
-import { isThisTypeNode } from 'typescript'
 
+
+export const LatestLeaderboardVersion = createSelector(
+    LeaderboardVersionsDesc,
+    (versions) => {
+        return versions[0]
+    }
+)
 
 export const LatestLeaderboard = createSelector(
     LeaderboardVersionsDesc,
     LeaderboardRows,
     (versions, leaderboardRows) => {
         return getLatestScoreboard(versions, leaderboardRows)
-    }
-)
+    }    
+)    
 
 export const LiveGameBetsWithScore = createSelector(
     LiveGameBets,

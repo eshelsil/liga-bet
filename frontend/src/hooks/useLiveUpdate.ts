@@ -4,12 +4,17 @@ import { useSelector } from 'react-redux';
 import { GameBetsFetchType } from '../types';
 import { fetchAndStoreLivePlayingPlayers } from '../_actions/players';
 import { AppDispatch } from '../_helpers/store';
-import { LiveGamesIds } from '../_selectors';
+import { LatestLeaderboardVersion, LiveGamesIds, ScoreboardSettings } from '../_selectors';
 import { useGameBets, useGameGoals, useGames, useLeaderboardVersions, usePrimalBets, useSpecialQuestions } from './useFetcher';
+import { showChangeFromLastSeenVersion } from '../_actions/scoreboardSettings';
 
 
 export function useLiveUpdate(){
+    const dispatch = useDispatch<AppDispatch>()
     const liveGames = useSelector(LiveGamesIds)
+    const scoreboardSettings = useSelector(ScoreboardSettings)
+    const latestScoreboardVersion = useSelector(LatestLeaderboardVersion)
+    
     const { refetch: refreshGameBets } = useGameBets({type: GameBetsFetchType.Games, ids: liveGames})
     const { refresh: refreshGames } = useGames()
     const { refresh: refreshGoalsData } = useGameGoals()
@@ -17,7 +22,11 @@ export function useLiveUpdate(){
     const { refresh: refreshPrimalBets } = usePrimalBets()
     const { refresh: refreshSpecialQuestions } = useSpecialQuestions()
 
-    const fetchRelevantData = async () => {
+    const latestSeenLeaderboardVersionId = (scoreboardSettings.upToDateMode && latestScoreboardVersion?.id)
+        ? latestScoreboardVersion?.id
+        : null
+
+    const fetchRelevantData = async () => {        
         await Promise.all([
             refreshGames(),
             refreshLeaderboard(),
@@ -30,6 +39,9 @@ export function useLiveUpdate(){
 
     const refresh = async () => {
         await fetchRelevantData()
+        if (latestSeenLeaderboardVersionId){
+            dispatch(showChangeFromLastSeenVersion(latestSeenLeaderboardVersionId))
+        }
     }
 
     return {

@@ -12,10 +12,10 @@ import { fetchAndStoreQuestions, initSpecialQuestions } from '../_actions/specia
 import { fetchAndStoreTeams, initTeams } from '../_actions/teams'
 import { AppDispatch } from '../_helpers/store'
 import gameBetsFetcher from '../_reducers/gameBetsFetcher';
-import { CurrentTournamentUserId, GameIds, IsConfirmedUtl, MyUtls, ScoreboardSettingsState, TournamentIdSelector } from '../_selectors';
+import { CurrentTournamentUserId, GameIds, IsConfirmedUtl, LatestLeaderboardVersion, MyUtls, ScoreboardSettingsState, TournamentIdSelector } from '../_selectors';
 import { HasAllOtherTournamentsNotifications, HasFetchedAllTournamentInitialData } from '../_selectors';
 import leaderboardsFetcher from '../_reducers/leaderboardsFetcher';
-import { isUtlConfirmed, valuesOf } from '../utils';
+import { generateDefaultScoreboardSettings, isUtlConfirmed, valuesOf } from '../utils';
 import { filter } from 'lodash';
 import { fetchAndStoreCompetitions } from '../_actions/competition';
 
@@ -129,17 +129,19 @@ export function useLeaderboardVersions(refreshable?: boolean) {
 export function useLeaderboard(targetTournamentId?: number){
     const dispatch = useDispatch<AppDispatch>();
     const currentTournamentId = useSelector(TournamentIdSelector)
+    const latestVersion = useSelector(LatestLeaderboardVersion)
     const scoreboardSettingsState = useSelector(ScoreboardSettingsState)
     const utlsById = useSelector(MyUtls)
     
     const tournamentId = targetTournamentId ?? currentTournamentId
     const utl = valuesOf(utlsById).find(utl => utl.tournament.id === tournamentId)
-    const scoreboardSettings = scoreboardSettingsState[tournamentId]
+    const scoreboardSettings = scoreboardSettingsState[tournamentId] ?? generateDefaultScoreboardSettings()
     const { liveMode, upToDateMode, showChange, originVersion, destinationVersion } = scoreboardSettings || {}
     const ids = liveMode ? [] : filter([
         showChange ? originVersion?.id : null,
-        !upToDateMode ? destinationVersion?.id : null
+        !upToDateMode ? destinationVersion?.id : latestVersion?.id
     ])
+
     const fetchFunc = () => dispatch(fetchLeaderboardsThunk(ids, tournamentId))
     const isConfirmed = !!utl && isUtlConfirmed(utl)
     const refetch = async () => {
