@@ -3,11 +3,27 @@ import { useSelector } from 'react-redux';
 import { map, orderBy } from 'lodash'
 import { CircularProgress, IconButton, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import LeaderboardVersionDisplay from './LeaderboardVersionDisplay';
+import LeaderboardVersionDisplay, { VersionOption } from './LeaderboardVersionDisplay';
 import { valuesOf } from '../utils';
 import { LeaderboardVersionWithGame } from '../types';
 import { CurrentlyFetchingLeaderboardVersions, FetchedLeaderboardVersions } from '../_selectors';
 import './LeaderboardVersionInput.scss'
+
+
+function addBulkOptions(sortedVersions: LeaderboardVersionWithGame[]): VersionOption[]{
+    const res: VersionOption[] = []
+    let currentDay = null
+
+    for (const version of sortedVersions){
+        const day = new Date(version.game.start_time).toLocaleDateString()
+        if (currentDay && day != currentDay){
+            res.push({...version, isBulk: true, dayString: currentDay})
+        }
+        currentDay = day
+        res.push(version)
+    }
+    return res
+}
 
 
 function NoVersionDisplay () {
@@ -50,7 +66,10 @@ function LeaderboardVersionInput({
         onChange(versionId)
     }
 
-    const defaultValue = allowNoVersion ? -1 : (sortedVersions[0]?.id ?? -1)
+    const options = addBulkOptions(sortedVersions)
+    const bulkOptions = options.filter(o => o.isBulk)
+
+    const defaultValue = allowNoVersion ? -1 : (bulkOptions[0]?.id ?? sortedVersions[0]?.id ?? -1)
 
     useEffect(() => {
         if (!availableVersionIds.includes(value) && !allowNoVersion && !disabled){
@@ -85,7 +104,7 @@ function LeaderboardVersionInput({
                 disabled={disabled}
                 onChange={handleChange}
                 renderValue={(versionId) => {
-                    const version = versionsById[versionId]
+                    const version = bulkOptions.find(bo => bo.id === versionId) ?? versionsById[versionId]
                     if (!version) return (
                         <NoVersionDisplay />
                     )
@@ -107,8 +126,8 @@ function LeaderboardVersionInput({
                         <NoVersionDisplay />
                     </MenuItem>
                 )}
-                {sortedVersions.map((version, index) => (
-                    <MenuItem key={version.id} value={version.id}>
+                {options.map((version, index) => (
+                    <MenuItem key={`${version.id}-${version.dayString ?? '0'}`} value={version.id}>
                         <LeaderboardVersionDisplay
                             version={version}
                         />
