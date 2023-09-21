@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { GroupStandingBets, Teams, Contestants, Games } from '../base'
+import { GroupStandingBets, Teams, Contestants, Games, Groups } from '../base'
 import { mapValues, groupBy, pickBy } from 'lodash'
 import { GameType, GroupRankBetWithRelations } from '../../types'
 import { GroupsWithTeams } from './groups'
@@ -59,10 +59,11 @@ export const GamesByGroupId = createSelector(
 
 export const LiveGroupStandings = createSelector(
     GamesByGroupId,
-    (gamesByGroupId) => {
+    Groups,
+    (gamesByGroupId, groups) => {
         const gamesByLiveGroupId = pickBy(gamesByGroupId,
-            games => (
-                games.filter(isGameStarted).length === 6
+            (games, groupId) => (
+                games.filter(isGameStarted).length === (groups[groupId]?.totalGamesCount ?? Infinity)
                 && !!games.find(isGameLive)
             )
         )

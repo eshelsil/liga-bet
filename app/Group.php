@@ -42,6 +42,13 @@ class Group extends Model implements BetableInterface
         return !is_null($this->standings);
     }
 
+    public function getTotalGamesCount(){
+        if ($this->competition->getCompetitionType() == Competition::TYPE_UCL){
+            return 12;
+        }
+        return 6;
+    }
+
     public function getTeamIDByPosition($position_case){
         $standings = $this->getStandings();
         foreach($standings as $position => $team_id){

@@ -22,7 +22,8 @@ class UpdateCompetitionStandings
 
     public function handle(Competition $competition)
     {
-        $finalStandings    = $this->fakeStandings ?? $competition->getCrawler()->fetchGroupStandings();
+        $totalGamesInGroup = $competition->groups->first()->getTotalGamesCount();
+        $finalStandings    = $this->fakeStandings ?? $competition->getCrawler()->fetchGroupStandings($totalGamesInGroup);
         $groupsNotCompleted = $competition->groups->filter(fn (Group $g) => !$g->isComplete())->keyBy("external_id");
         $teamExtIdToId  = $competition->teams->pluck("id", "external_id");
         /**

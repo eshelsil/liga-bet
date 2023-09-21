@@ -5,6 +5,7 @@ export interface Group {
     name: string
     isDone: boolean
     standings: Team[]
+    totalGamesCount: number
 }
 
 export interface GroupWithTeams extends Omit<Group, 'standings'> {

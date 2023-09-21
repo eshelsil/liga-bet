@@ -27,10 +27,11 @@ class GroupResource extends JsonResource
         }
 
         return [
-            "id"        => $group->id,
-            "name"      => $group->name,
-            "isDone"    => !!$standings,
-            "standings" => $standings,
+            "id"                => $group->id,
+            "name"              => $group->name,
+            "isDone"            => !!$standings,
+            "standings"         => $standings,
+            "totalGamesCount"   => $group->getTotalGamesCount(),
         ];
     }
 }

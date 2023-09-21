@@ -204,14 +204,14 @@ class Crawler
         )->map(fn($data) => new Player($data["id"], $data["name"], $teamId, $data["shirtNumber"], $data["position"]));
     }
 
-    public function fetchGroupStandings()
+    public function fetchGroupStandings(int $totalGamesInGroup)
     {    
         $data = $this->apiCall('/standings');
         $standings = data_get($data, 'standings');
         $groups = collect($standings)->where('type', 'TOTAL');
-        $done_groups = $groups->filter(function($group){
-            # verifying 6 games were played in a group:
-            return array_sum( data_get($group, "table.*.playedGames") ) / 2 == 6;
+        $done_groups = $groups->filter(function($group) use ($totalGamesInGroup){
+            # verifying all games were played in a group:
+            return array_sum( data_get($group, "table.*.playedGames") ) / 2 == $totalGamesInGroup;
         });
         $res = [];
         foreach($done_groups as $group_data){
