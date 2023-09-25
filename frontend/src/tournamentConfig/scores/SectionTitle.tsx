@@ -1,6 +1,5 @@
-import React, { ReactNode, useState } from 'react';
-import { Dialog, Link, Modal } from '@mui/material';
-import InfoIconWithTooltip from '../../widgets/inputs/InfoIconWithTooltip/InfoIconWithTooltip';
+import React, { ReactNode } from 'react';
+import InfoIconWithTooltip from '../../widgets/Tooltips/InfoIconWithTooltip/InfoIconWithTooltip';
 
 
 interface Props {

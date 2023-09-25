@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import { Switch } from '@mui/material';
-import InfoIconWithTooltip from '../../../widgets/inputs/InfoIconWithTooltip/InfoIconWithTooltip';
+import InfoIconWithTooltip from '../../../widgets/Tooltips/InfoIconWithTooltip/InfoIconWithTooltip';
 
 
 interface Props {
