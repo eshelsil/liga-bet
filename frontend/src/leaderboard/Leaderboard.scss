@@ -42,6 +42,11 @@
     @include themable_table_header(tournament-theme-3, $tournament_3);
     @include themable_table_header(tournament-theme-4, $tournament_4);
     @include themable_table_header(tournament-theme-5, $tournament_5);
+    .LeaderboardView-buttons {
+        @include flexRow;
+        justify-content: space-between;
+        margin-top: 16px;
+    }
     .LeaderboardView-content {
         margin-top: 20px;
         .tableTitleContainer {
@@ -165,9 +170,6 @@
             }
             
         }
-    }
-    .LeaderboardView-refreshTableButton {
-        margin-top: 16px;
     }
 }
 
