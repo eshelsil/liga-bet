@@ -13,5 +13,5 @@ export type ScoreboardRowById = Dictionary<ScoreboardRow>
 export interface ScoreboardRowDetailed extends ScoreboardRow {
     change: number
     addedScore: number
-    name: string
+    name?: string
 }

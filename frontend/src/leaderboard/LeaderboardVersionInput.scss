@@ -129,6 +129,13 @@
                     filter: brightness(0.9);
                 }
             }
+            &:not(:hover){
+                &.Mui-selected{
+                    .LB-LeaderboardVersionDisplay {
+                        filter: brightness(0.8);
+                    }
+                }
+            }
         }
     }
 
