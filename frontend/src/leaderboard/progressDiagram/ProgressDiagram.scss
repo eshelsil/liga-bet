@@ -36,13 +36,25 @@
             overflow: hidden;
         }
         .LB-DigramDataSection {
+            $data_section_padding_top: 16px;
+            $progress_row_height: 30px;
             position: relative;
             display: flex;
             flex-direction: row-reverse;
             opacity: 0;
-            padding-top: 16px;
             overflow-y: auto;
             overflow-x: hidden;
+            padding-top: $data_section_padding_top;
+            .DigramDataSection-markRow {
+                position: absolute;
+                height: $progress_row_height;
+                left: 0;
+                width: 100%;
+                background: rgb(0 0 255 / 6%);
+                border-radius: 12px;
+                transform: translateY($data_section_padding_top);
+                transition: $topTransition;
+            }
             .usersSection {
                 position: relative;
                 max-width: 35%;
@@ -51,7 +63,7 @@
                     transition: $topTransition;
                     margin-bottom: 8px;
                     position: absolute;
-                    height: 30px;
+                    height: $progress_row_height;
                     white-space: nowrap;
                     .ProgressRowUserDetails-userName {
                         flex: 1 auto;
@@ -78,7 +90,7 @@
                     display: flex;
                     flex-direction: row-reverse;
                     align-items: center;
-                    height: 30px;
+                    height: $progress_row_height;
                     margin-bottom: 8px;
                     .ScoresBar-bar {
                         height: 20px;

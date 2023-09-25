@@ -1,4 +1,6 @@
 import React, { useCallback, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { CurrentTournamentUserId } from '../../_selectors';
 import { QuestionBetWithRelations, ScoreboardRowDetailed, Team, UTLsById } from '../../types';
 import { keysOf } from '../../utils';
 import { keyBy, map, sortBy } from 'lodash';
@@ -24,6 +26,7 @@ interface DiagramDataSectionProps {
 function DiagramDataSection ({ showChange, winnerBetByUtlId, scoreboardRows, utls }: DiagramDataSectionProps) {
 	const userContainerRef = useRef(null);
 	const dataSectionRef = useRef<HTMLDivElement>(null);
+	const currentUtlId = useSelector(CurrentTournamentUserId)
 
 	const utlIds = keysOf(utls)
 	const utlsCount = utlIds.length
@@ -36,6 +39,7 @@ function DiagramDataSection ({ showChange, winnerBetByUtlId, scoreboardRows, utl
 	const heightByUtlId = getHeightByUtlId(sortedScoreboard)
 
 	const maxUtlsHeight = (utlsCount * 36)
+	const currentUtlHeight = heightByUtlId[currentUtlId]
 
 
 	const setUserContainerWidth = useCallback(() => {
@@ -91,6 +95,7 @@ function DiagramDataSection ({ showChange, winnerBetByUtlId, scoreboardRows, utl
 				showChange={showChange}
 				maxScore={maxScore}
 			/>
+			<div className='DigramDataSection-markRow' style={{top: currentUtlHeight}} />
 		</div>
   	);
 };
