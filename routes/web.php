@@ -77,6 +77,7 @@ Route::get('/admin/calculate-group-ranks', [AdminController::class, 'calculateGr
 Route::post('/admin/user-set-name', [AdminController::class, 'setNametoUser']);
 Route::delete('/admin/delete-user', [AdminController::class, 'deleteUser']);
 Route::post('/admin/create-monkey-user', [AdminController::class, 'createMonkey']);
+Route::post('/admin/update-side-tournament-games', [AdminController::class, 'updateSideTournamentGames']);
 
 Route::get('/notifications/send', [AdminController::class, 'sendAll']);
 

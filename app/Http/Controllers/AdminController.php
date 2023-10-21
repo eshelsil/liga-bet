@@ -79,6 +79,34 @@ class AdminController extends Controller
         return view('admin.tools_index');
     }
 
+    public function updateSideTournamentGames(Request $request)
+    {
+        $validatedData = $request->validate([
+            'tournamentId' => 'required',
+            'gameDay' => 'required|date_format:Y-m-d',
+            'sideTournamentId' => 'required'
+        ]);
+        $tournamentId = $request->tournamentId;
+        $gameDay = $request->gameDay;
+        $sideTournamentId = $request->sideTournamentId;
+        $t = Tournament::find($tournamentId);
+        if (!$t){
+            throw new JsonException("Tournament with id {{$tournamentId}} does not exist", 400);
+        }
+
+        $gameDayStartTime = strtotime($gameDay . ' 00:00:00');
+        $gameDayEndTime = strtotime($gameDay . ' 23:59:59');
+        $gameIds = $t->competition->games()->whereBetween('start_time', [$gameDayStartTime, $gameDayEndTime])->get()->pluck("id");
+        $currentMap = $t->getSideTournamentGames();
+        if ($sideTournamentId){
+            $newMap = $currentMap->union($gameIds->keyBy(fn($id) => $id)->map(fn($g) => $sideTournamentId));
+        } else {
+            $newMap = $currentMap->except($gameIds);
+        }
+        $t->update(["config->sideTournamentGames" => $newMap]);
+        return new JsonResponse($newMap, 200);
+    }
+
     public function getRunningTournamentsData()
     {
         $data = Tournament::all()->map(function( Tournament $t){

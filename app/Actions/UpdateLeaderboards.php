@@ -57,13 +57,27 @@ class UpdateLeaderboards
 
         if ($prevGameId){
             $prevVersion = $tournament->leaderboardVersions()->firstWhere('game_id', $prevGameId);
-            $prevScoreboardRowByUtlId = $prevVersion->load('leaderboards')->leaderboards
+        } else {
+            $prevVersion = null;
+        }
+
+        $this->updateLeaderboardRows($tournament, $version, $prevVersion, null);
+        $sideTournamentId = $tournament->getSideTournamentGames()->get($gameId);
+        if ($sideTournamentId){
+            $this->updateLeaderboardRows($tournament, $version, $prevVersion, $sideTournamentId);
+        }
+    }
+
+    public function updateLeaderboardRows(Tournament $tournament, LeaderboardsVersion $version, ?LeaderboardsVersion $prevVersion, ?int $sideTournamentId)
+    {
+        if ($prevVersion){
+            $prevScoreboardRowByUtlId = $prevVersion->leaderboards()->where('side_tournament_id', $sideTournamentId)->get()
                 ->keyBy('user_tournament_id');
         } else {
             $prevScoreboardRowByUtlId = collect();
         }
 
-        $betsScoreSum = $tournament->getBetsScorePerUtlForGame($gameId)
+        $betsScoreSum = $tournament->getBetsScorePerUtlForGame($version->game_id, $sideTournamentId)
             ->map(function(Collection $betsWithGainedScore, int $utlId) use ($prevScoreboardRowByUtlId) {
                 $currentScore = $betsWithGainedScore->sum('score');
                 $utlPrevRow = $prevScoreboardRowByUtlId->get($utlId);
@@ -90,12 +104,13 @@ class UpdateLeaderboards
                 $rank = $i + 1;
             }
 
-            $leader = $version->leaderboards()->firstWhere('user_tournament_id', $utlId);
+            $leader = $version->leaderboards()->firstWhere(['user_tournament_id' => $utlId, 'side_tournament_id' => $sideTournamentId]);
             if (!$leader){
                 $leader = new Leaderboard();
                 $leader->tournament_id      = $tournament->id;
                 $leader->user_tournament_id = $utlId;
                 $leader->version_id         = $version->id;
+                $leader->side_tournament_id = $sideTournamentId;
             }
             $leader->rank               = $rank;
             $leader->score = $lastScore = $score;

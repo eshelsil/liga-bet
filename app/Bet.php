@@ -71,6 +71,14 @@ class Bet extends Model
         return $this->type === BetTypes::SpecialBet;
     }
 
+    public function getSideTournamentId()
+    {
+        if (!$this->isGameBet()){
+            return null;
+        }
+        return $this->tournament->getSideTournamentGames()->get($this->type_id);
+    }
+
     public function export_data()
     {
         $bet = $this->getAttributes();

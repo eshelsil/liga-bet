@@ -221,13 +221,16 @@ class TournamentUser extends Model
     /**
      * @return Collection|Bet[]
     */
-    public function getBetsWithScoreGainedForGame(Game $game): Collection
+    public function getBetsWithScoreGainedForGame(Game $game, ?int $sideTournamentId): Collection
     {
         $bets = collect([]);
 
         $gameBet = $this->bets()->firstWhere(['type' => BetTypes::Game, 'type_id' => $game->id]);
-        if ($gameBet) {
+        if ($gameBet && $gameBet->getSideTournamentId() == $sideTournamentId) {
             $bets->add($gameBet);
+        }
+        if ($sideTournamentId){
+            return $bets;
         }
 
         foreach ($this->bets()->where("type", BetTypes::SpecialBet)->get() as $questionBet) {

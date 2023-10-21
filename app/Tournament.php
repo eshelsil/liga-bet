@@ -91,6 +91,11 @@ class Tournament extends Model
         return $this->hasOne(LeaderboardsVersion::class)->latestOfMany();
     }
 
+    public function sideTournaments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(SideTournament::class);
+    }
+
     public function confirmedUtls()
     {
         return $this->utls->filter(fn(TournamentUser $utl) => $utl->isConfirmed());
@@ -99,6 +104,20 @@ class Tournament extends Model
     public function competingUtls()
     {
         return $this->utls->filter(fn(TournamentUser $utl) => $utl->isCompeting());
+    }
+
+    public function getSideTournamentGames()
+    {
+        $config = $this->config;
+        if (array_key_exists('sideTournamentGames', $config)){
+            return collect($config['sideTournamentGames']);
+        }
+        return collect();
+    }
+
+    public function getSideTournamentIds()
+    {
+        return $this->getSideTournamentGames()->values()->unique();
     }
 
     public function getUtlOfUser(User $user)
@@ -159,7 +178,7 @@ class Tournament extends Model
         return collect([$latestVersion, $versionBeforeLastGame]);
     }
 
-    public function getBetsScorePerUtlForGame(int $gameId)
+    public function getBetsScorePerUtlForGame(int $gameId, ?int $sideTournamentId)
     {
         $game = $this->competition->games()->where('id', $gameId)->first();
         if (!$game){
@@ -167,7 +186,7 @@ class Tournament extends Model
         }
 
         $betsWithScoreGainedPerUtl = $this->competingUtls()->keyBy('id')
-            ->map(fn(TournamentUser $utl) => $game->is_done ? $utl->getBetsWithScoreGainedForGame($game) : new Collection());
+            ->map(fn(TournamentUser $utl) => $game->is_done ? $utl->getBetsWithScoreGainedForGame($game, $sideTournamentId) : new Collection());
         return $betsWithScoreGainedPerUtl;
     }
 

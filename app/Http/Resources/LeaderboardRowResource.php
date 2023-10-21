@@ -25,6 +25,7 @@ class LeaderboardRowResource extends JsonResource
             "rank"                 => $leaderboardRow->rank,
             "score"                => $leaderboardRow->score,
             "betScoreOverride"     => json_decode($leaderboardRow['bet_score_override'], true),
+            "sideTournamentId"     => $leaderboardRow->side_tournament_id,
         ];
     }
 }

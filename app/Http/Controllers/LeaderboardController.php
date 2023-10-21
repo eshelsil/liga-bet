@@ -53,7 +53,7 @@ class LeaderboardController extends Controller
             ->map(
                 fn($v) => $v->leaderboards->sortByDesc("score")->map(
                     fn(Leaderboard $l) => (new LeaderboardRowResource($l))->toArray($request)
-                )
+                )->values()
             ));
         
     }
