@@ -1,9 +1,17 @@
-import { GameBetScoreConfig, MatchBetsScoreConfig, MatchBetWithRelations, ScoreboardRowById } from '../types'
-import { mapValues, orderBy } from 'lodash'
+import { GameBetScoreConfig, MatchBetsScoreConfig, MatchBetWithRelations, ScoreboardRowById, UTLsById } from '../types'
+import { isEmpty, mapValues, orderBy } from 'lodash'
 import { ScoresConfigFromatted } from '../_selectors'
 import { getQualifierSide, getWinnerSide, isGameLive } from './matches'
 import { valuesOf } from './common'
+import { generateEmptyScoreboardRow } from './leaderboard'
 
+
+export function fillLeaderboardIfEmpty(leaderboard: ScoreboardRowById, contestants: UTLsById): ScoreboardRowById{
+    if (isEmpty(leaderboard)){
+        return mapValues(contestants, generateEmptyScoreboardRow)
+    }
+    return leaderboard
+}
 
 export function getLiveVersionScore(currentLeaderboard: ScoreboardRowById, addedScoreByUtlId: Record<number, number>){
     const liveLeaderboard = mapValues(currentLeaderboard, (row, utlId) => {

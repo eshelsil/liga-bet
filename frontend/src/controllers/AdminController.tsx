@@ -8,6 +8,7 @@ import AdminSeeTournaments from '../admin/tools/views/SeeTournaments';
 import SendInvitationForTournamentAdmin from '../admin/tools/actions/SendInvitationForTournamentAdmin';
 import AdminSeeGameGoalsData from '../admin/tools/views/SeeGameGoalsData';
 import AdminSetMvp from '../admin/tools/views/AdminSetMvp';
+import AdminUpdateSideTournament from '../admin/tools/views/UpdateSideTournament';
 
 
 function AdminController({children}) {
@@ -24,6 +25,7 @@ function AdminController({children}) {
                                 <Route path='/admin/see-tournaments' component={AdminSeeTournaments} />
                                 <Route path='/admin/see-scorers' component={AdminSeeGameGoalsData} />
                                 <Route path='/admin/set-mvp' component={AdminSetMvp} />
+                                <Route path='/admin/update-side-tournament-games' component={AdminUpdateSideTournament} />
                                 <Route>
                                     <AdminTools />
                                 </Route>

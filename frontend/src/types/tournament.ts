@@ -73,11 +73,20 @@ export interface TournamentScoreConfig {
 export interface TournamentConfig {
 	prizes: string[],
 	scores: TournamentScoreConfig,
+	sideTournamentGames?: Record<number, number>,
 }
 
 export interface TournamentPreferences {
 	auto_approve_users: boolean,
 	use_default_config_answered: boolean,
+}
+
+export interface SideTournament {
+    id: number,
+    tournament_id: number,
+    name: string,
+    emblem: string,
+    gameIds: number[],
 }
 
 export interface Tournament {
@@ -89,6 +98,7 @@ export interface Tournament {
     config: TournamentConfig,
     code: string,
 	creatorUserId: number,
+	sideTournaments?: SideTournament[],
 	preferences?: TournamentPreferences,
 }
 

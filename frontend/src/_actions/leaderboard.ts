@@ -7,19 +7,18 @@ import { CurrentLeaderboardsFetcher, CurrentTournamentId, IsTournamentStarted, L
 import { generateInitCollectionAction } from './utils'
 import leaderboardsFetcher, { LATEST_VERSION_FETCH_ID } from '../_reducers/leaderboardsFetcher'
 import { generateEmptyFetcherSlice, getLatestScoreboard, keysOf } from '../utils'
-import { isEmpty, keyBy, mapValues, without } from 'lodash'
+import { isEmpty, without } from 'lodash'
 
 
 function fetchAndStoreLeaderboards(ids: number[], tournamentId: number) {
     return async (dispatch: AppDispatch, getState: GetRootState) => {
         const isFetchingLatestVersion = ids.length === 0
         const leaderboardRowsByVersionId = await fetchLeaderboards(tournamentId, ids)
-        const rowsByUtlIdByVersionId = mapValues(leaderboardRowsByVersionId, rows => keyBy(rows, 'user_tournament_id'))
         if (isFetchingLatestVersion){
-            const latestVersionId = keysOf(rowsByUtlIdByVersionId)[0]
+            const latestVersionId = keysOf(leaderboardRowsByVersionId)[0]
             dispatch(leaderboardVersionsReducer.actions.createPlaceholderVersionIfMissing({tournamentId, id: latestVersionId}))
         }
-        dispatch(leaderboardRowsReducer.actions.updateMany({tournamentId, leaderboardRowsByVersionId: rowsByUtlIdByVersionId}))
+        dispatch(leaderboardRowsReducer.actions.updateMany({tournamentId, leaderboardRowsByVersionId}))
     }
 }
 

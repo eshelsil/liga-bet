@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
-import { WinnerSpecialQuestionId, RunnerUpSpecialQuestionId, LiveGamesIds, LiveGames, IsRunnerUpBetOn, FormattedSpecialQuestionsScoreConfig, TopScorerSpecialQuestionId, TopAssistsSpecialQuestionId, Players, IsTopAssistsBetOn, GameGoalsDataSelector } from '../base'
-import { KnockoutStage, MatchCommonBase, SpecialQuestionAnswer, Team, WinnerSide } from '../../types'
+import { WinnerSpecialQuestionId, RunnerUpSpecialQuestionId, LiveGamesIds, LiveGames, IsRunnerUpBetOn, FormattedSpecialQuestionsScoreConfig, TopScorerSpecialQuestionId, TopAssistsSpecialQuestionId, Players, IsTopAssistsBetOn, GameGoalsDataSelector, IsSideTournament } from '../base'
+import { KnockoutStage, SpecialQuestionAnswer, Team, WinnerSide } from '../../types'
 import { getQualifierSide, isGameLive, isTeamParticipate, koStageToNextCompetitionStage, valuesOf } from '../../utils'
 import { FinalGame, MatchesWithTeams, PlayersWithTeams, QuestionBetsLinked } from '../modelRelations'
 import { groupBy, map, mapValues, maxBy, pickBy } from 'lodash'
@@ -139,7 +139,11 @@ export const WinnerBetsById = createSelector(
 export const LiveWinnerBets = createSelector(
     WinnerBetsById,
     LiveTeamsPlayingKnockout,
-    (betsById, playingTeams) => {
+    IsSideTournament,
+    (betsById, playingTeams, isSideTournament) => {
+        if (isSideTournament){
+            return {}
+        }
         return pickBy(betsById, bet => !!playingTeams[bet.answer.id])
     }
 )
@@ -158,7 +162,11 @@ export const LiveRunnerUpBets = createSelector(
     LiveTeamsPlayingKnockout,
     IsRunnerUpBetOn,
     IsFinalGameLiveSelector,
-    (betsById, playingTeams, isOn, isFinalGameLive) => {
+    IsSideTournament,
+    (betsById, playingTeams, isOn, isFinalGameLive, isSideTournament) => {
+        if (isSideTournament){
+            return {}
+        }
         if (!isOn) {
             return {}
         }
@@ -191,7 +199,11 @@ export const LiveTopScorerBets = createSelector(
     IsFinalGameLiveSelector,
     Players,
     LivePlayingTeams,
-    (betsById, isFinalGameLive, playersById, livePlayingTeams) => {
+    IsSideTournament,
+    (betsById, isFinalGameLive, playersById, livePlayingTeams, isSideTournament) => {
+        if (isSideTournament){
+            return {}
+        }
         if (isFinalGameLive){
             return betsById
         }
@@ -210,7 +222,11 @@ export const LiveTopAssistsBets = createSelector(
     IsFinalGameLiveSelector,
     Players,
     LivePlayingTeams,
-    (betsById, isOn, isFinalGameLive, playersById, livePlayingTeams) => {
+    IsSideTournament,
+    (betsById, isOn, isFinalGameLive, playersById, livePlayingTeams, isSideTournament) => {
+        if (isSideTournament){
+            return {}
+        }
         if (!isOn) {
             return {}
         }

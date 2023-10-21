@@ -44,6 +44,7 @@ interface Props {
     liveQuestionBets: QuestionBetWithRelations[]
     liveStandingsByGroupId: Record<number, Team[]>
     liveSpecialAnswers: Record<number, SpecialQuestionAnswer[]>
+    isSideTournament: boolean
     isLive?: boolean
 }
 
@@ -57,6 +58,7 @@ export function ExpandedContestantView({
     liveStandingsByGroupId,
     liveQuestionBets,
     liveSpecialAnswers,
+    isSideTournament,
     isLive,
 }: Props) {
     const { goToHisBets } = useGoTo()
@@ -140,11 +142,21 @@ export function ExpandedContestantView({
                     לצפייה בטופס המלא
                 </Link>
             </div>
-            <SimpleTabs
-                tabs={tabs}
-                index={selectedTab}
-                onChange={setSelectedTab}
-            />
+            {isSideTournament && (
+                <GameBetsView
+                    bets={gameBetsToShow}
+                    totalScore={matchesScore}
+                    utlId={utlId}
+                    showLive={isLive}
+                />
+            )}
+            {!isSideTournament && (
+                <SimpleTabs
+                    tabs={tabs}
+                    index={selectedTab}
+                    onChange={setSelectedTab}
+                />
+            )}
         </div>
     )
 }

@@ -1,7 +1,6 @@
 import { mapValues, zipObject } from "lodash";
 import { calcLeaderboardDiff, generateEmptyScoreboardRow, valuesOf } from "../../utils";
-import { LeaderboardVersionWithGame, ScoreboardRow, ScoreboardRowDetailed, UTLsById } from "../../types";
-import { ScoreboardRowsByVersionId } from "../../_reducers/leaderboardRows";
+import { LeaderboardVersionWithGame, ScoreboardRow, ScoreboardRowDetailed, ScoreboardRowsByVersionId, UTLsById } from "../../types";
 
 
 export function getAxes(max: number): number[]{

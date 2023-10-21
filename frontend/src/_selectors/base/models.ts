@@ -1,11 +1,12 @@
 import { createSelector } from 'reselect'
 import { RootState } from '../../_helpers/store'
-import { pickBy, groupBy, mapValues, sum } from 'lodash'
+import { pickBy, groupBy, mapValues, sum, keyBy } from 'lodash'
 import {
     BetType,
     GroupRankBetApiModel,
     MatchBetApiModel,
     QuestionBetApiModel,
+    SideTournament,
     Tournament,
     UtlRole,
 } from '../../types'
@@ -40,6 +41,7 @@ export const MultiBetsSettings = (state: RootState) => state.multiBetsSettings
 export const ScoreboardSettingsState = (state: RootState) => state.scoreboardSettings
 export const AdminData = (state: RootState) => state.admin
 export const GameGoalsDataState = (state: RootState) => state.goalsData
+export const SelectedSideTournamentId = (state: RootState) => state.selectedSideTournamentId
 
 
 
@@ -84,6 +86,24 @@ export const CurrentTournament = createSelector(
     (utl) => {
         return utl?.tournament ?? ({} as Tournament)
     }
+)
+
+export const CurrentSideTournament = createSelector(
+    CurrentTournament,
+    SelectedSideTournamentId,
+    (tournament, sideTournamentId): SideTournament => {
+        return tournament.sideTournaments.find(st => st.id === sideTournamentId) ?? {} as SideTournament
+    }
+)
+
+export const CurrentSideTournamentId = createSelector(
+    CurrentSideTournament,
+    (sideTournament) => sideTournament.id ?? null
+)
+
+export const IsSideTournament = createSelector(
+    CurrentSideTournamentId,
+    (sideTournamentId) => !!sideTournamentId
 )
 
 export const CurrentTournamentId = createSelector(
@@ -178,8 +198,14 @@ export const LeaderboardVersions = createSelector(
 export const LeaderboardRows = createSelector(
     LeaderboardRowsState,
     CurrentTournamentId,
-    (leaderboardRows, tournamentId) => {
-        return leaderboardRows[tournamentId] ?? {}
+    CurrentSideTournamentId,
+    (leaderboardRows, tournamentId, sideTournamentId) => {
+        const rowsListByVersionId = leaderboardRows[tournamentId] ?? {}
+        return mapValues(rowsListByVersionId,
+            rows => (
+                keyBy(rows.filter(row => row.sideTournamentId == sideTournamentId), 'user_tournament_id')
+            )
+        )
     }
 )
 

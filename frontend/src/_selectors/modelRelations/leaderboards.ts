@@ -1,37 +1,43 @@
 import { createSelector } from 'reselect'
-import { LeaderboardRowsState, LeaderboardVersionsDesc, LeaderboardVersionsState, MyUtls } from '../base';
-import { filter, mapValues } from 'lodash';
-import { ScoreboardRow } from '../../types';
+import { CurrentSideTournament, CurrentSideTournamentId, LeaderboardRowsState, LeaderboardVersionsDesc, LeaderboardVersionsState, MyUtls } from '../base';
+import { filter, keyBy, mapValues } from 'lodash';
 import { MatchesWithTeams } from './matches';
 import { keysOf } from '../../utils';
 
 
-export const MyScoreByTournamentId = createSelector(
+export const LatestLeaderboardByTournamentId = createSelector(
     LeaderboardVersionsState,
     LeaderboardRowsState,
-    MyUtls,
-    (versionsByTournamentId, leaderboardRowsByTournamentId, myUtls) => {
-        return mapValues({...versionsByTournamentId}, (versionsDesc, tournamentId) => {
+    (versionsByTournamentId, leaderboardRowsByTournamentId) => {
+        return mapValues(versionsByTournamentId, (versionsDesc, tournamentId) => {
             const latestVersion = versionsDesc[0];
             if (!latestVersion){
-                return null
+                return {}
             }
             const leaderboardRowsByVersionId = leaderboardRowsByTournamentId[Number(tournamentId)]
             if (!leaderboardRowsByVersionId){
-                return null
+                return {}
             }
             const leaderboardRows = leaderboardRowsByVersionId[latestVersion.id]
             if (!leaderboardRows){
-                return null
+                return {}
             }
-            let utlRow: ScoreboardRow = null
+            return keyBy(leaderboardRows.filter(row => !row.sideTournamentId), 'user_tournament_id')
+        })
+    }
+)
+
+export const MyScoreByTournamentId = createSelector(
+    LatestLeaderboardByTournamentId,
+    MyUtls,
+    (latestLeaderboardRowsByTournamentId, myUtls) => {
+        return mapValues(latestLeaderboardRowsByTournamentId, scoreboardRowsByUtlId => {
             for (const utlId of keysOf(myUtls)){
-                utlRow = leaderboardRows[utlId] || null
+                const utlRow = scoreboardRowsByUtlId[utlId] || null
                 if (utlRow) {
-                    break
+                    return utlRow
                 }
             }
-            return utlRow
         })
     }
 )
@@ -39,7 +45,8 @@ export const MyScoreByTournamentId = createSelector(
 export const LeaderboardVersionsWithGames = createSelector(
     LeaderboardVersionsDesc,
     MatchesWithTeams,
-    (versions, gamesById) => {
+    CurrentSideTournament,
+    (versions, gamesById, currentSideTournament) => {
         return filter(
             versions.map(
                 version => ({
@@ -47,7 +54,7 @@ export const LeaderboardVersionsWithGames = createSelector(
                     game: gamesById[version.gameId]
                 })
             ),
-            v => !!v.game
+            v => !!v.game && (!currentSideTournament?.id || currentSideTournament.gameIds.indexOf(v.game.id) > -1)
         )
     }
 )

@@ -1,7 +1,6 @@
 import { isEmpty, mapValues, orderBy } from 'lodash';
-import { LeaderboardVersion, ScoreboardRow, ScoreboardRowById, ScoreboardRowDetailed, UTL, UTLsById } from '../types';
+import { LeaderboardVersion, ScoreboardRow, ScoreboardRowById, ScoreboardRowDetailed, ScoreboardRowsByVersionId, UTL, UTLsById } from '../types';
 import { ScoreboardConfig } from '../_reducers/scoreboardSettings';
-import { ScoreboardRowsByVersionId } from '../_reducers/leaderboardRows';
 
 
 export function calcLeaderboardDiff(leaderboard: ScoreboardRowById, prevLeaderboard?: ScoreboardRowById) {

@@ -48,3 +48,15 @@ export const updateScorersFromGoalsData = async (
         data: {gameId},
     })
 }
+
+export const updateSideTournamentGames = async (
+    tournamentId: number,
+    gameDay: string,
+    sideTournamentId?: number,
+): Promise<any> => {
+    return await sendApiRequest({
+        url: `/admin/update-side-tournament-games`,
+        type: 'POST',
+        data: {tournamentId, gameDay, sideTournamentId},
+    })
+}

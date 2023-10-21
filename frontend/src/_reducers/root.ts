@@ -26,6 +26,7 @@ import notifications from './notifications'
 import multiBetsSettings from './multiBetsSettings'
 import goalsData from './goalsData'
 import adminReducer from './admin/admin'
+import sideTournament from './sideTournament'
 
 const reducer = combineReducers({
     bets: bets.reducer,
@@ -44,6 +45,7 @@ const reducer = combineReducers({
     contestants: contestants.reducer,
     myUtls: myUtls.reducer,
     currentTournamentUser: tournamentUser.reducer,
+    selectedSideTournamentId: sideTournament.reducer,
     ownedTournaments: ownedTournaments.reducer,
     competitions: competitions.reducer,
     tournamentUTLs: tournamentUTLs.reducer,

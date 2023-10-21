@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Paper from '@mui/material/Paper';
-import { LeaderboardVersionWithGame, QuestionBetWithRelations, UTLsById } from '../../types';
-import { ScoreboardRowsByVersionId } from '../../_reducers/leaderboardRows';
+import { LeaderboardVersionWithGame, QuestionBetWithRelations, ScoreboardRowsByVersionId, UTLsById } from '../../types';
 import { IconButton, Modal } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close'
 import DiagramMediaPlayer from './DiagramMediaPlayer';

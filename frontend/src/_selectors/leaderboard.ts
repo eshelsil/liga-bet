@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
-import { keysOf } from '../utils'
-import { IsTournamentStarted } from './base'
+import { getSideTournamentId, keysOf } from '../utils'
+import { CurrentSideTournamentId, CurrentTournament, IsSideTournament, IsTournamentStarted } from './base'
 import { GamesIncludedInCurrentLeaderboard, GroupStandingsDiscludedByHistoricLeaderboard, IsCurrentLeaderboardMissing, LiveGameBetsWithScoreByUtlId, LiveGroupRankBetsWithScoreByUtlId, LiveRunnerUpBetsWithScoreByUtlId, LiveSpecialAnswers, LiveTopAssistsBetsWithScoreByUtlId, LiveTopScorerBetsWithScoreByUtlId, LiveWinnerBetsWithScoreByUtlId, PrimalBetsScoresOverrideByLeaderboardSettings, ScoreboardSelector, SpecialBetAnswersDiscludedByHistoricLeaderboard } from './logic'
 import {
     GroupStandingBetsLinked,
@@ -14,11 +14,13 @@ export const LeaderboardSelector = createSelector(
     ScoreboardSelector,
     IsCurrentLeaderboardMissing,
     IsTournamentStarted,
-    (leaderboard, isCurrentLeaderboardMissing, hasTournamentStarted) => {
+    IsSideTournament,
+    (leaderboard, isCurrentLeaderboardMissing, hasTournamentStarted, isSideTournament) => {
         return {
             leaderboard: leaderboard,
             isCurrentLeaderboardMissing,
             hasTournamentStarted,
+            isSideTournament,
         }
     }
 )
@@ -39,6 +41,8 @@ export const ContestantSelector = createSelector(
     LiveTopScorerBetsWithScoreByUtlId,
     LiveTopAssistsBetsWithScoreByUtlId,
     LiveSpecialAnswers,
+    CurrentSideTournamentId,
+    CurrentTournament,
     (
         matchBets,
         groupStandingBets,
@@ -55,9 +59,15 @@ export const ContestantSelector = createSelector(
         liveTopScorerBetsByUtlId,
         liveTopAssistsBetsByUtlId,
         liveSpecialAnswers,
+        sideTournamentId,
+        currentTournament,
     ) => {
         const gamesIncludedById = keyBy(gamesIncludedInLeaderboard, 'id')
-        const relevantMatchBets = pickBy(matchBets, (bet) => bet.score > 0 && !!gamesIncludedById[bet.type_id])
+        const relevantMatchBets = pickBy(matchBets, (bet) => (
+            bet.score > 0
+            && !!gamesIncludedById[bet.type_id]
+            && (getSideTournamentId(bet, currentTournament) === sideTournamentId)
+        ))
         const matchBetsByUserId = groupBy(
             relevantMatchBets,
             'user_tournament_id'
@@ -123,6 +133,7 @@ export const ContestantSelector = createSelector(
             liveStandingsByGroupId,
             liveQuestionBetsByUtlId: mapValues(liveQuestionBetsByUtlId, betsSlices => concat(...betsSlices)),
             liveSpecialAnswers,
+            isSideTournament: !!sideTournamentId
         }
     }
 )

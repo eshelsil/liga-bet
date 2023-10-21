@@ -1,14 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { ScoreboardRowById } from '../types'
+import { ScoreboardRow } from '../types'
 
 
-export type ScoreboardRowsByVersionId = Record<number, ScoreboardRowById>
-type State = Record<number, ScoreboardRowsByVersionId>
+type ScoreboardRowsListByVersionId = Record<number, ScoreboardRow[]>
+type State = Record<number, ScoreboardRowsListByVersionId>
 
 interface SetPayload {
     tournamentId: number,
-    leaderboardRowsByVersionId: ScoreboardRowsByVersionId,
+    leaderboardRowsByVersionId: ScoreboardRowsListByVersionId,
 }
 
 
@@ -25,11 +25,9 @@ const leaderboardRows = createSlice({
             if (!state[tournamentId]){
                 state[tournamentId] = {}
             }
-            for (const versionId of Object.keys(leaderboardRowsByVersionId)){
-                state[tournamentId][versionId] = {
-                    ...state[tournamentId][versionId],
-                    ...leaderboardRowsByVersionId[versionId],
-                }
+            state[tournamentId] = {
+                ...state[tournamentId],
+                ...leaderboardRowsByVersionId,
             }
         },
     },

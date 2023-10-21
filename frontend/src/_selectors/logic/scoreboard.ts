@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { calcLiveAddedScore, getLiveVersionScore, calcGainedPointsOnGameBet, calcGainedPointsOnStandingsBet, calcLeaderboardDiff, formatLeaderboardVersion, generateEmptyScoreboardRow, getLatestScoreboard, keysOf, valuesOf, isFinalGame } from '../../utils'
+import { calcLiveAddedScore, getLiveVersionScore, calcGainedPointsOnGameBet, calcGainedPointsOnStandingsBet, calcLeaderboardDiff, formatLeaderboardVersion, generateEmptyScoreboardRow, getLatestScoreboard, keysOf, valuesOf, isFinalGame, fillLeaderboardIfEmpty } from '../../utils'
 import { ScoreboardRowById, SpecialQuestionType } from '../../types'
 import { BetsFullScoresConfigSelector, Contestants, CurrentTournamentUserId, IsShowingHistoricScoreboard, LeaderboardRows, LeaderboardVersions, LeaderboardVersionsDesc, QuestionBets, ScoreboardSettings } from '../base'
 import { LiveGameBets, LiveGroupStandingBets, LiveGroupStandings, MatchesWithTeams, SpecialQuestionsWithRelations } from '../modelRelations'
@@ -93,6 +93,7 @@ export const LiveScoreboard = createSelector(
     LiveTopAssistsBetsWithScoreByUtlId,
     BetsFullScoresConfigSelector,
     QuestionBets,
+    Contestants,
     (
         latestLeaderboard,
         liveGamesBets,
@@ -102,7 +103,8 @@ export const LiveScoreboard = createSelector(
         liveTopScorers,
         liveTopAssists,
         scoresConfig,
-        questionBetsById
+        questionBetsById,
+        contestants,
     ) => {
         const liveGameBetsByUtlId = groupBy(valuesOf(liveGamesBets), 'user_tournament_id')
         const addedScoreForGamePerUtl = calcLiveAddedScore({
@@ -167,7 +169,8 @@ export const LiveScoreboard = createSelector(
             }
             addedScorePerUtl[utlId] += addedScoreForTopAssistsBetPerUtl[utlId] ?? 0
         }
-        return getLiveVersionScore(latestLeaderboard, addedScorePerUtl)
+        const staticLeaderboard = fillLeaderboardIfEmpty(latestLeaderboard, contestants)
+        return getLiveVersionScore(staticLeaderboard, addedScorePerUtl)
     }
 )
 
@@ -201,9 +204,10 @@ export const OriginLeaderboard = createSelector(
     ScoreboardSettings,
     LatestLeaderboard,
     LeaderboardRows,
-    (settings, latestLeaderboard, leaderboardsByVersionId): ScoreboardRowById => {
+    Contestants,
+    (settings, latestLeaderboard, leaderboardsByVersionId, contestants): ScoreboardRowById => {
         if (settings.liveMode){
-            return latestLeaderboard
+            return fillLeaderboardIfEmpty(latestLeaderboard, contestants)
         }
         if (settings.showChange){
             return leaderboardsByVersionId[settings.originVersion?.id] ?? {}

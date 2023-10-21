@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ScoreboardRowDetailed } from '../types'
+import { ScoreboardRowDetailed, SideTournament } from '../types'
 import { useLiveUpdate, useMissingPlayersFetcher } from '../hooks/useLiveUpdate';
 import { LoadingButton } from '../widgets/Buttons';
 import { ScoreboardConfig } from '../_reducers/scoreboardSettings';
@@ -9,7 +9,21 @@ import TableSettingsProvider from './TableSettingsProvider';
 import { Button } from '@mui/material';
 import ScoreboardProgressDiagramProvider from './progressDiagram/ProgressDiagramProvider';
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
+import SideTournamentsDrawer from './SideTournamentsDrawer';
 
+
+
+function SideTournamentTitle({sideTournament} : {sideTournament: SideTournament}) {
+    const {emblem, name} = sideTournament
+    return (
+        <div className='LB-SideTournamentTitle'>
+            {emblem && (
+                <img className='SideTournamentTitle-emblem' src={emblem}/>
+            )}
+            <div>{name}</div>
+        </div>
+    )
+}
 
 function EnsureMissingPlayerFetched() {
     useMissingPlayersFetcher()
@@ -23,14 +37,20 @@ interface Props {
     themeClass: string
     tournamentName: string
     isShowingHistoricTable: boolean
+    selectSideTournament: (id: number) => void
+    sideTournaments: SideTournament[],
+    currentSideTournament: SideTournament,
 }
 
-function LeaderboardView({ rows, tableSettings, currentUtlId, themeClass, tournamentName, isShowingHistoricTable }: Props) {
+function LeaderboardView({ rows, tableSettings, currentUtlId, themeClass, tournamentName, isShowingHistoricTable, selectSideTournament, sideTournaments, currentSideTournament }: Props) {
     const { refresh: refreshTable } = useLiveUpdate()
 
     const { liveMode } = tableSettings
     const { refetch, fetchFunc } = useLeaderboard()
     const [showProgressDiagram, setShowProgressDiagram] = useState(false)
+
+    const isWatchingSideTournament = !!currentSideTournament?.id
+    const hasSideTournaments = sideTournaments.length > 0
     
 
     return (
@@ -61,7 +81,16 @@ function LeaderboardView({ rows, tableSettings, currentUtlId, themeClass, tourna
 
             <div className='LeaderboardView-content'>
                 <div className='tableTitleContainer'>
-                    <h4 className='tableTitle'>{tournamentName}</h4>
+                    <h4 className='tableTitle'>
+                        {isWatchingSideTournament ? <SideTournamentTitle sideTournament={currentSideTournament} /> : tournamentName}
+                    </h4>
+                    {hasSideTournaments && (
+                        <SideTournamentsDrawer 
+                            selectSideTournament={selectSideTournament}
+                            sideTournaments={sideTournaments}
+                            selectedSideTournamentId={currentSideTournament?.id}
+                        />
+                    )}
                 </div>
                 <LeaderboardTable
                     rows={rows}

@@ -5,7 +5,7 @@ import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LeaderboardVersionInput from './LeaderboardVersionInput';
 import { useSelector } from 'react-redux';
 import { LeaderboardVersionsWithGames } from '../_selectors';
-import { keyBy, pickBy } from 'lodash';
+import { keyBy, last, pickBy } from 'lodash';
 import { ScoreboardConfig, UpdateSettingFunc } from '../_reducers/scoreboardSettings';
 import './TableSettings.scss';
 
@@ -36,6 +36,7 @@ function TableSettings({ updateSetting, settings, hasLiveGames, fetchScoreboards
     const versionsOrdered = useSelector(LeaderboardVersionsWithGames)
     const versionsById = keyBy(versionsOrdered, 'id')
     const hasVersions = versionsOrdered.length > 0
+    const firstVersion = last(versionsOrdered)
 
     const {liveMode, upToDateMode, showChange, originVersion, destinationVersion, expanded} = settings;
     const [pinned, setPinned] = useState(false)
@@ -47,7 +48,7 @@ function TableSettings({ updateSetting, settings, hasLiveGames, fetchScoreboards
         ? pickBy(versionsById, v => v.order < destinationVersion.order)
         : keyBy(versionsOrdered.slice(1), 'id')
 
-    const isShowingFirstVersion = !upToDateMode && destinationVersion?.order === 1
+    const isShowingFirstVersion = !upToDateMode && destinationVersion?.order === firstVersion?.order
 
     const toggleLiveMode = () => updateSetting('liveMode', !liveMode)
     const togglUpToDateMode = () => updateSetting('upToDateMode', !upToDateMode)

@@ -51,10 +51,60 @@
         margin-top: 20px;
         .tableTitleContainer {
             border-radius: 12px 12px 0px 0px;
+            position: relative;
+            overflow: hidden;
             .tableTitle {
                 text-align: center;
                 margin: 0 auto;
                 padding: 8px 16px;
+            }
+            .LB-SideTournamentsDrawer{
+                $arrow_color: rgb(0 0 0 / 40%);
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #8ABBE3;
+                .SideTournamentsDrawer-expandButton {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-left: 3px solid $arrow_color;
+                    height: 100%;
+                    cursor: pointer;
+                    margin-left: 4px;
+                    > svg {
+                        color: $arrow_color;
+                        transition: transform 0.4s;
+                        filter: brightness(1.1);
+                    }
+                    &.expanded {
+                        > svg {
+                            transform: rotate(180deg);
+                        }
+                    }
+                }
+                .SideTournamentsDrawer-list {
+                    margin-left: 6px;
+                    margin-right: 2px;
+                    display: flex;
+                    .SideTournamentsDrawer-sideTournament{
+                        margin: 0px 12px;
+                        cursor: pointer;
+                        height: 30px;
+                        width: 30px;
+                    }
+                }
+                .SideTournamentsDrawer-backToMain{
+                    margin: 0px 12px;
+                    cursor: pointer;
+                    height: 30px;
+                    width: 30px;
+                    color: $arrow_color;
+                }
             }
         }
         .MuiTableContainer-root {
@@ -221,5 +271,15 @@
         .MuiLink-root {
             cursor: pointer;
         }
+    }
+}
+
+.LB-SideTournamentTitle {
+    @include centerContainer;
+    .SideTournamentTitle-emblem {
+        margin-left: 16px;
+        height: 18px;
+        width: 18px;
+        transform: scale(1.5);
     }
 }
