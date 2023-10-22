@@ -16,10 +16,14 @@
     }
     .gamesContainer {
         .gameDay {
-            padding-bottom: 32px;
+            padding: 32px 0px;
+            .MuiBadge-badge {
+                z-index: 0;
+                margin-left: -3px;
+            }
             .dayTitle {
-                margin-top: 32px;
-                margin-bottom: 0px;
+                margin: 0px;
+                z-index: 1;
             }
             .gamesSection {
                 display: flex;

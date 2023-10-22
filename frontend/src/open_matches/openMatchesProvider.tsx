@@ -13,11 +13,13 @@ import {IsQualifierBetOn} from "../_selectors";
 
 interface Props {
     matches: MatchWithABet[]
+    notifications: number[]
     sendBetAndStore: (params: SendMatchBetParams) => Promise<void>
 }
 
 const OpenMatchesProvider = ({
     matches,
+    notifications,
     sendBetAndStore,
 }: Props) => {
 
@@ -80,7 +82,7 @@ const OpenMatchesProvider = ({
             forAllTournaments,
         })
     }
-    return <OpenMatchesView matches={matches} sendBet={sendMatchBet} />
+    return <OpenMatchesView matches={matches} notifications={notifications} sendBet={sendMatchBet} />
 }
 
 const mapDispatchToProps = {

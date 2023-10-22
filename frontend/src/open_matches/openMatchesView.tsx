@@ -7,22 +7,25 @@ import MatchBetRules from '../takanon/matches/MatchBetRulesProvider'
 import { MyOtherBettableUTLs } from '../_selectors'
 import { useSelector } from 'react-redux'
 import MultiBetsSettings from '../multiBetsSettings/MultiBetsSettingsProvider'
-import { groupBy } from 'lodash'
+import { groupBy, keyBy } from 'lodash'
 import { getGameDayString } from '../utils'
+import { Badge } from '@mui/material'
 import './MatchBets.scss'
 
 
 
 interface Props {
     matches: MatchWithABet[]
+    notifications: number[]
     sendBet: (...args: any) => Promise<any>
 }
 
-const OpenMatchesView = ({ matches = [], sendBet }: Props) => {
+const OpenMatchesView = ({ matches = [], notifications, sendBet }: Props) => {
     const hasMatches = matches.length > 0
     const otherTournaments = useSelector(MyOtherBettableUTLs);
     const hasOtherTournaments = otherTournaments.length > 0;
     const gamesByGameDay: Record<string, MatchWithABet[]> = groupBy(matches, g => getGameDayString(g))
+    const gameIdsWithNotifications = keyBy(notifications, gid => gid)
     return (
         <div className={'LB-OpenMatchesView'}>
             <h1 className='LB-TitleText'>ניחוש משחקים</h1>
@@ -49,11 +52,14 @@ const OpenMatchesView = ({ matches = [], sendBet }: Props) => {
                     {Object.entries(gamesByGameDay).map(
                         ([gameDay, games]) => {
                             const date = new Date(`${gameDay}T00:00:00`)
+                            const notificationsCount = games.filter(g => !!gameIdsWithNotifications[g.id]).length
                             return (
                                 <div key={gameDay} className='gameDay'>
-                                    <h3 className='LB-TitleText dayTitle'>
-                                        {date.toLocaleDateString('he-IL', {weekday: 'long'})} {date.toLocaleDateString('he-IL')}
-                                    </h3>
+                                    <Badge color='error' badgeContent={notificationsCount} hidden={notificationsCount === 0}>
+                                        <h3 className='LB-TitleText dayTitle'>
+                                            {date.toLocaleDateString('he-IL', {weekday: 'long'})} {date.toLocaleDateString('he-IL')}
+                                        </h3>
+                                    </Badge>
                                     <div className='gamesSection'>
                                         {games.map((game) => (
                                             <MatchBetView

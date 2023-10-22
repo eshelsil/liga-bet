@@ -3,11 +3,13 @@ import { createSelector } from 'reselect'
 import { MatchWithABet } from '../types'
 import { MyMatchBetsSelector } from './logic'
 import { MatchesWithTeams } from './modelRelations'
+import { CurrentTournamentNotifications } from './base'
 
 export const MyOpenMatchBetsSelector = createSelector(
     MyMatchBetsSelector,
     MatchesWithTeams,
-    (myMatchBets, matches) => {
+    CurrentTournamentNotifications,
+    (myMatchBets, matches, notifications) => {
         const matchBetsById = keyBy(myMatchBets, 'type_id')
         const matchesWithBet = Object.values(matches)
             .filter((match) => !match.closed_for_bets)
@@ -19,6 +21,7 @@ export const MyOpenMatchBetsSelector = createSelector(
             )
         return {
             matches: sortBy(matchesWithBet, 'start_time'),
+            notifications: notifications?.games ?? []
         }
     }
 )
