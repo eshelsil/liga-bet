@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { getSideTournamentId, keysOf } from '../utils'
 import { CurrentSideTournamentId, CurrentTournament, IsSideTournament, IsTournamentStarted } from './base'
-import { GamesIncludedInCurrentLeaderboard, GroupStandingsDiscludedByHistoricLeaderboard, IsCurrentLeaderboardMissing, LiveGameBetsWithScoreByUtlId, LiveGroupRankBetsWithScoreByUtlId, LiveRunnerUpBetsWithScoreByUtlId, LiveSpecialAnswers, LiveTopAssistsBetsWithScoreByUtlId, LiveTopScorerBetsWithScoreByUtlId, LiveWinnerBetsWithScoreByUtlId, PrimalBetsScoresOverrideByLeaderboardSettings, ScoreboardSelector, SpecialBetAnswersDiscludedByHistoricLeaderboard } from './logic'
+import { GamesIncludedInCurrentLeaderboard, GroupStandingsDiscludedByHistoricLeaderboard, IsCurrentLeaderboardMissing, LiveGameBetsWithRelevantScoreByUtlId, LiveGroupRankBetsWithScoreByUtlId, LiveRunnerUpBetsWithScoreByUtlId, LiveSpecialAnswers, LiveTopAssistsBetsWithScoreByUtlId, LiveTopScorerBetsWithScoreByUtlId, LiveWinnerBetsWithScoreByUtlId, PrimalBetsScoresOverrideByLeaderboardSettings, ScoreboardSelector, SpecialBetAnswersDiscludedByHistoricLeaderboard } from './logic'
 import {
     GroupStandingBetsLinked,
     LiveGroupStandingsWithTeams,
@@ -33,7 +33,7 @@ export const ContestantSelector = createSelector(
     PrimalBetsScoresOverrideByLeaderboardSettings,
     GroupStandingsDiscludedByHistoricLeaderboard,
     SpecialBetAnswersDiscludedByHistoricLeaderboard,
-    LiveGameBetsWithScoreByUtlId,
+    LiveGameBetsWithRelevantScoreByUtlId,
     LiveGroupRankBetsWithScoreByUtlId,
     LiveGroupStandingsWithTeams,
     LiveWinnerBetsWithScoreByUtlId,

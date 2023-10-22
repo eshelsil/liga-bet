@@ -52,6 +52,15 @@ export const LiveGameBets = createSelector(
     }
 )
 
+export const LiveGameBetsIncludingAll = createSelector(
+    MatchBetsLinked,
+    (matchBets) => {
+        return pickBy(matchBets, 
+            bet => isGameLive(bet.relatedMatch)
+        )
+    }
+)
+
 export const DoneGameBets = createSelector(
     MatchBetsLinked,
     (matchBets) => {

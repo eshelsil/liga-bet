@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect'
-import { calcLiveAddedScore, getLiveVersionScore, calcGainedPointsOnGameBet, calcGainedPointsOnStandingsBet, calcLeaderboardDiff, formatLeaderboardVersion, generateEmptyScoreboardRow, getLatestScoreboard, keysOf, valuesOf, isFinalGame, fillLeaderboardIfEmpty } from '../../utils'
+import { calcLiveAddedScore, getLiveVersionScore, calcGainedPointsOnGameBet, calcGainedPointsOnStandingsBet, calcLeaderboardDiff, formatLeaderboardVersion, generateEmptyScoreboardRow, getLatestScoreboard, keysOf, valuesOf, isFinalGame, fillLeaderboardIfEmpty, getSideTournamentId } from '../../utils'
 import { ScoreboardRowById, SpecialQuestionType } from '../../types'
-import { BetsFullScoresConfigSelector, Contestants, CurrentTournamentUserId, IsShowingHistoricScoreboard, LeaderboardRows, LeaderboardVersions, LeaderboardVersionsDesc, QuestionBets, ScoreboardSettings } from '../base'
-import { LiveGameBets, LiveGroupStandingBets, LiveGroupStandings, MatchesWithTeams, SpecialQuestionsWithRelations } from '../modelRelations'
+import { BetsFullScoresConfigSelector, Contestants, CurrentSideTournamentId, CurrentTournament, CurrentTournamentUserId, IsShowingHistoricScoreboard, LeaderboardRows, LeaderboardVersions, LeaderboardVersionsDesc, QuestionBets, ScoreboardSettings } from '../base'
+import { LiveGameBets, LiveGameBetsIncludingAll, LiveGroupStandingBets, LiveGroupStandings, MatchesWithTeams, SpecialQuestionsWithRelations } from '../modelRelations'
 import { LiveRunnerUpBetsWithScoreByUtlId, LiveTopAssistsBetsWithScoreByUtlId, LiveTopScorerBetsWithScoreByUtlId, LiveWinnerBetsWithScoreByUtlId } from './liveQuestionBets'
 import { filter, groupBy, isEmpty, keyBy, map, mapValues, sumBy, union } from 'lodash'
 
@@ -23,7 +23,7 @@ export const LatestLeaderboard = createSelector(
 )    
 
 export const LiveGameBetsWithScore = createSelector(
-    LiveGameBets,
+    LiveGameBetsIncludingAll,
     BetsFullScoresConfigSelector,
     (liveGameBetsById, scoresConfig) => {
         return valuesOf(liveGameBetsById).map(
@@ -35,8 +35,17 @@ export const LiveGameBetsWithScore = createSelector(
     }
 )
 
-export const LiveGameBetsWithScoreByUtlId = createSelector(
+export const LiveGameBetsWithRelevantScore = createSelector(
     LiveGameBetsWithScore,
+    CurrentTournament,
+    CurrentSideTournamentId,
+    (liveGameBetsWithScore, tournament, sideTournamentId) => {
+        return liveGameBetsWithScore.filter(bet => getSideTournamentId(bet, tournament) === sideTournamentId)
+    }
+)
+
+export const LiveGameBetsWithRelevantScoreByUtlId = createSelector(
+    LiveGameBetsWithRelevantScore,
     (liveGameBets) => {
         return groupBy(liveGameBets, 'user_tournament_id')
     }
