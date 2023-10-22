@@ -4,10 +4,14 @@ import { MatchWithABet } from '../types'
 import MatchBetView from './MatchBetView'
 import TakanonPreviewModal from '../tournamentConfig/takanonPreview/TakanonPreviewModal'
 import MatchBetRules from '../takanon/matches/MatchBetRulesProvider'
-import './MatchBets.scss'
 import { MyOtherBettableUTLs } from '../_selectors'
 import { useSelector } from 'react-redux'
 import MultiBetsSettings from '../multiBetsSettings/MultiBetsSettingsProvider'
+import { groupBy } from 'lodash'
+import { getGameDayString } from '../utils'
+import './MatchBets.scss'
+
+
 
 interface Props {
     matches: MatchWithABet[]
@@ -18,6 +22,7 @@ const OpenMatchesView = ({ matches = [], sendBet }: Props) => {
     const hasMatches = matches.length > 0
     const otherTournaments = useSelector(MyOtherBettableUTLs);
     const hasOtherTournaments = otherTournaments.length > 0;
+    const gamesByGameDay: Record<string, MatchWithABet[]> = groupBy(matches, g => getGameDayString(g))
     return (
         <div className={'LB-OpenMatchesView'}>
             <h1 className='LB-TitleText'>ניחוש משחקים</h1>
@@ -41,13 +46,27 @@ const OpenMatchesView = ({ matches = [], sendBet }: Props) => {
                     <MultiBetsSettings />
                 )}
                 <div className='gamesContainer'>
-                    {matches.map((match) => (
-                        <MatchBetView
-                            key={match.id}
-                            match={match}
-                            sendBet={sendBet}
-                        />
-                    ))}
+                    {Object.entries(gamesByGameDay).map(
+                        ([gameDay, games]) => {
+                            const date = new Date(`${gameDay}T00:00:00`)
+                            return (
+                                <div key={gameDay} className='gameDay'>
+                                    <h3 className='LB-TitleText dayTitle'>
+                                        {date.toLocaleDateString('he-IL', {weekday: 'long'})} {date.toLocaleDateString('he-IL')}
+                                    </h3>
+                                    <div className='gamesSection'>
+                                        {games.map((game) => (
+                                            <MatchBetView
+                                                key={game.id}
+                                                match={game}
+                                                sendBet={sendBet}
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
+                            )
+                        }
+                    )}
                 </div>
             </>)}
         </div>

@@ -15,8 +15,17 @@
         }
     }
     .gamesContainer {
-        display: flex;
-        flex-wrap: wrap;
+        .gameDay {
+            padding-bottom: 32px;
+            .dayTitle {
+                margin-top: 32px;
+                margin-bottom: 0px;
+            }
+            .gamesSection {
+                display: flex;
+                flex-wrap: wrap;
+            }
+        }
     }
     .LB-MultiBetsSettings {
         .LB-StickyConfig {

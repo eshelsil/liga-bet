@@ -1,5 +1,4 @@
 import { KnockoutStage, MatchApiModel, MatchCommonBase, WinnerSide } from '../types'
-import dayjs from 'dayjs'
 
 export function getWinnerSide(homeScore: number, awayScore: number, qualifier?: WinnerSide) {
     if (homeScore > awayScore) {
@@ -11,10 +10,8 @@ export function getWinnerSide(homeScore: number, awayScore: number, qualifier?: 
     return qualifier ? qualifier : null
 }
 
-export function isGameUpcoming(game: MatchCommonBase) {
-    const now = dayjs()
-    const gameStart = dayjs(game.start_time)
-    return gameStart.diff(now, 'day') < 2
+export function getGameDayString(game: MatchCommonBase) {
+    return (new Date(game.start_time)).toISOString().split('T')[0]
 }
 
 export function isGameStarted(game: MatchCommonBase) {

@@ -8,7 +8,7 @@ import { LoadingButton } from '../../../widgets/Buttons'
 import { updateSideTournamentGames } from '../../../api/admin'
 import { keyBy, uniq } from 'lodash'
 import { fetchAndStoreMatches } from '../../../_actions/matches'
-import { valuesOf } from '../../../utils'
+import { getGameDayString, valuesOf } from '../../../utils'
 import { SideTournament } from '../../../types'
 
 
@@ -44,7 +44,7 @@ function AdminUpdateSideTournament() {
     
     const competitionId = tournament?.competition?.id
     const sideTournamentsById = keyBy(tournament.sideTournaments, 'id')
-    const gameDays = uniq(valuesOf(games).map(game => (new Date(game.start_time)).toISOString().split('T')[0]))
+    const gameDays = uniq(valuesOf(games).map(getGameDayString))
 
     const handleSideTournamentChange = (e: SelectChangeEvent<number>) => {
         const id = e.target.value as number
