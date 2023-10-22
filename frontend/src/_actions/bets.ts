@@ -11,6 +11,7 @@ import betsSlice from '../_reducers/bets'
 import { CurrentGameBetsFetcher, CurrentTournamentUserId, MyOtherTournaments, PrimalBets, TournamentIdSelector } from '../_selectors'
 import gameBetsFetcher from '../_reducers/gameBetsFetcher'
 import { generateInitCollectionAction } from './utils'
+import { fetchAndStoreNotifications } from './notifications'
 
 
 function fetchAndStoreGameBets(params: FetchGameBetsParams) {
@@ -63,6 +64,7 @@ function sendBetAndStore(params: SendBetParams<BetType>) {
         }
         const bets = await sendBet(tournamentId, betType, type_id, payload, fillTournaments)
         dispatch(betsSlice.actions.updateOnManyTournaments(bets))
+        dispatch(fetchAndStoreNotifications())
     }
 }
 

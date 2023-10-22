@@ -8,6 +8,7 @@ import {
     QuestionBetApiModel,
     SideTournament,
     Tournament,
+    TournamentNotifications,
     UtlRole,
 } from '../../types'
 import { generateDefaultScoreboardSettings, generateEmptyFetcherSlice, generateEmptyGameBetFetcher, valuesOf } from '../../utils'
@@ -120,6 +121,14 @@ export const CurrentCompetitionId = createSelector(
     CurrentTournament,
     (tournament) => {
         return tournament.competitionId
+    }
+)
+
+export const CurrentTournamentNotifications = createSelector(
+    NotificationsState,
+    CurrentTournamentId,
+    (notifictionsState, tournamentId): TournamentNotifications => {
+        return notifictionsState[tournamentId] ?? {} as TournamentNotifications
     }
 )
 

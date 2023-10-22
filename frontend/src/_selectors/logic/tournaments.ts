@@ -104,3 +104,10 @@ export const MyOtherTournaments = createSelector(
         return without(valuesOf(utls).map(utl => utl.tournament.id), tournamentId)
     }
 )
+
+export const MyCurrentTournaments = createSelector(
+    MyUtlsOfCurrentCompetition,
+    (utls) => {
+        return valuesOf(utls).map(utl => utl.tournament.id)
+    }
+)

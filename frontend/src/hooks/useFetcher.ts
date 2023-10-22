@@ -12,11 +12,11 @@ import { fetchAndStoreQuestions, initSpecialQuestions } from '../_actions/specia
 import { fetchAndStoreTeams, initTeams } from '../_actions/teams'
 import { AppDispatch } from '../_helpers/store'
 import gameBetsFetcher from '../_reducers/gameBetsFetcher';
-import { CurrentTournamentUserId, GameIds, IsConfirmedUtl, LatestLeaderboardVersion, MyUtls, ScoreboardSettingsState, TournamentIdSelector } from '../_selectors';
-import { HasAllOtherTournamentsNotifications, HasFetchedAllTournamentInitialData } from '../_selectors';
+import { CurrentTournamentUserId, GameIds, IsConfirmedUtl, LatestLeaderboardVersion, MyUtls, NotificationsState, ScoreboardSettingsState, TournamentIdSelector } from '../_selectors';
+import { HasFetchedAllTournamentInitialData } from '../_selectors';
 import leaderboardsFetcher from '../_reducers/leaderboardsFetcher';
 import { generateDefaultScoreboardSettings, isUtlConfirmed, valuesOf } from '../utils';
-import { filter } from 'lodash';
+import { filter, isEmpty } from 'lodash';
 import { fetchAndStoreCompetitions } from '../_actions/competition';
 
 function useFetcher({
@@ -219,7 +219,8 @@ export function useFetchNotifications(){
     const dispatch = useDispatch<AppDispatch>();
     const fetchFunc = () => dispatch(fetchAndStoreNotifications())
     const hasInitialData = useSelector(HasFetchedAllTournamentInitialData)
-    const alreadyFetched = useSelector(HasAllOtherTournamentsNotifications)
+    const notificationsState = useSelector(NotificationsState)
+    const alreadyFetched = !isEmpty(notificationsState)
     
     useEffect(() => {
         if (hasInitialData && !alreadyFetched){
