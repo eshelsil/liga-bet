@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use Log;
+use Carbon\Carbon;
 
 /**
  * App\TournamentUser
@@ -147,10 +148,19 @@ class TournamentUser extends Model
 
     public function getGamesMissingBet()
     {
-        $upcomingGames = $this->tournament->competition->games
+        $openGames = $this->tournament->competition->games
             ->filter(fn($game) => (
                 $game->isOpenForBets()
             ));
+        $nextOpenGameStartTime = $openGames->min('start_time');
+        if (!$nextOpenGameStartTime){
+            return [];
+        }
+        $nextGameDay = Carbon::createFromTimestamp($nextOpenGameStartTime, 'Asia/Jerusalem');
+        $upcomingGamesStartTime = $nextGameDay->startOfDay()->timestamp;
+        $upcomingGamesEndTime = $nextGameDay->copy()->addDay()->endOfDay()->timestamp;
+        $upcomingGames = $openGames->filter(fn(Game $g) => $g->start_time >= $upcomingGamesStartTime && $g->start_time <= $upcomingGamesEndTime);
+
         $betsByGameId = $this->bets->where('type', BetTypes::Game)
             ->keyBy('type_id')->toArray();
         
