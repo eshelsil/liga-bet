@@ -66,7 +66,8 @@ export function generateDefaultScoreboardSettings(): ScoreboardConfig {
     return {
         liveMode: false,
         upToDateMode: true,
-        showChange: false,
+        showChange: true,
+        expanded: true,
     }
 }
 

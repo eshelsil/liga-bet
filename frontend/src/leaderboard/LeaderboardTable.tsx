@@ -113,8 +113,7 @@ function LeaderboardTable({ rows, currentUtlId, isLive }: Props) {
 
     const getRowClassName = (model: ScoreboardRowDetailed) => {
         const currentUtl = model.user_tournament_id === currentUtlId ? 'currentUtl' : ''
-        const index = rows.findIndex(row => row.id === model.id)
-        const prizeClass = hasScores ? getPrizeTheme(index + 1) : ''
+        const prizeClass = hasScores ? getPrizeTheme(model.rank) : ''
         return `${currentUtl} ${prizeClass}`
     }
     

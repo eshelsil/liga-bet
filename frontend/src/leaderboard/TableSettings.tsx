@@ -78,7 +78,7 @@ function TableSettings({ updateSetting, settings, hasLiveGames, fetchScoreboards
                 pinned={pinned}
                 className='LB-TableSettings'
                 header={
-                    <div className='TableSettings-header'>
+                    <div className='TableSettings-header' onClick={toggleExpand}>
                         <div className='TableSettings-title'>
                             הגדרות טבלה
                         </div>

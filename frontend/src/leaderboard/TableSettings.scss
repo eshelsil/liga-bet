@@ -12,6 +12,7 @@
     .TableSettings-header {
         @include flexRow;
         justify-content: space-between;
+        cursor: pointer;
         .TableSettings-title {
             font-size: 18px;
         }
