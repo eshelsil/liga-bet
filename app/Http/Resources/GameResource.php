@@ -46,6 +46,7 @@ class GameResource extends JsonResource
             "type"              => $game->type,
             "subType"           => $subType,
             "start_time"        => Carbon::createFromTimestamp($game->start_time),
+            "end_time"          => Carbon::createFromTimestamp($game->done_time),
         ];
     }
 }
