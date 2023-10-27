@@ -1,8 +1,9 @@
 import { createSelector } from 'reselect'
-import { CurrentSideTournament, CurrentSideTournamentId, LeaderboardRowsState, LeaderboardVersionsDesc, LeaderboardVersionsState, MyUtls } from '../base';
+import { CurrentSideTournament, LeaderboardRowsState, LeaderboardVersionsDesc, LeaderboardVersionsState, MyUtls } from '../base';
 import { filter, keyBy, mapValues } from 'lodash';
 import { MatchesWithTeams } from './matches';
 import { keysOf } from '../../utils';
+import { LeaderboardVersion, LeaderboardVersionWithGame } from '../../types';
 
 
 export const LatestLeaderboardByTournamentId = createSelector(
@@ -46,10 +47,10 @@ export const LeaderboardVersionsWithGames = createSelector(
     LeaderboardVersionsDesc,
     MatchesWithTeams,
     CurrentSideTournament,
-    (versions, gamesById, currentSideTournament) => {
+    (versions, gamesById, currentSideTournament): LeaderboardVersionWithGame[] => {
         return filter(
             versions.map(
-                version => ({
+                (version: LeaderboardVersion) => ({
                     ...version,
                     game: gamesById[version.gameId]
                 })

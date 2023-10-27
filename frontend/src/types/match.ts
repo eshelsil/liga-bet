@@ -30,6 +30,7 @@ export interface MatchCommonBase {
     is_done: boolean
     closed_for_bets: boolean
     start_time: Date
+    end_time: Date
     type: GameType
     subType: KnockoutStage | number
     is_knockout: boolean
