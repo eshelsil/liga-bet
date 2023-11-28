@@ -81,12 +81,19 @@ export interface TournamentPreferences {
 	use_default_config_answered: boolean,
 }
 
+export interface SideTournamentConfig {
+	prizes?: string[],
+	competingUtls?: number[],
+}
+
 export interface SideTournament {
     id: number,
     tournament_id: number,
     name: string,
     emblem: string,
     gameIds: number[],
+    competingUtls: number[],
+    config?: SideTournamentConfig,
 }
 
 export interface Tournament {

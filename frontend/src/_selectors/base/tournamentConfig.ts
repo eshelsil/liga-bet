@@ -3,6 +3,7 @@ import { createSelector } from 'reselect'
 import { SpecialQuestionType } from '../../types';
 import { formatGameBetsConfig, formatTopAssistsConfig, generateDefaultScoresConfig, isQuestionBetEmpty } from '../../utils';
 import {
+    CurrentSideTournament,
     CurrentTournament,
 } from './models'
 
@@ -14,7 +15,13 @@ export const CurrentTournamentConfig = createSelector(
 
 export const PrizesSelector = createSelector(
     CurrentTournamentConfig,
-    (config) => config?.prizes ?? []
+    CurrentSideTournament,
+    (config, sideTournament) => {
+        if (sideTournament?.config?.prizes){
+            return sideTournament.config.prizes
+        }
+        return config?.prizes ?? []
+    }
 )
 
 export const ScoresConfigSelector = createSelector(

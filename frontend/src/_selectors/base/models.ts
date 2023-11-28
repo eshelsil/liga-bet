@@ -93,7 +93,7 @@ export const CurrentSideTournament = createSelector(
     CurrentTournament,
     SelectedSideTournamentId,
     (tournament, sideTournamentId): SideTournament => {
-        return tournament.sideTournaments.find(st => st.id === sideTournamentId) ?? {} as SideTournament
+        return tournament.sideTournaments?.find(st => st.id === sideTournamentId) ?? {} as SideTournament
     }
 )
 

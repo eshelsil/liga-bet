@@ -5,6 +5,7 @@ import { BetsFullScoresConfigSelector, Contestants, CurrentSideTournamentId, Cur
 import { LiveGameBets, LiveGameBetsIncludingAll, LiveGroupStandingBets, LiveGroupStandings, MatchesWithTeams, SpecialQuestionsWithRelations } from '../modelRelations'
 import { LiveRunnerUpBetsWithScoreByUtlId, LiveTopAssistsBetsWithScoreByUtlId, LiveTopScorerBetsWithScoreByUtlId, LiveWinnerBetsWithScoreByUtlId } from './liveQuestionBets'
 import { filter, groupBy, isEmpty, keyBy, map, mapValues, sumBy, union } from 'lodash'
+import { CurrentSideTournamentCompetingUtls } from './tournaments'
 
 
 export const LatestLeaderboardVersion = createSelector(
@@ -230,10 +231,11 @@ export const ScoreboardSelector = createSelector(
     CurrentLeaderboard,
     OriginLeaderboard,
     Contestants,
-    (currentLeaderboard, oldLeaderboard, contestants) => {
+    CurrentSideTournamentCompetingUtls,
+    (currentLeaderboard, oldLeaderboard, contestants, currentCompetingUtls) => {
         const leaderboard = Object.values(calcLeaderboardDiff(currentLeaderboard, oldLeaderboard))
         if (leaderboard.length === 0) {
-            return valuesOf(contestants).map(generateEmptyScoreboardRow)
+            return valuesOf(currentCompetingUtls).map(generateEmptyScoreboardRow)
         }
         return formatLeaderboardVersion(leaderboard, contestants)
     }

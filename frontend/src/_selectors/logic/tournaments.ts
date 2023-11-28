@@ -1,7 +1,7 @@
-import { groupBy, orderBy, pickBy, some, without } from 'lodash';
+import { groupBy, isEmpty, orderBy, pickBy, some, without } from 'lodash';
 import { createSelector } from 'reselect'
 import { isAdmin, isTournamentLive, keysOf, valuesOf } from '../../utils';
-import { Contestants, CurrentTournament, CurrentTournamentUserId, CurrentUser, MyUtls, OpenCompetitions, OwnedTournaments, TournamentIdSelector } from '../base';
+import { Contestants, CurrentSideTournament, CurrentTournament, CurrentTournamentUserId, CurrentUser, MyUtls, OpenCompetitions, OwnedTournaments, TournamentIdSelector } from '../base';
 
 
 export const MyUtlsOfCurrentCompetition = createSelector(
@@ -109,5 +109,16 @@ export const MyCurrentTournaments = createSelector(
     MyUtlsOfCurrentCompetition,
     (utls) => {
         return valuesOf(utls).map(utl => utl.tournament.id)
+    }
+)
+
+export const CurrentSideTournamentCompetingUtls = createSelector(
+    Contestants,
+    CurrentSideTournament,
+    (contestants, currentSideTournament) => {
+        if (isEmpty(currentSideTournament)){
+            return contestants
+        }
+        return pickBy(contestants, utl => currentSideTournament.competingUtls.includes(utl.id))
     }
 )

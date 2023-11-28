@@ -25,6 +25,7 @@ function Leaderboard() {
     const isShowingHistoricTable = useSelector(IsShowingHistoricScoreboard)
     const currentSideTournament = useSelector(CurrentSideTournament)
     const currentTournament = useSelector(CurrentTournament)
+    const participatingSideTournaments = currentTournament.sideTournaments?.filter(st => st.competingUtls.includes(currentUtlId))
     
     const [rows, setRows] = useState(leaderboard);
 
@@ -60,7 +61,7 @@ function Leaderboard() {
                     tournamentName={tournamentName}
                     isShowingHistoricTable={isShowingHistoricTable}
                     selectSideTournament={onSelectSideTournament}
-                    sideTournaments={currentTournament.sideTournaments}
+                    sideTournaments={participatingSideTournaments}
                     currentSideTournament={currentSideTournament}
                 />
             </ExpandedContestantContextProvider>
