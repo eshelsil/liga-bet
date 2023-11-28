@@ -71,12 +71,16 @@ class Bet extends Model
         return $this->type === BetTypes::SpecialBet;
     }
 
-    public function getSideTournamentId()
+    public function isMatchingSideTournament(?int $sideTournamentId)
     {
         if (!$this->isGameBet()){
-            return null;
+            return $sideTournamentId == null;
         }
-        return $this->tournament->getSideTournamentGames()->get($this->type_id);
+        $gameSideTournamnets = $this->tournament->getSideTournamentGames()->get($this->type_id);
+        if (!$gameSideTournamnets){
+            return $sideTournamentId == null;
+        }
+        return collect($gameSideTournamnets)->contains($sideTournamentId);
     }
 
     public function export_data()

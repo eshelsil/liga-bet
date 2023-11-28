@@ -62,9 +62,11 @@ class UpdateLeaderboards
         }
 
         $this->updateLeaderboardRows($tournament, $version, $prevVersion, null);
-        $sideTournamentId = $tournament->getSideTournamentGames()->get($gameId);
-        if ($sideTournamentId){
-            $this->updateLeaderboardRows($tournament, $version, $prevVersion, $sideTournamentId);
+        $sideTournamentIds = $tournament->getSideTournamentGames()->get($gameId);
+        if ($sideTournamentIds){
+            collect($sideTournamentIds)->each(
+                fn($sideTournamentId) => $this->updateLeaderboardRows($tournament, $version, $prevVersion, $sideTournamentId)
+            );
         }
     }
 

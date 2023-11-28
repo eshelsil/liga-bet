@@ -236,7 +236,7 @@ class TournamentUser extends Model
         $bets = collect([]);
 
         $gameBet = $this->bets()->firstWhere(['type' => BetTypes::Game, 'type_id' => $game->id]);
-        if ($gameBet && $gameBet->getSideTournamentId() == $sideTournamentId) {
+        if ($gameBet && $gameBet->isMatchingSideTournament($sideTournamentId)) {
             $bets->add($gameBet);
         }
         if ($sideTournamentId){

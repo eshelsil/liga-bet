@@ -115,11 +115,6 @@ class Tournament extends Model
         return collect();
     }
 
-    public function getSideTournamentIds()
-    {
-        return $this->getSideTournamentGames()->values()->unique();
-    }
-
     public function getUtlOfUser(User $user)
     {
         return $this->utls->firstWhere('user_id', $user->id);
@@ -185,7 +180,11 @@ class Tournament extends Model
             throw new \RuntimeException("Cannot find game with id $gameId on this tournament (id: $this->id)");
         }
 
-        $betsWithScoreGainedPerUtl = $this->competingUtls()->keyBy('id')
+        $competingUtls = $this->competingUtls();
+        if ($sideTournamentId){
+            $competingUtls = SideTournament::find($sideTournamentId)->competingUtls();
+        }
+        $betsWithScoreGainedPerUtl = $competingUtls->keyBy('id')
             ->map(fn(TournamentUser $utl) => $game->is_done ? $utl->getBetsWithScoreGainedForGame($game, $sideTournamentId) : new Collection());
         return $betsWithScoreGainedPerUtl;
     }

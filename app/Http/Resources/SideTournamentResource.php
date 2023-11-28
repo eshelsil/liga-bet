@@ -17,13 +17,15 @@ class SideTournamentResource extends JsonResource
     {
         /** @var SideTournament $t */
         $st = $this->resource;
-        $gameIds = $st->tournament->getSideTournamentGames()->filter(fn($stId) => $stId == $st->id)->keys();
+        $gameIds = $st->tournament->getSideTournamentGames()->filter(fn($stIds) => collect($stIds)->contains($st->id))->keys();
         $res = [
             "id"                => $st->id,
             "tournament_id"     => $st->tournament_id,
             "name"              => $st->name,
             "emblem"            => $st->emblem,
             "gameIds"           => $gameIds,
+            "config"            => $st->getConfig(),
+            "competingUtls"     => $st->competingUtls()->pluck("id"),
             "createdAt"         => $st->created_at,
             "updatedAt"         => $st->updated_at,
         ];

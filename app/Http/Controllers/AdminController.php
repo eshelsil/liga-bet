@@ -99,7 +99,17 @@ class AdminController extends Controller
         $gameIds = $t->competition->games()->whereBetween('start_time', [$gameDayStartTime, $gameDayEndTime])->get()->pluck("id");
         $currentMap = $t->getSideTournamentGames();
         if ($sideTournamentId){
-            $newMap = $currentMap->union($gameIds->keyBy(fn($id) => $id)->map(fn($g) => $sideTournamentId));
+            $existing = $currentMap->filter(fn($val,$key) => $gameIds->contains($key));
+            $updated = $gameIds->keyBy(fn($id) => $id)->map(fn($g) => $sideTournamentId)->map(
+                fn($val, $key) => collect($val)->concat(collect($existing->get($key)))->values()->toArray()
+            );
+            $newMap = collect();
+            foreach ($currentMap as $key => $value) {
+                $newMap[$key] = $value;
+            }
+            foreach ($updated as $key => $value) {
+                $newMap[$key] = $value;
+            }
         } else {
             $newMap = $currentMap->except($gameIds);
         }
