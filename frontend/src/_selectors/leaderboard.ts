@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { getSideTournamentId, keysOf } from '../utils'
+import { isBetBelongsToSideTournament, keysOf } from '../utils'
 import { CurrentSideTournamentId, CurrentTournament, IsSideTournament, IsTournamentStarted } from './base'
 import { GamesIncludedInCurrentLeaderboard, GroupStandingsDiscludedByHistoricLeaderboard, IsCurrentLeaderboardMissing, LiveGameBetsWithRelevantScoreByUtlId, LiveGroupRankBetsWithScoreByUtlId, LiveRunnerUpBetsWithScoreByUtlId, LiveSpecialAnswers, LiveTopAssistsBetsWithScoreByUtlId, LiveTopScorerBetsWithScoreByUtlId, LiveWinnerBetsWithScoreByUtlId, PrimalBetsScoresOverrideByLeaderboardSettings, ScoreboardSelector, SpecialBetAnswersDiscludedByHistoricLeaderboard } from './logic'
 import {
@@ -66,7 +66,7 @@ export const ContestantSelector = createSelector(
         const relevantMatchBets = pickBy(matchBets, (bet) => (
             bet.score > 0
             && !!gamesIncludedById[bet.type_id]
-            && (getSideTournamentId(bet, currentTournament) === sideTournamentId)
+            && isBetBelongsToSideTournament(bet, currentTournament, sideTournamentId)
         ))
         const matchBetsByUserId = groupBy(
             relevantMatchBets,

@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { calcLiveAddedScore, getLiveVersionScore, calcGainedPointsOnGameBet, calcGainedPointsOnStandingsBet, calcLeaderboardDiff, formatLeaderboardVersion, generateEmptyScoreboardRow, getLatestScoreboard, keysOf, valuesOf, isFinalGame, fillLeaderboardIfEmpty, getSideTournamentId } from '../../utils'
+import { calcLiveAddedScore, getLiveVersionScore, calcGainedPointsOnGameBet, calcGainedPointsOnStandingsBet, calcLeaderboardDiff, formatLeaderboardVersion, generateEmptyScoreboardRow, getLatestScoreboard, keysOf, valuesOf, isFinalGame, fillLeaderboardIfEmpty, isBetBelongsToSideTournament } from '../../utils'
 import { ScoreboardRowById, SpecialQuestionType } from '../../types'
 import { BetsFullScoresConfigSelector, Contestants, CurrentSideTournamentId, CurrentTournament, CurrentTournamentUserId, IsShowingHistoricScoreboard, LeaderboardRows, LeaderboardVersions, LeaderboardVersionsDesc, QuestionBets, ScoreboardSettings } from '../base'
 import { LiveGameBets, LiveGameBetsIncludingAll, LiveGroupStandingBets, LiveGroupStandings, MatchesWithTeams, SpecialQuestionsWithRelations } from '../modelRelations'
@@ -41,7 +41,7 @@ export const LiveGameBetsWithRelevantScore = createSelector(
     CurrentTournament,
     CurrentSideTournamentId,
     (liveGameBetsWithScore, tournament, sideTournamentId) => {
-        return liveGameBetsWithScore.filter(bet => getSideTournamentId(bet, tournament) === sideTournamentId)
+        return liveGameBetsWithScore.filter(bet => isBetBelongsToSideTournament(bet, tournament, sideTournamentId))
     }
 )
 

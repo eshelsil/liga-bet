@@ -73,7 +73,7 @@ export interface TournamentScoreConfig {
 export interface TournamentConfig {
 	prizes: string[],
 	scores: TournamentScoreConfig,
-	sideTournamentGames?: Record<number, number>,
+	sideTournamentGames?: Record<number, number[]>,
 }
 
 export interface TournamentPreferences {

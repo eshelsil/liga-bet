@@ -1,11 +1,12 @@
-import { BetBase, BetType, Tournament } from '../types'
+import { MatchBetWithRelations, Tournament } from '../types'
 
 
-export function getSideTournamentId(bet: BetBase, tournament: Tournament): number {
+export function isBetBelongsToSideTournament(bet: MatchBetWithRelations, tournament: Tournament, sideTournamentId?: number): boolean {
     const gameIdToSideTournamentMap = tournament.config.sideTournamentGames ?? {}
-    if (bet.type === BetType.Match){
-        const gameId = bet.type_id
-        return gameIdToSideTournamentMap[gameId] ?? null
+    const gameId = bet.type_id
+    const sideTournaments = gameIdToSideTournamentMap[gameId]
+    if (!sideTournaments){
+        return !sideTournamentId
     }
-    return null
+    return sideTournaments.includes(sideTournamentId)
 }
