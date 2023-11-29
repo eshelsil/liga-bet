@@ -31,7 +31,7 @@ class SideTournament extends Model
         $config = $this->getConfig();
         if (array_key_exists('competingUtls', $config)){
             $idsToInclude = collect($config['competingUtls']);
-            return $tournamentUtls->filter(fn(TournamentUser $utl) => $idsToInclude->search($utl->id));
+            return $tournamentUtls->filter(fn(TournamentUser $utl) => $idsToInclude->contains($utl->id));
         }
         return $tournamentUtls;
     }
