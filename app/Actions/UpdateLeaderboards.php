@@ -10,6 +10,7 @@ use App\Leaderboard;
 use App\LeaderboardsVersion;
 use App\Tournament;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Log;
 
 class UpdateLeaderboards
@@ -17,8 +18,21 @@ class UpdateLeaderboards
     public function handle(Competition $competition, int $firstGameId)
     {
         $competition->tournaments->each(
-            fn (Tournament $tournament) => $this->updateRanks($tournament, $firstGameId)
+            fn (Tournament $tournament) => $this->updateRanksAsTransaction($tournament, $firstGameId)
         );
+    }
+
+    public function updateRanksAsTransaction(Tournament $tournament, int $firstGameId)
+    {
+        DB::beginTransaction();
+        try {
+            $this->updateRanks($tournament, $firstGameId);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error("Failed updating ranks of tournament $tournament->id", $e);
+            throw $e;
+        }
     }
 
     public function updateRanks(Tournament $tournament, int $firstGameId)
