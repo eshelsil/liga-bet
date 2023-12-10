@@ -8,6 +8,7 @@ use App\Enums\GameSubTypes;
 use App\Exceptions\JsonException;
 use App\Game;
 use App\Tournament;
+use App\Competition;
 use Illuminate\Support\Facades\Log;
 
 class BetMatchRequest extends AbstractBetRequest
@@ -42,16 +43,18 @@ class BetMatchRequest extends AbstractBetRequest
     }
 
 
-    protected function validateData($game, $data)
+    protected function validateData(Game $game, $data)
     {
-//        Log::debug("Validating data: {$game->getID()} -Data: ". json_encode($data));
+        if ($game->isTwoLeggedTie()){
+            return $this->validateDataTwoLeggedTie($game, $data);
+        }
         $resultHome = data_get($data, "result-home");
         if (!is_numeric($resultHome)) {
             throw new \InvalidArgumentException($resultHome);
         }
         $resultAway = data_get($data, "result-away");
         if (!is_numeric($resultAway)) {
-            throw new \InvalidArgumentException($resultHome);
+            throw new \InvalidArgumentException($resultAway);
         }
         if ($game->isKnockout()){
             $koWinnerSide = data_get($data, "winner_side");
@@ -59,6 +62,28 @@ class BetMatchRequest extends AbstractBetRequest
                 $paramString = is_null($koWinnerSide) ? "null" : $koWinnerSide;
                 throw new \InvalidArgumentException("Knockout Bet's \"winner_side\" parameter must be one of [\"away\", \"home\"] if score is tied. <br>Got: {$paramString}");
             }
+        }
+    }
+
+    protected function validateDataTwoLeggedTie(Game $game, $data)
+    {
+        $isQualifierBetOn = bool(data_get($this->tournament->config, "scores.gameBets.knockout.qualifier"));
+        $resultHome = data_get($data, "result-home");
+        $resultAway = data_get($data, "result-away");
+        $koWinnerSide = data_get($data, "winner_side");
+        if ($game->isKnockout() && $isQualifierBetOn && !in_array($koWinnerSide, ["home", "away"])){
+            $paramString = is_null($koWinnerSide) ? "null" : $koWinnerSide;
+            throw new \InvalidArgumentException("Knockout Bet's \"winner_side\" parameter must be one of [\"away\", \"home\"] if score is tied. <br>Got: {$paramString}");
+        }
+        if ($game->isLastLeg() && in_array($koWinnerSide, ["home", "away"]) && is_null($resultHome) && is_null($resultAway)){
+            // Allow bet with qualifier and empty-result for second-leg, as it is generated automatically when betting on first-leg game - update validation should happen on API level
+            return;
+        }
+        if (!is_numeric($resultHome)) {
+            throw new \InvalidArgumentException($resultHome);
+        }
+        if (!is_numeric($resultAway)) {
+            throw new \InvalidArgumentException($resultAway);
         }
     }
 
@@ -78,8 +103,11 @@ class BetMatchRequest extends AbstractBetRequest
         return $this->resultHome;
     }
 
-    public function getWinnerSide()
+    public function getKnockoutQualifier()
     {
+        if ($this->game->isTwoLeggedTie()){
+            return $this->koWinnerSide;
+        }
         if ($this->resultHome > $this->resultAway){
             return "home";
         } else if ($this->resultHome < $this->resultAway){
@@ -165,8 +193,11 @@ class BetMatchRequest extends AbstractBetRequest
         $game = $this->getGame();
         $score = $this->calculate90Minutes($type);
 
-        if ($this->getWinnerSide() == $game->getKnockoutWinnerSide()) {
-            $score += $this->getScoreConfig("gameBets.{$type}.qualifier");
+        if ($game->isLastLeg() || ($game->getOtherLegGame() && $game->getOtherLegGame()->is_done)){
+
+            if ($this->getKnockoutQualifier() == $game->getKnockoutWinnerSide()) {
+                $score += $this->getScoreConfig("gameBets.{$type}.qualifier");
+            }
         }
 
         return $score;

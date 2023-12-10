@@ -1,0 +1,1 @@
+{"version":1,"defects":{"Tests\\Feature\\ExampleTest::testCreateTournament":3,"Tests\\Feature\\GroupStageDoneTest::testUpdateGroupRanks":4},"times":{"Tests\\Feature\\ExampleTest::testCreateTournament":2.999,"Tests\\Feature\\GroupStageDoneTest::testUpdateGroupRanks":0.741,"Tests\\Unit\\ExampleTest::testBasicTest":0.02}}

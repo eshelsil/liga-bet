@@ -103,7 +103,8 @@ class ExampleTest extends TestCase
             Log::debug("utls:  ".$utlId1." ".$utlId2." ".$utlId3);
         $this->makePreBets($betsData);
 
-        $this->assertEquals(62*3, $this->tournament->bets()->count());
+        // $this->assertEquals(62*3, $this->tournament->bets()->count());
+        $this->assertEquals(78*3, $this->tournament->bets()->count());
 
         // Assert game 1
         $scorers = collect([

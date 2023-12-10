@@ -115,15 +115,58 @@ class BetsController extends Controller
             $betInput = (object)$betInput;
             switch ($betInput->type) {
                 case BetTypes::Game:
-                    $game = Game::query()->find($betInput->data["type_id"]);
+                    $betData = $betInput->data;
+                    $game = Game::query()->find($betData["type_id"]);
                     if (!$game->isOpenForBets()){
                         throw new \InvalidArgumentException("Game with id $game->id is closed for bets. cannot update bet");
                     }
+                    // Validate cannot update qualifier of second-leg knockout bet:
+                    if ($game->isTwoLeggedTie() && $game->isLastLeg()){
+                        $resultHome = data_get($betData, "result-home");
+                        $resultAway = data_get($betData, "result-away");
+                        $koWinnerSide = data_get($betData, "winner_side");
+                        if (!is_numeric($resultHome)) {
+                            throw new \InvalidArgumentException($resultHome);
+                        }
+                        if (!is_numeric($resultAway)) {
+                            throw new \InvalidArgumentException($resultAway);
+                        }
+                        if (!is_null($koWinnerSide)) {
+                            throw new \InvalidArgumentException("Cannot Update qualifier on the second leg bet");
+                        }
+                    }
                     foreach ($utlsToSendFor as $utl ){
+                        $otherLegBetData = null;
+                        $otherLegGame = null;
+                        if ($game->isTwoLeggedTie()){
+                            $otherLegGame = $game->getOtherLegGame();
+                            $otherLegBet = $utl->bets->first(fn(Bet $b) => $b->type == BetTypes::Game && b->type_id == $otherLegGame->id);
+                            if ($game->isLastLeg() && $otherLegBet){
+                                // Get qualifier-bet from first-leg bet
+                                $betData["winner_side"] = $otherLegBet->getKoWinnerSide();
+                            }
+                            if ($game->isFirstLeg()){
+                                if (!$otherLegBet){
+                                    $otherLegBetData = ["winner_side" => $koWinnerSide];
+                                } else if ($otherLegBet->getKoWinnerSide() != $koWinnerSide){
+                                    $otherLegBetData = $otherLegBet->getData();
+                                    $otherLegBetData["winner_side"] = $koWinnerSide;
+                                }
+                            }
+                        }
+                        if ($otherLegBetData){
+                            $otherLegBetRequest = new BetMatchRequest(
+                                $otherLegGame,
+                                $utl->tournament,
+                                $otherLegBetData
+                            );
+                            $bets[] = BetMatch::save($utl, $otherLegBetRequest);
+                        }
+                        
                         $betRequest = new BetMatchRequest(
                             $game,
                             $utl->tournament,
-                            $betInput->data
+                            $betData
                         );
                         $bets[] = BetMatch::save($utl, $betRequest);
                     }

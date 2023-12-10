@@ -5,6 +5,7 @@ namespace App;
 use App\Bets\BetableInterface;
 use App\Bets\BetMatch\BetMatchRequest;
 use App\Enums\BetTypes;
+use App\Enums\GameSubTypes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -65,6 +66,50 @@ class Game extends Model implements BetableInterface
 
     const TYPE_KNOCKOUT = 'knockout';
     const TYPE_GROUP_STAGE = 'group_stage';
+    const LEG_TYPE_FIRST = 'first';
+    const LEG_TYPE_SECOND = 'second';
+
+    public function isTwoLeggedTie()
+    {
+        if (!$this->isKnockout()){
+            return false;
+        }
+        if ($this->competition->getCompetitionType() == Competition::TYPE_UCL){
+            if ($this->isTheFinal()){
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public function isLastLeg()
+    {
+        if (!$this->isTwoLeggedTie()){
+            return true;
+        }
+        return $this->ko_leg == self::LEG_TYPE_SECOND;
+    }
+
+    public function isFirstLeg()
+    {
+        if (!$this->isTwoLeggedTie()){
+            return true;
+        }
+        return $this->ko_leg == self::LEG_TYPE_FIRST;
+    }
+
+    public function getOtherLegGame()
+    {
+        if (!$this->isTwoLeggedTie()){
+            return null;
+        }
+        return $this->competition->games->first(fn(Game $g) =>
+            $g->isTwoLeggedTie() && $g->stage == $this->stage && $g->subType == $this->subType
+            && collect([$g->team_home_id, $g->team_away_id])->sort()->valuse()->toJson() == collect([$this->team_home_id, $this->team_away_id])->sort()->valuse()->toJson()
+            && $g->id != $this->id
+        );
+    }
 
     public function isKnockout()
     {
@@ -187,11 +232,17 @@ class Game extends Model implements BetableInterface
 
     public function getKnockoutWinner()
     {
+        if (!$this->isLastLeg()){
+            return null;
+        }
         return $this->ko_winner;
     }
 
     public function getKnockoutLoser()
     {
+        if (!$this->isLastLeg()){
+            return null;
+        }
         return array_values(array_diff($this->getTeamIds(), [$this->getKnockoutWinner()]))[0];
     }
 
@@ -234,9 +285,8 @@ class Game extends Model implements BetableInterface
                 ->exists();
     }
 
-    public static function isTournamentDone() {
-        $final_match = Game::getFinalMatchIfDone();
-        return !!$final_match;
+    public function isTheFinal() {
+        return $this->isKnockout() && $this->sub_type == GameSubTypes::FINAL;
     }
 
     public function isTheLastGameOfGroupStage() {

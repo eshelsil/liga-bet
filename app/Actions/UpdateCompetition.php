@@ -11,6 +11,7 @@ namespace App\Actions;
 use App\Competition;
 use App\DataCrawler\Game as CrawlerGame;
 use App\Game;
+use App\Enums\GameSubTypes;
 use App\SpecialBets\SpecialBet;
 use App\Tournament;
 use App\User;
@@ -130,12 +131,20 @@ class UpdateCompetition
      */
     protected function saveNewGames(Competition $competition): void
     {
-        $crawlerNewGames = $this->crawlerGames->filter(fn (CrawlerGame $game) => !$competition->games->contains('external_id', $game->externalId));
+            $crawlerNewGames = $this->crawlerGames->filter(fn (CrawlerGame $game) => !$competition->games->contains('external_id', $game->externalId));
 
         $autoBet = (new MonkeyAutoBetCompetitionGames());
 
         $teamsByExternalId = $competition->teams->pluck("id", "external_id");
 
+        $grouped = $games->groupBy(function ($game) {
+            return $game->key_a . '_' . $game->key_b;
+        });
+
+        $gamesWithLegs = $crawlerGames->filter(fn (CrawlerGame $game) => $this->isTwoLegedTie($game, $competition));
+        $groupedByLegs = $crawlerGames->groupBy($this->gameToLegsId)->map(
+            fn(Collection|CrawlerGame $games) => $games->sortBy('startTime')->map(fn($g)=>$g->externalId)
+        );
         /** @var CrawlerGame $crawlerGame */
         foreach ($crawlerNewGames as $crawlerGame) {
             $game                   = new Game();
@@ -147,11 +156,35 @@ class UpdateCompetition
             $game->team_away_id     = $teamsByExternalId[$crawlerGame->teamAwayExternalId];
             $game->start_time       = $crawlerGame->startTime;
 
+            $legsId = $this->gameToLegsId($crawlerGame);
+            if ($legs = $groupedByLegs->get($legsId)){
+                if ($legs[0] == $crawlerGame->externalId){
+                    $game->ko_leg = Game::LEG_TYPE_FIRST;
+                } else if ($legs[1] == $crawlerGame->externalId){
+                    $game->ko_leg = Game::LEG_TYPE_SECOND;
+                }
+            }
             Log::debug("Saving Game: " . $game->team_home_id . " vs. " . $game->team_away_id . "<br>");
 
             $game->save();
             User::getMonkeyUsers()->each(fn(User $monkey) => $autoBet->handle($monkey, $game));
         }
+    }
+
+    protected function isTwoLegedTie(CrawlerGame $game, Competition $competition): bool
+    {
+        if ($competition->getCompetitionType() != Competition::TYPE_UCL){
+            if ($game->type == Game::TYPE_KNOCKOUT && $game->subType != GameSubTypes::FINAL){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected function gameToLegsId(CrawlerGame $game): string
+    {
+        $playingTeams = collect([$game->teamAwayExternalId, $game->teamHomeExternalId])->sort()->values();
+        return $game->type."_".$game->subType."_".$playingTeams[0].$playingTeams[1];  
     }
 
     /**
