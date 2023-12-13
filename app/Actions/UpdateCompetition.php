@@ -103,7 +103,7 @@ class UpdateCompetition
                 $gameIdsUpdatedScorers = $this->updateScorers->getRelevantGameIds();
                 $doneGames = $updatedGames->filter(fn($g) => $g->is_done);
 
-                if ($doneGames->count() > 0) {
+                if ($doneGames->count() >= 0) {
                     $this->updateStandings->handle($competition);
 
                     // TODO: There was a bug here. i think we should refresh the games before check $competition->isGroupStageDone() -->  should verify `->load("games")` solves the issue
