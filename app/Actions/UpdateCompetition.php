@@ -212,7 +212,7 @@ class UpdateCompetition
     {
         return $competition->games()
             ->where("start_time", ">=", now()->timestamp)
-            ->where("is_done", false)
+            ->orWhere("is_done", false)
             ->exists();
     }
 }
