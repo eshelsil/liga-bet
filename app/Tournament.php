@@ -136,6 +136,33 @@ class Tournament extends Model
         $this->save();
     }
 
+    public static function mapScoreConfigToNumeral(array $config)
+    {
+        function updateToNumber(&$array) {
+            foreach ($array as $key => &$value) {
+                if (is_array($value)) {
+                    updateToNumber($value);
+                } else {
+                    $value = (int)$value;
+                }
+            }
+        }
+
+        if (isset($config['scores']) && is_array($config['scores'])) {
+            updateToNumber($config['scores']['gameBets']);
+            updateToNumber($config['scores']['specialBets']);
+            updateToNumber($config['scores']['groupRankBets']);
+        }
+        return $config;
+    }
+
+    public function updateToNumeralScoreConfig(){
+        $config = $this->config;
+        $numeralEnforcedConfig = static::mapScoreConfigToNumeral($config);
+        $this->config = $numeralEnforcedConfig;
+        $this->save();
+    }
+
     public function getMvpId()
     {
         $specialQuestion = $this->specialBets()->where('type', SpecialBet::TYPE_MVP)->first();
