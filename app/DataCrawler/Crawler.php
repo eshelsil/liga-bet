@@ -132,7 +132,8 @@ class Crawler
         $groups = collect($standings)->where('type', 'TOTAL');
         $teams = [];
         foreach ($groups as $group){
-            $group_id = data_get($group, 'group');
+            $group_name = data_get($group, 'group');
+            $group_id = static::transformGroupNameToGroupId($group_name);
             $group_teams = data_get($group, 'table.*.team');
             $teams = array_merge($teams, array_map(function($t) use($group_id){
                 return array_merge(['group_id' => $group_id, 'crestUrl' => $t["crest"]], $t);
@@ -204,6 +205,11 @@ class Crawler
         )->map(fn($data) => new Player($data["id"], $data["name"], $teamId, $data["shirtNumber"], $data["position"]));
     }
 
+    public static function transformGroupNameToGroupId($groupName)
+    {
+        return strtoupper(str_replace(" ", "_", $groupName));
+    }
+
     public function fetchGroupStandings(int $totalGamesInGroup)
     {    
         $data = $this->apiCall('/standings');
@@ -216,7 +222,8 @@ class Crawler
         $res = [];
         foreach($done_groups as $group_data){
             $table = data_get($group_data, 'table');
-            $group_id = data_get($group_data, 'group');
+            $group_name = data_get($group_data, 'group');
+            $group_id = static::transformGroupNameToGroupId($group_name);
             $standings = [];
             foreach ($table as $row){
                 array_push($standings, [
