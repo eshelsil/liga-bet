@@ -43,7 +43,7 @@ class BetMatchRequest extends AbstractBetRequest
     }
 
 
-    protected function validateData(Game $game, $data)
+    protected function validateData($game, $data)
     {
         if ($game->isTwoLeggedTie()){
             return $this->validateDataTwoLeggedTie($game, $data);
