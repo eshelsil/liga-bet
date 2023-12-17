@@ -31,6 +31,8 @@ const OpenMatchesProvider = ({
     async function sendMatchBet({
         matchId,
         is_knockout,
+        isTwoLeggedTie,
+        isFirstLeg,
         homeScore,
         awayScore,
         koWinner,
@@ -38,6 +40,8 @@ const OpenMatchesProvider = ({
     }: {
         matchId: number
         is_knockout: boolean
+        isTwoLeggedTie: boolean
+        isFirstLeg: boolean
         homeScore: string
         awayScore: string
         koWinner: WinnerSide
@@ -66,11 +70,11 @@ const OpenMatchesProvider = ({
             'result-home': Number(homeScore),
             'result-away': Number(awayScore),
         }
-        if (is_knockout && homeScore == awayScore && hasQualifierBet) {
+        if (hasQualifierBet && (isTwoLeggedTie ? isFirstLeg : (is_knockout && homeScore == awayScore))) {
             payload.winner_side = koWinner
             if (!koWinner) {
                 window['toastr']['error'](
-                    `עלייך לבחור מעפילה (מכיוון שסימנת משחק נוקאאוט שייגמר בתיקו)`
+                    isTwoLeggedTie ? `עלייך לבחור מעפילה` : `עלייך לבחור מעפילה (מכיוון שסימנת משחק נוקאאוט שייגמר בתיקו)`
                 )
                 throw new Error('NO_QUALIFIER')
             }

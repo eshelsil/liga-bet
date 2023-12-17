@@ -73,4 +73,61 @@
             }
         }
     }
+    &.KoWinnerInput-twoLegKo {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        margin-top: 0px;
+        .KoWinnerInput-content {
+            position: relative;
+            padding: 4px 12px;
+            background: #c393ff8a;
+            justify-content: space-between;
+            .KoWinnerInput-delimiter {
+                font-size: 16px;
+                color: black;
+                font-weight: 700;
+            }
+            .KoWinnerInput-side {
+                width: 80px;
+                .KoWinnerInput-button {
+                    width: 100%;
+                    height: 28px;
+                    line-height: 26px;
+                    border-radius: 12px;
+                    font-size: 16px;
+                    transition: background-color 0.3s, border 0.1s, font-size 0.1s, height 0.1s, width 0.1s;
+                    transform: none;
+                }
+                &.KoWinnerInput-selected {
+                    .KoWinnerInput-button {
+                        border: 1px solid rgb(0 0 0 / 40%);
+                        font-size: 20px;
+                    }
+                }
+                &:not(.KoWinnerInput-selected) {
+                    .KoWinnerInput-button {
+                        height: 22px;
+                        width: 70px;
+                        line-height: 20px;
+                        border: 1px solid rgba(0, 0, 0, 0.1);
+                    }
+                }
+            }
+        }
+    }
+    &.KoWinnerInput-disabled {
+        .KoWinnerInput-content {
+            .KoWinnerInput-side {
+                .KoWinnerInput-button {
+                    pointer-events: none;
+                    cursor: default;
+                }
+                &:not(.KoWinnerInput-selected) {
+                    opacity: 0;
+                }
+            }
+        }
+    }
 }

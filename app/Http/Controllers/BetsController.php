@@ -136,11 +136,12 @@ class BetsController extends Controller
                         }
                     }
                     foreach ($utlsToSendFor as $utl ){
+                        $koWinnerSide = data_get($betData, "winner_side");
                         $otherLegBetData = null;
                         $otherLegGame = null;
                         if ($game->isTwoLeggedTie()){
                             $otherLegGame = $game->getOtherLegGame();
-                            $otherLegBet = $utl->bets->first(fn(Bet $b) => $b->type == BetTypes::Game && b->type_id == $otherLegGame->id);
+                            $otherLegBet = $utl->bets->first(fn(Bet $b) => $b->type == BetTypes::Game && $b->type_id == $otherLegGame->id);
                             if ($game->isLastLeg() && $otherLegBet){
                                 // Get qualifier-bet from first-leg bet
                                 $betData["winner_side"] = $otherLegBet->getKoWinnerSide();
@@ -154,6 +155,14 @@ class BetsController extends Controller
                                 }
                             }
                         }
+                        
+                        $betRequest = new BetMatchRequest(
+                            $game,
+                            $utl->tournament,
+                            $betData
+                        );
+                        $bets[] = BetMatch::save($utl, $betRequest);
+
                         if ($otherLegBetData){
                             $otherLegBetRequest = new BetMatchRequest(
                                 $otherLegGame,
@@ -162,13 +171,6 @@ class BetsController extends Controller
                             );
                             $bets[] = BetMatch::save($utl, $otherLegBetRequest);
                         }
-                        
-                        $betRequest = new BetMatchRequest(
-                            $game,
-                            $utl->tournament,
-                            $betData
-                        );
-                        $bets[] = BetMatch::save($utl, $betRequest);
                     }
                     break;
                 case BetTypes::GroupsRank:

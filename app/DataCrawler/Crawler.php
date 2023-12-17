@@ -151,6 +151,35 @@ class Crawler
         }
 
         $matches = data_get($data, 'matches');
+        $barca = json_decode('{
+            "id": 81,
+            "name": "FC Barcelona",
+            "shortName": "Barça",
+            "tla": "FCB",
+            "crest": "https://crests.football-data.org/81.svg"
+        }');
+        $real = json_decode('{
+            "id": 86,
+            "name": "Real Madrid CF",
+            "shortName": "Real Madrid",
+            "tla": "RMA",
+            "crest": "https://crests.football-data.org/86.png"
+        }');
+        $porto = json_decode('{
+                "id": 503,
+                "name": "FC Porto",
+                "shortName": "Porto",
+                "tla": "FCP",
+                "crest": "https://crests.football-data.org/503.png"
+            }');
+        $inter = json_decode('{"id": 108,"name": "FC Internazionale Milano","shortName": "Inter","tla": "INT","crest": "https://crests.football-data.org/108.png"}');
+        $matches[103]['homeTeam'] = $inter;
+        $matches[103]['awayTeam'] = $porto;
+        $matches[104]['homeTeam'] = $real;
+        $matches[104]['awayTeam'] = $barca;
+        $matches[111]['homeTeam'] = $porto;
+        $matches[111]['awayTeam'] = $inter  ;
+        // dd($matches[111]);
 
         return collect($matches)->map(fn($m) => self::parseGame($m))->filter();
     }

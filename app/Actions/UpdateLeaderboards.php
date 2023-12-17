@@ -132,6 +132,7 @@ class UpdateLeaderboards
             $leader->score = $lastScore = $score;
             $leader->bet_score_override = $betScoreOverride;
             $leader->save();
+            // usleep(200000);
         }
     }
 

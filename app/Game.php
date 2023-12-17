@@ -106,7 +106,7 @@ class Game extends Model implements BetableInterface
         }
         return $this->competition->games->first(fn(Game $g) =>
             $g->isTwoLeggedTie() && $g->stage == $this->stage && $g->subType == $this->subType
-            && collect([$g->team_home_id, $g->team_away_id])->sort()->valuse()->toJson() == collect([$this->team_home_id, $this->team_away_id])->sort()->valuse()->toJson()
+            && collect([$g->team_home_id, $g->team_away_id])->sort()->values()->toJson() == collect([$this->team_home_id, $this->team_away_id])->sort()->values()->toJson()
             && $g->id != $this->id
         );
     }

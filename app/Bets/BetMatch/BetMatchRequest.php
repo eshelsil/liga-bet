@@ -15,8 +15,8 @@ class BetMatchRequest extends AbstractBetRequest
 {
     protected Game $game;
     protected ?string $koWinnerSide;
-    protected int $resultHome;
-    protected int $resultAway;
+    protected int|null $resultHome;
+    protected int|null $resultAway;
 
     /**
      * BetMatchRequest constructor.
@@ -67,7 +67,7 @@ class BetMatchRequest extends AbstractBetRequest
 
     protected function validateDataTwoLeggedTie(Game $game, $data)
     {
-        $isQualifierBetOn = bool(data_get($this->tournament->config, "scores.gameBets.knockout.qualifier"));
+        $isQualifierBetOn = !!data_get($this->tournament->config, "scores.gameBets.knockout.qualifier");
         $resultHome = data_get($data, "result-home");
         $resultAway = data_get($data, "result-away");
         $koWinnerSide = data_get($data, "winner_side");

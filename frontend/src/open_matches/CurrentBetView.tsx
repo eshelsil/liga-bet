@@ -23,6 +23,7 @@ function CurrentBetView({
     const clickOnEditIcon = () => onEdit()
 
     const isKnockout = relatedMatch?.is_knockout
+    const { isTwoLeggedTie } = relatedMatch ?? {}
     const isQualifierBetOn = useSelector(IsQualifierBetOn)
     const hasQualifierBet = isQualifierBetOn && isKnockout
 
@@ -33,6 +34,14 @@ function CurrentBetView({
 
     return (
         <div className='LB-CurrentBetView'>
+            {hasQualifierBet && isTwoLeggedTie && (
+                <KoWinnerInput
+                    value={winnerSide}
+                    setValue={() => {}}
+                    isTwoLegKo
+                    disabled
+                />
+            )}
             <div className='inputsRow'>
                 <div className='scoreDisplayContainer'>
                     <div className='scoreDisplay' onClick={clickOnHomeScore}>
@@ -52,7 +61,7 @@ function CurrentBetView({
                     </div>
                 </div>
             </div>
-            {hasQualifierBet && (
+            {hasQualifierBet && !isTwoLeggedTie && (
                 <KoWinnerInput
                     value={winnerSide}
                     setValue={() => {}}

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { IconButton } from '@mui/material'
-import { MatchBetWithRelations, WinnerSide } from '../types'
+import { Match, MatchBetWithRelations, WinnerSide } from '../types'
 import CloseIcon from '@mui/icons-material/CloseRounded'
 import { isEmpty } from 'lodash'
 import { LoadingButton } from '../widgets/Buttons'
@@ -14,6 +14,8 @@ import { getWinnerSide } from '../utils'
 interface Props  {
     bet: MatchBetWithRelations
     isKnockout: boolean
+    isTwoLegsKo: boolean
+    isFirstLeg: boolean
     onClose: () => void
     onSave: (...args: any) => Promise<void>
     opener?: WinnerSide
@@ -22,6 +24,8 @@ interface Props  {
 function EditMatchBetView({
     bet,
     isKnockout,
+    isTwoLegsKo,
+    isFirstLeg,
     onClose,
     onSave,
     opener,
@@ -68,12 +72,24 @@ function EditMatchBetView({
 
     const isBetTied = Number(homeScore) === Number(awayScore)
 
-    const winnerSide = (hasQualifierBet && isKnockout)
-        ? getWinnerSide(Number(homeScore), Number(awayScore), koWinner)
+    const winnerSide = hasQualifierBet
+        ? (
+            isTwoLegsKo
+                ? koWinner
+                : getWinnerSide(Number(homeScore), Number(awayScore), koWinner)
+        )
         : undefined
 
     return (
-        <div className='LB-EditMatchBetView'>
+        <div className={`LB-EditMatchBetView`}>
+            {hasQualifierBet && isTwoLegsKo && (
+                <KoWinnerInput
+                    value={winnerSide}
+                    setValue={setKoWinner}
+                    disabled={isTwoLegsKo && !isFirstLeg}
+                    isTwoLegKo
+                />
+            )}
             <div className='inputsRow'>
                 <div className='scoreDisplayContainer'>
                     <input
@@ -99,7 +115,7 @@ function EditMatchBetView({
                     />
                 </div>
             </div>
-            {hasQualifierBet && (
+            {hasQualifierBet && !isTwoLegsKo && (
                 <KoWinnerInput
                     value={isFilled ? winnerSide : undefined}
                     setValue={setKoWinner}

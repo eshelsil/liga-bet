@@ -80,8 +80,8 @@ class UpdateCompetition
 
     public function handle(Competition $competition): void
     {
-        Cache::lock("updateCompetition:{$competition->id}", 120)
-            ->block(0, function () use ($competition) {
+        // Cache::lock("updateCompetition:{$competition->id}", 120)
+        //     ->block(0, function () use ($competition) {
                 Log::debug("[UpdateCompetition][handle] Entered new request!");
                 if (! $this->hasOpenGames($competition)) {
                     Log::debug("[UpdateCompetition][handle] No waiting games...");
@@ -121,7 +121,7 @@ class UpdateCompetition
                     );
                     $this->updateLeaderboards->handle($competition, $firstAffectedGameId);
                 }
-            });
+            // });
     }
 
     /**
@@ -137,12 +137,9 @@ class UpdateCompetition
 
         $teamsByExternalId = $competition->teams->pluck("id", "external_id");
 
-        $grouped = $games->groupBy(function ($game) {
-            return $game->key_a . '_' . $game->key_b;
-        });
 
-        $gamesWithLegs = $crawlerGames->filter(fn (CrawlerGame $game) => $this->isTwoLegedTie($game, $competition));
-        $groupedByLegs = $crawlerGames->groupBy($this->gameToLegsId)->map(
+        $gamesWithLegs = $this->crawlerGames->filter(fn (CrawlerGame $game) => $this->isTwoLegedTie($game, $competition));
+        $groupedByLegs = $this->crawlerGames->groupBy(fn(CrawlerGame $game) => $this->gameToLegsId($game))->map(
             fn(Collection|CrawlerGame $games) => $games->sortBy('startTime')->map(fn($g)=>$g->externalId)
         );
         /** @var CrawlerGame $crawlerGame */
@@ -171,7 +168,7 @@ class UpdateCompetition
         }
     }
 
-    protected function isTwoLegedTie(CrawlerGame $game, Competition $competition): bool
+    private function isTwoLegedTie(CrawlerGame $game, Competition $competition): bool
     {
         if ($competition->getCompetitionType() != Competition::TYPE_UCL){
             if ($game->type == Game::TYPE_KNOCKOUT && $game->subType != GameSubTypes::FINAL){
@@ -181,7 +178,7 @@ class UpdateCompetition
         return false;
     }
 
-    protected function gameToLegsId(CrawlerGame $game): string
+    private function gameToLegsId(CrawlerGame $game): string
     {
         $playingTeams = collect([$game->teamAwayExternalId, $game->teamHomeExternalId])->sort()->values();
         return $game->type."_".$game->subType."_".$playingTeams[0].$playingTeams[1];  
