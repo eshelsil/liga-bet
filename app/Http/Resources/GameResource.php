@@ -45,6 +45,9 @@ class GameResource extends JsonResource
             "closed_for_bets"   => $game->start_time < time(),
             "type"              => $game->type,
             "subType"           => $subType,
+            "isTwoLeggedTie"    => $game->isTwoLeggedTie(),
+            "isFirstLeg"        => $game->isFirstLeg(),
+            "isLastLeg"         => $game->isLastLeg(),
             "start_time"        => Carbon::createFromTimestamp($game->start_time),
             "end_time"          => Carbon::createFromTimestamp($game->done_time),
         ];

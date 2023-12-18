@@ -11,6 +11,7 @@ namespace App\Actions;
 use App\Competition;
 use App\DataCrawler\Game as CrawlerGame;
 use App\Game;
+use App\Enums\GameSubTypes;
 use App\SpecialBets\SpecialBet;
 use App\Tournament;
 use App\User;
@@ -136,6 +137,11 @@ class UpdateCompetition
 
         $teamsByExternalId = $competition->teams->pluck("id", "external_id");
 
+
+        $gamesWithLegs = $this->crawlerGames->filter(fn (CrawlerGame $game) => $this->isTwoLegedTie($game, $competition));
+        $groupedByLegs = $gamesWithLegs->groupBy(fn(CrawlerGame $game) => $this->gameToLegsId($game))->map(
+            fn(Collection|CrawlerGame $games) => $games->sortBy('startTime')->map(fn($g)=>$g->externalId)
+        );
         /** @var CrawlerGame $crawlerGame */
         foreach ($crawlerNewGames as $crawlerGame) {
             $game                   = new Game();
@@ -147,11 +153,35 @@ class UpdateCompetition
             $game->team_away_id     = $teamsByExternalId[$crawlerGame->teamAwayExternalId];
             $game->start_time       = $crawlerGame->startTime;
 
+            $legsId = $this->gameToLegsId($crawlerGame);
+            if ($legs = $groupedByLegs->get($legsId)){
+                if ($legs[0] == $crawlerGame->externalId){
+                    $game->ko_leg = Game::LEG_TYPE_FIRST;
+                } else if ($legs[1] == $crawlerGame->externalId){
+                    $game->ko_leg = Game::LEG_TYPE_SECOND;
+                }
+            }
             Log::debug("Saving Game: " . $game->team_home_id . " vs. " . $game->team_away_id . "<br>");
 
             $game->save();
             User::getMonkeyUsers()->each(fn(User $monkey) => $autoBet->handle($monkey, $game));
         }
+    }
+
+    private function isTwoLegedTie(CrawlerGame $game, Competition $competition): bool
+    {
+        if ($competition->getCompetitionType() == Competition::TYPE_UCL){
+            if ($game->type == Game::TYPE_KNOCKOUT && $game->subType != GameSubTypes::FINAL){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private function gameToLegsId(CrawlerGame $game): string
+    {
+        $playingTeams = collect([$game->teamAwayExternalId, $game->teamHomeExternalId])->sort()->values();
+        return $game->type."_".$game->subType."_".$playingTeams[0].$playingTeams[1];  
     }
 
     /**
