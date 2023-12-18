@@ -99,43 +99,6 @@ class Bet extends Model
         return $bet;
     }
 
-    public function getWinnerSide()
-    {
-        if ($this->type !== BetTypes::Game){
-            return null;
-        }
-        $result_home = (int)$this->getData('result-home');
-        $result_away = (int)$this->getData('result-away');
-        if ($result_home > $result_away){
-            return "home";
-        } else if ($result_home < $result_away){
-            return "away";
-        }
-        return $this->getData('ko_winner_side');
-    }
-
-    public function formatMatchBet($options = [])
-    {
-        $winner_class = $options['winner_class'] ?? '';
-        $only_if_tied = $options['only_if_tied'] ?? false;
-        
-        if ($this->type !== BetTypes::Game){
-            return null;
-        }
-        $winner_side = $this->getWinnerSide();
-        $result_home = $this->getData('result-home');
-        $result_away = $this->getData('result-away');
-        if ($only_if_tied && $result_home !== $result_away){
-            $winner_class = '';
-        }
-        if ($winner_side === "home"){
-            return $result_away.":<span class='{$winner_class}'>".$result_home."</span>";
-        } else if ($winner_side === "away"){
-            return "<span class='{$winner_class}'>".$result_away."</span>:".$result_home;
-        }
-        return $result_away.":".$result_home;
-    }
-
     public function getRequest()
     {
         $betEntity = null;
