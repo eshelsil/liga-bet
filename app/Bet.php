@@ -71,6 +71,35 @@ class Bet extends Model
         return $this->type === BetTypes::SpecialBet;
     }
 
+    public function getRelatedGame(): Game
+    {
+        if (!$this->isGameBet()){
+            return null;
+        }
+        return Game::find($this->type_id);
+    }
+
+    public function getKoWinnerSide()
+    {
+        if (!$this->isGameBet()){
+            return null;
+        }
+        return $this->getData('ko_winner_side');
+    }
+
+    public function getKoWinnerTeamId()
+    {
+        $winner_side = $this->getKoWinnerSide();
+        if (!$winner_side){
+            return null;
+        }
+        $game = $this->getRelatedGame();
+        if ($winner_side === 'home'){
+            return $game->team_home_id;
+        }
+        return $game->team_away_id;
+    }
+
     public function isMatchingSideTournament(?int $sideTournamentId)
     {
         if (!$this->isGameBet()){
