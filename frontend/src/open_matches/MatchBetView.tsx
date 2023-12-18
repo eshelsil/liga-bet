@@ -22,7 +22,7 @@ function OpenMatchBetView({
     match: MatchWithABet
     sendBet: (...args: any) => Promise<void>
 }) {
-    const { id, start_time, home_team, away_team, is_knockout, bet } = match
+    const { id, start_time, home_team, away_team, is_knockout, bet, isFirstLeg, isTwoLeggedTie } = match
 
     const isOurTournament = useSelector(IsOurTournament);
     const [showShubi, setShowShubi] = useState(false);
@@ -35,8 +35,8 @@ function OpenMatchBetView({
     const [forAllTournaments, setForAllTournaments] = useState(isMultiBetDefault)
     const { getLastEditTs, cancelEdit } = useCancelEdit({edit, setEdit})
     const [editOpener, setEditOpener] = useState(null)
-    const hasBet = bet?.result_away === undefined
-    const showEdit = edit || hasBet
+    const hasNoBet = [undefined, null].includes(bet?.result_away)
+    const showEdit = edit || hasNoBet
 
     const saveBet = async ({ homeScore, awayScore, koWinner }) => {
         setShowShubi(false)
@@ -44,6 +44,8 @@ function OpenMatchBetView({
         await sendBet({
             matchId: id,
             is_knockout,
+            isTwoLeggedTie,
+            isFirstLeg,
             homeScore,
             awayScore,
             koWinner,
@@ -89,6 +91,7 @@ function OpenMatchBetView({
             ${(showEdit && forAllTournaments) ? 'sendingforAllTournaments' : ''}
             ${is_knockout ? 'OpenMatchBet-knockout' : ''}
             ${showEdit ? 'OpenMatchBet-edit' : ''}
+            ${isTwoLeggedTie ? 'OpenMatchBet-twoLegsKo' : ''}
         `}>
             <div className={`EditableBetView-header`}>
                 <div className='dateLabel'>{dayjs(start_time).format(DEFAULT_DATE_FORMAT)}</div>
@@ -108,6 +111,8 @@ function OpenMatchBetView({
                         <EditMatchBetView
                             bet={bet}
                             isKnockout={is_knockout}
+                            isTwoLegsKo={isTwoLeggedTie}
+                            isFirstLeg={isFirstLeg}
                             onClose={exitEditMode}
                             onSave={saveBet}
                             opener={editOpener}

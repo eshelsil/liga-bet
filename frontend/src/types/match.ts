@@ -34,6 +34,9 @@ export interface MatchCommonBase {
     type: GameType
     subType: KnockoutStage | number
     is_knockout: boolean
+    isTwoLeggedTie: boolean
+    isFirstLeg: boolean
+    isLastLeg: boolean
 }
 
 export interface MatchApiModel extends MatchCommonBase {

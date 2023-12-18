@@ -63,6 +63,18 @@
                 }
             }
         }
+        &.OpenMatchBet-twoLegsKo {
+            .OpenMatchBet-body {
+                .scoreForm {
+                    .LB-EditMatchBetView, .LB-CurrentBetView {
+                        padding-top: 34px;
+                    }
+                }
+                .verticalTeam {
+                    top: 40px;
+                }
+            }
+        }
         .EditableBetView-header {
             .timeLabel {
                 margin: 0px;
