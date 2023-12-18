@@ -83,7 +83,7 @@ class UpdateCompetition
         Cache::lock("updateCompetition:{$competition->id}", 120)
             ->block(0, function () use ($competition) {
                 Log::debug("[UpdateCompetition][handle] Entered new request!");
-                if (! $this->hasOpenGames($competition)) {
+                if (! $this->shouldFetchGames($competition)) {
                     Log::debug("[UpdateCompetition][handle] No waiting games...");
                     return;
                 }
@@ -244,5 +244,10 @@ class UpdateCompetition
             ->where("start_time", ">=", now()->timestamp)
             ->orWhere("is_done", false)
             ->exists();
+    }
+
+    function shouldFetchGames(Competition $competition): bool
+    {
+        return !$competition->isDone();
     }
 }
