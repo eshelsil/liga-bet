@@ -138,6 +138,17 @@ class Competition extends Model
         return $this->getGamesSorted()->pluck('id');
     }
 
+    public function shouldUpdateUpcomingGamesStartTime(){
+        return collect($this->config)->get("update_upcoming_games_start_time") || false;
+    }
+
+    public function resetShouldUpdateUpcomingGamesStartTime(){
+        $config = collect($this->config);
+        $config->forget("update_upcoming_games_start_time");
+        $this->config = $config;
+        $this->save();
+    }
+
     public function getIdsOfLastGroupGames()
     {
         if (!$this->endingGroupGameIds) {

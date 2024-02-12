@@ -166,6 +166,21 @@ class UpdateCompetition
             $game->save();
             User::getMonkeyUsers()->each(fn(User $monkey) => $autoBet->handle($monkey, $game));
         }
+
+        if ($competition->shouldUpdateUpcomingGamesStartTime()){
+            $upcomingGames = $competition->games->filter(fn(Game $g) => !$g->hasStarted());
+            foreach ($upcomingGames as $upcomingGame) {
+                $matchingCrawlerGame = $this->crawlerGames->first(fn(CrawlerGame $g) => $g->externalId == $upcomingGame->external_id);
+                if (!$matchingCrawlerGame){
+                    Log::warning("Could not find matching crawler game for game: " . $upcomingGame->id . " (extenral_id: $upcomingGame->external_id)");
+                    continue;
+                }
+                Log::debug("Updating start_time of game $upcomingGame->id: " . "from: $upcomingGame->start_time" . " to: " . $matchingCrawlerGame->startTime);
+                $upcomingGame->start_time = $matchingCrawlerGame->startTime;
+                $upcomingGame->save();
+            }
+            $competition->resetShouldUpdateUpcomingGamesStartTime();
+        }
     }
 
     private function isTwoLegedTie(CrawlerGame $game, Competition $competition): bool

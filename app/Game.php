@@ -179,6 +179,11 @@ class Game extends Model implements BetableInterface
         return $this->start_time < time() + config("bets.lockBeforeSeconds");
     }
 
+    public function hasStarted()
+    {
+        return $this->start_time < time();
+    }
+
     public function isLive()
     {
         return ($this->start_time < time()) && !$this->is_done;
