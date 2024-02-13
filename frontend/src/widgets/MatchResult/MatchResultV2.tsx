@@ -11,7 +11,9 @@ import './MatchResultV2.scss'
 function MatchResultV2({home, away, isKnockout, qualifier, title}: MatchResultProps){
     const isQualifierBetOn = useSelector(IsQualifierBetOn)
     const isQualifierBettable = isQualifierBetOn && isKnockout
-    const koWinner = isQualifierBettable ? getWinnerSide(home.score, away.score, qualifier) : null
+    // const koWinner = isQualifierBettable ? getWinnerSide(home.score, away.score, qualifier) : null
+    const koWinner = isQualifierBettable ? qualifier : null
+    // Todo: koWinner - separate logic of two-legs and regular competition
     const isTiedBet = !getWinnerSide(home.score, away.score)
 
     return (
@@ -40,7 +42,9 @@ function MatchResultV2({home, away, isKnockout, qualifier, title}: MatchResultPr
                         -
                     </div>
                     {isQualifierBettable && (<>
-                        <div className={`qualifierDelimiter ${!isTiedBet ? 'qualifierDelimiter-hidden' : ''}`}>
+                        {/* <div className={`qualifierDelimiter ${!isTiedBet ? 'qualifierDelimiter-hidden' : ''}`}> */}
+                        {/* Todo: fix later */}
+                        <div className={`qualifierDelimiter`}>
                             מעפילה
                         </div>
                     </>)}
