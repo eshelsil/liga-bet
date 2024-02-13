@@ -1,30 +1,32 @@
 import React from 'react';
-import { sumBy } from 'lodash';
 import { keysOf, matchRuleToString, valuesOf } from '../../utils';
-import { GameBetBonusesScoreConfig, GameBetScoreConfig, KnockoutStage } from '../../types';
+import { GameBetBonusesScoreConfig, GameBetScoreConfig } from '../../types';
 import { getHebStageName } from '../../strings';
-import { getBonusMaxScore, getTotalScore } from './utils';
+import { getKoScoreSums, getTotalScore } from './utils';
+import { useSelector } from 'react-redux';
+import { IsUCL } from '../../_selectors';
 
 
 function GameBetScore({
     scoreConfig,
     gamesCount,
     bonuses = {},
+    isKo = false,
 }: {
     scoreConfig: GameBetScoreConfig
     gamesCount: number
     bonuses?: GameBetBonusesScoreConfig
+    isKo?: boolean
 }) {
+    const isUcl = useSelector(IsUCL)
     const bonusKeys = keysOf(bonuses).reverse()
     const bonusValues = valuesOf(bonuses).reverse()
 
-
-    const totalScore = getTotalScore(scoreConfig)
-    const maxBonusesScore = sumBy(
-        Object.entries(bonuses),
-        ([stage, config]) => getBonusMaxScore(stage as KnockoutStage, config)
-    )
-    const maxScore = totalScore * gamesCount + maxBonusesScore
+    const {
+        maxScore,
+        baseGameScore = 0,
+        qualifier = 0,
+    } = isKo ? getKoScoreSums({scoreConfig, bonuses, isUcl, gamesCount}) : {maxScore: getTotalScore(scoreConfig) * gamesCount, baseGameScore: getTotalScore(scoreConfig)}    
 
     return (
         <>
@@ -53,10 +55,33 @@ function GameBetScore({
                     ))}
                     <tr className="divide">
                         <td className='scoreRuleLabel'>סכום למשחק</td>
-                        <td>{totalScore}</td>
-                        {bonusValues.map((scoreConfig, index) => (
-                            <td key={index}>{totalScore + getTotalScore(scoreConfig)}</td>
-                        ))}
+                        <td style={{whiteSpace:'pre-line'}}>
+                            {(isUcl && qualifier > 0)
+                            ? (<>
+                                <span>{baseGameScore}</span>
+                                <span style={{display: 'block',  textAlign: 'center', fontSize: 11}}>
+                                    ({qualifier}+)
+                                </span>
+                            </>)
+                            : baseGameScore}
+                        </td>
+                        {bonusValues.map((scoreConfig, index) => {
+                            const {qualifier: qualifierBonus = 0, ...basicBonuses} = scoreConfig;
+                            const score = getTotalScore(basicBonuses) + baseGameScore
+                            const qualifierBonusScore = Number(qualifierBonus) + qualifier;
+                            return (
+                                <td key={index}  style={{whiteSpace:'pre-line'}}>
+                                    {(isUcl && qualifierBonusScore > 0)
+                                    ? (<>
+                                        <span>{score}</span>
+                                        <span style={{display: 'block', textAlign: 'center', fontSize: 11}}>
+                                            ({qualifierBonusScore}+)
+                                        </span>
+                                    </>)
+                                    : (score + qualifierBonusScore)}
+                                </td>
+                            )
+                        })}
                     </tr>
                 </tbody>
             </table>

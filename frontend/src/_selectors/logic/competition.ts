@@ -1,13 +1,23 @@
 import { sortBy } from 'lodash';
 import { createSelector } from 'reselect'
 import { MatchesWithTeams } from '../modelRelations';
-import { OpenCompetitions } from '../base';
+import { IsUCL, OpenCompetitions } from '../base';
 import { keysOf } from '../../utils';
 
 export const FirstGame = createSelector(
     MatchesWithTeams,
     (games) => {
         return sortBy(games, (game => game.start_time))[0];
+    }
+)
+
+export const KoGamesCount = createSelector(
+    IsUCL,
+    (isUcl) => {
+        if (isUcl) {
+            return 29;
+        }
+        return 16;
     }
 )
 

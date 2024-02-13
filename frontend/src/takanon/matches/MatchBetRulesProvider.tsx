@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { MatchBetsScoreConfig } from '../../types';
-import { FormattedMatchBetScoreConfig, GroupStageGamesCount, Teams } from '../../_selectors';
+import { FormattedMatchBetScoreConfig, GroupStageGamesCount, KoGamesCount, Teams } from '../../_selectors';
 import MatchBetRulesView from './MatchBetRulesView';
 
 
@@ -15,8 +15,8 @@ function MatchBetRules({
     const teamsById = useSelector(Teams);
     const groupStageGamesCount = useSelector(GroupStageGamesCount);
     const currentScoreConfig = useSelector(FormattedMatchBetScoreConfig);
+    const knockoutGamesCount = useSelector(KoGamesCount);
     const scoreConfig = config ?? currentScoreConfig;
-    const knockoutGamesCount = 16;
 
 
     const teams = Object.values(teamsById);

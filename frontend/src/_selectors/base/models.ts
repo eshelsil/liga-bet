@@ -3,6 +3,7 @@ import { RootState } from '../../_helpers/store'
 import { pickBy, groupBy, mapValues, sum, keyBy } from 'lodash'
 import {
     BetType,
+    CompetitionType,
     GroupRankBetApiModel,
     MatchBetApiModel,
     QuestionBetApiModel,
@@ -121,6 +122,13 @@ export const CurrentCompetitionId = createSelector(
     CurrentTournament,
     (tournament) => {
         return tournament.competitionId
+    }
+)
+
+export const IsUCL = createSelector(
+    CurrentTournament,
+    (tournament) => {
+        return tournament.competition?.config?.type === CompetitionType.ChampionsLeague
     }
 )
 

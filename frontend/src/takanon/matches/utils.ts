@@ -1,6 +1,6 @@
-import { GameBetScoreConfig, KnockoutStage } from '../../types'
+import { GameBetBonusesScoreConfig, GameBetScoreConfig, KnockoutStage } from '../../types'
 import { getWinnerSide } from '../../utils'
-import { sum } from 'lodash'
+import { sum, sumBy } from 'lodash'
 
 export function getFullTimeString(
     fullTime: number[],
@@ -58,6 +58,44 @@ export function getTotalScore(scoreConfig: GameBetScoreConfig) {
     return sum(Object.values(scoreConfig).map(val => Number(val)))
 }
 
+export function getKoScoreSums({scoreConfig, bonuses, isUcl, gamesCount}: {scoreConfig: GameBetScoreConfig, bonuses: GameBetBonusesScoreConfig, isUcl: boolean, gamesCount: number}) : {
+    maxScore: number,
+    baseGameScore: number,
+    qualifier?: number,
+}{
+    if (isUcl) {
+        return getUclKoScoreSums({scoreConfig, bonuses, isUcl, gamesCount})
+    }
+    const baseGameScore = getTotalScore(scoreConfig)
+    const maxBonusesScore = sumBy(
+        Object.entries(bonuses),
+        ([stage, config]) => getBonusMaxScore(stage as KnockoutStage, config)
+    )
+    const maxScore = baseGameScore * gamesCount + maxBonusesScore
+    return {
+        maxScore,
+        baseGameScore,
+    }
+}
+
+export function getUclKoScoreSums({scoreConfig, bonuses, isUcl, gamesCount}: {scoreConfig: GameBetScoreConfig, bonuses: GameBetBonusesScoreConfig, isUcl: boolean, gamesCount: number}) {
+    const {qualifier: q = 0, ...basicScoreConfig} = scoreConfig;
+    const qualifier = Number(q);
+    const baseGameScore = getTotalScore(basicScoreConfig)
+    const twoLegsScore = baseGameScore * 2 + qualifier
+    const oneLegScore = baseGameScore + qualifier
+    const maxBonusesScore = sumBy(
+        Object.entries(bonuses),
+        ([stage, config]) => getBonusMaxScoreOnUcl(stage as KnockoutStage, config)
+    )
+    const maxScore = twoLegsScore * Math.floor(gamesCount / 2) + oneLegScore + maxBonusesScore
+    return {
+        maxScore,
+        qualifier,
+        baseGameScore
+    }
+}
+
 export const gameCountByStage = {
     [KnockoutStage.Final]: 1,
     [KnockoutStage.SemiFinal]: 2,
@@ -67,4 +105,15 @@ export const gameCountByStage = {
 
 export function getBonusMaxScore(stage: KnockoutStage, scoreConfig: GameBetScoreConfig) {
     return gameCountByStage[stage] * getTotalScore(scoreConfig)
+}
+
+export function getBonusMaxScoreOnUcl(stage: KnockoutStage, scoreConfig: GameBetScoreConfig) {
+    if (stage === KnockoutStage.Final) {
+        return getTotalScore(scoreConfig)
+    }
+    const {qualifier: q = 0, ...basicScoreConfig} = scoreConfig;
+    const qualifier = Number(q);
+    const baseGameScore = getTotalScore(basicScoreConfig)
+    const twoLegsScore = baseGameScore * 2 + qualifier
+    return gameCountByStage[stage] * twoLegsScore
 }

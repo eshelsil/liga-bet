@@ -1,5 +1,13 @@
 import { Dayjs } from 'dayjs'
 
+export enum CompetitionType {
+    WorldCup = 'WC',
+    ChampionsLeague = 'UCL',
+}
+
+export interface CompetitionConfig {
+    type?: CompetitionType
+}
 
 export interface Competition {
     id: number
@@ -8,6 +16,7 @@ export interface Competition {
     type: number
     startTime: Dayjs
     lastRegistration: Dayjs
+    config?: CompetitionConfig
     emblem?: string
 }
 

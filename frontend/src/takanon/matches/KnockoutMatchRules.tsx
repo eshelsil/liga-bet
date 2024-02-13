@@ -27,6 +27,7 @@ function KnockoutMatchRules({
                     scoreConfig={scoreConfig}
                     gamesCount={gamesCount}
                     bonuses={bonuses}
+                    isKo
                 />
                 {awayTeam && homeTeam && (
                     <GameBetExamples
