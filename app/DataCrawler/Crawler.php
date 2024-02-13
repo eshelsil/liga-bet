@@ -47,14 +47,15 @@ class Crawler
         $winner_side = data_get($match_json, 'score.winner');
 
         $koWinner = null;
-        if ($type === "knockout") {
-            if ($winner_side === "HOME_TEAM") {
-                $koWinner = $homeTeamId;
-            }
-            if ($winner_side === "AWAY_TEAM") {
-                $koWinner = $awayTeamId;
-            }
-        }
+        // if ($type === "knockout") {
+        //     if ($winner_side === "HOME_TEAM") {
+        //         $koWinner = $homeTeamId;
+        //     }
+        //     if ($winner_side === "AWAY_TEAM") {
+        //         $koWinner = $awayTeamId;
+        //     }
+        // }
+        // Todo: handle knockout winner on TwolegsTie
 
         $resultHome = null;
         $resultAway = null;
