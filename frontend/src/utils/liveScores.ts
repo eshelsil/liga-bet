@@ -71,8 +71,9 @@ export function calcGainedPointsOnGameBet(bet: MatchBetWithRelations, config: Ma
         is_knockout && scoreConfig.qualifier > 0
         && getQualifierSide(game) === getWinnerSide(bet_home, bet_away, bet_qualifier)
     ){
-        score += scoreConfig.qualifier
-        score += bonusConfig.qualifier
+        // score += scoreConfig.qualifier
+        // score += bonusConfig.qualifier
+        // TODO: calculate live qualifier score
     }
     return score;
 }
