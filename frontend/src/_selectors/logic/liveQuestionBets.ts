@@ -255,13 +255,14 @@ export const LiveWinnerBetsWithScore = createSelector(
                 const game = liveGames.find(liveGame => isTeamParticipate(liveGame, answer))
                 const gameQualifier = getQualifierSide(game)
                 let additionalScore = 0
-                if (
-                    (gameQualifier === WinnerSide.Home && game.home_team === answer)
-                    || (gameQualifier === WinnerSide.Away && game.away_team === answer)
-                ){
-                    const qualifyToStage = koStageToNextCompetitionStage[game.subType as KnockoutStage]
-                    additionalScore = scoresConfig.winner[qualifyToStage] ?? 0
-                }
+                // if (
+                //     (gameQualifier === WinnerSide.Home && game.home_team === answer)
+                //     || (gameQualifier === WinnerSide.Away && game.away_team === answer)
+                // ){
+                //     const qualifyToStage = koStageToNextCompetitionStage[game.subType as KnockoutStage]
+                //     additionalScore = scoresConfig.winner[qualifyToStage] ?? 0
+                // }
+                // Todo: handle live score for winner-bet
                 return {
                     ...bet,
                     score: (bet.score || 0) + additionalScore
@@ -283,13 +284,14 @@ export const LiveRunnerUpBetsWithScore = createSelector(
                 const game = liveGames.find(liveGame => isTeamParticipate(liveGame, answer))
                 const gameQualifier = getQualifierSide(game)
                 let additionalScore = 0
-                if (
-                    (gameQualifier === WinnerSide.Home && game.home_team === answer)
-                    || (gameQualifier === WinnerSide.Away && game.away_team === answer)
-                ){
-                    const qualifyToStage = koStageToNextCompetitionStage[game.subType as KnockoutStage]
-                    additionalScore = scoresConfig.runnerUp[qualifyToStage] ?? 0
-                }
+                // if (
+                //     (gameQualifier === WinnerSide.Home && game.home_team === answer)
+                //     || (gameQualifier === WinnerSide.Away && game.away_team === answer)
+                // ){
+                //     const qualifyToStage = koStageToNextCompetitionStage[game.subType as KnockoutStage]
+                //     additionalScore = scoresConfig.runnerUp[qualifyToStage] ?? 0
+                // }
+                // Todo: handle live score for runner-up-bet
                 return {
                     ...bet,
                     score: (bet.score || 0) + additionalScore
