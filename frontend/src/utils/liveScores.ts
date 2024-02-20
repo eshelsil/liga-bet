@@ -56,7 +56,7 @@ export function calcLiveAddedScore({
 export function calcGainedPointsOnGameBet(bet: MatchBetWithRelations, config: MatchBetsScoreConfig){
     let score = 0;
     const {relatedMatch: game, result_home: bet_home, result_away: bet_away, winner_side: bet_qualifier} = bet
-    const {result_home, result_away, is_knockout, subType} = game
+    const {result_home, result_away, is_knockout, subType, isTwoLeggedTie} = game
     const scoreConfig = is_knockout ? config.knockout : config.groupStage
     const bonusConfig: GameBetScoreConfig = (is_knockout ? config.bonuses[subType] : undefined) ?? {result: 0,  winnerSide: 0, qualifier: 0}
     if (result_home === bet_home && result_away === bet_away){
@@ -67,13 +67,13 @@ export function calcGainedPointsOnGameBet(bet: MatchBetWithRelations, config: Ma
         score += scoreConfig.winnerSide
         score += bonusConfig.winnerSide
     }
+    const koWinnerSideBet = isTwoLeggedTie ? bet_qualifier : getWinnerSide(bet_home, bet_away, bet_qualifier);
     if (
         is_knockout && scoreConfig.qualifier > 0
-        && getQualifierSide(game) === getWinnerSide(bet_home, bet_away, bet_qualifier)
+        && getQualifierSide(game) === koWinnerSideBet
     ){
-        // score += scoreConfig.qualifier
-        // score += bonusConfig.qualifier
-        // TODO: calculate live qualifier score
+        score += scoreConfig.qualifier
+        score += bonusConfig.qualifier
     }
     return score;
 }

@@ -26,6 +26,8 @@ export interface MatchCommonBase {
     result_away: number
     full_result_home: number
     full_result_away: number
+    agg_result_home?: number
+    agg_result_away?: number
     winner_side: WinnerSide
     is_done: boolean
     closed_for_bets: boolean
