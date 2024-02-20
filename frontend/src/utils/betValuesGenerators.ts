@@ -5,7 +5,7 @@ export function getStandingsBetValue(standings: Team[]): string {
     return standings.map((team) => `${team.id}`).join(',')
 }
 
-export function getMatchBetValue(matchBet: MatchBetApiModel): string {
+export function getMatchBetValue(matchBet: MatchBetApiModel, isTwoLegsTie = false): string {
     const { result_away, result_home, winner_side } = matchBet
     function mapWinnerSideToIndex(winnerSide: WinnerSide){
         if (winnerSide === WinnerSide.Home) return 1;
@@ -13,7 +13,7 @@ export function getMatchBetValue(matchBet: MatchBetApiModel): string {
         return 2;
     }
     const winnerBet = getWinnerSide(result_home, result_away)
-    const qualifierBet = winnerBet ? winnerBet : winner_side
+    const qualifierBet = isTwoLegsTie ? winner_side : (winnerBet ? winnerBet : winner_side)
     const winnerIndex = mapWinnerSideToIndex(winnerBet)
     const qualifierIndex = mapWinnerSideToIndex(qualifierBet)
     return `${winnerIndex}||${result_home}-${result_away}||${qualifierIndex}`

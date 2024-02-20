@@ -16,7 +16,7 @@ export const ClosedMatchBetsSelector = createSelector(
         for (const match of Object.values(matches)) {
             if (match.is_done) {
                 const bets = doneGameBetsByGameId[match.id] ?? []
-                const betsByValue = groupBy(bets, getMatchBetValue)
+                const betsByValue = groupBy(bets, (bet) => getMatchBetValue(bet, match.isTwoLeggedTie))
                 const matchWithBetsByValue = {
                     ...match,
                     betsByValue,
@@ -24,7 +24,7 @@ export const ClosedMatchBetsSelector = createSelector(
                 done_matches.push(matchWithBetsByValue)
             } else if (isGameStarted(match)) {
                 const bets = liveGameBetsByUtlId[match.id] ?? []
-                const betsByValue = groupBy(bets, getMatchBetValue)
+                const betsByValue = groupBy(bets, (bet) => getMatchBetValue(bet, match.isTwoLeggedTie))
                 const matchWithBetsByValue = {
                     ...match,
                     betsByValue,
