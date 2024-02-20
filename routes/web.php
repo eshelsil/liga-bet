@@ -47,7 +47,6 @@ Route::post('register-token', [HomeController::class, 'registerFCMToken'])->midd
 Route::get('/terms', [HomeController::class, 'showTerms'])->middleware("auth");
 Route::get('/articles', [HomeController::class, 'showArticles'])->middleware("auth");
 Route::get('/set-password', [UserController::class, 'showSetPassword']);
-Route::get('/api-fetch-games', [\App\Http\Controllers\ApiFetchController::class, 'userUpdateGames']);
 Route::post('/summary-msg-seen', [HomeController::class, 'summaryMessageSeen'])->middleware("auth");
 
 Route::post('/admin/grant-tournament-admin', [AdminController::class, 'grantTournamentAdminPermission']);

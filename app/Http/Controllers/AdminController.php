@@ -52,7 +52,6 @@ class AdminController extends Controller
     {
        $this->middleware('auth');
        $this->middleware('admin');
-       $this->ApiFetchController = new ApiFetchController();
     }
 
     public function showUsersToConfirm()
