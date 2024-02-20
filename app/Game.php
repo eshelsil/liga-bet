@@ -99,6 +99,26 @@ class Game extends Model implements BetableInterface
         return $this->ko_leg == self::LEG_TYPE_FIRST;
     }
 
+    public function isSecondLeg()
+    {
+        return $this->isTwoLeggedTie() && $this->isLastLeg();
+    }
+
+    public function getAggResults(){
+        if (!$this->isSecondLeg()){
+            return null;
+        }
+        $firstLegGame = $this->getOtherLegGame();
+        $teamsGoals = [
+            $firstLegGame->team_home_id => $firstLegGame->result_home ?? 0,
+            $firstLegGame->team_away_id => $firstLegGame->result_away ?? 0,
+        ];
+        return [
+            "home" => $teamsGoals[$this->team_home_id] + $this->result_home,
+            "away" => $teamsGoals[$this->team_away_id] + $this->result_away,
+        ];
+    }
+
     public function getOtherLegGame()
     {
         if (!$this->isTwoLeggedTie()){
