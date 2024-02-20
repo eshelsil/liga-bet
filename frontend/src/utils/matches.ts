@@ -30,6 +30,19 @@ export function isGameSecondLeg(game: MatchCommonBase) {
     return game.isTwoLeggedTie && !game.isFirstLeg
 }
 
+export function calcTotalTwoLegsAggregation(game: MatchCommonBase) {
+    const {agg_result_home, agg_result_away, full_result_away, full_result_home, result_home, result_away} = game
+    if (typeof agg_result_away !== 'number' || typeof agg_result_home !== 'number') {
+        return;
+    }
+    const extraTimeHome = (typeof full_result_home !== 'number') ? 0 : full_result_home - result_home;
+    const extraTimeAway = (typeof full_result_away !== 'number') ? 0 : full_result_away - result_away;
+    return {
+        [WinnerSide.Home]: agg_result_home + extraTimeHome,
+        [WinnerSide.Away]: agg_result_away + extraTimeAway,
+    }
+}
+
 export function isTeamParticipate(game: MatchApiModel, teamId: number) {
     return game.away_team === teamId || game.home_team === teamId
 }

@@ -127,6 +127,17 @@
                         vertical-align: top;
                         padding: 8px;
                         padding-top: 0px;
+                        position: relative;
+                        .qualifierIndication {
+                            position: absolute;
+                            top: 2px;
+                            right: calc(50% - 52px);
+                            font-size: 22px;
+                            &.awaySide {
+                                left: calc(50% - 52px);
+                                right: unset;
+                            }
+                        }
                     }
                     &.dateRowCell {
                         $border: 2px solid #eeeeee3b;
@@ -137,7 +148,7 @@
                         line-height: 1.5;
                     }
                     &.scoreCell {
-                        font-size: 20px;
+                        font-size: 18px;
                         line-height: 1.2;
                     }
                 }
