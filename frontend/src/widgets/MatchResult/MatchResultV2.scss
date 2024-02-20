@@ -6,6 +6,7 @@
     border-radius: 12px;
     overflow: hidden;
     .MatchResult-content {
+        position: relative;
         display: flex;
         justify-content: space-around;
         padding: 4px;
@@ -35,7 +36,7 @@
                 }
             }
             .MatchResult-qualifier {
-                margin-left: -3px;
+                right: 0px;
                 text-align: left;
             }
         }
@@ -49,7 +50,7 @@
                 }
             }
             .MatchResult-qualifier {
-                margin-right: -3px;
+                left: 0px;
             }
         }
         .MatchResult-score {
@@ -57,6 +58,8 @@
             line-height: 1;
         }
         .MatchResult-qualifier {
+            position: absolute;
+            top: 0px;
             font-size: 14px;
             line-height: 18px;
         }

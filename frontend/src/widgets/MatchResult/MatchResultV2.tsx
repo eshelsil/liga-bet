@@ -8,13 +8,12 @@ import { getWinnerSide } from '../../utils'
 import './MatchResultV2.scss'
 
 
-function MatchResultV2({home, away, isKnockout, qualifier, title}: MatchResultProps){
+function MatchResultV2({home, away, isKnockout, qualifier, title, isTwoLeggedTie}: MatchResultProps){
     const isQualifierBetOn = useSelector(IsQualifierBetOn)
     const isQualifierBettable = isQualifierBetOn && isKnockout
-    // const koWinner = isQualifierBettable ? getWinnerSide(home.score, away.score, qualifier) : null
-    const koWinner = isQualifierBettable ? qualifier : null
-    // Todo: koWinner - separate logic of two-legs and regular competition
-    const isTiedBet = !getWinnerSide(home.score, away.score)
+    const koWinner = isQualifierBettable
+        ? (isTwoLeggedTie ? qualifier : getWinnerSide(home.score, away.score, qualifier))
+        : null
 
     return (
         <div className='LB-MatchResultV2'>
@@ -31,23 +30,16 @@ function MatchResultV2({home, away, isKnockout, qualifier, title}: MatchResultPr
                             {home.score}
                         </div>
                     </div>
-                        {koWinner === WinnerSide.Home && (
-                            <div className={'MatchResult-qualifier'}>
-                                ✌️
-                            </div>
-                        )}
+                    {koWinner === WinnerSide.Home && (
+                        <div className={'MatchResult-qualifier'}>
+                            ✌️
+                        </div>
+                    )}
                 </div>
                 <div className='MatchResult-delimiter'>
                     <div>
                         -
                     </div>
-                    {isQualifierBettable && (<>
-                        {/* <div className={`qualifierDelimiter ${!isTiedBet ? 'qualifierDelimiter-hidden' : ''}`}> */}
-                        {/* Todo: fix later */}
-                        <div className={`qualifierDelimiter`}>
-                            מעפילה
-                        </div>
-                    </>)}
                 </div>
                 <div className='MatchResult-side MatchResult-away'>
                     <div className='MatchResult-teamAndScore'>

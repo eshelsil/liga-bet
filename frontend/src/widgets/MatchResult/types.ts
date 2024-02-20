@@ -13,4 +13,5 @@ export interface MatchResultProps {
     isKnockout: boolean,
     qualifier?: WinnerSide,
     title?: string,
+    isTwoLeggedTie?: boolean,
 }

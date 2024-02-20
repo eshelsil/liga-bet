@@ -70,6 +70,7 @@ function GameGumblersList({ match, isLive }: { match: GameWithBetsAndGoalsData, 
                         team: away_team,
                         score: bet.resultAway
                     }}
+                    isTwoLeggedTie={match.isTwoLeggedTie}
                     isKnockout={match.is_knockout}
                     qualifier={bet.qualifier}
                 />
