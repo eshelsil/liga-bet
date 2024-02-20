@@ -21,7 +21,10 @@ class Game
         public ?int $resultAway,
         public ?int $fullResultHome,
         public ?int $fullResultAway,
+        public ?int $totalResultHome, // result + ?extraTime + ?penalties
+        public ?int $totalResultAway, // result + ?extraTime + ?penalties
         public ?int $koWinnerExternalId,
+        public ?string $koLeg,
         public bool $isDone,
         public bool $isStarted,
     ) { }

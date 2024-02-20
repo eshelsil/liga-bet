@@ -88,7 +88,7 @@ class UpdateCompetition
                     return;
                 }
 
-                $this->crawlerGames = $this->fakeGames ?? $competition->getCrawler()->fetchGames();
+                $this->crawlerGames = $this->fakeGames ?? $competition->getCrawler()->fetchGames($competition->getCompetitionType());
 
                 $this->saveNewGames($competition);
 
@@ -138,10 +138,6 @@ class UpdateCompetition
         $teamsByExternalId = $competition->teams->pluck("id", "external_id");
 
 
-        $gamesWithLegs = $this->crawlerGames->filter(fn (CrawlerGame $game) => $this->isTwoLegedTie($game, $competition));
-        $groupedByLegs = $gamesWithLegs->groupBy(fn(CrawlerGame $game) => $this->gameToLegsId($game))->map(
-            fn(Collection|CrawlerGame $games) => $games->sortBy('startTime')->map(fn($g)=>$g->externalId)
-        );
         /** @var CrawlerGame $crawlerGame */
         foreach ($crawlerNewGames as $crawlerGame) {
             $game                   = new Game();
@@ -152,15 +148,8 @@ class UpdateCompetition
             $game->team_home_id     = $teamsByExternalId[$crawlerGame->teamHomeExternalId];
             $game->team_away_id     = $teamsByExternalId[$crawlerGame->teamAwayExternalId];
             $game->start_time       = $crawlerGame->startTime;
+            $game->ko_leg           = $crawlerGame->koLeg;
 
-            $legsId = $this->gameToLegsId($crawlerGame);
-            if ($legs = $groupedByLegs->get($legsId)){
-                if ($legs[0] == $crawlerGame->externalId){
-                    $game->ko_leg = Game::LEG_TYPE_FIRST;
-                } else if ($legs[1] == $crawlerGame->externalId){
-                    $game->ko_leg = Game::LEG_TYPE_SECOND;
-                }
-            }
             Log::debug("Saving Game: " . $game->team_home_id . " vs. " . $game->team_away_id . "<br>");
 
             $game->save();
@@ -181,22 +170,6 @@ class UpdateCompetition
             }
             $competition->resetShouldUpdateUpcomingGamesStartTime();
         }
-    }
-
-    private function isTwoLegedTie(CrawlerGame $game, Competition $competition): bool
-    {
-        if ($competition->getCompetitionType() == Competition::TYPE_UCL){
-            if ($game->type == Game::TYPE_KNOCKOUT && $game->subType != GameSubTypes::FINAL){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private function gameToLegsId(CrawlerGame $game): string
-    {
-        $playingTeams = collect([$game->teamAwayExternalId, $game->teamHomeExternalId])->sort()->values();
-        return $game->type."_".$game->subType."_".$playingTeams[0].$playingTeams[1];  
     }
 
     /**
@@ -236,7 +209,7 @@ class UpdateCompetition
             if ($game->is_done){
                 $this->updateGameBets->handle($game);
     
-                if ($game->isKnockout()) {
+                if ($game->isKnockout() && $game->isLastLeg()) {
                     $winner = null;
                     $runnerUp = null;
                     if ($game->sub_type == 'FINAL') {
