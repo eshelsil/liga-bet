@@ -43,13 +43,22 @@ class MonkeyAutoBetCompetitionGames
             return;
         }
         $isQualifierBetOn = data_get($tournamentUser->tournament->config, "scores.gameBets.knockout.qualifier");
+        $koWinnerSide = null;
+        if ($game->isKnockout() && $isQualifierBetOn && $otherLegGame = $game->getOtherLegGame()) {
+            if ($otherLegGameBet = $tournamentUser->bets()->where(["type" => BetTypes::Game, "type_id" => $otherLegGame->id])->first()){
+                if ($alreadyBettedKoWinnerSide = $otherLegGameBet->getKoWinnerSide()) {
+                    $alreadyBettedKoWinner = $alreadyBettedKoWinnerSide === "home" ? $otherLegGame->team_home_id : $otherLegGame->team_away_id;
+                    $koWinnerSide = $game->team_home_id == $alreadyBettedKoWinner ? "home" : "away";
+                }
+            }
+        }
 
         $bet = new Bet();
         $bet->user_tournament_id = $tournamentUser->id;
         $bet->tournament_id = $tournamentUser->tournament->id;
         $bet->type = BetTypes::Game;
         $bet->type_id = $game->getID();
-        $bet->data = $game->generateRandomBetData($isQualifierBetOn);
+        $bet->data = $game->generateRandomBetData($isQualifierBetOn, $koWinnerSide);
         $bet->save();
     }
 }

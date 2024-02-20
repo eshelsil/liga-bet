@@ -322,10 +322,10 @@ class Game extends Model implements BetableInterface
         return $this->competition->getIdsOfLastGroupGames()->contains($this->id);
     }
 
-    public function generateRandomBetData(?bool $qualifierBetIsOn = true)
+    public function generateRandomBetData(?bool $qualifierBetIsOn = true, $otherLegKoWinnerSide = null)
     {
         if ($this->competition->getCompetitionType() == Competition::TYPE_UCL){
-            return $this->generateRandomBetDataUcl($qualifierBetIsOn);
+            return $this->generateRandomBetDataUcl($qualifierBetIsOn, $otherLegKoWinnerSide);
         }
         $res = [];
         foreach(['result-home', 'result-away'] as $key){
@@ -344,7 +344,7 @@ class Game extends Model implements BetableInterface
         return json_encode($res);
     }
 
-    public function generateRandomBetDataUcl(?bool $qualifierBetIsOn = true)
+    public function generateRandomBetDataUcl(?bool $qualifierBetIsOn = true, $otherLegKoWinnerSide = null)
     {
         $res = [];
         $max = 4;
@@ -361,9 +361,12 @@ class Game extends Model implements BetableInterface
             $res[$key] = $goals;
         }
 
-        // TODO: fix
         if($this->isKnockout() && $qualifierBetIsOn){
-            $res['ko_winner_side'] = Arr::random(['home','away']);
+            if ($otherLegKoWinnerSide === null){
+                $res['ko_winner_side'] = Arr::random(['home','away']);
+            } else {
+                $res['ko_winner_side'] = $otherLegKoWinnerSide;
+            }
         }
         return json_encode($res);
     }
