@@ -21,6 +21,7 @@ import ownedTournaments from './ownedTournament'
 import competitions from './competitions'
 import players from './players'
 import dialogs from './dialogs'
+import dialogsData from './dialogsData'
 import appCrucialLoaders from './appCrucialLoaders'
 import notifications from './notifications'
 import multiBetsSettings from './multiBetsSettings'
@@ -52,6 +53,7 @@ const reducer = combineReducers({
     users: users.reducer,
     usersTotalCount: usersTotalCount.reducer,
     dialogs: dialogs.reducer,
+    dialogsData: dialogsData.reducer,
     appCrucialLoaders: appCrucialLoaders.reducer,
     notifications: notifications.reducer,
     multiBetsSettings: multiBetsSettings.reducer,

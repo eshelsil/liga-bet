@@ -34,6 +34,7 @@ export const Competitions = (state: RootState) => state.competitions
 export const Users = (state: RootState) => state.users
 export const UsersTotalCount = (state: RootState) => state.usersTotalCount
 export const Dialogs = (state: RootState) => state.dialogs
+export const DialogsData = (state: RootState) => state.dialogsData
 export const DataFetcher = (state: RootState) => state.dataFetcher
 export const GameBetsFetcherState = (state: RootState) => state.gameBetsFetcher
 export const LeaderboardsFetcherState = (state: RootState) => state.leaderboardsFetcher
