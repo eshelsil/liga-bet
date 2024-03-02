@@ -3,6 +3,7 @@ import AppHeader from './appHeader/AppHeaderProvider'
 import SuspenseWithLoader from './_helpers/SuspenseWithLoader';
 import { CrucialLoader } from './types';
 import './App.scss'
+import './tailwind.css'
 
 const DialogsProvider = lazy(() => import('./dialogs/DialogsProvider'));
 const AppBody = lazy(() => import('./appContent/AppBody'));
