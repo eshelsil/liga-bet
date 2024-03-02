@@ -16,3 +16,8 @@ export const IsOpenWaitForMvpDialog = createSelector(
     Dialogs,
     (dialogs) => !!dialogs[DialogName.WaitForMvp]
 )
+
+export const IsOpenGameScoreInfoDialog = createSelector(
+    Dialogs,
+    (dialogs) => !!dialogs[DialogName.GameScoreInfo]
+)

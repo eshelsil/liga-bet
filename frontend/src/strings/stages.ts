@@ -1,4 +1,4 @@
-import { CompetitionStageName, KnockoutStage, Match } from '../types'
+import { CompetitionStageName, GameStage, GameType, KnockoutStage, Match } from '../types'
 import { getHebGroupName } from './groups'
 
 export const stageNameToHeb = {
@@ -7,9 +7,10 @@ export const stageNameToHeb = {
     [KnockoutStage.SemiFinal]: 'חצי גמר',
     [KnockoutStage.QuarterFinal]: 'רבע גמר',
     [KnockoutStage.Last16]: 'שמינית גמר',
+    [GameType.GroupStage]: 'שלב הבתים',
 }
 
-export function getHebStageName(stage: KnockoutStage){
+export function getHebStageName(stage: GameStage){
     return stageNameToHeb[stage] ?? stage
 }
 

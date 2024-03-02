@@ -4,7 +4,10 @@ import { Match, WinnerSide } from '../types'
 import { Model as TableModel } from '../widgets/Table';
 import TeamWithFlagVertical from '../widgets/TeamFlag/TeamWithFlagVertical'
 import { useTournamentThemeClass } from '../hooks/useThemeClass'
-import { calcTotalTwoLegsAggregation, getWinnerSide, isGameSecondLeg } from '../utils';
+import { calcTotalTwoLegsAggregation, cn, getWinnerSide, handlerNoPropagation, isGameSecondLeg } from '@/utils';
+import InfoIcon from '@mui/icons-material/InfoOutlined'
+import useOpenDialog from '@/hooks/useOpenDialog';
+import { DialogName } from '@/dialogs/types';
 
 
 interface RowModel {
@@ -15,6 +18,7 @@ interface RowModel {
 }
 
 function GameHeader({ match, onClick }: { match: Match, onClick?: () => void }) {
+    const openInfoDialog = useOpenDialog(DialogName.GameScoreInfo)
     const tournamentClass = useTournamentThemeClass()
     const { home_team, away_team, start_time, is_done, winner_side, result_away, full_result_home, full_result_away, agg_result_away, agg_result_home, result_home, id, is_knockout, isTwoLeggedTie } = match
     const isGameTied = !getWinnerSide(result_home, result_away)
@@ -101,7 +105,15 @@ function GameHeader({ match, onClick }: { match: Match, onClick?: () => void }) 
         },
     ]
     return (
-        <div className={`LB-GameHeader ${tournamentClass} ${onClick ? 'GameHeader-clickable' : ''}`} onClick={onClick}>
+        <div className={cn('relative', `LB-GameHeader ${tournamentClass} ${onClick ? 'GameHeader-clickable' : ''}`)} onClick={onClick}>
+            <div
+                className={cn("absolute left-2 top-2 cursor-pointer z-50")}
+                onClick={handlerNoPropagation(() => {openInfoDialog({gameId:id})})}
+            >
+                <InfoIcon
+                    className={cn("fill-white/80")}
+                />
+            </div>
             <CustomTable
                 models={models}
                 cells={cells}

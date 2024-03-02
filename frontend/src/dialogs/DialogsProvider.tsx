@@ -2,6 +2,7 @@ import React from 'react'
 import SetPasswordDialog from './changePassword/SetPasswordDialogProvider'
 import MultiBetExplanationDialog from './MultiBet/MultiBetExplanationDialogProvider'
 import WaitForMvpDialog from './WaitForMvp/WaitForMvpDialogProvider'
+import GameScoreInfoDialog from './GameScoreInfo/GameScoreInfoDialogProvider'
 
 export default function DialogsProvider() {
     return (
@@ -9,6 +10,7 @@ export default function DialogsProvider() {
             <SetPasswordDialog />
             <MultiBetExplanationDialog />
             <WaitForMvpDialog />
+            <GameScoreInfoDialog />
         </>
     )
 }

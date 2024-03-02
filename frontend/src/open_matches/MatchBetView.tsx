@@ -12,6 +12,12 @@ import { IsMultiBetDefaultForAll, IsOurTournament, MyOtherBettableUTLs } from '.
 import { Switch } from '@mui/material'
 import '../styles/openBets/EditableBetView.scss'
 import DaShubi from './DaShubi'
+import { cn } from '@/utils'
+import InfoIcon from '@mui/icons-material/InfoOutlined';
+import { useAppDispatch } from '@/_helpers/store'
+import { openDialog } from '@/_actions/dialogs'
+import { DialogName } from '@/dialogs/types'
+import useOpenDialog from '@/hooks/useOpenDialog'
 
 
 
@@ -24,6 +30,8 @@ function OpenMatchBetView({
 }) {
     const { id, start_time, home_team, away_team, is_knockout, bet, isFirstLeg, isTwoLeggedTie } = match
 
+
+    const openInfoDialog = useOpenDialog(DialogName.GameScoreInfo)
     const isOurTournament = useSelector(IsOurTournament);
     const [showShubi, setShowShubi] = useState(false);
 
@@ -96,13 +104,16 @@ function OpenMatchBetView({
             <div className={`EditableBetView-header`}>
                 <div className='dateLabel'>{dayjs(start_time).format(DEFAULT_DATE_FORMAT)}</div>
                 <div className='timeLabel'>{dayjs(start_time).format(DEFAULT_TIME_FORMAT)}</div>
-                {showEdit && hasOtherTournaments && (
-                    <Switch
-                        className='forAllTournamentsInput'
-                        checked={forAllTournaments}
-                        onChange={(e, value) => setForAllTournaments(value)}
-                    />
-                )}
+                <div className={cn("absolute top-0 left-0 flex items-center h-full")}>
+                    {showEdit && hasOtherTournaments && (
+                        <Switch
+                            className='forAllTournamentsInput'
+                            checked={forAllTournaments}
+                            onChange={(e, value) => setForAllTournaments(value)}
+                        />
+                    )}
+                    <InfoIcon onClick={()=>openInfoDialog({gameId:id})} className={cn("ml-2 fill-white/80 cursor-pointer")} />
+                </div>
             </div>
             <div className='OpenMatchBet-body'>
                 <TeamWithFlag team={home_team} size={50} classes={{root: 'verticalTeam sideRight', name: 'verticalTeamName'}}/>

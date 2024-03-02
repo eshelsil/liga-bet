@@ -20,6 +20,8 @@ export enum GameType {
 	GroupStage = 'group_stage',
 }
 
+export type GameStage = KnockoutStage | GameType.GroupStage
+
 export interface MatchCommonBase {
     id: number
     result_home: number

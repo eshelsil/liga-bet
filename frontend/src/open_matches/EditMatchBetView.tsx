@@ -6,7 +6,7 @@ import { LoadingButton } from '../widgets/Buttons'
 import { useSelector } from 'react-redux'
 import { IsQualifierBetOn } from '../_selectors'
 import KoWinnerInput from '../widgets/koWinnerInput'
-import { getWinnerSide } from '../utils'
+import { getWinnerSide } from '@/utils'
 
 
 
@@ -29,7 +29,6 @@ function EditMatchBetView({
     onSave,
     opener,
 }: Props) {
-
     const homeInputRef = useRef<HTMLInputElement>()
     const awayInputRef = useRef<HTMLInputElement>()
     const [homeScore, setHomeScore] = useState(bet?.result_home ?? '')

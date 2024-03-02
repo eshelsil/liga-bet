@@ -1,5 +1,6 @@
 import { isNil, omitBy } from 'lodash'
-import { RecordKey } from '../types'
+import { RecordKey } from '@/types'
+import { MouseEvent } from 'react';
 
 export function compactObject(object: object) {
     return omitBy(object, isNil)
@@ -37,4 +38,14 @@ export function valuesOf<T extends RecordKey, M extends any>(obj: Record<T, M> |
         values.push(val as M)
     }
     return values
+}
+
+
+export function handlerNoPropagation<T>(
+    func: (e: MouseEvent<HTMLElement, globalThis.MouseEvent>) => T,
+) {
+    return (e: MouseEvent<HTMLElement, globalThis.MouseEvent>) => {
+        e.stopPropagation();
+        return func(e);
+    };
 }

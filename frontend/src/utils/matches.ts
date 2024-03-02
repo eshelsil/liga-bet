@@ -1,4 +1,5 @@
-import { KnockoutStage, MatchApiModel, MatchCommonBase, WinnerSide } from '../types'
+import { GameBetScoreConfig, GameBetType, GameStage, GameType, KnockoutStage, MatchApiModel, MatchBetsScoreConfig, MatchCommonBase, WinnerSide } from '../types'
+import { keysOf } from './common'
 
 export function getWinnerSide(homeScore: number, awayScore: number, qualifier?: WinnerSide) {
     if (homeScore > awayScore) {
@@ -28,6 +29,30 @@ export function isFinalGame(game: MatchCommonBase) {
 
 export function isGameSecondLeg(game: MatchCommonBase) {
     return game.isTwoLeggedTie && !game.isFirstLeg
+}
+
+export function getGameStage(game: MatchCommonBase): GameStage {
+    if (!game.is_knockout) {
+        return GameType.GroupStage;
+    }
+    return game.subType as KnockoutStage;
+}
+
+export function getGameScoreConfig(game: MatchCommonBase, scoreConfig: MatchBetsScoreConfig): GameBetScoreConfig{
+    if (game.type === GameType.GroupStage){
+        return scoreConfig[GameBetType.GroupStage]
+    }
+    let resScore = scoreConfig[GameBetType.Knockout];
+    const bonuses = (scoreConfig[GameBetType.Bonus] ?? {})[game.subType as KnockoutStage];
+    if (bonuses){
+        for (const key of keysOf(bonuses)){
+            if (bonuses[key]){
+                resScore[key] = resScore[key] + bonuses[key]
+            }
+        }
+    }
+    return resScore;
+
 }
 
 export function calcTotalTwoLegsAggregation(game: MatchCommonBase) {
