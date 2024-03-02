@@ -5,7 +5,11 @@ import { DialogName } from '../dialogs/types'
 export interface DialogsDataRecord {
     [DialogName.GameScoreInfo]: {
         gameId: number,
-    }
+    },
+    [DialogName.SendNihus]: {
+        targetUtlId: number,
+        gameId: number,
+    },
 }
 
 export type SetDialogDataPayload = {
@@ -23,7 +27,10 @@ const dialogsData = createSlice({
     reducers: {
         setData: (state, action: PayloadAction<SetDialogDataPayload>) => {
             const {dialog, data} = action.payload
-            state[dialog] = data
+            return {
+                ...state,
+                [dialog]: data,
+            }
         },
         clearData: (state, action: PayloadAction<DialogName>) => {
             const name = action.payload

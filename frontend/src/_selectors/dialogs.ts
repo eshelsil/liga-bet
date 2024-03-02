@@ -21,3 +21,13 @@ export const IsOpenGameScoreInfoDialog = createSelector(
     Dialogs,
     (dialogs) => !!dialogs[DialogName.GameScoreInfo]
 )
+
+export const IsOpenNihusGrantExplanationDialog = createSelector(
+    Dialogs,
+    (dialogs) => !!dialogs[DialogName.NihusGrantExplanation]
+)
+
+export const IsOpenSendNihusDialog = createSelector(
+    Dialogs,
+    (dialogs) => !!dialogs[DialogName.SendNihus]
+)

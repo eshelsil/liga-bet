@@ -27,6 +27,8 @@ import notifications from './notifications'
 import multiBetsSettings from './multiBetsSettings'
 import goalsData from './goalsData'
 import adminReducer from './admin/admin'
+import nihusGrants from './nihusGrants'
+import settings from './settings'
 import sideTournament from './sideTournament'
 
 const reducer = combineReducers({
@@ -55,6 +57,8 @@ const reducer = combineReducers({
     dialogs: dialogs.reducer,
     dialogsData: dialogsData.reducer,
     appCrucialLoaders: appCrucialLoaders.reducer,
+    nihusGrants: nihusGrants.reducer,
+    settings: settings.reducer,
     notifications: notifications.reducer,
     multiBetsSettings: multiBetsSettings.reducer,
     goalsData: goalsData.reducer,

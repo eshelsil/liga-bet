@@ -17,6 +17,16 @@ class UtlResource extends JsonResource
     {
         /** @var TournamentUser $utl */
         $utl = $this->resource;
+        $nihusim = 0;
+        $nihusimGranted = 0;
+        $nihusimUsed = 0;
+        try {
+            $nihusim = $utl->getAvailabileNihusim();
+            $nihusimGranted = $utl->getTotalNihusimGranted();
+            $nihusimUsed = $utl->getTotalNihusimSent();
+        } catch (\Throwable $e) {
+            \Log::error("Error getting nihusim for utl: " . $utl->id);
+        }
         return [
             "id"              => $utl->id,
             "user_id"         => $utl->user_id,
@@ -25,6 +35,9 @@ class UtlResource extends JsonResource
             "name"            => $utl->name,
             "createdAt"       => $utl->created_at,
             "updatedAt"       => $utl->updated_at,
+            "nihusimLeft"     => $nihusim,
+            "nihusimGranted"  => $nihusimGranted,
+            "nihusimUsed"     => $nihusimUsed,
         ];
     }
 }

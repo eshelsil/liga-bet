@@ -18,6 +18,7 @@ import leaderboardsFetcher from '../_reducers/leaderboardsFetcher';
 import { generateDefaultScoreboardSettings, isUtlConfirmed, valuesOf } from '../utils';
 import { filter, isEmpty } from 'lodash';
 import { fetchAndStoreCompetitions } from '../_actions/competition';
+import { fetchAndStoreNihusGrants, initNihusGrants } from '@/_actions/nihusim';
 
 function useFetcher({
     refreshable,
@@ -90,6 +91,14 @@ export function useGameGoals(refreshable?: boolean) {
         refreshable,
         refreshFunc: fetchAndStoreGoalsData,
         initFunc: initGoalsData,
+    })
+}
+
+export function useNihusGrants(refreshable?: boolean) {
+    return useFetcher({
+        refreshable,
+        refreshFunc: fetchAndStoreNihusGrants,
+        initFunc: initNihusGrants,
     })
 }
 

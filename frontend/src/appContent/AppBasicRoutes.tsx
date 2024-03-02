@@ -4,6 +4,7 @@ import Leaderboard from '../leaderboard/LeaderboardProvider';
 import OpenMatchesView from '../open_matches/openMatchesProvider';
 import OpenGroupRankBetsView from '../OpenGroupBets/OpenGroupRankBetsProvider';
 import MyBetsView from '../myBets/MyBetsView';
+import ManageNihusim from '@/nihusim/ManageNihusim';
 import Takanon from '../takanon/Takanon';
 import OpenQuestionBets from '../openQuestionBets/OpenQuestionBetsProvider';
 import RedirectToDefaultPage from './RedirectToDefaultPage';
@@ -21,6 +22,7 @@ function AppBasicRoutes() {
             <Route path='/leaderboard' component={Leaderboard} />
             <Route path='/closed-bets/:tab?' component={ClosedBetsPage} />
             <Route path='/my-bets' component={MyBetsView} />
+            <Route path='/nihusim' component={ManageNihusim} />
             <Route path='/his-bets/:utlId' component={HisBetsView} />
             <Route path='/'>
                 <RedirectToDefaultPage />

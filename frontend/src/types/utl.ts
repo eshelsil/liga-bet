@@ -24,6 +24,9 @@ export interface UTL extends UtlBase {
 
 export interface UtlWithTournament extends UtlBase {
     tournament: Tournament
+    nihusimLeft?: number
+    nihusimGranted?: number
+    nihusimSent?: number
 }
 
 export type UTLsById = Record<number, UTL>

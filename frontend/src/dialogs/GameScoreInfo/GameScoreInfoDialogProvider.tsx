@@ -19,7 +19,7 @@ function GameScoreInfoDialogProvider({ closeDialog }: Props) {
     const isOpen = useSelector(IsOpenGameScoreInfoDialog)
     const data = useDialogData(DialogName.GameScoreInfo)
     const scoreConfig = useSelector(FormattedMatchBetScoreConfig)
-    const {gameId} = data || {}
+    const {gameId} = data ?? {}
     const gamesById = useSelector(Games)
     const game = gamesById[gameId]
     if (!game || !scoreConfig) return null;

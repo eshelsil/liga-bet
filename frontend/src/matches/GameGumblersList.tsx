@@ -5,6 +5,8 @@ import { MatchResultV2 } from '../widgets/MatchResult'
 import CustomTable from '../widgets/Table/CustomTable'
 import { orderBy } from 'lodash'
 import GumblersList from '../gumblersList/GumblersList'
+import useOpenDialog from '@/hooks/useOpenDialog'
+import { DialogName } from '@/dialogs/types'
 
 
 interface BetInstance {
@@ -13,11 +15,12 @@ interface BetInstance {
     resultAway: number,
     qualifier: WinnerSide,
     score: number,
-    gumblers: string[],
+    gumblers: {name: string, id: number}[],
 }
 
-function GameGumblersList({ match, isLive }: { match: GameWithBetsAndGoalsData, isLive?: boolean, }) {
-    const { home_team, away_team, betsByValue } = match
+function GameGumblersList({ match, isLive, showNihusable }: { match: GameWithBetsAndGoalsData, isLive?: boolean, showNihusable?: boolean }) {
+    const { home_team, away_team, betsByValue, id } = match
+    const openNihusDialog = useOpenDialog(DialogName.SendNihus)
 
     const models = keysOf(betsByValue).map((betVal): BetInstance => {
         const bets = betsByValue[betVal]
@@ -28,7 +31,10 @@ function GameGumblersList({ match, isLive }: { match: GameWithBetsAndGoalsData, 
             resultAway: betSample.result_away,
             qualifier: betSample.winner_side,
             score: betSample.score,
-            gumblers: bets.map((bet) => bet.utlName),
+            gumblers: bets.map((bet) => ({
+                name: bet.utlName,
+                id: bet.user_tournament_id,
+            })),
         }
     })
     const sortedModels = orderBy(
@@ -83,7 +89,7 @@ function GameGumblersList({ match, isLive }: { match: GameWithBetsAndGoalsData, 
             },
             header: 'מנחשים',
             getter: (bet: BetInstance) => (
-                <GumblersList gumblers={bet.gumblers} />
+                <GumblersList gumblers={bet.gumblers} onNihusClick={(utlId => openNihusDialog({targetUtlId: utlId, gameId: id}))} showNihusable={showNihusable && isLive}/>
             ),
         },
         {
@@ -96,6 +102,8 @@ function GameGumblersList({ match, isLive }: { match: GameWithBetsAndGoalsData, 
             getter: (bet: BetInstance) => bet.score,
         },
     ]
+
+
 
     return (
         <div className='LB-GumblersTable'>

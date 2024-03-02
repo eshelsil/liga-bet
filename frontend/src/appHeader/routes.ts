@@ -57,6 +57,10 @@ const routes: Route[] = [
         label: 'הפרופיל שלי',
     },
     {
+        path: 'nihusim',
+        label: 'ניחוסים',
+    },
+    {
         path: 'takanon',
         label: 'תקנון',
     },

@@ -22,6 +22,7 @@ use App\Group;
 use App\User;
 use App\Player;
 use App\Ranks;
+use App\NihusGrant;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
@@ -234,6 +235,29 @@ class AdminController extends Controller
             }
         }
         return new JsonResponse([], 200);
+    }
+
+    public function grantNihusim(Request $request){
+        $utlId = $request->utlId;
+        $amount = $request->amount;
+        $reason = $request->reason;
+
+        $utl = TournamentUser::find($utlId);
+        if (!$utl){
+            throw new JsonException("TournamentUser with id {{$utlId}} does not exist", 400);
+        }
+        if (!($amount > 0)){
+            throw new JsonException("Amount must be a positive number", 400);
+        }
+        if (!$reason || strlen($reason) == 0){
+            throw new JsonException("Must provide a reason", 400);
+        }
+        $grant = NihusGrant::create([
+            'user_tournament_id' => $utlId,
+            'amount' => $amount,
+            'grant_reason' => $reason,
+        ]);
+        return new JsonResponse($grant, 200);
     }
 
     public function UpdatePlayerFromGoalsData(CalculateSpecialBets $calculateSpecialBets, Request $request){

@@ -22,6 +22,18 @@ export const announceMvp = async (
     })
 }
 
+export const grantNihusim = async (
+    utlId: number,
+    amount: number,
+    reason: string,
+): Promise<any> => {
+    return await sendApiRequest({
+        url: `/admin/nihusim`,
+        type: 'POST',
+        data: {utlId, amount, reason},
+    })
+}
+
 
 export interface PlayerGameGoalsData {
     goals?: number

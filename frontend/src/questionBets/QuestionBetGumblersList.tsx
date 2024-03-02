@@ -12,7 +12,7 @@ interface BetInstance {
     id: number,
     answer: SpecialQuestionAnswer
     score: number,
-    gumblers: string[],
+    gumblers: {name: string, id: number}[],
 }
 
 interface Props {
@@ -32,7 +32,10 @@ function QuestionBetGumblersList({ question, bets }: Props ) {
             id: answerId,
             answer: betSample.answer,
             score: betSample.score,
-            gumblers: bets.map((bet) => bet.utlName),
+            gumblers: bets.map((bet) => ({
+                name: bet.utlName,
+                id: bet.user_tournament_id,
+            })),
         }
     })
     const sortedModels = orderBy(

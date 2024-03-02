@@ -16,7 +16,7 @@ interface BetInstance {
     id: string,
     score: number,
     standings: Team[],
-    gumblers: string[],
+    gumblers: {name: string, id: number}[],
 }
 
 interface Props {
@@ -41,7 +41,7 @@ function GroupRankGumblersList({ group, bets, isLive }: Props) {
             id: betVal,
             standings: betSample.standings,
             score: betSample.score,
-            gumblers: bets.map((bet) => bet.utlName),
+            gumblers: bets.map((bet) => ({name: bet.utlName, id: bet.user_tournament_id})),
         }
     })
     const sortedModels = orderBy(

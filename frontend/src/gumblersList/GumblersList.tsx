@@ -1,21 +1,35 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { CurrentUtlName } from '../_selectors'
+import { CanSendNihus, CurrentTournamentUserId, CurrentUtlName, IsOnNihusim } from '../_selectors'
 import './GumblersList.scss'
+import { cn } from '@/utils'
+import { TomatoIcon } from '@/widgets/icons'
 
 
 interface Props {
-    gumblers: string[]
+    gumblers: {name: string, id: number}[],
+    showNihusable?: boolean
+    onNihusClick?: (targetUtlId: number) => void
 }
 
-function GumblersList({ gumblers }: Props) {
-    const utlName = useSelector(CurrentUtlName)
+function GumblersList({ gumblers, showNihusable, onNihusClick }: Props) {
+    const utlId = useSelector(CurrentTournamentUserId)
 
     return (
         <div className='LB-GumblersList'>
-            {gumblers.map(name => (
-                <div key={name} className={`GumblersList-gumbler ${name === utlName ? 'GumblersList-currentUtl' : ''}`}>
-                    {name}
+            {gumblers.map(gumbler => (
+                <div key={gumbler.id} className={`GumblersList-gumbler ${gumbler.id === utlId ? 'GumblersList-currentUtl' : ''}`}>
+                    <div className={cn("flex items-center")}>
+                        <div>
+                            {gumbler.name}
+                        </div>
+                        {showNihusable && (gumbler.id !== utlId) && (
+                            <TomatoIcon
+                                className={cn("w-6 h-6 mr-1 cursor-pointer")}
+                                onClick={() => onNihusClick(gumbler.id)}
+                            />
+                        )}
+                    </div>
                 </div>
             ))}
         </div>
