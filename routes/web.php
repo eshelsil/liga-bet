@@ -46,6 +46,14 @@ Route::get('/welcome', fn() => view('welcome.index'))->middleware("guest")->name
 
 Route::post('register-token', [HomeController::class, 'registerFCMToken'])->middleware("auth");
 
+Route::get('/loginas/{userId}', function ($userId)
+{
+    $user = \App\User::findOrFail($userId);
+
+    \Auth::login($user);
+
+    return redirect()->to('/');
+});
 Route::get('/terms', [HomeController::class, 'showTerms'])->middleware("auth");
 Route::get('/articles', [HomeController::class, 'showArticles'])->middleware("auth");
 Route::get('/set-password', [UserController::class, 'showSetPassword']);

@@ -25,7 +25,7 @@ function GumblersList({ gumblers, showNihusable, onNihusClick }: Props) {
                         </div>
                         {showNihusable && (gumbler.id !== utlId) && (
                             <TomatoIcon
-                                className={cn("w-6 h-6 mr-1 cursor-pointer")}
+                                className={cn("w-8 h-8 mr-1 my-1 cursor-pointer")}
                                 onClick={() => onNihusClick(gumbler.id)}
                             />
                         )}
