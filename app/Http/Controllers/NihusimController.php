@@ -11,7 +11,12 @@ use App\Nihus;
 class NihusimController extends Controller
 {
     const ALLOWED_GIFS = [
-        'mbappe'
+        'higua.png',
+        'kane.jpg',
+        'kdb.jpg',
+        'lewa.png',
+        'mbappe.jpg',
+        'vini.jpg',
     ];
 
     public function seenNihus(Request $request, string $tournamentId)
@@ -24,7 +29,7 @@ class NihusimController extends Controller
         if (!$nihusId) {
             throw new JsonException("must provide nihusId", 400);
         }
-        $nihus = $utl->nihusimTargeted->firstWhere(fn($n) => $n->id == $nihusId);
+        $nihus = $utl->nihusimTargeted->first(fn($n) => $n->id == $nihusId);
         if (!$nihus) {
             throw new JsonException("Invalid nihusId", 400);
         }
@@ -75,10 +80,20 @@ class NihusimController extends Controller
         if ($len < 4) {
             throw new JsonException("הודעת ניחוס חייבת לכלול לפחות 4 תווים", 400);
         }
+        $game = $bet->getRelatedGame();
+        if (!$game || !$game->isLive()) {
+            throw new JsonException("לא ניתן לשלוח ניחוס למשחק שלא משוחק כרגע", 400);
+        }
+        $existing = $utl->nihusimSent()->where(['game_id' => $gameId, 'target_utl_id' => $targetUtlId])->first();
+        if ($existing) {
+            throw new JsonException("שלחת כבר ניחוס עבור הימור זה", 400);
+        }
 
         $nihus = Nihus::create([
             'tournament_id' => $tournamentId,
             'game_id' => $gameId,
+            'home_score' => $game->result_home ?? 0,
+            'away_score' => $game->result_away ?? 0,
             'sender_utl_id' => $utl->id,
             'target_utl_id' => $targetUtlId,
             'text' => $text,
@@ -103,7 +118,8 @@ class NihusimController extends Controller
         if (!$utl) {
             throw new JsonException("אינך רשום לטורניר זה", 404);
         }
-        $nihusim = $utl->nihusimTargeted()->where('seen', false)->get();
+        // $nihusim = $utl->nihusimTargeted()->where('seen', false)->get();
+        $nihusim = $utl->nihusimTargeted()->get()->map(function($n){$n->seen = false; return $n;});
         return new JsonResponse($nihusim, 200);
     }
 }

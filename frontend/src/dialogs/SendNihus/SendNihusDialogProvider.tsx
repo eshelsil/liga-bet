@@ -30,7 +30,7 @@ function SendNihusDialogProvider({ closeDialog }: Props) {
 
 
     const onSubmit = async () => {
-        await sendNihus({tournamentId, gameId, targetUtlId, text: "nuhasta", gif: "mbappe"})
+        await sendNihus({tournamentId, gameId, targetUtlId, text: "nuhasta", gif: "higua.png"})
     }
 
     

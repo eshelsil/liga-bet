@@ -17,6 +17,8 @@ class CreateNihusTable extends Migration
             $table->id();
             $table->foreignId("tournament_id");
             $table->foreignId("game_id");
+            $table->integer("home_score");
+            $table->integer("away_score");
             $table->foreignId("sender_utl_id");
             $table->foreignId("target_utl_id");
             $table->string("text");

@@ -1,18 +1,29 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { NihusGrantById, NotificationsByTournamentId } from '../types'
+import { Nihus, NihusById } from '../types'
 
 
-type State = NihusGrantById
+type NihusimByTournamentId = Record<number, NihusById>
+type State = NihusimByTournamentId
 
 const nihusim = createSlice({
     name: 'nihusim',
     initialState: {} as State,
     reducers: {
-        updateMany: (state, action: PayloadAction<NihusGrantById>) => ({
-            ...state,
-            ...action.payload,
-        })
+        updateOne: (state, action: PayloadAction<{tournamentId: number, nihus: Nihus}>) => {
+            const {tournamentId, nihus} = action.payload;
+            state[tournamentId] = {
+                ...state[tournamentId],
+                [nihus.id]: nihus,
+            };
+        },
+        updateMany: (state, action: PayloadAction<{tournamentId: number, nihusim: NihusById}>) => {
+            const {tournamentId, nihusim} = action.payload;
+            state[tournamentId] = {
+                ...state[tournamentId],
+                ...nihusim,
+            };
+        }
     },
 })
 

@@ -41,6 +41,7 @@ export const LeaderboardsFetcherState = (state: RootState) => state.leaderboards
 export const AppCrucialLoaders = (state: RootState) => state.appCrucialLoaders
 export const NotificationsState = (state: RootState) => state.notifications
 export const NihusGrantsState = (state: RootState) => state.nihusGrants
+export const NihusimState = (state: RootState) => state.nihusim
 export const Settings = (state: RootState) => state.settings
 export const MultiBetsSettings = (state: RootState) => state.multiBetsSettings
 export const ScoreboardSettingsState = (state: RootState) => state.scoreboardSettings
@@ -196,6 +197,14 @@ export const NihusGrants = createSelector(
     CurrentTournamentId,
     (grantsByTournament, tournamentId) => {
         return grantsByTournament[tournamentId] ?? {}
+    }
+)
+
+export const Nihusim = createSelector(
+    NihusimState,
+    CurrentTournamentId,
+    (nihusimByTournament, tournamentId) => {
+        return nihusimByTournament[tournamentId] ?? {}
     }
 )
 

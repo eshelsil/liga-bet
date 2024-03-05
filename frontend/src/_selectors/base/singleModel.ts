@@ -27,7 +27,10 @@ import {
     Competitions,
     NihusGrants,
     Settings,
+    Nihusim,
+    CurrentTournamentUserId,
 } from './models'
+import nihusim from '@/_reducers/nihusim'
 
 
 export const TournamentIdSelector = createSelector(
@@ -255,5 +258,14 @@ export const UnseenNihusGrant = createSelector(
     (grantsById) => {
         const grants = valuesOf(grantsById);
         return grants.find(grant => !grant.seen)
+    }
+)
+
+export const MyActiveNihus = createSelector(
+    Nihusim,
+    CurrentTournamentUserId,
+    Games,
+    (nihusimById, utlId, gamesById) => {
+        return valuesOf(nihusimById).find(nihus => nihus.target_utl_id === utlId && !nihus.seen && gamesById[nihus.game_id] && !gamesById[nihus.game_id].is_done );
     }
 )

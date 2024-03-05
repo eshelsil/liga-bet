@@ -1,4 +1,4 @@
-import { NihusGrant } from '../types'
+import { Nihus, NihusGrant } from '../types'
 import { sendApiRequest } from './common/apiRequest'
 
 
@@ -26,7 +26,7 @@ export const fetchNihusGrants = async (
 
 export const fetchNihusim = async (
     tournamentId: number
-): Promise<NihusGrant[]> => {
+): Promise<Nihus[]> => {
     return await sendApiRequest({
         url: `/api/tournaments/${tournamentId}/nihusim`,
         hideErrorToastr: true,
@@ -34,7 +34,7 @@ export const fetchNihusim = async (
 }
 export const fetchMySentNihusim = async (
     tournamentId: number
-): Promise<NihusGrant[]> => {
+): Promise<Nihus[]> => {
     return await sendApiRequest({
         url: `/api/tournaments/${tournamentId}/nihusim/sent`,
     })
@@ -43,7 +43,7 @@ export const fetchMySentNihusim = async (
 export const postSeenNihus = async (
     tournamentId: number,
     nihusId: number,
-): Promise<NihusGrant> => {
+): Promise<Nihus> => {
     return await sendApiRequest({
         url: `/api/tournaments/${tournamentId}/nihusim/seen`,
         type: 'POST',
@@ -64,7 +64,7 @@ export const sendNihus = async ({
     targetUtlId: number
     text: string
     gif: string
-}): Promise<NihusGrant> => {
+}): Promise<Nihus> => {
     return await sendApiRequest({
         url: `/api/tournaments/${tournamentId}/nihusim`,
         type: 'POST',

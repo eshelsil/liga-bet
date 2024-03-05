@@ -7,7 +7,8 @@ import nihusGrantsReducer from '../_reducers/nihusGrants'
 import { CurrentTournament, CurrentTournamentId, GameGoalsDataSelector, Games, IsTournamentOngoing, IsTournamentStarted, NihusGrants } from '../_selectors'
 import { generateInitCollectionAction } from './utils'
 import { GameGoalsDataById, GameType } from '../types'
-import { fetchNihusGrants, postSeenNihusGrant } from '@/api/nihusim'
+import { fetchNihusGrants, fetchNihusim, postSeenNihus, postSeenNihusGrant } from '@/api/nihusim'
+import nihusimSlice from '@/_reducers/nihusim'
 
 
 function markSeenNihusGrant(grantId: number) {
@@ -33,6 +34,29 @@ function fetchAndStoreNihusGrants() {
     }
 }
 
+function markSeenNihus(nihusId: number) {
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const tournamentId = CurrentTournamentId(getState())
+        const nihus = await postSeenNihus(tournamentId, nihusId)
+        dispatch(nihusimSlice.actions.updateOne({
+            tournamentId,
+            nihus,
+        }))
+    }
+}
+
+function fetchAndStoreNihusim() {
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const tournamentId = CurrentTournamentId(getState())
+        const nihusim = await fetchNihusim(tournamentId)
+        const nihusimById = keyBy(nihusim, 'id')
+        dispatch(nihusimSlice.actions.updateMany({
+            tournamentId,
+            nihusim: nihusimById,
+        }))
+    }
+}
+
 const initNihusGrants = generateInitCollectionAction({
     collectionName: CollectionName.NihusGrants,
     selector: NihusGrants,
@@ -41,4 +65,4 @@ const initNihusGrants = generateInitCollectionAction({
 })
 
 
-export { fetchAndStoreNihusGrants, initNihusGrants, markSeenNihusGrant }
+export { fetchAndStoreNihusGrants, initNihusGrants, markSeenNihusGrant, fetchAndStoreNihusim, markSeenNihus }

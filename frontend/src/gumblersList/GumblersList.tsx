@@ -23,7 +23,8 @@ function GumblersList({ gumblers, showNihusable, onNihusClick }: Props) {
                         <div>
                             {gumbler.name}
                         </div>
-                        {showNihusable && (gumbler.id !== utlId) && (
+                        {/* {showNihusable && (gumbler.id !== utlId) && ( */}
+                        {showNihusable &&  (
                             <TomatoIcon
                                 className={cn("w-8 h-8 mr-1 my-1 cursor-pointer")}
                                 onClick={() => onNihusClick(gumbler.id)}
