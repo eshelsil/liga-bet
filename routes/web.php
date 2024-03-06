@@ -27,6 +27,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TournamentUserController;
 use App\Http\Controllers\TeamsController;
 use App\Http\Controllers\TournamentController;
+use App\Http\Controllers\InAppNotificationsController;
+use App\Http\Controllers\NihusimController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -77,6 +79,7 @@ Route::post('/admin/user-set-name', [AdminController::class, 'setNametoUser']);
 Route::delete('/admin/delete-user', [AdminController::class, 'deleteUser']);
 Route::post('/admin/create-monkey-user', [AdminController::class, 'createMonkey']);
 Route::post('/admin/update-side-tournament-games', [AdminController::class, 'updateSideTournamentGames']);
+Route::post('/admin/nihusim', [AdminController::class, 'grantNihusim']);
 
 Route::get('/notifications/send', [AdminController::class, 'sendAll']);
 
@@ -102,6 +105,13 @@ Route::prefix("/api/tournaments/{tournamentId}/")->middleware("confirmed_user")
         Route::get("contestants", [UserController::class, 'getTournamentUTLs']);
         Route::get("teams", [TeamsController::class, 'index']);
         Route::get("special-questions", [SpecialQuestionsController::class, 'index']);
+        Route::get("notifications", [InAppNotificationsController::class, 'getNotifications']);
+        Route::post("notifications/seen", [InAppNotificationsController::class, 'seenNotification']);
+        Route::get("nihusim", [NihusimController::class, 'getTournamentNihusim']);
+        Route::get("nihusim/gifs", [NihusimController::class, 'getNihusGifs']);
+        Route::get("nihusim/sent", [NihusimController::class, 'getNihusimSent']);
+        Route::post("nihusim", [NihusimController::class, 'sendNihus']);
+        Route::post("nihusim/seen", [NihusimController::class, 'seenNihus']);
         Route::prefix("manage/utls")->middleware("tournament_manager")
         ->group(function () {
             Route::get("/", [TournamentUserController::class, 'index']);

@@ -96,6 +96,11 @@ class Tournament extends Model
         return $this->hasMany(SideTournament::class);
     }
 
+    public function nihusim(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Nihus::class);
+    }
+
     public function confirmedUtls()
     {
         return $this->utls->filter(fn(TournamentUser $utl) => $utl->isConfirmed());

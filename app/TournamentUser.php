@@ -136,6 +136,38 @@ class TournamentUser extends Model
         return $this->hasMany(Bet::class, "user_tournament_id");
     }
 
+    public function nihusGrants(): HasMany
+    {
+        return $this->hasMany(NihusGrant::class, "user_tournament_id");
+    }
+
+    public function nihusimTargeted(): HasMany
+    {
+        return $this->hasMany(Nihus::class, "target_utl_id");
+    }
+
+    public function nihusimSent(): HasMany
+    {
+        return $this->hasMany(Nihus::class, "sender_utl_id");
+    }
+
+    public function getTotalNihusimGranted(): int
+    {
+        return $this->nihusGrants->sum('amount');
+    }
+
+    public function getTotalNihusimSent(): int
+    {
+        return $this->nihusimSent->count();
+    }
+
+    public function getAvailabileNihusim(): int
+    {
+        $totalGranted = $this->getTotalNihusimGranted();
+        $totalSent = $this->getTotalNihusimSent();
+        return $totalGranted - $totalSent;
+    }
+
     public function wasAnActiveUser(): bool
     {
         $gameBets = $this->bets()->where('type', BetTypes::Game)->get();
@@ -270,5 +302,10 @@ class TournamentUser extends Model
         }
 
         return $bets;
+    }
+
+    public function getNotification($notificationId)
+    {
+        return $this->nihusGrants()->find($notificationId);
     }
 }
