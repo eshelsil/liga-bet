@@ -14,6 +14,7 @@ interface Props {
     className?: string
     simpleLink?: boolean
     notifications?: number
+    disabled?: boolean
 }
 
 function LinkMenuItem({
@@ -25,6 +26,7 @@ function LinkMenuItem({
     className,
     simpleLink,
     notifications,
+    disabled = false,
 }: Props) {
     const history = useHistory()
     const { label, path } = route
@@ -46,7 +48,7 @@ function LinkMenuItem({
     }
 
     return (
-        <MenuItemMUI className={`LigaBet-LinkMenuItem ${className || ''} ${isActive ? 'LB-ActivePathItem' : ''}`} onClick={onRouteClick}>
+        <MenuItemMUI disabled={disabled} className={`LigaBet-LinkMenuItem ${className || ''} ${isActive ? 'LB-ActivePathItem' : ''}`} onClick={onRouteClick}>
             {icon && (
                 <>
                     {icon}

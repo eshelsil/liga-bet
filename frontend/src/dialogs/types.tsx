@@ -5,6 +5,7 @@ export enum DialogName {
     SendNihus = 'sendNihus',
     WaitForMvp = 'waitForMvp',
     GameScoreInfo = 'gameScoreInfo',
+    NihusSticker = 'NihusSticker',
 }
 
 export type ToggleDialogStateFunction = (name: DialogName) => void

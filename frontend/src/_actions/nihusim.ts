@@ -7,7 +7,7 @@ import nihusGrantsReducer from '../_reducers/nihusGrants'
 import { CurrentTournament, CurrentTournamentId, GameGoalsDataSelector, Games, IsTournamentOngoing, IsTournamentStarted, NihusGrants } from '../_selectors'
 import { generateInitCollectionAction } from './utils'
 import { GameGoalsDataById, GameType } from '../types'
-import { fetchNihusGrants, fetchNihusim, postSeenNihus, postSeenNihusGrant } from '@/api/nihusim'
+import { SendNihusParams, fetchNihusGrants, fetchNihusim, postSeenNihus, postSeenNihusGrant, sendNihus } from '@/api/nihusim'
 import nihusimSlice from '@/_reducers/nihusim'
 
 
@@ -57,6 +57,17 @@ function fetchAndStoreNihusim() {
     }
 }
 
+function sendAndStoreNihus(params: Omit<SendNihusParams, 'tournamentId'>) {
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const tournamentId = CurrentTournamentId(getState())
+        const nihus = await sendNihus({...params, tournamentId,} )
+        dispatch(nihusimSlice.actions.updateOne({
+            tournamentId,
+            nihus,
+        }))
+    }
+}
+
 const initNihusGrants = generateInitCollectionAction({
     collectionName: CollectionName.NihusGrants,
     selector: NihusGrants,
@@ -65,4 +76,4 @@ const initNihusGrants = generateInitCollectionAction({
 })
 
 
-export { fetchAndStoreNihusGrants, initNihusGrants, markSeenNihusGrant, fetchAndStoreNihusim, markSeenNihus }
+export { fetchAndStoreNihusGrants, initNihusGrants, markSeenNihusGrant, fetchAndStoreNihusim, markSeenNihus, sendAndStoreNihus }

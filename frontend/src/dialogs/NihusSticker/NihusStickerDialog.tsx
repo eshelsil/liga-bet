@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
-import { Button, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, TextareaAutosize } from '@mui/material'
+import { Button, MenuItem, Select, SelectChangeEvent, TextField, TextareaAutosize } from '@mui/material'
 import { cn, getGameScoreConfig, getGameStage, keysOf, sortBetSlices } from '@/utils'
-import { GameBetScoreConfig, MatchApiModel, MatchBetWithRelations, MatchBetsScoreConfig, MatchCommonBase, NihusWithRelations, UTL, UtlBase } from '@/types'
+import { GameBetScoreConfig, MatchApiModel, MatchBetWithRelations, MatchBetsScoreConfig, MatchCommonBase, UTL } from '@/types'
 import { getHebBetSliceName, getHebStageName } from '@/strings'
-import { useSelectNihusView } from '@/nihusim/context'
-import { MatchResultV2, betToMatchResultProps } from '@/widgets/MatchResult'
-import NihusSticker, { NihusStickerProps } from '@/nihusim/NihusSticker'
 
 
 
@@ -19,63 +16,25 @@ interface Props {
     onClose: () => void
     gifs: string[]
     bet: MatchBetWithRelations
-    targetUtl: UtlBase
-    currentUtl: UtlBase
+    targetUtl: UTL
     onSubmit: (text: string, gif: string) => Promise<void>
 }
 
 
 
-export default function SendNihusDialog({
+export default function NihusStickerDialog({
     open,
     onClose,
     onSubmit,
     gifs,
     bet,
     targetUtl,
-    currentUtl,
 }: Props) {
     const [gif, setGif] = useState(gifs[0] ?? null)
     const [text, setText] = useState('')
-    const [previewOn, setPreviewOn] = useState(false)
-
     const submit = async () => {
-        onSubmit(text, gif).then(()=>{
-            (window as any).toastr["success"]('הניחוס נשלח בהצלחה!')
-            onClose()
-        })
+        onSubmit(text, gif)
     }
-
-    const reset = () => {
-        setText('')
-        setGif(gifs[0] ?? null)
-        setPreviewOn(false)
-    }
-    
-    useEffect(()=>{
-        if (gifs.length > 0 && gif == null){
-            setGif(gifs[0])
-        }
-    }, [gifs, gif])
-
-    useEffect(()=>{
-        if (!open){
-            reset();
-        }
-    }, [open])
-
-    const disabled = text.length === 0 || gif == null
-
-    const generatedNihus: NihusStickerProps['nihus'] = {
-        gif: gif,
-        text: text,
-        targetedUtl: targetUtl,
-        senderUtl: currentUtl,
-        bet,
-        game: bet.relatedMatch,
-        id: -1,
-    }
-
     return (
         <Dialog classes={{root: cn('tn-m-3')}} open={open} onClose={onClose}>
             
@@ -84,35 +43,20 @@ export default function SendNihusDialog({
                     <IconButton onClick={onClose} className={cn("absolute top-2 left-2")}>
                         <CloseIcon />
                     </IconButton>
-                    <div className={cn("text")} style={{fontSize: 20}}>
-                        שלח ניחוס ל{targetUtl.name}!
-                    </div>
+                    שלח ניחוש
                 </DialogTitle>
                 <DialogContent>
-                    {previewOn && (
-                        <NihusSticker
-                            nihus={generatedNihus}
-                            blocking={false}
-                            showTargetUtl={false}
-                            onQuit={() => setPreviewOn(false)}
-                        />
-                    )}
-                    <div className={cn('')}>
-                        <InputLabel >עבור הימור:</InputLabel>
-                        <MatchResultV2 {...betToMatchResultProps(bet)} />
-                        <InputLabel className={cn('mt-3')}>הוסף כמה מילים:</InputLabel>
+                    
+                    <div className={cn('mt-10')}>
                         <TextareaAutosize
                             value={text}
                             onChange={(e) => {setText(e.target.value)}}
-                            minRows={2}
+                            minRows={3}
                             maxRows={8}
                             className={cn("w-full p-2 rounded-[12px]")}
                         />
-                        <InputLabel className={cn('mt-3')}>בחר סטיקר:</InputLabel>
+                        {gifs.length > 0 && (
 
-                        {gif && (
-
-                            
                             <Select
                             value={gif}
                             onChange={(e: SelectChangeEvent<string>) => {
@@ -142,24 +86,10 @@ export default function SendNihusDialog({
                                 
                             </Select>
                         )}
-                        <div className={cn('mt-3 w-full flex justify-center')}>
-                            <Button
-                                variant='outlined'
-                                color='primary'
-                                onClick={() => setPreviewOn(true)}
-                                disabled={disabled}
-                                className={cn("mx-auto")}
-                                style={{fontSize: 20}}
-                            >
-                                תצוגה מקדימה
-                            </Button>
-                        </div>
                         <Button
                             variant='contained'
                             color='primary'
                             onClick={submit}
-                            disabled={disabled}
-                            className={cn("mt-5")}
                         >
                             שלח
                         </Button>

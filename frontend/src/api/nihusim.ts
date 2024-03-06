@@ -40,6 +40,14 @@ export const fetchMySentNihusim = async (
     })
 }
 
+export const fetchNihusGifs = async (
+    tournamentId: number
+): Promise<string[]> => {
+    return await sendApiRequest({
+        url: `/api/tournaments/${tournamentId}/nihusim/gifs`,
+    })
+}
+
 export const postSeenNihus = async (
     tournamentId: number,
     nihusId: number,
@@ -52,19 +60,21 @@ export const postSeenNihus = async (
     })
 }
 
+
+export type SendNihusParams = {
+    tournamentId: number
+    gameId: number
+    targetUtlId: number
+    text: string
+    gif: string
+}
 export const sendNihus = async ({
     tournamentId,
     gameId,
     targetUtlId,
     text,
     gif,
-}: {
-    tournamentId: number
-    gameId: number
-    targetUtlId: number
-    text: string
-    gif: string
-}): Promise<Nihus> => {
+}: SendNihusParams): Promise<Nihus> => {
     return await sendApiRequest({
         url: `/api/tournaments/${tournamentId}/nihusim`,
         type: 'POST',

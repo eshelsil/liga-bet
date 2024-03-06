@@ -1,4 +1,4 @@
-import { Dictionary, mapValues, orderBy, pickBy } from 'lodash'
+import { Dictionary, groupBy, mapValues, orderBy, pickBy } from 'lodash'
 import { createSelector } from 'reselect'
 import { CompetitionStatus, SpecialQuestionApiModel, SpecialQuestionType, TournamentWithLinkedUtl } from '../../types'
 import {
@@ -261,11 +261,9 @@ export const UnseenNihusGrant = createSelector(
     }
 )
 
-export const MyActiveNihus = createSelector(
+export const NihusimByGameId = createSelector(
     Nihusim,
-    CurrentTournamentUserId,
-    Games,
-    (nihusimById, utlId, gamesById) => {
-        return valuesOf(nihusimById).find(nihus => nihus.target_utl_id === utlId && !nihus.seen && gamesById[nihus.game_id] && !gamesById[nihus.game_id].is_done );
+    (nihusimById) => {
+        return groupBy(valuesOf(nihusimById), nihus => nihus.game_id)
     }
 )

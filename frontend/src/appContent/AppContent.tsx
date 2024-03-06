@@ -3,7 +3,8 @@ import InitialDataFetcher from '../initialDataFetcher/InitialDataFetcher';
 import TournamentUserController from '../controllers/TournamentUserController';
 import { CrucialLoader } from '../types';
 import SuspenseWithLoader from '../_helpers/SuspenseWithLoader';
-import NihusSticker from '@/nihusim/NihusSticker';
+import NihusStickerProvider from '@/nihusim/NihusStickerProvider';
+import { NihusStickerContextProvider } from '@/nihusim/context';
 
 const AppBasicRoutes = lazy(() => import('./AppBasicRoutes'));
 
@@ -13,8 +14,10 @@ function AppContent() {
         <InitialDataFetcher>
             <TournamentUserController>
                 <SuspenseWithLoader name={CrucialLoader.BasicRoutes}>
-                    <NihusSticker />
-                    <AppBasicRoutes />
+                    <NihusStickerContextProvider>
+                        <NihusStickerProvider />
+                        <AppBasicRoutes />
+                    </NihusStickerContextProvider>
                 </SuspenseWithLoader>
             </TournamentUserController>
         </InitialDataFetcher>

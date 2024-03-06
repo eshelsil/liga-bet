@@ -88,6 +88,9 @@ class NihusimController extends Controller
         if ($existing) {
             throw new JsonException("שלחת כבר ניחוס עבור הימור זה", 400);
         }
+        if (!($utl->getTotalNihusimGranted() > $utl->getTotalNihusimSent())) {
+            throw new JsonException("לא נשארו לך ניחוסים...", 403);
+        }
 
         $nihus = Nihus::create([
             'tournament_id' => $tournamentId,
@@ -113,13 +116,23 @@ class NihusimController extends Controller
         return new JsonResponse($nihusim, 200);
     }
     
-    public function getNihusimTargeted(Request $request, string $tournamentId){
+    public function getTournamentNihusim(Request $request, string $tournamentId){
         $utl = $this->getUser()->getTournamentUser($tournamentId);
         if (!$utl) {
             throw new JsonException("אינך רשום לטורניר זה", 404);
         }
-        // $nihusim = $utl->nihusimTargeted()->where('seen', false)->get();
-        $nihusim = $utl->nihusimTargeted()->get()->map(function($n){$n->seen = false; return $n;});
+        $nihusim = $utl->tournament->nihusim;
         return new JsonResponse($nihusim, 200);
+    }
+
+    public function getNihusGifs(Request $request, string $tournamentId){
+        $utl = $this->getUser()->getTournamentUser($tournamentId);
+        if (!$utl) {
+            throw new JsonException("אינך רשום לטורניר זה", 404);
+        }
+        if (!$utl->getTotalNihusimGranted() > 0) {
+            throw new JsonException("אין לך הרשאה לגשת למשאב זה", 403);
+        }
+        return new JsonResponse(self::ALLOWED_GIFS, 200);
     }
 }

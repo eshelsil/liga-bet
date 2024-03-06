@@ -115,7 +115,8 @@ Route::prefix("/api/tournaments/{tournamentId}/")->middleware("confirmed_user")
         Route::get("special-questions", [SpecialQuestionsController::class, 'index']);
         Route::get("notifications", [InAppNotificationsController::class, 'getNotifications']);
         Route::post("notifications/seen", [InAppNotificationsController::class, 'seenNotification']);
-        Route::get("nihusim", [NihusimController::class, 'getNihusimTargeted']);
+        Route::get("nihusim", [NihusimController::class, 'getTournamentNihusim']);
+        Route::get("nihusim/gifs", [NihusimController::class, 'getNihusGifs']);
         Route::get("nihusim/sent", [NihusimController::class, 'getNihusimSent']);
         Route::post("nihusim", [NihusimController::class, 'sendNihus']);
         Route::post("nihusim/seen", [NihusimController::class, 'seenNihus']);

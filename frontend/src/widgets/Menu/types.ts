@@ -7,4 +7,5 @@ export interface PopupMenuProps {
     children: ReactNode
     onClose?: AnyFunc
     classes?: MenuProps['classes']
+    forceOpen?: boolean
 }

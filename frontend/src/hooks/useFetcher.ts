@@ -12,7 +12,7 @@ import { fetchAndStoreQuestions, initSpecialQuestions } from '../_actions/specia
 import { fetchAndStoreTeams, initTeams } from '../_actions/teams'
 import { AppDispatch } from '../_helpers/store'
 import gameBetsFetcher from '../_reducers/gameBetsFetcher';
-import { CurrentTournamentUserId, GameIds, IsConfirmedUtl, LatestLeaderboardVersion, LiveGamesIds, MyUtls, NotificationsState, ScoreboardSettingsState, TournamentIdSelector } from '../_selectors';
+import { CurrentTournamentId, CurrentTournamentUserId, GameIds, IsConfirmedUtl, LatestLeaderboardVersion, LiveGamesIds, MyUtls, NotificationsState, ScoreboardSettingsState, TournamentIdSelector } from '../_selectors';
 import { HasFetchedAllTournamentInitialData } from '../_selectors';
 import leaderboardsFetcher from '../_reducers/leaderboardsFetcher';
 import { generateDefaultScoreboardSettings, isUtlConfirmed, valuesOf } from '../utils';
@@ -64,6 +64,7 @@ export function useCompetitions() {
 
 export function useNihusim() {
     const liveGameIds = useSelector(LiveGamesIds)
+    const tournament_id = useSelector(CurrentTournamentId)
     const hasLive = liveGameIds.length > 0;
     const dispatch = useDispatch<AppDispatch>();
     const fetch = () => dispatch(fetchAndStoreNihusim())
@@ -74,11 +75,14 @@ export function useNihusim() {
         }
     }
     useEffect(()=> {
+        if (!tournament_id){
+            return
+        }
         fetch()
-        const interval = setInterval(refresh, 1000 * 60)
+        const interval = setInterval(refresh, 1000 * 61)
         return () => clearInterval(interval)
         
-    }, [refresh])
+    }, [refresh, tournament_id])
 }
 
 export function useTeams(refreshable?: boolean) {

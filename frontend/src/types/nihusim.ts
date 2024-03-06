@@ -1,3 +1,6 @@
+import { BetBase, MatchBetApiModel } from "./bet"
+import { Match } from "./match"
+import { UTL, UtlBase } from "./utl"
 
 export interface Nihus {
     id: number
@@ -10,6 +13,15 @@ export interface Nihus {
     home_score: number
     away_score: number
     seen: boolean
+    created_at: boolean
+}
+
+export interface NihusWithRelations extends Nihus {
+    targetedUtl: UtlBase
+    senderUtl: UtlBase
+    game: Match
+    bet: MatchBetApiModel,
 }
 
 export type NihusById = Record<number, Nihus>
+export type NihusWithRelationsById = Record<number, NihusWithRelations>

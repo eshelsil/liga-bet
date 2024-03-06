@@ -22,7 +22,7 @@ function NihusExplanationDialogProvider({ closeDialog, markAsSeen }: Props) {
     }
     const onConfirm = () => {
         onClose()
-        markAsSeen(unseenGrant?.id)
+        unseenGrant && markAsSeen(unseenGrant?.id)
     }
 
     useEffect(()=> {
@@ -30,7 +30,6 @@ function NihusExplanationDialogProvider({ closeDialog, markAsSeen }: Props) {
             openDialog(undefined)
         }
     }, [unseenGrant])
-    if (!unseenGrant) return null;
 
 
     return (

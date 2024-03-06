@@ -3,10 +3,12 @@ import { GameWithBetsAndGoalsData, WinnerSide } from '../types'
 import { keysOf } from '../utils'
 import { MatchResultV2 } from '../widgets/MatchResult'
 import CustomTable from '../widgets/Table/CustomTable'
-import { orderBy } from 'lodash'
+import { groupBy, mapValues, orderBy, sortBy } from 'lodash'
 import GumblersList from '../gumblersList/GumblersList'
 import useOpenDialog from '@/hooks/useOpenDialog'
 import { DialogName } from '@/dialogs/types'
+import { useSelector } from 'react-redux'
+import { Nihusim, NihusimByGameId } from '@/_selectors'
 
 
 interface BetInstance {
@@ -20,6 +22,9 @@ interface BetInstance {
 
 function GameGumblersList({ match, isLive, showNihusable }: { match: GameWithBetsAndGoalsData, isLive?: boolean, showNihusable?: boolean }) {
     const { home_team, away_team, betsByValue, id } = match
+    const nihusimByGameId = useSelector(NihusimByGameId)
+    const nihusim = nihusimByGameId[id]
+    const nihusimByTargetUtlId = mapValues(groupBy(nihusim, 'target_utl_id'), betNahs => sortBy(betNahs, 'created_at'))
     const openNihusDialog = useOpenDialog(DialogName.SendNihus)
 
     const models = keysOf(betsByValue).map((betVal): BetInstance => {
@@ -89,7 +94,7 @@ function GameGumblersList({ match, isLive, showNihusable }: { match: GameWithBet
             },
             header: 'מנחשים',
             getter: (bet: BetInstance) => (
-                <GumblersList gumblers={bet.gumblers} onNihusClick={(utlId => openNihusDialog({targetUtlId: utlId, gameId: id}))} showNihusable={showNihusable && isLive}/>
+                <GumblersList nihusimByTargetUtlId={nihusimByTargetUtlId} gumblers={bet.gumblers} onNihusClick={(utlId => openNihusDialog({targetUtlId: utlId, gameId: id}))} showNihusable={showNihusable && isLive}/>
             ),
         },
         {
