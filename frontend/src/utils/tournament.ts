@@ -8,6 +8,11 @@ export function isTournamentStarted(tournament: Tournament) {
     return statuses.includes(tournament.status)
 }
 
+export function isTournamentOngoing(tournament: Tournament) {
+    const statuses = [TournamentStatus.Ongoing]
+    return statuses.includes(tournament.status)
+}
+
 export const gameStageToString = {
     [GameBetType.GroupStage]: 'שלב בתים',
     [GameBetType.Knockout]: 'נוקאאוט',

@@ -107,7 +107,7 @@ function GameHeader({ match, onClick }: { match: Match, onClick?: () => void }) 
     return (
         <div className={cn('relative', `LB-GameHeader ${tournamentClass} ${onClick ? 'GameHeader-clickable' : ''}`)} onClick={onClick}>
             <div
-                className={cn("absolute left-2 top-2 cursor-pointer z-50")}
+                className={cn("absolute left-2 top-2 cursor-pointer z-10")}
                 onClick={handlerNoPropagation(() => {openInfoDialog({gameId:id})})}
             >
                 <InfoIcon

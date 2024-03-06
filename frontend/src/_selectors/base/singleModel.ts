@@ -1,4 +1,4 @@
-import { Dictionary, mapValues, orderBy, pickBy } from 'lodash'
+import { Dictionary, groupBy, mapValues, orderBy, pickBy } from 'lodash'
 import { createSelector } from 'reselect'
 import { CompetitionStatus, SpecialQuestionApiModel, SpecialQuestionType, TournamentWithLinkedUtl } from '../../types'
 import {
@@ -6,6 +6,7 @@ import {
     isAdmin,
     isGameLive,
     isTournamentLive,
+    isTournamentOngoing,
     isTournamentStarted,
     isUtlConfirmed,
     keysOf,
@@ -24,6 +25,9 @@ import {
     ScoreboardSettings,
     CurrentLeaderboardsFetcher,
     Competitions,
+    NihusGrants,
+    Settings,
+    Nihusim,
 } from './models'
 
 
@@ -36,7 +40,16 @@ export const IsTournamentStarted = createSelector(
     tournament => isTournamentStarted(tournament),
 )
 
+export const IsTournamentOngoing = createSelector(
+    CurrentTournament,
+    tournament => isTournamentOngoing(tournament),
+)
+
 export const IsAdmin = createSelector(CurrentUser, (user) => isAdmin(user))
+
+export const CanSendNihus = createSelector(CurrentTournamentUser, (utl) => utl?.nihusimLeft > 0)
+
+export const EverGrantedNihus = createSelector(CurrentTournamentUser, (utl) => utl?.nihusimGranted > 0)
 
 export const CurrentUserEmail = createSelector(
     CurrentUser,
@@ -59,6 +72,8 @@ export const LeaderboardVersionsDesc = createSelector(
         return versions
     }
 )
+
+export const IsOnNihusim = createSelector(Settings, settings => settings.nihusim)
 
 export const GameIds = createSelector(
     Games,
@@ -233,5 +248,20 @@ export const OpenCompetitions = createSelector(
     Competitions,
     (competitions) => {
         return pickBy(competitions, c => c.status === CompetitionStatus.Initial)
+    }
+)
+
+export const UnseenNihusGrant = createSelector(
+    NihusGrants,
+    (grantsById) => {
+        const grants = valuesOf(grantsById);
+        return grants.find(grant => !grant.seen)
+    }
+)
+
+export const NihusimByGameId = createSelector(
+    Nihusim,
+    (nihusimById) => {
+        return groupBy(valuesOf(nihusimById), nihus => nihus.game_id)
     }
 )

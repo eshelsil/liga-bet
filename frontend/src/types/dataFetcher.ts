@@ -7,6 +7,7 @@ export enum CollectionName {
     Contestants = 'contestants',
     Leaderboard = 'leaderboard',
     LeaderboardVersions = 'leaderboardVersions',
+    NihusGrants = 'nihusGrants',
     PrimalBets = 'primalBets',
     Goals = 'goalsData',
 }

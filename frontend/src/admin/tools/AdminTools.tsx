@@ -15,6 +15,7 @@ function AdminTools() {
                 <Link onClick={() => history.push('/admin/users')}>Manage users</Link>
                 <Link onClick={() => history.push('/admin/see-scorers')}>צפה במבקיעים</Link>
                 <Link onClick={() => history.push('/admin/set-mvp')}>עדכן mvp</Link>
+                <Link onClick={() => history.push('/admin/grant-nihusim')}>הענק ניחוסים</Link>
                 <Link onClick={() => history.push('/admin/update-side-tournament-games')}>עדכן טורניר צדדי</Link>
                 <Link onClick={goToAdminInviteTournamentAdmin}>שלח הזמנה לפתיחת טורניר</Link>
             </div>
