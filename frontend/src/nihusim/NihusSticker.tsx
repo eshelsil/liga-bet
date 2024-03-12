@@ -108,13 +108,13 @@ const NihusSticker = ({nihus, showTargetUtl = false, blocking = false, onQuit}: 
                                             <div className={cn("absolute h-full w-full")}>
                                             <div className={cn("flex justify-center relative h-full w-full")}>
 
-                                                <img src={`/img/stickers/${gif}`} onLoad={()=>setImgLoaded(true)} className={cn("w-fit h-full")} />
+                                                <img src={`/img/stickers/${gif}`} onLoad={()=>setImgLoaded(true)} className={cn("max-w-full max-h-full object-contain")} />
                                             </div>
                                             </div>
                                             </div>
                                         </div>
                                         <div className={cn("relative w-full mt-2")}>
-                                            <p className={cn("text-white shadow-text ")} style={{fontSize:14}}>
+                                            <p className={cn("text-white shadow-text max-w-[600px] mx-auto")} style={{fontSize:14}}>
                                                 מאת: {senderUtl.name}
                                             </p>
                                             {animationDone && canQuit && (
