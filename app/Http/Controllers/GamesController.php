@@ -21,7 +21,9 @@ class GamesController extends Controller
         $data = $utl->tournament->competition->games
             ->map(fn(Game $group) => (new GameResource($group))->toArray($request));
 
-        return new JsonResponse($data, 200);
+        $response = new JsonResponse($data, 200);
+        $response->headers->set('X-App-Version', config("app.version"));
+        return $response;
     }
 
     public function getGoalsData(Request $request, string $tournamentId)
