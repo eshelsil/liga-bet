@@ -19,7 +19,7 @@ interface Props {
     bet: MatchBetWithRelations
     targetUtl: UtlBase
     currentUtl: UtlBase
-    onSubmit: (text: string, gif: string) => Promise<void>
+    onSubmit?: (text: string, gif: string) => Promise<void>
 }
 
 
@@ -38,7 +38,7 @@ export default function SendNihusDialog({
     const [previewOn, setPreviewOn] = useState(false)
 
     const submit = async () => {
-        onSubmit(text, gif).then(()=>{
+        onSubmit && onSubmit(text, gif).then(()=>{
             (window as any).toastr["success"]('הניחוס נשלח בהצלחה!')
             onClose()
         })
@@ -156,7 +156,7 @@ export default function SendNihusDialog({
                             variant='contained'
                             color='primary'
                             onClick={submit}
-                            disabled={disabled}
+                            disabled={disabled || !onSubmit}
                             className={cn("mt-5")}
                         >
                             שלח

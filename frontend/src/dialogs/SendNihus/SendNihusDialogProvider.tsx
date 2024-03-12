@@ -28,7 +28,7 @@ function SendNihusDialogProvider({ closeDialog, sendAndStoreNihus }: Props) {
     const currentUtl = useSelector(CurrentTournamentUser)
     const betsById = useSelector(MatchBetsLinked)
     const {gameId, targetUtlId} = data ?? {}
-    const bet = valuesOf(betsById).find(bet => bet.relatedMatch.id === gameId);
+    const bet = valuesOf(betsById).find(bet => bet.relatedMatch.id === gameId && bet.user_tournament_id === targetUtlId);
     const targetUtl = utlsById[targetUtlId];
     const tournamentId = useSelector(CurrentTournamentId)
 

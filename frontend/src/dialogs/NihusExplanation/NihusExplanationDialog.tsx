@@ -1,18 +1,20 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 import { Button } from '@mui/material'
-import { NihusGrant } from '@/types'
+import { BetType, NihusGrant, UtlRole } from '@/types'
 import { cn, valuesOf } from '@/utils'
 import { GumblerRow } from '@/gumblersList/GumblersList'
 import NihusimItemContent from '@/appHeader/NihusimItemContent'
 import { MatchResultV2 } from '@/widgets/MatchResult'
 import { useSelector } from 'react-redux'
-import { MatchesWithTeams } from '@/_selectors'
+import { CurrentTournamentUser, MatchesWithTeams } from '@/_selectors'
 import { LOCK_SCREEN_SECONDS } from '@/nihusim/NihusSticker'
+import SendNihusDialog from '../SendNihus/SendNihusDialog'
+import { fetchNihusGifs } from '@/api/nihusim'
 
 interface Props {
     open: boolean
@@ -28,10 +30,39 @@ export default function NihusGrantExplanationDialog({
     grant,
 }: Props) {
     const {amount, grant_reason} = grant ?? {};
+    const currentUtl = useSelector(CurrentTournamentUser)
     const gamesById = useSelector(MatchesWithTeams)
     const exampleGame = valuesOf(gamesById)[0]
+    const [nihusOpen, setNihusOpen] = useState(false)
+    const [gifs, setGifs] = useState(null)
+    const tournamentId = currentUtl?.tournament.id
+
+    useEffect(()=>{
+        if (gifs === null && tournamentId) {
+            fetchNihusGifs(tournamentId).then(setGifs)
+        }
+    },[gifs, tournamentId])
+
     return (
         <Dialog classes={{paper: cn('tn-m-4')}} open={open} onClose={onClose}>
+            <SendNihusDialog
+                open={nihusOpen}
+                onClose={() => setNihusOpen(false)}
+                bet={{
+                    id: -1,
+                    relatedMatch: exampleGame,
+                    result_home: 1,
+                    result_away: 1,
+                    winner_side: null,
+                    score: null,
+                    user_tournament_id: -1,
+                    type_id: -1,
+                    type: BetType.Match,
+                }}
+                targetUtl={{id: -1, name: 'יוסי מהכבדים', user_id: -1, role: UtlRole.Contestant}}
+                gifs={gifs ? gifs : []}
+                currentUtl={currentUtl}
+            />
             <div>
                 <DialogTitle>
                     <IconButton onClick={onClose} className={cn("absolute left-2 top-2")}>
@@ -54,7 +85,7 @@ export default function NihusGrantExplanationDialog({
                                     isKnockout={false}
                                 />
                             )}
-                            <GumblerRow gumbler={{id: -1, name: 'יוסי מהכבדים'}} showNihusable/>
+                            <GumblerRow gumbler={{id: -1, name: 'יוסי מהכבדים'}} showNihusable onNihusClick={() => setNihusOpen(true)}/>
                         </div>
                         <h5 className={cn("italic pr-3")}><span className={cn("underline")}>שים לב!</span> משתמש שיקבל ניחוס יישאר תקוע איתו על המסך ולא יוכל להתעלם ממנו למשך <b>{LOCK_SCREEN_SECONDS} שניות</b></h5>
                     </div>
