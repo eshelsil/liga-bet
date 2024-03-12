@@ -71,7 +71,7 @@ const NihusSticker = ({nihus, showTargetUtl = false, blocking = false, onQuit}: 
                             {"scale-100 rotate-[1080deg]": shown}
                         )} style={{animationDuration: '2s'}}>
                             <div className={cn("relative h-full w-full")}>
-                                <div className={cn("absolute h-full max-h-fit w-full top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 ")}>
+                                <div className={cn("absolute h-full w-full top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 ")}>
                                     <div className={cn("relative h-full flex flex-col")}>
                                         {showTargetUtl && (
                                         <div className={cn("relative w-full text-center text-white shadow-text underline mb-4")} style={{fontSize: 20}}>
@@ -106,9 +106,9 @@ const NihusSticker = ({nihus, showTargetUtl = false, blocking = false, onQuit}: 
                                         <div className={cn("flex-grow relative")}>
                                             <div className={cn("relative h-full w-full")}>
                                             <div className={cn("absolute h-full w-full")}>
-                                            <div className={cn("flex justify-center relative h-full w-full max-h-fit")}>
+                                            <div className={cn("flex justify-center relative h-full w-full")}>
 
-                                                <img src={`/img/stickers/${gif}`} onLoad={()=>setImgLoaded(true)} className={cn("w-fit h-full max-h-fit")} />
+                                                <img src={`/img/stickers/${gif}`} onLoad={()=>setImgLoaded(true)} className={cn("w-fit h-full")} />
                                             </div>
                                             </div>
                                             </div>
