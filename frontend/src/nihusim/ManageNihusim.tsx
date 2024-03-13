@@ -45,10 +45,10 @@ const ManageNihusim = () => {
                             </div>
                             <div className={cn("h-[1px] w-full bg-black/50")}/>
                             <div className={cn("flex items-center justify-evenly gap-4 pt-1")}>
-                                <img className={cn("h-10 w-fit")} src={`/img/stickers/${nihus.gif}`}/>
+                                <img className={cn("h-10 object-contain")} src={`/img/stickers/${nihus.gif}`}/>
                                 <div className={cn("flex flex-col")}>
                                     <p>טקסט</p>
-                                    <p className={cn("text-sm max-w-[200px] max-h-60px overflow-hidden text-ellipsis gap-2")}>
+                                    <p className={cn("text-sm max-w-[200px] min-w-[90px] max-h-60px overflow-hidden text-ellipsis gap-2")}>
                                         {nihus.text}
                                     </p>
                                 </div>
