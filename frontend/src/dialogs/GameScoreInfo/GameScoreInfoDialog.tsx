@@ -59,7 +59,9 @@ export default function GameScoreInfoDialog({
                     <IconButton onClick={onClose} className={cn("absolute top-2 left-2")}>
                         <CloseIcon />
                     </IconButton>
-                    הגדרות ניקוד
+                    <div className={cn("text-[24px]")}>
+                        הגדרות ניקוד
+                    </div>
                 </DialogTitle>
                 <DialogContent>
                     <h5 className={cn("mb-5 text-base")}><span className={cn('underline')}>שלב:</span> {getHebStageName(stage)}</h5>
