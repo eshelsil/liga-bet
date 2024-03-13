@@ -18,7 +18,7 @@ export const NihusimWithRelations = createSelector(
                 targetedUtl: utlsById[nihus.target_utl_id],
                 senderUtl: utlsById[nihus.sender_utl_id],
                 game: gamesById[nihus.game_id],
-                bet: valuesOf(matchBetsById).find(bet => bet.user_tournament_id === nihus.target_utl_id),
+                bet: valuesOf(matchBetsById).find(bet => bet.user_tournament_id === nihus.target_utl_id && bet.type_id === nihus.game_id),
             })),
             n => !!n.targetedUtl && !!n.senderUtl && !!n.game && !!n.bet
         );
