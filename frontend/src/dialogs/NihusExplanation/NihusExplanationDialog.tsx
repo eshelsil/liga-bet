@@ -43,6 +43,8 @@ export default function NihusGrantExplanationDialog({
         }
     },[gifs, tournamentId])
 
+    if (!exampleGame) return null;
+
     return (
         <Dialog classes={{paper: cn('tn-m-4')}} open={open} onClose={onClose}>
             <SendNihusDialog
