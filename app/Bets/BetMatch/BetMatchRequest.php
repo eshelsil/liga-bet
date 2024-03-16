@@ -173,6 +173,9 @@ class BetMatchRequest extends AbstractBetRequest
         $resultAway = $game->result_away;
 
         $score = 0;
+        if (is_null($this->getResultHome()) || is_null($this->getResultAway())) {
+            return 0;
+        }
         if ($resultHome == $this->getResultHome() && $resultAway == $this->getResultAway()) {
             $score += $this->getScoreConfig("gameBets.{$type}.result");
         }
