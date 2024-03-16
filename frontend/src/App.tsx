@@ -11,6 +11,7 @@ import RTL from './_helpers/RTL'
 import AppLoader from './appLoader'
 import SuspenseWithLoader from './_helpers/SuspenseWithLoader'
 import { CrucialLoader } from './types'
+import SentryController from './SentryController'
 
 const AppMain = lazy(() => import('./AppMain'));
 
@@ -19,21 +20,23 @@ const customHistory = createBrowserHistory()
 
 function App() {
     return (
-        <StoreProvider store={store}>
-            <ThemeProvider theme={theme}>
-                <RTL>
-                    <Router history={customHistory}>
-                        <AuthController>
-                            {/*<Banner />*/}
-                            <SuspenseWithLoader name={CrucialLoader.Main}>
-                                <AppMain />
-                            </SuspenseWithLoader>
-                            <AppLoader />
-                        </AuthController>
-                    </Router>
-                </RTL>
-            </ThemeProvider>
-        </StoreProvider>
+        <SentryController>
+            <StoreProvider store={store}>
+                <ThemeProvider theme={theme}>
+                    <RTL>
+                        <Router history={customHistory}>
+                            <AuthController>
+                                {/*<Banner />*/}
+                                <SuspenseWithLoader name={CrucialLoader.Main}>
+                                    <AppMain />
+                                </SuspenseWithLoader>
+                                <AppLoader />
+                            </AuthController>
+                        </Router>
+                    </RTL>
+                </ThemeProvider>
+            </StoreProvider>
+        </SentryController>
     )
 }
 
