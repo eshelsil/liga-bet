@@ -72,3 +72,12 @@ export const updateSideTournamentGames = async (
         data: {tournamentId, gameDay, sideTournamentId},
     })
 }
+
+export const markUpdateGameStartTime = async (
+    tournamentId: number,
+): Promise<any> => {
+    return await sendApiRequest({
+        url: `/admin/fix-games-start-time/${tournamentId}`,
+        type: 'POST',
+    })
+}

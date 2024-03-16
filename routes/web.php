@@ -80,6 +80,7 @@ Route::delete('/admin/delete-user', [AdminController::class, 'deleteUser']);
 Route::post('/admin/create-monkey-user', [AdminController::class, 'createMonkey']);
 Route::post('/admin/update-side-tournament-games', [AdminController::class, 'updateSideTournamentGames']);
 Route::post('/admin/nihusim', [AdminController::class, 'grantNihusim']);
+Route::post('/admin/fix-games-start-time/{tournamentId}', [AdminController::class, 'markCompetitionAsShouldUpdateGames']);
 
 Route::get('/notifications/send', [AdminController::class, 'sendAll']);
 

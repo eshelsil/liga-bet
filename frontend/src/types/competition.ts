@@ -7,6 +7,7 @@ export enum CompetitionType {
 
 export interface CompetitionConfig {
     type?: CompetitionType
+    update_upcoming_games_start_time?: boolean
 }
 
 export interface Competition {

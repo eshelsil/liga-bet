@@ -297,6 +297,16 @@ class AdminController extends Controller
         });
     }
 
+    public function markCompetitionAsShouldUpdateGames($tournamentId){
+        $tournament = Tournament::find($tournamentId);
+        $competition = $tournament->competition;
+        $config = $competition->config;
+        $config['update_upcoming_games_start_time'] = true;
+        $competition->config = $config;
+        $competition->save();
+        return new JsonResponse([], 200);
+    }
+
     public function calculateGroupRanks(){
         $completedGroups = Group::all()->filter(function($g){
             return $g->isComplete();
