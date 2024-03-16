@@ -53,12 +53,25 @@ export function calcLiveAddedScore({
     })
 }
 
-export function calcGainedPointsOnGameBet(bet: MatchBetWithRelations, config: MatchBetsScoreConfig){
+export function calcGainedPointsOnGameBet90Min({
+    bet_home,
+    bet_away,
+    result_home,
+    result_away,
+    scoreConfig,
+    bonusConfig,
+}: {
+    bet_home: number,
+    bet_away: number,
+    result_home: number,
+    result_away: number,
+    scoreConfig: GameBetScoreConfig,
+    bonusConfig: GameBetScoreConfig,
+}){
     let score = 0;
-    const {relatedMatch: game, result_home: bet_home, result_away: bet_away, winner_side: bet_qualifier} = bet
-    const {result_home, result_away, is_knockout, subType, isTwoLeggedTie} = game
-    const scoreConfig = is_knockout ? config.knockout : config.groupStage
-    const bonusConfig: GameBetScoreConfig = (is_knockout ? config.bonuses[subType] : undefined) ?? {result: 0,  winnerSide: 0, qualifier: 0}
+    if (bet_home === null || bet_away === null){
+        return 0;
+    }
     if (result_home === bet_home && result_away === bet_away){
         score += scoreConfig.result
         score += bonusConfig.result
@@ -67,6 +80,21 @@ export function calcGainedPointsOnGameBet(bet: MatchBetWithRelations, config: Ma
         score += scoreConfig.winnerSide
         score += bonusConfig.winnerSide
     }
+    return score;
+}
+
+export function calcGainedPointsOnGameBetQualifier({
+    bet,
+    scoreConfig,
+    bonusConfig,
+}: {
+    bet: MatchBetWithRelations,
+    scoreConfig: GameBetScoreConfig,
+    bonusConfig: GameBetScoreConfig,
+}){
+    let score = 0;
+    const {relatedMatch: game, result_home: bet_home, result_away: bet_away, winner_side: bet_qualifier} = bet
+    const { isTwoLeggedTie, is_knockout } = game
     const koWinnerSideBet = isTwoLeggedTie ? bet_qualifier : getWinnerSide(bet_home, bet_away, bet_qualifier);
     if (
         is_knockout && scoreConfig.qualifier > 0
@@ -75,6 +103,17 @@ export function calcGainedPointsOnGameBet(bet: MatchBetWithRelations, config: Ma
         score += scoreConfig.qualifier
         score += bonusConfig.qualifier
     }
+    return score;
+}
+
+export function calcGainedPointsOnGameBet(bet: MatchBetWithRelations, config: MatchBetsScoreConfig){
+    let score = 0;
+    const {relatedMatch: game, result_home: bet_home, result_away: bet_away, winner_side: bet_qualifier} = bet
+    const {result_home, result_away, is_knockout, subType, isTwoLeggedTie} = game
+    const scoreConfig = is_knockout ? config.knockout : config.groupStage
+    const bonusConfig: GameBetScoreConfig = (is_knockout ? config.bonuses[subType] : undefined) ?? {result: 0,  winnerSide: 0, qualifier: 0}
+    score += calcGainedPointsOnGameBet90Min({result_away, result_home, bet_away, bet_home, scoreConfig, bonusConfig});
+    score += calcGainedPointsOnGameBetQualifier({bet, scoreConfig, bonusConfig});
     return score;
 }
 
