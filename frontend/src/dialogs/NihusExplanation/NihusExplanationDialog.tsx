@@ -38,7 +38,7 @@ export default function NihusGrantExplanationDialog({
     const tournamentId = currentUtl?.tournament.id
 
     useEffect(()=>{
-        if (gifs === null && tournamentId) {
+        if (gifs === null && tournamentId && open) {
             fetchNihusGifs(tournamentId).then(setGifs)
         }
     },[gifs, tournamentId])
