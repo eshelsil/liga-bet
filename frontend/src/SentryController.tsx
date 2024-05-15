@@ -1,15 +1,11 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import * as Sentry from "@sentry/react";
 import { cn } from "./utils";
 import { Button } from "@mui/material";
 
 
 
-Sentry.init({
-    dsn: "https://e78e59b523e122101ff066b055b09c30@o4506902709600256.ingest.us.sentry.io/4506902712877056",
-    integrations: [],
-    environment: process.env.NODE_ENV ?? 'development',
-  });
+
 
 function UnexpectedError(){
     return (
@@ -24,6 +20,13 @@ function UnexpectedError(){
 }
 
 function SentryController({children}: {children: ReactNode}) {
+    useEffect(()=>{
+        Sentry.init({
+            dsn: "https://e78e59b523e122101ff066b055b09c30@o4506902709600256.ingest.us.sentry.io/4506902712877056",
+            integrations: [],
+            environment: process.env.NODE_ENV ?? 'development',
+        });
+    },[])
 
     return (
         <Sentry.ErrorBoundary fallback={<UnexpectedError />}>
