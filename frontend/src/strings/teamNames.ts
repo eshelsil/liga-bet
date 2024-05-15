@@ -50,6 +50,10 @@ export const teamNameToHebrew = {
     slovakia: 'סלובקיה',
     hungary: 'הונגריה',
     peru: 'פרו',
+    albania: 'אלבניה',
+    georgia: 'גיאורגיה',
+    romania: 'רומניה',
+    slovenia: 'סלובניה',
 }
 
 export function getHebTeamName(name: string){

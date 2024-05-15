@@ -15,7 +15,7 @@ import {
     TextField,
 } from '@mui/material'
 import useGoTo from '../hooks/useGoTo'
-import { keysOf } from '../utils'
+import { cn, keysOf } from '../utils'
 import { LoadingButton } from '../widgets/Buttons'
 
 interface Props {
@@ -99,7 +99,7 @@ function CreateNewTournament({
                 <div className='LB-CreateNewTournament-content'>
                     {isOnlyOneCompetition && selectedCompetition && (
                         <div className='LB-CompetitionTitle'>
-                            <div className='competitionIcon' style={{backgroundImage: `url('${selectedCompetition.emblem}')`}} />
+                            <img src={selectedCompetition.emblem} className={cn("h-[60px] ml-2 object-contain")} />
                             <h2>{selectedCompetition.name}</h2>
                         </div>
                     )}

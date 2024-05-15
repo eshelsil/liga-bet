@@ -25,6 +25,7 @@ const teamNameToCountryCode = {
     'serbia': 'rs',
     'switzerland': 'ch',
     'south korea': 'kr',
+    'slovenia': 'si',
 
     'nigeria': 'ng',
     'iceland': 'is',
