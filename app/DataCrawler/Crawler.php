@@ -365,6 +365,18 @@ class Crawler
             765  => 5028, // Portugal
             772  => 2383, // South Korea
             758  => 5073, // Uruguay
+            8873 => 5069, // Scotland  
+            827 => 5026, // Hungary  
+            1065 => 5029, // Albania  
+            784 => 2375, // Italy  
+            777 => 5041, // Slovenia  
+            816 => 5059, // Austria  
+            811 => 5060, // Romania  
+            768 => 5039, // Slovakia  
+            790 => 5057, // Ukraine  
+            1978 => 5066, // Georgia  
+            803 => 5047, // Turkey  
+            798 => 5040, // Czech Republic  
 
             
             // Champions League:
