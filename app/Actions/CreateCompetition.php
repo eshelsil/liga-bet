@@ -16,6 +16,7 @@ use App\Player;
 use App\Team;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class CreateCompetition
 {
