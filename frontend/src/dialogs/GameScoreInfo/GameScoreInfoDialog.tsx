@@ -67,6 +67,7 @@ export default function GameScoreInfoDialog({
                     <h5 className={cn("mb-5 text-base")}><span className={cn('underline')}>שלב:</span> {getHebStageName(stage)}</h5>
                     {keysOf(betScoreConfig).sort(sortBetSlices).map((key) => (
                         <ScorableRow
+                            key={key}
                             score={betScoreConfig[key]}
                             type={key}
                             game={game}
