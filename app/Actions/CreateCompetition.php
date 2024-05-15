@@ -84,7 +84,7 @@ class CreateCompetition
             "crawler" => "football-data.org",
             "external_id" => $id,
         ];
-        if (Str::upp($id) == 'ec'){
+        if (Str::lower($id) == 'ec'){
             $competition->emblem = "https://upload.wikimedia.org/wikipedia/en/thumb/2/26/UEFA_Euro_2024_Logo.svg/220px-UEFA_Euro_2024_Logo.svg.png";
             $competition->name="יורו 2024";
         }
