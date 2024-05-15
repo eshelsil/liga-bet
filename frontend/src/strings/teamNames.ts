@@ -46,6 +46,7 @@ export const teamNameToHebrew = {
     ukraine: 'אוקראינה',
     'north macedonia': 'צפון מקדוניה',
     'czech republic': 'צ\'כיה',
+    'czechia': 'צ\'כיה',
     scotland: 'סקוטלנד',
     slovakia: 'סלובקיה',
     hungary: 'הונגריה',
