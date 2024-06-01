@@ -55,6 +55,10 @@ const scoreboardSettings = createSlice({
                 state.destinationVersion = undefined
             }
         },
+        resetSettings: (state,action: PayloadAction<number> ) => {
+            const tournamentId = action.payload
+            delete state[tournamentId]
+        }
     },
 })
 

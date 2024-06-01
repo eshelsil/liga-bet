@@ -1,7 +1,32 @@
 import { createSelector } from 'reselect'
 import { isBetBelongsToSideTournament, keysOf } from '../utils'
-import { CurrentSideTournamentId, CurrentTournament, IsSideTournament, IsTournamentStarted } from './base'
-import { GamesIncludedInCurrentLeaderboard, GroupStandingsDiscludedByHistoricLeaderboard, IsCurrentLeaderboardMissing, LiveGameBetsWithRelevantScoreByUtlId, LiveGroupRankBetsWithScoreByUtlId, LiveRunnerUpBetsWithScoreByUtlId, LiveSpecialAnswers, LiveTopAssistsBetsWithScoreByUtlId, LiveTopScorerBetsWithScoreByUtlId, LiveWinnerBetsWithScoreByUtlId, PrimalBetsScoresOverrideByLeaderboardSettings, ScoreboardSelector, SpecialBetAnswersDiscludedByHistoricLeaderboard } from './logic'
+import {
+    CurrentSideTournamentId,
+    CurrentTournament,
+    IsSideTournament,
+    IsTournamentStarted,
+} from './base'
+import {
+    GamesIncludedInCurrentLeaderboard,
+    GroupStandingsDiscludedByHistoricLeaderboard,
+    IsCurrentLeaderboardMissing,
+    LiveGameBetsWithRelevantScoreByUtlId,
+    LiveGroupRankBetsWithScoreByUtlId,
+    LiveRunnerUpBetsWithScoreByUtlId,
+    LiveSpecialAnswers,
+    LiveTopAssistsBetsWithScoreByUtlId,
+    LiveTopScorerBetsWithScoreByUtlId,
+    LiveWinnerBetsWithScoreByUtlId,
+    PrimalBetsScoresOverrideByLeaderboardSettings,
+    ScoreboardSelector,
+    SpecialBetAnswersDiscludedByHistoricLeaderboard,
+    WhatifGameBetsWithRelevantScoreByUtlId,
+    WhatifRunnerUpBetsWithScoreByUtlId,
+    WhatifSpecialAnswers,
+    WhatifTopAssistsBetsWithScoreByUtlId,
+    WhatifTopScorerBetsWithScoreByUtlId,
+    WhatifWinnerBetsWithScoreByUtlId,
+} from './logic'
 import {
     GroupStandingBetsLinked,
     LiveGroupStandingsWithTeams,
@@ -15,7 +40,12 @@ export const LeaderboardSelector = createSelector(
     IsCurrentLeaderboardMissing,
     IsTournamentStarted,
     IsSideTournament,
-    (leaderboard, isCurrentLeaderboardMissing, hasTournamentStarted, isSideTournament) => {
+    (
+        leaderboard,
+        isCurrentLeaderboardMissing,
+        hasTournamentStarted,
+        isSideTournament
+    ) => {
         return {
             leaderboard: leaderboard,
             isCurrentLeaderboardMissing,
@@ -41,6 +71,12 @@ export const ContestantSelector = createSelector(
     LiveTopScorerBetsWithScoreByUtlId,
     LiveTopAssistsBetsWithScoreByUtlId,
     LiveSpecialAnswers,
+    WhatifGameBetsWithRelevantScoreByUtlId,
+    WhatifWinnerBetsWithScoreByUtlId,
+    WhatifRunnerUpBetsWithScoreByUtlId,
+    WhatifTopScorerBetsWithScoreByUtlId,
+    WhatifTopAssistsBetsWithScoreByUtlId,
+    WhatifSpecialAnswers,
     CurrentSideTournamentId,
     CurrentTournament,
     (
@@ -59,47 +95,66 @@ export const ContestantSelector = createSelector(
         liveTopScorerBetsByUtlId,
         liveTopAssistsBetsByUtlId,
         liveSpecialAnswers,
+        whatifGameBetsByUtlId,
+        whatifWinnerBetsByUtlId,
+        whatifRunnerUpBetsByUtlId,
+        whatifTopScorerBetsByUtlId,
+        whatifTopAssistsBetsByUtlId,
+        whatifSpecialAnswers,
         sideTournamentId,
         currentTournament,
     ) => {
         const gamesIncludedById = keyBy(gamesIncludedInLeaderboard, 'id')
-        const relevantMatchBets = pickBy(matchBets, (bet) => (
-            bet.score > 0
-            && !!gamesIncludedById[bet.type_id]
-            && isBetBelongsToSideTournament(bet, currentTournament, sideTournamentId)
-        ))
+        const relevantMatchBets = pickBy(
+            matchBets,
+            (bet) =>
+                bet.score > 0 &&
+                !!gamesIncludedById[bet.type_id] &&
+                isBetBelongsToSideTournament(
+                    bet,
+                    currentTournament,
+                    sideTournamentId
+                )
+        )
         const matchBetsByUserId = groupBy(
             relevantMatchBets,
             'user_tournament_id'
         )
         const groupStandingBetsByUserId = groupBy(
-            mapValues(groupStandingBets, bet => ({
+            mapValues(groupStandingBets, (bet) => ({
                 ...bet,
                 relatedGroup: {
                     ...bet.relatedGroup,
-                    ...(groupIdsOverridedAsNotDone.includes(bet.relatedGroup.id) ? {
-                        isDone: false
-                    } : {}),
+                    ...(groupIdsOverridedAsNotDone.includes(bet.relatedGroup.id)
+                        ? {
+                              isDone: false,
+                          }
+                        : {}),
                 },
                 score: primalBetsScoreOverride[bet.id] ?? bet.score,
             })),
             'user_tournament_id'
         )
         const questionBetsByUserId = groupBy(
-            mapValues(questionBets, bet => ({
+            mapValues(questionBets, (bet) => ({
                 ...bet,
                 relatedQuestion: {
                     ...bet.relatedQuestion,
-                    ...(specialQuestionIdsOverridedAsNotDone.includes(bet.relatedQuestion.id) ? {
-                        answer: []
-                    } : {}),
+                    ...(specialQuestionIdsOverridedAsNotDone.includes(
+                        bet.relatedQuestion.id
+                    )
+                        ? {
+                              answer: [],
+                          }
+                        : {}),
                 },
-                score: primalBetsScoreOverride[bet.id] ?? bet.score
+                score: primalBetsScoreOverride[bet.id] ?? bet.score,
             })),
             'user_tournament_id'
         )
 
         const liveQuestionBetsByUtlId: Record<number, any> = {}
+        const whatifQuestionBetsByUtlId: Record<number, any> = {}
         for (const utlId of keysOf(liveWinnerBetsByUtlId) as number[]) {
             if (!liveQuestionBetsByUtlId[utlId]) {
                 liveQuestionBetsByUtlId[utlId] = []
@@ -122,7 +177,35 @@ export const ContestantSelector = createSelector(
             if (!liveQuestionBetsByUtlId[utlId]) {
                 liveQuestionBetsByUtlId[utlId] = []
             }
-            liveQuestionBetsByUtlId[utlId].push(liveTopAssistsBetsByUtlId[utlId])
+            liveQuestionBetsByUtlId[utlId].push(
+                liveTopAssistsBetsByUtlId[utlId]
+            )
+        }
+        for (const utlId of keysOf(whatifWinnerBetsByUtlId) as number[]) {
+            if (!whatifQuestionBetsByUtlId[utlId]) {
+                whatifQuestionBetsByUtlId[utlId] = []
+            }
+            whatifQuestionBetsByUtlId[utlId].push(whatifWinnerBetsByUtlId[utlId])
+        }
+        for (const utlId of keysOf(whatifRunnerUpBetsByUtlId) as number[]) {
+            if (!whatifQuestionBetsByUtlId[utlId]) {
+                whatifQuestionBetsByUtlId[utlId] = []
+            }
+            whatifQuestionBetsByUtlId[utlId].push(whatifRunnerUpBetsByUtlId[utlId])
+        }
+        for (const utlId of keysOf(whatifTopScorerBetsByUtlId) as number[]) {
+            if (!whatifQuestionBetsByUtlId[utlId]) {
+                whatifQuestionBetsByUtlId[utlId] = []
+            }
+            whatifQuestionBetsByUtlId[utlId].push(whatifTopScorerBetsByUtlId[utlId])
+        }
+        for (const utlId of keysOf(whatifTopAssistsBetsByUtlId) as number[]) {
+            if (!whatifQuestionBetsByUtlId[utlId]) {
+                whatifQuestionBetsByUtlId[utlId] = []
+            }
+            whatifQuestionBetsByUtlId[utlId].push(
+                whatifTopAssistsBetsByUtlId[utlId]
+            )
         }
         return {
             matchBetsByUserId,
@@ -131,9 +214,18 @@ export const ContestantSelector = createSelector(
             liveGameBetsByUtlId,
             liveGroupRankBetsByUtlId,
             liveStandingsByGroupId,
-            liveQuestionBetsByUtlId: mapValues(liveQuestionBetsByUtlId, betsSlices => concat(...betsSlices)),
+            liveQuestionBetsByUtlId: mapValues(
+                liveQuestionBetsByUtlId,
+                (betsSlices) => concat(...betsSlices)
+            ),
             liveSpecialAnswers,
-            isSideTournament: !!sideTournamentId
+            whatifGameBetsByUtlId,
+            whatifQuestionBetsByUtlId: mapValues(
+                whatifQuestionBetsByUtlId,
+                (betsSlices) => concat(...betsSlices)
+            ),
+            whatifSpecialAnswers,
+            isSideTournament: !!sideTournamentId,
         }
     }
 )

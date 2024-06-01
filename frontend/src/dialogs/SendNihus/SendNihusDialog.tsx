@@ -119,8 +119,8 @@ export default function SendNihusDialog({
                             fullWidth
                             MenuProps={{
                                 classes: {
-                                    paper: 'TeamInput-paper',
-                                    list: 'TeamInput-list',
+                                    paper: cn('mt-2'),
+                                    list: cn('max-h-[400px]'),
                                 }
                             }}
                         >

@@ -58,7 +58,7 @@ interface ScorerData {
     assists: number,
 }
 
-type PlayerGoalsDataById = Record<number, ScorerData>
+export type PlayerGoalsDataById = Record<number, ScorerData>
 
 export const LiveGoalsDataByPlayerId = createSelector(
     LiveGamesIds,

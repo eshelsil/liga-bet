@@ -12,17 +12,19 @@ import { WinnerBetByUtlId } from '../_selectors';
 import { ExpandedContestantContext } from './ExpandedContestantContext';
 
 
-function NameWithWinnerFlag({
+export function NameWithWinnerFlag({
     name,
     winnerBet,
+    flagSize = 32,
 } : {
     name: string,
     winnerBet: QuestionBetWithRelations,
+    flagSize?: number,
 }){
     return (
         <div className='LB-NameWithWinnerFlag'>
             {winnerBet && (
-                <TeamFlag team={winnerBet.answer as Team} size={32} />
+                <TeamFlag team={winnerBet.answer as Team} size={flagSize} />
             )}
             {!winnerBet && (
                 <div className='NameWithWinnerFlag-noWinner' />

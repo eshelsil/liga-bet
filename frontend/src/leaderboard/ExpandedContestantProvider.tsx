@@ -7,9 +7,10 @@ import {
     SpecialQuestionAnswer,
     Team,
 } from '../types'
-import { ContestantSelector } from '../_selectors'
+import { ContestantSelector, IsWhatifOn } from '../_selectors'
 import ExpandedContestantView from './ExpandedContestantView'
 import { Dictionary } from 'lodash'
+import { useSelector } from 'react-redux'
 
 interface Props {
     matchBetsByUserId: Dictionary<MatchBetWithRelations[]>
@@ -20,6 +21,9 @@ interface Props {
     liveStandingsByGroupId: Record<number, Team[]>
     liveQuestionBetsByUtlId: Dictionary<QuestionBetWithRelations[]>
     liveSpecialAnswers: Record<number, SpecialQuestionAnswer[]>
+    whatifGameBetsByUtlId: Dictionary<MatchBetWithRelations[]>
+    whatifQuestionBetsByUtlId: Dictionary<QuestionBetWithRelations[]>
+    whatifSpecialAnswers: Record<number, SpecialQuestionAnswer[]>
     utlId: number
     isSideTournament: boolean
     isLive?: boolean
@@ -36,20 +40,24 @@ export function ExpandedContestantProvider({
     liveStandingsByGroupId,
     liveQuestionBetsByUtlId,
     liveSpecialAnswers,
+    whatifGameBetsByUtlId,
+    whatifQuestionBetsByUtlId,
+    whatifSpecialAnswers,
     isSideTournament,
 }: Props) {
+    const isWhatifOn = useSelector(IsWhatifOn)
     const matchBets = matchBetsByUserId[utlId] ?? []
-    const liveGameBets = liveGameBetsByUtlId[utlId] ?? []
+    const liveGameBets = isWhatifOn ? (whatifGameBetsByUtlId[utlId] ?? []) : (liveGameBetsByUtlId[utlId] ?? [])
     const questionBets = questionBetsByUserId[utlId] ?? []
     const groupStandingsBets =
         groupStandingBetsByUserId[utlId] ?? []
     const liveGroupRankBets = liveGroupRankBetsByUtlId[utlId] ?? []
-    const liveQuestionBets = liveQuestionBetsByUtlId[utlId] ?? []
+    const liveQuestionBets = isWhatifOn ? (whatifQuestionBetsByUtlId[utlId]) : (liveQuestionBetsByUtlId[utlId] ?? [])
     
     return (
         <ExpandedContestantView
             utlId={utlId}
-            isLive={isLive}
+            isLive={isLive || isWhatifOn}
             matchBets={matchBets}
             liveGameBets={liveGameBets}
             liveGroupRankBets={liveGroupRankBets}
@@ -57,7 +65,7 @@ export function ExpandedContestantProvider({
             questionBets={questionBets}
             groupStandingsBets={groupStandingsBets}
             liveQuestionBets={liveQuestionBets}
-            liveSpecialAnswers={liveSpecialAnswers}
+            liveSpecialAnswers={isWhatifOn ? whatifSpecialAnswers : liveSpecialAnswers}
             isSideTournament={isSideTournament}
         />
     )

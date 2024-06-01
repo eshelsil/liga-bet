@@ -49,3 +49,7 @@ export function handlerNoPropagation<T>(
         return func(e);
     };
 }
+
+export function generateRandomId(){
+    return Math.floor(1e7 + Math.random() * 1e7)
+}

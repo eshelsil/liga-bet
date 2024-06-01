@@ -48,6 +48,7 @@ export const ScoreboardSettingsState = (state: RootState) => state.scoreboardSet
 export const AdminData = (state: RootState) => state.admin
 export const GameGoalsDataState = (state: RootState) => state.goalsData
 export const SelectedSideTournamentId = (state: RootState) => state.selectedSideTournamentId
+export const WhatifState = (state: RootState) => state.whatif
 
 
 

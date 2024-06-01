@@ -9,7 +9,8 @@ import OpenMatchesView from './openMatchesView'
 import { BetType, MatchWithABet, WinnerSide } from '../types'
 import { MatchBetUpdatePayload } from '../api/bets'
 import { useAllGameBets, useGames } from '../hooks/useFetcher'
-import {IsQualifierBetOn} from "../_selectors";
+import {IsQualifierBetOn, IsWhatifOn} from "../_selectors";
+import WhatifInputs from '@/whatifs/WhatifInputsView'
 
 interface Props {
     matches: MatchWithABet[]
@@ -24,6 +25,7 @@ const OpenMatchesProvider = ({
 }: Props) => {
 
     const hasQualifierBet = useSelector(IsQualifierBetOn)
+    const isWhatifOn = useSelector(IsWhatifOn)
 
     useGames(true);
     useAllGameBets();
@@ -86,7 +88,15 @@ const OpenMatchesProvider = ({
             forAllTournaments,
         })
     }
-    return <OpenMatchesView matches={matches} notifications={notifications} sendBet={sendMatchBet} />
+    return (<>
+        {isWhatifOn && (
+            <WhatifInputs matches={matches}/>
+        )}
+        {!isWhatifOn && (
+            <OpenMatchesView matches={matches} notifications={notifications} sendBet={sendMatchBet} />
+        )}
+    </>)
+
 }
 
 const mapDispatchToProps = {

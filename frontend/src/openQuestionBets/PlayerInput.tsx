@@ -5,6 +5,8 @@ import { PlayersByTeamId, PlayersWithTeams } from '../_selectors'
 import PlayerWithImg from '../widgets/Player'
 import TeamInput from './TeamInput'
 import { sortBy } from 'lodash'
+import { cn } from '@/utils'
+import { Team } from '@/types'
 
 
 const alephBet = 'אבגדהוזחטיכלמנסעפצקרשת'
@@ -12,14 +14,20 @@ const alephBet = 'אבגדהוזחטיכלמנסעפצקרשת'
 function PlayerInput({
     value,
     onChange,
+    relevantTeams,
+    selectedTeam,
+    withLabel = true,
 }: {
     value: number
     onChange: (team: number) => void
+    selectedTeam?: number
+    withLabel?: boolean
+    relevantTeams?: Team[]
 }) {
     const playersByTeamId = useSelector(PlayersByTeamId)
     const playersById = useSelector(PlayersWithTeams)
     const selectedPlayer = playersById[value]
-    const [team, setTeam] = useState<number>(selectedPlayer?.team?.id)
+    const [team, setTeam] = useState<number>(selectedPlayer?.team?.id ?? selectedTeam)
     const players = sortBy(
         (playersByTeamId[team] ?? []),
         [
@@ -46,8 +54,10 @@ function PlayerInput({
 
     return (
         <div className={'LB-PlayerInput'}>
-            <TeamInput value={team} onChange={setTeam} />
-            <InputLabel id={`team-input-label`}>בחר שחקן</InputLabel>
+            <TeamInput value={team} onChange={setTeam} relevantTeams={relevantTeams} withLabel={withLabel} />
+            {withLabel && (
+                <InputLabel id={`team-input-label`}>בחר שחקן</InputLabel>
+            )}
             <Select
                 placeholder={'בחר שחקן'}
                 label="בחר שחקן"
@@ -68,8 +78,8 @@ function PlayerInput({
                 fullWidth
                 MenuProps={{
                     classes: {
-                        paper: 'PlayerInput-paper',
-                        list: 'PlayerInput-list',
+                        paper: cn('mt-2'),
+                        list: cn('max-h-[400px]'),
                     }
                 }}
             >

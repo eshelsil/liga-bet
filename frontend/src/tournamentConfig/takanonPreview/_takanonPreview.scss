@@ -11,6 +11,9 @@
 
 .LigaBet-TakanonPreviewModal {
     margin-top: 20px;
+    &.mt-0 {
+        margin-top: 0;
+    }
     .openTakanonDemoLink {
         font-size: 16px;
         cursor: pointer;

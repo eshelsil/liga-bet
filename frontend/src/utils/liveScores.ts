@@ -96,9 +96,10 @@ export function calcGainedPointsOnGameBetQualifier({
     const {relatedMatch: game, result_home: bet_home, result_away: bet_away, winner_side: bet_qualifier} = bet
     const { isTwoLeggedTie, is_knockout } = game
     const koWinnerSideBet = isTwoLeggedTie ? bet_qualifier : getWinnerSide(bet_home, bet_away, bet_qualifier);
+    const gameQualifier = getQualifierSide(game)
     if (
         is_knockout && scoreConfig.qualifier > 0
-        && getQualifierSide(game) === koWinnerSideBet
+        && gameQualifier === koWinnerSideBet && gameQualifier !== null
     ){
         score += scoreConfig.qualifier
         score += bonusConfig.qualifier

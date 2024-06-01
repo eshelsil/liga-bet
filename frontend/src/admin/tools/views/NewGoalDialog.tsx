@@ -8,7 +8,7 @@ import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import { GameGoalsData, Match, Player } from '../../../types'
 import PlayerWithImg from '../../../widgets/Player'
 import { Dictionary, pickBy, sortBy } from 'lodash'
-import { valuesOf } from '../../../utils'
+import { cn, valuesOf } from '../../../utils'
 import TeamWithFlag from '../../../widgets/TeamFlag/TeamWithFlag'
 import { useSelector } from 'react-redux'
 import { PlayersWithTeams } from '../../../_selectors'
@@ -166,8 +166,8 @@ export default function NewGoalDialog({
                         fullWidth
                         MenuProps={{
                             classes: {
-                                paper: 'TeamInput-paper',
-                                list: 'TeamInput-list',
+                                paper: cn('mt-2'),
+                                list: cn('max-h-[400px]'),
                             }
                         }}
                     >

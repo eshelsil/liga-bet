@@ -3,9 +3,10 @@ import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import { useSelector } from 'react-redux'
 import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
 import { Teams } from '../_selectors'
-import { valuesOf } from '../utils'
+import { cn, valuesOf } from '../utils'
 import { sortBy } from 'lodash'
 import { getHebTeamName } from '../strings/teamNames'
+import { Team } from '@/types'
 
 
 
@@ -13,9 +14,13 @@ import { getHebTeamName } from '../strings/teamNames'
 function TeamInput({
     value,
     onChange,
+    relevantTeams,
+    withLabel = true,
 }: {
     value: number
     onChange: (team: number) => void
+    withLabel?: boolean
+    relevantTeams?: Team[]
 }) {
     const teamsById = useSelector(Teams)
     const teamsSortedByName = sortBy(
@@ -24,6 +29,9 @@ function TeamInput({
             (team) => getHebTeamName(team.name)
         ]
     )
+    if (!relevantTeams){
+        relevantTeams = teamsSortedByName
+    }
 
     const handleChange = (e: SelectChangeEvent<number>) => {
         const teamId = e.target.value as number
@@ -32,7 +40,9 @@ function TeamInput({
 
     return (
         <div className={'LB-TeamInput'}>
-            <InputLabel>בחר קבוצה</InputLabel>
+            {withLabel && (
+                <InputLabel>בחר קבוצה</InputLabel>
+            )}
             <Select
                 placeholder={'בחר קבוצה'}
                 value={value || ''}
@@ -50,12 +60,12 @@ function TeamInput({
                 fullWidth
                 MenuProps={{
                     classes: {
-                        paper: 'TeamInput-paper',
-                        list: 'TeamInput-list',
+                        paper: cn('mt-2'),
+                        list: cn('max-h-[400px]'),
                     }
                 }}
             >
-                {teamsSortedByName.map((team) => (
+                {relevantTeams.map((team) => (
                     <MenuItem key={team.id} value={team.id} style={{}}>
                         <TeamWithFlag
                             team={team}

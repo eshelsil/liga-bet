@@ -74,3 +74,26 @@ export const DoneGameBetsByGameId = createSelector(
         return groupBy(valuesOf(doneGameBets), bet => bet.relatedMatch.id)
     }
 )
+
+export const UnfinishedGameBets = createSelector(
+    MatchBetsLinked,
+    (matchBets) => {
+        return pickBy(matchBets, (bet => !bet.relatedMatch.is_done))
+    }
+)
+
+
+export const UnfinishedGameBetsByGameId = createSelector(
+    UnfinishedGameBets,
+    (matchBets) => {
+        const res: Record<number, Record<number, MatchBetWithRelations>> = {}
+        for (const matchBet of valuesOf(matchBets)){
+
+            if (!res[matchBet.relatedMatch.id]){
+                res[matchBet.relatedMatch.id] = {}
+            }
+            res[matchBet.relatedMatch.id][matchBet.user_tournament_id] = matchBet;
+        }
+        return res
+    }
+)

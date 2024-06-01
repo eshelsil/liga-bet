@@ -1,3 +1,4 @@
+import { cloneDeep } from 'lodash'
 import { GameBetScoreConfig, GameBetType, GameStage, GameType, KnockoutStage, MatchApiModel, MatchBetsScoreConfig, MatchCommonBase, WinnerSide } from '../types'
 import { keysOf } from './common'
 
@@ -93,7 +94,7 @@ export function getQualifierSide(game: MatchCommonBase) {
             return fullTimeWinner
         }
     }
-    return null
+    return winner_side
 }
 
 export function getTwoLeggedTieQualifierSide(game: MatchCommonBase) {

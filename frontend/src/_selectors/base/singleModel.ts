@@ -28,6 +28,7 @@ import {
     NihusGrants,
     Settings,
     Nihusim,
+    WhatifState,
 } from './models'
 
 
@@ -208,6 +209,20 @@ export const LiveGamesIds = createSelector(
     LiveGames,
     (liveGames) => {
         return keysOf(liveGames) as number[]
+    }
+)
+
+export const UnfinishedGames = createSelector(
+    Games,
+    (gamesById) => {
+        return pickBy(gamesById, game => !game.is_done)
+    }
+)
+
+export const WhatifsGamesData = createSelector(
+    WhatifState,
+    (whatifState) => {
+        return whatifState.games
     }
 )
 

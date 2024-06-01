@@ -24,6 +24,13 @@ function updateScoreboardSetting<T extends keyof ScoreboardConfig>(key: T, value
     }
 }
 
+function resetScoreboardSettings() {
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const tournamentId = CurrentTournamentId(getState())
+        dispatch(scoreboardSettings.actions.resetSettings(tournamentId))
+    }
+}
+
 function showChangeFromLastSeenVersion(lastSeenVersionId: number) {
     return async (dispatch: AppDispatch, getState: GetRootState) => {
         const tournamentId = CurrentTournamentId(getState())
@@ -45,4 +52,5 @@ function showChangeFromLastSeenVersion(lastSeenVersionId: number) {
 export {
     updateScoreboardSetting,
     showChangeFromLastSeenVersion,
+    resetScoreboardSettings,
 }
