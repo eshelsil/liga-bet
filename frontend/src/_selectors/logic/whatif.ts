@@ -214,7 +214,7 @@ export const WhatifGoalsDataByPlayerId = createSelector(
                     }
                 }
                 whatifScorersData[playerId].assists =
-                    whatIfData.scorers[playerId]
+                    whatIfData.assists[playerId]
             }
         }
         return whatifScorersData
