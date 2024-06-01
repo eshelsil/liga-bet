@@ -42,7 +42,7 @@ export function getGameScoreConfig(game: MatchCommonBase, scoreConfig: MatchBets
     if (game.type === GameType.GroupStage){
         return scoreConfig[GameBetType.GroupStage]
     }
-    let resScore = scoreConfig[GameBetType.Knockout];
+    let resScore = cloneDeep(scoreConfig[GameBetType.Knockout]);
     const bonuses = (scoreConfig[GameBetType.Bonus] ?? {})[game.subType as KnockoutStage];
     if (bonuses){
         for (const key of keysOf(bonuses)){
