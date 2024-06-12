@@ -268,6 +268,23 @@ class Tournament extends Model
         return array_key_exists('scores', $this->config);
     }
 
+    public function deprecatedQuestionBets()
+    {
+        $flaggedOffQuestions = collect($this->config["scores"]["specialQuestionFlags"])->filter(fn($isOn) => !$isOn)->keys()->toArray();
+        $deprecatedSpecialQuestionIds = $this->specialBets->filter(fn($sq) => in_array($sq->getFlagName(), $flaggedOffQuestions))->pluck('id');
+        \Log::debug("Found {$deprecatedSpecialQuestionIds->count()} deprecated specialQuestions for tournament {$this->id}");
+        return $this->bets()
+            ->where("type", BetTypes::SpecialBet)->whereIn("type_id", $deprecatedSpecialQuestionIds)
+            ->get();
+    }
+
+    public function deleteDeprecatedQuestionBets()
+    {
+        $betIds = $this->deprecatedQuestionBets()->pluck('id');
+        $this->bets()->whereIn("id", $betIds)->delete();
+        \Log::debug("deleted {$betIds->count()} bets");
+    }
+
     public function createUTL(User $user, string $name)
     {
         $role = TournamentUser::ROLE_NOT_CONFIRMED;
