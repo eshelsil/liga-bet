@@ -12,7 +12,7 @@ import OndemandVideoIcon from '@mui/icons-material/OndemandVideo'
 import SideTournamentsDrawer from './SideTournamentsDrawer'
 import { default as WhatifIcon } from '@/svgs/thoughts_bubble.svg'
 import { cn } from '@/utils'
-import { IsWhatifOn } from '@/_selectors'
+import { IsTournamentStarted, IsWhatifOn } from '@/_selectors'
 import { useSelector } from 'react-redux'
 
 function SideTournamentTitle({
@@ -65,6 +65,7 @@ function LeaderboardView({
 
     const { liveMode } = tableSettings
     const isWhatifOn = useSelector(IsWhatifOn)
+    const iTournamentStarted = useSelector(IsTournamentStarted)
     const { refetch, fetchFunc } = useLeaderboard()
     const [showProgressDiagram, setShowProgressDiagram] = useState(false)
 
@@ -77,20 +78,22 @@ function LeaderboardView({
             <TableSettingsProvider fetchScoreboards={fetchFunc} />
             {!isShowingHistoricTable && !isWhatifOn && (
                 <>
-                    <div className={cn('flex justify-end mt-4')}>
-                        <Button
-                            variant="contained"
-                            color="warning"
-                            onClick={goToWhatif}
-                        >
-                            מה יהיה לנו פה?
-                            <WhatifIcon
-                                className={cn(
-                                    'mr-2 w-6 h-6 stroke-white fill-white'
-                                )}
-                            />
-                        </Button>
-                    </div>
+                    {iTournamentStarted && (
+                        <div className={cn('flex justify-end mt-4')}>
+                            <Button
+                                variant="contained"
+                                color="warning"
+                                onClick={goToWhatif}
+                            >
+                                מה יהיה לנו פה?
+                                <WhatifIcon
+                                    className={cn(
+                                        'mr-2 w-6 h-6 stroke-white fill-white'
+                                    )}
+                                />
+                            </Button>
+                        </div>
+                    )}
                     <div
                         className={cn('mt-4 flex items-center justify-between')}
                     >
@@ -100,14 +103,17 @@ function LeaderboardView({
                         >
                             רענן טבלה
                         </LoadingButton>
-                        <Button
-                            variant="contained"
-                            color="warning"
-                            onClick={() => setShowProgressDiagram(true)}
-                        >
-                            מה היה לנו פה?
-                            <OndemandVideoIcon className={cn('mr-2')} />
-                        </Button>
+                        {iTournamentStarted && (
+                            <Button
+                                variant="contained"
+                                color="warning"
+                                onClick={() => setShowProgressDiagram(true)}
+                            >
+                                מה היה לנו פה?
+                                <OndemandVideoIcon className={cn('mr-2')} />
+                            </Button>
+                        )}
+                        {!iTournamentStarted && (<div/>)}
                     </div>
                 </>
             )}
