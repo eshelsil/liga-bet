@@ -344,24 +344,7 @@ class Game extends Model implements BetableInterface
 
     public function generateRandomBetData(?bool $qualifierBetIsOn = true, $otherLegKoWinnerSide = null)
     {
-        if ($this->competition->getCompetitionType() == Competition::TYPE_UCL){
-            return $this->generateRandomBetDataUcl($qualifierBetIsOn, $otherLegKoWinnerSide);
-        }
-        $res = [];
-        foreach(['result-home', 'result-away'] as $key){
-            $goals = Arr::random([0,1]);
-            if ($goals == 1){
-                $goals = Arr::random([1,2]);
-            }
-            if ($goals == 2){
-                $goals = Arr::random([2,3]);
-            }
-            $res[$key] = $goals;
-        }
-        if($this->isKnockout() && $res['result-home'] == $res['result-away'] && $qualifierBetIsOn){
-            $res['ko_winner_side'] = Arr::random(['home','away']);
-        }
-        return json_encode($res);
+        return $this->generateRandomBetDataUcl($qualifierBetIsOn, $otherLegKoWinnerSide);
     }
 
     public function generateRandomBetDataUcl(?bool $qualifierBetIsOn = true, $otherLegKoWinnerSide = null)
