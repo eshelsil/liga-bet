@@ -138,6 +138,11 @@ class Tournament extends Model
     public function start()
     {
         $this->status = static::STATUS_ONGOING;
+        try {
+            $this->updateToNumeralScoreConfig();
+        } catch (\Throwable $e) {
+            \Log::error("Got error while trying to update score config to numeral on tournament {$this->id}");
+        }
         $this->save();
     }
 
