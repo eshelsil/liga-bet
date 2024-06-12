@@ -141,6 +141,12 @@ class Tournament extends Model
         $this->save();
     }
 
+    public function finish()
+    {
+        $this->status = static::STATUS_DONE;
+        $this->save();
+    }
+
     public static function mapScoreConfigToNumeral(array $config)
     {
         function updateToNumber(&$array) {

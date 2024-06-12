@@ -290,6 +290,18 @@ class Competition extends Model
         return $this->players->where("assists", $maxAssists)->pluck("id");
     }
 
+    public function has_started()
+    {
+        return $this->status != self::STATUS_INITIAL;
+    }
+
+    public function finish()
+    {
+        $this->tournaments->each(fn(Tournament $t) => $t->finish());
+        $this->status = self::STATUS_DONE;
+        $this->save();
+    }
+
     public function start()
     {
         $this->tournaments->each(fn(Tournament $t) => $t->start());
