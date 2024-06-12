@@ -119,6 +119,11 @@ class SpecialBet extends Model implements BetableInterface
         return "OK";
     }
 
+    public function isPlayerQuestion()
+    {
+        return in_array($this->type, [SpecialBet::TYPE_MOST_ASSISTS, SpecialBet::TYPE_MVP, SpecialBet::TYPE_TOP_SCORER]);
+    }
+
     public function getID()
     {
         return $this->id;
