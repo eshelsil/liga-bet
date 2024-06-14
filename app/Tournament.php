@@ -7,6 +7,18 @@ use App\SpecialBets\SpecialBet;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
+
+
+function updateToNumber(&$array) {
+    foreach ($array as $key => &$value) {
+        if (is_array($value)) {
+            updateToNumber($value);
+        } else {
+            $value = (int)$value;
+        }
+    }
+}
+
 /**
  * App\Tournament
  *
@@ -154,16 +166,6 @@ class Tournament extends Model
 
     public static function mapScoreConfigToNumeral(array $config)
     {
-        function updateToNumber(&$array) {
-            foreach ($array as $key => &$value) {
-                if (is_array($value)) {
-                    updateToNumber($value);
-                } else {
-                    $value = (int)$value;
-                }
-            }
-        }
-
         if (isset($config['scores']) && is_array($config['scores'])) {
             updateToNumber($config['scores']['gameBets']);
             updateToNumber($config['scores']['specialBets']);
