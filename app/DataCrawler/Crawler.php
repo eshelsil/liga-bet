@@ -557,12 +557,12 @@ class Crawler
         
         $GOAL_EVENT_ID = 1; // constant
         $OWN_GOAL_SUB_TYPE_ID = 2; // constant
+        $PENALTIES_STATUS_TYPE_ID = 11; // constant
 
-        $playerStats = $events->reduce(function ($carry, $event) use ($GOAL_EVENT_ID, $OWN_GOAL_SUB_TYPE_ID) {
+        $playerStats = $events->reduce(function ($carry, $event) use ($GOAL_EVENT_ID, $OWN_GOAL_SUB_TYPE_ID, $PENALTIES_STATUS_TYPE_ID) {
             $playerId = $event['playerId'];
             $eventType = $event['eventType']['id'];
-
-            if ($eventType == $GOAL_EVENT_ID && $event['eventType']['subTypeId'] != $OWN_GOAL_SUB_TYPE_ID) {
+            if ($eventType == $GOAL_EVENT_ID && $event['eventType']['subTypeId'] != $OWN_GOAL_SUB_TYPE_ID && $event['statusId'] != $PENALTIES_STATUS_TYPE_ID) {
                 if (!isset($carry[$playerId])){
                     $carry[$playerId] = collect();
                 }
