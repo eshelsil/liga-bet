@@ -1,7 +1,6 @@
 const path = require('path')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const { sentryWebpackPlugin } = require("@sentry/webpack-plugin");
 
 const prod = process.env.NODE_ENV === 'production'
 
@@ -77,11 +76,6 @@ module.exports = {
     devtool: 'source-map',
     plugins: [
         new BundleAnalyzerPlugin(),
-        sentryWebpackPlugin({
-            org: "ligabet-tzafon",
-            project: "liga-bet-live",
-            authToken: process.env.SENTRY_AUTH_TOKEN,
-        }),
     ],
     mode: prod ? 'production' : 'development',
 }

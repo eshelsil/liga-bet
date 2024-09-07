@@ -71,8 +71,7 @@ export function generateDefaultScoreboardSettings(): ScoreboardConfig {
     }
 }
 
-export function getLatestScoreboard(versions: LeaderboardVersion[], leaderboardRows: ScoreboardRowsByVersionId): ScoreboardRowById {
-    const latestVersion = versions[0]
+export function getLatestScoreboard(latestVersion: LeaderboardVersion | undefined, leaderboardRows: ScoreboardRowsByVersionId): ScoreboardRowById {
     if (!latestVersion) return {}
     return leaderboardRows[latestVersion.id] ?? {}
 }

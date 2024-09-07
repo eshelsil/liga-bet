@@ -26,12 +26,13 @@
             @include themable_header(tournament-theme-3, $tournament_3);
             @include themable_header(tournament-theme-4, $tournament_4);
             @include themable_header(tournament-theme-5, $tournament_5);
-            padding: 8px 12px;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
             .MyBetsSection-title {
                 margin: 0px;
                 text-align: center;
+            } & {
+                padding: 8px 12px;
+                border-top-left-radius: 12px;
+                border-top-right-radius: 12px;
             }
         }
         .MuiTableContainer-root {

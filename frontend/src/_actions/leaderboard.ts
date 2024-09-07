@@ -51,7 +51,7 @@ function fetchLeaderboardsThunk(idsToFetch: number[], targetTournamentId?: numbe
             const leaderboardRowsByTournament = LeaderboardVersionsState(getState())
             const leaderboardVersions = leaderboardVersionsByTournament[tournamentId] || []
             const leaderboardRowsByVersionId = leaderboardRowsByTournament[tournamentId] || {}
-            const latestVersion = getLatestScoreboard(leaderboardVersions, leaderboardRowsByVersionId)
+            const latestVersion = getLatestScoreboard(leaderboardVersions[0], leaderboardRowsByVersionId)
             if (!isEmpty(latestVersion)){
                 return
             }

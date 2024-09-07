@@ -78,7 +78,7 @@ function LeaderboardView({
             <TableSettingsProvider fetchScoreboards={fetchFunc} />
             {!isShowingHistoricTable && !isWhatifOn && (
                 <>
-                    {iTournamentStarted && (
+                    {/* {iTournamentStarted && (
                         <div className={cn('flex justify-end mt-4')}>
                             <Button
                                 variant="contained"
@@ -93,7 +93,7 @@ function LeaderboardView({
                                 />
                             </Button>
                         </div>
-                    )}
+                    )} */}
                     <div
                         className={cn('mt-4 flex items-center justify-between')}
                     >

@@ -14,14 +14,16 @@ import {
     fillLeaderboardIfEmpty,
     isBetBelongsToSideTournament,
 } from '../../utils'
-import { ScoreboardRowById, SpecialQuestionType } from '../../types'
+import { LeaderboardVersion, ScoreboardRowById, SpecialQuestionType } from '../../types'
 import {
     BetsFullScoresConfigSelector,
     Contestants,
+    CurrentSideTournament,
     CurrentSideTournamentId,
     CurrentTournament,
     CurrentTournamentUserId,
     IsShowingHistoricScoreboard,
+    IsSideTournament,
     LeaderboardRows,
     LeaderboardVersions,
     LeaderboardVersionsDesc,
@@ -65,16 +67,22 @@ import { calcWhatifAddedScore } from '@/utils/whatifs'
 
 export const LatestLeaderboardVersion = createSelector(
     LeaderboardVersionsDesc,
-    (versions) => {
-        return versions[0]
+    IsSideTournament,
+    CurrentSideTournament,
+    (versions, isSideTournament, sideTournament) => {
+        if (!isSideTournament){
+            return versions[0];
+        }
+        const vs = versions.filter(v =>  sideTournament.gameIds.includes(v.gameId))
+        return vs[0]
     }
 )
 
 export const LatestLeaderboard = createSelector(
-    LeaderboardVersionsDesc,
+    LatestLeaderboardVersion,
     LeaderboardRows,
-    (versions, leaderboardRows) => {
-        return getLatestScoreboard(versions, leaderboardRows)
+    (latestVersion, leaderboardRows) => {
+        return getLatestScoreboard(latestVersion, leaderboardRows)
     }
 )
 
