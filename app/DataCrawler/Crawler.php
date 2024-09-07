@@ -32,10 +32,32 @@ class Crawler
         return new static($id);
     }
 
+    public static function getType($match_json) {
+        $stage = data_get($match_json, 'stage');
+        if ($stage == "LEAGUE_STAGE"){
+            return "group_stage";
+        }
+        if ($stage == "GROUP_STAGE"){
+            return "group_stage";
+        }
+        return "knockout";
+    }
+
+    public static function getSubType($match_json) {
+        $stage = data_get($match_json, 'stage');
+        if ($stage == "LEAGUE_STAGE"){
+            return "LEAGUE_STAGE";
+        }
+        if ($stage == "GROUP_STAGE"){
+            return data_get($match_json, 'group');
+        }
+        return data_get($match_json, 'stage');
+    }
+
     private static function parseGame($match_json)
     {
         $startTime =  \DateTime::createFromFormat(\DateTime::ISO8601, data_get($match_json, 'utcDate'));
-        $type = data_get($match_json, 'stage') == "GROUP_STAGE" ? "group_stage" : "knockout";
+        $type = Crawler::getType($match_json);
         $homeTeamId = data_get($match_json, 'homeTeam.id');
         $awayTeamId = data_get($match_json, 'awayTeam.id');
         if (is_null($homeTeamId) || is_null($awayTeamId)){
@@ -92,11 +114,12 @@ class Crawler
         }
 
         $koLeg = null;
+        $subType = Crawler::getSubType($match_json);
 
         return new Game(
             data_get($match_json, 'id'),
             $type,
-            $type == "group_stage" ? data_get($match_json, 'group') : data_get($match_json, 'stage'),
+            $subType,
             $homeTeamId,
             $awayTeamId,
             $startTime ? $startTime->format("U") : null,
@@ -206,12 +229,11 @@ class Crawler
 
     private function isTwoLegedTie(Game $game, $competitionType): bool
     {
-        if ($competitionType == Competition::TYPE_UCL){
-            if ($game->type == CompetitionGame::TYPE_KNOCKOUT && $game->subType != GameSubTypes::FINAL){
-                return true;
-            }
+
+        if ($game->type != CompetitionGame::TYPE_KNOCKOUT){
+            return False;
         }
-        return false;
+        return Competition::isTwoLeggedKnockout($competitionType, $game->subType);
     }
 
     private function gameToLegsId(Game $game): string
@@ -412,6 +434,25 @@ class Crawler
             503 => 887, // FC Porto  
             1864 => 1191, // Royal Antwerp FC  
             1887 => 1955, // FK Shakhtar Donetsk 
+
+
+            907 => 1788,  // AC Sparta Praha
+            548 => 471,  // AS Monaco FC
+            58 => 109,  // Aston Villa FC
+            102 => 232,  // Atalanta BC
+            3 => 333,  // Bayer 04 Leverkusen
+            103 => 245,  // Bologna FC 1909
+            851 => 1169,  // Club Brugge KV
+            755 => 2245,  // GNK Dinamo Zagreb
+            298 => 175,  // Girona FC
+            109 => 226,  // Juventus FC
+            521 => 478,  // Lille OSC
+            64 => 108,  // Liverpool FC
+            7509 => 2112,  // ŠK Slovan Bratislava
+            498 => 890,  // Sporting Clube de Portugal
+            512 => 534,  // Stade Brestois 29
+            2021 => 1741,  // SK Sturm Graz
+            10 => 338,  // VfB Stuttgart
             default => $teamId,
         };
     }

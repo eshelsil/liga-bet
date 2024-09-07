@@ -74,13 +74,7 @@ class Game extends Model implements BetableInterface
         if (!$this->isKnockout()){
             return false;
         }
-        if ($this->competition->getCompetitionType() == Competition::TYPE_UCL){
-            if ($this->isTheFinal()){
-                return false;
-            }
-            return true;
-        }
-        return false;
+        return Competition::isTwoLeggedKnockout($this->competition->getCompetitionType(), $this->sub_type);
     }
 
     public function isLastLeg()

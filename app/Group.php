@@ -43,6 +43,9 @@ class Group extends Model implements BetableInterface
     }
 
     public function getTotalGamesCount(){
+        if ($this->competition->getCompetitionType() == Competition::TYPE_UCL_24){
+            return 8 * 36 / 2;
+        }
         if ($this->competition->getCompetitionType() == Competition::TYPE_UCL){
             return 12;
         }

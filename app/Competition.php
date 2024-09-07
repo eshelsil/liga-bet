@@ -3,6 +3,7 @@
 namespace App;
 
 use App\DataCrawler\Crawler;
+use App\Enums\GameSubTypes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -52,10 +53,21 @@ class Competition extends Model
 
     const TYPE_WC = 'WC';
     const TYPE_UCL = 'UCL';
+    const TYPE_UCL_24 = 'UCL_24';
 
     protected $casts = [
         "config" => "array"
     ];
+
+    static function isTwoLeggedKnockout($competitionType, $knockoutStage){
+        if (!in_array($competitionType, [Competition::TYPE_UCL, Competition::TYPE_UCL_24])){
+            return False;
+        }
+        if ($knockoutStage == GameSubTypes::FINAL){
+            return False;
+        }
+        return True;
+    }
 
     public function tournaments(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
@@ -307,5 +319,15 @@ class Competition extends Model
         $this->tournaments->each(fn(Tournament $t) => $t->start());
         $this->status = self::STATUS_ONGOING;
         $this->save();
+    }
+
+    public function getDefaultScore(){
+        if ($this->getCompetitionType() == Competition::TYPE_UCL){
+            return config('defaultScoreUCL');
+        }
+        if ($this->getCompetitionType() == Competition::TYPE_UCL_24){
+            return config('defaultScoreUCL24');
+        }
+        return config('defaultScore');
     }
 }

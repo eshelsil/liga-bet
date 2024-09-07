@@ -88,6 +88,17 @@ class CreateCompetition
             $competition->emblem = "https://upload.wikimedia.org/wikipedia/en/thumb/2/26/UEFA_Euro_2024_Logo.svg/220px-UEFA_Euro_2024_Logo.svg.png";
             $competition->name="יורו 2024";
         }
+        if (Str::lower($id) == 'cl'){
+            $competition->emblem = "https://crests.football-data.org/CL.png";
+            $competition->name="ליגת האלופות 24/25";
+            $conf = $competition->config;
+            $conf['id_on_365']=572;
+            $conf['type']=Competition::TYPE_UCL_24;
+            $conf['isForClubs']=True;
+            \Log::debug("conf: $conf");
+            $competition->config = $conf;
+            \Log::debug("competition->config: $competition->config");
+        }
 
         $competition->save();
 
@@ -100,7 +111,7 @@ class CreateCompetition
             $group = new Group();
             $group->competition_id = $this->competition->id;
             $group->external_id = $group_id;
-            $group->name = "Group ".substr($group_id, -1);
+            $group->name = str_replace("GROUP_", "Group ", $group->external_id);
             $group->save();
 
             return $group;
