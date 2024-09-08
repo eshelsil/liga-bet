@@ -11,16 +11,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import { LoadingButton } from '../widgets/Buttons'
 import useCancelEdit from '../hooks/useCancelEdit'
 import { IsMultiBetDefaultForAll, MyOtherBettableUTLs } from '../_selectors'
-import { generateStandingClasses } from './utils'
 import { cn } from '@/utils'
 
 
-const qualifyingClasses = generateStandingClasses([
-    {amount: 8, class: cn('!bg-qualifyingGreen/65')},
-    {amount: 8, class: cn('!bg-qualifyingBlue/65')},
-])
-
-function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {    
+function LeagueRankBetView({ groupWithBet, sendGroupRankBet }) {    
     const { name, id, bet, teams } = groupWithBet
 
     const otherTournaments = useSelector(MyOtherBettableUTLs);
@@ -66,7 +60,12 @@ function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
 
     return (
         <Grid item xs={isXsScreen ? 12 : null}>
-            <div className={`LB-GroupRankBetView LB-EditableBetView ${tournamentClass} ${(edit && forAllTournaments) ? 'sendingforAllTournaments' : ''}`}>
+            <div className={cn(
+                "w-[1000px] max-w-full overflow-hidden rounded-t-[12px]",
+                "shadow-medium bg-white/95 m-3 xs:mx-auto",
+                "LB-EditableBetView",
+                tournamentClass, {'sendingforAllTournaments' : (edit && forAllTournaments)}
+                )}>
                 <div className={`EditableBetView-header`}>
                     <h4 className="name">{getHebGroupName(name)}</h4>
                     {edit && hasOtherTournaments && (
@@ -77,7 +76,7 @@ function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
                         />
                     )}
                 </div>
-                <div className={`GroupRankBetView-content bg-qua ${edit ? 'onEdit' : ''}`}>
+                <div className={`GroupRankBetView-content ${edit ? 'onEdit' : ''}`}>
                     {hideStandings && (
                         <div className="noBet">
                             <AddCircle
@@ -92,7 +91,6 @@ function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
                             items={edit ? groupStandings : teamsByRank}
                             setItems={setStandingsInput}
                             isDisabled={!edit}
-                            classes={qualifyingClasses}
                         />
                         <div className={`buttonContainer`}>
                             {edit && (<>
@@ -101,7 +99,7 @@ function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
                                 >
                                     שלח
                                 </LoadingButton>
-                                <IconButton className='iconGoBack ' onClick={exitEditMode}>
+                                <IconButton className='iconGoBack' onClick={exitEditMode}>
                                     <CloseIcon />
                                 </IconButton>
                             </>)}
@@ -119,4 +117,4 @@ function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
     )
 }
 
-export default GroupRankBetView
+export default LeagueRankBetView

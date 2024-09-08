@@ -2,16 +2,19 @@ import React from 'react'
 import { Team } from '../types'
 import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
 import DragHandleRoundedIcon from '@mui/icons-material/DragHandleRounded';
+import { cn } from '@/utils';
 
 
-interface Props extends Team {
+export interface TeamStandingProps extends Team {
+    index: number
     isDisabled?: boolean
+    classes?: Record<number, string>
 }
 
-function TeamStanding({isDisabled, ...team}: Props) {
+function TeamStanding({isDisabled, index, classes={}, ...team}: TeamStandingProps) {
     return (
         <div
-            className="LB-TeamStanding"
+            className={cn("LB-TeamStanding", classes[index])}
         >
             <TeamWithFlag team={team} />
             {!isDisabled && (
