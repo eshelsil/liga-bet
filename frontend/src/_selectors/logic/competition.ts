@@ -1,7 +1,7 @@
 import { sortBy } from 'lodash';
 import { createSelector } from 'reselect'
 import { MatchesWithTeams } from '../modelRelations';
-import { IsUCL, OpenCompetitions } from '../base';
+import { IsUCL, IsWC48, OpenCompetitions } from '../base';
 import { keysOf } from '../../utils';
 
 export const FirstGame = createSelector(
@@ -13,9 +13,13 @@ export const FirstGame = createSelector(
 
 export const KoGamesCount = createSelector(
     IsUCL,
-    (isUcl) => {
+    IsWC48,
+    (isUcl, isWc48) => {
         if (isUcl) {
             return 29;
+        }
+        if (isWc48) {
+            return 32;
         }
         return 16;
     }

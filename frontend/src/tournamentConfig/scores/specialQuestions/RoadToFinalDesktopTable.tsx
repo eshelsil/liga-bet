@@ -1,10 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { CompetitionStageName, SpecialQuestionType } from '../../../types';
 import { SpecialQuestionConfigProps } from '../../types';
 import CustomTable from '../../../widgets/Table/CustomTable';
 import TeamAchivementStageConfig from './TeamAchivementStageConfig';
 import HeaderWithSwitch from './HeaderWithSwitch';
 import { competitionStageToString } from '../../../strings';
+import { IsWC48 } from '@/_selectors';
 
 
 const WINNER_STRING = 'זוכה בגביע';
@@ -21,6 +23,7 @@ interface TeamAchivementsConfigModel {
 
 function RoadToFinalDesktopTable({disabled, ...formProps}: SpecialQuestionConfigProps){
 	const { watch, setValue } = formProps;
+	const isWc48 = useSelector(IsWC48);
 
 	const isOnRunnerUp = watch('specialQuestionFlags.runnerUp');
 
@@ -31,6 +34,10 @@ function RoadToFinalDesktopTable({disabled, ...formProps}: SpecialQuestionConfig
 	const isOnQuarterFinal = watch('specialQuestionOptions.roadToFinal.quarterFinal');
 	const onChangeQuarterFinal = (event: any, value: boolean) => {
 		setValue('specialQuestionOptions.roadToFinal.quarterFinal', value as never);
+	}
+	const isOnLast16 = watch('specialQuestionOptions.roadToFinal.last16');
+	const onChangeLast16 = (event: any, value: boolean) => {
+		setValue('specialQuestionOptions.roadToFinal.last16', value as never);
 	}
 
 	const models: TeamAchivementsConfigModel[] = [
@@ -122,6 +129,25 @@ function RoadToFinalDesktopTable({disabled, ...formProps}: SpecialQuestionConfig
 				/>
 			),
 		},
+		...(isWc48 ? [{
+			id: 'last16',
+			header: (
+				<HeaderWithSwitch
+					label={competitionStageToString.last16}
+					checked={isOnLast16}
+					onChange={onChangeLast16}
+					disabled={disabled}
+				/>
+			),
+			getter: (model: TeamAchivementsConfigModel) => (
+				<TeamAchivementStageConfig
+					stageName={CompetitionStageName.Last16}
+					disabled={!isOnLast16 || disabled}
+					questionType={model.question}
+					{...formProps}
+				/>
+			),
+		}] : []),
 	]
 
 	return (

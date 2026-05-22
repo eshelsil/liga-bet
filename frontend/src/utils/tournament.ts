@@ -20,9 +20,11 @@ export const gameStageToString = {
     [KnockoutStage.SemiFinal]: 'חצי גמר',
     [KnockoutStage.QuarterFinal]: 'רבע גמר',
     [KnockoutStage.Last16]: 'שמינית גמר',
+    [KnockoutStage.Last32]: 'שלב 32 האחרונות',
 }
 
 export const koStageToNextCompetitionStage = {
+    [KnockoutStage.Last32]: CompetitionStageName.Last16,
     [KnockoutStage.Last16]: CompetitionStageName.QuarterFinal,
     [KnockoutStage.QuarterFinal]: CompetitionStageName.SemiFinal,
     [KnockoutStage.SemiFinal]: CompetitionStageName.Final,

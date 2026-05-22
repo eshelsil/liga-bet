@@ -1,4 +1,4 @@
-import { KnockoutStage, SpecialQuestionType } from '../../types';
+import { CompetitionStageName, KnockoutStage, SpecialQuestionType } from '../../types';
 import { ScoresConfigFromatted } from '../../_selectors';
 
 function isEnabled(
@@ -26,6 +26,7 @@ export function getInitialOptionsConfig(config: ScoresConfigFromatted){
 			roadToFinal: {
 				[KnockoutStage.SemiFinal]: questionsConfig.runnerUp.semiFinal > 0 || questionsConfig.winner.semiFinal > 0,
 				[KnockoutStage.QuarterFinal]: questionsConfig.runnerUp.quarterFinal > 0 || questionsConfig.winner.quarterFinal > 0,
+				[CompetitionStageName.Last16]: questionsConfig.runnerUp[CompetitionStageName.Last16] > 0 || questionsConfig.winner[CompetitionStageName.Last16] > 0,
 			}
 		},
 		gameBetOptions: {
@@ -37,6 +38,9 @@ export function getInitialOptionsConfig(config: ScoresConfigFromatted){
 				[KnockoutStage.SemiFinal]: gameBetsConfig.bonuses?.semiFinal?.result > 0
 					|| gameBetsConfig.bonuses?.semiFinal?.winnerSide > 0
 					|| gameBetsConfig.bonuses?.semiFinal?.qualifier > 0,
+				[KnockoutStage.QuarterFinal]: gameBetsConfig.bonuses?.quarterFinal?.result > 0
+					|| gameBetsConfig.bonuses?.quarterFinal?.winnerSide > 0
+					|| gameBetsConfig.bonuses?.quarterFinal?.qualifier > 0,
 			}
 		}
 	}

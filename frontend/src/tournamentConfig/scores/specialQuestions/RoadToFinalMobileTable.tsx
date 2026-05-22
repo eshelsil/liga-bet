@@ -1,10 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { CompetitionStageName } from '../../../types';
 import { SpecialQuestionConfigProps } from '../../types';
 import CustomTable from '../../../widgets/Table/CustomTable';
 import ScoreInput from '../ScoreInput';
 import HeaderWithSwitch from './HeaderWithSwitch';
 import { competitionStageToString } from '../../../strings';
+import { IsWC48 } from '../../../_selectors';
 
 
 interface CompetitionStageConfigModel {
@@ -14,6 +16,7 @@ interface CompetitionStageConfigModel {
 
 function RoadToFinalMobileTable({disabled, ...formProps}: SpecialQuestionConfigProps){
 	const { watch, setValue, errors, register, clearErrors } = formProps;
+	const isWc48 = useSelector(IsWC48);
 
 	const isOnRunnerUp = watch('specialQuestionFlags.runnerUp');
 
@@ -24,6 +27,10 @@ function RoadToFinalMobileTable({disabled, ...formProps}: SpecialQuestionConfigP
 	const isOnQuarterFinal = watch('specialQuestionOptions.roadToFinal.quarterFinal');
 	const onChangeQuarterFinal = (event: any, value: boolean) => {
 		setValue('specialQuestionOptions.roadToFinal.quarterFinal', value as never);
+	}
+	const isOnLast16 = watch('specialQuestionOptions.roadToFinal.last16');
+	const onChangeLast16 = (event: any, value: boolean) => {
+		setValue('specialQuestionOptions.roadToFinal.last16', value as never);
 	}
 
 
@@ -44,6 +51,10 @@ function RoadToFinalMobileTable({disabled, ...formProps}: SpecialQuestionConfigP
 			id: CompetitionStageName.QuarterFinal,
 			stageName: CompetitionStageName.QuarterFinal,
 		},
+		...(isWc48 ? [{
+			id: CompetitionStageName.Last16,
+			stageName: CompetitionStageName.Last16,
+		}] : []),
 	];
 
 
@@ -73,6 +84,16 @@ function RoadToFinalMobileTable({disabled, ...formProps}: SpecialQuestionConfigP
 						/>
 					)
 				}
+				if (model.stageName === CompetitionStageName.Last16) {
+					return (
+						<HeaderWithSwitch
+							label={label}
+							checked={isOnLast16}
+							onChange={onChangeLast16}
+							disabled={disabled}
+						/>
+					)
+				}
 				return label
 			}
 		},
@@ -87,6 +108,7 @@ function RoadToFinalMobileTable({disabled, ...formProps}: SpecialQuestionConfigP
 						disabled: (
 							(model.stageName === CompetitionStageName.SemiFinal && !isOnSemiFinal)
 							|| (model.stageName === CompetitionStageName.QuarterFinal && !isOnQuarterFinal)
+							|| (model.stageName === CompetitionStageName.Last16 && !isOnLast16)
 							|| disabled
 						),
 					}}
@@ -107,6 +129,7 @@ function RoadToFinalMobileTable({disabled, ...formProps}: SpecialQuestionConfigP
 								disabled: (
 									(model.stageName === CompetitionStageName.SemiFinal && !isOnSemiFinal)
 									|| (model.stageName === CompetitionStageName.QuarterFinal && !isOnQuarterFinal)
+									|| (model.stageName === CompetitionStageName.Last16 && !isOnLast16)
 									|| disabled
 								),
 							}}

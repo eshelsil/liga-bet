@@ -61,6 +61,11 @@ function MatchBetsConfig(formProps: ScoreConfigFormProps){
 			gameBetType: GameBetType.Bonus,
 			koStageName: KnockoutStage.SemiFinal,
 		}] : []),
+		...(optionsConfig.bonuses.quarterFinal ? [{
+			id: KnockoutStage.QuarterFinal,
+			gameBetType: GameBetType.Bonus,
+			koStageName: KnockoutStage.QuarterFinal,
+		}] : []),
 	];
 	const tableCells = [
 		{

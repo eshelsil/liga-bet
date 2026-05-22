@@ -6,6 +6,7 @@ import { CompetitionStageName, EnumRecord } from '../../types'
 
 function sortAchivementStage ([name, score]: [name: CompetitionStageName, score: number]) {
     const stagesOrder = [
+        CompetitionStageName.Last16,
         CompetitionStageName.QuarterFinal,
         CompetitionStageName.SemiFinal,
         CompetitionStageName.Final,

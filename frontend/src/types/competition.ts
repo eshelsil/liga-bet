@@ -3,6 +3,7 @@ import { Dayjs } from 'dayjs'
 export enum CompetitionType {
     WorldCup = 'WC',
     ChampionsLeague = 'UCL',
+    WorldCup48 = 'WC_48',
 }
 
 export interface CompetitionConfig {

@@ -13,6 +13,7 @@ export enum KnockoutStage {
 	SemiFinal = 'semiFinal',
     QuarterFinal = 'quarterFinal',
 	Last16 = 'last16',
+	Last32 = 'last32',
 }
 
 export enum GameType {

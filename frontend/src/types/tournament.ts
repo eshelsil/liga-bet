@@ -13,6 +13,7 @@ export enum TournamentStatus {
 
 // Todo: needs refinement
 export enum CompetitionStageName {
+	Last16 = 'last16',
 	QuarterFinal = 'quarterFinal',
 	SemiFinal = 'semiFinal',
 	Final = 'final',

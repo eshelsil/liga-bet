@@ -101,6 +101,7 @@ export const gameCountByStage = {
     [KnockoutStage.SemiFinal]: 2,
     [KnockoutStage.QuarterFinal]: 4,
     [KnockoutStage.Last16]: 8,
+    [KnockoutStage.Last32]: 16,
 }
 
 export function getBonusMaxScore(stage: KnockoutStage, scoreConfig: GameBetScoreConfig) {

@@ -137,6 +137,13 @@ export const IsUCL = createSelector(
     }
 )
 
+export const IsWC48 = createSelector(
+    CurrentTournament,
+    (tournament) => {
+        return tournament.competition?.config?.type === CompetitionType.WorldCup48
+    }
+)
+
 export const CurrentTournamentNotifications = createSelector(
     NotificationsState,
     CurrentTournamentId,

@@ -1,5 +1,5 @@
 import { Control, FormState, UseFormClearErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form';
-import { KnockoutStage } from '../types';
+import { CompetitionStageName, KnockoutStage } from '../types';
 import { ScoresConfigFromatted } from '../_selectors';
 
 export interface ScoreConfigForm extends ScoresConfigFromatted {
@@ -7,6 +7,7 @@ export interface ScoreConfigForm extends ScoresConfigFromatted {
 		roadToFinal: {
 			[KnockoutStage.SemiFinal]: boolean
 			[KnockoutStage.QuarterFinal]: boolean
+			[CompetitionStageName.Last16]?: boolean
 		}
 	},
 	gameBetOptions: {
@@ -14,6 +15,7 @@ export interface ScoreConfigForm extends ScoresConfigFromatted {
 		bonuses: {
 			[KnockoutStage.Final]: boolean
 			[KnockoutStage.SemiFinal]: boolean
+			[KnockoutStage.QuarterFinal]?: boolean
 		}
 	},
 }
