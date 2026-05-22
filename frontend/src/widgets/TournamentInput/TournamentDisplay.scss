@@ -17,17 +17,17 @@
 }
 
 .LB-TournamentDisplay {
+    border-radius: 12px;
+    box-shadow: $basic-shadow;
+    overflow: hidden;
+    width: 240px;
+    padding: 4px 12px;
     @include themeable_tournament_input(tournament-theme, $tournament_1);
     @include themeable_tournament_input(tournament-theme-1, $tournament_1);
     @include themeable_tournament_input(tournament-theme-2, $tournament_2);
     @include themeable_tournament_input(tournament-theme-3, $tournament_3);
     @include themeable_tournament_input(tournament-theme-4, $tournament_4);
     @include themeable_tournament_input(tournament-theme-5, $tournament_5);
-    border-radius: 12px;
-    box-shadow: $basic-shadow;
-    overflow: hidden;
-    width: 240px;
-    padding: 4px 12px;
     .TournamentDisplay-header {
         @include flexRow;
         margin: 8px 0px;

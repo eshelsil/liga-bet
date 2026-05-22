@@ -121,13 +121,13 @@
                 font-weight: 700;
             }
             .LigaBet-CustomTableRow {
+                cursor: pointer;
                 @include themable_prize_row(prize-theme-1, $prize_1);
                 @include themable_prize_row(prize-theme-2, $prize_2);
                 @include themable_prize_row(prize-theme-3, $prize_3);
                 @include themable_prize_row(prize-theme-4, $prize_4);
                 @include themable_prize_row(prize-theme-5, $prize_5);
                 @include themable_prize_row(prize-theme-6, $prize_6);
-                cursor: pointer;
                 &.currentUtl {
                     .MuiTableCell-root {
                         &:first-of-type {
