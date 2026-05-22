@@ -1,5 +1,11 @@
 import React from 'react'
 import { render } from 'react-dom'
-import App from './App'
 
-render(<App />, document.getElementById('root'))
+const App = React.lazy(() => import('./App'))
+
+render(
+    <React.Suspense fallback={null}>
+        <App />
+    </React.Suspense>,
+    document.getElementById('root')
+)

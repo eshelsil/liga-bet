@@ -12,9 +12,10 @@ import AppLoader from './appLoader'
 import SuspenseWithLoader from './_helpers/SuspenseWithLoader'
 import { CrucialLoader } from './types'
 import SentryController from './SentryController'
+import './App.scss'
+import './tailwind.css'
 
-const AppMain = lazy(() => import('./AppMain'));
-
+const AppMainContent = lazy(() => import('./AppMainContent'))
 
 const customHistory = createBrowserHistory()
 
@@ -28,7 +29,7 @@ function App() {
                             <AuthController>
                                 {/*<Banner />*/}
                                 <SuspenseWithLoader name={CrucialLoader.Main}>
-                                    <AppMain />
+                                    <AppMainContent />
                                 </SuspenseWithLoader>
                                 <AppLoader />
                             </AuthController>

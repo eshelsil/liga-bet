@@ -62,6 +62,10 @@ export default defineConfig(({ mode }) => {
                     assetFileNames: isDev
                         ? '[name][extname]'
                         : '[name].[hash][extname]',
+                    manualChunks(id) {
+                        if (id.includes('preload-helper')) return 'preload-helper'
+                        if (id.includes('node_modules')) return 'vendor'
+                    },
                 },
             },
         },
