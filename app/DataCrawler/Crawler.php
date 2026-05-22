@@ -220,15 +220,9 @@ class Crawler
         return $game->type."_".$game->subType."_".$playingTeams[0].$playingTeams[1];  
     }
 
-    public function fetchScorers(Collection $teamIds): Collection
+    public function fetchScorers(Collection $teamIds, int $competition365Id): Collection
     {
-        // TODO: deprecate
-        return $this->fetchScorers365($teamIds);
-
-        $data = $this->apiCall('/scorers?limit=300');
-        $scorers = $data;
-
-        return collect($scorers);
+        return $this->fetchScorers365($teamIds, $competition365Id);
     }
 
     public function fetchScorersOfLatestGames(int $competition365Id, Collection $dbGamesCollection, $gamesToFixScorers = [], int $startedBeforeMins = 60 * 4): Collection
@@ -440,17 +434,14 @@ class Crawler
      *
      * @return Collection
      */
-    protected function fetchScorers365(Collection $teamIds): Collection
+    protected function fetchScorers365(Collection $teamIds, int $competition365Id): Collection
     {
         $userAgents = $this->getUserAgents();
 
-        
-        $responses = Http::pool(function (Pool $pool) use ($teamIds, $userAgents) {
+        $responses = Http::pool(function (Pool $pool) use ($teamIds, $userAgents, $competition365Id) {
             return $teamIds->map(
-                function($teamId) use($pool, $userAgents) {
+                function($teamId) use($pool, $userAgents, $competition365Id) {
                     $langId = rand(1,50);
-                    // $competition365Id = 5930; // WC 2022
-                    $competition365Id = 572; // UCL 23/24
                     $baseUrl = "https://webws.365scores.com/web/stats/?appTypeId=5&langId=$langId&userCountryId=6&competitions=$competition365Id";
                     return $pool->as($teamId)->withUserAgent(Arr::random($userAgents))->get($baseUrl . "&competitors=" . self::translate365TeamId($teamId));
                 }
@@ -461,7 +452,7 @@ class Crawler
 
         /** @var Response $response */
         foreach ($responses as $teamId => $response) {
-            $stats = $response->collect("stats");
+            $stats = $response->collect("stats.athletesStats");
 
             if ($scorerStats = $stats->firstWhere("statsTypes.0.typeId", 1)) {
                 collect($scorerStats["rows"])->each(fn($data) => $players->add(new Player(
