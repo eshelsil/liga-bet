@@ -98,7 +98,7 @@ function calculateTable(games: MatchApiModel[], relevantTeams?: number[]){
 
     if (equalTeamsSlices.length > 0){
         for (const equalTeams of equalTeamsSlices){
-            if (equalTeams.length === relevantTeams?.length ?? 4){
+            if (equalTeams.length === (relevantTeams?.length ?? 4)){
                 for (const tableRow of table){
                     tableRow.rank = 1
                 }
