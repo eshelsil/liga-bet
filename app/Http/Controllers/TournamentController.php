@@ -143,6 +143,15 @@ class TournamentController extends Controller
             "specialQuestionFlags.topAssists",
             "specialQuestionFlags.offensiveTeam",
         ];
+        if ($tournament->competition->getCompetitionType() == Competition::TYPE_WC_48) {
+            $keys = array_merge($keys, [
+                "specialBets.winner.last16",
+                "specialBets.runnerUp.last16",
+                "gameBets.bonuses.quarterFinal.qualifier",
+                "gameBets.bonuses.quarterFinal.winnerSide",
+                "gameBets.bonuses.quarterFinal.result",
+            ]);
+        }
         $request->validate(array_merge(
             array_fill_keys($keys, ["required", "integer", "min:0"]),
             array_fill_keys($booleanKeys, ["required", "boolean"]),

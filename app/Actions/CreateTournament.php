@@ -26,10 +26,15 @@ class CreateTournament
         $this->validateCreateLimitations($user, $competition);
         // $this->validateNameAlreadyInUse($name);
 
+        $scores = config('defaultScore');
+        if ($competition->getCompetitionType() == Competition::TYPE_WC_48) {
+            $scores = array_replace_recursive($scores, config('defaultScoreWc48'));
+        }
+
         $tournament                  = new Tournament();
         $tournament->name            = $name;
         $tournament->status          = Tournament::STATUS_INITIAL;
-        $tournament->config          = ["scores" => config('defaultScore'), "prizes" => []];
+        $tournament->config          = ["scores" => $scores, "prizes" => []];
         $tournament->competition_id  = $competition->id;
         $tournament->code            = Str::lower(Str::random(6));
         $tournament->creator_user_id = $user->id;

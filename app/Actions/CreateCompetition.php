@@ -88,6 +88,10 @@ class CreateCompetition
             $competition->emblem = "https://upload.wikimedia.org/wikipedia/en/thumb/2/26/UEFA_Euro_2024_Logo.svg/220px-UEFA_Euro_2024_Logo.svg.png";
             $competition->name="יורו 2024";
         }
+        if (Str::lower($id) == 'wc2026'){
+            $competition->config = array_merge($competition->config, ["type" => Competition::TYPE_WC_48]);
+            $competition->name = "מונדיאל 2026";
+        }
 
         $competition->save();
 

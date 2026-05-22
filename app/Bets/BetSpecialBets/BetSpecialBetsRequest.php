@@ -246,7 +246,9 @@ class BetSpecialBetsRequest extends AbstractBetRequest
         $score = 0;
         foreach ($koGames as $game) {
             if ($game->getKnockoutWinner() == $this->answer){
-                if ($game->sub_type == GameSubTypes::LAST_16) {
+                if ($game->sub_type == GameSubTypes::LAST_32) {
+                    $score += $this->getScoreConfig("specialBets.{$type}.last16");
+                } else if ($game->sub_type == GameSubTypes::LAST_16) {
                     $score += $this->getScoreConfig("specialBets.{$type}.quarterFinal");
                 } else if ($game->sub_type == GameSubTypes::QUARTER_FINALS) {
                     $score += $this->getScoreConfig("specialBets.{$type}.semiFinal");
@@ -328,7 +330,9 @@ class BetSpecialBetsRequest extends AbstractBetRequest
             return 0;
         }
         if ($game->getKnockoutWinner() == $this->answer){
-            if ($game->sub_type == GameSubTypes::LAST_16) {
+            if ($game->sub_type == GameSubTypes::LAST_32) {
+                return $this->getScoreConfig("specialBets.{$type}.last16");
+            } else if ($game->sub_type == GameSubTypes::LAST_16) {
                 return $this->getScoreConfig("specialBets.{$type}.quarterFinal");
             } else if ($game->sub_type == GameSubTypes::QUARTER_FINALS) {
                 return $this->getScoreConfig("specialBets.{$type}.semiFinal");

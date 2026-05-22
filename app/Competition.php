@@ -52,6 +52,7 @@ class Competition extends Model
 
     const TYPE_WC = 'WC';
     const TYPE_UCL = 'UCL';
+    const TYPE_WC_48 = 'WC_48';
 
     protected $casts = [
         "config" => "array"
