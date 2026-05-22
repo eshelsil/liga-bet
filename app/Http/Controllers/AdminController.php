@@ -119,7 +119,7 @@ class AdminController extends Controller
 
     public function getRunningTournamentsData()
     {
-        $data = Tournament::all()->map(function( Tournament $t){
+        $data = Tournament::where('status', '!=', Tournament::STATUS_DONE)->get()->map(function( Tournament $t){
             $res = [];
             $utls = $t->utls;
             $userIds = $utls->pluck('user_id');
