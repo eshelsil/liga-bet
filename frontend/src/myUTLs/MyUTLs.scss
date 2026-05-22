@@ -18,9 +18,11 @@
             background-color: rgb(247 229 202 / 90%);
             padding: 8px 32px 8px 16px;
             font-size: 24px;
+            max-width: 400px;
+            margin: 0px auto;
             @include flexRow;
             .CompetitionTile-emblem{
-                width: 75px;
+                width: auto;
                 height: 75px;
                 margin-left: 16px;
             }
