@@ -5,7 +5,7 @@ module.exports = {
   corePlugins: {
     preflight: false,
   },
-  content: ['./src/**/*.{ts,tsx,js,jsx}', './index.html'],
+  content: ['./src/**/*.{ts,tsx,js,jsx}'],
   theme: mainTheme,
   plugins: [require('tailwindcss-animate')],
 }
