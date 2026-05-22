@@ -375,10 +375,29 @@ class Crawler
             768 => 5039, // Slovakia  
             790 => 5057, // Ukraine  
             1978 => 5066, // Georgia  
-            803 => 5047, // Turkey  
-            798 => 5040, // Czech Republic  
+            803 => 5047, // Turkey
+            798 => 5040, // Czech Republic
 
-            
+            // WC 2026:
+            761  => 5070,  // Paraguay
+            774  => 5103,  // South Africa
+            778  => 5109,  // Algeria
+            783  => 2391,  // New Zealand
+            792  => 2371,  // Sweden
+            818  => 5071,  // Colombia
+            825  => 5100,  // Egypt
+            836  => 5422,  // Haiti
+            1060 => 5048,  // Bosnia-Herzegovina
+            1836 => 5414,  // Panama
+            1930 => 5411,  // Cape Verde Islands
+            1934 => 14650, // Congo DR
+            1935 => 2385,  // Ivory Coast
+            8049 => 5083,  // Jordan
+            8062 => 5078,  // Iraq
+            8070 => 5085,  // Uzbekistan
+            8872 => 2376,  // Norway
+            9460 => 24397, // Curaçao
+
             // Champions League:
             5 => 331, // FC Bayern München  
             1876 => 1824, // FC København  
