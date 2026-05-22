@@ -1,5 +1,5 @@
-@import '../../styles/mixins.scss';
-@import '../../styles/shadows';
+@use '../../styles/mixins.scss';
+@use '../../styles/shadows';
 
 .LB-ScoresConfigPage {
     max-width: 100%;
@@ -21,7 +21,7 @@
 
 .LigaBet-ScoreConfigFormView {
     .ScoreConfig-SectionTitle {
-        @include flexRow;
+        @include mixins.flexRow;
         .LigaBet-InfoIconWithTooltip {
             margin-right: 8px;
         }
@@ -58,7 +58,7 @@
         }
     }
     .LB-ConfigBox {
-        @include floatingFrame;
+        @include mixins.floatingFrame;
         $padding: 16px;
         border-radius: 16px;
         padding: $padding;
@@ -107,14 +107,14 @@
             }
         }
         .configContainer {
-            @include floatingFrame;
+            @include mixins.floatingFrame;
             border-radius: 16px;
             margin-top: 20px;
             padding: 16px;
             overflow: hidden;
         }
         .ScoresConfig-SpecialQuestionHeader {
-            @include flexRow;
+            @include mixins.flexRow;
             h5 {
                 font-size: 16px;
             }
@@ -124,7 +124,7 @@
         }
     }
     .saveScoresButton {
-        @include centerContainer;
+        @include mixins.centerContainer;
         margin: 30px 0px;
     }
     .resetButton {
@@ -171,7 +171,7 @@
                     text-align: center;
                 }
                 .headerWithSwitch {
-                    @include centerContainer;
+                    @include mixins.centerContainer;
                     flex-direction: column;
                 }
             }
@@ -179,7 +179,7 @@
                 vertical-align: bottom;
             }
             .LB-BonusesRow {
-                @include flexRow;
+                @include mixins.flexRow;
                 padding: 0px 20px;
                 border: 1px solid #e0e0e0;
                 border-radius: 12px;

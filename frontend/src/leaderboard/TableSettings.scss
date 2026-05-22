@@ -1,5 +1,5 @@
-@import '../styles/mixins';
-@import '../styles/colors';
+@use '../styles/mixins';
+@use '../styles/colors';
 
 .LB-TableSettings {
     &.LB-StickyConfig {
@@ -10,7 +10,7 @@
     }
 
     .TableSettings-header {
-        @include flexRow;
+        @include mixins.flexRow;
         justify-content: space-between;
         cursor: pointer;
         .TableSettings-title {
@@ -34,7 +34,7 @@
         }
     }
     .TableSettings-flexRow{
-        @include flexRow;
+        @include mixins.flexRow;
         &.TableSettings-destVersionRow{
             padding-right: 8px;
             .MuiSwitch-root {

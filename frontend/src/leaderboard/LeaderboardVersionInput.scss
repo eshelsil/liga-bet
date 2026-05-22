@@ -1,9 +1,9 @@
-@import '../styles/mixins';
-@import '../styles/colors';
+@use '../styles/mixins';
+@use '../styles/colors';
 
 
 .LB-LeaderboardVersionInput {
-    @include flexRow;
+    @include mixins.flexRow;
     position: relative;
     .LeaderboardVersionInput-select {
         min-width: 230px;
@@ -37,8 +37,8 @@
 }
 
 .LB-LeaderboardVersionDisplay {
-    $bgColor: rgba($color: $primary-light, $alpha: 0.8);
-    $border: 1px solid $primary-main;
+    $bgColor: rgba($color: colors.$primary-light, $alpha: 0.8);
+    $border: 1px solid colors.$primary-main;
     .VersionDisplay-game {
         background: $bgColor;
         border-radius: 12px;

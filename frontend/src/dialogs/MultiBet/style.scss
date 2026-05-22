@@ -1,4 +1,4 @@
-@import '../../styles/mixins';
+@use '../../styles/mixins';
 
 .LB-MultiBetExplanationDialog {
     .MuiDialog-paper {
@@ -27,6 +27,6 @@
         }
     }
     .buttonContainer {
-        @include centerContainer;
+        @include mixins.centerContainer;
     }
 }

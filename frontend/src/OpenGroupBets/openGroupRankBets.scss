@@ -1,6 +1,6 @@
-@import '../styles/mixins';
-@import '../styles/shadows';
-@import '../styles/themes/tournaments';
+@use '../styles/mixins';
+@use '../styles/shadows';
+@use '../styles/themes/tournaments';
 
 
 .LB-OpenGroupRankBetsView {
@@ -19,8 +19,8 @@
         width: 330px;
         overflow: hidden;
         max-width: 100%;
-        @include floatingFrame;
-        box-shadow: $medium-shadow;
+        @include mixins.floatingFrame;
+        box-shadow: shadows.$medium-shadow;
         
         margin: 12px;
         @media(max-width: 600px){
@@ -40,12 +40,12 @@
                     margin-left: 6px;
                     .rank {
                         background-color: #fbfbfbfb;
-                        box-shadow: $medium-shadow;
+                        box-shadow: shadows.$medium-shadow;
                     }
                 }
                 .LB-TeamStanding {
                     background-color: #fbfbfbfb;
-                    box-shadow: $medium-shadow;
+                    box-shadow: shadows.$medium-shadow;
                 }
             }
             &:not(.onEdit){
@@ -80,7 +80,7 @@
                 }
             }
             .LB-TeamStanding {
-                @include flexRow;
+                @include mixins.flexRow;
                 justify-content: space-between;
                 padding: 8px;
                 width: 100%;
@@ -94,7 +94,7 @@
             }
             .buttonContainer {
                 position: relative;
-                @include centerContainer;
+                @include mixins.centerContainer;
                 margin-top: 16px;
                 .MuiButton-root {
                     line-height: 2;
@@ -106,7 +106,7 @@
                 }
             }
             .noBet {
-                @include centerContainer;
+                @include mixins.centerContainer;
             }
         }
     }

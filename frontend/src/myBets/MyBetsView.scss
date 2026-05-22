@@ -1,9 +1,10 @@
-@import '../styles/themes/tournaments';
-@import '../styles/mixins';
+@use '../styles/themes/tournaments';
+@use '../styles/mixins';
+@use "sass:map";
 
 
 @mixin themable_header($class, $tournament_theme){
-    $gradient: map_get($tournament_theme, gradient);
+    $gradient: map.get($tournament_theme, gradient);
   
     &.#{$class} {
         background: $gradient;
@@ -20,12 +21,12 @@
     .LB-MyBetsSection {
         margin-top: 40px;
         .MyBetsSection-header {
-            @include themable_header(tournament-theme, $tournament_1);
-            @include themable_header(tournament-theme-1, $tournament_1);
-            @include themable_header(tournament-theme-2, $tournament_2);
-            @include themable_header(tournament-theme-3, $tournament_3);
-            @include themable_header(tournament-theme-4, $tournament_4);
-            @include themable_header(tournament-theme-5, $tournament_5);
+            @include themable_header(tournament-theme, tournaments.$tournament_1);
+            @include themable_header(tournament-theme-1, tournaments.$tournament_1);
+            @include themable_header(tournament-theme-2, tournaments.$tournament_2);
+            @include themable_header(tournament-theme-3, tournaments.$tournament_3);
+            @include themable_header(tournament-theme-4, tournaments.$tournament_4);
+            @include themable_header(tournament-theme-5, tournaments.$tournament_5);
             & {
                 padding: 8px 12px;
                 border-top-left-radius: 12px;

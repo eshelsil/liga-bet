@@ -1,4 +1,8 @@
-@import './styles/mixins';
+@use './styles/mixins';
+
+@use 'ko_switch';
+@use 'oldStyling';
+@use './styles/global';
 
 html {
     font-size: 16px;
@@ -228,10 +232,6 @@ table {
     color: red;
 }
 
-@import 'ko_switch';
-@import 'oldStyling';
-@import './styles/global';
-
 
 // override bootstrap css:
 .MuiInputBase-root {
@@ -243,19 +243,19 @@ table {
 .LB-AppMainWrapper {
     min-height: 100vh;
     .LB-TitleText {
-        @include headerText;
+        @include mixins.headerText;
     }
     .LB-NormalText {
-        @include headerText;
+        @include mixins.headerText;
     }
     .LB-FloatingFrame {
-        @include floatingFrame;
+        @include mixins.floatingFrame;
         border-radius: 12px;
         padding: 12px;
         margin-bottom: 16px;
     }
     .LB-CustomTable {
-        @include floatingTable;
+        @include mixins.floatingTable;
     }
     .LB-AdminViewContainer {
         background-color: #eeeeeee3;

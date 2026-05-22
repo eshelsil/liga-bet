@@ -1,8 +1,8 @@
-@import '../../styles/mixins';
-@import '../../styles/shadows';
+@use '../../styles/mixins';
+@use '../../styles/shadows';
 
 .LB-PlayerWithImg {
-    @include flexRow;
+    @include mixins.flexRow;
     .PlayerWithImg-name {
         margin-right: 6px;
         margin-top: 2px;
@@ -14,7 +14,7 @@
 }
 
 .LB-PlayerImg {
-    box-shadow: $medium-shadow;
+    box-shadow: shadows.$medium-shadow;
     border-radius: 100%;
     .playerImage {
         width: 100%;

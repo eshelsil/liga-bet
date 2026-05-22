@@ -1,4 +1,4 @@
-@import '../styles/colors';
+@use '../styles/colors';
 
 .LB-ClosedBetsPage {
     margin: auto;
@@ -17,7 +17,7 @@
                     font-size: 15px;
                     &.Mui-selected{
                         background: rgba(255,255,255, 0.15);
-                        color: $primary-light;
+                        color: colors.$primary-light;
                         font-weight: 700;
                         filter: none;
                     }

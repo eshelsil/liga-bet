@@ -1,6 +1,7 @@
-@import '../styles/themes/tournaments';
-@import '../styles/shadows';
-@import '../styles/mixins';
+@use '../styles/themes/tournaments';
+@use '../styles/shadows';
+@use '../styles/mixins';
+@use "sass:map";
 
 .LigaBet-UTLPage {
     display: flex;
@@ -20,7 +21,7 @@
             font-size: 24px;
             max-width: 400px;
             margin: 0px auto;
-            @include flexRow;
+            @include mixins.flexRow;
             .CompetitionTile-emblem{
                 width: auto;
                 height: 75px;
@@ -33,7 +34,7 @@
             justify-content: center;
             max-width: 100%;
             .LB-UtlCard {
-                @include floatingFrame;
+                @include mixins.floatingFrame;
                 $borderRadius: 12px;
                 width: 350px;
                 max-width: 100%;
@@ -42,7 +43,7 @@
                 overflow: hidden;
                 
                 .cardHeader {
-                    @include flexRow;
+                    @include mixins.flexRow;
                     $headerXPadding: 16px;
                     padding: 4px $headerXPadding;
                     position: relative;
@@ -79,7 +80,7 @@
                         }
                     }
                     .linksContainer {
-                        @include centerContainer;
+                        @include mixins.centerContainer;
                         flex-direction: column;
                         .takanonLink {
                             margin-top: 8px;
@@ -123,7 +124,7 @@
 
 
 @mixin themable_utl($class, $tournament_theme){
-    $gradient: map_get($tournament_theme, gradient);
+    $gradient: map.get($tournament_theme, gradient);
     .LB-UtlCard {
         .cardHeader {
             &.#{$class} {
@@ -137,9 +138,9 @@
 }
 
   
-  @include themable_utl(tournament-theme, $tournament_1);
-  @include themable_utl(tournament-theme-1, $tournament_1);
-  @include themable_utl(tournament-theme-2, $tournament_2);
-  @include themable_utl(tournament-theme-3, $tournament_3);
-  @include themable_utl(tournament-theme-4, $tournament_4);
-  @include themable_utl(tournament-theme-5, $tournament_5);
+  @include themable_utl(tournament-theme, tournaments.$tournament_1);
+  @include themable_utl(tournament-theme-1, tournaments.$tournament_1);
+  @include themable_utl(tournament-theme-2, tournaments.$tournament_2);
+  @include themable_utl(tournament-theme-3, tournaments.$tournament_3);
+  @include themable_utl(tournament-theme-4, tournaments.$tournament_4);
+  @include themable_utl(tournament-theme-5, tournaments.$tournament_5);

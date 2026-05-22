@@ -1,9 +1,9 @@
-@import '../styles/mixins';
+@use '../styles/mixins';
 
 .LigaBet-AdminDefaultView {
     padding: 16px;
     flex-direction: column;
-    @include centerContainer;
+    @include mixins.centerContainer;
     .buttonsContainer{
         .MuiButton-root {
             margin-top: 36px;

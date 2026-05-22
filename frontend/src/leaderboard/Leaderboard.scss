@@ -1,13 +1,13 @@
-@import '../styles/themes/tournaments';
-@import '../styles/themes/prizes';
-@import '../styles/mixins';
-@import '../styles/shadows';
-@import '../styles/colors';
-
+@use '../styles/themes/tournaments';
+@use '../styles/themes/prizes';
+@use '../styles/mixins';
+@use '../styles/shadows';
+@use '../styles/colors';
+@use "sass:map";
 
 
 @mixin themable_table_header($class, $tournament_theme){
-    $gradient: map_get($tournament_theme, gradient);
+    $gradient: map.get($tournament_theme, gradient);
   
     &.#{$class} {
         .tableTitleContainer {
@@ -21,7 +21,7 @@
 
 @mixin themable_prize_row($class, $prize_theme){
     &.#{$class} {
-        $background: map_get($prize_theme, "background");
+        $background: map.get($prize_theme, "background");
         background: $background;
         .MuiTableCell-root {
             color: white;
@@ -36,14 +36,14 @@
     max-width: 100%;
     width: 600px;
     margin: auto;
-    @include themable_table_header(tournament-theme, $tournament_1);
-    @include themable_table_header(tournament-theme-1, $tournament_1);
-    @include themable_table_header(tournament-theme-2, $tournament_2);
-    @include themable_table_header(tournament-theme-3, $tournament_3);
-    @include themable_table_header(tournament-theme-4, $tournament_4);
-    @include themable_table_header(tournament-theme-5, $tournament_5);
+    @include themable_table_header(tournament-theme, tournaments.$tournament_1);
+    @include themable_table_header(tournament-theme-1, tournaments.$tournament_1);
+    @include themable_table_header(tournament-theme-2, tournaments.$tournament_2);
+    @include themable_table_header(tournament-theme-3, tournaments.$tournament_3);
+    @include themable_table_header(tournament-theme-4, tournaments.$tournament_4);
+    @include themable_table_header(tournament-theme-5, tournaments.$tournament_5);
     .LeaderboardView-buttons {
-        @include flexRow;
+        @include mixins.flexRow;
         justify-content: space-between;
         margin-top: 16px;
     }
@@ -122,16 +122,16 @@
             }
             .LigaBet-CustomTableRow {
                 cursor: pointer;
-                @include themable_prize_row(prize-theme-1, $prize_1);
-                @include themable_prize_row(prize-theme-2, $prize_2);
-                @include themable_prize_row(prize-theme-3, $prize_3);
-                @include themable_prize_row(prize-theme-4, $prize_4);
-                @include themable_prize_row(prize-theme-5, $prize_5);
-                @include themable_prize_row(prize-theme-6, $prize_6);
+                @include themable_prize_row(prize-theme-1, prizes.$prize_1);
+                @include themable_prize_row(prize-theme-2, prizes.$prize_2);
+                @include themable_prize_row(prize-theme-3, prizes.$prize_3);
+                @include themable_prize_row(prize-theme-4, prizes.$prize_4);
+                @include themable_prize_row(prize-theme-5, prizes.$prize_5);
+                @include themable_prize_row(prize-theme-6, prizes.$prize_6);
                 &.currentUtl {
                     .MuiTableCell-root {
                         &:first-of-type {
-                            border-right: 6px solid $primary-main;
+                            border-right: 6px solid colors.$primary-main;
                             .rankChange {
                                 margin-right: -2px;
                             }
@@ -176,9 +176,9 @@
                 line-height: 1;
                 font-size: 12px;
                 margin-top: -1px;
-                box-shadow: $medium-shadow;
+                box-shadow: shadows.$medium-shadow;
                 text-shadow: none;
-                @include flexRow;
+                @include mixins.flexRow;
                 > span {
                     margin-left: -1px;
                     padding-right: 2px;
@@ -189,8 +189,8 @@
             }
         }
         .rankChange {
-            @include flexRow;
-            box-shadow: $medium-shadow;
+            @include mixins.flexRow;
+            box-shadow: shadows.$medium-shadow;
             border-radius: 50%;    display: flex;
             padding-right: 6px;
             position: relative;
@@ -209,12 +209,12 @@
                 margin-left: -2px;
             }
             .rankChange-direction {
-                color: $success-main;
+                color: colors.$success-main;
                 transform: rotate(180deg);
             }
             &.isNegative {
                 .rankChange-direction {
-                    color: $error-main;
+                    color: colors.$error-main;
                     transform: rotate(0deg);
                 }
             }
@@ -224,7 +224,7 @@
 }
 
 .LB-NameWithWinnerFlag {
-    @include flexRow;
+    @include mixins.flexRow;
     height: 24px;
     margin-top: -4px;
     .NameWithWinnerFlag-name {
@@ -267,7 +267,7 @@
     }
     .hisBetsLink {
         margin-bottom: 12px;
-        @include centerContainer;
+        @include mixins.centerContainer;
         .MuiLink-root {
             cursor: pointer;
         }
@@ -275,7 +275,7 @@
 }
 
 .LB-SideTournamentTitle {
-    @include centerContainer;
+    @include mixins.centerContainer;
     .SideTournamentTitle-emblem {
         margin-left: 16px;
         height: 18px;

@@ -1,8 +1,8 @@
-@import '../../styles/shadows';
+@use '../../styles/shadows';
 
 .LigaBet-TakanonPreviewSection {
     .takanonDemo {
-        box-shadow: $basic-shadow;
+        box-shadow: shadows.$basic-shadow;
         border-radius: 16px;
         padding: 16px;
         padding-top: 1px;

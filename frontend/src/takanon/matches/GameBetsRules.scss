@@ -1,5 +1,5 @@
-@import '../../styles/mixins';
-@import '../../styles/shadows';
+@use '../../styles/mixins';
+@use '../../styles/shadows';
 
 .LB-GameExampleView {
     margin-top: 20px;
@@ -7,7 +7,7 @@
     width: 600px;
     max-width: 100%;
     border-radius: 12px;
-    box-shadow: $basic-shadow;
+    box-shadow: shadows.$basic-shadow;
     .GameExampleView-results {
         justify-content: space-between;
         display: flex;

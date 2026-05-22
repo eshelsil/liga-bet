@@ -1,13 +1,13 @@
-@import '../styles/colors';
-@import '../styles/mixins';
-@import '../styles/shadows';
-@import '../styles/themes/tournaments';
-
+@use '../styles/colors';
+@use '../styles/mixins';
+@use '../styles/shadows';
+@use '../styles/themes/tournaments';
+@use "sass:map";
 
 @mixin tournament_link($tournament_theme){
-  background: map_get($tournament_theme, main);
+  background: map.get($tournament_theme, main);
   &:hover {
-    background: map_get($tournament_theme, gradient);
+    background: map.get($tournament_theme, gradient);
   }
 }
 
@@ -33,21 +33,21 @@
         padding: 6px 14px;
         padding-left: 24px;
         width: 100%;
-        @include tournament_link($tournament_1);
+        @include tournament_link(tournaments.$tournament_1);
         &:nth-of-type(1) {
-          @include tournament_link($tournament_1);
+          @include tournament_link(tournaments.$tournament_1);
         }
         &:nth-of-type(2) {
-          @include tournament_link($tournament_2);
+          @include tournament_link(tournaments.$tournament_2);
         }
         &:nth-of-type(3) {
-          @include tournament_link($tournament_3);
+          @include tournament_link(tournaments.$tournament_3);
         }
         &:nth-of-type(4) {
-          @include tournament_link($tournament_4);
+          @include tournament_link(tournaments.$tournament_4);
         }
         &:nth-of-type(5) {
-          @include tournament_link($tournament_5);
+          @include tournament_link(tournaments.$tournament_5);
         }
         &.selectedTournament {
           border: 3px solid rgba(0,0,0,0.45);
@@ -64,9 +64,9 @@
           }
         }
         .wrapper {
-          @include fullView;
+          @include mixins.fullView;
           .tournamentRow {
-            @include flexRow;
+            @include mixins.flexRow;
             padding-right: 4px;
             font-size: 18px;
             .tournamentName {
@@ -95,10 +95,10 @@
       .buttonLink {
         background-color: #9f9f9f57;
         padding: 8px;
-        @include centerContainer;
+        @include mixins.centerContainer;
       }
       .changeLiveMode{
-        @include centerContainer;
+        @include mixins.centerContainer;
         cursor: pointer;
         background-color: #c7768985;
         width: 100%;

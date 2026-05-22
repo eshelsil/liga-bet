@@ -1,12 +1,12 @@
-@import '../../styles/_mixins.scss';
-@import '../../styles/shadows';
+@use '../../styles/_mixins.scss';
+@use '../../styles/shadows';
 
 .LigaBet-PrizesConfig {
     max-width: 100%;
     width: 800px;
     margin: auto;
     .inputWithTakanon {
-        @include floatingFrame;
+        @include mixins.floatingFrame;
         border-radius: 16px;
         padding: 16px;
         .LigaBet-PrizeInput{
@@ -25,7 +25,7 @@
             }
         }
         .savePrizes {
-            @include centerContainer;
+            @include mixins.centerContainer;
             margin-top: 30px;
         }
         .LigaBet-TakanonPreviewSection {
@@ -40,7 +40,7 @@
     }
     .savePrizes {
         margin-top: 24px;
-        @include centerContainer;
+        @include mixins.centerContainer;
     }
     .forgotSomething {
         margin-top: 24px;

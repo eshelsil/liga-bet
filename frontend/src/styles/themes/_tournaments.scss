@@ -1,4 +1,4 @@
-@import '../colors';
+@use '../colors';
 
 @function simple_gradient($light, $main) {
 	@return linear-gradient(
@@ -9,36 +9,36 @@
 }
 
 $tournament_1: (
-	light: $primary-light,
-	main: $primary-main,
-	dark: $primary-dark,
-	gradient: simple_gradient($primary-light, $primary-main),
+	light: colors.$primary-light,
+	main: colors.$primary-main,
+	dark: colors.$primary-dark,
+	gradient: simple_gradient(colors.$primary-light, colors.$primary-main),
 );
 
 $tournament_2: (
-	light: $success-light,
-	main: $success-main,
-	dark: $success-dark,
-	gradient: simple_gradient($success-light, $success-main),
+	light: colors.$success-light,
+	main: colors.$success-main,
+	dark: colors.$success-dark,
+	gradient: simple_gradient(colors.$success-light, colors.$success-main),
 );
 
 $tournament_3: (
-	light: $warning-light,
-	main: $warning-main,
-	dark: $warning-dark,
-	gradient: simple_gradient($warning-light, $warning-main),
+	light: colors.$warning-light,
+	main: colors.$warning-main,
+	dark: colors.$warning-dark,
+	gradient: simple_gradient(colors.$warning-light, colors.$warning-main),
 );
 	
 $tournament_4: (
-	light: $purple-light,
-	main: $purple-main,
-	dark: $purple-dark,
-	gradient: simple_gradient($purple-light, $purple-main),
+	light: colors.$purple-light,
+	main: colors.$purple-main,
+	dark: colors.$purple-dark,
+	gradient: simple_gradient(colors.$purple-light, colors.$purple-main),
 );
 
 $tournament_5: (
-	light: $error-light,
-	main: $error-main,
-	dark: $error-dark,
-	gradient: simple_gradient($error-light, $error-main),
+	light: colors.$error-light,
+	main: colors.$error-main,
+	dark: colors.$error-dark,
+	gradient: simple_gradient(colors.$error-light, colors.$error-main),
 );

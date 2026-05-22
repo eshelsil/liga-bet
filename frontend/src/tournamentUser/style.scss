@@ -1,15 +1,15 @@
-@import '../styles/shadows';
-@import '../styles/mixins';
+@use '../styles/shadows';
+@use '../styles/mixins';
 
 
 @mixin formWrapper {
-    @include floatingFrame;
+    @include mixins.floatingFrame;
     border-radius: 16px;
     padding: 24px;
 }
 
 .LB-CompetitionTitle {
-    @include flexRow;
+    @include mixins.flexRow;
     > h2 {
         margin: 0;
     }
@@ -27,7 +27,7 @@
             margin: 0;
         }
         .MuiFormGroup-root{
-            @include floatingFrame;
+            @include mixins.floatingFrame;
             border-radius: 16px;
             padding: 8px;
             margin-top: 8px;
@@ -67,7 +67,7 @@
         }
     }
     .buttonContainer {
-        @include centerContainer;
+        @include mixins.centerContainer;
         margin-top: 32px;
     }
 }
@@ -81,7 +81,7 @@
     .joinTournamentForm {
         @include formWrapper;
         .tournamentName {
-            @include flexRow;
+            @include mixins.flexRow;
             font-size: 28px;
             .tournamentIcon{
                 margin-left: 8px;
@@ -91,7 +91,7 @@
             margin-top: 16px;
         }
         .buttonContainer {
-            @include centerContainer;
+            @include mixins.centerContainer;
             margin-top: 32px;
         }
         .importBetsSection {
@@ -103,7 +103,7 @@
 .LB-DefaultNoUtlView {
     padding: 16px;
     flex-direction: column;
-    @include centerContainer;
+    @include mixins.centerContainer;
     .buttonsContainer{
         .MuiButton-root {
             margin-top: 36px;

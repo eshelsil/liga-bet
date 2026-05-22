@@ -1,5 +1,5 @@
-@import '../../styles/shadows';
-@import '../../styles/colors';
+@use '../../styles/shadows';
+@use '../../styles/colors';
 
 .LB-KoWinnerInput {
     position: relative;
@@ -21,7 +21,7 @@
                 height: 26px;
                 line-height: 26px;
                 border-radius: 50%;
-                box-shadow: $basic-shadow;
+                box-shadow: shadows.$basic-shadow;
                 text-align: center;
                 background: rgb(204 229 253 / 84%);
                 font-size: 15px;
@@ -30,7 +30,7 @@
             }
             &.KoWinnerInput-selected {
                 .KoWinnerInput-button {
-                    background-color: $primary-main;
+                    background-color: colors.$primary-main;
                     border: 1px solid rgb(0 0 0 / 70%);
                     cursor: default;
                 }

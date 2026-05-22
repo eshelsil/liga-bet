@@ -1,13 +1,15 @@
-@import '../styles/colors';
-@import '../styles/mixins';
-@import '../styles/shadows';
-@import '../styles/themes/tournaments';
-
+@use '../styles/colors';
+@use '../styles/mixins';
+@use '../styles/shadows';
+@use '../styles/themes/tournaments';
+@use './TournamentDropdownMenu.scss';
+@use './LinkMenuItem.scss';
+@use "sass:map";
 
 @mixin tournament_link($tournament_theme){
-  background: map_get($tournament_theme, main);
+  background: map.get($tournament_theme, main);
   &:hover {
-    background: map_get($tournament_theme, gradient);
+    background: map.get($tournament_theme, gradient);
   }
 }
 
@@ -44,7 +46,7 @@
         min-height: unset;
       }
       .AppMenuMobile-leftSide {
-        @include flexRow;
+        @include mixins.flexRow;
       }
       .expandSection {
         min-height: $minMenuHeight;
@@ -100,7 +102,7 @@
           &.UserIcon-withShadow {
             border-radius: 100%;
             overflow: hidden;
-            box-shadow: $medium-shadow;
+            box-shadow: shadows.$medium-shadow;
             .personIcon {
               left: 60%;
             }
@@ -134,7 +136,7 @@
         padding: 12px 16px;
         width: 100%;
         .flexRow {
-          @include flexRow;
+          @include mixins.flexRow;
         }
       }
     }
@@ -143,16 +145,14 @@
 
 
 
-@import './TournamentDropdownMenu.scss';
-@import './LinkMenuItem.scss';
 
 
 
 @mixin themable_app_header($class, $tournament_theme){
-  $theme_light: map_get($tournament_theme, light);
-  $theme_main: map_get($tournament_theme, main);
-  $theme_dark: map_get($tournament_theme, dark);
-  $gradient: map_get($tournament_theme, gradient);
+  $theme_light: map.get($tournament_theme, light);
+  $theme_main: map.get($tournament_theme, main);
+  $theme_dark: map.get($tournament_theme, dark);
+  $gradient: map.get($tournament_theme, gradient);
 
   .LigaBet-AppHeader {
     &.#{$class} {
@@ -176,9 +176,9 @@
   }
 }
 
-@include themable_app_header(tournament-theme, $tournament_1);
-@include themable_app_header(tournament-theme-1, $tournament_1);
-@include themable_app_header(tournament-theme-2, $tournament_2);
-@include themable_app_header(tournament-theme-3, $tournament_3);
-@include themable_app_header(tournament-theme-4, $tournament_4);
-@include themable_app_header(tournament-theme-5, $tournament_5);
+@include themable_app_header(tournament-theme, tournaments.$tournament_1);
+@include themable_app_header(tournament-theme-1, tournaments.$tournament_1);
+@include themable_app_header(tournament-theme-2, tournaments.$tournament_2);
+@include themable_app_header(tournament-theme-3, tournaments.$tournament_3);
+@include themable_app_header(tournament-theme-4, tournaments.$tournament_4);
+@include themable_app_header(tournament-theme-5, tournaments.$tournament_5);

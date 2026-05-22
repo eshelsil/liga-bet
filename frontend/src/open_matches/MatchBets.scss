@@ -1,6 +1,6 @@
-@import '../styles/mixins';
-@import '../styles/shadows';
-@import '../styles/colors';
+@use '../styles/mixins';
+@use '../styles/shadows';
+@use '../styles/colors';
 
 
 .LB-OpenMatchesView {
@@ -39,12 +39,12 @@
         }
     }
     .LB-OpenMatchBet {
-        @include floatingFrame;
+        @include mixins.floatingFrame;
         border-radius: 12px;
         width: 400px;
         overflow: hidden;
         max-width: 100%;
-        box-shadow: $medium-shadow;
+        box-shadow: shadows.$medium-shadow;
         margin: 24px;
         @media(max-width: 600px){
             margin: 12px auto;
@@ -102,15 +102,15 @@
                     align-items: center;
                     justify-content: space-evenly;
                     .scoreDisplayContainer {
-                        @include centerContainer;
+                        @include mixins.centerContainer;
                         width: 36px;
                         height: 36px;
                         .scoreDisplay {
-                            @include centerContainer;
+                            @include mixins.centerContainer;
                             width: 100%;
                             height: 100%;
                             border-radius: 8px;
-                            background: $primary-main;
+                            background: colors.$primary-main;
                             cursor: pointer;
                             .scoreText {
                                 color: #fff;
@@ -146,7 +146,7 @@
                 }
             }
             .verticalTeam {
-                @include centerContainer;
+                @include mixins.centerContainer;
                 flex-direction: column;
                 display: inline-flex;
                 position: absolute;

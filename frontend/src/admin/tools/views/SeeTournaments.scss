@@ -1,5 +1,5 @@
-@import '../../../styles/colors';
-@import '../../../styles/mixins';
+@use '../../../styles/colors';
+@use '../../../styles/mixins';
 
 .LB-TournamentView {
     border-radius: 12px;
@@ -7,7 +7,7 @@
     background: rgba(255,255,255, 0.9);
     margin-bottom: 24px;
     .TournameView-name {
-        background: $primary-light-main-gradient;
+        background: colors.$primary-light-main-gradient;
         font-size: 16px;
         color: #fff;
         padding: 8px 16px;
@@ -18,7 +18,7 @@
             padding: 6px 0px;
         }
         .contestantsExpandLink {
-            @include flexRow;
+            @include mixins.flexRow;
         }
         .contestantsTable {
             border: 1px solid #ddd ;

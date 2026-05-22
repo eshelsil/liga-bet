@@ -1,4 +1,4 @@
-@import '../../styles/mixins';
+@use '../../styles/mixins';
 
 .LB-WaitForMvpDialog {
     .MuiDialog-paper {
@@ -13,6 +13,6 @@
     }
     .buttonContainer {
         margin-top: 40px;
-        @include centerContainer;
+        @include mixins.centerContainer;
     }
 }

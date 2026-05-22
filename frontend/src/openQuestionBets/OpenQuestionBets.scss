@@ -1,10 +1,11 @@
-@import '../styles/mixins';
-@import '../styles/shadows';
-@import '../styles/themes/tournaments';
+@use '../styles/mixins';
+@use '../styles/shadows';
+@use '../styles/themes/tournaments';
+@use "sass:map";
 
 
 @mixin themable_header($class, $tournament_theme){
-    $gradient: map_get($tournament_theme, gradient);
+    $gradient: map.get($tournament_theme, gradient);
   
     &.#{$class} {
         background: $gradient;
@@ -30,8 +31,8 @@
         width: 330px;
         overflow: hidden;
         max-width: 100%;
-        @include floatingFrame;
-        box-shadow: $medium-shadow;
+        @include mixins.floatingFrame;
+        box-shadow: shadows.$medium-shadow;
         margin: 12px;
         @media(max-width: 600px){
             margin: 12px auto;
@@ -49,7 +50,7 @@
             align-items: center;
         }
         .no_bet {
-            @include flexRow;
+            @include mixins.flexRow;
             justify-content: center;
             padding: 8px;
             .MuiSvgIcon-root {

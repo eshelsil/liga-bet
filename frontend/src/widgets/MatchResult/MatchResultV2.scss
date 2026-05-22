@@ -1,4 +1,4 @@
-@import '../../styles/mixins';
+@use '../../styles/mixins';
 
 
 .LB-MatchResultV2 {
@@ -12,7 +12,7 @@
         padding: 4px;
         .MatchResult-delimiter {
             > :first-child {
-                @include centerContainer;
+                @include mixins.centerContainer;
                 align-items: center;
                 height: 32px;
                 margin: 0px 4px

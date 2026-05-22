@@ -39,6 +39,13 @@ export default defineConfig(({ mode }) => {
                 '@': path.resolve(__dirname, 'src'),
             },
         },
+        css: {
+            preprocessorOptions: {
+                scss: {
+                    api: 'modern-compiler',
+                },
+            },
+        },
         build: {
             outDir: path.resolve(__dirname, '../public/js/react-app'),
             emptyOutDir: true,

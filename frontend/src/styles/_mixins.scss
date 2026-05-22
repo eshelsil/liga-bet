@@ -1,4 +1,4 @@
-@import './shadows';
+@use './shadows';
 
 
 @mixin centerContainer {
@@ -18,7 +18,7 @@
 }
 
 @mixin floatingFrame {
-    box-shadow: $basic-shadow;
+    box-shadow: shadows.$basic-shadow;
     background-color: rgba(255,255,255, 0.95);
 }
 

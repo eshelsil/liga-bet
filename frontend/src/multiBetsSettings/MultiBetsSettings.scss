@@ -1,8 +1,8 @@
-@import '../styles/mixins';
+@use '../styles/mixins';
 
 .LB-MultiBetsSettings {
     .MultiBetsSettings-content {
-        @include flexRow;
+        @include mixins.flexRow;
         justify-content: space-between;
         > p {
             font-size: 16px;
@@ -15,7 +15,7 @@
         }
     }
     .MultiBetsSettings-isMultiBet {
-        @include flexRow;
+        @include mixins.flexRow;
         justify-content: flex-end;
     }
 }

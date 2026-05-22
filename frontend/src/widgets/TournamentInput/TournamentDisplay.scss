@@ -1,10 +1,11 @@
-@import '../../styles/shadows';
-@import '../../styles/mixins';
-@import '../../styles/themes/tournaments';
+@use '../../styles/shadows';
+@use '../../styles/mixins';
+@use '../../styles/themes/tournaments';
+@use "sass:map";
 
 
 @mixin themeable_tournament_input($class, $tournament_theme){
-    $gradient: map_get($tournament_theme, gradient);
+    $gradient: map.get($tournament_theme, gradient);
     &.#{$class} {
         background: $gradient;
         .TournamentDisplay-name, .TournamentDisplay-utlName {
@@ -18,18 +19,18 @@
 
 .LB-TournamentDisplay {
     border-radius: 12px;
-    box-shadow: $basic-shadow;
+    box-shadow: shadows.$basic-shadow;
     overflow: hidden;
     width: 240px;
     padding: 4px 12px;
-    @include themeable_tournament_input(tournament-theme, $tournament_1);
-    @include themeable_tournament_input(tournament-theme-1, $tournament_1);
-    @include themeable_tournament_input(tournament-theme-2, $tournament_2);
-    @include themeable_tournament_input(tournament-theme-3, $tournament_3);
-    @include themeable_tournament_input(tournament-theme-4, $tournament_4);
-    @include themeable_tournament_input(tournament-theme-5, $tournament_5);
+    @include themeable_tournament_input(tournament-theme, tournaments.$tournament_1);
+    @include themeable_tournament_input(tournament-theme-1, tournaments.$tournament_1);
+    @include themeable_tournament_input(tournament-theme-2, tournaments.$tournament_2);
+    @include themeable_tournament_input(tournament-theme-3, tournaments.$tournament_3);
+    @include themeable_tournament_input(tournament-theme-4, tournaments.$tournament_4);
+    @include themeable_tournament_input(tournament-theme-5, tournaments.$tournament_5);
     .TournamentDisplay-header {
-        @include flexRow;
+        @include mixins.flexRow;
         margin: 8px 0px;
         .TournamentDisplay-name {
             font-size: 16px;
@@ -38,7 +39,7 @@
         }
     }
     .TournamentDisplay-content {
-        @include flexRow;
+        @include mixins.flexRow;
         margin: 8px 0px;
         .TournamentDisplay-utlName {
             margin-right: 8px;

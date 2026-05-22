@@ -1,9 +1,10 @@
-@import '../styles/themes/prizes';
+@use '../styles/themes/prizes';
+@use "sass:map";
 
 
 @mixin themable_prize_block($class, $prize_theme){
     &.#{$class} {
-        background: map_get($prize_theme, "background");
+        background: map.get($prize_theme, "background");
     }
 }
 
@@ -17,12 +18,12 @@
     color: #fff;
     background-color: #8d8b89;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-    @include themable_prize_block(prize-theme-1, $prize_1);
-    @include themable_prize_block(prize-theme-2, $prize_2);
-    @include themable_prize_block(prize-theme-3, $prize_3);
-    @include themable_prize_block(prize-theme-4, $prize_4);
-    @include themable_prize_block(prize-theme-5, $prize_5);
-    @include themable_prize_block(prize-theme-6, $prize_6);
+    @include themable_prize_block(prize-theme-1, prizes.$prize_1);
+    @include themable_prize_block(prize-theme-2, prizes.$prize_2);
+    @include themable_prize_block(prize-theme-3, prizes.$prize_3);
+    @include themable_prize_block(prize-theme-4, prizes.$prize_4);
+    @include themable_prize_block(prize-theme-5, prizes.$prize_5);
+    @include themable_prize_block(prize-theme-6, prizes.$prize_6);
     .LB-Prize-text {
         margin: 0;
         text-shadow: -1px 1px 5px rgb(0 0 0 / 95%)

@@ -1,4 +1,4 @@
-@import '../styles/mixins';
+@use '../styles/mixins';
 
 .LB-ManageContestantsView {
     .LB-ContestantRow {
@@ -10,7 +10,7 @@
     }
     .LB-AutoConfirmSelection {
         margin: 0;
-        @include flexRow;
+        @include mixins.flexRow;
         .loaderContainer {
             margin-top: -3px;
         }

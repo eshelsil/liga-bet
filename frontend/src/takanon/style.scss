@@ -1,11 +1,13 @@
-@import '../styles/mixins';
+@use '../styles/mixins';
+@use './matches/GameBetsRules.scss';
+@use './groupStandings/GroupRankRules.scss';
 
 .LB-Takanon {
     max-width: 100%;
     width: 900px;
     margin: auto;
     .takanonTextSection {
-        @include floatingFrame;
+        @include mixins.floatingFrame;
         border-radius: 12px;
         padding: 8px;
     }
@@ -26,7 +28,7 @@
 .LB-ExamplesAccordion {
     margin-top: 12px;
     &-link {
-        @include flexRow;
+        @include mixins.flexRow;
         cursor: pointer;
         &:hover {
             text-decoration: underline;
@@ -68,6 +70,3 @@
         border-top: 2px solid #000;
     }
 }
-
-@import './matches/GameBetsRules.scss';
-@import './groupStandings/GroupRankRules.scss';

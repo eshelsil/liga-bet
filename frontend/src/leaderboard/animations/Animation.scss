@@ -1,5 +1,5 @@
-@import './animations';
-@import '../../styles/mixins';
+@use './animations';
+@use '../../styles/mixins';
 
 
 .LB-CongratsAnimation {
@@ -164,7 +164,7 @@
         z-index: 104;
         width: 100%;
         top: 15%;
-        @include centerContainer;
+        @include mixins.centerContainer;
     }
     .center-wrap {
         margin-right: auto;
