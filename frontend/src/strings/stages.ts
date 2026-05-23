@@ -7,7 +7,7 @@ export const stageNameToHeb = {
     [KnockoutStage.SemiFinal]: 'חצי גמר',
     [KnockoutStage.QuarterFinal]: 'רבע גמר',
     [KnockoutStage.Last16]: 'שמינית גמר',
-    [KnockoutStage.Last32]: 'שלב 32 האחרונות',
+    [KnockoutStage.Last32]: '32 האחרונות',
     [GameType.GroupStage]: 'שלב הבתים',
 }
 

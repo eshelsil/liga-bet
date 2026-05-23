@@ -7,6 +7,10 @@ export const groupNameToHeb = {
     'group f': 'בית ו',
     'group g': 'בית ז',
     'group h': 'בית ח',
+    'group i': 'בית ט',
+    'group j': 'בית י',
+    'group k': 'בית י״א',
+    'group l': 'בית י״ב',
 }
 
 export function getHebGroupName(name: string){
