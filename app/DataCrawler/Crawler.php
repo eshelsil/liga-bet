@@ -28,7 +28,7 @@ class Crawler
         $this->id = $id;
     }
 
-    public static function getInstance($id = "ec") {
+    public static function getInstance($id = "wc") {
         return new static($id);
     }
 
