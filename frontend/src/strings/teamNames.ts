@@ -55,6 +55,21 @@ export const teamNameToHebrew = {
     georgia: 'גיאורגיה',
     romania: 'רומניה',
     slovenia: 'סלובניה',
+
+    'south africa': 'דרום אפריקה',
+    'bosnia-herzegovina': 'בוסניה והרצגובינה',
+    haiti: 'האיטי',
+    paraguay: 'פרגוואי',
+    'curaçao': 'קוראסאו',
+    'ivory coast': 'חוף השנהב',
+    'new zealand': 'ניו זילנד',
+    'cape verde islands': 'כף ורדה',
+    iraq: 'עיראק',
+    norway: 'נורווגיה',
+    algeria: 'אלג\'יריה',
+    jordan: 'ירדן',
+    'congo dr': 'קונגו הדמוקרטית',
+    uzbekistan: 'אוזבקיסטן',
 }
 
 export function getHebTeamName(name: string){

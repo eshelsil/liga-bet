@@ -36,6 +36,18 @@ const teamNameToCountryCode = {
     'north macedonia': 'mk',
     scotland: 'gb-sct',
     slovakia: 'sk',
+
+    'south africa': 'za',
+    'bosnia-herzegovina': 'ba',
+    haiti: 'ht',
+    paraguay: 'py',
+    'curaçao': 'cw',
+    'ivory coast': 'ci',
+    'new zealand': 'nz',
+    'cape verde islands': 'cv',
+    iraq: 'iq',
+    algeria: 'dz',
+    'congo dr': 'cd',
 }
 
 interface Props {
