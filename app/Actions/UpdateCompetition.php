@@ -32,6 +32,8 @@ class UpdateCompetition
 
     private ?Collection $fakeGames = null;
 
+    private ?\App\Testing\TournamentTestConfig $testConfig = null;
+
     public function __construct(
         CalculateSpecialBets $calculateSpecialBets,
         UpdateCompetitionScorers $updateScorers,
@@ -51,6 +53,17 @@ class UpdateCompetition
         $this->fakeGames = $games;
         $this->updateScorers->fake($scorers);
         $this->updateStandings->fake($standings);
+    }
+
+    /**
+     * Attach (or, with null, unlink) a local test config. When set, handle() will
+     * mock the configured games' results/scorers instead of hitting the crawler.
+     * Pass null afterwards to update normally from the real API.
+     */
+    public function setTestConfig(?\App\Testing\TournamentTestConfig $testConfig): static
+    {
+        $this->testConfig = $testConfig;
+        return $this;
     }
 
     public function handleLive(Competition $competition): Collection
@@ -80,6 +93,13 @@ class UpdateCompetition
 
     public function handle(Competition $competition): void
     {
+        if ($this->testConfig) {
+            $this->testConfig->applyStartTimeShift();
+            $competition->load("games");
+            $this->fakeGames = $this->testConfig->buildCrawlerGames();
+            $this->updateScorers->fake($this->testConfig->getScorersByDbGameId());
+        }
+
         Cache::lock("updateCompetition:{$competition->id}", 120)
             ->block(0, function () use ($competition) {
                 Log::debug("[UpdateCompetition][handle] Entered new request!");
