@@ -8,18 +8,10 @@ return [
     "gameBets" => [
         "bonuses" => [
             "quarterFinal" => [
-                "qualifier"  => 0,
-                "winnerSide" => 0,
-                "result"     => 1,
+                "qualifier"  => 1,
+                "winnerSide" => 1,
+                "result"     => 2,
             ],
-        ],
-    ],
-    "specialBets" => [
-        "winner" => [
-            "last16" => 2,
-        ],
-        "runnerUp" => [
-            "last16" => 2,
         ],
     ],
 ];

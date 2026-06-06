@@ -4,7 +4,7 @@ return [
     "gameBets" => [
         "groupStage" => [
             "winnerSide"         => 2,
-            "result"             => 4,
+            "result"             => 6,
         ],
         "knockout" => [
             "qualifier"          => 3,
@@ -13,15 +13,15 @@ return [
         ],
         "bonuses" => [
             "final" => [
-                "qualifier"      => 2,
-                "winnerSide"     => 2,
-                "result"         => 4,
+                "qualifier"      => 3,
+                "winnerSide"     => 3,
+                "result"         => 8,
 
             ],
             "semiFinal" => [
-                "qualifier"      => 1,
-                "winnerSide"     => 1,
-                "result"         => 2,
+                "qualifier"      => 2,
+                "winnerSide"     => 2,
+                "result"         => 4,
             ],
         ],
     ],
@@ -32,24 +32,24 @@ return [
     "specialBets" => [
         "offensiveTeam"          => 10,
         "winner" => [
-            "quarterFinal"       => 4,
-            "semiFinal"          => 6,
+            "quarterFinal"       => 5,
+            "semiFinal"          => 10,
             "final"              => 20,
-            "winning"            => 30,
+            "winning"            => 35,
         ],
         "runnerUp" => [
-            "quarterFinal"       => 4,
-            "semiFinal"          => 6,
+            "quarterFinal"       => 5,
+            "semiFinal"          => 10,
             "final"              => 20,
 
         ],
         "mvp"                    => 20,
         "topAssists"             => [
-            "correct"     => 8,
-            "eachGoal"    => 3,
+            "correct"     => 10,
+            "eachGoal"    => 4,
         ],
         "topScorer" => [
-            "correct"            => 8,
+            "correct"            => 12,
             "eachGoal"           => 4,
         ],
     ],
