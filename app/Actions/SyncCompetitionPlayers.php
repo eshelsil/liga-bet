@@ -3,12 +3,16 @@
 
 namespace App\Actions;
 
+use App\Bet;
 use App\Competition;
 use App\DataCrawler\Crawler;
+use App\Enums\BetTypes;
 use App\Group;
 use App\Game;
 use App\Player;
+use App\SpecialBets\SpecialBet;
 use App\Team;
+use App\Tournament;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -34,6 +38,7 @@ class SyncCompetitionPlayers
 
     public function updatePlayers(Competition $competition)
     {
+        $this->competition = $competition;
         $this->teams = $competition->teams->keyBy("external_id");
 
         $playersByTeam = $this->teams->mapWithKeys(function(Team $team) {
@@ -46,10 +51,12 @@ class SyncCompetitionPlayers
 
     private function syncNewPlayers(Collection $playersByTeam)
     {
+        $deletedPlayerIds = new Collection();
+
         foreach ($playersByTeam as $externalTeamId => $teamPlayers) {
             $team = $this->teams->get($externalTeamId);
             $existingPlayers = Player::where('team_id', $team->id)->get()->keyBy('external_id');
-    
+
             /** @var \App\DataCrawler\Player $playerData */
             foreach ($teamPlayers as $playerData) {
                 if (isset($existingPlayers[$playerData->externalId])) {
@@ -62,17 +69,57 @@ class SyncCompetitionPlayers
                     unset($existingPlayers[$playerData->externalId]);
                 } else {
                     // Add new player
-                    Player::generate($team, $playerData);
+                    $player = Player::generate($team, $playerData);
+                    Log::debug("[SyncCompetitionPlayers] Added player to database (id: {$player->id}, externalId: {$player->external_id}) {$player->name} for team [{$team->id}] {$team->name}");
                 }
             }
-    
+
             // Remove players that are not fetched
             foreach ($existingPlayers as $player) {
-                Log::debug("Deleting player from database (id: {$player->id}, externalId: {$player->external_id}) {$player->name}");
+                Log::debug("[SyncCompetitionPlayers] Deleting player from database (id: {$player->id}, externalId: {$player->external_id}) {$player->name}");
+                $deletedPlayerIds->push($player->id);
                 $player->delete();
             }
-    
+
             Log::debug("Synced ({$teamPlayers->count()}) Players for team [{$team->id}] {$team->name}");
+        }
+
+        $this->removeSpecialBetsForDeletedPlayers($deletedPlayerIds);
+    }
+
+    /**
+     * Delete user special-bets of player type (top scorer / most assists / mvp)
+     * whose chosen answer points to a player that was just removed.
+     */
+    private function removeSpecialBetsForDeletedPlayers(Collection $deletedPlayerIds)
+    {
+        if ($deletedPlayerIds->isEmpty()) {
+            return;
+        }
+
+        $playerSpecialBetIds = $this->competition->tournaments
+            ->flatMap(function (Tournament $tournament) {
+                return $tournament->specialBets;
+            })
+            ->filter(function (SpecialBet $specialBet) {
+                return $specialBet->isPlayerQuestion();
+            })
+            ->pluck('id');
+
+        if ($playerSpecialBetIds->isEmpty()) {
+            return;
+        }
+
+        $bets = Bet::where('type', BetTypes::SpecialBet)
+            ->whereIn('type_id', $playerSpecialBetIds)
+            ->get();
+
+        foreach ($bets as $bet) {
+            $answer = $bet->getAnswer();
+            if ($answer !== null && $deletedPlayerIds->contains((int) $answer)) {
+                Log::debug("[SyncCompetitionPlayers] Deleting special-bet (id: {$bet->id}, type_id: {$bet->type_id}, user_tournament_id: {$bet->user_tournament_id}) whose answer is removed player {$answer}");
+                $bet->delete();
+            }
         }
     }
 }
