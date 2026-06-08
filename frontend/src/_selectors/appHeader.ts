@@ -3,17 +3,15 @@ import {
     CurrentTournamentUser,
     IsTournamentStarted,
 } from './base'
-import { IsAppMenuEmpty, IsWhatifOn } from './logic'
+import { IsAppMenuEmpty } from './logic'
 
 export const AppHeaderSelector = createSelector(
     IsTournamentStarted,
     CurrentTournamentUser,
     IsAppMenuEmpty,
-    IsWhatifOn,
-    (isTournamentStarted, currentUtl, isAppMenuEmpty, isWhatifOn) => ({
+    (isTournamentStarted, currentUtl, isAppMenuEmpty) => ({
         isTournamentStarted,
         currentUtl,
         isAppMenuEmpty,
-        isWhatifOn
     })
 )

@@ -11,15 +11,12 @@ import CongratsAnimationProvider from './animations/CongratsAnimationProvider'
 import { ExpandedContestantContextProvider } from './ExpandedContestantContext';
 import { selectSideTournament } from '../_actions/sideTournament'
 import './Leaderboard.scss'
-import { updateWhatifsIsOn } from '@/_actions/whatifs'
-import useGoTo from '@/hooks/useGoTo'
 
 
 
 function Leaderboard() {
     const dispatch = useDispatch<AppDispatch>()
     const { leaderboard, isCurrentLeaderboardMissing, isSideTournament } = useSelector(LeaderboardSelector)
-    const { goToOpenGameBets } = useGoTo()
     const themeClass =  useTournamentThemeClass()
     const isWaitingForMvp = useSelector(IsWaitingForMissingMvpAnswer)
     const currentUtlId = useSelector(CurrentTournamentUserId)
@@ -38,10 +35,6 @@ function Leaderboard() {
     }
     const onSelectSideTournament = (id: number) => {
         dispatch(selectSideTournament(id))
-    }
-    const goToWhatif = () => {
-        dispatch(updateWhatifsIsOn(true))
-        goToOpenGameBets()
     }
 
     useEffect(() => {
@@ -70,7 +63,6 @@ function Leaderboard() {
                     selectSideTournament={onSelectSideTournament}
                     sideTournaments={participatingSideTournaments}
                     currentSideTournament={currentSideTournament}
-                    goToWhatif={goToWhatif}
                 />
             </ExpandedContestantContextProvider>
             {/* <CongratsAnimationProvider /> */}

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import {
-    IsWhatifOn,
     LiveGamesIds,
     NoSelector,
     ScoreboardSettings,
@@ -27,25 +26,14 @@ function TableSettingsProvider({
 }: Props) {
     const scoreboardSettings = useSelector(ScoreboardSettings)
     const liveGameIds = useSelector(LiveGamesIds)
-    const isWhatifOn = useSelector(IsWhatifOn)
-
-    useEffect(() => {
-        if (isWhatifOn) {
-            resetSettings()
-        }
-    }, [isWhatifOn])
 
     return (
-        <>
-            {!isWhatifOn && (
-                <TableSettings
-                    updateSetting={updateSetting}
-                    settings={scoreboardSettings}
-                    hasLiveGames={liveGameIds.length > 0}
-                    fetchScoreboards={fetchScoreboards}
-                />
-            )}
-        </>
+        <TableSettings
+            updateSetting={updateSetting}
+            settings={scoreboardSettings}
+            hasLiveGames={liveGameIds.length > 0}
+            fetchScoreboards={fetchScoreboards}
+        />
     )
 }
 

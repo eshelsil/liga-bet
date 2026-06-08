@@ -53,15 +53,6 @@ import {
     union,
 } from 'lodash'
 import { CurrentSideTournamentCompetingUtls } from './tournaments'
-import {
-    IsWhatifOn,
-    UnfinishedGameBetsWithWhatifData,
-    WhatifRunnerUpBetsWithScoreByUtlId,
-    WhatifTopAssistsBetsWithScoreByUtlId,
-    WhatifTopScorerBetsWithScoreByUtlId,
-    WhatifWinnerBetsWithScoreByUtlId,
-} from './whatif'
-import { calcWhatifAddedScore } from '@/utils/whatifs'
 
 export const LatestLeaderboardVersion = createSelector(
     LeaderboardVersionsDesc,
@@ -265,147 +256,17 @@ export const LiveScoreboard = createSelector(
     }
 )
 
-export const WhatifScoreboard = createSelector(
-    LatestLeaderboard,
-    UnfinishedGameBetsWithWhatifData,
-    // WhatifGroupRankBetsWithScoreByUtlId,
-    WhatifWinnerBetsWithScoreByUtlId,
-    WhatifRunnerUpBetsWithScoreByUtlId,
-    WhatifTopScorerBetsWithScoreByUtlId,
-    WhatifTopAssistsBetsWithScoreByUtlId,
-    BetsFullScoresConfigSelector,
-    QuestionBets,
-    Contestants,
-    (
-        latestLeaderboard,
-        unfinishedGameBets,
-        // whatifGroupBetsByUtlId,
-        whatifWinnerBets,
-        whatifRunnerUpBets,
-        whatifTopScorers,
-        whatifTopAssists,
-        scoresConfig,
-        questionBetsById,
-        contestants
-    ) => {
-        const whatifGameBetsByUtlId = groupBy(
-            valuesOf(unfinishedGameBets).flatMap((betsByUtlId) =>
-                valuesOf(betsByUtlId)
-            ),
-            'user_tournament_id'
-        )
-        const addedScoreForGamePerUtl = calcWhatifAddedScore({
-            betsByUtlId: whatifGameBetsByUtlId,
-            config: scoresConfig,
-        })
-        // const addedScoreForGroupRankPerUtl: Record<number, number> = mapValues(
-        //     liveGroupBetsByUtlId,
-        //     (bets) => sumBy(bets, 'score')
-        // )
-        const addedScoreForWinnerBetPerUtl: Record<number, number> = mapValues(
-            whatifWinnerBets,
-            (bets) => {
-                const currentScore = sumBy(bets, 'score')
-                const prevScore = sumBy(
-                    bets,
-                    (bet) => questionBetsById[bet.id]?.score ?? 0
-                )
-                return currentScore - prevScore
-            }
-        )
-        const addedScoreForRunnerUpBetPerUtl: Record<number, number> =
-            mapValues(whatifRunnerUpBets, (bets) => {
-                const currentScore = sumBy(bets, 'score')
-                const prevScore = sumBy(
-                    bets,
-                    (bet) => questionBetsById[bet.id]?.score ?? 0
-                )
-                return currentScore - prevScore
-            })
-        const addedScoreForTopScorerBetPerUtl: Record<number, number> =
-            mapValues(whatifTopScorers, (bets) => {
-                const currentScore = sumBy(bets, 'score')
-                const prevScore = sumBy(
-                    bets,
-                    (bet) => questionBetsById[bet.id]?.score ?? 0
-                )
-                return currentScore - prevScore
-            })
-        const addedScoreForTopAssistsBetPerUtl: Record<number, number> =
-            mapValues(whatifTopAssists, (bets) => {
-                const currentScore = sumBy(bets, 'score')
-                const prevScore = sumBy(
-                    bets,
-                    (bet) => questionBetsById[bet.id]?.score ?? 0
-                )
-                return currentScore - prevScore
-            })
-        const addedScorePerUtl: Record<number, number> = {}
-        for (const utlId of keysOf(addedScoreForGamePerUtl)) {
-            if (!addedScorePerUtl[utlId]) {
-                addedScorePerUtl[utlId] = 0
-            }
-            addedScorePerUtl[utlId] += addedScoreForGamePerUtl[utlId] ?? 0
-        }
-        // for (const utlId of keysOf(addedScoreForGroupRankPerUtl)) {
-        //     if (!addedScorePerUtl[utlId]) {
-        //         addedScorePerUtl[utlId] = 0
-        //     }
-        //     addedScorePerUtl[utlId] += addedScoreForGroupRankPerUtl[utlId] ?? 0
-        // }
-        for (const utlId of keysOf(addedScoreForWinnerBetPerUtl)) {
-            if (!addedScorePerUtl[utlId]) {
-                addedScorePerUtl[utlId] = 0
-            }
-            addedScorePerUtl[utlId] += addedScoreForWinnerBetPerUtl[utlId] ?? 0
-        }
-        for (const utlId of keysOf(addedScoreForRunnerUpBetPerUtl)) {
-            if (!addedScorePerUtl[utlId]) {
-                addedScorePerUtl[utlId] = 0
-            }
-            addedScorePerUtl[utlId] +=
-                addedScoreForRunnerUpBetPerUtl[utlId] ?? 0
-        }
-        for (const utlId of keysOf(addedScoreForTopScorerBetPerUtl)) {
-            if (!addedScorePerUtl[utlId]) {
-                addedScorePerUtl[utlId] = 0
-            }
-            addedScorePerUtl[utlId] +=
-                addedScoreForTopScorerBetPerUtl[utlId] ?? 0
-        }
-        for (const utlId of keysOf(addedScoreForTopAssistsBetPerUtl)) {
-            if (!addedScorePerUtl[utlId]) {
-                addedScorePerUtl[utlId] = 0
-            }
-            addedScorePerUtl[utlId] +=
-                addedScoreForTopAssistsBetPerUtl[utlId] ?? 0
-        }
-        const staticLeaderboard = fillLeaderboardIfEmpty(
-            latestLeaderboard,
-            contestants
-        )
-        return getLiveVersionScore(staticLeaderboard, addedScorePerUtl)
-    }
-)
-
 export const CurrentLeaderboard = createSelector(
     ScoreboardSettings,
     LatestLeaderboard,
     LeaderboardRows,
     LiveScoreboard,
-    WhatifScoreboard,
-    IsWhatifOn,
     (
         settings,
         latestLeaderboard,
         leaderboardsByVersionId,
-        liveLeaderboard,
-        whatifScoreboard,
-        isWhatifOn
+        liveLeaderboard
     ): ScoreboardRowById => {
-        if (isWhatifOn) {
-            return whatifScoreboard
-        }
         if (settings.liveMode) {
             return liveLeaderboard
         }
@@ -429,15 +290,13 @@ export const OriginLeaderboard = createSelector(
     LatestLeaderboard,
     LeaderboardRows,
     Contestants,
-    IsWhatifOn,
     (
         settings,
         latestLeaderboard,
         leaderboardsByVersionId,
-        contestants,
-        isWhatifOn
+        contestants
     ): ScoreboardRowById => {
-        if (settings.liveMode || isWhatifOn) {
+        if (settings.liveMode) {
             return fillLeaderboardIfEmpty(latestLeaderboard, contestants)
         }
         if (settings.showChange) {

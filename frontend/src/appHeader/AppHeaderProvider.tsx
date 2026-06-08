@@ -8,7 +8,7 @@ import { ChosenTournamentIndex } from '../_selectors'
 
 function AppHeaderProvider({ openDialog }) {
     const tournamentIndex = useSelector(ChosenTournamentIndex)
-    const { isTournamentStarted, currentUtl, isAppMenuEmpty, isWhatifOn } =
+    const { isTournamentStarted, currentUtl, isAppMenuEmpty } =
         useSelector(AppHeaderSelector)
 
 
@@ -22,7 +22,6 @@ function AppHeaderProvider({ openDialog }) {
                 openDialogChangePassword,
                 tournamentIndex,
                 isAppMenuEmpty,
-                isWhatifOn,
             }}
         />
     )

@@ -31,7 +31,6 @@ import nihusGrants from './nihusGrants'
 import nihusim from './nihusim'
 import settings from './settings'
 import sideTournament from './sideTournament'
-import whatif from './whatif';
 
 const reducer = combineReducers({
     bets: bets.reducer,
@@ -65,7 +64,6 @@ const reducer = combineReducers({
     notifications: notifications.reducer,
     multiBetsSettings: multiBetsSettings.reducer,
     goalsData: goalsData.reducer,
-    whatif: whatif.reducer,
     admin: adminReducer,
 })
 

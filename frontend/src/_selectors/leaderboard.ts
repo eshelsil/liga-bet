@@ -20,12 +20,6 @@ import {
     PrimalBetsScoresOverrideByLeaderboardSettings,
     ScoreboardSelector,
     SpecialBetAnswersDiscludedByHistoricLeaderboard,
-    WhatifGameBetsWithRelevantScoreByUtlId,
-    WhatifRunnerUpBetsWithScoreByUtlId,
-    WhatifSpecialAnswers,
-    WhatifTopAssistsBetsWithScoreByUtlId,
-    WhatifTopScorerBetsWithScoreByUtlId,
-    WhatifWinnerBetsWithScoreByUtlId,
 } from './logic'
 import {
     GroupStandingBetsLinked,
@@ -71,12 +65,6 @@ export const ContestantSelector = createSelector(
     LiveTopScorerBetsWithScoreByUtlId,
     LiveTopAssistsBetsWithScoreByUtlId,
     LiveSpecialAnswers,
-    WhatifGameBetsWithRelevantScoreByUtlId,
-    WhatifWinnerBetsWithScoreByUtlId,
-    WhatifRunnerUpBetsWithScoreByUtlId,
-    WhatifTopScorerBetsWithScoreByUtlId,
-    WhatifTopAssistsBetsWithScoreByUtlId,
-    WhatifSpecialAnswers,
     CurrentSideTournamentId,
     CurrentTournament,
     (
@@ -95,12 +83,6 @@ export const ContestantSelector = createSelector(
         liveTopScorerBetsByUtlId,
         liveTopAssistsBetsByUtlId,
         liveSpecialAnswers,
-        whatifGameBetsByUtlId,
-        whatifWinnerBetsByUtlId,
-        whatifRunnerUpBetsByUtlId,
-        whatifTopScorerBetsByUtlId,
-        whatifTopAssistsBetsByUtlId,
-        whatifSpecialAnswers,
         sideTournamentId,
         currentTournament,
     ) => {
@@ -154,7 +136,6 @@ export const ContestantSelector = createSelector(
         )
 
         const liveQuestionBetsByUtlId: Record<number, any> = {}
-        const whatifQuestionBetsByUtlId: Record<number, any> = {}
         for (const utlId of keysOf(liveWinnerBetsByUtlId) as number[]) {
             if (!liveQuestionBetsByUtlId[utlId]) {
                 liveQuestionBetsByUtlId[utlId] = []
@@ -181,32 +162,6 @@ export const ContestantSelector = createSelector(
                 liveTopAssistsBetsByUtlId[utlId]
             )
         }
-        for (const utlId of keysOf(whatifWinnerBetsByUtlId) as number[]) {
-            if (!whatifQuestionBetsByUtlId[utlId]) {
-                whatifQuestionBetsByUtlId[utlId] = []
-            }
-            whatifQuestionBetsByUtlId[utlId].push(whatifWinnerBetsByUtlId[utlId])
-        }
-        for (const utlId of keysOf(whatifRunnerUpBetsByUtlId) as number[]) {
-            if (!whatifQuestionBetsByUtlId[utlId]) {
-                whatifQuestionBetsByUtlId[utlId] = []
-            }
-            whatifQuestionBetsByUtlId[utlId].push(whatifRunnerUpBetsByUtlId[utlId])
-        }
-        for (const utlId of keysOf(whatifTopScorerBetsByUtlId) as number[]) {
-            if (!whatifQuestionBetsByUtlId[utlId]) {
-                whatifQuestionBetsByUtlId[utlId] = []
-            }
-            whatifQuestionBetsByUtlId[utlId].push(whatifTopScorerBetsByUtlId[utlId])
-        }
-        for (const utlId of keysOf(whatifTopAssistsBetsByUtlId) as number[]) {
-            if (!whatifQuestionBetsByUtlId[utlId]) {
-                whatifQuestionBetsByUtlId[utlId] = []
-            }
-            whatifQuestionBetsByUtlId[utlId].push(
-                whatifTopAssistsBetsByUtlId[utlId]
-            )
-        }
         return {
             matchBetsByUserId,
             groupStandingBetsByUserId,
@@ -219,12 +174,6 @@ export const ContestantSelector = createSelector(
                 (betsSlices) => concat(...betsSlices)
             ),
             liveSpecialAnswers,
-            whatifGameBetsByUtlId,
-            whatifQuestionBetsByUtlId: mapValues(
-                whatifQuestionBetsByUtlId,
-                (betsSlices) => concat(...betsSlices)
-            ),
-            whatifSpecialAnswers,
             isSideTournament: !!sideTournamentId,
         }
     }
