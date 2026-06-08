@@ -7,12 +7,18 @@ import { Dictionary } from '@reduxjs/toolkit'
 import { Nihus } from '@/types'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useSelectNihusView } from '@/nihusim/context'
+import AutoBetBadge from '@/widgets/AutoBetBadge/AutoBetBadge'
 import './GumblersList.scss'
 
 
+export interface Gumbler {
+    name: string
+    id: number
+    isAutoBet?: boolean
+}
 
 interface GumblerProps {
-    gumbler: {name: string, id: number},
+    gumbler: Gumbler,
     showNihusable?: boolean
     onNihusClick?: (targetUtlId: number) => void
     showNihus?: (nihusId: number) => void
@@ -23,10 +29,11 @@ export function GumblerRow({gumbler, showNihusable, showNihus, onNihusClick, nih
     const utlId = useSelector(CurrentTournamentUserId)
     return (
         <div className={`GumblersList-gumbler ${gumbler.id === utlId ? 'GumblersList-currentUtl' : ''}`}>
-            <div className={cn("flex items-center")}>
+            <div className={cn("flex items-center",{'autoBetGumbler': gumbler.isAutoBet})}>
                 <div>
                     {gumbler.name}
                 </div>
+                {gumbler.isAutoBet && <AutoBetBadge />}
                 {showNihusable && (gumbler.id !== utlId) && !(nihusimByTargetUtlId[gumbler.id]) && (
                     <TomatoIcon
                         className={cn("w-8 h-8 mr-1 my-1 cursor-pointer")}
@@ -47,7 +54,7 @@ export function GumblerRow({gumbler, showNihusable, showNihus, onNihusClick, nih
 }
 
 interface Props extends Omit<GumblerProps, 'gumbler' | 'showNihus'> {
-    gumblers: {name: string, id: number}[],
+    gumblers: Gumbler[],
 }
 
 function GumblersList({ nihusimByTargetUtlId, gumblers, showNihusable, onNihusClick }: Props) {

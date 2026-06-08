@@ -1,4 +1,4 @@
-import { UTL, UtlRole, UtlWithTournament } from '../types'
+import { AutoBetStrategy, UTL, UtlRole, UtlWithTournament } from '../types'
 import { sendApiRequest } from './common/apiRequest'
 
 export const fetchUTLs = async (tournamentId: number): Promise<UTL[]> => {
@@ -33,8 +33,21 @@ export const updateUTL = async (
     })
 }
 
+export interface UtlPreferences {
+    auto_bet_strategy?: AutoBetStrategy
+}
+
+export const getUtlPreferences = async (
+    tournamentId: number
+): Promise<UtlPreferences> => {
+    return await sendApiRequest({
+        url: `/api/user/utls/${tournamentId}/preferences`,
+    })
+}
+
 export interface PayloadUpdateMyUTL {
-    name: string
+    name?: string
+    auto_bet_strategy?: AutoBetStrategy
 }
 
 export const updateMyUTL = async (

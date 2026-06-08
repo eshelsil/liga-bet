@@ -16,4 +16,28 @@
             margin-top: 24px;
         }
     }
+
+    .LB-TournamentConfigPageContent {
+        max-width: 100%;
+        width: 800px;
+        margin: auto;
+
+        .autoBetConfigFrame {
+            margin-top: 24px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 4px 16px;
+        }
+
+        .forgotSomething {
+            margin-top: 24px;
+            .linkToScoresConfig {
+                cursor: pointer;
+                user-select: none;
+            }
+        }
+    }
 }

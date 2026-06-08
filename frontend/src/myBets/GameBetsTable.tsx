@@ -58,6 +58,7 @@ const GameBetsTable = ({ bets, headers, dropColumns, showLive }: Props) => {
                     }}
                     isKnockout={bet.relatedMatch.is_knockout}
                     qualifier={bet.winner_side}
+                    isAutoBet={bet.is_auto_bet}
                 />
             ),
 		},

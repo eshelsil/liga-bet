@@ -1,10 +1,17 @@
 @use '../../styles/mixins';
+@use '../../styles/colors';
 
 
 .LB-MatchResult {
+    position: relative;
     max-width: 150px;
     border-radius: 12px;
     overflow: hidden;
+    &.GameBetsTable-autoBet {
+        .MatchResult-content {
+            background: colors.$auto-bet-bg;
+        }
+    }
     .MatchResult-title {
         text-align: center;
         font-weight: 700;

@@ -7,6 +7,7 @@ import MatchBetRules from '../takanon/matches/MatchBetRulesProvider'
 import { MyOtherBettableUTLs } from '../_selectors'
 import { useSelector } from 'react-redux'
 import MultiBetsSettings from '../multiBetsSettings/MultiBetsSettingsProvider'
+import AutoBetPreference from './AutoBetPreference'
 import { groupBy, keyBy } from 'lodash'
 import { getGameDayString } from '../utils'
 import { Badge } from '@mui/material'
@@ -40,6 +41,7 @@ const OpenMatchesView = ({ matches = [], notifications, sendBet }: Props) => {
                     </li>
                 </ul>
             </div>
+            <AutoBetPreference />
             <span className="admin">
                 {dayjs().format('HH:mm  YYYY/MM/DD')}
             </span>

@@ -9,6 +9,11 @@ export enum UtlRole {
     Monkey = 'monkey',
 }
 
+export enum AutoBetStrategy {
+    Zero = 'zero',
+    Random = 'random',
+}
+
 export interface UtlBase {
     id: number
     name: string

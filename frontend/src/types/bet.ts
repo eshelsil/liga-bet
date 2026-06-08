@@ -17,6 +17,7 @@ export interface BetBase {
     type_id: number
     score: number
     utlName?: string
+    is_auto_bet?: boolean
 }
 
 export interface MatchBetApiModel extends BetBase {

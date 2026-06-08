@@ -17,7 +17,7 @@ interface BetInstance {
     resultAway: number,
     qualifier: WinnerSide,
     score: number,
-    gumblers: {name: string, id: number}[],
+    gumblers: {name: string, id: number, isAutoBet?: boolean}[],
 }
 
 function GameGumblersList({ match, isLive, showNihusable }: { match: GameWithBetsAndGoalsData, isLive?: boolean, showNihusable?: boolean }) {
@@ -39,6 +39,7 @@ function GameGumblersList({ match, isLive, showNihusable }: { match: GameWithBet
             gumblers: bets.map((bet) => ({
                 name: bet.utlName,
                 id: bet.user_tournament_id,
+                isAutoBet: bet.is_auto_bet,
             })),
         }
     })

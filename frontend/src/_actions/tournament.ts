@@ -67,6 +67,15 @@ function updateAutoConfirmPreference(shouldAutoConfirm: boolean) {
     }
 }
 
+function updateAutoBetPreference(enableAutoBet: boolean) {
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const utlId = CurrentTournamentUserId(getState())
+        const tournamentId = CurrentTournamentId(getState())
+        const preferences = await updateTournamentPreferences(tournamentId, {enable_auto_bet: enableAutoBet});
+        dispatch(myUtlsSlice.actions.setTournamentPreferences({utlId, preferences}))
+    }
+}
+
 
 export {
     createNewTournament,
@@ -75,4 +84,5 @@ export {
     updatePrizesConfig,
     answerDefaultConfigQuestion,
     updateAutoConfirmPreference,
+    updateAutoBetPreference,
 }

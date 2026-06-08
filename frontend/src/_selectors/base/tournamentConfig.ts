@@ -115,3 +115,8 @@ export const IsOnAutoConfirmUtls = createSelector(
     TournamentPreferences,
     (prefs) => !!prefs?.auto_approve_users
 )
+
+export const IsOnAutoBet = createSelector(
+    TournamentPreferences,
+    (prefs) => !!prefs?.enable_auto_bet
+)

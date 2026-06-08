@@ -1,0 +1,31 @@
+.LB-AutoBetPreference {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 14px;
+    margin-bottom: 12px;
+
+    .autoBetIcon {
+        color: #6366f1;
+        font-size: 20px;
+    }
+
+    .autoBetLabel {
+        font-weight: 700;
+    }
+
+    .autoBetSelect {
+        min-width: 84px;
+        background: #fff;
+    }
+
+    .autoBetLoader {
+        margin-inline-start: 4px;
+    }
+
+    .autoBetExplanationLink {
+        margin-inline-start: auto;
+        font-size: 13px;
+    }
+}

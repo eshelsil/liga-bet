@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector} from 'react-redux';
 import { TournamentStatus } from '../types';
 import { AnsweredUseDefaultScoreDialog, TournamentStatusSelector } from '../_selectors';
-import PrizesConfig from './prizes/PrizesConfigProvider';
+import TournamentConfigPageContent from './TournamentConfigPageContent';
 import UseDefaultConfigQuestion from './UseDefaultConfigQuestion';
 import './TournamentConfig.scss';
 import '../takanon/TakanonStyle';
@@ -21,7 +21,7 @@ function TournamentConfigPage(){
 				<UseDefaultConfigQuestion onUseDefaultScore={()=> setShowDefaultScoreQuestion(false)}/>
 			)}
 			{!showDefaultScoreQuestion && (
-				<PrizesConfig onGoToScoresClick={() => setShowDefaultScoreQuestion(true)}/>
+				<TournamentConfigPageContent onGoToScoresClick={() => setShowDefaultScoreQuestion(true)}/>
 			)}
 		</div>
 	);

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Button, Grid, Link } from '@mui/material';
+import { Grid } from '@mui/material';
 import { prizeToString } from '../../utils';
 import { TournamentConfig } from '../../types';
 import PrizeInput from './PrizeInput';
@@ -8,7 +7,6 @@ import PrizesRules from '../../takanon/PrizesRules';
 import TakanonPreviewSection from '../takanonPreview/TakanonPreviewSection';
 import { compact } from 'lodash';
 import { LoadingButton } from '../../widgets/Buttons';
-import { IsTournamentStarted } from '../../_selectors';
 import './PrizesConfig.scss';
 
 
@@ -25,17 +23,14 @@ const MAX_PRIZES = 10;
 interface Props {
 	prizes: string[],
 	updatePrizes: (config: TournamentConfig['prizes']) => Promise<void>,
-	onGoToScoresClick: () => void,
 }
 
 function PrizesConfig({
 	prizes: currentPrizes,
 	updatePrizes,
-	onGoToScoresClick,
 }: Props){
 	const initialState = currentPrizes?.length > 0 ? currentPrizes : [''];
 	const [prizes, setPrizes] = useState(initialState);
-	const isTournamentStarted = useSelector(IsTournamentStarted)
 
 	const addPrize = () => {
 		setPrizes([
@@ -105,19 +100,6 @@ function PrizesConfig({
 					<LoadingButton action={submit}>עדכן</LoadingButton>
 				</div>
 			</div>
-			
-			{!isTournamentStarted && (
-				<div className='forgotSomething LB-FloatingFrame'>
-					<h5>שכחת משהו?</h5>
-					<Link
-						className={'linkToScoresConfig'}
-						onClick={onGoToScoresClick}
-					>
-						ערוך הגדרות ניקוד
-					</Link>
-
-				</div>
-			)}
 		</div>
 	);
 }

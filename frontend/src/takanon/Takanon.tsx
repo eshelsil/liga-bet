@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { CurrentTournament, PrizesSelector } from '../_selectors';
+import { CurrentTournament, IsOnAutoBet, PrizesSelector } from '../_selectors';
+import AutoBetExplanation from './AutoBetExplanation';
 import Disclaimer from './Disclaimer';
 import GeneralRules from './GeneralRules';
 import PrizesRules from './PrizesRules';
@@ -12,7 +13,8 @@ import './TakanonStyle'
 function Takanon() {
     const prizes = useSelector(PrizesSelector);
     const tournament = useSelector(CurrentTournament)
-    
+    const isAutoBetOn = useSelector(IsOnAutoBet)
+
 
     return (
         <div className="LB-Takanon">
@@ -22,6 +24,7 @@ function Takanon() {
                 <Disclaimer />
             </div>
             <SendingBetsExplanation />
+            {isAutoBetOn && <AutoBetExplanation />}
             <ScoresRules />
             <PrizesRules prizes={prizes} />
             <br/>

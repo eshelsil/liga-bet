@@ -80,6 +80,7 @@ export interface TournamentConfig {
 export interface TournamentPreferences {
 	auto_approve_users: boolean,
 	use_default_config_answered: boolean,
+	enable_auto_bet: boolean,
 }
 
 export interface SideTournamentConfig {

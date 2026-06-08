@@ -42,11 +42,4 @@
         margin-top: 24px;
         @include mixins.centerContainer;
     }
-    .forgotSomething {
-        margin-top: 24px;
-        .linkToScoresConfig {
-            cursor: pointer;
-            user-select: none;
-        }
-    }
 }

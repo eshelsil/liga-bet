@@ -12,6 +12,7 @@ export interface MatchResultProps {
     away: TeamMacthData,
     isKnockout: boolean,
     qualifier?: WinnerSide,
+    isAutoBet?: boolean,
     title?: string,
     isTwoLeggedTie?: boolean,
 }

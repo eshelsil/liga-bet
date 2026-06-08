@@ -6,9 +6,10 @@ import { MatchResultProps } from './types'
 import { IsQualifierBetOn } from '../../_selectors'
 import { getWinnerSide } from '../../utils'
 import './MatchResult.scss'
+import AutoBetBadge from '../AutoBetBadge/AutoBetBadge'
 
 
-function MatchResultView({home, away, isKnockout, qualifier, title}: MatchResultProps){
+function MatchResultView({home, away, isKnockout, qualifier, isAutoBet, title}: MatchResultProps){
 
     const isQualifierBetOn = useSelector(IsQualifierBetOn)
     const isQualifierBettable = isQualifierBetOn && isKnockout
@@ -17,7 +18,7 @@ function MatchResultView({home, away, isKnockout, qualifier, title}: MatchResult
     const hasFullScore = (typeof home.fullScore === 'number') && (typeof away.fullScore === 'number')
     const showFullScore = isQualifierBettable && isTiedGame && hasFullScore
     return (
-        <div className='LB-MatchResult'>
+        <div className={`LB-MatchResult ${isAutoBet ? 'GameBetsTable-autoBet' : ''}`}>
             {!!title && (
                 <div className='MatchResult-title'>
                     {title}
@@ -78,6 +79,11 @@ function MatchResultView({home, away, isKnockout, qualifier, title}: MatchResult
                         </div>
                     )}
                 </div>
+                {isAutoBet && (
+                    <div className='absolute bottom-2 left-1/2 -translate-x-1/2'>
+                        <AutoBetBadge />
+                    </div>
+                )}
             </div>
         </div>
     )
