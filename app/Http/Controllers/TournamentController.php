@@ -86,9 +86,14 @@ class TournamentController extends Controller
 
         $request->validate([
             "auto_approve_users" => "boolean",
-            "use_default_config_answered" => "boolean"
+            "use_default_config_answered" => "boolean",
+            "enable_auto_bet" => "boolean",
         ]);
-        $params = $request->only('use_default_config_answered', 'auto_approve_users');        
+        $params = $request->only('use_default_config_answered', 'auto_approve_users', 'enable_auto_bet');
+
+        if ($request->has('enable_auto_bet') && $tournament->status != Tournament::STATUS_INITIAL){
+            throw new JsonException("לא ניתן לשנות את הגדרות ההימור האוטומטי אחרי שהטורניר כבר התחיל", 400);
+        }
 
         $preferences = TournamentPreferences::updateOrCreate(
             ["tournament_id" => $tournament->id],

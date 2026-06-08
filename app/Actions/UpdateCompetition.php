@@ -28,6 +28,7 @@ class UpdateCompetition
     private UpdateCompetitionStandings $updateStandings;
     private UpdateGameBets $updateGameBets;
     private UpdateLeaderboards $updateLeaderboards;
+    private FillAutoBetsForCompetition $fillAutoBets;
     private Collection $crawlerGames;
 
     private ?Collection $fakeGames = null;
@@ -39,13 +40,15 @@ class UpdateCompetition
         UpdateCompetitionScorers $updateScorers,
         UpdateCompetitionStandings $updateStandings,
         UpdateGameBets $updateGameBets,
-        UpdateLeaderboards $updateLeaderboards
+        UpdateLeaderboards $updateLeaderboards,
+        FillAutoBetsForCompetition $fillAutoBets
     ) {
         $this->calculateSpecialBets = $calculateSpecialBets;
         $this->updateScorers = $updateScorers;
         $this->updateGameBets = $updateGameBets;
         $this->updateStandings = $updateStandings;
         $this->updateLeaderboards = $updateLeaderboards;
+        $this->fillAutoBets = $fillAutoBets;
     }
 
     public function fake(?Collection $games = null, ?Collection $scorers = null, ?Collection $standings = null)
@@ -111,6 +114,8 @@ class UpdateCompetition
                 $this->crawlerGames = $this->fakeGames ?? $competition->getCrawler()->fetchGames($competition->getCompetitionType());
 
                 $this->saveNewGames($competition);
+
+                $this->fillAutoBets->handle($competition);
 
                 $existingNonFinishedGames = $competition->games->where("is_done", false)
                     ->keyBy("external_id");

@@ -253,7 +253,7 @@ class TournamentTestConfig
         DB::transaction(function () use ($configGameIds, $tournamentIds) {
             // 1. Restore the original game rows (start_time, is_done, score, ...).
             foreach ($this->originalGames as $gameId => $orig) {
-                DB::table('matches')->where('id', $gameId)->update($orig);
+                DB::table('matches')->where('id', $gameId)->update(array_merge($orig, ['auto_bets_filled_at' => null]));
             }
 
             // 2. Delete leaderboard versions (and their rows) linked to the config games.
@@ -264,14 +264,22 @@ class TournamentTestConfig
             DB::table('leaderboards')->whereIn('version_id', $versionIds)->delete();
             DB::table('leaderboards_versions')->whereIn('id', $versionIds)->delete();
 
-            // 3. Null the score of game-bets for the config games (counterpart of #2).
+            // 3. Delete game-bets for the config games (they can't be valid anymore).
+            DB::table('bets')
+                ->whereIn('tournament_id', $tournamentIds)
+                ->where('type', BetTypes::Game)
+                ->whereIn('type_id', $configGameIds)
+                ->where('is_auto_bet', true)
+                ->delete();
+
+            // 4. Null the score of game-bets for the config games (counterpart of #2).
             DB::table('bets')
                 ->whereIn('tournament_id', $tournamentIds)
                 ->where('type', BetTypes::Game)
                 ->whereIn('type_id', $configGameIds)
                 ->update(['score' => null]);
 
-            // 4. Restore the original scorer rows and recompute the affected players' totals.
+            // 5. Restore the original scorer rows and recompute the affected players' totals.
             $affectedPlayerIds = collect($this->originalGoals)->pluck('player_id')
                 ->merge($this->configuredPlayerIds())
                 ->unique();

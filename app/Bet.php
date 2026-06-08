@@ -38,6 +38,10 @@ class Bet extends Model
 
     protected static $unguarded = true;
 
+    protected $casts = [
+        'is_auto_bet' => 'boolean',
+    ];
+
     public function utl()
     {
         return $this->belongsTo(TournamentUser::class, "user_tournament_id");
@@ -116,6 +120,7 @@ class Bet extends Model
     {
         $bet = $this->getAttributes();
         unset($bet['data']);
+        $bet['is_auto_bet'] = (bool) ($bet['is_auto_bet'] ?? false);
         if ($this->isGameBet()){
             $bet['result_home'] = $this->getData('result-home');
             $bet['result_away'] = $this->getData('result-away');

@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use App\Exceptions\JsonException;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\UtlPreferencesResource;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Validator;
 
@@ -35,22 +36,38 @@ class UserController extends Controller
         return $user;
     }
 
+    public function getUtlPreferences(Request $request, string $tournamentId){
+        $user = $this->getUser();
+        $utl = $user->getTournamentUser($tournamentId);
+        if (!$utl) {
+            throw new JsonException("משתמש לא קיים", 404);
+        }
+        return (new UtlPreferencesResource($utl))->toArray($request);
+    }
     public function updateUTL(Request $request, string $tournamentId){
         $user = $this->getUser();
         $utl = $user->getTournamentUser($tournamentId);
         if (!$utl) {
             throw new JsonException("משתמש לא קיים", 404);
         }
-        $name = $request->name;
-        $validated = $request->validate([
-            'name' => 'string|min:2'
+        $request->validate([
+            'name' => 'sometimes|string|min:2',
+            'auto_bet_strategy' => 'sometimes|in:zero,random',
         ]);
 
-        $contestantWithSameName = $utl->tournament->utls->where('name', $name)->first();
-        if ($contestantWithSameName && $contestantWithSameName->id !== $utl->id){
-            throw new JsonException("בטורניר זה כבר קיים משתמש עם השם \"$name\"", 400);
+        if ($request->has('name')) {
+            $name = $request->name;
+            $contestantWithSameName = $utl->tournament->utls->where('name', $name)->first();
+            if ($contestantWithSameName && $contestantWithSameName->id !== $utl->id){
+                throw new JsonException("בטורניר זה כבר קיים משתמש עם השם \"$name\"", 400);
+            }
+            $utl->name = $name;
         }
-        $utl->name = $name;
+
+        if ($request->has('auto_bet_strategy')) {
+            $utl->auto_bet_strategy = $request->auto_bet_strategy;
+        }
+
         $utl->save();
         return (new UtlResource($utl))->toArray($request);
     }

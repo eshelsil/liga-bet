@@ -28,16 +28,16 @@ class UtlResource extends JsonResource
             \Log::error("Error getting nihusim for utl: " . $utl->id);
         }
         return [
-            "id"              => $utl->id,
-            "user_id"         => $utl->user_id,
-            "tournament"      => new TournamentResource($utl->tournament),
-            "role"            => $utl->role,
-            "name"            => $utl->name,
-            "createdAt"       => $utl->created_at,
-            "updatedAt"       => $utl->updated_at,
-            "nihusimLeft"     => $nihusim,
-            "nihusimGranted"  => $nihusimGranted,
-            "nihusimUsed"     => $nihusimUsed,
+            "id"                => $utl->id,
+            "user_id"           => $utl->user_id,
+            "tournament"        => new TournamentResource($utl->tournament),
+            "role"              => $utl->role,
+            "name"              => $utl->name,
+            "createdAt"         => $utl->created_at,
+            "updatedAt"         => $utl->updated_at,
+            "nihusimLeft"       => $nihusim,
+            "nihusimGranted"    => $nihusimGranted,
+            "nihusimUsed"       => $nihusimUsed,
         ];
     }
 }
