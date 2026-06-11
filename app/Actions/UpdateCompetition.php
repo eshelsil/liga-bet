@@ -111,7 +111,7 @@ class UpdateCompetition
                     return;
                 }
 
-                $this->crawlerGames = $this->fakeGames ?? $competition->getCrawler()->fetchGames($competition->getCompetitionType());
+                $this->crawlerGames = $this->fakeGames ?? $competition->getCrawler()->fetchGames($competition->getCompetitionType(), $competition->get365Id());
 
                 $this->saveNewGames($competition);
 
@@ -214,6 +214,7 @@ class UpdateCompetition
         /** @var CrawlerGame $gameData */
         foreach ($gamesWithScore as $gameData) {
             /** @var Game $game */
+            Log::debug("Saving Game Score: " . $gameData->teamHomeExternalId . " vs. " . $gameData->teamAwayExternalId . " | score: " . $gameData->resultHome . "-" . $gameData->resultAway . " | isDone: " . ($gameData->isDone ? "true" : "false") ."\n"."Game Data: " . json_encode($gameData) . "\n");
             $game = $nonFinishedGames->get($gameData->externalId);
             $game->result_home = $gameData->resultHome;
             $game->result_away = $gameData->resultAway;
