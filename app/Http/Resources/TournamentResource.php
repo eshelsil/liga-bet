@@ -4,7 +4,6 @@ namespace App\Http\Resources;
 
 use App\Tournament;
 use App\SideTournament;
-use App\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TournamentResource extends JsonResource
@@ -31,13 +30,8 @@ class TournamentResource extends JsonResource
             "sideTournaments"   => $t->sideTournaments->map(fn(SideTournament $st) => (new SideTournamentResource($st))),
             "createdAt"         => $t->created_at,
             "updatedAt"         => $t->updated_at,
+            "preferences"       => $t->preferences,
         ];
-
-        /** @var User $user */
-        $user = $request->user();
-        if ($user->id == $t->creator_user_id){
-            $res['preferences'] = $t->preferences;
-        }
 
         return $res;
     }
