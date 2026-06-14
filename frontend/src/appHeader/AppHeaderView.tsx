@@ -1,8 +1,8 @@
 import React from 'react'
 import { UtlWithTournament } from '../types'
 import AppBar from '@mui/material/AppBar'
-import AppMenuMobile from './AppMenuMobile'
 import AppMenuDesktop from './AppMenuDesktop'
+import AppMenuMobileCompact from './AppMenuMobileCompact'
 import { useIsSmScreen } from '../hooks/useMedia'
 import './style.scss'
 
@@ -21,25 +21,25 @@ function AppHeader({
     tournamentIndex,
     isAppMenuEmpty,
 }: Props) {
-    const isSmallScreen = useIsSmScreen();
-    const showExpandableMenu = isSmallScreen && !isAppMenuEmpty
+    const isSmallScreen = useIsSmScreen()
+    const showCompactMobile = isSmallScreen && !isAppMenuEmpty
 
     return (
         <div className={`LigaBet-AppHeader w-full tournament-theme tournament-theme-${tournamentIndex + 1}`}>
             <AppBar className="appbarHeader">
-                {showExpandableMenu && (
-                    <AppMenuMobile {...{
-                        isTournamentStarted,
-                        currentUtl,
-                        openDialogChangePassword,
-                    }} />
+                {showCompactMobile && (
+                    <AppMenuMobileCompact
+                        openDialogChangePassword={openDialogChangePassword}
+                    />
                 )}
-                {!showExpandableMenu && (
-                    <AppMenuDesktop {...{
-                        isTournamentStarted,
-                        currentUtl,
-                        openDialogChangePassword,
-                    }} />
+                {!showCompactMobile && (
+                    <AppMenuDesktop
+                        {...{
+                            isTournamentStarted,
+                            currentUtl,
+                            openDialogChangePassword,
+                        }}
+                    />
                 )}
             </AppBar>
         </div>

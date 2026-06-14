@@ -7,7 +7,7 @@ import { routesMap } from './routes'
 import PopupMenu from '../widgets/Menu'
 import { useTournamentThemeClass } from '../hooks/useThemeClass'
 import TeamFlag from '../widgets/TeamFlag/TeamFlag'
-import { EverGrantedNihus, IsAdmin, MyWinnerTeamSelector } from '../_selectors'
+import { EverGrantedNihus, IsAdmin, IsConfirmedUtl, MyWinnerTeamSelector } from '../_selectors'
 import NihusimItemContent from './NihusimItemContent';
 
 
@@ -39,6 +39,7 @@ function UserMenu({
     const themeClass = useTournamentThemeClass();
     const isAdmin = useSelector(IsAdmin)
     const ShowNihusim = useSelector(EverGrantedNihus)
+    const isConfirmed = useSelector(IsConfirmedUtl)
 
     return (
         <div className='LigaBet-UserMenu'>
@@ -51,6 +52,11 @@ function UserMenu({
                 <LinkMenuItem
                     route={routesMap['profile']}
                 />
+                {isConfirmed && (
+                    <LinkMenuItem
+                        route={routesMap['my-bets']}
+                    />
+                )}
                 {isAdmin && (
                     <LinkMenuItem
                         route={routesMap['admin/index']}

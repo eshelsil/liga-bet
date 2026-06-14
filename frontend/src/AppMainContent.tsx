@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from 'react'
 import AppHeader from './appHeader/AppHeaderProvider'
+import AppBottomNavProvider from './appHeader/AppBottomNavProvider'
 import SuspenseWithLoader from './_helpers/SuspenseWithLoader'
 import { CrucialLoader } from './types'
 
@@ -14,6 +15,7 @@ function AppMainContent() {
             <SuspenseWithLoader name={CrucialLoader.Body}>
                 <AppBody />
             </SuspenseWithLoader>
+            <AppBottomNavProvider />
             <Suspense fallback={<div></div>}>
                 <DialogsProvider />
             </Suspense>
