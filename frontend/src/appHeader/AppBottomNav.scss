@@ -2,9 +2,12 @@
 @use '../styles/shadows';
 @use 'sass:map';
 
-$LigaBet-bottomNav-icon-size: 28px;
+$LigaBet-bottomNav-icon-size: 32px;
+$LigaBet-bottomNav-fab-icon-size: 36px;
 $LigaBet-bottomNav-fab-size: 58px;
 $LigaBet-bottomNav-fab-lift: 22px;
+$LigaBet-bottomNav-badge-size: 22px;
+$LigaBet-bottomNav-badge-font-size: 13px;
 
 .LigaBet-AppBottomNav {
     position: fixed;
@@ -147,10 +150,10 @@ $LigaBet-bottomNav-fab-lift: 22px;
             right: auto !important;
             transform: scale(1) translate(-50%, -50%) !important;
             z-index: 10 !important;
-            font-size: 11px;
-            min-width: 18px;
-            height: 18px;
-            padding: 0 4px;
+            font-size: $LigaBet-bottomNav-badge-font-size;
+            min-width: $LigaBet-bottomNav-badge-size;
+            height: $LigaBet-bottomNav-badge-size;
+            padding: 0 5px;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
         }
     }
@@ -166,7 +169,7 @@ $LigaBet-bottomNav-fab-lift: 22px;
         z-index: 1;
 
         .MuiSvgIcon-root {
-            font-size: 32px;
+            font-size: $LigaBet-bottomNav-fab-icon-size;
         }
 
         &--active {
@@ -194,6 +197,10 @@ $LigaBet-bottomNav-fab-lift: 22px;
     top: 0;
     right: 0;
     z-index: 2;
+    font-size: $LigaBet-bottomNav-badge-font-size;
+    min-width: $LigaBet-bottomNav-badge-size;
+    height: $LigaBet-bottomNav-badge-size;
+    padding: 0 5px;
 }
 
 .AppBottomNavMore {

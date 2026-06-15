@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined'
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'
-import VisibilityIcon from '@mui/icons-material/Visibility'
+import LeaderboardOutlinedIcon from '@mui/icons-material/LeaderboardOutlined'
+import LeaderboardIcon from '@mui/icons-material/Leaderboard'
+import ScoreboardOutlinedIcon from '@mui/icons-material/ScoreboardOutlined'
+import ScoreboardIcon from '@mui/icons-material/Scoreboard'
 import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined'
 import QuizIcon from '@mui/icons-material/Quiz'
 import FormatListNumberedOutlinedIcon from '@mui/icons-material/FormatListNumberedOutlined'
@@ -24,12 +24,12 @@ const navIcons: Record<
     { default: React.ReactNode; active: React.ReactNode }
 > = {
     leaderboard: {
-        default: <EmojiEventsOutlinedIcon />,
-        active: <EmojiEventsIcon />,
+        default: <LeaderboardOutlinedIcon />,
+        active: <LeaderboardIcon />,
     },
     'closed-bets': {
-        default: <VisibilityOutlinedIcon />,
-        active: <VisibilityIcon />,
+        default: <ScoreboardOutlinedIcon />,
+        active: <ScoreboardIcon />,
     },
     'open-questions': {
         default: <QuizOutlinedIcon />,
