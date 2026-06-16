@@ -7,6 +7,7 @@ interface Props {
     activeIcon?: ReactNode
     isActive?: boolean
     notifications?: number
+    showLive?: boolean
     onClick: () => void
 }
 
@@ -16,12 +17,14 @@ function BottomNavItem({
     activeIcon,
     isActive: isActiveProp,
     notifications,
+    showLive,
     onClick,
 }: Props) {
     const isActive = isActiveProp ?? false
 
     const iconContent = (
         <span className={`BottomNavItem-icon ${isActive ? 'active' : ''}`}>
+            {showLive && <span className="BottomNavItem-liveBadge">LIVE</span>}
             {isActive && activeIcon ? activeIcon : icon}
         </span>
     )

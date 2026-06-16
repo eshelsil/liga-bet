@@ -26,11 +26,10 @@ export interface TournamentNavLayout {
     bottomNavLeft: TournamentNavItem[]
     bottomNavFab: TournamentNavItem
     bottomNavRight: TournamentNavItem[]
-    overflowItems: TournamentNavItem[]
 }
 
 function useTournamentNavItems(
-    currentUtl: UtlWithTournament,
+    currentUtl: UtlWithTournament | null | undefined,
     isTournamentStarted: boolean
 ): TournamentNavLayout {
     const { goToClosedGameBets } = useGoTo()
@@ -62,7 +61,6 @@ function useTournamentNavItems(
                 route: routesMap['open-matches'],
             },
             bottomNavRight: [],
-            overflowItems: [],
         }
     }
 
@@ -130,7 +128,7 @@ function useTournamentNavItems(
             openGroupStandings,
             openMatches,
         ]
-        bottomNavLeft = [leaderboard, openQuestions]
+        bottomNavLeft = [openQuestions]
         bottomNavRight = [openGroupStandings]
     }
 
@@ -141,7 +139,6 @@ function useTournamentNavItems(
         bottomNavLeft,
         bottomNavFab: openMatches,
         bottomNavRight,
-        overflowItems: managerItems,
     }
 }
 

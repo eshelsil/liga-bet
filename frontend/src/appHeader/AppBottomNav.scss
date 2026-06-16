@@ -45,6 +45,8 @@ $LigaBet-bottomNav-badge-font-size: 13px;
     }
 
     .AppBottomNav-side {
+        position: relative;
+        z-index: 4;
         display: flex;
         align-items: flex-end;
         justify-content: center;
@@ -58,7 +60,7 @@ $LigaBet-bottomNav-badge-font-size: 13px;
         align-items: flex-end;
         justify-content: center;
         margin-top: -$LigaBet-bottomNav-fab-lift;
-        z-index: 3;
+        z-index: 2;
         flex-shrink: 0;
         overflow: visible;
     }
@@ -80,6 +82,8 @@ $LigaBet-bottomNav-badge-font-size: 13px;
     color: rgba(255, 255, 255, 0.7);
 
     .MuiBadge-root {
+        position: relative;
+        z-index: 5;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -87,6 +91,7 @@ $LigaBet-bottomNav-badge-font-size: 13px;
     }
 
     &-icon {
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -96,6 +101,23 @@ $LigaBet-bottomNav-badge-font-size: 13px;
         .MuiSvgIcon-root {
             font-size: $LigaBet-bottomNav-icon-size;
         }
+    }
+
+    &-liveBadge {
+        position: absolute;
+        top: -6px;
+        right: -12px;
+        background: #e53935;
+        color: #fff;
+        font-size: 8px;
+        font-weight: 700;
+        padding: 2px 4px;
+        border-radius: 4px;
+        letter-spacing: 0.3px;
+        line-height: 1.2;
+        white-space: nowrap;
+        z-index: 7;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
     }
 
     &-label {
@@ -196,31 +218,11 @@ $LigaBet-bottomNav-badge-font-size: 13px;
 .BottomNavItem .MuiBadge-badge {
     top: 0;
     right: 0;
-    z-index: 2;
+    z-index: 6;
     font-size: $LigaBet-bottomNav-badge-font-size;
     min-width: $LigaBet-bottomNav-badge-size;
     height: $LigaBet-bottomNav-badge-size;
     padding: 0 5px;
-}
-
-.AppBottomNavMore {
-    &-paper {
-        border-top-left-radius: 16px !important;
-        border-top-right-radius: 16px !important;
-        padding-bottom: env(safe-area-inset-bottom, 0px);
-    }
-
-    &-handle {
-        width: 40px;
-        height: 4px;
-        background: #e0e0e0;
-        border-radius: 2px;
-        margin: 12px auto 8px;
-    }
-
-    &-list {
-        padding-bottom: 16px !important;
-    }
 }
 
 @mixin themable_bottom_nav($class, $tournament_theme) {
