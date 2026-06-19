@@ -4,7 +4,7 @@ import TeamFlag from '../TeamFlag/TeamFlag'
 import { WinnerSide } from '../../types'
 import { MatchResultProps } from './types'
 import { IsQualifierBetOn } from '../../_selectors'
-import { getWinnerSide } from '../../utils'
+import { cn, getWinnerSide } from '../../utils'
 import './MatchResult.scss'
 import AutoBetBadge from '../AutoBetBadge/AutoBetBadge'
 
@@ -80,7 +80,10 @@ function MatchResultView({home, away, isKnockout, qualifier, isAutoBet, title}: 
                     )}
                 </div>
                 {isAutoBet && (
-                    <div className='absolute bottom-2 left-1/2 -translate-x-1/2'>
+                    <div className={cn('absolute left-1/2 -translate-x-1/2', {
+                        'bottom-2':!isQualifierBettable,
+                        'top-6 scale-75':isQualifierBettable
+                    })}>
                         <AutoBetBadge />
                     </div>
                 )}

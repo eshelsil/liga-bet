@@ -20,7 +20,6 @@ function AutoBetBadge() {
                         fontSize: 18,
                         color: '#6366f1',
                         cursor: 'pointer',
-                        marginInlineStart: '4px',
                         verticalAlign: 'middle',
                     }}
                 />

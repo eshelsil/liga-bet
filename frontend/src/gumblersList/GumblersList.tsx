@@ -33,7 +33,11 @@ export function GumblerRow({gumbler, showNihusable, showNihus, onNihusClick, nih
                 <div>
                     {gumbler.name}
                 </div>
-                {gumbler.isAutoBet && <AutoBetBadge />}
+                {gumbler.isAutoBet && (
+                    <div className="ms-1">
+                        <AutoBetBadge />
+                    </div>
+                )}
                 {showNihusable && (gumbler.id !== utlId) && !(nihusimByTargetUtlId[gumbler.id]) && (
                     <TomatoIcon
                         className={cn("w-8 h-8 mr-1 my-1 cursor-pointer")}
