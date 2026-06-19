@@ -111,7 +111,11 @@ class UpdateCompetition
                     return;
                 }
 
-                $this->crawlerGames = $this->fakeGames ?? $competition->getCrawler()->fetchGames($competition->getCompetitionType(), $competition->get365Id());
+                $isMockCompetition = (bool) data_get($competition->config, \App\Testing\PastCompetitionTester::CONFIG_IS_TEST, false);
+                $this->crawlerGames = $this->fakeGames
+                    ?? ($isMockCompetition
+                        ? $competition->getCrawler()->fetchGamesFromConfig($competition)
+                        : $competition->getCrawler()->fetchGames($competition->getCompetitionType(), $competition->get365Id()));
 
                 $this->saveNewGames($competition);
 

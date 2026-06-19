@@ -41,8 +41,9 @@ class UpdateCompetitionScorers
 
     public function handle(Competition $competition)
     {
+        $isMockCompetition = (bool) data_get($competition->config, \App\Testing\PastCompetitionTester::CONFIG_IS_TEST, false);
         $extId = $competition->get365Id();
-        if (!$extId && !$this->fakeScorers) {
+        if (!$extId && !$this->fakeScorers && !$isMockCompetition) {
             \Log::warning("[UpdateScorers][handle] competition {$competition->id} has no id_on_365; skipping");
             return;
         }
@@ -67,7 +68,10 @@ class UpdateCompetitionScorers
         ]));
 
         try {
-            $scorersByGameId = $this->fakeScorers ?? $competition->getCrawler()->fetchScorersOfLatestGames($extId, $dbGamesCollection, $gamesToFixColection, $startedBeforeMins);
+            $scorersByGameId = $this->fakeScorers
+                ?? ($isMockCompetition
+                    ? $competition->getCrawler()->fetchScorersFromConfig($competition)
+                    : $competition->getCrawler()->fetchScorersOfLatestGames($extId, $dbGamesCollection, $gamesToFixColection, $startedBeforeMins));
             foreach ($scorersByGameId as $gameId => $scorers){
                 \Log::debug("[UpdateScorers][handle] got {{$scorers->count()}} scorers for game $gameId");
             }

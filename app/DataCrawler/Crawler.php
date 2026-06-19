@@ -824,4 +824,173 @@ class Crawler
         return (int) round($score);
     }
 
+    /* ------------------------------------------------------------------ */
+    /* Test competitions: mock results derived from a past competition.   */
+    /* Driven purely by the competition config (no network):              */
+    /*   'test-competition'             => true                            */
+    /*   'mock-update-from-competition' => <source competition id>         */
+    /*   'current_game'                 => <index into sorted source games>*/
+    /* The source competition is mapped to the test one by NAME.          */
+    /* ------------------------------------------------------------------ */
+
+    /**
+     * Build the mock "crawler games" for a test competition, in the same shape
+     * fetchGames() returns. Games before current_game are done (with the source
+     * results), the game at current_game is live, later games have no result.
+     *
+     * @return Collection<Game>
+     */
+    public function fetchGamesFromConfig(\App\Competition $competition): Collection
+    {
+        [$source, $current] = $this->resolveMockConfig($competition);
+        if (! $source) {
+            return collect();
+        }
+
+        $sorted          = $this->sortedCompetitionGames($source);
+        $indexBySourceId = $sorted->mapWithKeys(fn ($g, int $i) => [$g->id => $i])->all();
+        $sourceNameById  = $source->teams->pluck('name', 'id');
+        $sourceByKey     = $sorted->keyBy(fn ($g) => $this->mockGameKey($g, $sourceNameById));
+
+        $testNameById    = $competition->teams->pluck('name', 'id');
+        $testExtById     = $competition->teams->pluck('external_id', 'id');
+        $testExtByName   = $competition->teams->pluck('external_id', 'name');
+
+        $crawlerGames = collect();
+        foreach ($competition->games as $testGame) {
+            $src = $sourceByKey->get($this->mockGameKey($testGame, $testNameById));
+            if (! $src) {
+                \Log::warning("[Crawler][mock] no source game for test game {$testGame->id}");
+                continue;
+            }
+
+            $index   = $indexBySourceId[$src->id];
+            $started = $index <= $current;
+            $done    = $index < $current;
+
+            $koWinnerExtId = null;
+            if ($done && $src->ko_winner) {
+                $winnerName    = $sourceNameById[$src->ko_winner] ?? null;
+                $koWinnerExtId = $winnerName !== null ? ($testExtByName[$winnerName] ?? null) : null;
+            }
+
+            $resultHome = $started ? $src->result_home : null;
+            $resultAway = $started ? $src->result_away : null;
+
+            $crawlerGames->put((string) $testGame->external_id, new Game(
+                $testGame->external_id,
+                $testGame->type,
+                $testGame->sub_type,
+                (string) $testExtById[$testGame->team_home_id],
+                (string) $testExtById[$testGame->team_away_id],
+                $testGame->start_time,
+                $resultHome,
+                $resultAway,
+                $started ? $src->full_result_home : null,
+                $started ? $src->full_result_away : null,
+                $resultHome,
+                $resultAway,
+                $koWinnerExtId,
+                $testGame->ko_leg,
+                $done,
+                $started,
+            ));
+        }
+
+        return $crawlerGames->values();
+    }
+
+    /**
+     * Mock scorers for a test competition, in the shape
+     * UpdateCompetitionScorers::fake() expects: keyed by test game id, each a
+     * collection keyed by player external_id => ['goals' => n, 'assists' => m].
+     * Scorers are returned for every started game (index <= current_game).
+     */
+    public function fetchScorersFromConfig(\App\Competition $competition): Collection
+    {
+        [$source, $current] = $this->resolveMockConfig($competition);
+        if (! $source) {
+            return collect();
+        }
+
+        $sorted          = $this->sortedCompetitionGames($source);
+        $indexBySourceId = $sorted->mapWithKeys(fn ($g, int $i) => [$g->id => $i])->all();
+        $sourceNameById  = $source->teams->pluck('name', 'id');
+        $sourceByKey     = $sorted->keyBy(fn ($g) => $this->mockGameKey($g, $sourceNameById));
+        $testNameById    = $competition->teams->pluck('name', 'id');
+
+        $sourcePlayerById = $source->players->keyBy('id');
+        $sourceGoals      = \App\GameDataGoal::whereIn('game_id', $sorted->pluck('id'))->get()->groupBy('game_id');
+
+        // test player external_id keyed by "<team name>##<player name>"
+        $testExtByTeamAndName = collect();
+        foreach ($competition->players as $tp) {
+            $teamName = $testNameById[$tp->team_id] ?? '';
+            $testExtByTeamAndName->put($teamName . '##' . $tp->name, $tp->external_id);
+        }
+
+        $result = collect();
+        foreach ($competition->games as $testGame) {
+            $src = $sourceByKey->get($this->mockGameKey($testGame, $testNameById));
+            if (! $src || $indexBySourceId[$src->id] > $current) {
+                continue; // not started yet -> no scorers
+            }
+
+            $perPlayer = collect();
+            foreach ($sourceGoals->get($src->id, collect()) as $row) {
+                $sp = $sourcePlayerById->get($row->player_id);
+                if (! $sp) {
+                    continue;
+                }
+                $teamName = $sourceNameById[$sp->team_id] ?? '';
+                $extId    = $testExtByTeamAndName->get($teamName . '##' . $sp->name);
+                if ($extId === null) {
+                    \Log::warning("[Crawler][mock] no test player for source player {$sp->id} ({$sp->name})");
+                    continue;
+                }
+                $perPlayer->put((string) $extId, ['goals' => $row->goals, 'assists' => $row->assists]);
+            }
+
+            $result->put($testGame->id, $perPlayer);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return array{0: ?\App\Competition, 1: int} [source competition, current_game]
+     */
+    protected function resolveMockConfig(\App\Competition $competition): array
+    {
+        $config = (array) $competition->config;
+        if (empty($config[\App\Testing\PastCompetitionTester::CONFIG_IS_TEST])) {
+            return [null, 0];
+        }
+
+        $sourceId = $config[\App\Testing\PastCompetitionTester::CONFIG_SOURCE] ?? null;
+        $current  = $config[\App\Testing\PastCompetitionTester::CONFIG_CURRENT_GAME] ?? null;
+        if ($sourceId === null || $current === null) {
+            return [null, 0];
+        }
+
+        $source = \App\Competition::with(['teams.players', 'games', 'players'])->find($sourceId);
+        return [$source, (int) $current];
+    }
+
+    protected function sortedCompetitionGames(\App\Competition $competition): Collection
+    {
+        return $competition->games
+            ->sort(fn ($a, $b) => [$a->start_time, $a->id] <=> [$b->start_time, $b->id])
+            ->values();
+    }
+
+    protected function mockGameKey($game, Collection $teamNameById): string
+    {
+        $home = $teamNameById[$game->team_home_id] ?? '?';
+        $away = $teamNameById[$game->team_away_id] ?? '?';
+        $pair = collect([$home, $away])->sort()->values()->implode('::');
+
+        return $pair . '|' . $game->sub_type . '|' . ($game->ko_leg ?? '');
+    }
+
 }
