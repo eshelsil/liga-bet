@@ -90,12 +90,12 @@ class Competition extends Model
 
     public function isClubsCompetition()
     {
-        return collect($this->config)->get("isForClubs") || false;
+        return collect($this->config)->get("isForClubs") ?? false;
     }
 
     public function getCompetitionType()
     {
-        return collect($this->config)->get("type") || false;
+        return collect($this->config)->get("type") ?? false;
     }
 
     public function getGamesToFixScorers()
@@ -114,7 +114,7 @@ class Competition extends Model
 
     public function isSupports365TeamExtId()
     {
-        return !(collect($this->config)->get("ignore365TeamExtId") || false);
+        return !(collect($this->config)->get("ignore365TeamExtId") ?? false);
     }
 
     public function getCrawler()
@@ -140,7 +140,7 @@ class Competition extends Model
     }
 
     public function shouldUpdateUpcomingGamesStartTime(){
-        return collect($this->config)->get("update_upcoming_games_start_time") || false;
+        return collect($this->config)->get("update_upcoming_games_start_time") ?? false;
     }
 
     public function resetShouldUpdateUpcomingGamesStartTime(){
