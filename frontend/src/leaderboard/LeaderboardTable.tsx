@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux';
 import { QuestionBetWithRelations, ScoreboardRowDetailed, Team } from '../types'
 import CustomTable from '../widgets/Table/CustomTable'
@@ -43,6 +44,7 @@ interface Props {
 }
 
 function LeaderboardTable({ rows, currentUtlId, isLive }: Props) {
+    const { t } = useTranslation('leaderboard')
     const winnerBetByUtlId = useSelector(WinnerBetByUtlId)
     const { expandedUtl: expand, setExpandedUtl: setExpand } = useContext(ExpandedContestantContext);
 
@@ -80,7 +82,7 @@ function LeaderboardTable({ rows, currentUtlId, isLive }: Props) {
 		},
 		{
 			id: 'name',
-			header: 'שם',
+			header: t('table.headers.name'),
             classes: {
                 cell: 'nameCell',
             },
@@ -93,7 +95,7 @@ function LeaderboardTable({ rows, currentUtlId, isLive }: Props) {
 		},
 		{
 			id: 'score',
-			header: 'ניקוד',
+			header: t('table.headers.score'),
             classes: {
                 header: 'scoreCell',
             },

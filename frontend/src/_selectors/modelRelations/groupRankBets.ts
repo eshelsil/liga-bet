@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { GroupStandingBets, Teams, Contestants, Games, Groups, IsSideTournament } from '../base'
+import { GroupStandingBets, Teams, Contestants, Games, Groups, IsSideTournament, CurrentStandingsTieBreak } from '../base'
 import { mapValues, groupBy, pickBy } from 'lodash'
 import { GameType, GroupRankBetWithRelations } from '../../types'
 import { GroupsWithTeams } from './groups'
@@ -61,7 +61,8 @@ export const LiveGroupStandings = createSelector(
     GamesByGroupId,
     Groups,
     IsSideTournament,
-    (gamesByGroupId, groups, isSideTournament) => {
+    CurrentStandingsTieBreak,
+    (gamesByGroupId, groups, isSideTournament, tieBreak) => {
         if (isSideTournament){
             return {}
         }
@@ -71,7 +72,7 @@ export const LiveGroupStandings = createSelector(
                 && !!games.find(isGameLive)
             )
         )
-        const liveGroupStandingsById = mapValues(gamesByLiveGroupId, calculateLiveStandings)
+        const liveGroupStandingsById = mapValues(gamesByLiveGroupId, (games) => calculateLiveStandings(games, tieBreak))
         return liveGroupStandingsById
     }
 )

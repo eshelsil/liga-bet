@@ -1,7 +1,8 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import CustomTable from '../widgets/Table/CustomTable'
 import { MatchBetWithRelations } from '../types'
-import { getQualifierSide, isGameLive, SHORT_DATE_FORMAT } from '../utils'
+import { ENG_SHORT_DATE_FORMAT, getQualifierSide, isGameLive, SHORT_DATE_FORMAT } from '../utils'
 import dayjs from 'dayjs'
 import MatchResultView from '../widgets/MatchResult'
 import { orderBy } from 'lodash'
@@ -20,10 +21,11 @@ interface Props {
 }
 
 const GameBetsTable = ({ bets, headers, dropColumns, showLive }: Props) => {
+    const { t, i18n } = useTranslation('myBets')
     const cells = [
 		{
 			id: 'id',
-			header: 'מזהה',
+			header: t('columns.id'),
 			classes: {
                 header: 'admin',
                 cell: 'admin',
@@ -33,16 +35,18 @@ const GameBetsTable = ({ bets, headers, dropColumns, showLive }: Props) => {
 		...(!dropColumns?.date
             ? [{
                     id: 'date',
-                    header: 'תאריך',
+                    header: t('columns.date'),
                     classes: {
                         header: 'dateCell',
                     },
-                    getter: (bet: MatchBetWithRelations) => dayjs(bet.relatedMatch.start_time).format(SHORT_DATE_FORMAT),
+                    getter: (bet: MatchBetWithRelations) => dayjs(bet.relatedMatch.start_time).format(
+                        i18n.language === 'he' ?  SHORT_DATE_FORMAT:ENG_SHORT_DATE_FORMAT
+                    ),
             }] : []
         ),
 		{
 			id: 'bet',
-			header: headers?.bet ?? 'ניחוש',
+			header: headers?.bet ?? t('columns.bet'),
             classes: {
                 cell: 'alignToTop',
             },
@@ -64,7 +68,7 @@ const GameBetsTable = ({ bets, headers, dropColumns, showLive }: Props) => {
 		},
 		{
 			id: 'result',
-			header: headers?.bet ?? 'תוצאה',
+			header: headers?.bet ?? t('columns.result'),
 			getter: (bet: MatchBetWithRelations) => (<>
                 {showLive || bet.relatedMatch.is_done ? (
                     <MatchResultView
@@ -86,7 +90,7 @@ const GameBetsTable = ({ bets, headers, dropColumns, showLive }: Props) => {
 		},
 		{
 			id: 'score',
-			header: 'נק\'',
+			header: t('columns.score'),
             classes: {
                 cell: 'scoreCell'
             },

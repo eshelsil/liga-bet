@@ -1,0 +1,125 @@
+{
+    "pageContent": {
+        "whatDoesThisMean": "What does this mean?",
+        "forgotSomething": "Forgot something?",
+        "editScoreSettings": "Edit scoring settings"
+    },
+    "bracketScoresConfig": {
+        "title": "Bracket scoring",
+        "qualifier": "Qualifier points (per round)",
+        "qualifierTooltip": "Points awarded for each correct qualifier pick, by the round it's played in.",
+        "specialAdvance": "Winner / Runner-Up advance bonus (per round)",
+        "specialAdvanceTooltip": "Bonus points each round your picked Winner or Runner-Up keeps advancing."
+    },
+    "useDefaultConfig": {
+        "title": "Set the scoring method",
+        "description": "The scoring method across the whole tournament is optimally calibrated, and we recommend keeping the default settings.",
+        "goWithIt": "Sounds good",
+        "wantToChange": "I'd still like to change it",
+        "continue": "Continue"
+    },
+    "prizes": {
+        "title": "Tournament management",
+        "update": "Update",
+        "updateSuccess": "Prizes updated successfully"
+    },
+    "scoreConfigForm": {
+        "update": "Update",
+        "resetToDefault": "Reset to default",
+        "updateSuccess": "Scoring settings updated successfully"
+    },
+    "scoresConfigPage": {
+        "title": "Tournament rules",
+        "warning": "Note! Once the tournament begins, the scoring method can no longer be edited",
+        "scoreSettings": "Scoring settings",
+        "back": "Back"
+    },
+    "scoresConfigProvider": {
+        "unavailableAfterStart": "Tournament settings are unavailable after the tournament has started"
+    },
+    "groupRank": {
+        "title": "Group ranking points",
+        "perfect": "Perfect hit",
+        "minorMistake": "Minor mistake",
+        "explanation": {
+            "perfectLabel": "Perfect hit",
+            "perfectText": "= ranking places 1-4 in the group in the exact order they finished the group stage",
+            "minorMistakeLabel": "Minor mistake",
+            "minorMistakeText": "= a swap between adjacent places (one mistake between places 1,2 or 2,3 or 3,4)"
+        }
+    },
+    "matchBets": {
+        "bonuses": "Bonuses:",
+        "final": "Final",
+        "semiFinal": "Semi-final",
+        "quarterFinal": "Quarter-final",
+        "title": "Match points",
+        "exactResult": "Exact result",
+        "whoWins": "Who wins - (1X2)",
+        "qualifier": "Qualifier",
+        "explanation": {
+            "line1": "You can set the points awarded for each match in the group stage and the knockout stage",
+            "line2": "First the 1X2 prediction on the match result (90 min) is calculated",
+            "line3": "Then a bonus is given for hitting the exact result (90 min)",
+            "line4": "In the knockout stages you can add a bonus for predicting the qualifier to the next round",
+            "line5": "You can add an extra bonus for the semi-final and final matches"
+        }
+    },
+    "errors": {
+        "minPassword": "Password must contain at least 4 characters",
+        "required": "This field is required",
+        "passwordMismatch": "The password does not match the password above"
+    },
+    "mvp": {
+        "winning": "Winning the title",
+        "title": "Tournament MVP",
+        "explanation": "The tournament MVP will be determined by FIFA at the end of the tournament"
+    },
+    "offensiveTeam": {
+        "winning": "Correct prediction",
+        "title": "Strongest attack in the group stage",
+        "explanation": "Bonus points for a participant who correctly picked the team that scored the most goals in the group stage"
+    },
+    "roadToFinal": {
+        "winner": "Winner",
+        "runnerUp": "Runner-up",
+        "winnerCup": "Cup winner",
+        "winningTitle": "Winning the title",
+        "reachingFinal": "Reaching the final",
+        "explanation": {
+            "line1": "Each user must pick 2 teams (winner and runner-up)",
+            "line2": "You can set bonus points for each stage these teams advance to, and a bonus for winning the tournament."
+        }
+    },
+    "specialBets": {
+        "title": "Special question points",
+        "explanation": {
+            "line1": "You can choose which special questions are included in the tournament",
+            "line2": "You can choose 0 points to disable a specific prediction"
+        }
+    },
+    "topAssists": {
+        "winning": "Bonus for winning the title",
+        "each": "Each assist",
+        "title": "Top assists",
+        "explanation": {
+            "line1": "The player who finished the tournament with the most assists",
+            "line2": "You can set bonus points for each assist the player made",
+            "line3": "A \"winning the title\" bonus is awarded to the player(s) who finished the tournament with the most assists"
+        }
+    },
+    "topScorer": {
+        "eachGoal": "Points per goal",
+        "winning": "Bonus for winning the title",
+        "title": "Top scorer",
+        "explanation": {
+            "line1": "Each participant must pick one player as the top scorer",
+            "line2": "You can set bonus points for each goal the player scored",
+            "line3": "A \"winning the title\" bonus is awarded to the player(s) who finished the tournament with the most goals"
+        }
+    },
+    "takanonPreview": {
+        "howItLooks": "How it will look in the rules",
+        "howItLooksTitle": "How it will look in the rules:"
+    }
+}

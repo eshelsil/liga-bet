@@ -1,0 +1,25 @@
+{
+    "titles": {
+        "myTournaments": "הטורנירים שלי",
+        "pastTournaments": "טורנירי עבר"
+    },
+    "buttons": {
+        "hidePastTournaments": "קפל טורנירי עבר",
+        "showPastTournaments": "הצג טורנירי עבר"
+    },
+    "card": {
+        "nickname": "כינוי",
+        "nameLabel": "שם",
+        "permissions": "הרשאות",
+        "tournamentCode": "קוד טורניר",
+        "inviteFriends": "הזמן חברים",
+        "linkCopied": "קישור הועתק ✓",
+        "leaderboardRank": "מיקום בטבלה",
+        "points": "נקודות",
+        "viewMyForm": "צפייה בטופס שלי",
+        "rules": "תקנון"
+    },
+    "toasts": {
+        "profileUpdated": "הפרופיל עודכן"
+    }
+}

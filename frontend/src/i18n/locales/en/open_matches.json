@@ -1,0 +1,32 @@
+{
+    "autoBet": {
+        "label": "Auto prediction",
+        "strategyRandom": "Random",
+        "updated": "Auto prediction updated",
+        "whatIsThis": "What does this mean?"
+    },
+    "buttons": {
+        "send": "Send"
+    },
+    "labels": {
+        "qualifier": "Qualifier:"
+    },
+    "toasts": {
+        "betSent": "Prediction sent",
+        "betSentForTournaments_one": "Prediction sent for one tournament",
+        "betSentForTournaments_other": "Prediction sent for {{count}} tournaments"
+    },
+    "errors": {
+        "invalidHomeScore": "A team's goal count must be a whole number between 0 and 20. The value received for the home team: {{value}}",
+        "invalidAwayScore": "A team's goal count must be a whole number between 0 and 20. The value received for the away team: {{value}}",
+        "qualifierRequired": "You must choose a qualifier",
+        "qualifierRequiredTie": "You must choose a qualifier (since you marked a knockout match ending in a draw)"
+    },
+    "view": {
+        "title": "Match predictions",
+        "editableUntilStart": "Each match prediction stays open for editing until the match start time",
+        "scoringMethodPrefix": "You can view the scoring method",
+        "scoringMethodLink": "by clicking here",
+        "noOpenMatches": "No open matches"
+    }
+}

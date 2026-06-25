@@ -1,0 +1,37 @@
+{
+    "create": {
+        "title": "Create a New Tournament",
+        "tournamentLabel": "Tournament: {{name}}",
+        "chooseNickname": "Choose a nickname:",
+        "nickname": "Nickname",
+        "continue": "Continue",
+        "chooseCompetition": "Choose a competition:",
+        "tournamentName": "Tournament name:",
+        "tournamentNameLabel": "Tournament name",
+        "createButton": "Create Tournament",
+        "successToast": "Tournament created!"
+    },
+    "default": {
+        "welcome": "Welcome!",
+        "joinExisting": "Join an Existing Tournament",
+        "createNew": "Create a New Tournament"
+    },
+    "join": {
+        "title": "Join an Existing Tournament",
+        "tournamentCode": "Tournament code",
+        "nickname": "Nickname",
+        "importBets": "Import predictions I've filled in",
+        "joinButton": "Join Tournament",
+        "successToast": "You've joined the tournament successfully"
+    },
+    "notConfirmed": {
+        "title": "It's about to begin...",
+        "registered": "You've registered for the tournament \"{{name}}\"",
+        "waitingForApproval": "Once the tournament admins approve you, you'll be able to start playing"
+    },
+    "rejected": {
+        "title": "Sorry, but...",
+        "message": "Your participation in the tournament \"{{name}}\" was rejected by the tournament participants",
+        "leaveButton": "Leave the tournament"
+    }
+}

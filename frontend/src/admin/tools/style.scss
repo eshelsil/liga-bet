@@ -23,7 +23,7 @@
 .LB-AdminViewContainer {
     .MuiTableCell-root {
         &.editButtonCell {
-            padding-right: 0px;
+            padding-inline-start: 0px;
             .LB-LoadingVIcon {
                 width: unset;
                 height: unset;

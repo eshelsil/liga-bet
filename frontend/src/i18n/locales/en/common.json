@@ -1,0 +1,13 @@
+{
+    "appName": "Liga Bet",
+    "language": {
+        "label": "Language",
+        "he": "עברית",
+        "en": "English"
+    },
+    "unexpectedError": {
+        "title": "Oops! Something went wrong",
+        "description": "Try refreshing or contact one of the admins",
+        "refresh": "Refresh"
+    }
+}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ScoreConfigFormProps, SpecialQuestionConfigProps } from '../../types';
 import TopScorerRules from '../../../takanon/specialQuestions/TopScorerRules';
 import TakanonPreviewModal from '../../takanonPreview/TakanonPreviewModal';
@@ -7,10 +8,8 @@ import SpecialQuestionHeader from './SpecialQuestionHeader';
 import TopScorerExplanation from './explanations/TopScorerExplanation';
 
 
-const EACH_GOAL_STRING = 'ניקוד על כל גול';
-const TOP_SCORER_WINNING_STRING = 'בונוס על זכייה בתואר';
-
 function TopScorerConfig({disabled, ...formProps}: SpecialQuestionConfigProps){
+	const { t } = useTranslation('tournamentConfig')
 	const { watch, setValue, register, errors, clearErrors } = formProps;
 	const onChange = (event: any, value: boolean) => {
 		setValue('specialQuestionFlags.topScorer', value as never);
@@ -20,7 +19,7 @@ function TopScorerConfig({disabled, ...formProps}: SpecialQuestionConfigProps){
 	return (
 		<div className='LigaBet-TopScorerConfig configContainer'>
 			<SpecialQuestionHeader
-				title={'מלך שערים'}
+				title={t('topScorer.title')}
 				tooltipContent={<TopScorerExplanation />}
 				switchProps={{
 					disabled: true,
@@ -32,7 +31,7 @@ function TopScorerConfig({disabled, ...formProps}: SpecialQuestionConfigProps){
 					<tbody>
 						<tr>
 							<td className={'configLabel'}>
-								{EACH_GOAL_STRING}
+								{t('topScorer.eachGoal')}
 							</td>
 							<td>
 								<ScoreInput
@@ -47,7 +46,7 @@ function TopScorerConfig({disabled, ...formProps}: SpecialQuestionConfigProps){
 						</tr>
 						<tr>
 							<td className={'configLabel'}>
-								{TOP_SCORER_WINNING_STRING}
+								{t('topScorer.winning')}
 							</td>
 							<td>
 								<ScoreInput

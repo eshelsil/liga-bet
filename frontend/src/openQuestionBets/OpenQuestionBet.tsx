@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import { Grid, IconButton, Switch } from '@mui/material'
 import { SpecialQuestionWithABet } from '../types'
-import { hasPlayerAnswer, hasTeamAnswer } from '../utils'
+import { getSpecialQuestionName, hasPlayerAnswer, hasTeamAnswer } from '../utils'
 import TeamInput from './TeamInput'
 import SpecialAnswerView from '../widgets/specialAnswer/SpecialAnswer'
 import { QuestionBetParams } from './types'
@@ -30,6 +31,7 @@ function QuestionBetEditView({
 } : {
     onClose: () => void
 } & Props) {
+    const { t } = useTranslation('openQuestionBets')
     const { id, bet } = questionWithBet
     const { answer: betAnswer } = bet || {}
     const [answer, setAnswer] = useState<number>(betAnswer?.id)
@@ -55,7 +57,7 @@ function QuestionBetEditView({
                 <LoadingButton
                     action={submitBet}
                 >
-                    שלח
+                    {t('buttons.send')}
                 </LoadingButton>
                 <IconButton className='iconGoBack' onClick={onClose}>
                     <CloseIcon />
@@ -67,6 +69,7 @@ function QuestionBetEditView({
 
 
 function OpenQuestionBetView({ questionWithBet, sendBet }: Props) {
+    const { t } = useTranslation('openQuestionBets')
     const otherTournaments = useSelector(MyOtherBettableUTLs);
     const hasOtherTournaments = otherTournaments.length > 0;
     const isMultiBetDefault = useSelector(IsMultiBetDefaultForAll)
@@ -75,7 +78,7 @@ function OpenQuestionBetView({ questionWithBet, sendBet }: Props) {
     const { getLastEditTs, cancelEdit } = useCancelEdit({edit, setEdit})
     const tournamentClass = useTournamentThemeClass();
     const isXsScreen = useIsXsScreen();
-    const { name, bet, type } = questionWithBet
+    const { bet, type } = questionWithBet
     const { answer: betAnswer } = bet || {}
     const hasBet = !!bet
 
@@ -90,10 +93,9 @@ function OpenQuestionBetView({ questionWithBet, sendBet }: Props) {
         const ts = getLastEditTs()
         return await sendBet({...params, forAllTournaments})
             .then(function (data) {
-                let text = 'הניחוש נשלח'
-                if (forAllTournaments){
-                    text += ` עבור ${otherTournaments.length + 1} טורנירים`
-                }
+                const text = forAllTournaments
+                    ? t('toasts.betSentForTournaments', { count: otherTournaments.length + 1 })
+                    : t('toasts.betSent')
                 window['toastr']['success'](text)
                 cancelEdit(ts)
             })
@@ -109,7 +111,7 @@ function OpenQuestionBetView({ questionWithBet, sendBet }: Props) {
         <Grid item xs={isXsScreen ? 12 : null}>
             <div className={`LigaBet-OpenQuestionBetView LB-EditableBetView ${tournamentClass} ${(edit && forAllTournaments) ? 'sendingforAllTournaments' : ''}`}>
                 <div className={`EditableBetView-header`}>
-                    <h4 className="name">{name}</h4>
+                    <h4 className="name">{getSpecialQuestionName(questionWithBet)}</h4>
                     {edit && hasOtherTournaments && (
                         <Switch
                             className='forAllTournamentsInput'

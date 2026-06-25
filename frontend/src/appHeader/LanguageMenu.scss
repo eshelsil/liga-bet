@@ -1,0 +1,22 @@
+.LigaBet-LanguageMenu {
+    display: flex;
+    align-items: center;
+
+    .LanguageMenu-anchor {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        padding: 6px;
+    }
+}
+
+.LigaBet-LanguageMenuItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .LanguageMenu-label {
+        line-height: 1;
+    }
+}

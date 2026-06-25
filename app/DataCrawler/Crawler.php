@@ -11,6 +11,9 @@ namespace App\DataCrawler;
 use App\Competition;
 use App\Game as CompetitionGame;
 use App\Enums\GameSubTypes;
+use App\DataCrawler\Bracket;
+use App\DataCrawler\BracketTie;
+use App\DataCrawler\BracketSource;
 use Illuminate\Http\Client\Pool;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
@@ -23,6 +26,9 @@ class Crawler
 
     protected string $id;
 
+    protected string $source = Competition::SOURCE_FOOTBALL_DATA;
+    protected ?int $competition365Id = null;
+
     public function __construct(string $id)
     {
         $this->id = $id;
@@ -30,6 +36,17 @@ class Crawler
 
     public static function getInstance($id = "wc") {
         return new static($id);
+    }
+
+    /**
+     * Select which feed supplies matches/teams/standings. With SOURCE_365 the fetch* entry points route
+     * to their *365 variants (everything in native 365 ids; no football-data / translate365TeamId needed).
+     */
+    public function withSource(string $source, ?int $competition365Id): static
+    {
+        $this->source = $source;
+        $this->competition365Id = $competition365Id;
+        return $this;
     }
 
     private static function parseGame($match_json)
@@ -114,6 +131,9 @@ class Crawler
 
     public function fetchTeams(): Collection
     {
+        if ($this->source === Competition::SOURCE_365) {
+            return $this->fetchTeams365($this->competition365Id);
+        }
         $data = $this->apiCall('/standings');
         $standings = data_get($data, 'standings');
 
@@ -132,8 +152,11 @@ class Crawler
 
     public function fetchGames($competitionType = Competition::TYPE_WC, ?int $competition365Id = null)
     {
+        if ($this->source === Competition::SOURCE_365) {
+            return $this->fetchGames365($this->competition365Id ?? $competition365Id, $competitionType);
+        }
         if (app()->environment("testing")) {
-            $data = json_decode('{"count":64,"filters":{},"competition":{"id":2000,"area":{"id":2267,"name":"World"},"name":"FIFA World Cup","code":"WC","plan":"TIER_ONE","lastUpdated":"2022-05-09T19:45:29Z"},"matches":[{"id":391882,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-20T16:00:00Z","status":"SCHEDULED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_A","lastUpdated":"2022-11-14T01:32:00Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":8030,"name":"Qatar"},"awayTeam":{"id":791,"name":"Ecuador"},"referees":[]},{"id":391887,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-21T13:00:00Z","status":"SCHEDULED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_B","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":770,"name":"England"},"awayTeam":{"id":840,"name":"Iran"},"referees":[]},{"id":391881,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-21T16:00:00Z","status":"SCHEDULED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_A","lastUpdated":"2022-11-15T01:32:00Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":804,"name":"Senegal"},"awayTeam":{"id":8601,"name":"Netherlands"},"referees":[]},{"id":391888,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-21T19:00:00Z","status":"SCHEDULED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_B","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":771,"name":"United States"},"awayTeam":{"id":833,"name":"Wales"},"referees":[]},{"id":391893,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-22T10:00:00Z","status":"SCHEDULED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_C","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":762,"name":"Argentina"},"awayTeam":{"id":801,"name":"Saudi Arabia"},"referees":[]},{"id":391899,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-22T13:00:00Z","status":"SCHEDULED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_D","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":782,"name":"Denmark"},"awayTeam":{"id":802,"name":"Tunisia"},"referees":[]},{"id":391894,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-22T16:00:00Z","status":"SCHEDULED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_C","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":769,"name":"Mexico"},"awayTeam":{"id":794,"name":"Poland"},"referees":[]},{"id":391900,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-22T19:00:00Z","status":"SCHEDULED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_D","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":773,"name":"France"},"awayTeam":{"id":779,"name":"Australia"},"referees":[]},{"id":391911,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-23T10:00:00Z","status":"SCHEDULED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_F","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":815,"name":"Morocco"},"awayTeam":{"id":799,"name":"Croatia"},"referees":[]},{"id":391905,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-23T13:00:00Z","status":"SCHEDULED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_E","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":759,"name":"Germany"},"awayTeam":{"id":766,"name":"Japan"},"referees":[]},{"id":391906,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-23T16:00:00Z","status":"SCHEDULED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_E","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":760,"name":"Spain"},"awayTeam":{"id":793,"name":"Costa Rica"},"referees":[]},{"id":391912,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-23T19:00:00Z","status":"SCHEDULED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_F","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":805,"name":"Belgium"},"awayTeam":{"id":828,"name":"Canada"},"referees":[]},{"id":391917,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-24T10:00:00Z","status":"SCHEDULED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_G","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":788,"name":"Switzerland"},"awayTeam":{"id":781,"name":"Cameroon"},"referees":[]},{"id":391923,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-24T13:00:00Z","status":"SCHEDULED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_H","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":758,"name":"Uruguay"},"awayTeam":{"id":772,"name":"South Korea"},"referees":[]},{"id":391924,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-24T16:00:00Z","status":"SCHEDULED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_H","lastUpdated":"2022-08-12T13:10:40Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":765,"name":"Portugal"},"awayTeam":{"id":763,"name":"Ghana"},"referees":[]},{"id":391918,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-24T19:00:00Z","status":"SCHEDULED","matchday":1,"stage":"GROUP_STAGE","group":"GROUP_G","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":764,"name":"Brazil"},"awayTeam":{"id":780,"name":"Serbia"},"referees":[]},{"id":391889,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-25T10:00:00Z","status":"SCHEDULED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_B","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":833,"name":"Wales"},"awayTeam":{"id":840,"name":"Iran"},"referees":[]},{"id":391883,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-25T13:00:00Z","status":"SCHEDULED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_A","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":8030,"name":"Qatar"},"awayTeam":{"id":804,"name":"Senegal"},"referees":[]},{"id":391884,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-25T16:00:00Z","status":"SCHEDULED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_A","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":8601,"name":"Netherlands"},"awayTeam":{"id":791,"name":"Ecuador"},"referees":[]},{"id":391890,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-25T19:00:00Z","status":"SCHEDULED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_B","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":770,"name":"England"},"awayTeam":{"id":771,"name":"United States"},"referees":[]},{"id":391901,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-26T10:00:00Z","status":"SCHEDULED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_D","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":802,"name":"Tunisia"},"awayTeam":{"id":779,"name":"Australia"},"referees":[]},{"id":391895,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-26T13:00:00Z","status":"SCHEDULED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_C","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":794,"name":"Poland"},"awayTeam":{"id":801,"name":"Saudi Arabia"},"referees":[]},{"id":391902,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-26T16:00:00Z","status":"SCHEDULED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_D","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":773,"name":"France"},"awayTeam":{"id":782,"name":"Denmark"},"referees":[]},{"id":391896,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-26T19:00:00Z","status":"SCHEDULED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_C","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":762,"name":"Argentina"},"awayTeam":{"id":769,"name":"Mexico"},"referees":[]},{"id":391907,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-27T10:00:00Z","status":"SCHEDULED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_E","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":766,"name":"Japan"},"awayTeam":{"id":793,"name":"Costa Rica"},"referees":[]},{"id":391913,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-27T13:00:00Z","status":"SCHEDULED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_F","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":805,"name":"Belgium"},"awayTeam":{"id":815,"name":"Morocco"},"referees":[]},{"id":391914,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-27T16:00:00Z","status":"SCHEDULED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_F","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":799,"name":"Croatia"},"awayTeam":{"id":828,"name":"Canada"},"referees":[]},{"id":391908,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-27T19:00:00Z","status":"SCHEDULED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_E","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":760,"name":"Spain"},"awayTeam":{"id":759,"name":"Germany"},"referees":[]},{"id":391919,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-28T10:00:00Z","status":"SCHEDULED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_G","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":781,"name":"Cameroon"},"awayTeam":{"id":780,"name":"Serbia"},"referees":[]},{"id":391925,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-28T13:00:00Z","status":"SCHEDULED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_H","lastUpdated":"2022-08-12T13:10:40Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":772,"name":"South Korea"},"awayTeam":{"id":763,"name":"Ghana"},"referees":[]},{"id":391920,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-28T16:00:00Z","status":"SCHEDULED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_G","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":764,"name":"Brazil"},"awayTeam":{"id":788,"name":"Switzerland"},"referees":[]},{"id":391926,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-28T19:00:00Z","status":"SCHEDULED","matchday":2,"stage":"GROUP_STAGE","group":"GROUP_H","lastUpdated":"2022-08-12T13:10:40Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":765,"name":"Portugal"},"awayTeam":{"id":758,"name":"Uruguay"},"referees":[]},{"id":391885,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-29T15:00:00Z","status":"SCHEDULED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_A","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":8601,"name":"Netherlands"},"awayTeam":{"id":8030,"name":"Qatar"},"referees":[]},{"id":391886,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-29T15:00:00Z","status":"SCHEDULED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_A","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":791,"name":"Ecuador"},"awayTeam":{"id":804,"name":"Senegal"},"referees":[]},{"id":391891,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-29T19:00:00Z","status":"SCHEDULED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_B","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":833,"name":"Wales"},"awayTeam":{"id":770,"name":"England"},"referees":[]},{"id":391892,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-29T19:00:00Z","status":"SCHEDULED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_B","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":840,"name":"Iran"},"awayTeam":{"id":771,"name":"United States"},"referees":[]},{"id":391903,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-30T15:00:00Z","status":"SCHEDULED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_D","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":802,"name":"Tunisia"},"awayTeam":{"id":773,"name":"France"},"referees":[]},{"id":391904,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-30T15:00:00Z","status":"SCHEDULED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_D","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":779,"name":"Australia"},"awayTeam":{"id":782,"name":"Denmark"},"referees":[]},{"id":391897,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-30T19:00:00Z","status":"SCHEDULED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_C","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":794,"name":"Poland"},"awayTeam":{"id":762,"name":"Argentina"},"referees":[]},{"id":391898,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-11-30T19:00:00Z","status":"SCHEDULED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_C","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":801,"name":"Saudi Arabia"},"awayTeam":{"id":769,"name":"Mexico"},"referees":[]},{"id":391915,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-01T15:00:00Z","status":"SCHEDULED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_F","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":799,"name":"Croatia"},"awayTeam":{"id":805,"name":"Belgium"},"referees":[]},{"id":391916,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-01T15:00:00Z","status":"SCHEDULED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_F","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":828,"name":"Canada"},"awayTeam":{"id":815,"name":"Morocco"},"referees":[]},{"id":391909,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-01T19:00:00Z","status":"SCHEDULED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_E","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":766,"name":"Japan"},"awayTeam":{"id":760,"name":"Spain"},"referees":[]},{"id":391910,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-01T19:00:00Z","status":"SCHEDULED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_E","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":793,"name":"Costa Rica"},"awayTeam":{"id":759,"name":"Germany"},"referees":[]},{"id":391927,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-02T15:00:00Z","status":"SCHEDULED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_H","lastUpdated":"2022-08-12T13:10:40Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":772,"name":"South Korea"},"awayTeam":{"id":765,"name":"Portugal"},"referees":[]},{"id":391928,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-02T15:00:00Z","status":"SCHEDULED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_H","lastUpdated":"2022-08-12T13:10:40Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":763,"name":"Ghana"},"awayTeam":{"id":758,"name":"Uruguay"},"referees":[]},{"id":391921,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-02T19:00:00Z","status":"SCHEDULED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_G","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":781,"name":"Cameroon"},"awayTeam":{"id":764,"name":"Brazil"},"referees":[]},{"id":391922,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-02T19:00:00Z","status":"SCHEDULED","matchday":3,"stage":"GROUP_STAGE","group":"GROUP_G","lastUpdated":"2022-08-12T13:10:39Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":780,"name":"Serbia"},"awayTeam":{"id":788,"name":"Switzerland"},"referees":[]},{"id":391929,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-03T15:00:00Z","status":"SCHEDULED","matchday":null,"stage":"LAST_16","group":null,"lastUpdated":"2022-05-17T19:37:03Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":null,"name":null},"awayTeam":{"id":null,"name":null},"referees":[]},{"id":391930,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-03T19:00:00Z","status":"SCHEDULED","matchday":null,"stage":"LAST_16","group":null,"lastUpdated":"2022-05-17T19:37:03Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":null,"name":null},"awayTeam":{"id":null,"name":null},"referees":[]},{"id":391931,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-04T15:00:00Z","status":"SCHEDULED","matchday":null,"stage":"LAST_16","group":null,"lastUpdated":"2022-05-17T19:37:03Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":null,"name":null},"awayTeam":{"id":null,"name":null},"referees":[]},{"id":391932,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-04T19:00:00Z","status":"SCHEDULED","matchday":null,"stage":"LAST_16","group":null,"lastUpdated":"2022-05-17T19:37:04Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":null,"name":null},"awayTeam":{"id":null,"name":null},"referees":[]},{"id":391933,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-05T15:00:00Z","status":"SCHEDULED","matchday":null,"stage":"LAST_16","group":null,"lastUpdated":"2022-05-17T19:37:04Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":null,"name":null},"awayTeam":{"id":null,"name":null},"referees":[]},{"id":391934,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-05T19:00:00Z","status":"SCHEDULED","matchday":null,"stage":"LAST_16","group":null,"lastUpdated":"2022-05-17T19:37:04Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":null,"name":null},"awayTeam":{"id":null,"name":null},"referees":[]},{"id":391935,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-06T15:00:00Z","status":"SCHEDULED","matchday":null,"stage":"LAST_16","group":null,"lastUpdated":"2022-05-17T19:37:04Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":null,"name":null},"awayTeam":{"id":null,"name":null},"referees":[]},{"id":391936,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-06T19:00:00Z","status":"SCHEDULED","matchday":null,"stage":"LAST_16","group":null,"lastUpdated":"2022-05-17T19:37:04Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":null,"name":null},"awayTeam":{"id":null,"name":null},"referees":[]},{"id":391937,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-09T15:00:00Z","status":"SCHEDULED","matchday":null,"stage":"QUARTER_FINALS","group":null,"lastUpdated":"2022-05-17T19:37:04Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":null,"name":null},"awayTeam":{"id":null,"name":null},"referees":[]},{"id":391938,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-09T19:00:00Z","status":"SCHEDULED","matchday":null,"stage":"QUARTER_FINALS","group":null,"lastUpdated":"2022-05-17T19:37:04Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":null,"name":null},"awayTeam":{"id":null,"name":null},"referees":[]},{"id":391939,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-10T15:00:00Z","status":"SCHEDULED","matchday":null,"stage":"QUARTER_FINALS","group":null,"lastUpdated":"2022-05-17T19:37:04Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":null,"name":null},"awayTeam":{"id":null,"name":null},"referees":[]},{"id":391940,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-10T19:00:00Z","status":"SCHEDULED","matchday":null,"stage":"QUARTER_FINALS","group":null,"lastUpdated":"2022-05-17T19:37:04Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":null,"name":null},"awayTeam":{"id":null,"name":null},"referees":[]},{"id":391941,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-13T19:00:00Z","status":"SCHEDULED","matchday":null,"stage":"SEMI_FINALS","group":null,"lastUpdated":"2022-05-17T19:37:04Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":null,"name":null},"awayTeam":{"id":null,"name":null},"referees":[]},{"id":391942,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-14T19:00:00Z","status":"SCHEDULED","matchday":null,"stage":"SEMI_FINALS","group":null,"lastUpdated":"2022-05-17T19:37:04Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":null,"name":null},"awayTeam":{"id":null,"name":null},"referees":[]},{"id":391943,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-17T15:00:00Z","status":"SCHEDULED","matchday":null,"stage":"THIRD_PLACE","group":null,"lastUpdated":"2022-05-17T19:37:04Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":null,"name":null},"awayTeam":{"id":null,"name":null},"referees":[]},{"id":391944,"season":{"id":1382,"startDate":"2022-11-20","endDate":"2022-12-18","currentMatchday":1},"utcDate":"2022-12-18T15:00:00Z","status":"SCHEDULED","matchday":null,"stage":"FINAL","group":null,"lastUpdated":"2022-05-17T19:37:04Z","odds":{"msg":"Activate Odds-Package in User-Panel to retrieve odds."},"score":{"winner":null,"duration":"REGULAR","fullTime":{"homeTeam":null,"awayTeam":null},"halfTime":{"homeTeam":null,"awayTeam":null},"extraTime":{"homeTeam":null,"awayTeam":null},"penalties":{"homeTeam":null,"awayTeam":null}},"homeTeam":{"id":null,"name":null},"awayTeam":{"id":null,"name":null},"referees":[]}]}', true);
+            $data = null;
         } else {
             $data = $this->apiCall('/matches');
         }
@@ -228,7 +251,10 @@ class Crawler
     }
 
     public function fetchGroupStandings(int $totalGamesInGroup)
-    {    
+    {
+        if ($this->source === Competition::SOURCE_365) {
+            return $this->fetchGroupStandings365($this->competition365Id, $totalGamesInGroup);
+        }
         $data = $this->apiCall('/standings');
         $standings = data_get($data, 'standings');
         $groups = collect($standings)->where('type', 'TOTAL');
@@ -991,6 +1017,486 @@ class Crawler
         $pair = collect([$home, $away])->sort()->values()->implode('::');
 
         return $pair . '|' . $game->sub_type . '|' . ($game->ko_leg ?? '');
+    }
+
+    /* ================================================================== */
+    /* 365scores as the full source (matches/teams/standings).            */
+    /* Used when Competition.config.source === '365'. Everything is in     */
+    /* native 365 ids, so no translate365TeamId / football-data overlay.   */
+    /* ================================================================== */
+
+    /** Team list (+ group) from 365 standings. Shape matches CreateCompetition::saveTeams(). */
+    public function fetchTeams365(?int $competition365Id): Collection
+    {
+        $rows = collect(data_get($this->fetch365Standings($competition365Id), 'standings.0.rows') ?? []);
+        return $rows->map(fn ($row) => [
+            'id'       => data_get($row, 'competitor.id'),
+            'name'     => data_get($row, 'competitor.name'),
+            'crestUrl' => $this->competitor365LogoUrl($row),
+            'group_id' => $this->groupNum365ToGroupId(data_get($row, 'groupNum')),
+        ])->filter(fn ($t) => $t['id'] !== null)->values();
+    }
+
+    /** Completed-group standings from 365. Shape matches the football-data fetchGroupStandings(). */
+    public function fetchGroupStandings365(?int $competition365Id, int $totalGamesInGroup)
+    {
+        $rows = collect(data_get($this->fetch365Standings($competition365Id), 'standings.0.rows') ?? []);
+        $res = [];
+        foreach ($rows->groupBy('groupNum') as $groupNum => $groupRows) {
+            // group complete only when every game has been played (sum of playedGames / 2).
+            if ($groupRows->sum(fn ($r) => (int) data_get($r, 'gamePlayed')) / 2 != $totalGamesInGroup) {
+                continue;
+            }
+            $standings = $groupRows
+                ->sortBy(fn ($r) => data_get($r, 'position'))
+                ->map(fn ($r) => [
+                    'position'    => data_get($r, 'position'),
+                    'team_ext_id' => data_get($r, 'competitor.id'),
+                ])
+                ->values();
+            $res[$this->groupNum365ToGroupId($groupNum)] = $standings;
+        }
+        return $res;
+    }
+
+    /**
+     * Current (live) per-team group standings from 365 — every group, regardless of completion.
+     * Unlike fetchGroupStandings365() (final-only, position+id), this carries the full stat set used
+     * by current_standings. Returns rows keyed by our Group external id ("GROUP_A"), each row:
+     * { position, team_ext_id, game_played, points, goals_for, goals_against, goals_diff, is_eliminated }.
+     */
+    public function fetchCurrentGroupStandings365(?int $competition365Id)
+    {
+        $rows = collect(data_get($this->fetch365Standings($competition365Id), 'standings.0.rows') ?? []);
+        $res = [];
+        foreach ($rows->groupBy('groupNum') as $groupNum => $groupRows) {
+            $groupId = $this->groupNum365ToGroupId($groupNum);
+            if (is_null($groupId)) {
+                continue; // not a group (e.g. pure knockout / league)
+            }
+            $standings = $groupRows
+                ->map(function ($r) {
+                    $goalsFor     = (int) data_get($r, 'for');
+                    $goalsAgainst = (int) data_get($r, 'against');
+                    return [
+                        'position'      => (int) data_get($r, 'position'),
+                        'team_ext_id'   => data_get($r, 'competitor.id'),
+                        'game_played'   => (int) data_get($r, 'gamePlayed'),
+                        'points'        => (int) data_get($r, 'points'),
+                        'goals_for'     => $goalsFor,
+                        'goals_against' => $goalsAgainst,
+                        'goals_diff'    => $goalsFor - $goalsAgainst,
+                        // 365: destinationNum 3 == elimination zone. destinationGuaranteed absent in
+                        // non-tournament leagues, so default false → never eliminated without it.
+                        'is_eliminated' => data_get($r, 'destinationGuaranteed') === true
+                            && (int) data_get($r, 'destinationNum') === 3,
+                    ];
+                })
+                ->filter(fn ($row) => $row['team_ext_id'] !== null)
+                ->values();
+            $res[$groupId] = $standings;
+        }
+        return $res;
+    }
+
+    /** Full fixture list from 365 (group + knockout), mapped to App\DataCrawler\Game. */
+    public function fetchGames365(?int $competition365Id, $competitionType = Competition::TYPE_WC): Collection
+    {
+        if (is_null($competition365Id)) {
+            return collect([]);
+        }
+
+        $stageSubTypeMap = $this->stage365SubTypeMap($competition365Id); // "stageNum:groupNum" => GameSubTypes
+        $games365 = $this->fetchAll365Games($competition365Id);
+
+        $parsed = collect();
+        $knockoutToDecompose = collect();
+
+        foreach ($games365 as $g) {
+            $homeId = data_get($g, 'homeCompetitor.id');
+            $awayId = data_get($g, 'awayCompetitor.id');
+            if (is_null($homeId) || is_null($awayId)) {
+                continue; // unfilled knockout slot
+            }
+
+            $groupName = data_get($g, 'groupName');
+            $isGroup = $groupName && preg_match('/^\s*group/i', $groupName);
+
+            if ($isGroup) {
+                $type = "group_stage";
+                $subType = self::transformGroupNameToGroupId($groupName);
+            } else {
+                $type = CompetitionGame::TYPE_KNOCKOUT;
+                $subType = $stageSubTypeMap[data_get($g, 'stageNum') . ':' . data_get($g, 'groupNum')] ?? null;
+                if (is_null($subType)) {
+                    \Log::warning("[Crawler][fetchGames365] Could not classify KO game " . data_get($g, 'id') . " (stage " . data_get($g, 'stageNum') . " group " . data_get($g, 'groupNum') . ")");
+                    continue;
+                }
+            }
+
+            $startTimeRaw = data_get($g, 'startTime');
+            $startTime = $startTimeRaw ? (strtotime($startTimeRaw) ?: null) : null;
+            $statusGroup = data_get($g, 'statusGroup');
+            $homeScore = data_get($g, 'homeCompetitor.score');
+            $awayScore = data_get($g, 'awayCompetitor.score');
+            $isStarted = in_array($statusGroup, [3, 4], true) || ($homeScore >= 0 && $awayScore >= 0);
+            $isDone = $statusGroup === 4;
+
+            $game = new Game(
+                (string) data_get($g, 'id'),
+                $type,
+                $subType,
+                (string) $homeId,
+                (string) $awayId,
+                $startTime,
+                null, null, null, null, null, null, null, null,
+                $isDone,
+                $isStarted,
+            );
+
+            if ($isStarted) {
+                if ($type === CompetitionGame::TYPE_KNOCKOUT) {
+                    $game->koWinnerExternalId = $this->resolve365KoWinnerNative($g);
+                    // 90'/ET/penalties split via the per-game detail (home is always 365 home here).
+                    $knockoutToDecompose->put(data_get($g, 'id'), [
+                        'game' => $game,
+                        'homeIs365Home' => true,
+                        'game365' => $g,
+                    ]);
+                } else {
+                    $game->resultHome = $this->toIntScore($homeScore);
+                    $game->resultAway = $this->toIntScore($awayScore);
+                    $game->totalResultHome = $this->toIntScore($homeScore);
+                    $game->totalResultAway = $this->toIntScore($awayScore);
+                }
+            }
+
+            $parsed->put($game->externalId, $game);
+        }
+
+        if ($knockoutToDecompose->isNotEmpty()) {
+            $this->overlayKnockoutResults($knockoutToDecompose);
+        }
+
+        // Two-leg ties (e.g. UCL): tag legs + compute aggregate winner — mirrors fetchGames().
+        $twoLegsGames = $parsed->filter(fn (Game $game) => $this->isTwoLegedTie($game, $competitionType));
+        $groupedByLegs = $twoLegsGames->groupBy(fn (Game $game) => $this->gameToLegsId($game))->map(
+            fn (Collection|Game $games) => $games->sortBy('startTime')->map(fn ($g) => $g->externalId)
+        );
+        foreach ($groupedByLegs as $gamesIdOrdered) {
+            if (count($gamesIdOrdered) < 2) {
+                continue;
+            }
+            $firstLegGame = $parsed[$gamesIdOrdered[0]];
+            $secondLegGame = $parsed[$gamesIdOrdered[1]];
+            $parsed[$firstLegGame->externalId]->koLeg = CompetitionGame::LEG_TYPE_FIRST;
+            $parsed[$secondLegGame->externalId]->koLeg = CompetitionGame::LEG_TYPE_SECOND;
+            $parsed[$secondLegGame->externalId]->koWinnerExternalId = $this->calcSecondLegKoWinnerExternalId($secondLegGame, $firstLegGame);
+        }
+
+        return $parsed->values();
+    }
+
+    /** Build a "stageNum:groupNum" => GameSubTypes map from the 365 bracket (precise per tie). */
+    protected function stage365SubTypeMap(?int $competition365Id): array
+    {
+        $bracket = $this->fetchBracket($competition365Id);
+        if (!$bracket) {
+            return [];
+        }
+        $map = [];
+        foreach ($bracket->ties as $tie) {
+            $map[$tie->stageNum . ':' . $tie->groupNum] = $tie->subType;
+        }
+        return $map;
+    }
+
+    /** Walk both 365 paging cursors (results backward + fixtures forward) to collect every game once. */
+    protected function fetchAll365Games(int $competition365Id): Collection
+    {
+        $q = "appTypeId=5&langId=1&timezoneName=Asia/Jerusalem&userCountryId=6&competitions={$competition365Id}";
+        $byId = collect();
+        // "current" seeds the live/around-now window; results walks back, fixtures walks forward.
+        foreach (["current", "results", "fixtures"] as $kind) {
+            $start = "https://webws.365scores.com/web/games/{$kind}/?{$q}";
+            $this->walk365GamePages($start, 'previousPage', $byId);
+            $this->walk365GamePages($start, 'nextPage', $byId);
+        }
+        return $byId->values();
+    }
+
+    protected function walk365GamePages(string $url, string $pageKey, Collection $byId): void
+    {
+        $userAgents = $this->getUserAgents();
+        for ($i = 0; $i < 50 && $url; $i++) {
+            $response = Http::withUserAgent(Arr::random($userAgents))->get($url);
+            if (!$response->ok()) {
+                break;
+            }
+            $json = $response->json();
+            $games = data_get($json, 'games') ?? [];
+            $added = 0;
+            foreach ($games as $g) {
+                $id = data_get($g, 'id');
+                if ($id !== null && !$byId->has($id)) {
+                    $byId->put($id, $g);
+                    $added++;
+                }
+            }
+            $next = data_get($json, "paging.{$pageKey}");
+            if (!$next || $added === 0) {
+                break; // no further pages / no progress (avoids cursor loops)
+            }
+            $url = str_starts_with($next, 'http') ? $next : ("https://webws.365scores.com" . $next);
+        }
+    }
+
+    /** Knockout winner as a (native 365) team id, from the 365 isWinner flag. */
+    protected function resolve365KoWinnerNative($game365): ?int
+    {
+        if (data_get($game365, 'homeCompetitor.isWinner')) {
+            return (int) data_get($game365, 'homeCompetitor.id');
+        }
+        if (data_get($game365, 'awayCompetitor.isWinner')) {
+            return (int) data_get($game365, 'awayCompetitor.id');
+        }
+        return null;
+    }
+
+    protected function fetch365Standings(?int $competition365Id): array
+    {
+        if (is_null($competition365Id)) {
+            return [];
+        }
+        $userAgents = $this->getUserAgents();
+        $url = "https://webws.365scores.com/web/standings/?appTypeId=5&langId=1&timezoneName=Asia/Jerusalem&userCountryId=6&competitions={$competition365Id}&live=false";
+        $response = Http::withUserAgent(Arr::random($userAgents))->get($url);
+        if (!$response->ok()) {
+            \Log::error("[Crawler][fetch365Standings] Got error for http request (status: " . $response->status() . ")");
+            return [];
+        }
+        return $response->json() ?? [];
+    }
+
+    /** "GROUP_A" from 365 groupNum (1 => A). Null/0 => null (no group, e.g. pure knockout). */
+    protected function groupNum365ToGroupId($groupNum): ?string
+    {
+        $groupNum = (int) $groupNum;
+        if ($groupNum < 1) {
+            return null;
+        }
+        return "GROUP_" . chr(ord('A') + $groupNum - 1);
+    }
+
+    protected function competitor365LogoUrl($row): ?string
+    {
+        $id = data_get($row, 'competitor.id');
+        if (is_null($id)) {
+            return null;
+        }
+        $version = data_get($row, 'competitor.imageVersion', 1);
+        return "https://imagecache.365scores.com/image/upload/f_png,w_68,h_68,c_limit,q_auto:eda,dpr_2/v{$version}/Competitors/{$id}";
+    }
+
+    /**
+     * Fetch the knockout bracket topology from 365scores. Returns the full tree (ties, who-feeds-whom,
+     * first-round group/position slots) as a pure DTO. Available before the draw (placeholder
+     * participants) and progressively enriched (real teams, game ids) as the competition runs.
+     */
+    public function fetchBracket(?int $competition365Id): ?Bracket
+    {
+        if (is_null($competition365Id)) {
+            return null;
+        }
+
+        $userAgents = $this->getUserAgents();
+        $url = "https://webws.365scores.com/web/brackets/?appTypeId=5&langId=1&timezoneName=Asia/Jerusalem&userCountryId=6&competitions={$competition365Id}&live=false&topBookmaker=1";
+
+        $response = Http::withUserAgent(Arr::random($userAgents))->get($url);
+        if (!$response->ok()) {
+            \Log::error("[Crawler][fetchBracket] Got error for http request (status: " . $response->status() . ")");
+            return null;
+        }
+
+        $stages = collect(data_get($response->json(), 'brackets.0.stages') ?? []);
+        if ($stages->isEmpty()) {
+            return null;
+        }
+
+        // The group stage (stageType 2): map its 365 group num -> our group external id ("GROUP_A").
+        $groupStage = $stages->first(fn ($s) => data_get($s, 'stageType') === self::BRACKET_STAGE_TYPE_GROUP);
+        $groupStageNum = $groupStage ? (int) data_get($groupStage, 'num') : null;
+        $groupExtIdByNum = collect(data_get($groupStage, 'groups') ?? [])
+            ->mapWithKeys(fn ($g) => [(int) data_get($g, 'num') => self::transformGroupNameToGroupId(data_get($g, 'name'))]);
+
+        $ties = [];
+        foreach ($stages as $stage) {
+            if (data_get($stage, 'stageType') !== self::BRACKET_STAGE_TYPE_KNOCKOUT) {
+                continue;
+            }
+            $stageNum = (int) data_get($stage, 'num');
+            foreach (data_get($stage, 'groups') ?? [] as $group) {
+                $participants = collect(data_get($group, 'participants') ?? []);
+                if ($participants->count() < 2) {
+                    continue; // not a playable tie (defensive)
+                }
+
+                $subType = $this->bracketSubType($stage, $group);
+                $game365 = collect(data_get($group, 'games') ?? [])->first();
+                $start = data_get($game365, 'startTime');
+
+                $home = $this->parseBracketParticipant(
+                    $participants->firstWhere('num', 1) ?? $participants[0],
+                    $groupStageNum,
+                    $groupExtIdByNum
+                );
+                $away = $this->parseBracketParticipant(
+                    $participants->firstWhere('num', 2) ?? $participants[1],
+                    $groupStageNum,
+                    $groupExtIdByNum
+                );
+
+                $ties[] = new BracketTie(
+                    $stageNum,
+                    (int) data_get($group, 'num'),
+                    $subType,
+                    data_get($group, 'name'),
+                    $start ? strtotime($start) : null,
+                    data_get($game365, 'id') !== null ? (string) data_get($game365, 'id') : null,
+                    $home,
+                    $away,
+                    data_get($group, 'destStageNum') !== null ? (int) data_get($group, 'destStageNum') : null,
+                    data_get($group, 'destGroupNum') !== null ? (int) data_get($group, 'destGroupNum') : null,
+                );
+            }
+        }
+
+        return new Bracket($ties);
+    }
+
+    private const BRACKET_STAGE_TYPE_GROUP    = 2;
+    private const BRACKET_STAGE_TYPE_KNOCKOUT = 3;
+
+    /** Map a 365 knockout stage/tie to a GameSubTypes value. */
+    private function bracketSubType(array $stage, array $group): string
+    {
+        // The Final stage holds both the Final and the 3rd-place playoff.
+        if (data_get($stage, 'isFinal')) {
+            $name = strtolower((string) data_get($group, 'name'));
+            $symbolic = strtoupper((string) data_get($group, 'participants.0.symbolicName'));
+            if (str_contains($name, '3rd') || str_contains($name, 'third') || str_starts_with($symbolic, 'L')) {
+                return GameSubTypes::THIRD_PLACE;
+            }
+            return GameSubTypes::FINAL;
+        }
+
+        return match (strtolower(trim((string) data_get($stage, 'name')))) {
+            'round of 32'   => GameSubTypes::LAST_32,
+            'round of 16'   => GameSubTypes::LAST_16,
+            'quarter finals', 'quarter-finals', 'quarterfinals' => GameSubTypes::QUARTER_FINALS,
+            'semi finals', 'semi-finals', 'semifinals'          => GameSubTypes::SEMI_FINALS,
+            'final'         => GameSubTypes::FINAL,
+            default         => (string) data_get($stage, 'name'),
+        };
+    }
+
+    /** Parse one 365 bracket participant into a source DTO. */
+    private function parseBracketParticipant($participant, ?int $groupStageNum, Collection $groupExtIdByNum): BracketSource
+    {
+        $slotNum       = (int) data_get($participant, 'num');
+        $originStage   = data_get($participant, 'originStageNum');
+        $originGroup   = data_get($participant, 'originGroupNum');
+        $originPos     = data_get($participant, 'originPosition');
+        $symbolic      = data_get($participant, 'symbolicName');
+        $name          = (string) data_get($participant, 'name');
+        // brackets participants carry a flat competitorId; fall back to the nested competitor.id shape.
+        $team365Id     = data_get($participant, 'competitorId') ?? data_get($participant, 'competitor.id');
+
+        $isFromGroupStage = $groupStageNum !== null && (int) $originStage === $groupStageNum;
+
+        if ($isFromGroupStage) {
+            $kind = BracketSource::KIND_GROUP_POSITION;
+        } elseif (str_starts_with(strtoupper((string) $symbolic), 'L')) {
+            $kind = BracketSource::KIND_MATCH_LOSER;
+        } elseif (str_starts_with(strtoupper((string) $symbolic), 'W')) {
+            $kind = BracketSource::KIND_MATCH_WINNER;
+        } else {
+            $kind = ((int) $originPos === 1) ? BracketSource::KIND_MATCH_WINNER : BracketSource::KIND_MATCH_LOSER;
+        }
+
+        // Resolve the slot's group + rank from its label. A first-round group-position slot is labelled
+        // "<rank> <group>" — "1st B" (1st of group B), "2nd A", "3rd". The leading ordinal is the
+        // group-stage rank (origin_position); the trailing letter is the group. The label is
+        // authoritative: 365's originGroupNum is a tie index within the stage, not the group letter.
+        $position      = $originPos !== null ? (int) $originPos : null;
+        $allowedGroups = null;
+        $groupExtId    = null;
+
+        if ($kind === BracketSource::KIND_GROUP_POSITION) {
+            [$labelPos, $groupLetter, $labelAllowed] = $this->parseGroupSlotLabel($name);
+            // The rank must come from the label — we don't trust 365's originPosition here. But once the
+            // team is already resolved (competitor id present) the group/rank source is moot, so allow
+            // them to stay empty; only fail loud when we have neither a team nor a parseable rank.
+            if ($labelPos === null && $team365Id === null) {
+                throw new \RuntimeException(
+                    "[Crawler] Could not parse group-stage rank from bracket slot label: \"{$name}\""
+                );
+            }
+            $position = $labelPos;
+            $allowedGroups = $labelAllowed;
+
+            // 3rd place qualifies from an as-yet-unknown group, so never pin it to a concrete group
+            // ("3rd place from an unknown group"). 1st/2nd pin to the group named in the label, falling
+            // back to 365's origin-group mapping when the label carries no letter.
+            if ($position !== 3) {
+                if ($groupLetter !== null) {
+                    $groupExtId = self::transformGroupNameToGroupId('Group ' . $groupLetter);
+                } elseif ($originGroup !== null) {
+                    $groupExtId = $groupExtIdByNum->get((int) $originGroup);
+                }
+            }
+        } elseif (strtoupper((string) $symbolic) === '3RD') {
+            // symbolic 3rd-place slot that isn't tied to a parsed group-stage origin.
+            $letters = preg_replace('/^\s*3\s*RD/i', '', strtoupper($name));
+            preg_match_all('/[A-Z]/', $letters, $m);
+            $allowedGroups = $m[0] ? implode('', $m[0]) : null;
+        }
+
+        return new BracketSource(
+            $slotNum,
+            $kind,
+            $originStage !== null ? (int) $originStage : null,
+            $originGroup !== null ? (int) $originGroup : null,
+            $position,
+            $symbolic !== null ? (string) $symbolic : null,
+            $allowedGroups,
+            $groupExtId,
+            $team365Id !== null ? (int) $team365Id : null,
+        );
+    }
+
+    /**
+     * Parse a first-round group-position label into [position, groupLetter, allowedGroups].
+     *  - "1st B"        -> [1, "B", null]
+     *  - "2nd A"        -> [2, "A", null]
+     *  - "3rd"          -> [3, null, null]      (3rd place — unknown group)
+     *  - "3rd A/B/C/D"  -> [3, null, "ABCD"]    (3rd place — one of these groups)
+     */
+    private function parseGroupSlotLabel(string $name): array
+    {
+        $upper = strtoupper(trim($name));
+        preg_match('/(\d+)/', $upper, $pm);
+        $position = isset($pm[1]) ? (int) $pm[1] : null;
+
+        // letters left after stripping the leading ordinal ("1ST"/"2ND"/"3RD"/"4TH"...).
+        $rest = preg_replace('/^\s*\d+\s*(ST|ND|RD|TH)?/', '', $upper);
+        preg_match_all('/[A-Z]/', $rest, $lm);
+        $letters = $lm[0] ?? [];
+
+        if ($position === 3) {
+            return [$position, null, $letters ? implode('', $letters) : null];
+        }
+        return [$position, $letters[0] ?? null, null];
     }
 
 }

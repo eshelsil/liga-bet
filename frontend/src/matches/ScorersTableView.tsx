@@ -2,16 +2,18 @@ import React from 'react'
 import { GameGoalsDataWithPlayer, MatchWithGoalsData } from '../types'
 import PlayerWithImg from '../widgets/Player'
 import CustomTable from '../widgets/Table/CustomTable';
+import { useTranslation } from 'react-i18next';
 
 
 function ScorersTableView({ match }: { match: MatchWithGoalsData }) {
-    
+    const { t } = useTranslation('matches')
+
     const models = match.scorers
 
     const cells = [
         {
             id: 'player',
-            header: 'שחקן',
+            header: t('table.player'),
             getter: (model: GameGoalsDataWithPlayer) => (
                 <PlayerWithImg player={model.player} size={36} />
             ),

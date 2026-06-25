@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { IconButton } from '@mui/material'
 import { MatchBetWithRelations, WinnerSide } from '../types'
 import CloseIcon from '@mui/icons-material/CloseRounded'
@@ -29,6 +30,7 @@ function EditMatchBetView({
     onSave,
     opener,
 }: Props) {
+    const { t } = useTranslation('open_matches')
     const homeInputRef = useRef<HTMLInputElement>()
     const awayInputRef = useRef<HTMLInputElement>()
     const [homeScore, setHomeScore] = useState(bet?.result_home ?? '')
@@ -134,7 +136,7 @@ function EditMatchBetView({
                         classes={{root: 'sendButton'}}
                         action={saveBet}
                     >
-                        שלח
+                        {t('buttons.send')}
                     </LoadingButton>
                     {hasBet && (
                         <IconButton className={'closeIcon'} onClick={onClose}>

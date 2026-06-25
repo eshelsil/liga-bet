@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ScoreboardRowDetailed, SideTournament } from '../types'
 import { useLiveUpdate, useMissingPlayersFetcher } from '../hooks/useLiveUpdate'
 import { LoadingButton } from '../widgets/Buttons'
@@ -58,6 +59,7 @@ function LeaderboardView({
     sideTournaments,
     currentSideTournament,
 }: Props) {
+    const { t } = useTranslation('leaderboard')
     const { refresh: refreshTable } = useLiveUpdate()
 
     const { liveMode } = tableSettings
@@ -70,7 +72,7 @@ function LeaderboardView({
 
     return (
         <div className={`LB-LeaderboardView ${themeClass}`}>
-            <h1 className="LB-TitleText">טבלת ניקוד</h1>
+            <h1 className="LB-TitleText">{t('view.title')}</h1>
             <TableSettingsProvider fetchScoreboards={fetchFunc} />
             {!isShowingHistoricTable && (
                 <>
@@ -81,7 +83,7 @@ function LeaderboardView({
                             action={refreshTable}
                             className="LeaderboardView-refreshTableButton"
                         >
-                            רענן טבלה
+                            {t('view.refreshTable')}
                         </LoadingButton>
                         {iTournamentStarted && (
                             <Button
@@ -89,8 +91,8 @@ function LeaderboardView({
                                 color="warning"
                                 onClick={() => setShowProgressDiagram(true)}
                             >
-                                מה היה לנו פה?
-                                <OndemandVideoIcon className={cn('mr-2')} />
+                                {t('view.whatHappenedHere')}
+                                <OndemandVideoIcon className={cn('ms-2')} />
                             </Button>
                         )}
                         {!iTournamentStarted && <div />}

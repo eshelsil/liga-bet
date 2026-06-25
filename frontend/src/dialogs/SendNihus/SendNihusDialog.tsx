@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -33,13 +34,14 @@ export default function SendNihusDialog({
     targetUtl,
     currentUtl,
 }: Props) {
+    const { t } = useTranslation('dialogs')
     const [gif, setGif] = useState(gifs[0] ?? null)
     const [text, setText] = useState('')
     const [previewOn, setPreviewOn] = useState(false)
 
     const submit = async () => {
         onSubmit && onSubmit(text, gif).then(()=>{
-            (window as any).toastr["success"]('הניחוס נשלח בהצלחה!')
+            (window as any).toastr["success"](t('sendNihus.sentSuccess'))
             onClose()
         })
     }
@@ -79,11 +81,11 @@ export default function SendNihusDialog({
             
             <div className={cn("w-[400px] max-w-full")}>
                 <DialogTitle>
-                    <IconButton onClick={onClose} className={cn("absolute top-2 left-2")}>
+                    <IconButton onClick={onClose} className={cn("absolute top-2 start-2")}>
                         <CloseIcon />
                     </IconButton>
                     <div className={cn("text")} style={{fontSize: 20}}>
-                        שלח ניחוס ל{targetUtl.name}!
+                        {t('sendNihus.title', { name: targetUtl.name })}
                     </div>
                 </DialogTitle>
                 <DialogContent>
@@ -96,9 +98,9 @@ export default function SendNihusDialog({
                         />
                     )}
                     <div className={cn('')}>
-                        <InputLabel >עבור הימור:</InputLabel>
+                        <InputLabel >{t('sendNihus.betLabel')}</InputLabel>
                         <MatchResultV2 {...betToMatchResultProps(bet)} />
-                        <InputLabel className={cn('mt-3')}>הוסף כמה מילים:</InputLabel>
+                        <InputLabel className={cn('mt-3')}>{t('sendNihus.wordsLabel')}</InputLabel>
                         <TextareaAutosize
                             value={text}
                             onChange={(e) => {setText(e.target.value)}}
@@ -106,7 +108,7 @@ export default function SendNihusDialog({
                             maxRows={8}
                             className={cn("w-full p-2 rounded-[12px]")}
                         />
-                        <InputLabel className={cn('mt-3')}>בחר סטיקר:</InputLabel>
+                        <InputLabel className={cn('mt-3')}>{t('sendNihus.stickerLabel')}</InputLabel>
 
                         {gif && (
 
@@ -127,7 +129,7 @@ export default function SendNihusDialog({
                             {gifs.map((gif) => (
                                 <MenuItem key={gif} value={gif}>
                                     <div className={cn("flex items-center")}>
-                                        <div className={cn("h-12 w-16 ml-2")}>
+                                        <div className={cn("h-12 w-16 me-2")}>
 
                                             <img src={`/img/stickers/${gif}`} className={cn("h-full w-fit max-w-full mx-auto")} />
                                         </div>
@@ -149,7 +151,7 @@ export default function SendNihusDialog({
                                 className={cn("mx-auto")}
                                 style={{fontSize: 20}}
                             >
-                                תצוגה מקדימה
+                                {t('buttons.preview')}
                             </Button>
                         </div>
                         <Button
@@ -159,7 +161,7 @@ export default function SendNihusDialog({
                             disabled={disabled || !onSubmit}
                             className={cn("mt-5")}
                         >
-                            שלח
+                            {t('buttons.send')}
                         </Button>
                     </div>
                 </DialogContent>

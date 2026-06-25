@@ -25,7 +25,7 @@
             .CompetitionTile-emblem{
                 width: auto;
                 height: 75px;
-                margin-left: 16px;
+                margin-inline-end: 16px;
             }
         }
         .utlsCollection {
@@ -52,30 +52,34 @@
                         filter: brightness(120%);
                     }
                     .tournamentName {
-                        margin-right: 10px;
+                        margin-inline-start: 10px;
                     }
                     .selectedUtl {
                         position: absolute;
                         width: 100%;
                         height: 100%;
-                        margin-right: -$headerXPadding;
+                        margin-inline-start: -$headerXPadding;
                         border-radius: $borderRadius $borderRadius 0px 0px;
                         border: 4px solid rgb(0 0 0 / 30%);
                     }
                 }
                 .cardBody {
                     padding: 12px;
-                    $nameWidth: 90px;
+                    --name-width: 100px;
+                    [dir='ltr'] & {
+                        --name-width: 135px;
+                    }
                     .utlAttribute {
                         font-size: 14px;
                         margin-bottom: 16px;
                         .attributeName {
                             display: inline-block;
-                            width: $nameWidth;
+                            width: var(--name-width);
                             font-weight: 700;
+
                         }
                         .value {
-                            width: calc(100% - $nameWidth);
+                            width: calc(100% - var(--name-width));
                             display: inline-flex;
                         }
                     }
@@ -98,12 +102,12 @@
     
             .editButton {
                 position: absolute;
-                left: 0px;
+                inset-inline-end: 0px;
                 bottom: 0px;
             }
             .LB-LoadingVIcon {
                 position: absolute;
-                right: 0px;
+                inset-inline-start: 0px;
                 top: 0px;
             }
             .nameInput {

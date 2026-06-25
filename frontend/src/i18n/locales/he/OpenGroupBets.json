@@ -1,0 +1,17 @@
+{
+    "toasts": {
+        "betSent": "הניחוש נשלח",
+        "betSentForTournaments_one": "הניחוש נשלח עבור טורניר אחד",
+        "betSentForTournaments_other": "הניחוש נשלח עבור {{count}} טורנירים"
+    },
+    "buttons": {
+        "send": "שלח"
+    },
+    "view": {
+        "title": "ניחוש דירוגי בתים",
+        "editUntil": "ניתן לערוך את הניחושים עד שעת תתחילת המשחק הראשון בטורניר {{startTime}}",
+        "scoringMethodPrefix": "ניתן לראות את שיטת הניקוד",
+        "scoringMethodLink": "בלחיצה כאן",
+        "closedTitle": "הטורניר כבר התחיל! דירוגי הבתים סגורים לניחושים"
+    }
+}

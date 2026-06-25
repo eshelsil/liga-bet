@@ -1,0 +1,18 @@
+{
+    "autoBetBadge": {
+        "tooltip": "Auto prediction"
+    },
+    "copyToClipboard": {
+        "copied": "Copied ✓"
+    },
+    "matchResult": {
+        "qualifier": "Qualifier"
+    },
+    "tournamentInput": {
+        "importLabel": "Import predictions from tournament:"
+    },
+    "koWinnerInput": {
+        "qualifier": "Qualifier",
+        "missing": "(missing)"
+    }
+}

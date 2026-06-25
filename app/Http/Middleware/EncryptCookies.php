@@ -12,6 +12,8 @@ class EncryptCookies extends Middleware
      * @var array
      */
     protected $except = [
-        //
+        // Shared with the React frontend (read/written by JS), so it must stay
+        // plaintext rather than Laravel-encrypted.
+        'locale',
     ];
 }

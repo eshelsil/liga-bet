@@ -13,6 +13,7 @@ import TeamWithFlag from '../../../widgets/TeamFlag/TeamWithFlag'
 import { useSelector } from 'react-redux'
 import { PlayersWithTeams } from '../../../_selectors'
 import { LoadingButton } from '../../../widgets/Buttons'
+import { useTranslation } from 'react-i18next'
 
 
 const alephBet = 'אבגדהוזחטיכלמנסעפצקרשת'
@@ -28,6 +29,7 @@ function PlayerInput({
     playersById: Dictionary<Player>
     label: string
 }) {
+    const { t } = useTranslation('admin')
     const selectedPlayer = playersById[value]
     const players = sortBy(
         (valuesOf(playersById) ?? []),
@@ -46,7 +48,7 @@ function PlayerInput({
         <div className={'LB-PlayerInput'}>
             <InputLabel id={`team-input-label`}>{label}</InputLabel>
             <Select
-                placeholder={'בחר שחקן'}
+                placeholder={t('newGoalDialog.selectPlayer')}
                 label={label}
                 labelId="team-input-label"
                 value={value || ''}
@@ -100,6 +102,7 @@ export default function NewGoalDialog({
     game,
     goalsDataByPlayerId,
 }: Props) {
+    const { t } = useTranslation('admin')
     const { home_team, away_team } = game
     const allPlayersById = useSelector(PlayersWithTeams)
 
@@ -142,11 +145,11 @@ export default function NewGoalDialog({
                 <IconButton onClick={onClose} className={'closeButton'}>
                     <CloseIcon />
                 </IconButton>
-                הזן פרטי גול חדש
+                {t('newGoalDialog.title')}
             </DialogTitle>
             <DialogContent className={'NewGoalDialog-content'}>
                 <div>
-                    <InputLabel>איזו קבוצה הבקיעה?</InputLabel>
+                    <InputLabel>{t('newGoalDialog.whichTeamScored')}</InputLabel>
                     <Select
                         value={teamId}
                         onChange={(e: SelectChangeEvent<number>) => {
@@ -186,10 +189,10 @@ export default function NewGoalDialog({
                         value={scorerId}
                         onChange={setScorerId}
                         playersById={playersById}
-                        label={'מבקיע'}
+                        label={t('newGoalDialog.scorerLabel')}
                     />
                     {scorerId && (
-                        <h5>יעודכן ששחקן זה הבקיע במשחק זה בסה"כ: <b>{scorerTotalGoals}</b> גולים</h5>
+                        <h5>{t('newGoalDialog.scorerTotalGoals', { count: scorerTotalGoals })}</h5>
                     )}
                 </div>
                 <div style={{marginTop: 20}}>
@@ -197,17 +200,17 @@ export default function NewGoalDialog({
                         value={assisterId}
                         onChange={setAssisterId}
                         playersById={playersById}
-                        label={'מבשל'}
+                        label={t('newGoalDialog.assisterLabel')}
                     />
                     {assisterId && (
-                        <h5>יעודכן ששחקן זה בישל במשחק זה בסה"כ: <b>{assisterTotalAssists}</b> גולים</h5>
+                        <h5>{t('newGoalDialog.assisterTotalAssists', { count: assisterTotalAssists })}</h5>
                     )}
                 </div>
                 <div style={{marginTop: 20}}>
                     <LoadingButton
                         action={onSubmit}
                     >
-                        עדכן
+                        {t('buttons.update')}
                     </LoadingButton>
                 </div>
 

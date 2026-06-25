@@ -1,0 +1,23 @@
+{
+    "tabs": {
+        "predictions": "ניחושים",
+        "scorers": "מבקיעים",
+        "liveGames": "משחקים נוכחיים",
+        "doneGames": "משחקים שנגמרו"
+    },
+    "table": {
+        "prediction": "ניחוש",
+        "gumblers": "מנחשים",
+        "score": "ניקוד",
+        "player": "שחקן"
+    },
+    "header": {
+        "aggregate": "סיכום"
+    },
+    "buttons": {
+        "refreshGames": "רענן משחקים"
+    },
+    "titles": {
+        "gamesList": "רשימת משחקים"
+    }
+}

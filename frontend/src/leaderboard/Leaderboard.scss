@@ -61,7 +61,7 @@
             .LB-SideTournamentsDrawer{
                 $arrow_color: rgb(0 0 0 / 40%);
                 position: absolute;
-                left: 0;
+                inset-inline-end: 0;
                 top: 0;
                 height: 100%;
                 display: flex;
@@ -75,7 +75,7 @@
                     border-left: 3px solid $arrow_color;
                     height: 100%;
                     cursor: pointer;
-                    margin-left: 4px;
+                    margin-inline-end: 4px;
                     > svg {
                         color: $arrow_color;
                         transition: transform 0.4s;
@@ -88,8 +88,8 @@
                     }
                 }
                 .SideTournamentsDrawer-list {
-                    margin-left: 6px;
-                    margin-right: 2px;
+                    margin-inline-end: 6px;
+                    margin-inline-start: 2px;
                     display: flex;
                     .SideTournamentsDrawer-sideTournament{
                         margin: 0px 12px;
@@ -131,9 +131,9 @@
                 &.currentUtl {
                     .MuiTableCell-root {
                         &:first-of-type {
-                            border-right: 6px solid colors.$primary-main;
+                            border-inline-start: 6px solid colors.$primary-main;
                             .rankChange {
-                                margin-right: -2px;
+                                margin-inline-start: -2px;
                             }
                         }
                         &.nameCell {
@@ -147,12 +147,12 @@
                 border-bottom-color: rgba(0,0,0,0.1);
                 &.rankChangeCell {
                     width: 0px;
-                    padding-left: 0px;
-                    padding-right: 8px;
+                    padding-inline-end: 0px;
+                    padding-inline-start: 8px;
                 }
                 &.rankCell {
                     width: 0px;
-                    padding-right: 8px;
+                    padding-inline-start: 8px;
                 }
                 &.scoreCell {
                     width: 0px;
@@ -170,7 +170,7 @@
             .scoreCell-added {
                 padding: 3px 4px;
                 background-color: green;
-                margin-right: 8px;
+                margin-inline-start: 8px;
                 color: #fff;
                 border-radius: 12px;
                 line-height: 1;
@@ -179,6 +179,9 @@
                 box-shadow: shadows.$medium-shadow;
                 text-shadow: none;
                 @include mixins.flexRow;
+                [dir="ltr"] & {
+                    flex-direction: row-reverse;
+                }
                 > span {
                     margin-left: -1px;
                     padding-right: 2px;
@@ -191,7 +194,7 @@
         .rankChange {
             @include mixins.flexRow;
             box-shadow: shadows.$medium-shadow;
-            border-radius: 50%;    display: flex;
+            border-radius: 50%;
             padding-right: 6px;
             position: relative;
             display: flex;
@@ -199,9 +202,12 @@
             border-radius: 20px;
             margin-top: -3px;
             background-color: #eee;
-            margin-right: 4px;
+            margin-inline-start: 4px;
             text-shadow: none;
             height: 22px;
+            [dir="ltr"] & {
+                flex-direction: row-reverse;
+            }
             .rankChange-value {
                 font-size: 14px;
                 line-height: 1;
@@ -228,7 +234,7 @@
     height: 24px;
     margin-top: -4px;
     .NameWithWinnerFlag-name {
-        margin-right: 8px;
+        margin-inline-start: 8px;
         margin-bottom: -1px;
     }
     .NameWithWinnerFlag-noWinner {
@@ -262,7 +268,7 @@
     @media (max-width: 500px) {
         .MuiTableContainer-root {
             width: calc(100% + 16px);
-            margin-right: -8px;
+            margin-inline-start: -8px;
         }
     }
     .hisBetsLink {
@@ -277,7 +283,7 @@
 .LB-SideTournamentTitle {
     @include mixins.centerContainer;
     .SideTournamentTitle-emblem {
-        margin-left: 16px;
+        margin-inline-end: 16px;
         height: 18px;
         width: 18px;
         transform: scale(1.5);

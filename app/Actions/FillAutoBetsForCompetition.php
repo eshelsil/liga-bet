@@ -46,14 +46,19 @@ class FillAutoBetsForCompetition
 
     private function fillForGameInTournament(Game $game, Tournament $tournament): void
     {
-        $isAutoBetOn = $tournament->preferences
-            ? $tournament->preferences->isAutoBetOn()
-            : false;
+        $isBracket = $tournament->isKnockoutBracket();
+
+        // Bracket auto-fill is unconditional (independent of enable_auto_bet) and qualifier-only.
+        $isAutoBetOn = $isBracket
+            ? true
+            : ($tournament->preferences ? $tournament->preferences->isAutoBetOn() : false);
         if (!$isAutoBetOn) {
             return;
         }
 
-        $qualifierBetIsOn = (bool) data_get($tournament->config, 'scores.gameBets.knockout.qualifier');
+        $qualifierBetIsOn = $isBracket
+            ? true
+            : (bool) data_get($tournament->config, 'scores.gameBets.knockout.qualifier');
 
         $competingUtls = $tournament->competingUtls();
 

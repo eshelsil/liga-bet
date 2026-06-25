@@ -1,0 +1,127 @@
+{
+    "title": "Game Rules - Liga Bet {{competition}}",
+    "autoBet": {
+        "heading": "Auto Prediction",
+        "intro": "If you forget to submit a prediction for a match before it starts, the system will submit an automatic prediction on your behalf after kickoff.",
+        "chooseMode": "You can choose how auto prediction works on the \"Match Predictions\" screen:",
+        "defaultModeLabel": "0:0 (default)",
+        "defaultModeText": " — a 0:0 prediction is submitted. In knockout matches that require choosing a qualifier, a random qualifier is selected.",
+        "randomModeLabel": "Random",
+        "randomModeText": " — a random prediction is drawn, including the qualifier in knockout matches."
+    },
+    "disclaimer": {
+        "heading": "Disclaimers",
+        "text": "The rules are set by the tournament admin (known among your group as \"{{owner}}\"), and the site managers are not responsible for the prizes or the scoring method"
+    },
+    "examples": {
+        "title": "Examples"
+    },
+    "generalRules": {
+        "heading": "General",
+        "questions": "If you have questions about the rules, please contact the tournament admin",
+        "exceptional": "If an exceptional case occurs that is not covered by the rules, the decision will be made at the site managers' discretion"
+    },
+    "prizes": {
+        "heading": "Prizes"
+    },
+    "scores": {
+        "heading": "Scoring"
+    },
+    "bracket": {
+        "rulesHeading": "How betting works",
+        "ruleQualifiersOnly": "You bet only on who qualifies (advances) in each knockout game — no score prediction.",
+        "ruleWinnerRunnerUp": "You pick a Winner and a Runner-Up — one team per side of the bracket (they are meant to come from different sides).",
+        "ruleAutoLock": "The qualifier for your chosen Winner/Runner-Up teams is auto-selected and locked in every game they play.",
+        "ruleStart": "The tournament starts at the first knockout kickoff; from then on your Winner/Runner-Up picks are locked.",
+        "scoresHeading": "Points per round",
+        "roundCol": "Round",
+        "qualifierCol": "Qualifier",
+        "advanceCol": "Finalist Bonus",
+        "noteBoth": "If one of your pre-selected finalist teams advances in a knockout round, you earn both that round's Qualifier points and the Finalist Bonus points.",
+        "noteNotInGame": "If your Winner/Runner-Up isn't in a given game, you can still earn the normal qualifier points for that game.",
+        "noteThirdPlace": "The third-place game awards qualifier points only."
+    },
+    "sendingBets": {
+        "heading": "Submitting Predictions",
+        "matchBetsTitle": "Match Predictions",
+        "matchBetsText1": "Each match result prediction can be edited up until kickoff.",
+        "matchBetsText2": "All predictions are revealed at kickoff and can be viewed in the \"View Predictions\" tab.",
+        "primalBetsTitle": "Special Predictions and Group Rankings",
+        "primalBetsText1": "All special predictions and group rankings must be filled in before the opening whistle of the first match in the tournament.",
+        "primalBetsText2": "These predictions cannot be edited or changed during the tournament."
+    },
+    "groupStandings": {
+        "heading": "Group Rankings",
+        "scoreHeader": "Points",
+        "perfectLabel": "Perfect order",
+        "minorMistakeLabel": "Minor mistake",
+        "maxScore": "Maximum points - {{score}}",
+        "perfectExplanation": "Perfect hit",
+        "perfectExplanationText": " = ranking places 1-4 in the group in the exact order they finished the group stage",
+        "minorMistakeExplanation": "Minor mistake",
+        "minorMistakeExplanationText": " = swapping two adjacent places (one mistake between places 1,2 or 2,3 or 3,4)",
+        "betHeader": "Your prediction",
+        "resultHeader": "Actual result",
+        "scoreShortHeader": "Pts"
+    },
+    "matches": {
+        "scoreHeader": "Points",
+        "perMatchSum": "Per match total",
+        "maxScore": "Maximum points - {{score}}",
+        "groupStageTitle": "Group stage – {{count}} matches",
+        "knockoutTitle": "Knockout stage – {{count}} matches",
+        "betTitle": "Prediction",
+        "actualResultTitle": "Actual result",
+        "totalPoints": "Total points:",
+        "details": "Details",
+        "ruleScore": "{{rule}} - {{score}} pts",
+        "fullTimeDraw": "{{home}}-{{away}} after 90 minutes",
+        "fullTimeWin": "{{winner}} wins {{home}}-{{away}}",
+        "extraTimeDraw": "{{home}}-{{away}} after 120 minutes",
+        "extraTimeWin": "After extra time {{winner}} wins {{home}}-{{away}}",
+        "penaltiesWin": "{{winner}} wins {{home}}-{{away}} on penalties"
+    },
+    "specialQuestions": {
+        "heading": "Special Predictions",
+        "winnerLabel": "Winner",
+        "runnerUpLabel": "Runner-up"
+    },
+    "teamAchievement": {
+        "intro": "Each stage reached earns the predictor points",
+        "achievementHeader": "Achievement",
+        "pointsHeader": "Points",
+        "maxScore": "Maximum points - {{score}}",
+        "runnerUpNote": "You cannot choose the same team as both \"Runner-up\" and \"Winner\""
+    },
+    "topScorer": {
+        "heading": "Top Scorer",
+        "description": "The player who finished the tournament with the most goals",
+        "scoreHeader": "Points",
+        "eachGoalLabel": "Per goal",
+        "titleWinLabel": "Winning the \"Top Scorer\" title",
+        "points": "{{score}} points",
+        "noSwap": "You cannot change your top scorer during the tournament (even if a player is injured)",
+        "tie": "In case of a tie for top scorer, any prediction on one of the players earns the predictor the {{score}} points for winning the title"
+    },
+    "mostAssists": {
+        "heading": "Top Assists",
+        "description": "The player who finished the tournament with the most assists",
+        "scoreHeader": "Points",
+        "eachGoalLabel": "Per goal",
+        "titleWinLabel": "Winning the \"Top Assists\" title",
+        "points": "{{score}} points",
+        "noSwap": "You cannot change your top assists player during the tournament (even if a player is injured)",
+        "tie": "In case of a tie, a prediction on one of the players earns the predictor the {{score}} points for winning the title"
+    },
+    "mvp": {
+        "heading": "Tournament MVP",
+        "description": "The player chosen as tournament MVP by FIFA (decided at the end of the tournament)",
+        "points": "{{score}} points"
+    },
+    "offensiveTeam": {
+        "heading": "Strongest Attack in the Group Stage",
+        "description": "The team that scored the most goals in the group stage",
+        "points": "{{score}} points",
+        "tie": "In case of a tie, any prediction on one of the teams earns the predictor full points"
+    }
+}

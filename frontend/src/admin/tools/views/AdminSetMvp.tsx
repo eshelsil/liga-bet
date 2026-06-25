@@ -9,11 +9,13 @@ import { AppDispatch } from '../../../_helpers/store'
 import PlayerInput from '../../../openQuestionBets/PlayerInput'
 import { LoadingButton } from '../../../widgets/Buttons'
 import { announceMvp } from '../../../api/admin'
+import { useTranslation } from 'react-i18next'
 
 
 
 
 function AdminSetMvp() {
+    const { t } = useTranslation('admin')
     const dispatch = useDispatch<AppDispatch>()
     const competitionId = useSelector(CurrentCompetitionId)
     const { goToAdminIndex } = useGoTo()
@@ -22,7 +24,7 @@ function AdminSetMvp() {
     const submit = async () => {
         await announceMvp(competitionId, mvp)
             .then(data => {
-                (window as any).toastr["success"]('עודכן בהצלחה')
+                (window as any).toastr["success"](t('toasts.updatedSuccessfully'))
             })
     }
 
@@ -34,10 +36,10 @@ function AdminSetMvp() {
 
     return (
         <div className='LB-AdminSetMvp'>
-            <h2>הכרז על מצטיין טורניר</h2>
+            <h2>{t('setMvp.title')}</h2>
             <PlayerInput value={mvp} onChange={setMvp} />
             <LoadingButton action={submit} style={{marginTop: 24}}>
-                עדכן
+                {t('buttons.update')}
             </LoadingButton>
             <div className='goBackButton'>
                 <Button
@@ -46,7 +48,7 @@ function AdminSetMvp() {
                     onClick={goToAdminIndex}
                     style={{marginTop: 24}}
                 >
-                    חזור
+                    {t('buttons.back')}
                 </Button>
             </div>
         </div>

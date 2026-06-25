@@ -1,6 +1,7 @@
 import { GameBetBonusesScoreConfig, GameBetScoreConfig, KnockoutStage } from '../../types'
 import { getWinnerSide } from '../../utils'
 import { sum, sumBy } from 'lodash'
+import i18n from '@/i18n/config'
 
 export function getFullTimeString(
     fullTime: number[],
@@ -9,10 +10,10 @@ export function getFullTimeString(
 ) {
     const [homeGoals, awayGoals] = fullTime
     if (homeGoals === awayGoals) {
-        return `${homeGoals}-${awayGoals} בתום 90 דקות`
+        return i18n.t('takanon:matches.fullTimeDraw', { home: homeGoals, away: awayGoals })
     }
     const winnerTeam = homeGoals > awayGoals ? homeTeam : awayTeam
-    return `${winnerTeam} מנצחת ${homeGoals}-${awayGoals}`
+    return i18n.t('takanon:matches.fullTimeWin', { winner: winnerTeam, home: homeGoals, away: awayGoals })
 }
 
 export function getExtraTimeString(
@@ -22,10 +23,10 @@ export function getExtraTimeString(
 ) {
     const [homeGoals, awayGoals] = extraTime
     if (homeGoals === awayGoals) {
-        return `${homeGoals}-${awayGoals} בתום 120 דקות`
+        return i18n.t('takanon:matches.extraTimeDraw', { home: homeGoals, away: awayGoals })
     }
     const winnerTeam = homeGoals > awayGoals ? homeTeam : awayTeam
-    return `לאחר הארכה ${winnerTeam} מנצחת ${homeGoals}-${awayGoals}`
+    return i18n.t('takanon:matches.extraTimeWin', { winner: winnerTeam, home: homeGoals, away: awayGoals })
 }
 
 export function getPenaltiesString(
@@ -35,7 +36,7 @@ export function getPenaltiesString(
 ) {
     const [homeGoals, awayGoals] = penalties
     const winnerTeam = homeGoals > awayGoals ? homeTeam : awayTeam
-    return `${winnerTeam} מנצחת ${homeGoals}-${awayGoals} בפנדלים`
+    return i18n.t('takanon:matches.penaltiesWin', { winner: winnerTeam, home: homeGoals, away: awayGoals })
 }
 
 export function getQualifier(

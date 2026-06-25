@@ -1,0 +1,107 @@
+{
+    "title": "Knockout Bracket",
+    "select": {
+        "title": "Pick your Winner & Runner-Up",
+        "leftFinalist": "Finalist · left",
+        "rightFinalist": "Finalist · right",
+        "notChosen": "Not chosen",
+        "edit": "Edit",
+        "tapShining": "Tap a highlighted team on this side, or pick a team not yet placed below",
+        "otherTeams": "Teams not yet placed",
+        "continue": "Continue to pick the winner",
+        "pickFinalists": "Pick the two finalists — one from each side",
+        "tapChampion": "Tap the 🏆 to choose the winner",
+        "readyToSave": "Tap Submit to lock in your pick"
+    },
+    "final": {
+        "title": "Final",
+        "back": "Back",
+        "prompt": "Who wins the final?",
+        "vs": "vs",
+        "submit": "Submit pick"
+    },
+    "summary": {
+        "title": "Your pick",
+        "edit": "Edit",
+        "reset": "Reset",
+        "locked": "Picks are locked — the tournament has started"
+    },
+    "reset": {
+        "title": "Reset your pick?",
+        "message": "This clears your Winner and Runner-Up so you can pick again.",
+        "confirm": "Reset",
+        "cancel": "Cancel"
+    },
+    "podium": {
+        "heading": "Your podium prediction:",
+        "finalists": "Finalists",
+        "editHint": "Tap to edit"
+    },
+    "picker": {
+        "titleLeft": "Choose the left-side finalist",
+        "titleRight": "Choose the right-side finalist"
+    },
+    "table": {
+        "pos": "#",
+        "played": "P",
+        "points": "Pts",
+        "gf": "GF",
+        "ga": "GA",
+        "gd": "GD",
+        "qualified": "Qualified",
+        "eliminated": "Out"
+    },
+    "groups": {
+        "title": "Groups — current standings"
+    },
+    "thirdPlace": {
+        "title": "Third-place qualification",
+        "body1": "Each group's 3rd-placed team competes for a knockout spot — the 8 best third-placed teams (out of 12 groups) advance.",
+        "body2": "Which slot each qualifier fills is only decided once the group stage ends, so a 3rd-place slot stays open until then."
+    },
+    "slot": {
+        "tbd": "TBD"
+    },
+    "card": {
+        "qualifier": "Qualifier",
+        "locked": "Locked from your Winner/Runner-Up pick",
+        "winnerBadge": "🏆 Your Winner",
+        "runnerUpBadge": "🥈 Your Runner-Up"
+    },
+    "bet": {
+        "yourPick": "Your pick",
+        "points": "{{points}} pts",
+        "pickPrompt": "Tap who qualifies",
+        "lockedUntilSpecial": "Pick Winner & Runner-Up first",
+        "saved": "Pick saved",
+        "failed": "Could not save your pick"
+    },
+    "openGames": {
+        "title": "Open games",
+        "empty": "Upcoming knockout games will be shown here"
+    },
+    "closed": {
+        "title": "View Predictions",
+        "empty": "No resolved games yet.",
+        "vs": "vs",
+        "advanceBonus": "incl. +{{points}} advance bonus",
+        "yourPickLabel": "You picked",
+        "awaiting": "Awaiting result"
+    },
+    "special": {
+        "winner": "Winner",
+        "runnerUp": "Runner-Up",
+        "notSelected": "Not selected",
+        "sideLabel": "{{side}} side",
+        "sideLeft": "left",
+        "sideRight": "right",
+        "choose": "Choose from bracket",
+        "change": "Change",
+        "cancel": "Cancel",
+        "tapPrompt": "Tap a team in the bracket to pick",
+        "differentSidesHint": "Winner and Runner-Up should come from different sides of the bracket.",
+        "lockedNote": "Picks locked. Your teams' qualifiers are auto-locked.",
+        "removedWrongSide": "Removed: the team is on the wrong side of the bracket. You were emailed.",
+        "removedNotQualified": "Removed: the team didn't qualify. You were emailed."
+    }
+}

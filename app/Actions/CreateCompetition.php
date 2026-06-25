@@ -27,9 +27,15 @@ class CreateCompetition
     protected Collection $games;
     protected Collection $players;
 
-    public function handle(string $id)
+    /**
+     * @param string      $id          crawler id (football-data code, kept as config.external_id)
+     * @param int|null    $id365       365 competition id (required when $source === SOURCE_365)
+     * @param string      $source      Competition::SOURCE_FOOTBALL_DATA (default) | SOURCE_365
+     * @param array       $extraConfig merged into the competition config (e.g. ['bracket' => [...]])
+     */
+    public function handle(string $id, ?int $id365 = null, string $source = Competition::SOURCE_FOOTBALL_DATA, array $extraConfig = [])
     {
-        $crawler = Crawler::getInstance($id);
+        $crawler = Crawler::getInstance($id)->withSource($source, $id365);
 
         $teams = $crawler->fetchTeams();
         if ($teams->isEmpty()) {
@@ -48,11 +54,16 @@ class CreateCompetition
 
         $teamsWithoutPlayers = $playersByTeam->filter(fn(Collection $players) => $players->isEmpty())->keys();
         if ($teamsWithoutPlayers->isNotEmpty()) {
-            throw new \RuntimeException("Cannot find players for teams {$teamsWithoutPlayers->join(",")}");
+            // 365-sourced (e.g. bracket) competitions may have incomplete squads pre-tournament — don't block creation.
+            if ($source === Competition::SOURCE_365) {
+                Log::warning("[CreateCompetition][handle] Missing players for teams {$teamsWithoutPlayers->join(",")} (continuing, 365 source)");
+            } else {
+                throw new \RuntimeException("Cannot find players for teams {$teamsWithoutPlayers->join(",")}");
+            }
         }
 
         Log::debug("[CreateCompetition][handle] Got results! start saving data");
-        $this->saveCompetition($id);
+        $this->saveCompetition($id, $id365, $source, $extraConfig);
         Log::debug("[CreateCompetition][handle] New Competition ({$this->competition->id})! now teams");
 
         $groups = $teams->pluck('group_id')->unique();
@@ -74,25 +85,34 @@ class CreateCompetition
      *
      * @return void
      */
-    protected function saveCompetition(string $id): void
+    protected function saveCompetition(string $id, ?int $id365 = null, string $source = Competition::SOURCE_FOOTBALL_DATA, array $extraConfig = []): void
     {
         $competition         = new Competition();
         $competition->type   = 1; // TODO: One day..
         $competition->name   = "";
         $competition->status = Competition::STATUS_INITIAL;
-        $competition->config = [
-            "crawler" => "football-data.org",
+
+        $config = [
+            "crawler"     => $source === Competition::SOURCE_365 ? "365scores" : "football-data.org",
             "external_id" => $id,
         ];
+        if ($source === Competition::SOURCE_365) {
+            $config["source"]    = Competition::SOURCE_365;
+            $config["id_on_365"] = $id365;
+        }
+
         if (Str::lower($id) == 'ec'){
             $competition->emblem = "https://upload.wikimedia.org/wikipedia/en/thumb/2/26/UEFA_Euro_2024_Logo.svg/220px-UEFA_Euro_2024_Logo.svg.png";
             $competition->name="יורו 2024";
         }
         if (Str::lower($id) == 'wc' || Str::lower($id) == 'wc2026'){
-            $competition->config = array_merge($competition->config, ["type" => Competition::TYPE_WC_48]);
+            $config = array_merge($config, ["type" => Competition::TYPE_WC_48]);
             $competition->name = "מונדיאל 2026";
             $competition->emblem = "/img/tournaments/WorldCup_2026.png";
         }
+
+        // caller overrides (e.g. ['bracket' => [...]]) win.
+        $competition->config = array_replace_recursive($config, $extraConfig);
 
         $competition->save();
 

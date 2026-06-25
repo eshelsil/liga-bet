@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
 import { MatchWithABet } from '../types'
 import MatchBetView from './MatchBetView'
@@ -22,6 +23,8 @@ interface Props {
 }
 
 const OpenMatchesView = ({ matches = [], notifications, sendBet }: Props) => {
+    const { t, i18n } = useTranslation('open_matches')
+    const dateFormatLang = i18n.language === 'he' ? 'he-IL' : 'en-US'
     const hasMatches = matches.length > 0
     const otherTournaments = useSelector(MyOtherBettableUTLs);
     const hasOtherTournaments = otherTournaments.length > 0;
@@ -29,13 +32,13 @@ const OpenMatchesView = ({ matches = [], notifications, sendBet }: Props) => {
     const gameIdsWithNotifications = keyBy(notifications, gid => gid)
     return (
         <div className={'LB-OpenMatchesView'}>
-            <h1 className='LB-TitleText'>ניחוש משחקים</h1>
+            <h1 className='LB-TitleText'>{t('view.title')}</h1>
             <div className='LB-FloatingFrame'>
                 <ul style={{margin: 0}}>
-                    <li>ניחוש כל משחק יהיה פתוח לעריכה עד לשעת תחילת המשחק</li>
+                    <li>{t('view.editableUntilStart')}</li>
                     <li style={{marginTop: 8}}>
-                        ניתן לראות את שיטת הניקוד
-                        <TakanonPreviewModal label={'בלחיצה כאן'}>
+                        {t('view.scoringMethodPrefix')}
+                        <TakanonPreviewModal label={t('view.scoringMethodLink')}>
                             <MatchBetRules />
                         </TakanonPreviewModal>
                     </li>
@@ -45,7 +48,7 @@ const OpenMatchesView = ({ matches = [], notifications, sendBet }: Props) => {
             <span className="admin">
                 {dayjs().format('HH:mm  YYYY/MM/DD')}
             </span>
-            {!hasMatches && <h3 className='LB-TitleText'>אין משחקים פתוחים</h3>}
+            {!hasMatches && <h3 className='LB-TitleText'>{t('view.noOpenMatches')}</h3>}
             {hasMatches && (<>
                 {hasOtherTournaments && (
                     <MultiBetsSettings />
@@ -59,7 +62,7 @@ const OpenMatchesView = ({ matches = [], notifications, sendBet }: Props) => {
                                 <div key={gameDay} className='gameDay'>
                                     <Badge color='error' badgeContent={notificationsCount} hidden={notificationsCount === 0}>
                                         <h3 className='LB-TitleText dayTitle'>
-                                            {date.toLocaleDateString('he-IL', {weekday: 'long'})} {date.toLocaleDateString('he-IL')}
+                                            {date.toLocaleDateString(dateFormatLang, {weekday: 'long'})} {date.toLocaleDateString(dateFormatLang)}
                                         </h3>
                                     </Badge>
                                     <div className='gamesSection'>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { UtlWithTournament } from '../../types'
 import { Button } from '@mui/material'
 import './RejectedView.scss'
@@ -11,17 +12,18 @@ interface Props {
 function RejectedView({ currentUTL, onLeave }: Props) {
     const { tournament } = currentUTL
     const { name: tournamentName } = tournament
+    const { t } = useTranslation('tournamentUser')
     return (
         <div className="LigaBet-RejectedView">
-            <h2 className='LB-TitleText'>לא נעים, אבל...</h2>
+            <h2 className='LB-TitleText'>{t('rejected.title')}</h2>
             <div className='LB-FloatingFrame'>
                 <h4 className="RejectedView-msg">
-                    השתתפותך בטורניר "{tournamentName}" נדחתה ע"י משתתפי הטורניר
+                    {t('rejected.message', { name: tournamentName })}
                 </h4>
                 <div className={'RejectedView-leaveButtonContainer'}>
                     <Button variant="contained" color="error" onClick={onLeave}>
                         {' '}
-                        עזוב את הטורניר{' '}
+                        {t('rejected.leaveButton')}{' '}
                     </Button>
                 </div>
             </div>

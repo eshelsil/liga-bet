@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Button, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import { AnsweredUseDefaultScoreDialog, NoSelector } from '../_selectors';
@@ -11,6 +12,7 @@ function UseDefaultConfigQuestion({
 	answerDefaultConfigQuestion,
 	onUseDefaultScore,
 }){
+	const { t } = useTranslation('tournamentConfig')
 	const { goToScoresConfig, goToOpenQuestionBets } = useGoTo()
 	const answeredDefaultScoreDialog = useSelector(AnsweredUseDefaultScoreDialog)
 	const [keepDefaultConfig, setKeepDefaultConfig] = useState(true)
@@ -30,10 +32,10 @@ function UseDefaultConfigQuestion({
 
 	return (
 		<div className='LB-UseDefaultConfigQuestion'>
-			<h2 className='LB-TitleText'>קביעת שיטת הניקוד</h2>	
+			<h2 className='LB-TitleText'>{t('useDefaultConfig.title')}</h2>
 			<div className='LB-FloatingFrame'>
 				<div className='DefaultConfigQuestion-text'>
-					שיטת הניקוד לאורך כל הטורניר מחושבת בצורה אופטימלית ואנו ממליצים להשאיר את הגדרות ברירת המחדל.
+					{t('useDefaultConfig.description')}
 				</div>
 				<div className='UseDefaultConfigQuestion-buttons'>
 					<FormControl variant='outlined'>
@@ -47,19 +49,19 @@ function UseDefaultConfigQuestion({
 							<FormControlLabel
 								value={'default'}
 								control={<Radio />}
-								label={'הולך איתכם'}
-								style={{marginLeft: 24}}
+								label={t('useDefaultConfig.goWithIt')}
+								style={{marginInlineEnd: 24}}
 							/>
 							<FormControlLabel
 								value={'custom'}
 								control={<Radio />}
-								label={'אני רוצה לשנות בכל זאת'}
+								label={t('useDefaultConfig.wantToChange')}
 							/>
 						</RadioGroup>
 					</FormControl>
 					<div className='continueBtnBontainer'>
 						<Button variant="contained" color="primary" onClick={saveAnswer}>
-							המשך
+							{t('useDefaultConfig.continue')}
 						</Button>
 					</div>
 				</div>

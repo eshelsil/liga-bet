@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import { valuesOf } from '../../utils'
 import {  orderBy } from 'lodash'
@@ -13,6 +14,7 @@ function TournamentInput({
     onChange,
     tournamentsById,
 }: TournamentInputProps) {
+    const { t } = useTranslation('widgets')
     const tournaments = valuesOf(tournamentsById)
     const sortedTournaments = orderBy(tournaments, t => t.linkedUtl.createdAt)
 
@@ -25,7 +27,7 @@ function TournamentInput({
 
     return (
         <div className={'LB-TournamentInput'}>
-            <InputLabel>ייבא ניחושים מטורניר:</InputLabel>
+            <InputLabel>{t('tournamentInput.importLabel')}</InputLabel>
             <Select
                 className='TournamentInput-select'
                 value={value || ''}

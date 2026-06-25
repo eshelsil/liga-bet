@@ -1,15 +1,17 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 
 function GroupRankExplanation(){
+	const { t } = useTranslation('tournamentConfig')
 	return (
 		<div className='LigaBet-GroupRankBetConfig LB-ScoreConfigSection'>
             <ul>
                 <li>
-                    <b>פגיעה מושלמת</b> = דירוג מקומות 1-4 בבית לפי הסדר המדויק בו סיימו את שלב הבתים
+                    <b>{t('groupRank.explanation.perfectLabel')}</b> {t('groupRank.explanation.perfectText')}
                 </li>
                 <li>
-                    <b>טעות מינימלית</b> = היפוך בין מקומות צמודים (טעות אחת בין מקומות 1,2 או 2,3 או 3,4)
+                    <b>{t('groupRank.explanation.minorMistakeLabel')}</b> {t('groupRank.explanation.minorMistakeText')}
                 </li>
             </ul>
 		</div>

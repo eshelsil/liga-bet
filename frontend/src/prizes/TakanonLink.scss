@@ -1,0 +1,24 @@
+.LB-TakanonLink {
+    display: flex;
+    justify-content: flex-start;
+    padding: 5px 20px;
+    width: 100%;
+    .TakanonLink-container {
+        max-width: 600px;
+        margin: 0 auto;
+        width: 100%;
+        .TakanonLink-btn {
+            border: none;
+            background: transparent;
+            padding: 4px 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            text-shadow: -1px 1px 4px rgb(0 0 0 / 80%);
+            text-decoration: underline;
+            cursor: pointer;
+            opacity: 0.9;
+            &:hover { opacity: 1; }
+        }
+    }
+}

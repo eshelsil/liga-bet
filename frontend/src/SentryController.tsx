@@ -1,5 +1,6 @@
 import React, { ReactNode, useEffect } from "react";
 import * as Sentry from "@sentry/react";
+import { useTranslation } from "react-i18next";
 import { cn } from "./utils";
 import { Button } from "@mui/material";
 
@@ -8,12 +9,13 @@ import { Button } from "@mui/material";
 
 
 function UnexpectedError(){
+    const { t } = useTranslation('common');
     return (
         <div className={cn("fixed h-full w-full px-6 py-12 bg-black/50 text-center")}>
-            <h2 className={cn("text-white text-center")}>אופס! קרתה תקלה באתר</h2>
-            <h4 className={cn("text-white mt-10 text-center")}>נסה לרענן או פנה לאחד המנהלים</h4>
+            <h2 className={cn("text-white text-center")}>{t('unexpectedError.title')}</h2>
+            <h4 className={cn("text-white mt-10 text-center")}>{t('unexpectedError.description')}</h4>
             <Button size="large" variant="contained" style={{marginTop: 60}} onClick={()=>window.location.reload()}>
-                רענן
+                {t('unexpectedError.refresh')}
             </Button>
         </div>
     )

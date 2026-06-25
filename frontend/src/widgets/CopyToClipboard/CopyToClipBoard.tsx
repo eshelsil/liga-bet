@@ -1,5 +1,6 @@
 import { Tooltip, TooltipProps } from '@mui/material';
 import React, { ReactElement, ReactNode, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 
 interface Props {
@@ -8,6 +9,7 @@ interface Props {
 }
 
 function CopyToClipboard({renderChildren, title}: Props){
+    const { t } = useTranslation('widgets')
     const [ttOpen, setTtOpen] = useState(false)
 
     const onTooltipClose = () => {
@@ -22,7 +24,7 @@ function CopyToClipboard({renderChildren, title}: Props){
     return (
         <Tooltip
             open={ttOpen}
-            title={title ?? "הועתק ✓"}
+            title={title ?? t('copyToClipboard.copied')}
             leaveDelay={1500}
             onClose={onTooltipClose}
         >

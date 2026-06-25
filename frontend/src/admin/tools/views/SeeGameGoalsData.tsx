@@ -9,11 +9,13 @@ import { useDispatch } from 'react-redux'
 import { fetchAndStoreAllPlayers } from '../../../_actions/players'
 import { AppDispatch } from '../../../_helpers/store'
 import { orderBy } from 'lodash'
+import { useTranslation } from 'react-i18next'
 
 
 
 
 function AdminSeeGameGoalsData() {
+    const { t } = useTranslation('admin')
     const dispatch = useDispatch<AppDispatch>()
     const gamesWithGoalsData = useSelector(GamesWithGoalsDataSelector)
     const liveGamesWithGoalsData = useSelector(LiveGamesWithGoalsDataSelector)
@@ -29,14 +31,14 @@ function AdminSeeGameGoalsData() {
 
     return (
         <div className='LB-AdminSeeTournaments'>
-            <h2>מבקיעים ומבשלים</h2>
+            <h2>{t('scorers.title')}</h2>
             {hasLiveGames && (<>
-                <h3>משחקים בלייב</h3>
+                <h3>{t('scorers.liveGames')}</h3>
                 {orderBy(valuesOf(liveGamesWithGoalsData), ['start_time', 'id'], ['desc', 'desc']).map(game => (
                     <GameScorersList key={game.id} match={game} />
                 ))}
             </>)}
-            <h3>משחקים שנגמרו</h3>
+            <h3>{t('scorers.finishedGames')}</h3>
             {orderBy(valuesOf(gamesWithGoalsData), ['start_time', 'id'], ['desc', 'desc']).map(game => (
                 <GameScorersList key={game.id} match={game} />
             ))}
@@ -46,7 +48,7 @@ function AdminSeeGameGoalsData() {
                     color='primary'
                     onClick={goToAdminIndex}
                 >
-                    חזור
+                    {t('buttons.back')}
                 </Button>
             </div>
         </div>

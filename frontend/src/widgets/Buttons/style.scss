@@ -18,7 +18,7 @@ $loader_container_width: 28px;
     .loader_container {
         position: relative;
         width: $loader_container_width;
-        margin-right: $loader_margin;
+        margin-inline-start: $loader_margin;
         @include mixins.centerContainer;
     }
 }

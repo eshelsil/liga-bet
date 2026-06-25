@@ -20,7 +20,7 @@ class PreTournamentBetsClosedMiddleware
         $tournamentId = $request->route('tournamentId');
         $tournament = Tournament::find($tournamentId);
         // if (!$tournament->competition->areBetsOpen()) { // for development
-        if ($tournament->competition->areBetsOpen()) {
+        if ($tournament->areBetsOpen()) {
             throw new JsonException('Cannot see other users bets cefore tournament has started', 403);
         }
         return $next($request);

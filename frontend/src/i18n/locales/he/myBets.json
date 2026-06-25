@@ -1,0 +1,21 @@
+{
+    "columns": {
+        "id": "מזהה",
+        "date": "תאריך",
+        "bet": "ניחוש",
+        "result": "תוצאה",
+        "score": "נק'"
+    },
+    "headers": {
+        "actualResult": "תוצאה בפועל"
+    },
+    "sections": {
+        "matches": "משחקים",
+        "groupRanks": "דירוגי בתים",
+        "specialQuestions": "שאלות מיוחדות"
+    },
+    "titles": {
+        "myForm": "הטופס שלי",
+        "userForm": "הטופס של {{name}}"
+    }
+}

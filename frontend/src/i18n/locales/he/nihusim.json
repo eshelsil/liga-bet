@@ -1,0 +1,18 @@
+{
+    "manage": {
+        "title": "הניחוסים שלי",
+        "amount": "כמות: {{value}}",
+        "totalGranted": "סה\"כ הוענקו: {{value}}",
+        "totalUsed": "סה\"כ נוצלו: {{value}}",
+        "sentTo": "נשלח ל:",
+        "betTitle": "הימור",
+        "textLabel": "טקסט",
+        "gameLive": "מה קורה שם",
+        "gameEnded": "מה נגמר"
+    },
+    "sticker": {
+        "receivedNihus": "{{name}} קיבל ניחוס",
+        "from": "מאת: {{name}}",
+        "dismiss": "נו.... יאללה"
+    }
+}

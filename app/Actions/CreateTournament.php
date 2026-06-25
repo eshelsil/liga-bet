@@ -20,19 +20,20 @@ class CreateTournament
     public function __construct(protected CreateTournamentSpecialBets $ctsb)
     { }
 
-    public function handle(User $user, Competition $competition, string $name): Tournament
+    public function handle(User $user, Competition $competition, string $name, string $type = Tournament::TYPE_CLASSIC): Tournament
     {
         $this->validateCreatePermissions($user);
         $this->validateCreateLimitations($user, $competition);
         // $this->validateNameAlreadyInUse($name);
 
-        $scores = config('defaultScore');
-        if ($competition->getCompetitionType() == Competition::TYPE_WC_48) {
+        $scores = Tournament::defaultScoreConfig($type);
+        if ($type === Tournament::TYPE_CLASSIC && $competition->getCompetitionType() == Competition::TYPE_WC_48) {
             $scores = array_replace_recursive($scores, config('defaultScoreWc48'));
         }
 
         $tournament                  = new Tournament();
         $tournament->name            = $name;
+        $tournament->type            = $type;
         $tournament->status          = Tournament::STATUS_INITIAL;
         $tournament->config          = ["scores" => $scores, "prizes" => []];
         $tournament->competition_id  = $competition->id;

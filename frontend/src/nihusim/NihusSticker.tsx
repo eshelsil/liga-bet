@@ -3,6 +3,7 @@ import { cn } from '@/utils'
 import { Button } from '@mui/material'
 import { NihusWithRelations } from '@/types'
 import TeamFlag from '@/widgets/TeamFlag/TeamFlag'
+import { useTranslation } from 'react-i18next'
 
 
 export const LOCK_SCREEN_SECONDS = 30
@@ -16,6 +17,7 @@ export interface NihusStickerProps {
 }
 
 const NihusSticker = ({nihus, showTargetUtl = false, blocking = false, onQuit}: NihusStickerProps) => {
+    const { t } = useTranslation('nihusim')
     const [shown, setShown] = useState(false)
     const [imgLoaded, setImgLoaded] = useState(false)
     const [canQuit, setCanQuit] = useState(false)
@@ -75,7 +77,7 @@ const NihusSticker = ({nihus, showTargetUtl = false, blocking = false, onQuit}: 
                                     <div className={cn("relative h-full flex flex-col")}>
                                         {showTargetUtl && (
                                         <div className={cn("relative w-full text-center text-white shadow-text underline mb-4")} style={{fontSize: 20}}>
-                                            {targetedUtl.name} קיבל ניחוס
+                                            {t('sticker.receivedNihus', { name: targetedUtl.name })}
                                         </div>
                                         )}
 
@@ -115,7 +117,7 @@ const NihusSticker = ({nihus, showTargetUtl = false, blocking = false, onQuit}: 
                                         </div>
                                         <div className={cn("relative w-full mt-2")}>
                                             <p className={cn("text-white shadow-text max-w-[600px] mx-auto")} style={{fontSize:14}}>
-                                                מאת: {senderUtl.name}
+                                                {t('sticker.from', { name: senderUtl.name })}
                                             </p>
                                             {animationDone && canQuit && (
                                                 <div className={cn("absolute top-0 w-full flex justify-center")}>
@@ -124,7 +126,7 @@ const NihusSticker = ({nihus, showTargetUtl = false, blocking = false, onQuit}: 
                                                         color="primary"
                                                         onClick={onAnimationExit}
                                                     >
-                                                        נו.... יאללה
+                                                        {t('sticker.dismiss')}
                                                     </Button>
 
                                                 </div>

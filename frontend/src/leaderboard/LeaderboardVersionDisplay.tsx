@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import TeamFlag from '../widgets/TeamFlag/TeamFlag';
 import { LeaderboardVersionWithGame } from '../types';
 import { getHebGameStage, getHebTeamName } from '../strings';
@@ -13,6 +14,7 @@ interface Props {
 }
 
 function LeaderboardVersionDisplay({version}: Props) {
+    const { t } = useTranslation('leaderboard')
     const {game, description, order, isBulk, dayString} = version
 
     if (!game) {
@@ -33,14 +35,14 @@ function LeaderboardVersionDisplay({version}: Props) {
                     {isBulk && (
                         <div className='VersionDisplay-bulkVersion'>
                             <span>
-                                תחילת יום - <b>{dayString}</b>
+                                {t('versionDisplay.dayStart')} <b>{dayString}</b>
                             </span>
                         </div>
                     )}
                     {!isBulk && (<>
                         <div className='VersionDisplay-gameHeader'>
                             <span>
-                                סוף משחק - <b>{getHebGameStage(game)}</b>
+                                {t('versionDisplay.gameEnd')} <b>{getHebGameStage(game)}</b>
                             </span>
                             <span className='VersionDisplay-order'>
                                 <span>.</span><span>{order}</span>

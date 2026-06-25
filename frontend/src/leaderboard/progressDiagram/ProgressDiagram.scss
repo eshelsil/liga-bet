@@ -3,6 +3,10 @@
 @use '../../styles/shadows';
 
 .LB-ProgressDiagram {
+    // This chart was laid out for RTL (row-reverse + JS left:% coordinates).
+    // Pin it to RTL so it renders identically in both UI languages rather than
+    // half-mirroring; the chart orientation is independent of the UI language.
+    direction: rtl;
     position: relative;
     height: 95%;
     width: 90%;

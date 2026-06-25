@@ -34,7 +34,16 @@ class GameResource extends JsonResource
 
         $agg_results = $game->getAggResults();
 
-        return [
+        // Contract D — game-level bracket fields (user-specific locked/user_qualifier_side live on the bet payload).
+        $bracketFields = [];
+        if ($game->competition->supportsBracket()) {
+            $bracketFields = [
+                "bettable"              => (bool) ($game->team_home_id && $game->team_away_id && $game->isOpenForBets()),
+                "actual_qualifier_side" => $game->getKnockoutWinnerSide(),
+            ];
+        }
+
+        return $bracketFields + [
             "id"                => $game->id,
             "home_team"         => $game->team_home_id,
             "away_team"         => $game->team_away_id,

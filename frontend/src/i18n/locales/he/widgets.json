@@ -1,0 +1,18 @@
+{
+    "autoBetBadge": {
+        "tooltip": "ניחוש אוטומטי"
+    },
+    "copyToClipboard": {
+        "copied": "הועתק ✓"
+    },
+    "matchResult": {
+        "qualifier": "מעפילה"
+    },
+    "tournamentInput": {
+        "importLabel": "ייבא ניחושים מטורניר:"
+    },
+    "koWinnerInput": {
+        "qualifier": "מעפילה",
+        "missing": "(חסר)"
+    }
+}

@@ -1,7 +1,11 @@
-import { MatchRuleType } from '../types'
+import i18n from '@/i18n/config'
 
-export const matchRuleToString = {
-    [MatchRuleType.WinnerSide]: 'מנצחת (1X2)',
-    [MatchRuleType.Result]: 'תוצאה מדויקת',
-    [MatchRuleType.Qualifier]: 'מעפילה',
-}
+export const matchRuleToString = new Proxy(
+    {} as Record<string, string>,
+    {
+        get: (_t, prop) =>
+            i18n.t(`utils:matchRules.${String(prop)}`, {
+                defaultValue: String(prop),
+            }),
+    }
+)

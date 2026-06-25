@@ -32,11 +32,11 @@
                 flex-direction: row;
                 align-items: center;
                 .MatchResult-score {
-                    margin-right: 8px;
+                    margin-inline-start: 8px;
                 }
             }
             .MatchResult-qualifier {
-                right: 0px;
+                inset-inline-start: 0px;
                 text-align: left;
             }
         }
@@ -46,11 +46,11 @@
                 flex-direction: row-reverse;
                 align-items: center;
                 .MatchResult-score {
-                    margin-left: 8px;
+                    margin-inline-end: 8px;
                 }
             }
             .MatchResult-qualifier {
-                left: 0px;
+                inset-inline-end: 0px;
             }
         }
         .MatchResult-score {

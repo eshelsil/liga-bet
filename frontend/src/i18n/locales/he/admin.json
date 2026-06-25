@@ -1,0 +1,86 @@
+{
+    "defaultView": {
+        "title": "Admin View",
+        "joinExistingTournament": "הצטרף לטורניר קיים",
+        "createNewTournament": "צור טורניר חדש"
+    },
+    "tools": {
+        "title": "כלים של אדמין",
+        "seeTournaments": "צפה בטורנירים",
+        "manageUsers": "Manage users",
+        "seeScorers": "צפה במבקיעים",
+        "setMvp": "עדכן mvp",
+        "fixGamesStartTime": "תקן זמני משחקים",
+        "grantNihusim": "הענק ניחוסים",
+        "updateSideTournament": "עדכן טורניר צדדי",
+        "sendTournamentAdminInvite": "שלח הזמנה לפתיחת טורניר"
+    },
+    "buttons": {
+        "back": "חזור",
+        "update": "עדכן"
+    },
+    "toasts": {
+        "actionSucceeded": "פעולה בוצעה בהצלחה",
+        "updatedSuccessfully": "עודכן בהצלחה"
+    },
+    "sendInvitation": {
+        "title": "הזמן מישהו להירשם כמנהל טורניר",
+        "subtitle1": "יקבל הרשאות שלמנהל טורניר מיד לאחר שירשם",
+        "subtitle2": "יקבל אימייל הזמנה לפתיחת טורניר",
+        "sendInvite": "שלח הזמנה"
+    },
+    "fixGamesStartTime": {
+        "title": "סמן את התחרות כ\"דרוש תיקון זמני משחק\"",
+        "currentState": "מצב כרגע: {{state}}",
+        "on": "מופעל",
+        "off": "כבוי"
+    },
+    "grantNihusim": {
+        "title": "הענק ניחוסים",
+        "selectUser": "בחר משתמש",
+        "amount": "כמות:",
+        "reason": "סיבה:"
+    },
+    "setMvp": {
+        "title": "הכרז על מצטיין טורניר"
+    },
+    "scorers": {
+        "title": "מבקיעים ומבשלים",
+        "liveGames": "משחקים בלייב",
+        "finishedGames": "משחקים שנגמרו",
+        "addNewGoal": "עדכן גול חדש",
+        "overrideBetScores": "דרוס ניקוד הימורים לפי טבלה זו"
+    },
+    "newGoalDialog": {
+        "title": "הזן פרטי גול חדש",
+        "whichTeamScored": "איזו קבוצה הבקיעה?",
+        "scorerLabel": "מבקיע",
+        "assisterLabel": "מבשל",
+        "selectPlayer": "בחר שחקן",
+        "scorerTotalGoals_one": "יעודכן ששחקן זה הבקיע במשחק זה בסה\"כ: {{count}} גול",
+        "scorerTotalGoals_other": "יעודכן ששחקן זה הבקיע במשחק זה בסה\"כ: {{count}} גולים",
+        "assisterTotalAssists_one": "יעודכן ששחקן זה בישל במשחק זה בסה\"כ: {{count}} גול",
+        "assisterTotalAssists_other": "יעודכן ששחקן זה בישל במשחק זה בסה\"כ: {{count}} גולים"
+    },
+    "seeTournaments": {
+        "title": "טורנירים רצים",
+        "creator": "יוצר",
+        "participants": "משתתפים:",
+        "name": "שם",
+        "predictions": "ניחושים",
+        "permissions": "הרשאות",
+        "specialQuestions": "שאלות מיוחדות",
+        "groupRankings": "דירוגי בתים",
+        "games": "משחקים",
+        "viewScoreConfig": "צפייה בהגדרות ניקוד"
+    },
+    "tournamentConfigDialog": {
+        "title": "הגדרות ניקוד לטורניר \"{{name}}\""
+    },
+    "updateSideTournament": {
+        "title": "עדכן משחקים לטורניר צדדי",
+        "selectSideTournament": "בחר טורניר צדדי",
+        "removeGamesFromSideTournament": "מחק משחקים מטורניר צדדי",
+        "selectGameDay": "בחר יום משחקים"
+    }
+}

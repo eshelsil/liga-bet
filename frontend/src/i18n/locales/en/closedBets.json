@@ -1,0 +1,8 @@
+{
+    "title": "View Predictions",
+    "tabs": {
+        "games": "Games",
+        "questions": "Special Predictions",
+        "groups": "Group Standings"
+    }
+}

@@ -38,7 +38,7 @@
             line-height: 1.5;
         }
         .expandArrowIcon {
-            margin-right: 4px;
+            margin-inline-start: 4px;
             transition: transform 0.3s;
             &.arrowUp {
                 transform: rotate(180deg);
@@ -47,23 +47,25 @@
     }
 }
 
-.scoresConfigTable {
+table.scoresConfigTable {
+    border-spacing: 3px;
+    border-collapse:separate;
     th, td {
         padding-right: 5px;
         padding-left: 5px;
         vertical-align: top;
     }
     th {
-        text-align: right;
+        text-align: start;
     }
     td {
         text-align: center;
         &.scoreRuleLabel {
             font-weight: 700;
-            text-align: right;
+            text-align: start;
         }
         &.alignToRight {
-            text-align: right;
+            text-align: start;
         }
     }
     tr.divide {

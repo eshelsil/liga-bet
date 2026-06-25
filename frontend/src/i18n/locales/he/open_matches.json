@@ -1,0 +1,32 @@
+{
+    "autoBet": {
+        "label": "ניחוש אוטומטי",
+        "strategyRandom": "אקראי",
+        "updated": "הניחוש האוטומטי עודכן",
+        "whatIsThis": "מזה אומר?"
+    },
+    "buttons": {
+        "send": "שלח"
+    },
+    "labels": {
+        "qualifier": "מעפילה:"
+    },
+    "toasts": {
+        "betSent": "הניחוש נשלח",
+        "betSentForTournaments_one": "הניחוש נשלח עבור טורניר אחד",
+        "betSentForTournaments_other": "הניחוש נשלח עבור {{count}} טורנירים"
+    },
+    "errors": {
+        "invalidHomeScore": "כמות שערים לקבוצה חייבת להיות מספר שלם בין 0 ל-20. הערך שהתקבל לקבוצת הבית: {{value}}",
+        "invalidAwayScore": "כמות שערים לקבוצה חייבת להיות מספר שלם בין 0 ל-20. הערך שהתקבל לקבוצת החוץ: {{value}}",
+        "qualifierRequired": "עלייך לבחור מעפילה",
+        "qualifierRequiredTie": "עלייך לבחור מעפילה (מכיוון שסימנת משחק נוקאאוט שייגמר בתיקו)"
+    },
+    "view": {
+        "title": "ניחוש משחקים",
+        "editableUntilStart": "ניחוש כל משחק יהיה פתוח לעריכה עד לשעת תחילת המשחק",
+        "scoringMethodPrefix": "ניתן לראות את שיטת הניקוד",
+        "scoringMethodLink": "בלחיצה כאן",
+        "noOpenMatches": "אין משחקים פתוחים"
+    }
+}

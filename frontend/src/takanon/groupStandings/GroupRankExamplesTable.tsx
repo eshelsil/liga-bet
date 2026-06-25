@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { GroupRankBetScoreConfig, GroupWithTeams, Team } from '../../types'
 import CustomTable from '../../widgets/Table/CustomTable'
 import GroupStandingsResult from '../../widgets/GroupStandings'
@@ -26,6 +27,7 @@ const GroupRankExamplesTable = ({
     },
     exampleGroup,
 }: Props) => {
+    const { t } = useTranslation('takanon')
     const teamA = exampleGroup.teams[0]
     const teamB = exampleGroup.teams[1]
     const teamC = exampleGroup.teams[2]
@@ -105,7 +107,7 @@ const GroupRankExamplesTable = ({
     const cells = [
 		{
 			id: 'bet',
-			header: 'הניחוש שלך',
+			header: t('groupStandings.betHeader'),
             classes: {
                 cell: 'alignToTop'
             },
@@ -118,7 +120,7 @@ const GroupRankExamplesTable = ({
 		},
 		{
 			id: 'result',
-			header: 'תוצאה בפועל',
+			header: t('groupStandings.resultHeader'),
 			getter: (model: ExampleModel) => (
                 <GroupStandingsResult
                     standings={model.result}
@@ -128,7 +130,7 @@ const GroupRankExamplesTable = ({
 		},
 		{
 			id: 'score',
-			header: 'נק\'',
+			header: t('groupStandings.scoreShortHeader'),
             classes: {
                 cell: 'scoreCell'
             },

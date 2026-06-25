@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import {connect, useSelector} from 'react-redux'
 import { MyOpenMatchBetsSelector } from '../_selectors/openMatches'
 import {
@@ -23,6 +24,7 @@ const OpenMatchesProvider = ({
     sendBetAndStore,
 }: Props) => {
 
+    const { t } = useTranslation('open_matches')
     const hasQualifierBet = useSelector(IsQualifierBetOn)
 
     useGames(true);
@@ -53,7 +55,7 @@ const OpenMatchesProvider = ({
             valid_input_vals.indexOf(Number(homeScore)) === -1
         ) {
             window['toastr']['error'](
-                `כמות שערים לקבוצה חייבת להיות מספר שלם בין 0 ל-20. הערך שהתקבל לקבוצת הבית: ${homeScore}`
+                t('errors.invalidHomeScore', { value: homeScore })
             )
             throw new Error('INVALINVALID_SCORE_INPUTID_SCORE_INPUT')
         }
@@ -62,7 +64,7 @@ const OpenMatchesProvider = ({
             valid_input_vals.indexOf(Number(awayScore)) === -1
         ) {
             window['toastr']['error'](
-                `כמות שערים לקבוצה חייבת להיות מספר שלם בין 0 ל-20. הערך שהתקבל לקבוצת החוץ: ${awayScore}`
+                t('errors.invalidAwayScore', { value: awayScore })
             )
             throw new Error('INVALINVALID_SCORE_INPUTID_SCORE_INPUT')
         }
@@ -74,7 +76,7 @@ const OpenMatchesProvider = ({
             payload.winner_side = koWinner
             if (!koWinner) {
                 window['toastr']['error'](
-                    isTwoLeggedTie ? `עלייך לבחור מעפילה` : `עלייך לבחור מעפילה (מכיוון שסימנת משחק נוקאאוט שייגמר בתיקו)`
+                    isTwoLeggedTie ? t('errors.qualifierRequired') : t('errors.qualifierRequiredTie')
                 )
                 throw new Error('NO_QUALIFIER')
             }

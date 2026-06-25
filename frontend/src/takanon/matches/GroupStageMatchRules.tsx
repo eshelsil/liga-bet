@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { GameBetScoreConfig, Team } from '../../types';
 import GameBetExamples from './GameBetExamples';
 import GameBetScore from './GameBetScore';
@@ -17,10 +18,11 @@ function GroupStageMatchRules({
     awayTeam,
     gamesCount,
 }: Props) {
+    const { t } = useTranslation('takanon')
     return (
         <>
             <div className="takanonTextSection">
-                <h4>שלב הבתים – {gamesCount} משחקים</h4>
+                <h4>{t('matches.groupStageTitle', { count: gamesCount })}</h4>
                 <GameBetScore
                     gamesCount={gamesCount}
                     scoreConfig={scoreConfig}

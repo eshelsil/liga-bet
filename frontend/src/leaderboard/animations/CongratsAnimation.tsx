@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import ConfettiGenerator from 'confetti-js'
 import { UtlBase } from '../../types';
 import { Button } from '@mui/material';
@@ -15,7 +16,7 @@ interface Props {
 }
 
 function CongratsAnimation({ currentUtl, rank, onSeenAnimation }: Props) {
-    
+    const { t } = useTranslation('leaderboard')
     const isOurTournament = useSelector(IsOurTournament)
     const isXsScreen = useIsXsScreen()
     const isSmScreen = useIsSmScreen()
@@ -186,7 +187,7 @@ function CongratsAnimation({ currentUtl, rank, onSeenAnimation }: Props) {
                             className='cliamPrizeButton'
                             onClick={takeTrophy}
                         >
-                                אחלה 👍
+                                {t('congrats.claimPrize')}
                         </Button>
                     </div>
                 )}
@@ -204,7 +205,7 @@ function CongratsAnimation({ currentUtl, rank, onSeenAnimation }: Props) {
                                     className="diploma-close"
                                     onClick={seenDiploma ? closeDiploma : null}
                                 >
-                                        אחלה 👍
+                                        {t('congrats.closeDiploma')}
                                 </Button>
                             </div>
                         </div>

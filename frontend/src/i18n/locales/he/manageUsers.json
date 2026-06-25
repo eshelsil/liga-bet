@@ -1,0 +1,16 @@
+{
+    "title": "משתמשים באפליקציה",
+    "table": {
+        "email": "מייל",
+        "permissions": "הרשאות",
+        "actions": "פעולות"
+    },
+    "buttons": {
+        "back": "חזור",
+        "makeTournamentAdmin": "הפוך למנהל טורניר",
+        "revokeTournamentAdmin": "הסר הרשאות מנהל טורניר"
+    },
+    "toasts": {
+        "userUpdated": "משתמש עודכן בהצלחה"
+    }
+}

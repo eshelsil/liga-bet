@@ -1,18 +1,19 @@
 import * as yup from 'yup';
+import i18n from '@/i18n/config';
 
 
 const passwordValidation = yup
   .string()
-  .min(4, 'סיסמה חייבת להכיל לפחות 4 תווים')
-  .required('חובה למלא שדה זה');
+  .min(4, () => i18n.t('tournamentConfig:errors.minPassword'))
+  .required(() => i18n.t('tournamentConfig:errors.required'));
 
 export const validationSchema = yup.object({
   password: passwordValidation,
   confirmPassword: yup
     .string()
-    .required('חובה למלא שדה זה')
+    .required(() => i18n.t('tournamentConfig:errors.required'))
     .oneOf(
       [yup.ref('password')],
-      'הסיסמה לא תואמת את הסיסמה למעלה'
+      () => i18n.t('tournamentConfig:errors.passwordMismatch')
     ),
 })

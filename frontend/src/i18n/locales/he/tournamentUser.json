@@ -1,0 +1,37 @@
+{
+    "create": {
+        "title": "צור טורניר חדש",
+        "tournamentLabel": "טורניר: {{name}}",
+        "chooseNickname": "בחר לעצמך כינוי:",
+        "nickname": "כינוי",
+        "continue": "המשך",
+        "chooseCompetition": "בחר תחרות:",
+        "tournamentName": "שם הטורניר:",
+        "tournamentNameLabel": "שם הטורניר",
+        "createButton": "צור טורניר",
+        "successToast": "הטורניר נוצר!"
+    },
+    "default": {
+        "welcome": "ברוכים הבאים!",
+        "joinExisting": "הצטרף לטורניר קיים",
+        "createNew": "צור טורניר חדש"
+    },
+    "join": {
+        "title": "הצטרף לטורניר קיים",
+        "tournamentCode": "קוד טורניר",
+        "nickname": "כינוי",
+        "importBets": "ייבא ניחושים שמילאתי",
+        "joinButton": "הצטרף לטורניר",
+        "successToast": "נרשמת לטורניר בהצלחה"
+    },
+    "notConfirmed": {
+        "title": "תיכף זה מתחיל...",
+        "registered": "נרשמת לטורניר \"{{name}}\"",
+        "waitingForApproval": "ברגע שמנהלי הטורניר יאשרו אותך, תוכל להתחיל לשחק"
+    },
+    "rejected": {
+        "title": "לא נעים, אבל...",
+        "message": "השתתפותך בטורניר \"{{name}}\" נדחתה ע\"י משתתפי הטורניר",
+        "leaveButton": "עזוב את הטורניר"
+    }
+}

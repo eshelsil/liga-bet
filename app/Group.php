@@ -24,6 +24,8 @@ use Illuminate\Support\Facades\Log;
  * @property-read \App\Competition|null $competition
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Team[] $teams
  * @property-read int|null $teams_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\CurrentStanding[] $currentStandings
+ * @property-read int|null $current_standings_count
  * @method static \Illuminate\Database\Eloquent\Builder|Group newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Group newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Group query()
@@ -96,6 +98,11 @@ class Group extends Model implements BetableInterface
     public function teams()
     {
         return $this->hasMany(Team::class);
+    }
+
+    public function currentStandings()
+    {
+        return $this->hasMany(CurrentStanding::class);
     }
 
     public function competition(): \Illuminate\Database\Eloquent\Relations\BelongsTo

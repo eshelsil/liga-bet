@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from './schema';
@@ -23,6 +24,7 @@ function ScoreConfigFormView({
 	config,
 	updateConfig,
 }: Props){
+	const { t } = useTranslation('tournamentConfig')
 	const defaultConfig = generateDefaultScoresConfig()
 	const initialConfig = !isEmpty(config) ? config : defaultConfig
 	const initialOptionsConfig = getInitialOptionsConfig(initialConfig)
@@ -54,7 +56,7 @@ function ScoreConfigFormView({
 		const apiParams = mapFormStateToApiParams(formState)
 		await updateConfig(apiParams)
 		.then(() => {
-			(window as any).toastr["success"]('ההגדרות הניקוד עודכנו בהצלחה');
+			(window as any).toastr["success"](t('scoreConfigForm.updateSuccess'));
 		});
 	}
 
@@ -74,12 +76,12 @@ function ScoreConfigFormView({
 			{updateConfig && (<>
 				<div className={'saveScoresButton'}>
 					<LoadingButton action={onSubmit}>
-						עדכן
+						{t('scoreConfigForm.update')}
 					</LoadingButton>
 				</div>
 				<div className={'resetButton'}>
 					<LoadingButton color='error' action={resetDefaultConfig}>
-						אפס לברירת מחדל
+						{t('scoreConfigForm.resetToDefault')}
 					</LoadingButton>
 				</div>
 			</>)}

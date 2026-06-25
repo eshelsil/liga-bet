@@ -1,0 +1,8 @@
+{
+    "headers": {
+        "betValue": "Prediction",
+        "gumblers": "Predictors",
+        "score": "Points"
+    },
+    "title": "Special Predictions"
+}

@@ -1,12 +1,14 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 
 function MvpExplanation(){
+	const { t } = useTranslation('tournamentConfig')
 	return (
 		<div className='LB-ScoreConfigSection'>
             <ul>
                 <li>
-                    מצטיין הטורניר (mvp) יקבע ע"י פיפ"א בסיום הטורניר
+                    {t('mvp.explanation')}
                 </li>
             </ul>
 		</div>

@@ -1,7 +1,8 @@
 import { cloneDeep, mapValues } from 'lodash'
-import { GameBetType, KnockoutStage, Tournament, TournamentStatus, GameBetScoreConfig, EachGoalBet, RoadToFinalBetScoreConfig, SpecialQuestionType, SpecialQuestionBetScoreConfig, MatchBetsScoreConfig, CompetitionStageName, CompetitionStatus } from '../types'
+import { GameBetType, KnockoutStage, Tournament, TournamentStatus, GameBetScoreConfig, EachGoalBet, RoadToFinalBetScoreConfig, SpecialQuestionType, SpecialQuestionBetScoreConfig, MatchBetsScoreConfig, CompetitionStageName, CompetitionStatus, SpecialQuestionFlagConfig } from '../types'
 import { ScoresConfigFromatted } from '../_selectors'
 import { valuesOf } from './common'
+import i18n from '@/i18n/config'
 
 export function isTournamentStarted(tournament: Tournament) {
     const statuses = [TournamentStatus.Ongoing, TournamentStatus.Finished]
@@ -13,15 +14,18 @@ export function isTournamentOngoing(tournament: Tournament) {
     return statuses.includes(tournament.status)
 }
 
-export const gameStageToString = {
-    [GameBetType.GroupStage]: 'שלב בתים',
-    [GameBetType.Knockout]: 'נוקאאוט',
-    [KnockoutStage.Final]: 'גמר',
-    [KnockoutStage.SemiFinal]: 'חצי גמר',
-    [KnockoutStage.QuarterFinal]: 'רבע גמר',
-    [KnockoutStage.Last16]: 'שמינית גמר',
-    [KnockoutStage.Last32]: 'שלב 32 האחרונות',
-}
+// Keys (groupStage / knockout / final / ...) match the `utils:gameStages`
+// locale resource. Proxy keeps the existing `gameStageToString[stage]` access
+// working while staying language-aware.
+export const gameStageToString = new Proxy(
+    {} as Record<string, string>,
+    {
+        get: (_target, prop) =>
+            i18n.t(`utils:gameStages.${String(prop)}`, {
+                defaultValue: String(prop),
+            }),
+    }
+)
 
 export const koStageToNextCompetitionStage = {
     [KnockoutStage.Last32]: CompetitionStageName.Last16,
@@ -165,6 +169,22 @@ export function generateDefaultScoresConfig(): ScoresConfigFromatted {
 			offensiveTeam: true,
 			defensiveTeam: false,
 		}
+	}
+}
+
+// A zeroed scores config. Used to fill sections that are entirely absent for a
+// knockout_bracket tournament (whose `config.scores` carries only `bracket`), so
+// the shared classic scoring selectors contribute 0 points instead of throwing.
+export function generateEmptyScoresConfig(): ScoresConfigFromatted {
+	return {
+		gameBets: {
+			groupStage: { winnerSide: 0, result: 0 },
+			knockout: { winnerSide: 0, result: 0, qualifier: 0 },
+			bonuses: {},
+		},
+		groupRankBets: { perfect: 0, minorMistake: 0 },
+		specialBets: {},
+		specialQuestionFlags: {} as SpecialQuestionFlagConfig,
 	}
 }
 

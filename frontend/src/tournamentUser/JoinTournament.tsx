@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { Checkbox, FormControlLabel, TextField } from '@mui/material'
 import { CurrentTournamentId, MyTournamentCodes, NoSelector, LiveTournamentsWithMyUtl } from '../_selectors'
@@ -31,6 +32,7 @@ function JoinTournament({ onJoin }: Props) {
     const [shouldImport, setShouldImport] = useState(true)
     const [exportedTournament, setExportedTournament] = useState(currentTournamentId)
     const { goToHome } = useGoTo();
+    const { t } = useTranslation('tournamentUser')
 
     const alreadyJoined = myTournamentCodes.includes(codeFromURL)
     const hasTournaments = !isEmpty(myRelevantTournamentsById)
@@ -38,7 +40,7 @@ function JoinTournament({ onJoin }: Props) {
     async function join() {
         await onJoin({ tournamentCode: code, name, importFromTournament: shouldImport ? exportedTournament : undefined  })
             .then(() => {
-                window['toastr']['success']('נרשמת לטורניר בהצלחה')
+                window['toastr']['success'](t('join.successToast'))
                 goToHome()
             })
             .catch(function (error) {
@@ -74,7 +76,7 @@ function JoinTournament({ onJoin }: Props) {
     return (
         <div className='LB-JoinTournament'>
             {!alreadyJoined && (<>
-                <h1 className='LB-TitleText'>הצטרף לטורניר קיים</h1>
+                <h1 className='LB-TitleText'>{t('join.title')}</h1>
                 <div className='joinTournamentForm'>
                     {isCodeAutoSet && (
                         <div className='tournamentName'>
@@ -85,13 +87,13 @@ function JoinTournament({ onJoin }: Props) {
                     {!isCodeAutoSet && (
                         <TextField
                             value={code}
-                            label='קוד טורניר'
+                            label={t('join.tournamentCode')}
                             onChange={(e) => setCode(e.target.value)}
                         />
                     )}
                     <TextField
                         value={name}
-                        label='כינוי'
+                        label={t('join.nickname')}
                         onChange={(e) => setName(e.target.value)}
                     />
                     {hasTournaments && (
@@ -104,7 +106,7 @@ function JoinTournament({ onJoin }: Props) {
                                         onChange={(e, value: boolean) => setShouldImport(value)}
                                     />
                                 }
-                                label="ייבא ניחושים שמילאתי"
+                                label={t('join.importBets')}
                             />
                             {shouldImport && (
                                 // Todo: handle importable & which tournament can import from and is the proper tournament & colors & show competition
@@ -117,7 +119,7 @@ function JoinTournament({ onJoin }: Props) {
                         </div>
                     )}
                     <div className='buttonContainer'>
-                        <LoadingButton action={join}>הצטרף לטורניר</LoadingButton>
+                        <LoadingButton action={join}>{t('join.joinButton')}</LoadingButton>
                     </div>
                 </div>
             </>)}

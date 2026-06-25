@@ -1,7 +1,8 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Dictionary, orderBy } from 'lodash'
 import { QuestionBetWithRelations, SpecialQuestionAnswer } from '../types'
-import { specialQuestionsOrder } from '../utils'
+import { getSpecialQuestionName, specialQuestionsOrder } from '../utils'
 import { SpecialAnswerSmall } from '../widgets/specialAnswer'
 import CustomTable from '../widgets/Table/CustomTable'
 
@@ -37,12 +38,13 @@ interface Props {
 }
 
 const SpecialBetsTable = ({ bets, headers, showLive, liveBetsById = {}, liveAnswersByQuestionId = {} }: Props) => {
+    const { t } = useTranslation('myBets')
     const sortedBets = orderBy(bets, bet => specialQuestionsOrder.indexOf(bet.relatedQuestion.type))
 
 	const cells = [
 		{
 			id: 'id',
-			header: 'מזהה',
+			header: t('columns.id'),
 			classes: {
                 header: 'admin',
                 cell: 'admin',
@@ -55,11 +57,11 @@ const SpecialBetsTable = ({ bets, headers, showLive, liveBetsById = {}, liveAnsw
             classes: {
                 cell: 'questionNameCell',
             },
-			getter: (model: QuestionBetWithRelations) => model.relatedQuestion.name,
+			getter: (model: QuestionBetWithRelations) => getSpecialQuestionName(model.relatedQuestion),
 		},
 		{
 			id: 'bet',
-			header: headers?.bet ?? 'ניחוש',
+			header: headers?.bet ?? t('columns.bet'),
             classes: {
                 cell: 'alignToTop'
             },
@@ -72,7 +74,7 @@ const SpecialBetsTable = ({ bets, headers, showLive, liveBetsById = {}, liveAnsw
 		},
 		{
 			id: 'result',
-			header: headers?.result ?? 'תוצאה',
+			header: headers?.result ?? t('columns.result'),
 			getter: (model: QuestionBetWithRelations) => {
                 const liveAnswers = liveAnswersByQuestionId[model.relatedQuestion.id]
                 const showLiveAnswers = showLive && liveAnswersByQuestionId[model.relatedQuestion.id]?.length > 0
@@ -92,7 +94,7 @@ const SpecialBetsTable = ({ bets, headers, showLive, liveBetsById = {}, liveAnsw
 		},
 		{
 			id: 'score',
-			header: 'נק\'',
+			header: t('columns.score'),
             classes: {
                 cell: 'scoreCell',
             },

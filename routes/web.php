@@ -15,6 +15,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\CustomResetPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BetsController;
+use App\Http\Controllers\BracketController;
 use App\Http\Controllers\CompetitionController;
 use App\Http\Controllers\DebugController;
 use App\Http\Controllers\GamesController;
@@ -38,6 +39,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/send-reset-password', [CustomResetPasswordController::class, 'submitForgetPasswordForm'])->name('send-reset-pw-link');
 Route::get('/reset-password/${token}', [CustomResetPasswordController::class, 'resetPasswordUsingToken'])->name('reset-password');
+
+Route::get('/lang/{locale}', function (string $locale) {
+    $supported = ['he', 'en'];
+    if (!in_array($locale, $supported, true)) {
+        $locale = 'en';
+    }
+    // httpOnly = false so the React frontend can read the same cookie.
+    return redirect()->back(302, [], route('login'))
+        ->withCookie(cookie()->forever('locale', $locale, '/', null, null, false));
+})->name('set-locale');
 
 Auth::routes();
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
@@ -97,6 +108,7 @@ Route::prefix("/api/tournaments/{tournamentId}/")->middleware("confirmed_user")
         Route::get('bets/primal', [BetsController::class, 'visiblePrimalBets']);
         Route::get('groups', [GroupsController::class, 'index']);
         Route::get('games', [GamesController::class, 'index']);
+        Route::get('bracket', [BracketController::class, 'index']);
         Route::get('goals', [GamesController::class, 'getGoalsData']);
         Route::get('players', [PlayersController::class, 'index']);
         Route::get('players/relevant', [PlayersController::class, 'getRelevantPlayers']);

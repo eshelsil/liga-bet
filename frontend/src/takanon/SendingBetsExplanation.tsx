@@ -1,15 +1,16 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 function MatchBetsExplanation() {
+    const { t } = useTranslation('takanon')
     return (
         <>
             <div className="takanonTextSection">
-                <h4>ניחוש משחקים</h4>
+                <h4>{t('sendingBets.matchBetsTitle')}</h4>
                 <p>
-                    כל ניחוש תוצאת משחק יהיה פתוח לעריכה עד לשעת תחילת המשחק.
+                    {t('sendingBets.matchBetsText1')}
                     <br />
-                    כלל הניחושים נחשפים בתחילת המשחק וניתנים לצפייה בלשונית
-                    "צפייה בניחושים".
+                    {t('sendingBets.matchBetsText2')}
                 </p>
             </div>
         </>
@@ -17,15 +18,15 @@ function MatchBetsExplanation() {
 }
 
 function PrimalBetsExplanation() {
+    const { t } = useTranslation('takanon')
     return (
         <>
             <div className="takanonTextSection">
-                <h4>ניחושים מיוחדים ודירוגי בתים</h4>
+                <h4>{t('sendingBets.primalBetsTitle')}</h4>
                 <p>
-                    יש למלא את כלל הניחושים המיוחדים ואת דירוגי הבתים עד לשריקת
-                    הפתיחה של המשחק הראשון בטורניר.
+                    {t('sendingBets.primalBetsText1')}
                     <br />
-                    לא ניתן יהיה לערוך או לשנות ניחושים אלה במהלך הטורניר.
+                    {t('sendingBets.primalBetsText2')}
                 </p>
             </div>
         </>
@@ -33,9 +34,10 @@ function PrimalBetsExplanation() {
 }
 
 function SendingBetsExplanation() {
+    const { t } = useTranslation('takanon')
     return (
         <>
-            <h3 className='LB-TitleText' style={{ marginBottom: 20 }}>שליחת ניחושים</h3>
+            <h3 className='LB-TitleText' style={{ marginBottom: 20 }}>{t('sendingBets.heading')}</h3>
             <MatchBetsExplanation />
             <PrimalBetsExplanation />
         </>

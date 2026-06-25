@@ -1,12 +1,11 @@
-export const prizeToString = {
-    1: 'מקום ראשון',
-    2: 'מקום שני',
-    3: 'מקום שלישי',
-    4: 'מקום רביעי',
-    5: 'מקום חמישי',
-    6: 'מקום שישי',
-    7: 'מקום שביעי',
-    8: 'מקום שמיני',
-    9: 'מקום תשיעי',
-    10: 'מקום עשירי',
-}
+import i18n from '@/i18n/config'
+
+export const prizeToString = new Proxy(
+    {} as Record<string | number, string>,
+    {
+        get: (_t, prop) =>
+            i18n.t(`utils:prizes.${String(prop)}`, {
+                defaultValue: String(prop),
+            }),
+    }
+)

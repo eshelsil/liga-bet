@@ -36,7 +36,7 @@
     .TableSettings-flexRow{
         @include mixins.flexRow;
         &.TableSettings-destVersionRow{
-            padding-right: 8px;
+            padding-inline-start: 8px;
             .MuiSwitch-root {
                 margin: 0px 4px;
             }

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import {
     Paper,
     Table,
@@ -37,23 +38,23 @@ function ManageContestantsView({
     currentUtlId,
     hasManagerPermissions,
 }: Props) {
+    const { t } = useTranslation('manageContestants')
 
     return (
         <div className='LB-ManageContestantsView'>
             {!hasManagerPermissions && (
                 <h1 className='LB-TitleText'>
-                    כדי לצפות ברשימת המשתתפים עלייך להחזיק בהרשאות מנהל או עוזר מנהל לטורניר
-                    זה
+                    {t('view.noPermissions')}
                 </h1>
             )}
             {
                 <>
-                    <h1 className='LB-TitleText'>משתתפים</h1>
+                    <h1 className='LB-TitleText'>{t('view.title')}</h1>
                     <div className='LB-FloatingFrame' style={{paddingRight: 0}}>
                         <ul style={{margin: 0}}>
-                            <li>באפשרותך לאשר או למחוק משתתפים בטורניר</li>
-                            <li>אתה יכול לבחור חברים שיעזרו לך לנהל את המשתתפים</li>
-                            <li>עוזר מנהל רשאי לאשר או למחוק משתתפים שאינם עוזרי מנהל</li>
+                            <li>{t('view.info.manageContestants')}</li>
+                            <li>{t('view.info.chooseHelpers')}</li>
+                            <li>{t('view.info.managerScope')}</li>
                         </ul>
                     </div>
                     <div className='LB-FloatingFrame' style={{paddingBottom: 4}}>
@@ -65,9 +66,9 @@ function ManageContestantsView({
                             <TableHead>
                                 <TableRow>
                                     <TableCell className="admin"></TableCell>
-                                    <TableCell>שם</TableCell>
-                                    <TableCell>הרשאות</TableCell>
-                                    <TableCell>פעולות</TableCell>
+                                    <TableCell>{t('view.columns.name')}</TableCell>
+                                    <TableCell>{t('view.columns.permissions')}</TableCell>
+                                    <TableCell>{t('view.columns.actions')}</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>

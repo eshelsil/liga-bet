@@ -7,6 +7,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import { TournamentScoreConfig } from '../../../types'
 import ScoreConfigFormView from '../../../tournamentConfig/scores/ScoreConfigForm'
 import { formatTopAssistsConfig } from '../../../utils'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
     open: boolean
@@ -21,9 +22,10 @@ export default function TournamentConfigDialog({
     name,
     config,
 }: Props) {
+    const { t } = useTranslation('admin')
     const formattedConfig = {
         ...config,
-        specialBets: {
+        specialBets: config.specialBets && {
             ...config.specialBets,
             topAssists: formatTopAssistsConfig(config.specialBets.topAssists)
         }
@@ -36,7 +38,7 @@ export default function TournamentConfigDialog({
                     <IconButton onClick={onClose} className={'closeButton'}>
                         <CloseIcon />
                     </IconButton>
-                    הגדרות ניקוד לטורניר "{name}"
+                    {t('tournamentConfigDialog.title', { name })}
                 </DialogTitle>
                 <ScoreConfigFormView config={formattedConfig} />
             </DialogContent>

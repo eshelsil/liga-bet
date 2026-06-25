@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dialog, Link } from '@mui/material';
 import CloseIcon from '@mui/icons-material/CloseRounded'
 import { cn } from '@/utils';
@@ -6,13 +7,14 @@ import { cn } from '@/utils';
 
 
 function TakanonPreviewModal({children, label, className}: {children: any, label?: string, className?: string}){
+	const { t } = useTranslation('tournamentConfig');
 	const [modalOpen, setModalOpen] = useState(false);
 	const openModal = () => setModalOpen(true);
 	const closeModal = () => setModalOpen(false);
 	return (
 		
 		<div className={cn('LigaBet-TakanonPreviewModal', className)}>
-			<Link className={'openTakanonDemoLink'} onClick={openModal}>{label ?? 'איך זה יראה בתקנון'}</Link>
+			<Link className={'openTakanonDemoLink'} onClick={openModal}>{label ?? t('takanonPreview.howItLooks')}</Link>
 			<Dialog
 				open={modalOpen}
 				onClose={closeModal}

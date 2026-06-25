@@ -1,6 +1,7 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { QuestionBetWithRelations, SpecialQuestionAnswer, SpecialQuestion } from '../types'
-import { keysOf } from '../utils'
+import { getSpecialQuestionName, keysOf } from '../utils'
 import CustomTable from '../widgets/Table/CustomTable'
 import { SpecialAnswer } from '../widgets/specialAnswer'
 import { useTournamentThemeClass } from '../hooks/useThemeClass'
@@ -21,9 +22,11 @@ interface Props {
 }
 
 function QuestionBetGumblersList({ question, bets }: Props ) {
+    const { t } = useTranslation('questionBets')
     const betsByAnswerId = groupBy(bets, (bet) => bet.answer.id)
     const tournamentClass = useTournamentThemeClass()
-    const { type, name } = question
+    const { type } = question
+    const name = getSpecialQuestionName(question)
 
     const models = keysOf(betsByAnswerId).map((answerId: number): BetInstance => {
         const bets = betsByAnswerId[answerId]
@@ -62,7 +65,7 @@ function QuestionBetGumblersList({ question, bets }: Props ) {
         },
         {
             id: 'betValue',
-            header: 'ניחוש',
+            header: t('headers.betValue'),
             getter: (question: BetInstance) => (
                 <SpecialAnswer type={type} answer={question.answer} isVertical />
             ),
@@ -72,7 +75,7 @@ function QuestionBetGumblersList({ question, bets }: Props ) {
             classes: {
                 cell: 'gumblersCell'
             },
-            header: 'מנחשים',
+            header: t('headers.gumblers'),
             getter: (bet: BetInstance) => (
                 <GumblersList gumblers={bet.gumblers} />
             ),
@@ -83,7 +86,7 @@ function QuestionBetGumblersList({ question, bets }: Props ) {
                 cell: 'scoreCell',
                 header: 'scoreHeaderCell',
             },
-            header: 'ניקוד',
+            header: t('headers.score'),
             getter: (bet: BetInstance) => bet.score,
         },
     ]

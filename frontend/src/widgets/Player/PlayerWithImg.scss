@@ -4,10 +4,10 @@
 .LB-PlayerWithImg {
     @include mixins.flexRow;
     .PlayerWithImg-name {
-        margin-right: 6px;
+        margin-inline-start: 6px;
         margin-top: 2px;
         &.nameBig {
-            margin-right: 8px;
+            margin-inline-start: 8px;
             font-size: 20px;
         }
     }

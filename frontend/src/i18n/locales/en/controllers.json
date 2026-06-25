@@ -1,0 +1,8 @@
+{
+    "loadingTournaments": {
+        "title": "Loading tournaments"
+    },
+    "notOpenedForBets": {
+        "waitingForOwner": "Waiting for the tournament admin (known in your group as \"{{owner}}\") to open the tournament for predictions"
+    }
+}

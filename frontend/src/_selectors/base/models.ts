@@ -13,6 +13,7 @@ import {
     UtlRole,
 } from '../../types'
 import { generateDefaultScoreboardSettings, generateEmptyFetcherSlice, generateEmptyGameBetFetcher, valuesOf } from '../../utils'
+import { StandingsTieBreak } from '../../utils/liveGroupStandings'
 
 export const CurrentUser = (state: RootState) => state.currentUser
 export const CurrentTournamentUserId = (state: RootState) =>
@@ -140,6 +141,17 @@ export const IsWC48 = createSelector(
     CurrentTournament,
     (tournament) => {
         return tournament.competition?.config?.type === CompetitionType.WorldCup48
+    }
+)
+
+// Group standings tie-break by competition: World Cups rank head-to-head above goal
+// difference; everything else keeps the default (goal-diff-first).
+export const CurrentStandingsTieBreak = createSelector(
+    CurrentTournament,
+    (tournament): StandingsTieBreak => {
+        const type = tournament.competition?.config?.type
+        const isWorldCup = type === CompetitionType.WorldCup || type === CompetitionType.WorldCup48
+        return isWorldCup ? 'headToHeadFirst' : 'goalDiffFirst'
     }
 )
 
@@ -319,3 +331,19 @@ export const PrimalBets = createSelector(
 export const TeamsByGroupId = createSelector(Teams, (teams) => {
     return groupBy(teams, 'group_id')
 })
+
+export const BracketGamesState = (state: RootState) => state.bracket
+
+// Knockout bracket ties for the current tournament (contract D, flat list).
+export const CurrentBracketGames = createSelector(
+    BracketGamesState,
+    CurrentTournamentId,
+    (bracketByTournament, tournamentId) => bracketByTournament[tournamentId] ?? []
+)
+
+export const IsCfUser = createSelector(
+    CurrentUser,
+    (user) => {
+        return user.email.toLowerCase().endsWith('@carefam.com')
+    }
+)

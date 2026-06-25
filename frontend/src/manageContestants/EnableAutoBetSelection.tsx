@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { Checkbox, CircularProgress, FormControlLabel } from '@mui/material'
 import { IsOnAutoBet } from '../_selectors'
@@ -9,6 +10,7 @@ interface Props {
 }
 
 function EnableAutoBetSelection({ updateAutoBetPref }: Props) {
+    const { t } = useTranslation('manageContestants')
     const isRendered = useIsRendered()
     const autoBetOn = useSelector(IsOnAutoBet)
     const [loading, setLoading] = useState(false)
@@ -17,13 +19,9 @@ function EnableAutoBetSelection({ updateAutoBetPref }: Props) {
         updateAutoBetPref(value)
             .then(() => {
                 if (value) {
-                    ;(window as any).toastr['success'](
-                        'עודכן בהצלחה. מעכשיו משתתפים ששכחו לנחש יקבלו ניחוש אוטומטי'
-                    )
+                    ;(window as any).toastr['success'](t('autoBet.enabledToast'))
                 } else {
-                    ;(window as any).toastr['success'](
-                        'עודכן בהצלחה. משתתפים ששכחו לנחש לא יקבלו ניחוש אוטומטי'
-                    )
+                    ;(window as any).toastr['success'](t('autoBet.disabledToast'))
                 }
             })
             .finally(() => {
@@ -51,7 +49,7 @@ function EnableAutoBetSelection({ updateAutoBetPref }: Props) {
                 }
                 disabled={loading}
                 classes={{root: '!m-0'}}
-                label="הפעל ניחוש אוטומטי כגיבוי"
+                label={t('autoBet.label')}
             />
         </div>
     )

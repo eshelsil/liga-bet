@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import GroupRankExplanation from './GroupRankExplanation';
 import GroupStageRules from '../../../takanon/groupStandings/GroupStageRulesProvider';
@@ -11,26 +12,24 @@ import { CanUpdateScoreConfig } from '../../../_selectors';
 
 
 
-const PERFECT_STRING = 'פגיעה מושלמת';
-const MINOR_MISTAKE_STRING = 'טעות מינימלית';
-
 function GroupRankBetConfig({
 	register, clearErrors, errors, watch,
 }: ScoreConfigFormProps){
+	const { t } = useTranslation('tournamentConfig')
 	const disabled = !(useSelector(CanUpdateScoreConfig))
 	const perfectScore = watch('groupRankBets.perfect') || 0;
 	const minorMistakeScore = watch('groupRankBets.minorMistake') || 0;
 	return (
 		<div className='LigaBet-GroupRankBetConfig LB-ConfigBox'>
 			<SectionTitle
-				title={'ניקוד דירוגי בתים'}
+				title={t('groupRank.title')}
 				tooltipContent={<GroupRankExplanation />}
 			/>
 			<table className='LB-simpleTable'>
 				<tbody>
 					<tr>
 						<td className={'configLabel'}>
-							{PERFECT_STRING}
+							{t('groupRank.perfect')}
 						</td>
 						<td>
 							<ScoreInput
@@ -45,7 +44,7 @@ function GroupRankBetConfig({
 					</tr>
 					<tr>
 						<td className={'configLabel'}>
-							{MINOR_MISTAKE_STRING}
+							{t('groupRank.minorMistake')}
 						</td>
 						<td>
 							<ScoreInput

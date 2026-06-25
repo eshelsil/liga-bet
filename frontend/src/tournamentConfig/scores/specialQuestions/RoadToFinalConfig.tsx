@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { SpecialQuestionConfigProps } from '../../types';
 import TakanonPreviewModal from '../../takanonPreview/TakanonPreviewModal';
 import TeamAchivementRules from '../../../takanon/specialQuestions/TeamAchivementRules';
@@ -10,6 +11,7 @@ import RoadToFinalExplanation from './explanations/RoadToFinalExplanation';
 
 
 function RoadToFinalConfig(configProps: SpecialQuestionConfigProps){
+	const { t } = useTranslation('tournamentConfig')
 	const { watch, setValue } = configProps;
 	const isMobile = useIsXsScreen()
 
@@ -28,7 +30,7 @@ function RoadToFinalConfig(configProps: SpecialQuestionConfigProps){
 	return (
 		<div className='LigaBet-RoadToFinalConfig configContainer'>
 			<SpecialQuestionHeader
-				title={'זוכה'}
+				title={t('roadToFinal.winner')}
 				tooltipContent={<RoadToFinalExplanation />}
 				switchProps={{
 					disabled: true,
@@ -37,7 +39,7 @@ function RoadToFinalConfig(configProps: SpecialQuestionConfigProps){
 				}}
 			/>
 			<SpecialQuestionHeader
-				title={'סגנית'}
+				title={t('roadToFinal.runnerUp')}
 				tooltipContent='any content'
 				switchProps={{
 					checked: isOnRunnerUp,
@@ -51,10 +53,10 @@ function RoadToFinalConfig(configProps: SpecialQuestionConfigProps){
 				<RoadToFinalMobileTable {...configProps} />
 			)}
 			<TakanonPreviewModal>
-				<TeamAchivementRules label={'זוכה'} scoreConfig={scoreConfigWinner} />
+				<TeamAchivementRules label={t('roadToFinal.winner')} scoreConfig={scoreConfigWinner} />
 				{isOnRunnerUp && (<>
 					<br/>
-					<TeamAchivementRules label={'סגנית'} scoreConfig={scoreConfigRunnerUp} isRunnerUp />
+					<TeamAchivementRules label={t('roadToFinal.runnerUp')} scoreConfig={scoreConfigRunnerUp} isRunnerUp />
 				</>)}
 			</TakanonPreviewModal>
 		</div>

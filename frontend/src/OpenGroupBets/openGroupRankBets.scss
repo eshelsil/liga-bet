@@ -37,7 +37,7 @@
             padding-top: 16px;
             &.onEdit{
                 .rankDisplay {
-                    margin-left: 6px;
+                    margin-inline-end: 6px;
                     .rank {
                         background-color: #fbfbfbfb;
                         box-shadow: shadows.$medium-shadow;
@@ -58,7 +58,7 @@
                 .LB-TeamStanding {
                     border-top-right-radius: 0px;
                     border-bottom-right-radius: 0px;
-                    padding-right: 14px;
+                    padding-inline-start: 14px;
                 }
             }
             .DraggableStandings {
@@ -87,7 +87,7 @@
                 border-radius: 8px;
                 background-color: rgb(239 239 239);
                 .dragIcon {
-                    margin-left: 12px;
+                    margin-inline-end: 12px;
                     cursor: grab;
                     color: #555;
                 }
@@ -101,7 +101,7 @@
                 }
                 .iconGoBack {
                     position: absolute;
-                    left: 0px;
+                    inset-inline-end: 0px;
                     bottom: 0px;
                 }
             }

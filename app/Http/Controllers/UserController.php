@@ -210,7 +210,7 @@ class UserController extends Controller
         if ($utlFrom->tournament->competition->id != $competition->id) {
             throw new JsonException("Cannot import bets from tournaments of a different competition", 400);
         }
-        if (!$competition->areBetsOpen()){
+        if (!$utl->tournament->areBetsOpen()){
             throw new JsonException("אי אפשר לעדכן ניחושים אחרי שהטורניר כבר התחיל", 400);
         }
 

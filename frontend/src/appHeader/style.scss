@@ -104,14 +104,20 @@
             overflow: hidden;
             box-shadow: shadows.$medium-shadow;
             .personIcon {
-              left: 60%;
+              left: 40%;
+              [dir="rtl"] & {
+                left: 60%;
+              }
             }
           }
           .personIcon {
             position: absolute;
             bottom: -6px;
-            left: 80%;
-            transform: translateX(-50%);
+            left: 20%;
+            [dir="rtl"] & {
+                left: 80%;
+              }
+            transform: translateX(-50%); // centers on the point above (dir-agnostic)
             color: rgba(160, 160, 160, 0.9);
             font-size: 36px;
           }

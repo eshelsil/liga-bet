@@ -1,0 +1,25 @@
+{
+    "titles": {
+        "myTournaments": "My Tournaments",
+        "pastTournaments": "Past Tournaments"
+    },
+    "buttons": {
+        "hidePastTournaments": "Hide Past Tournaments",
+        "showPastTournaments": "Show Past Tournaments"
+    },
+    "card": {
+        "nickname": "Nickname",
+        "nameLabel": "Name",
+        "permissions": "Permissions",
+        "tournamentCode": "Tournament Code",
+        "inviteFriends": "Invite Friends",
+        "linkCopied": "Link copied ✓",
+        "leaderboardRank": "Leaderboard Rank",
+        "points": "Points",
+        "viewMyForm": "View My Form",
+        "rules": "Rules"
+    },
+    "toasts": {
+        "profileUpdated": "Profile updated"
+    }
+}

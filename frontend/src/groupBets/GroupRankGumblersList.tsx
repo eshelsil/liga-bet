@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useTournamentThemeClass } from '../hooks/useThemeClass'
 import { getStandingsBetValue, keysOf } from '../utils'
 import { GroupRankBetWithRelations, GroupWithTeams, Team } from '../types'
@@ -26,6 +27,7 @@ interface Props {
 }
 
 function GroupRankGumblersList({ group, bets, isLive }: Props) {
+    const { t } = useTranslation('groupBets')
     const { teams = [] } = group
     const tournamentClass = useTournamentThemeClass()
     const [open, setOpen] = useState(false)
@@ -70,7 +72,7 @@ function GroupRankGumblersList({ group, bets, isLive }: Props) {
             id: 'betValue',
             classes: {
             },
-            header: 'ניחוש',
+            header: t('table.betValue'),
             getter: (bet: BetInstance) => (
                 <GroupStandingsResult
                     standings={bet.standings}
@@ -82,7 +84,7 @@ function GroupRankGumblersList({ group, bets, isLive }: Props) {
             classes: {
                 cell: 'gumblersCell'
             },
-            header: 'מנחשים',
+            header: t('table.gumblers'),
             getter: (bet: BetInstance) => (
                 <GumblersList gumblers={bet.gumblers} />
             ),
@@ -93,7 +95,7 @@ function GroupRankGumblersList({ group, bets, isLive }: Props) {
                 cell: `scoreCell ${isLive ? 'isLive' : ''}`,
                 header: 'scoreHeaderCell',
             },
-            header: 'ניקוד',
+            header: t('table.score'),
             getter: (bet: BetInstance) => bet.score,
         },
     ]

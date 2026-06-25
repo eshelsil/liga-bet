@@ -1,16 +1,13 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { CompetitionStageName, SpecialQuestionType } from '../../../types';
 import { SpecialQuestionConfigProps } from '../../types';
 import CustomTable from '../../../widgets/Table/CustomTable';
 import TeamAchivementStageConfig from './TeamAchivementStageConfig';
 import HeaderWithSwitch from './HeaderWithSwitch';
-import { competitionStageToString } from '../../../strings';
+import { getCompetitionStageName } from '../../../strings';
 import { IsWC48 } from '@/_selectors';
-
-
-const WINNER_STRING = 'זוכה בגביע';
-const RUNNER_UP_STRING = 'סגנית';
 
 
 interface TeamAchivementsConfigModel {
@@ -22,6 +19,7 @@ interface TeamAchivementsConfigModel {
 
 
 function RoadToFinalDesktopTable({disabled, ...formProps}: SpecialQuestionConfigProps){
+	const { t } = useTranslation('tournamentConfig');
 	const { watch, setValue } = formProps;
 	const isWc48 = useSelector(IsWC48);
 
@@ -43,7 +41,7 @@ function RoadToFinalDesktopTable({disabled, ...formProps}: SpecialQuestionConfig
 	const models: TeamAchivementsConfigModel[] = [
 		{
 			id: 'winner',
-			label: WINNER_STRING,
+			label: t('roadToFinal.winnerCup'),
 			question: SpecialQuestionType.Winner,
 		},
 		...(
@@ -51,7 +49,7 @@ function RoadToFinalDesktopTable({disabled, ...formProps}: SpecialQuestionConfig
 			? [
 				{
 					id: 'runnerUp',
-					label: RUNNER_UP_STRING,
+					label: t('roadToFinal.runnerUp'),
 					question: SpecialQuestionType.RunnerUp as any,
 				}
 			]
@@ -67,7 +65,7 @@ function RoadToFinalDesktopTable({disabled, ...formProps}: SpecialQuestionConfig
 		},
 		{
 			id: 'winning',
-			header: 'זכייה בתואר',
+			header: t('roadToFinal.winningTitle'),
 			getter: (model: TeamAchivementsConfigModel) => (<>
 				{model.id === 'winner' && (
 					<TeamAchivementStageConfig
@@ -81,7 +79,7 @@ function RoadToFinalDesktopTable({disabled, ...formProps}: SpecialQuestionConfig
 		},
 		{
 			id: 'final',
-			header: 'הגעה לגמר',
+			header: t('roadToFinal.reachingFinal'),
 			getter: (model: TeamAchivementsConfigModel) => (
 				<TeamAchivementStageConfig
 					stageName={CompetitionStageName.Final}
@@ -95,7 +93,7 @@ function RoadToFinalDesktopTable({disabled, ...formProps}: SpecialQuestionConfig
 			id: 'semifinal',
 			header: (
 				<HeaderWithSwitch
-					label={competitionStageToString.semiFinal}
+					label={getCompetitionStageName(CompetitionStageName.SemiFinal)}
 					checked={isOnSemiFinal}
 					onChange={onChangeSemiFinal}
 					disabled={disabled}
@@ -114,7 +112,7 @@ function RoadToFinalDesktopTable({disabled, ...formProps}: SpecialQuestionConfig
 			id: 'quarterFinal',
 			header: (
 				<HeaderWithSwitch
-					label={competitionStageToString.quarterFinal}
+					label={getCompetitionStageName(CompetitionStageName.QuarterFinal)}
 					checked={isOnQuarterFinal}
 					onChange={onChangeQuarterFinal}
 					disabled={disabled}
@@ -133,7 +131,7 @@ function RoadToFinalDesktopTable({disabled, ...formProps}: SpecialQuestionConfig
 			id: 'last16',
 			header: (
 				<HeaderWithSwitch
-					label={competitionStageToString.last16}
+					label={getCompetitionStageName(CompetitionStageName.Last16)}
 					checked={isOnLast16}
 					onChange={onChangeLast16}
 					disabled={disabled}

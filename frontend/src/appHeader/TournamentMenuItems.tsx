@@ -12,7 +12,8 @@ import OpenGroupRankBetsItem from './MenuItems/OpenGroupRankBetsItem'
 import OpenQuestionBetsItem from './MenuItems/OpenQuestionBetsItem'
 import MyBetsItem from './MenuItems/MyBetsItem'
 import { useSelector } from 'react-redux'
-import { IsAppMenuEmpty, ManageTournamentIsAccessible } from '../_selectors'
+import { useTranslation } from 'react-i18next'
+import { IsAppMenuEmpty, IsCurrentTournamentKnockoutBracket, ManageTournamentIsAccessible } from '../_selectors'
 import useGoTo from '../hooks/useGoTo'
 
 
@@ -28,6 +29,7 @@ function TournamentMenuItems({
     isTournamentStarted,
     reRouteCallback,
 }: Props) {
+    const { t } = useTranslation('appHeader')
     const themeClass = useTournamentThemeClass()
     const { goToClosedGameBets } = useGoTo()
 
@@ -41,11 +43,31 @@ function TournamentMenuItems({
     
     const isEmpty = useSelector(IsAppMenuEmpty)
     const showTournamentManage = useSelector(ManageTournamentIsAccessible)
+    const isKnockoutBracket = useSelector(IsCurrentTournamentKnockoutBracket)
 
     return (
         <>
             {hasCurrentUtl && (<>
-                {isConfirmed && (<>
+                {isConfirmed && isKnockoutBracket && (<>
+                    {/* knockout_bracket has exactly: Leaderboard, Open Guesses (the bracket),
+                        and Closed Bets once the tournament has started. */}
+                    <LinkMenuItem
+                        route={routesMap['leaderboard']}
+                        callback={reRouteCallback}
+                    />
+                    <LinkMenuItem
+                        route={routesMap['open-guesses']}
+                        callback={reRouteCallback}
+                    />
+                    {isTournamentStarted && (
+                        <LinkMenuItem
+                            route={routesMap['closed-bets']}
+                            onClick={goToClosedGameBets}
+                            callback={reRouteCallback}
+                        />
+                    )}
+                </>)}
+                {isConfirmed && !isKnockoutBracket && (<>
                     {isTournamentStarted && (<>
                         <LinkMenuItem
                             route={routesMap['leaderboard']}
@@ -87,7 +109,7 @@ function TournamentMenuItems({
                         anchorContent={
                             <div className='flexRow'>
                                 <div>
-                                    ניהול טורניר
+                                    {t('menu.manageTournament')}
                                 </div>
                                 <ArrowDropDownIcon />
                             </div>
@@ -118,7 +140,7 @@ function TournamentMenuItems({
                 <LinkMenuItem
                     route={{
                         path: '',
-                        label: 'הרשמה',
+                        label: t('menu.register'),
                     }}
                     content={<HomeRoundedIcon fill={'#fff'} />}
                     callback={reRouteCallback}

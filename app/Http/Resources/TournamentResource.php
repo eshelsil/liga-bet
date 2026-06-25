@@ -21,6 +21,7 @@ class TournamentResource extends JsonResource
         $res = [
             "id"                => $t->id,
             "name"              => $t->name,
+            "type"              => $t->type,
             "competitionId"     => $t->competition_id,
             "competition"       => new CompetitionResource($t->competition),
             "status"            => $t->status,

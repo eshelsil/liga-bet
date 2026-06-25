@@ -1,11 +1,12 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { CompetitionStageName } from '../../../types';
 import { SpecialQuestionConfigProps } from '../../types';
 import CustomTable from '../../../widgets/Table/CustomTable';
 import ScoreInput from '../ScoreInput';
 import HeaderWithSwitch from './HeaderWithSwitch';
-import { competitionStageToString } from '../../../strings';
+import { getCompetitionStageName } from '../../../strings';
 import { IsWC48 } from '../../../_selectors';
 
 
@@ -15,6 +16,7 @@ interface CompetitionStageConfigModel {
 }
 
 function RoadToFinalMobileTable({disabled, ...formProps}: SpecialQuestionConfigProps){
+	const { t } = useTranslation('tournamentConfig');
 	const { watch, setValue, errors, register, clearErrors } = formProps;
 	const isWc48 = useSelector(IsWC48);
 
@@ -63,7 +65,7 @@ function RoadToFinalMobileTable({disabled, ...formProps}: SpecialQuestionConfigP
 			id: 'stage',
 			header: '',
 			getter: (model: CompetitionStageConfigModel) => {
-				const label = competitionStageToString[model.stageName];
+				const label = getCompetitionStageName(model.stageName);
 				if (model.stageName === CompetitionStageName.SemiFinal) {
 					return (
 						<HeaderWithSwitch
@@ -99,7 +101,7 @@ function RoadToFinalMobileTable({disabled, ...formProps}: SpecialQuestionConfigP
 		},
 		{
 			id: 'winner',
-			header: 'זוכה',
+			header: t('roadToFinal.winner'),
 			getter: (model: CompetitionStageConfigModel) => (
 				<ScoreInput
 					error={errors.specialBets?.winner?.message}
@@ -119,7 +121,7 @@ function RoadToFinalMobileTable({disabled, ...formProps}: SpecialQuestionConfigP
 		...(isOnRunnerUp ? [
 			{
 				id: 'runnerUp',
-				header: 'סגנית',
+				header: t('roadToFinal.runnerUp'),
 				getter: (model: CompetitionStageConfigModel) => (<>
 					{model.id !== CompetitionStageName.Winning && (
 						<ScoreInput

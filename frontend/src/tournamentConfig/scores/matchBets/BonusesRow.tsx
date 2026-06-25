@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ScoreConfigFormProps } from '../../types';
 import { useWatch } from 'react-hook-form';
 import { Checkbox, FormControlLabel } from '@mui/material';
@@ -15,6 +16,7 @@ function BonusesRow({
 	disabled = false,
 	...formProps
 }: Props) {
+	const { t } = useTranslation('tournamentConfig')
 	const isWc48 = useSelector(IsWC48)
 	const optionsConfig = useWatch({control: formProps.control, name: 'gameBetOptions'})
 	const onChangeFinal = (event: any, value: boolean) => {
@@ -29,7 +31,7 @@ function BonusesRow({
 
 	return (
 		<div className='LB-BonusesRow'>
-			<div className='bonusesLabel'>בונוסים:</div>
+			<div className='bonusesLabel'>{t('matchBets.bonuses')}</div>
 			<FormControlLabel
 				control={<Checkbox
 					size='small'
@@ -37,7 +39,7 @@ function BonusesRow({
 					onChange={onChangeFinal}
 					disabled={disabled}
 				/>}
-				label="גמר"
+				label={t('matchBets.final')}
 			/>
 			<FormControlLabel
 				control={<Checkbox
@@ -46,7 +48,7 @@ function BonusesRow({
 					onChange={onChangeSemiFinal}
 					disabled={disabled}
 				/>}
-				label="חצי גמר"
+				label={t('matchBets.semiFinal')}
 			/>
 			{isWc48 && (
 				<FormControlLabel
@@ -56,7 +58,7 @@ function BonusesRow({
 						onChange={onChangeQuarterFinal}
 						disabled={disabled}
 					/>}
-					label="רבע גמר"
+					label={t('matchBets.quarterFinal')}
 				/>
 			)}
 		</div>

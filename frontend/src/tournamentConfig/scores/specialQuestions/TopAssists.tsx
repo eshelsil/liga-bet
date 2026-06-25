@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Collapse } from '@mui/material';
 import { SpecialQuestionConfigProps } from '../../types';
 import TakanonPreviewModal from '../../takanonPreview/TakanonPreviewModal';
@@ -8,10 +9,8 @@ import SpecialQuestionHeader from './SpecialQuestionHeader';
 import TopAssistsExplanation from './explanations/TopAssistsExplanation';
 
 
-const TOP_ASSISTS_WINNING_STRING = 'בונוס על זכייה בתואר';
-const TOP_ASSISTS_EACH_STRING = 'כל בישול';
-
 function TopAssistsConfig({disabled, ...formProps}: SpecialQuestionConfigProps){
+	const { t } = useTranslation('tournamentConfig')
 	const { watch, register, errors, clearErrors, setValue } = formProps;
 	const onChange = (event: any, value: boolean) => {
 		setValue('specialQuestionFlags.topAssists', value as never);
@@ -23,7 +22,7 @@ function TopAssistsConfig({disabled, ...formProps}: SpecialQuestionConfigProps){
 	return (
 		<div className='LigaBet-TopAssists configContainer'>
 			<SpecialQuestionHeader
-				title={'מלך בישולים'}
+				title={t('topAssists.title')}
 				tooltipContent={<TopAssistsExplanation />}
 				switchProps={{
 					checked: isOn,
@@ -35,7 +34,7 @@ function TopAssistsConfig({disabled, ...formProps}: SpecialQuestionConfigProps){
 					<tbody>
 						<tr>
 							<td className={'configLabel'}>
-								{TOP_ASSISTS_EACH_STRING}
+								{t('topAssists.each')}
 							</td>
 							<td>
 								<ScoreInput
@@ -50,7 +49,7 @@ function TopAssistsConfig({disabled, ...formProps}: SpecialQuestionConfigProps){
 						</tr>
 						<tr>
 							<td className={'configLabel'}>
-								{TOP_ASSISTS_WINNING_STRING}
+								{t('topAssists.winning')}
 							</td>
 							<td>
 								<ScoreInput

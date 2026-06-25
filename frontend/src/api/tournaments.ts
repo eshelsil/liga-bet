@@ -1,17 +1,19 @@
-import { TournamentSummaryData, NotificationsByTournamentId, Tournament, TournamentConfig, TournamentNotifications, TournamentPreferences, TournamentScoreConfig, TournamentStatus } from '../types'
+import { TournamentSummaryData, NotificationsByTournamentId, Tournament, TournamentConfig, TournamentNotifications, TournamentPreferences, TournamentScoreConfig, TournamentStatus, TournamentType } from '../types'
 import { sendApiRequest } from './common/apiRequest'
 
 export const createTournament = async ({
     competition,
     name,
+    type,
 }: {
     competition: number
     name: string
+    type?: TournamentType
 }): Promise<Tournament> => {
     return await sendApiRequest({
         url: '/api/tournaments',
         type: 'POST',
-        data: { competition, name },
+        data: { competition, name, ...(type ? { type } : {}) },
     })
 }
 

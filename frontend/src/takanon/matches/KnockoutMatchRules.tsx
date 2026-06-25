@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { GameBetBonusesScoreConfig, GameBetScoreConfig, Team, WinnerSide } from '../../types';
 import GameBetExamples from './GameBetExamples';
 import GameBetScore from './GameBetScore';
@@ -19,10 +20,11 @@ function KnockoutMatchRules({
     awayTeam,
     gamesCount,
 }: Props) {
+    const { t } = useTranslation('takanon')
     return (
         <>
             <div className="takanonTextSection">
-                <h4>שלב הנוקאאוט – {gamesCount} משחקים</h4>
+                <h4>{t('matches.knockoutTitle', { count: gamesCount })}</h4>
                 <GameBetScore
                     scoreConfig={scoreConfig}
                     gamesCount={gamesCount}

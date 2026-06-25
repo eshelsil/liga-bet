@@ -5,6 +5,7 @@ import {
     getSpecialQuestionName,
     isAdmin,
     isGameLive,
+    isKnockoutBracket,
     isTournamentLive,
     isTournamentOngoing,
     isTournamentStarted,
@@ -43,6 +44,12 @@ export const IsTournamentStarted = createSelector(
 export const IsTournamentOngoing = createSelector(
     CurrentTournament,
     tournament => isTournamentOngoing(tournament),
+)
+
+// Contract A.
+export const IsCurrentTournamentKnockoutBracket = createSelector(
+    CurrentTournament,
+    tournament => isKnockoutBracket(tournament),
 )
 
 export const IsAdmin = createSelector(CurrentUser, (user) => isAdmin(user))
@@ -94,7 +101,6 @@ export const SpecialQuestionsFormatted = createSelector(
             const { answer } = question
             return {
                 ...question,
-                name: getSpecialQuestionName(question),
                 answer: formatSpecialAnswer(answer),
             }
         })
@@ -254,7 +260,13 @@ export const FetchedLeaderboardVersions = createSelector(
 export const OpenCompetitions = createSelector(
     Competitions,
     (competitions) => {
-        return pickBy(competitions, c => c.status === CompetitionStatus.Initial)
+        return pickBy(competitions, c => (
+            c.status === CompetitionStatus.Initial ||
+            (
+                c.status === CompetitionStatus.Ongoing &&
+                c.supportsBracket
+            )
+        ))
     }
 )
 

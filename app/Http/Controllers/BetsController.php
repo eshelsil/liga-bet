@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\ApplyBracketSpecialBetQualifiers;
 use App\Bet;
 use App\Bets\BetMatch\BetMatch;
 use App\Bets\BetMatch\BetMatchRequest;
@@ -82,7 +83,7 @@ class BetsController extends Controller
     {
         $utl = $this->getUser()->getTournamentUser($tournamentId);
         $tournament = $utl->tournament;
-        $areBetsOpen = $tournament->competition->areBetsOpen();
+        $areBetsOpen = $tournament->areBetsOpen();
 
         $bets = Bet::query()
             ->where("tournament_id", $tournament->id)
@@ -108,6 +109,18 @@ class BetsController extends Controller
         $utlsToSendFor = collect([$utl])->merge($utlsToFill);
         foreach ($utlsToSendFor as $utlToSendFor){
             $this->validateBatch($betsInput, $utlToSendFor);
+        }
+
+        // Bracket Winner/Runner-Up are submitted together in one request. Pre-resolve every special-bet
+        // answer in this batch (special bet id => team id) so each pick validates against the *incoming*
+        // counterpart rather than its stale stored value — otherwise swapping the two (winner↔runner-up)
+        // trips the "same team"/same-side guards against the soon-to-be-overwritten DB value.
+        $pendingSpecialAnswers = [];
+        foreach ($betsInput as $bi) {
+            $bi = (object) $bi;
+            if ($bi->type == BetTypes::SpecialBet && isset($bi->data["type_id"], $bi->data["answer"])) {
+                $pendingSpecialAnswers[(int) $bi->data["type_id"]] = (int) $bi->data["answer"];
+            }
         }
 
         $bets = [];
@@ -136,6 +149,21 @@ class BetsController extends Controller
                         }
                     }
                     foreach ($utlsToSendFor as $utl ){
+                        if ($utl->tournament->isKnockoutBracket()){
+                            // Bracket: qualifier-only. Reject edits to games locked by the user's Winner/Runner-Up.
+                            $this->assertBracketQualifierEditable($utl, $game);
+                            $betRequest = new BetMatchRequest(
+                                $game,
+                                $utl->tournament,
+                                [
+                                    "result-home" => 0, // Bracket bets are qualifier-only, so the score is irrelevant.
+                                    "result-away" => 0, // Bracket bets are qualifier-only, so the score is irrelevant.
+                                    "winner_side" => data_get($betData, "winner_side")
+                                ]
+                            );
+                            $bets[] = BetMatch::save($utl, $betRequest);
+                            continue;
+                        }
                         $koWinnerSide = data_get($betData, "winner_side");
                         $otherLegBetData = null;
                         $otherLegGame = null;
@@ -175,7 +203,10 @@ class BetsController extends Controller
                     }
                     break;
                 case BetTypes::GroupsRank:
-                    if (!$utl->tournament->competition->areBetsOpen()){
+                    if ($utl->tournament->isKnockoutBracket()){
+                        throw new \InvalidArgumentException("Group-rank bets are not allowed in bracket tournaments");
+                    }
+                    if (!$utl->tournament->areBetsOpen()){
                         throw new \InvalidArgumentException("GroupRank bets are closed. cannot update bet");
                     }
                     $group = Group::find($betInput->data["type_id"]);
@@ -189,19 +220,26 @@ class BetsController extends Controller
                     }
                     break;
                 case BetTypes::SpecialBet:
-                    if (!$utl->tournament->competition->areBetsOpen()){
+                    if (!$utl->tournament->areBetsOpen()){
                         throw new \InvalidArgumentException("SpecialQuestion bets are closed. cannot update bet");
                     }
                     $betValue = ["answer" => $betInput->data["answer"]];
                     $utlData = ["utl" => $utl];
                     $betRequestData = array_merge($betValue, $utlData);
                     $specialBet = SpecialBet::find($betInput->data["type_id"]);
+                    if ($utl->tournament->isKnockoutBracket()){
+                        $this->validateBracketSpecialBet($utl, $specialBet, (int) $betInput->data["answer"], $pendingSpecialAnswers);
+                    }
                     $betRequest = new BetSpecialBetsRequest(
                         $specialBet,
                         $utl->tournament,
                         $betRequestData
                     );
                     $bets[] = BetSpecialBets::save($utl, $betRequest);
+                    if ($utl->tournament->isKnockoutBracket()){
+                        // Propagate + lock the chosen team's qualifier across its known knockout games.
+                        app(ApplyBracketSpecialBetQualifiers::class)->handle($utl, (int) $betInput->data["answer"]);
+                    }
                     foreach ($utlsToFill as $utlToFill){
                         $utlData = ["utl" => $utlToFill];
                         $betRequestData = array_merge($betValue, $utlData);
@@ -293,6 +331,83 @@ class BetsController extends Controller
 
     }
 
+    /**
+     * Bracket: reject a manual qualifier edit on a game where one of the user's (still-valid) Winner/Runner-Up
+     * teams plays — that qualifier is auto-locked.
+     */
+    private function assertBracketQualifierEditable(TournamentUser $utl, Game $game): void
+    {
+        $lockedTeamIds = $this->bracketLockedTeamIds($utl->tournament_id, $utl->id);
+        if ($lockedTeamIds->contains($game->team_home_id) || $lockedTeamIds->contains($game->team_away_id)) {
+            throw new \InvalidArgumentException("ניחוש המעפיל למשחק זה ננעל לפי בחירת הזוכה/סגנית שלך ואינו ניתן לעריכה");
+        }
+    }
+
+    /**
+     * Bracket Winner/Runner-Up validation: reject the same team for both; once the bracket is drawn reject
+     * same-side picks and non-qualified teams immediately (better UX than a later removal + email).
+     */
+    private function validateBracketSpecialBet(TournamentUser $utl, ?SpecialBet $specialBet, int $teamId, array $pendingAnswers = []): void
+    {
+        if (!$specialBet || !in_array($specialBet->type, [SpecialBet::TYPE_WINNER, SpecialBet::TYPE_RUNNER_UP], true)) {
+            throw new \InvalidArgumentException("Only Winner/Runner-Up special bets are allowed for bracket tournaments");
+        }
+
+        $competition = $utl->tournament->competition;
+        $otherType = $specialBet->type === SpecialBet::TYPE_WINNER ? SpecialBet::TYPE_RUNNER_UP : SpecialBet::TYPE_WINNER;
+        $otherSb = SpecialBet::getByType($utl->tournament_id, $otherType);
+        // Prefer the counterpart's value from this same request (so a Winner↔Runner-Up swap validates
+        // against the new picks); fall back to the stored bet when it isn't part of this submission.
+        $otherTeamId = null;
+        if ($otherSb) {
+            if (array_key_exists($otherSb->id, $pendingAnswers)) {
+                $otherTeamId = $pendingAnswers[$otherSb->id] ?: null;
+            } else {
+                $otherBet = Bet::query()
+                    ->where('user_tournament_id', $utl->id)
+                    ->where('type', BetTypes::SpecialBet)
+                    ->where('type_id', $otherSb->id)
+                    ->first();
+                $otherTeamId = $otherBet ? (int) $otherBet->getAnswer() : null;
+            }
+        }
+
+        if ($otherTeamId) {
+            if ($otherTeamId === $teamId) {
+                throw new \InvalidArgumentException("לא ניתן לבחור אותה קבוצה כזוכה וגם כסגנית");
+            }
+            $sideA = $competition->getBracketSide($teamId);
+            $sideB = $competition->getBracketSide($otherTeamId);
+            if ($sideA && $sideB && $sideA === $sideB) {
+                throw new \InvalidArgumentException("הזוכה והסגנית חייבים להיות בצדדים שונים של הבראקט");
+            }
+        }
+
+        // Reject a team that can no longer qualify: eliminated per the live standings, or — once the
+        // bracket is fully seeded — absent from it. Same authoritative signal as the server-side removal.
+        if ($competition->getNonQualifiedTeamIds()->contains($teamId)) {
+            throw new \InvalidArgumentException("הקבוצה הנבחרת לא העפילה לשלב הנוקאאוט");
+        }
+    }
+
+    private function bracketLockedTeamIds(int $tournamentId, int $utlId): Collection
+    {
+        $winnerSb = SpecialBet::getByType($tournamentId, SpecialBet::TYPE_WINNER);
+        $runnerSb = SpecialBet::getByType($tournamentId, SpecialBet::TYPE_RUNNER_UP);
+        $sbIds = collect([$winnerSb?->id, $runnerSb?->id])->filter();
+        if ($sbIds->isEmpty()) {
+            return collect();
+        }
+        return Bet::query()
+            ->where('user_tournament_id', $utlId)
+            ->where('type', BetTypes::SpecialBet)
+            ->whereIn('type_id', $sbIds)
+            ->get()
+            ->map(fn (Bet $b) => (int) $b->getAnswer())
+            ->filter()
+            ->values();
+    }
+
     protected function formatBets(
         \Illuminate\Database\Eloquent\Collection $bets,
         Competition $competition,
@@ -355,12 +470,14 @@ class BetsController extends Controller
     ): Collection {
         $games = $competition->games->whereIn("id", $bets->pluck("type_id"))->keyBy("id");
         $teams = $competition->teams->keyBy("id");
+        $bets->loadMissing("tournament");
+        $lockedTeamIdsByUtl = [];
         /** @var Bet $bet */
         foreach ($bets as $bet) {
             /** @var Game $game */
             $game = $games->get($bet->type_id);
 
-            $formattedBets[] = $bet->export_data() + [
+            $formatted = $bet->export_data() + [
                     "relatedMatch" => [
                         "home_team" => $teams->get($game->team_home_id)
                                              ->only([
@@ -380,6 +497,21 @@ class BetsController extends Controller
                         "id" => $game->id,
                     ]
                 ];
+
+            // Contract D — additive bracket betting fields.
+            if ($bet->tournament && $bet->tournament->isKnockoutBracket()) {
+                $utlId = $bet->user_tournament_id;
+                if (!array_key_exists($utlId, $lockedTeamIdsByUtl)) {
+                    $lockedTeamIdsByUtl[$utlId] = $this->bracketLockedTeamIds($bet->tournament_id, $utlId);
+                }
+                $locked = $lockedTeamIdsByUtl[$utlId];
+                $formatted["bettable"] = (bool) ($game->team_home_id && $game->team_away_id && $game->isOpenForBets());
+                $formatted["locked"] = $locked->contains($game->team_home_id) || $locked->contains($game->team_away_id);
+                $formatted["user_qualifier_side"] = $bet->getData("ko_winner_side");
+                $formatted["actual_qualifier_side"] = $game->getKnockoutWinnerSide();
+            }
+
+            $formattedBets[] = $formatted;
         }
 
         return $formattedBets;

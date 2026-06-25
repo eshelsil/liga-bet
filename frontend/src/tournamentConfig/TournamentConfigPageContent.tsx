@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from '@mui/material'
 import PrizesConfig from './prizes/PrizesConfigProvider'
@@ -14,6 +15,7 @@ interface Props {
 }
 
 function TournamentConfigPageContent({ onGoToScoresClick }: Props) {
+    const { t } = useTranslation('tournamentConfig')
     const dispatch = useDispatch<AppDispatch>()
     const isTournamentStarted = useSelector(IsTournamentStarted)
     const updateAutoBetPref = (value: boolean) =>
@@ -29,18 +31,18 @@ function TournamentConfigPageContent({ onGoToScoresClick }: Props) {
                         <EnableAutoBetSelection
                             updateAutoBetPref={updateAutoBetPref}
                         />
-                        <TakanonPreviewModal label="מזה אומר?" className='!m-0 whitespace-nowrap'>
+                        <TakanonPreviewModal label={t('pageContent.whatDoesThisMean')} className='!m-0 whitespace-nowrap'>
                             <AutoBetExplanation />
                         </TakanonPreviewModal>
                     </div>
 
                     <div className="forgotSomething LB-FloatingFrame">
-                        <h5>שכחת משהו?</h5>
+                        <h5>{t('pageContent.forgotSomething')}</h5>
                         <Link
                             className={'linkToScoresConfig'}
                             onClick={onGoToScoresClick}
                         >
-                            ערוך הגדרות ניקוד
+                            {t('pageContent.editScoreSettings')}
                         </Link>
                     </div>
                 </>

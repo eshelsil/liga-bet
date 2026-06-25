@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { LoadingButton } from '../widgets/Buttons'
 
 interface Props {
@@ -6,36 +7,40 @@ interface Props {
 }
 
 export function MakeManagerButton({ action }: Props) {
+    const { t } = useTranslation('manageContestants')
     return (
         <LoadingButton size='small' variant="contained" color="primary" action={action}>
-            הפוך לעוזר מנהל{' '}
+            {t('buttons.makeManager')}{' '}
         </LoadingButton>
     )
 }
 
 export function RemoveManagerButton({ action }: Props) {
+    const { t } = useTranslation('manageContestants')
     return (
         <LoadingButton size='small' variant="contained" color="secondary" action={action}>
             {' '}
-            הסר הרשאות עוזר מנהל{' '}
+            {t('buttons.removeManager')}{' '}
         </LoadingButton>
     )
 }
 
 export function ConfirmUtlButton({ action }: Props) {
+    const { t } = useTranslation('manageContestants')
     return (
         <LoadingButton variant="contained" color="success" action={action}>
             {' '}
-            אשר משתתף{' '}
+            {t('buttons.confirmUtl')}{' '}
         </LoadingButton>
     )
 }
 
 export function RemoveUtlButton({ action }: Props) {
+    const { t } = useTranslation('manageContestants')
     return (
         <LoadingButton size='small' variant="contained" color="error" action={action}>
             {' '}
-            מחק משתתף{' '}
+            {t('buttons.removeUtl')}{' '}
         </LoadingButton>
     )
 }

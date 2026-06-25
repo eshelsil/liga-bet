@@ -3,12 +3,16 @@
 namespace App\Testing;
 
 use App\Actions\UpdateCompetition;
+use App\Bet;
 use App\Competition;
 use App\Enums\BetTypes;
 use App\Game;
 use App\Group;
 use App\Player;
+use App\SpecialBets\SpecialBet;
 use App\Team;
+use App\Tournament;
+use App\TournamentUser;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -51,6 +55,15 @@ use Illuminate\Support\Facades\Log;
  *
  *   // ...check the UI / leaderboards, then advance:
  *   $t->setCurrentGame(11);
+ *
+ *   // Or put a game as UPCOMING (kicks off within the hour, no result yet):
+ *   $t->setNextGame(12);
+ *
+ *   // Fill every missing bet (game / group-stage / special) for all monkeys:
+ *   $t->applyMonkeyBets();
+ *
+ *   // Wipe results & game-bets and send everything back to "not started":
+ *   $t->reset();
  *
  *   // Re-attach in a later tinker session:
  *   $t = PastCompetitionTester::load($testCompetitionId);
@@ -187,6 +200,35 @@ class PastCompetitionTester
      */
     public function setCurrentGame(int $index, bool $runUpdate = true): void
     {
+        // Reference game kicks off ~60s ago, i.e. it is already live (result fills in).
+        $this->applyGameState($index, $runUpdate, time() - 60);
+    }
+
+    /**
+     * Like {@see setCurrentGame}, but the game at $index is UPCOMING (kicks off within
+     * the hour) and has NO result yet — instead of "just kicked off, live".
+     *
+     * Games before $index still become done (with their original results & scorers);
+     * the game at $index and everything after it are in the future (not started).
+     */
+    public function setNextGame(int $index, bool $runUpdate = true): void
+    {
+        $count = $this->sortedSourceGames()->count();
+        if ($index >= $count) {
+            throw new \InvalidArgumentException("next_game index {$index} out of range (0.." . ($count - 1) . "); there is no game past the end");
+        }
+
+        // Reference game kicks off in 30 minutes, i.e. upcoming within 1 hour, result empty.
+        $this->applyGameState($index, $runUpdate, time() + 30 * 60);
+    }
+
+    /**
+     * Shared body of {@see setCurrentGame} / {@see setNextGame}: position the game at
+     * $index on the timeline at $referenceTarget, mark earlier games done & later games
+     * not-started, then (optionally) run the real update pipeline.
+     */
+    protected function applyGameState(int $index, bool $runUpdate, int $referenceTarget): void
+    {
         $sorted = $this->sortedSourceGames();
         $count  = $sorted->count();
         if ($index < 0 || $index > $count) {
@@ -195,11 +237,11 @@ class PastCompetitionTester
 
         $this->competition->refresh()->load(['groups', 'teams.players', 'games', 'players']);
 
-        DB::transaction(function () use ($index, $sorted) {
+        DB::transaction(function () use ($index, $sorted, $referenceTarget) {
             $this->ensureKnockoutGames($index, $sorted);
             $this->competition->load('games');
             $this->resetGameState();
-            $this->shiftStartTimes($index, $sorted);
+            $this->shiftStartTimes($index, $sorted, $referenceTarget);
 
             $config = (array) $this->competition->config;
             $config[self::CONFIG_CURRENT_GAME] = $index;
@@ -275,6 +317,173 @@ class PastCompetitionTester
         });
 
         Log::info("[PastCompetitionTester] deleted test competition {$testCompetitionId} and all related entities");
+    }
+
+    /**
+     * Have every monkey of every tournament on this competition place bets for
+     * everything they are currently MISSING — across all three bet types:
+     * game-bets, group-stage (rank) bets and special-bets.
+     *
+     * Only monkeys (UTLs with role 'monkey') are touched, and only missing bets are
+     * inserted (existing bets are left exactly as they are). Bet data is generated
+     * with the same random generators a freshly-created monkey uses.
+     *
+     * @param bool $runUpdate run UpdateCompetition afterwards so the new bets get
+     *                        scored and leaderboards rebuilt (default false — filling
+     *                        bets does not advance the clock).
+     */
+    public function applyMonkeyBets(bool $runUpdate = false): void
+    {
+        $this->competition->refresh()->load([
+            'groups',
+            'games',
+            'tournaments.utls.bets',
+            'tournaments.specialBets',
+        ]);
+
+        $created = 0;
+
+        DB::transaction(function () use (&$created) {
+            foreach ($this->competition->tournaments as $tournament) {
+                $qualifierOn = (bool) data_get($tournament->config, 'scores.gameBets.knockout.qualifier');
+
+                foreach ($tournament->utls->where('role', TournamentUser::ROLE_MONKEY) as $utl) {
+                    $existing = $utl->bets->groupBy('type')
+                        ->map(fn ($bets) => $bets->pluck('type_id')->flip());
+
+                    $has = fn (int $type, int $typeId): bool => isset($existing[$type]) && $existing[$type]->has($typeId);
+
+                    foreach ($this->competition->games as $game) {
+                        /** @var Game $game */
+                        if (! $has(BetTypes::Game, $game->getID())) {
+                            $this->insertMonkeyBet($utl, BetTypes::Game, $game->getID(), $game->generateRandomBetData($qualifierOn));
+                            $created++;
+                        }
+                    }
+
+                    foreach ($this->competition->groups as $group) {
+                        /** @var Group $group */
+                        if (! $has(BetTypes::GroupsRank, $group->getID())) {
+                            $this->insertMonkeyBet($utl, BetTypes::GroupsRank, $group->getID(), $group->generateRandomBetData());
+                            $created++;
+                        }
+                    }
+
+                    foreach ($tournament->specialBets as $specialBet) {
+                        /** @var SpecialBet $specialBet */
+                        if ($specialBet->isOn() && ! $has(BetTypes::SpecialBet, $specialBet->getID())) {
+                            $this->insertMonkeyBet($utl, BetTypes::SpecialBet, $specialBet->getID(), $specialBet->generateRandomBetData());
+                            $created++;
+                        }
+                    }
+                }
+            }
+        });
+
+        Log::info("[PastCompetitionTester] applied {$created} missing monkey bet(s) on competition {$this->competition->id}");
+
+        if ($runUpdate) {
+            $this->competition->refresh()->load(['teams.players', 'games', 'players']);
+            app(UpdateCompetition::class)->handle($this->competition);
+        }
+    }
+
+    /**
+     * Reset this test competition back to a clean "not started" state, KEEPING the
+     * tournaments, monkeys and their non-game bets:
+     *
+     *   - every game is not-played again (results/scorers/done flags cleared) and the
+     *     knockout games (created lazily while replaying) are removed, so only the
+     *     group-stage games remain — exactly like a fresh clone;
+     *   - start times are shifted so the FIRST game kicks off within 1 day (~12h);
+     *   - all GAME bets of the tournament(s) are deleted; group-stage & special bets
+     *     are kept (their score is nulled);
+     *   - all leaderboards (+ versions) of the tournament(s) are deleted;
+     *   - the competition status becomes 'initial' (current_game cleared) and every
+     *     tournament status becomes 'initial'.
+     *
+     * Guarded: refuses to run unless this is a test competition.
+     */
+    public function reset(bool $runUpdate = false): void
+    {
+        if (! data_get($this->competition->config, self::CONFIG_IS_TEST)) {
+            throw new \RuntimeException(
+                "Refusing to reset competition {$this->competition->id}: it is not a test competition "
+                . "(config '" . self::CONFIG_IS_TEST . "' is not true)."
+            );
+        }
+
+        $this->competition->refresh()->load(['groups', 'teams.players', 'games', 'tournaments']);
+
+        DB::transaction(function () {
+            $tournamentIds = DB::table('tournaments')->where('competition_id', $this->competition->id)->pluck('id');
+
+            // Drop knockout games (created lazily during replay) -> back to clone shape.
+            $koGameIds = $this->competition->games
+                ->where('type', Game::TYPE_KNOCKOUT)
+                ->pluck('id');
+            DB::table('game_data_goals')->whereIn('game_id', $koGameIds)->delete();
+            DB::table('matches')->whereIn('id', $koGameIds)->delete();
+            $this->competition->load('games');
+
+            $gameIds = $this->competition->games->pluck('id');
+            $teamIds = $this->competition->teams->pluck('id');
+
+            // Remaining (group-stage) games -> not played.
+            DB::table('matches')->where('competition_id', $this->competition->id)->update([
+                'is_done'             => false,
+                'result_home'         => null,
+                'result_away'         => null,
+                'full_result_home'    => null,
+                'full_result_away'    => null,
+                'ko_winner'           => null,
+                'done_time'           => null,
+                'auto_bets_filled_at' => null,
+            ]);
+            DB::table('game_data_goals')->whereIn('game_id', $gameIds)->delete();
+            DB::table('players')->whereIn('team_id', $teamIds)->update(['goals' => 0, 'assists' => 0]);
+
+            // First game within 1 day (~12h from now), original spacing preserved.
+            $this->shiftStartTimes(0, $this->sortedSourceGames(), time() + 12 * 3600);
+
+            // All game-bets removed; other bet types kept (scores nulled to recompute).
+            DB::table('bets')->whereIn('tournament_id', $tournamentIds)->where('type', BetTypes::Game)->delete();
+            DB::table('bets')->whereIn('tournament_id', $tournamentIds)->update(['score' => null]);
+
+            // All leaderboards (+ versions) removed.
+            $versionIds = DB::table('leaderboards_versions')->whereIn('tournament_id', $tournamentIds)->pluck('id');
+            DB::table('leaderboards')->whereIn('version_id', $versionIds)->delete();
+            DB::table('leaderboards_versions')->whereIn('id', $versionIds)->delete();
+
+            // Statuses back to 'initial'.
+            $config = (array) $this->competition->config;
+            $config[self::CONFIG_CURRENT_GAME] = null;
+            $this->competition->config = $config;
+            $this->competition->status = Competition::STATUS_INITIAL;
+            $this->competition->save();
+
+            DB::table('tournaments')->where('competition_id', $this->competition->id)
+                ->update(['status' => Tournament::STATUS_INITIAL]);
+        });
+
+        Log::info("[PastCompetitionTester] reset test competition {$this->competition->id} to initial state");
+
+        if ($runUpdate) {
+            $this->competition->refresh()->load(['teams.players', 'games', 'players']);
+            app(UpdateCompetition::class)->handle($this->competition);
+        }
+    }
+
+    /** Insert a single monkey bet row. */
+    protected function insertMonkeyBet(TournamentUser $utl, int $type, int $typeId, $data): void
+    {
+        $bet = new Bet();
+        $bet->user_tournament_id = $utl->id;
+        $bet->tournament_id      = $utl->tournament_id;
+        $bet->type               = $type;
+        $bet->type_id            = $typeId;
+        $bet->data               = $data;
+        $bet->save();
     }
 
     /* ------------------------------------------------------------------ */
@@ -446,11 +655,14 @@ class PastCompetitionTester
     }
 
     /**
-     * Shift every test game's kick-off so that the game at $current starts ~now
-     * (just kicked off). Relative spacing is preserved from the SOURCE start
-     * times, so it is idempotent across calls.
+     * Shift every test game's kick-off so that the game at $current starts at
+     * $referenceTarget. Relative spacing is preserved from the SOURCE start times,
+     * so it is idempotent across calls.
+     *
+     * @param int $referenceTarget unix time the game at $current should start at
+     *                              (e.g. now-60 for "live", now+30m for "upcoming").
      */
-    protected function shiftStartTimes(int $current, Collection $sorted): void
+    protected function shiftStartTimes(int $current, Collection $sorted, int $referenceTarget): void
     {
         $count = $sorted->count();
         if ($count === 0) {
@@ -459,7 +671,7 @@ class PastCompetitionTester
 
         if ($current < $count) {
             $reference = $sorted[$current]->start_time;
-            $target    = time() - 60; // just kicked off
+            $target    = $referenceTarget;
         } else {
             $reference = $sorted[$count - 1]->start_time; // whole competition done
             $target    = time() - 3 * 3600;

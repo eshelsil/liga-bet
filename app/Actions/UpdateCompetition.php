@@ -26,9 +26,13 @@ class UpdateCompetition
     private CalculateSpecialBets $calculateSpecialBets;
     private UpdateCompetitionScorers $updateScorers;
     private UpdateCompetitionStandings $updateStandings;
+    private UpdateCurrentStandings $updateCurrentStandings;
     private UpdateGameBets $updateGameBets;
     private UpdateLeaderboards $updateLeaderboards;
     private FillAutoBetsForCompetition $fillAutoBets;
+    private UpdateCompetitionBracket $updateBracket;
+    private ApplyBracketSpecialBetQualifiers $applyBracketQualifiers;
+    private ValidateBracketSpecialBets $validateBracketSpecialBets;
     private Collection $crawlerGames;
 
     private ?Collection $fakeGames = null;
@@ -39,23 +43,33 @@ class UpdateCompetition
         CalculateSpecialBets $calculateSpecialBets,
         UpdateCompetitionScorers $updateScorers,
         UpdateCompetitionStandings $updateStandings,
+        UpdateCurrentStandings $updateCurrentStandings,
         UpdateGameBets $updateGameBets,
         UpdateLeaderboards $updateLeaderboards,
-        FillAutoBetsForCompetition $fillAutoBets
+        FillAutoBetsForCompetition $fillAutoBets,
+        UpdateCompetitionBracket $updateBracket,
+        ApplyBracketSpecialBetQualifiers $applyBracketQualifiers,
+        ValidateBracketSpecialBets $validateBracketSpecialBets
     ) {
         $this->calculateSpecialBets = $calculateSpecialBets;
         $this->updateScorers = $updateScorers;
         $this->updateGameBets = $updateGameBets;
         $this->updateStandings = $updateStandings;
+        $this->updateCurrentStandings = $updateCurrentStandings;
         $this->updateLeaderboards = $updateLeaderboards;
         $this->fillAutoBets = $fillAutoBets;
+        $this->updateBracket = $updateBracket;
+        $this->applyBracketQualifiers = $applyBracketQualifiers;
+        $this->validateBracketSpecialBets = $validateBracketSpecialBets;
     }
 
-    public function fake(?Collection $games = null, ?Collection $scorers = null, ?Collection $standings = null)
+    public function fake(?Collection $games = null, ?Collection $scorers = null, ?Collection $standings = null, ?\App\DataCrawler\Bracket $bracket = null, ?Collection $currentStandings = null)
     {
         $this->fakeGames = $games;
         $this->updateScorers->fake($scorers);
         $this->updateStandings->fake($standings);
+        $this->updateBracket->fake($bracket);
+        $this->updateCurrentStandings->fake($currentStandings);
     }
 
     /**
@@ -119,6 +133,12 @@ class UpdateCompetition
 
                 $this->saveNewGames($competition);
 
+                // Bracket competitions: refresh the knockout topology from 365 /brackets. Built/linked
+                // here (after saveNewGames) so newly-created matches can be linked in the same run.
+                if ($competition->supportsBracket()) {
+                    $this->updateBracket->handle($competition);
+                }
+
                 $this->fillAutoBets->handle($competition);
 
                 $existingNonFinishedGames = $competition->games->where("is_done", false)
@@ -129,6 +149,12 @@ class UpdateCompetition
                 });
 
                 $updatedGames = $this->updateGames($competition, $gamesWithScore, $existingNonFinishedGames);
+
+                // Live group standings refresh whenever any game changed this run (365-sourced only).
+                if ($updatedGames->count() > 0) {
+                    $this->updateCurrentStandings->handle($competition);
+                }
+
                 $this->updateScorers->handle($competition);
                 $gameIdsUpdatedScorers = $this->updateScorers->getRelevantGameIds();
                 $doneGames = $updatedGames->filter(fn($g) => $g->is_done);
@@ -141,6 +167,12 @@ class UpdateCompetition
                         $this->calculateSpecialBets->execute($competition->id, SpecialBet::TYPE_OFFENSIVE_TEAM, $competition->getOffensiveTeams()->join(","));
                     }
 
+                }
+
+                // Bracket: incrementally validate Winner/Runner-Up picks (remove non-qualified / same-side,
+                // release locked qualifiers, email) as groups finish and teams enter the bracket.
+                if ($competition->supportsBracket() && $doneGames->count() > 0) {
+                    $this->validateBracketSpecialBets->handle($competition);
                 }
 
                 $gameIdsAffectingLeaderboard = $doneGames->pluck('id')->concat($gameIdsUpdatedScorers);
@@ -183,6 +215,11 @@ class UpdateCompetition
 
             $game->save();
             User::getMonkeyUsers()->each(fn(User $monkey) => $autoBet->handle($monkey, $game));
+
+            // Bracket: a new knockout game involving a user's Winner/Runner-Up auto-gets a locked qualifier bet.
+            if ($competition->supportsBracket() && $game->isKnockout()) {
+                $this->applyBracketQualifiers->handleForNewGame($game);
+            }
         }
 
         if ($competition->shouldUpdateUpcomingGamesStartTime()){

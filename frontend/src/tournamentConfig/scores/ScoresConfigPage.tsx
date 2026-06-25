@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@mui/material';
 import ScoreConfigFormView from './ScoreConfigForm';
 import useGoTo from '../../hooks/useGoTo';
@@ -16,20 +17,21 @@ function ScoresConfigPage({
 	scoreConfig,
 	updateScoreConfig,
 }: Props){
+	const { t } = useTranslation('tournamentConfig')
 	const { goToTournamentConfig } = useGoTo()
 
 	return (
 		<div className='LB-ScoresConfigPage'>
 			<div className='ScoresConfigPage-header'>
-				<h1 className='title LB-TitleText'>חוקי הטורניר</h1>
+				<h1 className='title LB-TitleText'>{t('scoresConfigPage.title')}</h1>
 				<div className='LB-FloatingFrame' style={{paddingRight: 0, paddingBottom: 2}}>
 					<ul>
-						<li>שים לב! לאחר שיתחיל הטורניר - לא יהיה ניתן יותר לערוך את שיטת הניקוד</li>
+						<li>{t('scoresConfigPage.warning')}</li>
 					</ul>
 				</div>
 				<div className='scoreFormContainer'>
 					<h3 className='scoreFormTitle LB-TitleText'>
-						הגדרות ניקוד
+						{t('scoresConfigPage.scoreSettings')}
 					</h3>
 					<ScoreConfigFormView config={scoreConfig} updateConfig={updateScoreConfig}/>
 					<Button
@@ -40,7 +42,7 @@ function ScoresConfigPage({
 							color: '#000',
 						}}
 					>
-						חזור
+						{t('scoresConfigPage.back')}
 					</Button>
 				</div>
 			</div>

@@ -1,0 +1,34 @@
+{
+    "appName": "Liga Bet - World Cup 2026",
+    "nihusim": "Nihusim",
+    "menu": {
+        "manageTournament": "Manage Tournament",
+        "register": "Sign Up"
+    },
+    "buttons": {
+        "joinAnotherTournament": "Join Another Tournament",
+        "createNewTournament": "Create New Tournament"
+    },
+    "routes": {
+        "leaderboard": "Leaderboard",
+        "bracket": "Knockout Bracket",
+        "openGuesses": "Predictions",
+        "openMatches": "Match Predictions",
+        "closedBets": "View Predictions",
+        "openGroupStandings": "Group Standings Prediction",
+        "openQuestions": "Special Predictions",
+        "allGroupStandings": "View Group Standings Predictions",
+        "allQuestions": "View Special Predictions",
+        "myBets": "My Form",
+        "setPassword": "Change Password",
+        "chooseUtl": "Tournaments",
+        "contestants": "Manage Participants",
+        "profile": "My Profile",
+        "nihusim": "Nihusim",
+        "takanon": "See Rules",
+        "logout": "Log Out",
+        "tournamentConfig": "Tournament Settings",
+        "tournamentScoreConfig": "Tournament Settings",
+        "inviteFriends": "Invite Friends"
+    }
+}

@@ -1,24 +1,26 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 
 function MatchBetsExplanation(){
+	const { t } = useTranslation('tournamentConfig')
 	return (
 		<div className='LigaBet-MatchBetsExplanation LB-ScoreConfigSection'>
             <ul>
                 <li>
-                    ניתן לקבוע את הניקוד שמתקבל עבור כל משחק בשלב הבתים והנוקאווט
+                    {t('matchBets.explanation.line1')}
                 </li>
                 <li>
-                    ראשית יחושב ניחוש ה 1X2 על תוצאת המשחק (90 דק')
+                    {t('matchBets.explanation.line2')}
                 </li>
                 <li>
-                    לאחר מכן ינתן בונוס על פגיעה בתוצאה מדוייקת (90 דק')
+                    {t('matchBets.explanation.line3')}
                 </li>
                 <li>
-                    בשלבי הנוקאאוט ניתן להוסיף בונוס על קביעת המעפילה לשלב הבא
+                    {t('matchBets.explanation.line4')}
                 </li>
                 <li>
-                    ניתן להוסיף בונוס נוסף למשחקי החצי גמר והגמר
+                    {t('matchBets.explanation.line5')}
                 </li>
             </ul>
 		</div>

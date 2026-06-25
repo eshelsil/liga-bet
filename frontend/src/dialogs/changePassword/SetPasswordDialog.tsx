@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Dialog from '@mui/material/Dialog'
@@ -24,6 +25,7 @@ export default function SetPasswordDialog({
     onClose,
     setPassword,
 }: Props) {
+    const { t } = useTranslation('dialogs')
     const { handleSubmit, register, formState, clearErrors, reset } =
         useForm<ChangePasswordFormParams>({
             resolver: yupResolver(validationSchema),
@@ -48,7 +50,7 @@ export default function SetPasswordDialog({
             new_password: password,
             new_password_confirmation: confirmPassword,
         }).then(() => {
-            ;(window as any).toastr['success']('סיסמתך עודכנה בהצלחה')
+            ;(window as any).toastr['success'](t('changePassword.success'))
             close()
         })
     }
@@ -60,18 +62,18 @@ export default function SetPasswordDialog({
                     <IconButton onClick={close} className={'close_button'}>
                         <CloseIcon />
                     </IconButton>
-                    עדכן סיסמה
+                    {t('changePassword.title')}
                 </DialogTitle>
                 <DialogContent>
                     <div className={'dialog_content'}>
                         <PasswordField
-                            label={'סיסמה חדשה'}
+                            label={t('changePassword.newPasswordLabel')}
                             error={errors.password?.message}
                             InputProps={{ ...register('password') }}
                             clearErrors={() => clearErrors('password')}
                         />
                         <PasswordField
-                            label={'ודא סיסמה'}
+                            label={t('changePassword.confirmPasswordLabel')}
                             error={errors.confirmPassword?.message}
                             InputProps={{ ...register('confirmPassword') }}
                             clearErrors={() => clearErrors('confirmPassword')}
@@ -80,7 +82,7 @@ export default function SetPasswordDialog({
                             onClick={handleSubmit(submit)}
                             loading={isSubmitting}
                         >
-                            עדכן סיסמה
+                            {t('changePassword.submit')}
                         </ButtonWithLoader>
                     </div>
                 </DialogContent>

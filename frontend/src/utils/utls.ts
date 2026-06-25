@@ -1,13 +1,18 @@
 import { UtlBase, UtlRole } from '../types'
+import i18n from '@/i18n/config'
 
-export const UtlRoleToString = {
-    [UtlRole.Admin]: 'מנהל טורניר',
-    [UtlRole.Manager]: 'עוזר מנהל',
-    [UtlRole.Contestant]: 'משתתף',
-    [UtlRole.NotConfirmed]: 'טרם אושר',
-    [UtlRole.Rejected]: 'לא אושר',
-    [UtlRole.Monkey]: 'קוף',
-}
+// Keys (admin / manager / contestant / ...) match the `utils:utlRoles` locale
+// resource. Proxy keeps the existing `UtlRoleToString[role]` access working
+// while staying language-aware.
+export const UtlRoleToString = new Proxy(
+    {} as Record<string, string>,
+    {
+        get: (_target, prop) =>
+            i18n.t(`utils:utlRoles.${String(prop)}`, {
+                defaultValue: String(prop),
+            }),
+    }
+)
 
 const confirmedUserRoles = [UtlRole.Admin, UtlRole.Manager, UtlRole.Contestant]
 

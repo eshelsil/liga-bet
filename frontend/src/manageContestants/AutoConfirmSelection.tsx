@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import {
     Checkbox,
@@ -15,6 +16,7 @@ interface Props {
 function AutoConfirmSelection({
     updateAutoConfirmPref,
 }: Props) {
+    const { t } = useTranslation('manageContestants')
     const isRendered = useIsRendered()
     const autoConfirm = useSelector(IsOnAutoConfirmUtls)
     const [loading, setLoading] = useState(false)
@@ -23,9 +25,9 @@ function AutoConfirmSelection({
         updateAutoConfirmPref(value)
             .then(() => {
                 if (value) {
-                    (window as any).toastr["success"]('עודכן בהצלחה. מעכשיו משתמשים יאושרו אוטמטית');
+                    (window as any).toastr["success"](t('autoConfirm.enabledToast'));
                 } else {
-                    (window as any).toastr["success"]('עודכן בהצלחה. המשתמשים הבאים שירשמו לטורניר יחכו שתאשר אותם לפני שיוכלו להתחיל לנחש');
+                    (window as any).toastr["success"](t('autoConfirm.disabledToast'));
                 }
             })
             .finally(() => {
@@ -46,7 +48,7 @@ function AutoConfirmSelection({
                     />
                 }
                 disabled={loading}
-                label="אשר משתמשים אוטומטית"
+                label={t('autoConfirm.label')}
             />
             {loading && (
                 <div className="loaderContainer">
