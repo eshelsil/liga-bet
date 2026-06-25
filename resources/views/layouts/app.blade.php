@@ -90,7 +90,7 @@
                 <div class="lb-lang-switcher dropdown">
                     <a class="lb-lang-toggle dropdown-toggle" href="#" role="button" id="lbLangDropdown"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Language">
-                        <img src="https://hatscripts.github.io/circle-flags/flags/{{ $currentLocale === 'he' ? 'il' : 'gb' }}.svg"
+                        <img src="https://hatscripts.github.io/circle-flags/flags/{{ $currentLocale === 'he' ? 'il' : 'us' }}.svg"
                              alt="{{ $currentLocale === 'he' ? 'עברית' : 'English' }}">
                     </a>
                     <div class="dropdown-menu {{ $currentLocale === 'he' ? 'dropdown-menu-right' : '' }}" aria-labelledby="lbLangDropdown">
@@ -100,7 +100,7 @@
                         </a>
                         <a class="dropdown-item lb-lang-item {{ $currentLocale === 'en' ? 'active' : '' }}"
                            href="{{ route('set-locale', ['locale' => 'en']) }}">
-                            <img src="https://hatscripts.github.io/circle-flags/flags/gb.svg" alt=""><span>English</span>
+                            <img src="https://hatscripts.github.io/circle-flags/flags/us.svg" alt=""><span>English</span>
                         </a>
                     </div>
                 </div>
