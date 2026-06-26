@@ -56,7 +56,7 @@ const OpenMatchesView = ({ matches = [], notifications, sendBet }: Props) => {
                 <div className='gamesContainer'>
                     {Object.entries(gamesByGameDay).map(
                         ([gameDay, games]) => {
-                            const date = new Date(`${gameDay}T00:00:00`)
+                            const date = dayjs(gameDay).toDate()
                             const notificationsCount = games.filter(g => !!gameIdsWithNotifications[g.id]).length
                             return (
                                 <div key={gameDay} className='gameDay'>

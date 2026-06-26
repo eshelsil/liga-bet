@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { cloneDeep } from 'lodash'
 import { GameBetScoreConfig, GameBetType, GameStage, GameType, KnockoutStage, MatchApiModel, MatchBetsScoreConfig, MatchCommonBase, WinnerSide } from '../types'
 import { keysOf } from './common'
@@ -13,11 +14,11 @@ export function getWinnerSide(homeScore: number, awayScore: number, qualifier?: 
 }
 
 export function getGameDayString(game: MatchCommonBase) {
-    return (new Date(game.start_time)).toISOString().split('T')[0]
+    return dayjs(game.start_time).format('YYYY-MM-DD')
 }
 
 export function isGameStarted(game: MatchCommonBase) {
-    return new Date(game.start_time) < new Date()
+    return game.closed_for_bets
 }
 
 export function isGameLive(game: MatchCommonBase) {
