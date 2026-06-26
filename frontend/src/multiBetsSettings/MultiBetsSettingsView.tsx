@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Switch } from '@mui/material'
 import InfoIcon from '@mui/icons-material/InfoOutlined'
 import StickyConfigView from '../widgets/stickyConfig/StickyConfigView'
@@ -20,6 +21,7 @@ function MultiBetsSettingsView({
     setPinned,
     onInfoClick,
 }: Props) {
+    const { t } = useTranslation('multiBetsSettings')
 
     return (
         <StickyConfigView
@@ -28,7 +30,7 @@ function MultiBetsSettingsView({
             className='LB-MultiBetsSettings'
             header={
                 <div className='MultiBetsSettings-content'>
-                    <p>ערוך לכל הטורנירים שלי</p>
+                    <p>{t('labels.applyToAllTournaments')}</p>
                     <div className='MultiBetsSettings-isMultiBet'>
                         <InfoIcon
                             className={`MultiBetsSettings-infoIcon ${!!onInfoClick ? 'infoIconClickable' : ''}`}

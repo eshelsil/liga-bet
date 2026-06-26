@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useTournamentThemeClass } from '../hooks/useThemeClass'
 import { MatchWithABet, WinnerSide } from '../types'
-import { DEFAULT_DATE_FORMAT, DEFAULT_TIME_FORMAT, isFinalGame } from '../utils/index'
+import { DEFAULT_DATE_FORMAT, DEFAULT_TIME_FORMAT, ENG_DATE_FORMAT, isFinalGame } from '../utils/index'
 import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
 import CurrentBetView from './CurrentBetView'
 import EditMatchBetView from './EditMatchBetView'
@@ -30,7 +31,7 @@ function OpenMatchBetView({
 }) {
     const { id, start_time, home_team, away_team, is_knockout, bet, isFirstLeg, isTwoLeggedTie } = match
 
-
+    const { t, i18n } = useTranslation('open_matches')
     const openInfoDialog = useOpenDialog(DialogName.GameScoreInfo)
     const isOurTournament = useSelector(IsOurTournament);
     const [showShubi, setShowShubi] = useState(false);
@@ -60,10 +61,9 @@ function OpenMatchBetView({
             forAllTournaments,
         })
         .then(function (data) {
-            let text = 'הניחוש נשלח'
-            if (forAllTournaments){
-                text += ` עבור ${otherTournaments.length + 1} טורנירים`
-            }
+            const text = forAllTournaments
+                ? t('toasts.betSentForTournaments', { count: otherTournaments.length + 1 })
+                : t('toasts.betSent')
             window['toastr']['success'](text)
             cancelEdit(ts)
             if (isFinalGame(match) && isOurTournament) {
@@ -102,9 +102,9 @@ function OpenMatchBetView({
             ${isTwoLeggedTie ? 'OpenMatchBet-twoLegsKo' : ''}
         `}>
             <div className={`EditableBetView-header`}>
-                <div className='dateLabel'>{dayjs(start_time).format(DEFAULT_DATE_FORMAT)}</div>
+                <div className='dateLabel'>{dayjs(start_time).format(i18n.language === 'he' ? DEFAULT_DATE_FORMAT : ENG_DATE_FORMAT)}</div>
                 <div className='timeLabel'>{dayjs(start_time).format(DEFAULT_TIME_FORMAT)}</div>
-                <div className={cn("absolute top-0 left-0 flex items-center h-full")}>
+                <div className={cn("absolute top-0 end-0 flex items-center h-full")}>
                     {showEdit && hasOtherTournaments && (
                         <Switch
                             className='forAllTournamentsInput'
@@ -112,7 +112,7 @@ function OpenMatchBetView({
                             onChange={(e, value) => setForAllTournaments(value)}
                         />
                     )}
-                    <InfoIcon onClick={()=>openInfoDialog({gameId:id})} className={cn("ml-2 fill-white/80 cursor-pointer")} />
+                    <InfoIcon onClick={()=>openInfoDialog({gameId:id})} className={cn("ms-2 fill-white/80 cursor-pointer")} />
                 </div>
             </div>
             <div className='OpenMatchBet-body'>

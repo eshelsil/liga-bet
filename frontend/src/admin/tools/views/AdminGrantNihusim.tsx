@@ -9,11 +9,13 @@ import { LoadingButton } from '../../../widgets/Buttons'
 import { grantNihusim } from '../../../api/admin'
 import NumberField from '@/widgets/inputs/NumberField'
 import { cn, valuesOf } from '@/utils'
+import { useTranslation } from 'react-i18next'
 
 
 
 
 function AdminGrantNihusim() {
+    const { t } = useTranslation('admin')
     const dispatch = useAppDispatch()
     const competitionId = useSelector(CurrentCompetitionId)
     const { goToAdminIndex } = useGoTo()
@@ -26,7 +28,7 @@ function AdminGrantNihusim() {
     const submit = async () => {
         await grantNihusim(utlId, amount, reason)
             .then(data => {
-                (window as any).toastr["success"]('עודכן בהצלחה')
+                (window as any).toastr["success"](t('toasts.updatedSuccessfully'))
             })
     }
 
@@ -38,8 +40,8 @@ function AdminGrantNihusim() {
 
     return (
         <div >
-            <h2>הענק ניחוסים</h2>
-            <InputLabel>בחר משתמש</InputLabel>
+            <h2>{t('grantNihusim.title')}</h2>
+            <InputLabel>{t('grantNihusim.selectUser')}</InputLabel>
             <Select
                 value={utlId}
                 onChange={(e: SelectChangeEvent<number>) => {
@@ -65,13 +67,13 @@ function AdminGrantNihusim() {
                     </MenuItem>
                 ))}
             </Select>
-            <InputLabel>כמות:</InputLabel>
+            <InputLabel>{t('grantNihusim.amount')}</InputLabel>
             <NumberField value={amount} onChange={(e) => setAmount(Number(e.target.value) || null)} />
-            <InputLabel>סיבה:</InputLabel>
+            <InputLabel>{t('grantNihusim.reason')}</InputLabel>
             <TextField value={reason} onChange={(e) => setReason(e.target.value)} />
             <div>
                 <LoadingButton action={submit} className={cn("mt-6")}>
-                    עדכן
+                    {t('buttons.update')}
                 </LoadingButton>
             </div>
             <div className='goBackButton'>
@@ -81,7 +83,7 @@ function AdminGrantNihusim() {
                     onClick={goToAdminIndex}
                     style={{marginTop: 24}}
                 >
-                    חזור
+                    {t('buttons.back')}
                 </Button>
             </div>
         </div>

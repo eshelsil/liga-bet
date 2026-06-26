@@ -14,13 +14,13 @@
             align-items: center;
             margin-top: 24px;
             .removeIcon {
-                margin-left: 2px;
+                margin-inline-end: 2px;
                 .Mui-disabled {
                     opacity: 0.7;
                 }
             }
             .addIcon {
-                margin-right: 2px;
+                margin-inline-start: 2px;
                 width: 40px;
             }
         }

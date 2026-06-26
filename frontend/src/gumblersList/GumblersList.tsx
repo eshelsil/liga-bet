@@ -33,17 +33,21 @@ export function GumblerRow({gumbler, showNihusable, showNihus, onNihusClick, nih
                 <div>
                     {gumbler.name}
                 </div>
-                {gumbler.isAutoBet && <AutoBetBadge />}
+                {gumbler.isAutoBet && (
+                    <div className="ms-1 flex items-center">
+                        <AutoBetBadge />
+                    </div>
+                )}
                 {showNihusable && (gumbler.id !== utlId) && !(nihusimByTargetUtlId[gumbler.id]) && (
                     <TomatoIcon
-                        className={cn("w-8 h-8 mr-1 my-1 cursor-pointer")}
+                        className={cn("w-8 h-8 me-1 my-1 cursor-pointer")}
                         onClick={() => onNihusClick && onNihusClick(gumbler.id)}
                     />
                 )}
                 {(nihusimByTargetUtlId[gumbler.id] ?? []).map(nihus =>  (
                     <VisibilityIcon
                         key={nihus.id}
-                        className={cn("w-6 h-6 mr-1 my-1 cursor-pointer")}
+                        className={cn("w-6 h-6 me-1 my-1 cursor-pointer")}
                         onClick={() => showNihus(nihus.id)}
                     />
                 ))}

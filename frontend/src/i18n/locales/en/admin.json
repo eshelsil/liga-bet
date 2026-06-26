@@ -1,0 +1,86 @@
+{
+    "defaultView": {
+        "title": "Admin View",
+        "joinExistingTournament": "Join an existing tournament",
+        "createNewTournament": "Create a new tournament"
+    },
+    "tools": {
+        "title": "Admin tools",
+        "seeTournaments": "View tournaments",
+        "manageUsers": "Manage users",
+        "seeScorers": "View scorers",
+        "setMvp": "Update MVP",
+        "fixGamesStartTime": "Fix game start times",
+        "grantNihusim": "Grant Nihusim",
+        "updateSideTournament": "Update side tournament",
+        "sendTournamentAdminInvite": "Send tournament creation invite"
+    },
+    "buttons": {
+        "back": "Back",
+        "update": "Update"
+    },
+    "toasts": {
+        "actionSucceeded": "Action completed successfully",
+        "updatedSuccessfully": "Updated successfully"
+    },
+    "sendInvitation": {
+        "title": "Invite someone to register as a tournament admin",
+        "subtitle1": "They will receive tournament admin permissions as soon as they register",
+        "subtitle2": "They will receive an email invitation to create a tournament",
+        "sendInvite": "Send invite"
+    },
+    "fixGamesStartTime": {
+        "title": "Mark the competition as \"needs game start time fix\"",
+        "currentState": "Current state: {{state}}",
+        "on": "On",
+        "off": "Off"
+    },
+    "grantNihusim": {
+        "title": "Grant Nihusim",
+        "selectUser": "Select user",
+        "amount": "Amount:",
+        "reason": "Reason:"
+    },
+    "setMvp": {
+        "title": "Announce the tournament MVP"
+    },
+    "scorers": {
+        "title": "Scorers and assisters",
+        "liveGames": "Live games",
+        "finishedGames": "Finished games",
+        "addNewGoal": "Add new goal",
+        "overrideBetScores": "Override bet scores by this table"
+    },
+    "newGoalDialog": {
+        "title": "Enter new goal details",
+        "whichTeamScored": "Which team scored?",
+        "scorerLabel": "Scorer",
+        "assisterLabel": "Assister",
+        "selectPlayer": "Select player",
+        "scorerTotalGoals_one": "This player will be recorded as having scored {{count}} goal in this game",
+        "scorerTotalGoals_other": "This player will be recorded as having scored {{count}} goals in this game",
+        "assisterTotalAssists_one": "This player will be recorded as having assisted {{count}} goal in this game",
+        "assisterTotalAssists_other": "This player will be recorded as having assisted {{count}} goals in this game"
+    },
+    "seeTournaments": {
+        "title": "Running tournaments",
+        "creator": "Creator",
+        "participants": "Participants:",
+        "name": "Name",
+        "predictions": "Predictions",
+        "permissions": "Permissions",
+        "specialQuestions": "Special questions",
+        "groupRankings": "Group rankings",
+        "games": "Games",
+        "viewScoreConfig": "View score settings"
+    },
+    "tournamentConfigDialog": {
+        "title": "Score settings for tournament \"{{name}}\""
+    },
+    "updateSideTournament": {
+        "title": "Update games for side tournament",
+        "selectSideTournament": "Select side tournament",
+        "removeGamesFromSideTournament": "Remove games from side tournament",
+        "selectGameDay": "Select game day"
+    }
+}

@@ -3,21 +3,24 @@ import { createTournament, getTournamentsOwnedByUser, updateTournamentPreference
 import ownedTournaments from '../_reducers/ownedTournament'
 import tournamentUser from '../_reducers/tournamentUser'
 import { CurrentTournamentId, CurrentTournamentUserId } from '../_selectors'
-import { TournamentScoreConfig } from '../types'
+import { TournamentScoreConfig, TournamentType } from '../types'
 import myUtlsSlice from '../_reducers/myUtls'
 import { keyBy } from 'lodash'
 
 function createNewTournament({
     name,
     competitionId,
+    type,
 }: {
     name: string
     competitionId: number
+    type?: TournamentType
 }) {
     return async (dispatch: AppDispatch) => {
         const tournament = await createTournament({
             name,
             competition: competitionId,
+            type,
         })
         dispatch(ownedTournaments.actions.updateOne(tournament))
         dispatch(tournamentUser.actions.reset())

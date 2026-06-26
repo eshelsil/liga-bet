@@ -1,12 +1,14 @@
 import React from 'react'
 import { CircularProgress } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 function LoadingTournamentsView() {
+    const { t } = useTranslation('controllers')
 
     return (
         <>
             <h2>
-                טוען טורנירים
+                {t('loadingTournaments.title')}
             </h2>
             <CircularProgress
                 size={60}

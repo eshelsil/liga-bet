@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Button, FormControlLabel, Switch, TableCell, TableRow } from '@mui/material'
 import { User, UserPermissions } from '../types'
 import { UserPermissionsToRoleString } from '../utils'
@@ -17,6 +18,7 @@ function UserRow({
     revokeTournamentAdminPermissions,
     updateUserScoresConfigPermissions,
 }: Props) {
+    const { t } = useTranslation('manageUsers')
     return (
         <TableRow>
             <TableCell className="admin">{user.id}</TableCell>
@@ -32,7 +34,7 @@ function UserRow({
                         onClick={() => makeTournamentAdmin(user.id)}
                     >
                         {' '}
-                        הפוך למנהל טורניר{' '}
+                        {t('buttons.makeTournamentAdmin')}{' '}
                     </Button>
                 )}
                 {user.permissions === UserPermissions.TournamentAdmin && (<>
@@ -44,7 +46,7 @@ function UserRow({
                         }
                     >
                         {' '}
-                        הסר הרשאות מנהל טורניר{' '}
+                        {t('buttons.revokeTournamentAdmin')}{' '}
                     </Button>
                     {/* <FormControlLabel
                         control={

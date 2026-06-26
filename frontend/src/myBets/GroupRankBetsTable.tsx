@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { GroupRankBetWithRelations, Team } from '../types'
 import CustomTable from '../widgets/Table/CustomTable'
 import GroupStandingsResult from '../widgets/GroupStandings'
@@ -21,13 +22,14 @@ const GroupRankBetsTable = ({
     showLive,
     liveStandings = {},
 }: Props) => {
+    const { t } = useTranslation('myBets')
 
     const models = orderBy(bets, bet => bet.relatedGroup.name)
 
     const cells = [
 		{
 			id: 'id',
-			header: 'מזהה',
+			header: t('columns.id'),
 			classes: {
                 header: 'admin',
                 cell: 'admin',
@@ -36,7 +38,7 @@ const GroupRankBetsTable = ({
 		},
 		{
 			id: 'bet',
-			header: headers?.bet ?? 'ניחוש',
+			header: headers?.bet ?? t('columns.bet'),
             classes: {
                 cell: 'alignToTop'
             },
@@ -49,7 +51,7 @@ const GroupRankBetsTable = ({
 		},
 		{
 			id: 'result',
-			header: headers?.result ?? 'תוצאה',
+			header: headers?.result ?? t('columns.result'),
 			getter: (bet: GroupRankBetWithRelations) => {
                 const liveGroupRank = showLive ? liveStandings[bet.relatedGroup.id] : undefined
                 return (<>
@@ -64,7 +66,7 @@ const GroupRankBetsTable = ({
 		},
 		{
 			id: 'score',
-			header: 'נק\'',
+			header: t('columns.score'),
             classes: {
                 cell: 'scoreCell',
             },

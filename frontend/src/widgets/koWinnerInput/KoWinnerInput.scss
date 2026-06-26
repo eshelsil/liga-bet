@@ -48,12 +48,18 @@
         }
         .KoWinnerInput-home {
             .KoWinnerInput-button {
-                transform: translateX(-40%);
+                transform: translateX(-40%); // RTL default; mirrored for LTR below
+                [dir="ltr"] & {
+                    transform: translateX(40%);
+                }
             }
         }
         .KoWinnerInput-away {
             .KoWinnerInput-button {
-                transform: translateX(40%);
+                transform: translateX(40%); // RTL default; mirrored for LTR below
+                [dir="ltr"] & {
+                    transform: translateX(-40%);
+                }
             }
         }
         .KoWinnerInput-delimiter {

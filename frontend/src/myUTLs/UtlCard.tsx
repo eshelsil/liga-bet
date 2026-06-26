@@ -15,6 +15,7 @@ import CopyLink from '../widgets/CopyToClipboard/CopyLink'
 import useCancelEdit from '../hooks/useCancelEdit'
 import LoadingVIcon from '../widgets/LoadingVIcon'
 import { useLeaderboard } from '../hooks/useFetcher'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
     utl: UtlWithTournament
@@ -29,6 +30,7 @@ interface Props {
 }
 
 function UtlCard({ utl, utlIndex, isSelected,  updateUTL, selectUtl, socreboardRow }: Props) {
+    const { t } = useTranslation('myUTLs')
     useLeaderboard(utl.tournament.id)
     const { goToMyBets, goToTakanon } = useGoTo()
     const joinLink = useTournamentLink(utl.tournament.code);
@@ -43,7 +45,7 @@ function UtlCard({ utl, utlIndex, isSelected,  updateUTL, selectUtl, socreboardR
         const ts = getLastEditTs()
         await updateUTL({ name })
             .then(() => {
-                window['toastr']['success']('הפרופיל עודכן')
+                window['toastr']['success'](t('toasts.profileUpdated'))
                 cancelEdit(ts)
             })
             .catch(function (error) {
@@ -66,14 +68,14 @@ function UtlCard({ utl, utlIndex, isSelected,  updateUTL, selectUtl, socreboardR
             </div>
             <div className='cardBody'>
                 <div className={'utlAttribute'}>
-                    <div className='attributeName'>כינוי</div>
+                    <div className='attributeName'>{t('card.nickname')}</div>
                     <div className='value'>
                             {edit && (
                                 <div className="nameInput">
                                     <TextField
                                         value={name}
                                         onChange={updateName}
-                                        label="שם"
+                                        label={t('card.nameLabel')}
                                     />
                                 </div>
                             )}
@@ -81,23 +83,23 @@ function UtlCard({ utl, utlIndex, isSelected,  updateUTL, selectUtl, socreboardR
                     </div>
                 </div>
                 <div className={'utlAttribute'}>
-                    <div className='attributeName'>הרשאות</div>
+                    <div className='attributeName'>{t('card.permissions')}</div>
                     <div className='value'>
                         {UtlRoleToString[utl.role]}
                     </div>
                 </div>
                 <div className={'utlAttribute'}>
-                    <div className='attributeName'>קוד טורניר</div>
+                    <div className='attributeName'>{t('card.tournamentCode')}</div>
                     <div className='value'>
                         <div>
                             {utl.tournament.code}
                         </div>
                         {canInviteFriends && (
-                            <div style={{ cursor: 'pointer', marginRight: 24 }}>
+                            <div style={{ cursor: 'pointer', marginInlineStart: 24 }}>
                             <CopyLink
-                                label='הזמן חברים'
+                                label={t('card.inviteFriends')}
                                 link={joinLink}
-                                title={'קישור הועתק ✓'}
+                                title={t('card.linkCopied')}
                             />
                             </div>
                         )}
@@ -106,13 +108,13 @@ function UtlCard({ utl, utlIndex, isSelected,  updateUTL, selectUtl, socreboardR
                 {socreboardRow && (
                     <>
                         <div className={'utlAttribute'}>
-                            <div className='attributeName'>מיקום בטבלה</div>
+                            <div className='attributeName'>{t('card.leaderboardRank')}</div>
                             <div className='value'>
                                 {socreboardRow.rank}
                             </div>
                         </div>
                         <div className={'utlAttribute'}>
-                            <div className='attributeName'>נקודות</div>
+                            <div className='attributeName'>{t('card.points')}</div>
                             <div className='value'>
                                 {socreboardRow.score}
                             </div>
@@ -127,7 +129,7 @@ function UtlCard({ utl, utlIndex, isSelected,  updateUTL, selectUtl, socreboardR
                         }}
                         style={{ cursor: 'pointer' }}
                     >
-                        צפייה בטופס שלי
+                        {t('card.viewMyForm')}
                     </Link>
                     <Link
                         className='takanonLink'
@@ -137,7 +139,7 @@ function UtlCard({ utl, utlIndex, isSelected,  updateUTL, selectUtl, socreboardR
                         }}
                         style={{ cursor: 'pointer' }}
                     >
-                        תקנון
+                        {t('card.rules')}
                     </Link>
                 </div>
                 <div className='buttonsContinaer'>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { GroupWithABet } from '../types'
 import { Grid } from '@mui/material'
 import GroupRankBetView from './GroupRankBetView'
@@ -21,6 +22,7 @@ interface Props {
 }
 
 const OpenGroupRankBetsView = ({ groupsWithBet, sendGroupRankBet, competitionStartTime, isAvailable }: Props) => {
+    const { t } = useTranslation('OpenGroupBets')
     const startTimeString = competitionStartTime ? `(${dayjs(competitionStartTime).format(DEFAULT_DATETIME_FORMAT)})` : ''
     const otherTournaments = useSelector(MyOtherBettableUTLs);
     const hasOtherTournaments = otherTournaments.length > 0;
@@ -28,13 +30,13 @@ const OpenGroupRankBetsView = ({ groupsWithBet, sendGroupRankBet, competitionSta
         <>
             {isAvailable && (
                 <div className='LB-OpenGroupRankBetsView'>
-                    <h2 className='LB-TitleText'>ניחוש דירוגי בתים</h2>
+                    <h2 className='LB-TitleText'>{t('view.title')}</h2>
                     <div className='LB-FloatingFrame'>
                         <ul style={{margin: 0}}>
-                            <li>ניתן לערוך את הניחושים עד שעת תתחילת המשחק הראשון בטורניר {' '}{startTimeString}</li>
+                            <li>{t('view.editUntil', { startTime: startTimeString })}</li>
                             <li style={{marginTop: 8}}>
-                                ניתן לראות את שיטת הניקוד
-                                <TakanonPreviewModal label={'בלחיצה כאן'}>
+                                {t('view.scoringMethodPrefix')}
+                                <TakanonPreviewModal label={t('view.scoringMethodLink')}>
                                     <GroupStageRules />
                                 </TakanonPreviewModal>
                             </li>
@@ -55,7 +57,7 @@ const OpenGroupRankBetsView = ({ groupsWithBet, sendGroupRankBet, competitionSta
                 </div>
             )}
             {!isAvailable && (
-                <h2 className='LB-TitleText'>הטורניר כבר התחיל! דירוגי הבתים סגורים לניחושים</h2>
+                <h2 className='LB-TitleText'>{t('view.closedTitle')}</h2>
             )}
         </>
     )

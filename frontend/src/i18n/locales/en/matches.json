@@ -1,0 +1,23 @@
+{
+    "tabs": {
+        "predictions": "Predictions",
+        "scorers": "Scorers",
+        "liveGames": "Current Games",
+        "doneGames": "Finished Games"
+    },
+    "table": {
+        "prediction": "Prediction",
+        "gumblers": "Predictors",
+        "score": "Points",
+        "player": "Player"
+    },
+    "header": {
+        "aggregate": "Aggregate"
+    },
+    "buttons": {
+        "refreshGames": "Refresh Games"
+    },
+    "titles": {
+        "gamesList": "Games List"
+    }
+}

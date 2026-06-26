@@ -8,7 +8,7 @@
         border: 2px solid #95a5a6;
         flex-direction: column;
         margin-top: 0px;
-        left: -7px;
+        inset-inline-end: -7px;
 
         label {
             text-align: center;
@@ -27,7 +27,7 @@
             z-index: 3;
             opacity: 0;
             width: 100%;
-            left: 0px;
+            inset-inline-end: 0px;
             margin-top: 0px;
             height: 23px;
             cursor: pointer;
@@ -58,7 +58,7 @@
             background: #d0dedf;
             display: block;
             position: absolute;
-            left: 2px;
+            inset-inline-end: 2px;
             top: 29px;
             transition: all 0.3s ease-in-out;
         }

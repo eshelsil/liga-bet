@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { GroupRankBetWithRelations, GroupWithTeams } from '../types'
 import GroupRankGumblersList from './GroupRankGumblersList'
 import './GroupStandingsBetsView.scss'
@@ -11,9 +12,10 @@ interface Props {
 }
 
 const GroupStandingsBetsView = ({ groups, betsByGroupId, liveBetsByGroupId, }: Props) => {
+    const { t } = useTranslation('groupBets')
     return (
         <div className='LB-GroupStandingsBetsView'>
-            <h2 className='LB-TitleText'>ניחושים על דירוגי בתים</h2>
+            <h2 className='LB-TitleText'>{t('standingsBetsView.title')}</h2>
             <div>
                 {groups.map((group) => {
                     const isLive = !!liveBetsByGroupId[group.id]

@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect, useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import { NoSelector } from '../_selectors'
 import { OpenQuestionBetsSelector } from '../_selectors/questionBets'
 import { sendBetAndStore, SendQuestionBetParams } from '../_actions/bets'
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const OpenQuestionBetsProvider = ({ sendBetAndStore }: Props) => {
+    const { t } = useTranslation('openQuestionBets')
     const { questionsWithBet, competitionStartTime, isTournamentStarted  } = useSelector(OpenQuestionBetsSelector)
     async function sendQuestionBet({ questionId, answer, forAllTournaments }: QuestionBetParams) {
         const params = {
@@ -38,7 +40,7 @@ const OpenQuestionBetsProvider = ({ sendBetAndStore }: Props) => {
                 />
             )}
             {isTournamentStarted && (
-                <h2 className='LB-TitleText'>הטורניר כבר התחיל! הניחושים המיוחדים כבר נעולים</h2>
+                <h2 className='LB-TitleText'>{t('provider.tournamentStartedLocked')}</h2>
             )}
         </div>
     )

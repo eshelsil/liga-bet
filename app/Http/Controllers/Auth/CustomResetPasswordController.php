@@ -39,10 +39,10 @@ class CustomResetPasswordController extends Controller
 
         Mail::send('email.reset-password', ['token' => $token], function($message) use($email){
             $message->to($email);
-            $message->subject('Reset Your Liga-ב\' Password');
+            $message->subject(__('Reset Your Liga-ב\' Password'));
         });
 
-        return back()->with('message', 'שלחנו לך לינק לאיפוס הסיסמה!');
+        return back()->with('message', __('שלחנו לך לינק לאיפוס הסיסמה!'));
     }
   
     public function resetPasswordUsingToken(Request $request, string $token)

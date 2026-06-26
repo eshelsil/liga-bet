@@ -4,6 +4,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import HistoryIcon from '@mui/icons-material/History';
 import RedoIcon from '@mui/icons-material/Redo';
 import { connect, useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import { CurrentTournament, NoSelector, CanCreateNewTournament, CanJoinAnotherTournament, Notifications, HasNotificationsOnOtherTournaments, OldUTLsByCompetitionId, LiveUTLsByCompetitionId, HasOpenCompetitions } from '../_selectors'
 import { selectUtl } from '../_actions/tournamentUser'
 import MenuItem from '@mui/material/MenuItem'
@@ -38,6 +39,7 @@ function TournamentsDropdownMenu({
     selectUtl,
     itemClickCallback,
 }: Props) {
+    const { t } = useTranslation('appHeader')
     const { goToJoinTournament, goToCreateTournament } = useGoTo()
 
     const oldUtlsByCompId = useSelector(OldUTLsByCompetitionId);
@@ -82,6 +84,7 @@ function TournamentsDropdownMenu({
 
     return (
         <DropMenuItem
+            anchorClassName={'sm:!px-1'}
             anchorContent={
                 <div className='flexRow'>
                     <ArrowDropDownIcon />
@@ -135,7 +138,7 @@ function TournamentsDropdownMenu({
                         onClick={joinTournament}
                     >
                         <Button variant='contained' color='primary'>
-                            הצטרף לטורניר נוסף
+                            {t('buttons.joinAnotherTournament')}
                         </Button>
                     </MenuItem>
                 )}
@@ -145,7 +148,7 @@ function TournamentsDropdownMenu({
                         onClick={createTournament}
                     >
                         <Button variant='contained' color='primary'>
-                                צור טורניר חדש
+                                {t('buttons.createNewTournament')}
                         </Button>
                     </MenuItem>
                 )}

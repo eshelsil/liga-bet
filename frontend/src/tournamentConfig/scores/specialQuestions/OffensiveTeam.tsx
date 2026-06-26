@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Collapse } from '@mui/material';
 import { SpecialQuestionConfigProps } from '../../types';
 import TakanonPreviewModal from '../../takanonPreview/TakanonPreviewModal';
@@ -8,9 +9,8 @@ import SpecialQuestionHeader from './SpecialQuestionHeader';
 import OffensiveTeamExplanation from './explanations/OffensiveTeamExplanation';
 
 
-const OFFENSIVE_TEAM_WINNING_STRING = 'ניחוש נכון';
-
 function OffensiveTeamConfig({disabled, ...formProps}: SpecialQuestionConfigProps){
+	const { t } = useTranslation('tournamentConfig')
 	const { watch, register, errors, clearErrors, setValue } = formProps;
 	const onChange = (event: any, value: boolean) => {
 		setValue('specialQuestionFlags.offensiveTeam', value as never);
@@ -20,7 +20,7 @@ function OffensiveTeamConfig({disabled, ...formProps}: SpecialQuestionConfigProp
 	return (
 		<div className='LigaBet-MVPConfig configContainer'>
 			<SpecialQuestionHeader
-				title={'ההתקפה החזקה בשלב הבתים'}
+				title={t('offensiveTeam.title')}
 				tooltipContent={<OffensiveTeamExplanation />}
 				switchProps={{
 					checked: isOn,
@@ -30,7 +30,7 @@ function OffensiveTeamConfig({disabled, ...formProps}: SpecialQuestionConfigProp
 			<Collapse in={isOn}>
 				<div className='configRow'>
 					<p className={'configLabel'}>
-						{OFFENSIVE_TEAM_WINNING_STRING}
+						{t('offensiveTeam.winning')}
 					</p>
 					<ScoreInput
 						error={errors.specialBets?.offensiveTeam?.message}

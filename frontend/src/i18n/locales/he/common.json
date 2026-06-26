@@ -1,0 +1,13 @@
+{
+    "appName": "ליגה ב'",
+    "language": {
+        "label": "שפה",
+        "he": "עברית",
+        "en": "English"
+    },
+    "unexpectedError": {
+        "title": "אופס! קרתה תקלה באתר",
+        "description": "נסה לרענן או פנה לאחד המנהלים",
+        "refresh": "רענן"
+    }
+}

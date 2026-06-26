@@ -1,7 +1,7 @@
 import { cloneDeep, isEmpty } from 'lodash';
 import { createSelector } from 'reselect'
 import { SpecialQuestionType } from '../../types';
-import { formatGameBetsConfig, formatTopAssistsConfig, generateDefaultScoresConfig, isQuestionBetEmpty } from '../../utils';
+import { formatGameBetsConfig, formatTopAssistsConfig, generateDefaultScoresConfig, generateEmptyScoresConfig, isQuestionBetEmpty } from '../../utils';
 import {
     CurrentSideTournament,
     CurrentTournament,
@@ -12,6 +12,12 @@ export const CurrentTournamentConfig = createSelector(
     CurrentTournament,
     tournament => tournament.config,
 );
+
+// Contract F — bracket scoring (present only for knockout_bracket tournaments).
+export const BracketScoresConfigSelector = createSelector(
+    CurrentTournamentConfig,
+    (config) => config?.scores?.bracket,
+)
 
 export const PrizesSelector = createSelector(
     CurrentTournamentConfig,
@@ -29,11 +35,15 @@ export const ScoresConfigSelector = createSelector(
     (config) => {
         const scoresConfig = config?.scores
         if (!scoresConfig) return undefined
+        // knockout_bracket tournaments serialize only `scores.bracket` — `specialBets`
+        // (and the other classic sections) are absent, so guard the topAssists access.
+        // Spreading an absent `specialBets` is a no-op; the empty result is dropped
+        // downstream in BetsFullScoresConfigSelector.
         return {
             ...scoresConfig,
             specialBets: {
                 ...scoresConfig.specialBets,
-                topAssists: formatTopAssistsConfig(scoresConfig.specialBets.topAssists)
+                topAssists: formatTopAssistsConfig(scoresConfig.specialBets?.topAssists ?? 0)
             }
         }
     }
@@ -48,8 +58,16 @@ export const BetsFullScoresConfigSelector = createSelector(
             ? generateDefaultScoresConfig()
             : originalConfig
         const scoreConfig = cloneDeep(initialConfig)
-        
-        scoreConfig.gameBets = formatGameBetsConfig(scoreConfig.gameBets)        
+
+        // For knockout_bracket the classic sections are absent — fill them with a
+        // zeroed config so the shared classic scoring contributes 0 (never throws).
+        const emptyConfig = generateEmptyScoresConfig()
+        scoreConfig.gameBets = scoreConfig.gameBets ?? emptyConfig.gameBets
+        scoreConfig.groupRankBets = scoreConfig.groupRankBets ?? emptyConfig.groupRankBets
+        scoreConfig.specialBets = scoreConfig.specialBets ?? emptyConfig.specialBets
+        scoreConfig.specialQuestionFlags = scoreConfig.specialQuestionFlags ?? emptyConfig.specialQuestionFlags
+
+        scoreConfig.gameBets = formatGameBetsConfig(scoreConfig.gameBets)
 
         for (const [name, config] of Object.entries(scoreConfig.specialBets)){
             if (!scoreConfig.specialQuestionFlags[name] || isQuestionBetEmpty(name as SpecialQuestionType, config)){

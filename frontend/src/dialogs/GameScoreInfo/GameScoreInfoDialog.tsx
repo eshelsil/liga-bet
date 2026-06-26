@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -12,6 +13,7 @@ import { getHebBetSliceName, getHebStageName } from '@/strings'
 
 
 function ScorableRow({game, score, type}:{game: MatchCommonBase, score: number, type: keyof GameBetScoreConfig}){
+    const { t } = useTranslation('dialogs')
     if (score === 0){
         return null;
     }
@@ -20,15 +22,15 @@ function ScorableRow({game, score, type}:{game: MatchCommonBase, score: number, 
     if (type === 'qualifier' && game.isTwoLeggedTie){
         if (game.isFirstLeg){
             delayedScore = true;
-            extraText = 'ניקוד יחושב במשחק הגומלין'
+            extraText = t('gameScoreInfo.delayedScore')
         }
     }
     return (
         <div className={cn("mb-4 text-sm")}>
-            <span className={cn("underline")}>{getHebBetSliceName(type)}:</span>
-            <span className={cn("mr-2 font-bold")}>{delayedScore ? '0' : score}</span>
+            <span className={cn("underline")}>{getHebBetSliceName(type)}</span><span>:</span>
+            <span className={cn("ms-2 font-bold")}>{delayedScore ? '0' : score}</span>
             {extraText && (
-                <span className={cn("mr-2")}>({extraText})</span>
+                <span className={cn("ms-2")}>({extraText})</span>
             )}
         </div>
     )
@@ -49,6 +51,7 @@ export default function GameScoreInfoDialog({
     game,
     scoreConfig,
 }: Props) {
+    const { t } = useTranslation('dialogs')
     const stage = getGameStage(game)
     const betScoreConfig = getGameScoreConfig(game, scoreConfig)
     return (
@@ -56,15 +59,15 @@ export default function GameScoreInfoDialog({
             
             <div className={cn("w-[400px] max-w-full")}>
                 <DialogTitle>
-                    <IconButton onClick={onClose} className={cn("absolute top-2 left-2")}>
+                    <IconButton onClick={onClose} className={cn("!absolute top-2 end-2")}>
                         <CloseIcon />
                     </IconButton>
                     <div className={cn("text-[24px]")}>
-                        הגדרות ניקוד
+                        {t('gameScoreInfo.title')}
                     </div>
                 </DialogTitle>
                 <DialogContent>
-                    <h5 className={cn("mb-5 text-base")}><span className={cn('underline')}>שלב:</span> {getHebStageName(stage)}</h5>
+                    <h5 className={cn("mb-5 text-base")}><span className={cn('underline')}>{t('gameScoreInfo.stageLabel')}</span> {getHebStageName(stage)}</h5>
                     {keysOf(betScoreConfig).sort(sortBetSlices).map((key) => (
                         <ScorableRow
                             key={key}
@@ -79,7 +82,7 @@ export default function GameScoreInfoDialog({
                             color='primary'
                             onClick={onClose}
                         >
-                            אוקיי, הבנתי
+                            {t('buttons.okGotIt')}
                         </Button>
                     </div>
                 </DialogContent>

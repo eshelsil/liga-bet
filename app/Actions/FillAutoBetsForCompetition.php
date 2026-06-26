@@ -46,14 +46,23 @@ class FillAutoBetsForCompetition
 
     private function fillForGameInTournament(Game $game, Tournament $tournament): void
     {
-        $isAutoBetOn = $tournament->preferences
-            ? $tournament->preferences->isAutoBetOn()
-            : false;
+        $isBracket = $tournament->isKnockoutBracket();
+        if ($isBracket && !$game->isKnockout()) {
+            Log::debug("[FillAutoBetsForCompetition] Skipping game {$game->id} in tournament {$tournament->id} because it's not a knockout game in a bracket tournament.");
+            return;
+        }
+
+        // Bracket auto-fill is unconditional (independent of enable_auto_bet) and qualifier-only.
+        $isAutoBetOn = $isBracket
+            ? true
+            : ($tournament->preferences ? $tournament->preferences->isAutoBetOn() : false);
         if (!$isAutoBetOn) {
             return;
         }
 
-        $qualifierBetIsOn = (bool) data_get($tournament->config, 'scores.gameBets.knockout.qualifier');
+        $qualifierBetIsOn = $isBracket
+            ? true
+            : (bool) data_get($tournament->config, 'scores.gameBets.knockout.qualifier');
 
         $competingUtls = $tournament->competingUtls();
 
@@ -80,7 +89,8 @@ class FillAutoBetsForCompetition
         $rows = [];
         foreach ($missingUtls as $utl) {
             $strategy = $utl->auto_bet_strategy ?? self::STRATEGY_ZERO;
-            $data = $this->buildBetData($game, $strategy, $qualifierBetIsOn);
+            $resultBetOn = $tournament->isResultBetOn();
+            $data = $this->buildBetData($game, $strategy, $qualifierBetIsOn, $resultBetOn);
 
             $rows[] = [
                 'type'               => BetTypes::Game,
@@ -102,8 +112,13 @@ class FillAutoBetsForCompetition
         }
     }
 
-    private function buildBetData(Game $game, string $strategy, bool $qualifierBetIsOn): string
+    private function buildBetData(Game $game, string $strategy, bool $qualifierBetIsOn, bool $resultBetOn): string
     {
+        if (!$resultBetOn) {
+            return json_encode([
+                'ko_winner_side' => Arr::random(['home', 'away']),
+            ]);
+        }
         if ($strategy === self::STRATEGY_RANDOM) {
             return $game->generateRandomBetData($qualifierBetIsOn);
         }

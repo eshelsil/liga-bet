@@ -2,10 +2,15 @@ import React from 'react'
 import Menu from '@mui/material/Menu'
 import { PopupMenuProps } from './types'
 import './PopupMenu.scss'
+import { cn } from '@/utils/tailwind'
 
-
-
-function PopupMenu({ anchorContent, children, classes, onClose }: PopupMenuProps) {
+function PopupMenu({
+    anchorContent,
+    children,
+    classes,
+    onClose,
+    anchorClassName,
+}: PopupMenuProps) {
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement>(null)
     const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
         setAnchorEl(event.currentTarget)
@@ -17,7 +22,10 @@ function PopupMenu({ anchorContent, children, classes, onClose }: PopupMenuProps
 
     return (
         <div className="LigaBet-PopupMenu">
-            <div onClick={handleClick} className="clickableWrapper">
+            <div
+                onClick={handleClick}
+                className={cn('clickableWrapper', anchorClassName)}
+            >
                 {anchorContent}
             </div>
             <Menu

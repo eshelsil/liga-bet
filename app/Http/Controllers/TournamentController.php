@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\CreateTournament;
 use App\Competition;
+use App\Enums\GameSubTypes;
 use App\SpecialBets\SpecialBet;
 use App\Tournament;
 use App\User;
@@ -25,9 +26,19 @@ class TournamentController extends Controller
         if (!$user->isAdmin() && !$user->canJoinAnotherTournament($competition)){
             throw new JsonException("המשתמש כבר רשום ל-3 טורנירים בתחרות זו, לא ניתן ליצור טורניר נוסף", 400);
         }
-        $this->validateCreateInputs($request);
+        $type = $request->input('type', Tournament::TYPE_CLASSIC);
+        if (!in_array($type, [Tournament::TYPE_CLASSIC, Tournament::TYPE_KNOCKOUT_BRACKET], true)) {
+            throw new JsonException("סוג טורניר לא תקין", 400);
+        }
 
-        $tournament = $ct->handle($user, Competition::findOrFail($competition), $request->name);
+        $this->validateCreateInputs($request, $type);
+
+        $competitionModel = Competition::findOrFail($competition);
+        if ($type === Tournament::TYPE_KNOCKOUT_BRACKET && !$competitionModel->supportsBracket()) {
+            throw new JsonException("התחרות אינה תומכת בטורניר טבלת נוקאאוט", 400);
+        }
+
+        $tournament = $ct->handle($user, $competitionModel, $request->name, $type);
 
         return new JsonResponse((new TournamentResource($tournament))->toArray($request), 200);
     }
@@ -112,6 +123,12 @@ class TournamentController extends Controller
             throw new JsonException("לא ניתן לשנות את הגדרות הניקוד אחרי שהטורניר כבר התחיל", 403);
         }
 
+        // Knockout-bracket tournaments score by round (qualifier / specialAdvance), not by
+        // the classic gameBets/groupRankBets/specialBets payload — validate & store that shape.
+        if ($tournament->isKnockoutBracket()) {
+            return $this->updateBracketScores($tournament, $request);
+        }
+
         $keys = [
             "gameBets.groupStage.winnerSide",
             "gameBets.groupStage.result",
@@ -171,6 +188,46 @@ class TournamentController extends Controller
         return new JsonResponse((new TournamentResource($tournament))->toArray($request), 200);
     }
 
+    // Bracket scoring (contract F): points per knockout round for a correct qualifier pick,
+    // and an advance bonus when the user's Winner/Runner-Up qualifies (no 3rd place).
+    private function updateBracketScores(Tournament $tournament, Request $request): JsonResponse
+    {
+        $request->validate([
+            "bracket.qualifier"        => ["required", "array"],
+            "bracket.qualifier.*"      => ["required", "integer", "min:0"],
+            "bracket.specialAdvance"   => ["required", "array"],
+            "bracket.specialAdvance.*" => ["required", "integer", "min:0"],
+        ]);
+
+        $allowedRounds = [
+            GameSubTypes::LAST_32,
+            GameSubTypes::LAST_16,
+            GameSubTypes::QUARTER_FINALS,
+            GameSubTypes::SEMI_FINALS,
+            GameSubTypes::FINAL,
+            GameSubTypes::THIRD_PLACE,
+        ];
+        // Keep only known rounds and coerce to ints (drops any unexpected keys).
+        $sanitize = fn ($scores) => collect($scores ?? [])
+            ->only($allowedRounds)
+            ->map(fn ($v) => (int) $v)
+            ->all();
+
+        $qualifier      = $sanitize($request->json("bracket.qualifier"));
+        $specialAdvance = $sanitize($request->json("bracket.specialAdvance"));
+        unset($specialAdvance[GameSubTypes::THIRD_PLACE]); // advance bonus has no 3rd-place round
+
+        $config = $tournament->config;
+        $config["scores"]["bracket"] = [
+            "qualifier"      => $qualifier,
+            "specialAdvance" => $specialAdvance,
+        ];
+        $tournament->config = $config;
+        $tournament->save();
+
+        return new JsonResponse((new TournamentResource($tournament))->toArray($request), 200);
+    }
+
     private function validateUpdatePermissions(int $tournamentId)
     {
         $user = $this->getUser();
@@ -183,7 +240,7 @@ class TournamentController extends Controller
         }
     }
 
-    private function validateCreateInputs(Request $request) {
+    private function validateCreateInputs(Request $request, string $type = Tournament::TYPE_CLASSIC) {
         $name = $request->name;
         if (!$name || strlen($name) < 4) {
             throw new JsonException("שם הטורניר חייב להיות באורך 4 תווים לפחות", 400);
@@ -193,7 +250,7 @@ class TournamentController extends Controller
         if (!$competition) {
             throw new JsonException("Invalid competition input", 400);
         }
-        if ( $competition->isStarted()) {
+        if ( $competition->isStarted($type)) {
             throw new JsonException("התחרות כבר החלה, לא ניתן ליצור טורנירים חדשים", 403);
         }
     }

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { WinnerSide } from '../../types'
 import './KoWinnerInput.scss'
 
@@ -13,6 +14,7 @@ interface Props {
 }
 
 function KoWinnerInput({ value, setValue, isTwoLegKo = false, isMissing = false, disabled = false, onlyDisplay = false }: Props) {
+    const { t } = useTranslation('widgets')
     const onChange = (winner: WinnerSide) => {
         setValue(winner)
     }
@@ -34,9 +36,9 @@ function KoWinnerInput({ value, setValue, isTwoLegKo = false, isMissing = false,
                     </div>
                 </div>
                 <div className={`KoWinnerInput-delimiter`}>
-                    מעפילה {
+                    {t('koWinnerInput.qualifier')} {
                         isMissing ? (
-                            <span style={{position: 'absolute', fontSize: 12, opacity:0.5, marginRight: 12, lineHeight: '24px'}}>(חסר)</span>
+                            <span style={{position: 'absolute', fontSize: 12, opacity:0.5, marginInlineStart: 12, lineHeight: '24px'}}>{t('koWinnerInput.missing')}</span>
                         ): null
                     }
                 </div>

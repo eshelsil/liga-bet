@@ -2,10 +2,12 @@ import { mapValues, without } from 'lodash'
 import {
     fetchMatchBets,
     sendBet,
+    sendBets,
+    sendBracketQualifierBet,
     UpdateBetPayload,
     fetchPrimalBets,
 } from '../api/bets'
-import { CollectionName, BetType, FetchGameBetsParams, GameBetsFetchType } from '../types'
+import { CollectionName, BetType, FetchGameBetsParams, GameBetsFetchType, WinnerSide } from '../types'
 import { AppDispatch, GetRootState } from '../_helpers/store'
 import betsSlice from '../_reducers/bets'
 import { CurrentGameBetsFetcher, CurrentTournamentUserId, MyOtherTournaments, PrimalBets, TournamentIdSelector } from '../_selectors'
@@ -68,6 +70,34 @@ function sendBetAndStore(params: SendBetParams<BetType>) {
     }
 }
 
+// Submit several Question (SpecialBet) answers in ONE request so the backend can validate them as a
+// set — used for the bracket Winner + Runner-Up pair, where a swap must not see a stale stored value.
+function sendQuestionBetsAndStore(answers: { betId: number; teamId: number }[]) {
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        if (answers.length === 0) return
+        const tournamentId = TournamentIdSelector(getState())
+        const bets = await sendBets(
+            tournamentId,
+            answers.map(({ betId, teamId }) => ({
+                type: BetType.Question,
+                data: { type_id: betId, answer: teamId },
+            })),
+        )
+        dispatch(betsSlice.actions.updateOnManyTournaments(bets))
+        dispatch(fetchAndStoreNotifications())
+    }
+}
+
+// Contract E — submit a bracket qualifier pick (Game bet, winner_side only).
+function sendBracketQualifierBetAndStore(gameId: number, side: WinnerSide) {
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const tournamentId = TournamentIdSelector(getState())
+        const bets = await sendBracketQualifierBet(tournamentId, gameId, side)
+        dispatch(betsSlice.actions.updateOnManyTournaments(bets))
+        dispatch(fetchAndStoreNotifications())
+    }
+}
+
 const initPrimalBets = generateInitCollectionAction({
     collectionName: CollectionName.PrimalBets,
     selector: PrimalBets,
@@ -102,4 +132,4 @@ function fetchGameBetsThunk(params: FetchGameBetsParams){
     }
 }
 
-export { fetchAndStorePrimalBets, fetchMyGameBets, initPrimalBets, sendBetAndStore, fetchAndStoreGameBets, fetchGameBetsThunk }
+export { fetchAndStorePrimalBets, fetchMyGameBets, initPrimalBets, sendBetAndStore, sendQuestionBetsAndStore, sendBracketQualifierBetAndStore, fetchAndStoreGameBets, fetchGameBetsThunk }

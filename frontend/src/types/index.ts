@@ -1,4 +1,5 @@
 export * from './bet'
+export * from './bracket'
 export * from './combinedModels'
 export * from './common'
 export * from './competition'

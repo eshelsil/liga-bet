@@ -15,19 +15,21 @@
 .navbar-collapse {
   .navbar-nav {
     .nav-link {
-      text-align: right;
+      // `start` follows the document direction (right in RTL, left in LTR)
+      text-align: start;
     }
   }
 }
 
 .card {
-  direction: rtl;
+  // Follow the <html dir> attribute so the page is RTL in Hebrew, LTR in English
+  direction: inherit;
   .card-header {
-    text-align: right;
+    text-align: start;
   }
   .card-body {
     .alert {
-      text-align: right;
+      text-align: start;
     }
     .buttons-container {
       margin: auto;
@@ -35,7 +37,7 @@
     @media(max-width: 767px) {
     .form-group {
       .col-form-label, .checkbox {
-          text-align: right;
+          text-align: start;
         }
       }
     }

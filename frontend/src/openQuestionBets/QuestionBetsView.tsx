@@ -1,5 +1,6 @@
 import React from 'react'
 import { Grid } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
 import SpecialQuestionsRules from '../takanon/specialQuestions/SpecialQuestionsRules'
 import TakanonPreviewModal from '../tournamentConfig/takanonPreview/TakanonPreviewModal'
@@ -18,18 +19,19 @@ interface Props {
 }
 
 const QuestionBetsView = ({ questions, sendQuestionBet, competitionStartTime }: Props) => {
+    const { t } = useTranslation('openQuestionBets')
     const startTimeString = competitionStartTime ? `(${dayjs(competitionStartTime).format(DEFAULT_DATETIME_FORMAT)})` : ''
     const otherTournaments = useSelector(MyOtherBettableUTLs)
     const hasOtherTournaments = otherTournaments.length > 0
     return (
         <div className="LigaBet-QuestionBetsView">
-            <h1 className='LB-TitleText'>ניחושים מיוחדים</h1>
+            <h1 className='LB-TitleText'>{t('view.title')}</h1>
             <div className='LB-FloatingFrame'>
                 <ul style={{margin: 0}}>
-                    <li>ניתן לערוך את הניחושים עד שעת תתחילת המשחק הראשון בטורניר {' '}{startTimeString}</li>
+                    <li>{t('view.editUntil', { startTime: startTimeString })}</li>
                     <li style={{marginTop: 8}}>
-                        ניתן לראות את שיטת הניקוד
-                        <TakanonPreviewModal label={'בלחיצה כאן'}>
+                        {t('view.scoringMethodPrefix')}
+                        <TakanonPreviewModal label={t('view.scoringMethodLink')}>
                             <SpecialQuestionsRules />
                         </TakanonPreviewModal>
                     </li>

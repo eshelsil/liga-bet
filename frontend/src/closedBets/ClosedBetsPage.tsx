@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import i18n from '@/i18n/config'
 import GroupStandingsBets from '../groupBets/GroupStandingsBetsProvider'
 import useGoTo from '../hooks/useGoTo'
 import ClosedMatchBetsProvider from '../matches/ClosedMatchBetsProvider'
@@ -13,21 +15,21 @@ import './ClosedBetsPage.scss'
 const tabViews = [
     {
         id: ClosedBetsTab.Games,
-        label: 'משחקים',
+        get label() { return i18n.t('closedBets:tabs.games') },
         children: (
             <ClosedMatchBetsProvider />
         )
     },
     {
         id: ClosedBetsTab.Questions,
-        label: 'ניחושים מיוחדים',
+        get label() { return i18n.t('closedBets:tabs.questions') },
         children: (
             <ClosedQuestionBets />
         )
     },
     {
         id: ClosedBetsTab.Groups,
-        label: 'דירוגי בתים',
+        get label() { return i18n.t('closedBets:tabs.groups') },
         children: (
             <GroupStandingsBets />
         )
@@ -35,6 +37,7 @@ const tabViews = [
 ]
 
 const ClosedBetsPage = () => {
+    const { t } = useTranslation('closedBets')
     const { goToClosedGameBets, goToClosedBets } = useGoTo()
     const { tab } = useParams<{tab: ClosedBetsTab}>();
     const tabs = map(tabViews, 'id')
@@ -54,7 +57,7 @@ const ClosedBetsPage = () => {
 
     return (
         <div className='LB-ClosedBetsPage'>
-            <h1 className='ClosedBetsPage-title LB-TitleText'>צפייה בניחושים</h1>
+            <h1 className='ClosedBetsPage-title LB-TitleText'>{t('title')}</h1>
             <div className='ClosedBetsPage-tabsWrapper'>
                 <SimpleTabs
                     tabs={tabViews}

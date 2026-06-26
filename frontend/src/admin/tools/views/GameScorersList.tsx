@@ -16,9 +16,11 @@ import { LoadingButton } from '../../../widgets/Buttons';
 import NewGoalDialog from './NewGoalDialog';
 import { keyBy } from 'lodash';
 import { isFinalGame } from '../../../utils';
+import { useTranslation } from 'react-i18next';
 
 
 function GameScorersList({ match }: { match: MatchWithGoalsData }) {
+    const { t } = useTranslation('admin')
     const [expand, setExpand] = useState(false)
     const toggleExpand = () => setExpand(!expand)
     const dispatch = useDispatch<AppDispatch>()
@@ -177,7 +179,7 @@ function GameScorersList({ match }: { match: MatchWithGoalsData }) {
                             action={async () => setShowNewGoalDialog(true)}
                             style={{margin: '12px auto', display: 'block'}}
                         >
-                            עדכן גול חדש
+                            {t('scorers.addNewGoal')}
                         </LoadingButton>
                         {showNewGoalDialog && (
                             <NewGoalDialog
@@ -194,7 +196,7 @@ function GameScorersList({ match }: { match: MatchWithGoalsData }) {
                                 action={onOverrideScorersTotalData}
                                 style={{margin: '32px auto 16px', padding: '2px 10px', display: 'block', fontSize: 12}}
                             >
-                                דרוס ניקוד הימורים לפי טבלה זו
+                                {t('scorers.overrideBetScores')}
                             </LoadingButton>
                         )}
                     </div>

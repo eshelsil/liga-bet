@@ -1,0 +1,32 @@
+{
+    "buttons": {
+        "makeManager": "Make Co-Manager",
+        "removeManager": "Remove Co-Manager Permissions",
+        "confirmUtl": "Approve Participant",
+        "removeUtl": "Remove Participant"
+    },
+    "autoConfirm": {
+        "label": "Automatically approve users",
+        "enabledToast": "Updated successfully. From now on users will be approved automatically",
+        "disabledToast": "Updated successfully. New users who join the tournament will wait for your approval before they can start predicting"
+    },
+    "autoBet": {
+        "label": "Enable automatic prediction as a backup",
+        "enabledToast": "Updated successfully. From now on participants who forget to predict will get an automatic prediction",
+        "disabledToast": "Updated successfully. Participants who forget to predict will not get an automatic prediction"
+    },
+    "view": {
+        "noPermissions": "To view the participant list you must have manager or co-manager permissions for this tournament",
+        "title": "Participants",
+        "info": {
+            "manageContestants": "You can approve or remove participants in the tournament",
+            "chooseHelpers": "You can choose friends to help you manage the participants",
+            "managerScope": "A co-manager may approve or remove participants who are not co-managers"
+        },
+        "columns": {
+            "name": "Name",
+            "permissions": "Permissions",
+            "actions": "Actions"
+        }
+    }
+}

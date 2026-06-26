@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 import { sumBetsScore } from './utils'
 import {
     GroupRankBetWithRelations,
@@ -16,6 +17,8 @@ import { Link } from '@mui/material'
 import { useGameBetsOfUtl } from '../hooks/useFetcher'
 import { ExpandedContestantContext } from './ExpandedContestantContext'
 import { keyBy } from 'lodash'
+import { useSelector } from 'react-redux'
+import { IsCurrentTournamentKnockoutBracket } from '@/_selectors'
 
 
 function GameBetsView({totalScore, bets, utlId, showLive}: {
@@ -24,11 +27,12 @@ function GameBetsView({totalScore, bets, utlId, showLive}: {
     utlId: number,
     showLive?: boolean,
 }) {
+    const { t } = useTranslation('leaderboard')
     useGameBetsOfUtl(utlId)
 
     return (
         <div>
-            <h3>סה"כ:{' '}{totalScore}</h3>
+            <h3>{t('expandedContestant.total')}{' '}{totalScore}</h3>
             <GameBetsTable bets={bets} dropColumns={{date: true}} showLive={showLive} />
         </div>
     )
@@ -61,8 +65,10 @@ export function ExpandedContestantView({
     isSideTournament,
     isLive,
 }: Props) {
+    const { t } = useTranslation('leaderboard')
     const { goToHisBets } = useGoTo()
     const { selectedTab, setSelectedTab } = useContext(ExpandedContestantContext);
+    const isKnockoutBracket = useSelector(IsCurrentTournamentKnockoutBracket)
     
     const liveGroupRankBetsById = keyBy(liveGroupRankBets, 'id')
     const liveQuestionBetsById = keyBy(liveQuestionBets, 'id')
@@ -92,7 +98,7 @@ export function ExpandedContestantView({
     const tabs = [
         {
             id: 'games',
-            label: 'משחקים',
+            label: t('expandedContestant.tabs.games'),
             children: (
                 <GameBetsView
                     bets={gameBetsToShow}
@@ -104,10 +110,10 @@ export function ExpandedContestantView({
         },
         {
             id: 'questions',
-            label: 'ניחושים מיוחדים',
+            label: t('expandedContestant.tabs.specialQuestions'),
             children: (
                 <div>
-                    <h3>סה"כ:{' '}{specialBetScore}</h3>
+                    <h3>{t('expandedContestant.total')}{' '}{specialBetScore}</h3>
                     <SpecialBetsTable
                         bets={questionBets}
                         showLive={isLive}
@@ -117,31 +123,40 @@ export function ExpandedContestantView({
                 </div>
             )
         },
-        {
-            id: 'groups',
-            label: 'דירוגי בתים',
-            children: (
-                <div>
-                    <h3>סה"כ:{' '}{groupStandingsScore}</h3>
-                    <GroupRankBetsTable
-                        bets={groupRankBetsToShow}
-                        liveStandings={liveStandingsByGroupId}
-                        showLive={isLive}
-                    />
-                </div>
-            )
-        },
+        ...(isKnockoutBracket
+            ? []
+            : [
+                  {
+                      id: 'groups',
+                      label: t('expandedContestant.tabs.groupRanks'),
+                      children: (
+                          <div>
+                              <h3>
+                                  {t('expandedContestant.total')}{' '}
+                                  {groupStandingsScore}
+                              </h3>
+                              <GroupRankBetsTable
+                                  bets={groupRankBetsToShow}
+                                  liveStandings={liveStandingsByGroupId}
+                                  showLive={isLive}
+                              />
+                          </div>
+                      ),
+                  },
+              ]),
         
     ]
 
 
     return (
         <div className='LB-ExpanededContestantView'>
-            <div className='hisBetsLink'>
-                <Link onClick={() => goToHisBets(utlId)}>
-                    לצפייה בטופס המלא
-                </Link>
-            </div>
+            {isKnockoutBracket ? null : ( // temp: hide the link for knockout bracket
+                <div className='hisBetsLink'>
+                    <Link onClick={() => goToHisBets(utlId)}>
+                        {t('expandedContestant.fullFormLink')}
+                    </Link>
+                </div>
+            )}
             {isSideTournament && (
                 <GameBetsView
                     bets={gameBetsToShow}

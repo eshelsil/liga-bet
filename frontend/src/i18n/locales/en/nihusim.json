@@ -1,0 +1,18 @@
+{
+    "manage": {
+        "title": "My Nihusim",
+        "amount": "Amount: {{value}}",
+        "totalGranted": "Total granted: {{value}}",
+        "totalUsed": "Total used: {{value}}",
+        "sentTo": "Sent to:",
+        "betTitle": "Bet",
+        "textLabel": "Text",
+        "gameLive": "What's happening there",
+        "gameEnded": "How it ended"
+    },
+    "sticker": {
+        "receivedNihus": "{{name}} received a Nihus",
+        "from": "From: {{name}}",
+        "dismiss": "Come on... let's go"
+    }
+}

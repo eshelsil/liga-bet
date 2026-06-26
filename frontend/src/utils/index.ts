@@ -1,5 +1,6 @@
 export * from './api'
 export * from './bets'
+export * from './bracket'
 export * from './betValuesGenerators'
 export * from './common'
 export * from './dataFetchers'

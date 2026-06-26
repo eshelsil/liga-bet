@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -22,6 +23,7 @@ export default function MultiBetExplanationDialog({
     isAutoShown,
 }: Props) {
 
+    const { t } = useTranslation('dialogs')
     const [dontShowAgain, setDontShowAgain] = useState(false)
     const tournamentClass = useTournamentThemeClass()
 
@@ -40,11 +42,11 @@ export default function MultiBetExplanationDialog({
                     <IconButton onClick={close} className={'closeButton'}>
                         <CloseIcon />
                     </IconButton>
-                    שליחת ניחוש לכל הטורנירים שלך
+                    {t('multiBet.title')}
                 </DialogTitle>
                 <DialogContent className={'dialogContent'}>
-                    <h5>ניתן לשלוח ניחוש מסוים לכל הטורנירים בהם אתה משתתף</h5>
-                    <h5 style={{marginTop: -6}}>בעזרת המתג מצד שמאל למעלה שמופיע בזמן עריכת הניחוש:</h5>
+                    <h5>{t('multiBet.intro1')}</h5>
+                    <h5 style={{marginTop: -6}}>{t('multiBet.intro2')}</h5>
                     <div className={`LB-EditableBetView ${tournamentClass} sendingforAllTournaments`}>
                         <div className={`EditableBetView-header`}>
                             <Switch
@@ -53,7 +55,7 @@ export default function MultiBetExplanationDialog({
                             />
                         </div>
                     </div>
-                    <h5>כשהמתג <span><b>דלוק</b></span> הרקע של הכותרת יהיה סגול ובלחיצה על "שלח" הניחוש יישלח <span><b>לכל הטורנירים</b></span></h5>
+                    <h5><Trans i18nKey="multiBet.switchOn" t={t} components={{ 1: <span />, 2: <b />, 3: <span />, 4: <b /> }} /></h5>
                     <div className={`LB-EditableBetView ${tournamentClass}`}>
                         <div className={`EditableBetView-header`}>
                             <Switch
@@ -62,8 +64,8 @@ export default function MultiBetExplanationDialog({
                             />
                         </div>
                     </div>
-                    <h5>כשהמתג <span><b>כבוי</b></span> הרקע של הכותרת יהיה בצבע של הטורניר הנוכחי ובלחיצה על "שלח" הניחוש יישלח רק <span><b>לטורניר הנוכחי</b></span></h5>
-                    <h5 style={{marginTop: 32}}>אפשר להגדיר ברירת מחדל למצב ההתחלתי של המתג:</h5>
+                    <h5><Trans i18nKey="multiBet.switchOff" t={t} components={{ 1: <span />, 2: <b />, 3: <span />, 4: <b /> }} /></h5>
+                    <h5 style={{marginTop: 32}}>{t('multiBet.defaultStateLabel')}</h5>
                     <div style={{marginBottom: 12}}>
                         <MultiBetsSettingsView
                             pinned={true}
@@ -81,8 +83,8 @@ export default function MultiBetExplanationDialog({
                                     onChange={(e, value: boolean) => setDontShowAgain(value)}
                                 />
                             }
-                            label="הבנתי, אל תציג שוב"
-                            
+                            label={t('multiBet.dontShowAgain')}
+
                         />
                         <div className='buttonContainer'>
                             <Button
@@ -90,7 +92,7 @@ export default function MultiBetExplanationDialog({
                                 color='primary'
                                 onClick={close}
                             >
-                                אוקיי
+                                {t('buttons.ok')}
                             </Button>
                         </div>
                     </>)}

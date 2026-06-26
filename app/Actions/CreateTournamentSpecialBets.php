@@ -30,9 +30,17 @@ class CreateTournamentSpecialBets
         ["type" => SpecialBet::TYPE_OFFENSIVE_TEAM, "title" => "ההתקפה החזקה בבתים"],
     ];
 
+    // Knockout-bracket tournaments only allow Winner & Runner-Up special bets.
+    const BRACKET_DATA = [
+        ["type" => SpecialBet::TYPE_WINNER, "title" => "זוכה"],
+        ["type" => SpecialBet::TYPE_RUNNER_UP, "title" => "סגנית"],
+    ];
+
     public function handle(Tournament $tournament)
     {
-        return collect(self::DEFAULT_DATA)->map(function ($data) use ($tournament) {
+        $data = $tournament->isKnockoutBracket() ? self::BRACKET_DATA : self::DEFAULT_DATA;
+
+        return collect($data)->map(function ($data) use ($tournament) {
             $sb = new SpecialBet();
             $sb->type = $data["type"];
             $sb->title = $data["title"];

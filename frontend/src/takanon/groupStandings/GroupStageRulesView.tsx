@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { GroupRankBetScoreConfig, GroupWithTeams } from '../../types';
 import ExamplesAccordion from '../ExamplesAccordion';
 import GroupRankExamplesTable from './GroupRankExamplesTable';
@@ -15,37 +16,38 @@ function GroupStageRulesView({
     exampleGroup,
     groupsCount,
 }: Props) {
+    const { t } = useTranslation('takanon')
     const { perfect, minorMistake } = scoreConfig
     const maxScore = groupsCount * Number(perfect)
-    
+
     return (
         <div className="LB-GroupStageRulesView takanonTextSection">
-            <h4>דירוג בתים</h4>
+            <h4>{t('groupStandings.heading')}</h4>
             <table className='scoresConfigTable'>
                 <thead>
                     <tr>
                         <th></th>
-                        <th>ניקוד</th>
+                        <th>{t('groupStandings.scoreHeader')}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td className='scoreRuleLabel'>סידור מושלם</td>
+                        <td className='scoreRuleLabel'>{t('groupStandings.perfectLabel')}</td>
                         <td>{perfect}</td>
                     </tr>
                     <tr>
-                        <td className='scoreRuleLabel'>טעות מינימלית</td>
+                        <td className='scoreRuleLabel'>{t('groupStandings.minorMistakeLabel')}</td>
                         <td>{minorMistake}</td>
                     </tr>
                 </tbody>
             </table>
-            <h5>מקסימום נקודות - {maxScore}</h5>
+            <h5>{t('groupStandings.maxScore', { score: maxScore })}</h5>
             <ul style={{ marginTop: 8 }}>
                 <li>
-                    <b>פגיעה מושלמת</b> = דירוג מקומות 1-4 בבית לפי הסדר המדויק בו סיימו את שלב הבתים
+                    <b>{t('groupStandings.perfectExplanation')}</b>{t('groupStandings.perfectExplanationText')}
                 </li>
                 <li>
-                    <b>טעות מינימלית</b> = היפוך בין מקומות צמודים (טעות אחת בין מקומות 1,2 או 2,3 או 3,4)
+                    <b>{t('groupStandings.minorMistakeExplanation')}</b>{t('groupStandings.minorMistakeExplanationText')}
                 </li>
             </ul>
             

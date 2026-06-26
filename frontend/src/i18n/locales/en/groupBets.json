@@ -1,0 +1,10 @@
+{
+    "table": {
+        "betValue": "Prediction",
+        "gumblers": "Players",
+        "score": "Points"
+    },
+    "standingsBetsView": {
+        "title": "Group standings predictions"
+    }
+}

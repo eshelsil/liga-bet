@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { CanUpdateScoreConfig } from '../../../_selectors';
 import { ScoreConfigFormProps } from '../../types';
@@ -13,11 +14,12 @@ import TopScorerConfig from './TopScorer';
 
 
 function SpecialBetsConfig(formProps: ScoreConfigFormProps){
+	const { t } = useTranslation('tournamentConfig')
 	const disabled = !(useSelector(CanUpdateScoreConfig))
 	return (
 		<div className='LigaBet-SpecialBetsConfig LB-ConfigBox'>
 			<SectionTitle
-				title={'ניקוד על שאלות מיוחדות'}
+				title={t('specialBets.title')}
 				tooltipContent={<QuestionBetExplanation />}
 			/>
 			<RoadToFinalConfig disabled={disabled} {...formProps} />

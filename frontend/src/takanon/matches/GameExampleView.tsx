@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { MatchRuleType, GameBetScoreConfig, Team, WinnerSide } from '../../types';
 import { getWinnerSide, matchRuleToString } from '../../utils';
 import { getQualifier } from './utils';
@@ -17,6 +18,7 @@ function GameExampleView({
     example: GameExample
     scoresConfig: GameBetScoreConfig
 }) {
+    const { t } = useTranslation('takanon')
     const betWinnerSide = getWinnerSide(bet[0], bet[1])
     const actualWinnerSide = getWinnerSide(fullTime[0], fullTime[1])
 
@@ -42,7 +44,7 @@ function GameExampleView({
             <div className='GameExampleView-results'>
                 <div className='resultWrapper'>
                     <MatchResultView
-                        title='ניחוש'
+                        title={t('matches.betTitle')}
                         home={{
                             team: homeTeam,
                             score: bet[0],
@@ -58,7 +60,7 @@ function GameExampleView({
                 <div className='resultWrapper'>
                     
                     <MatchResultView
-                        title='תוצאה בפועל'
+                        title={t('matches.actualResultTitle')}
                         home={{
                             team: homeTeam,
                             score: fullTime[0],
@@ -75,27 +77,30 @@ function GameExampleView({
                 </div>
             </div>
             <div className='totalScore'>
-                סה"כ נקודות:{' '}<b>{totalScore}</b>
+                {t('matches.totalPoints')}{' '}<b>{totalScore}</b>
             </div>
             <div className='explanationSection'>
                 <div className='explanationTitle'>
-                    פירוט
+                    {t('matches.details')}
                 </div>
                 <div>
-                    {`${
-                        matchRuleToString[MatchRuleType.WinnerSide]
-                    } - ${winnerSideScore} נק'`}
+                    {t('matches.ruleScore', {
+                        rule: matchRuleToString[MatchRuleType.WinnerSide],
+                        score: winnerSideScore,
+                    })}
                 </div>
                 <div>
-                    {`${
-                        matchRuleToString[MatchRuleType.Result]
-                    } - ${resultScore} נק'`}
+                    {t('matches.ruleScore', {
+                        rule: matchRuleToString[MatchRuleType.Result],
+                        score: resultScore,
+                    })}
                 </div>
                 {hasQualifierBet && (
                     <div>
-                        {`${
-                            matchRuleToString[MatchRuleType.Qualifier]
-                        } - ${qualifierScore} נק'`}
+                        {t('matches.ruleScore', {
+                            rule: matchRuleToString[MatchRuleType.Qualifier],
+                            score: qualifierScore,
+                        })}
                     </div>
                 )}
             </div>

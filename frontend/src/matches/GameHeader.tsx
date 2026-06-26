@@ -8,6 +8,7 @@ import { calcTotalTwoLegsAggregation, cn, getWinnerSide, handlerNoPropagation, i
 import InfoIcon from '@mui/icons-material/InfoOutlined'
 import useOpenDialog from '@/hooks/useOpenDialog';
 import { DialogName } from '@/dialogs/types';
+import { useTranslation } from 'react-i18next';
 
 
 interface RowModel {
@@ -18,6 +19,7 @@ interface RowModel {
 }
 
 function GameHeader({ match, onClick }: { match: Match, onClick?: () => void }) {
+    const { t } = useTranslation('matches')
     const openInfoDialog = useOpenDialog(DialogName.GameScoreInfo)
     const tournamentClass = useTournamentThemeClass()
     const { home_team, away_team, start_time, is_done, winner_side, result_away, full_result_home, full_result_away, agg_result_away, agg_result_home, result_home, id, is_knockout, isTwoLeggedTie } = match
@@ -51,7 +53,7 @@ function GameHeader({ match, onClick }: { match: Match, onClick?: () => void }) 
                     id: 'agg',
                     home: `(${aggragatedData.home})`,
                     away: `(${aggragatedData.away})`,
-                    delimiter: 'סיכום',
+                    delimiter: t('header.aggregate'),
                 },
             ] : []),
         ] : [])
@@ -107,7 +109,7 @@ function GameHeader({ match, onClick }: { match: Match, onClick?: () => void }) 
     return (
         <div className={cn('relative', `LB-GameHeader ${tournamentClass} ${onClick ? 'GameHeader-clickable' : ''}`)} onClick={onClick}>
             <div
-                className={cn("absolute left-2 top-2 cursor-pointer z-10")}
+                className={cn("absolute end-2 top-2 cursor-pointer z-10")}
                 onClick={handlerNoPropagation(() => {openInfoDialog({gameId:id})})}
             >
                 <InfoIcon

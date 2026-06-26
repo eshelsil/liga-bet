@@ -1,6 +1,7 @@
 import React from 'react';
 import AppContent from '../appContent/AppContent';
 import TournamentPrizes from '../prizes/PrizesProvider';
+import TakanonLink from '../prizes/TakanonLink';
 import AppFooter from '../appFooter/Footer';
 import './AppBody.scss';
 
@@ -12,6 +13,7 @@ function AppBody() {
 				<AppContent />
 			</div>
 			<TournamentPrizes />
+			<TakanonLink />
 			<AppFooter />
 		</div>
 	);

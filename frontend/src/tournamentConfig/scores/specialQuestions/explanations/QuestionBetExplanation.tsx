@@ -1,15 +1,17 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 
 function QuestionBetExplanation(){
+	const { t } = useTranslation('tournamentConfig')
 	return (
 		<div className='LB-ScoreConfigSection'>
             <ul>
                 <li>
-                    ניתן לבחור אילו שאלות מיוחדות יכללו בטורניר
+                    {t('specialBets.explanation.line1')}
                 </li>
                 <li>
-                    ניתן לבחור ב-0 נקודות כדי לבטל ניחוש מסוים
+                    {t('specialBets.explanation.line2')}
                 </li>
             </ul>
 		</div>

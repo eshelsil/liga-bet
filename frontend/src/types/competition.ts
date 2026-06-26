@@ -20,6 +20,7 @@ export interface Competition {
     lastRegistration: Dayjs
     config?: CompetitionConfig
     emblem?: string
+    supportsBracket?: boolean
 }
 
 export type CompetitionsById = Record<number, Competition>

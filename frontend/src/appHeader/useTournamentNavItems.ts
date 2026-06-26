@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux'
 import {
     IsAppMenuEmpty,
+    IsCurrentTournamentKnockoutBracket,
     ManageTournamentIsAccessible,
     MissingGameBetsCount,
     MissingGroupRankBetsCount,
@@ -36,6 +37,7 @@ function useTournamentNavItems(
 
     const isEmpty = useSelector(IsAppMenuEmpty)
     const showTournamentManage = useSelector(ManageTournamentIsAccessible)
+    const isKnockoutBracket = useSelector(IsCurrentTournamentKnockoutBracket)
     const missingGameBets = useSelector(MissingGameBetsCount)
     const missingQuestionBets = useSelector(MissingQuestionBetsCount)
     const missingGroupRankBets = useSelector(MissingGroupRankBetsCount)
@@ -72,6 +74,12 @@ function useTournamentNavItems(
     const openMatches: TournamentNavItem = {
         id: 'open-matches',
         route: routesMap['open-matches'],
+        notifications: missingGameBets,
+    }
+
+    const openGuesses: TournamentNavItem = {
+        id: 'open-guesses',
+        route: routesMap['open-guesses'],
         notifications: missingGameBets,
     }
 
@@ -116,10 +124,24 @@ function useTournamentNavItems(
     let desktopItems: TournamentNavItem[] = []
     let bottomNavLeft: TournamentNavItem[] = []
     let bottomNavRight: TournamentNavItem[] = []
+    let bottomNavFab: TournamentNavItem = openMatches
 
-    if (isTournamentStarted) {
+    if (isKnockoutBracket) {
+        if (isTournamentStarted) {
+            desktopItems = [leaderboard, openGuesses, closedBets]
+            bottomNavLeft = [leaderboard]
+            bottomNavFab = openGuesses
+            bottomNavRight = [closedBets]
+        } else {
+            desktopItems = [leaderboard, openGuesses]
+            bottomNavLeft = [leaderboard]
+            bottomNavFab = openGuesses
+            bottomNavRight = []
+        }
+    } else if (isTournamentStarted) {
         desktopItems = [leaderboard, openMatches, closedBets]
         bottomNavLeft = [leaderboard]
+        bottomNavFab = openMatches
         bottomNavRight = [closedBets]
     } else {
         desktopItems = [
@@ -129,6 +151,7 @@ function useTournamentNavItems(
             openMatches,
         ]
         bottomNavLeft = [openQuestions]
+        bottomNavFab = openMatches
         bottomNavRight = [openGroupStandings]
     }
 
@@ -137,7 +160,7 @@ function useTournamentNavItems(
         desktopItems,
         managerItems,
         bottomNavLeft,
-        bottomNavFab: openMatches,
+        bottomNavFab,
         bottomNavRight,
     }
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -17,6 +18,7 @@ export default function WaitForMvpDialog({
     onClose,
     onConfirm,
 }: Props) {
+    const { t } = useTranslation('dialogs')
 
     return (
         <Dialog classes={{root: 'LB-WaitForMvpDialog'}} open={open} onClose={onClose}>
@@ -25,18 +27,18 @@ export default function WaitForMvpDialog({
                     <IconButton onClick={onClose} className={'closeButton'}>
                         <CloseIcon />
                     </IconButton>
-                    רגע, זה עדיין לא נגמר...
+                    {t('waitForMvp.title')}
                 </DialogTitle>
                 <DialogContent className={'dialogContent'}>
-                    <h5>עדיין לא הוכרז מצטיין הטורניר, ולכן הניקוד שמוצג הוא עדיין לא הניקוד הסופי.</h5>
-                    <h5>לאחר ההכרזה על מצטיין הטורניר (mvp), הניקוד יתעדכן ותוצג הטבלה הסופית.</h5>
+                    <h5>{t('waitForMvp.body1')}</h5>
+                    <h5>{t('waitForMvp.body2')}</h5>
                     <div className='buttonContainer'>
                         <Button
                             variant='contained'
                             color='primary'
                             onClick={onConfirm}
                         >
-                            אוקיי, הבנתי
+                            {t('buttons.okGotIt')}
                         </Button>
                     </div>
                 </DialogContent>

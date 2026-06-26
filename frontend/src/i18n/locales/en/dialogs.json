@@ -1,0 +1,59 @@
+{
+    "buttons": {
+        "okGotIt": "OK, got it",
+        "ok": "OK",
+        "send": "Send",
+        "preview": "Preview"
+    },
+    "gameScoreInfo": {
+        "title": "Scoring settings",
+        "stageLabel": "Stage:",
+        "delayedScore": "Score will be calculated in the second leg"
+    },
+    "multiBet": {
+        "title": "Sending a prediction to all your tournaments",
+        "intro1": "You can send a specific prediction to all the tournaments you take part in",
+        "intro2": "using the toggle at the top left that appears while editing a prediction:",
+        "switchOn": "When the toggle is <1><2>on</2></1>, the header background turns purple and clicking \"Send\" sends the prediction <3><4>to all tournaments</4></3>",
+        "switchOff": "When the toggle is <1><2>off</2></1>, the header background uses the current tournament's color and clicking \"Send\" sends the prediction only <3><4>to the current tournament</4></3>",
+        "defaultStateLabel": "You can set a default for the toggle's initial state:",
+        "dontShowAgain": "Got it, don't show again"
+    },
+    "nihus": {
+        "exampleUserName": "Joey the Heavyweight",
+        "titleGranted": "You won {{amount}} Nihusim!",
+        "titleExplanation": "About Nihusim",
+        "grantedHeading": "The secret feature is here!<1></1>And you get to use it {{amount}} times",
+        "grantReasonLabel": "This was granted to you for:",
+        "howToIntro": "During live games, you can click the tomato next to whoever you want to Nihus, and a Nihus sending form will open:",
+        "lockWarning": "<1>Note!</1> A user who receives a Nihus stays stuck with it on screen and can't dismiss it for <3>{{seconds}} seconds</3>",
+        "toggleOffInfo": "If you're tired of seeing so many tomatoes, you can turn off the Nihusim toggle in the user menu and the tomatoes will disappear:",
+        "menuInfo": "By clicking the Nihusim menu you can also see how many Nihusim you have left and open this explanation again",
+        "outro1": "Nihusim have proven many times to be a very powerful card. Use them wisely...",
+        "outro2": "Good luck!"
+    },
+    "sendNihus": {
+        "title": "Send a Nihus to {{name}}!",
+        "betLabel": "For prediction:",
+        "wordsLabel": "Add a few words:",
+        "stickerLabel": "Choose a sticker:",
+        "sentSuccess": "Nihus sent successfully!"
+    },
+    "waitForMvp": {
+        "title": "Wait, it's not over yet...",
+        "body1": "The tournament MVP hasn't been announced yet, so the score shown is not the final score.",
+        "body2": "After the tournament MVP is announced, the score will update and the final leaderboard will be shown."
+    },
+    "changePassword": {
+        "title": "Update password",
+        "newPasswordLabel": "New password",
+        "confirmPasswordLabel": "Confirm password",
+        "submit": "Update password",
+        "success": "Your password was updated successfully",
+        "errors": {
+            "minPassword": "Password must contain at least 4 characters",
+            "required": "This field is required",
+            "mismatch": "The password does not match the password above"
+        }
+    }
+}

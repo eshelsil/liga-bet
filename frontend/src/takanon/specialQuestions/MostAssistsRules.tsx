@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { EachGoalBet } from '../../types'
 
 interface Props {
@@ -6,42 +7,42 @@ interface Props {
 }
 
 function MostAssistsRules({ scoreConfig }: Props) {
+    const { t } = useTranslation('takanon')
     const { correct, eachGoal } = scoreConfig
     const hasEachGoalBet = eachGoal > 0
     return (
         <>
-            <h5 className="underlined">מלך בישולים</h5>
-            <h5>השחקן שסיים את הטורניר עם הכי הרבה בישולים</h5>
+            <h5 className="underlined">{t('mostAssists.heading')}</h5>
+            <h5>{t('mostAssists.description')}</h5>
             {hasEachGoalBet  && (
                 <table className='scoresConfigTable'>
                     <thead>
                         <tr>
                             <th></th>
-                            <th>ניקוד</th>
+                            <th>{t('mostAssists.scoreHeader')}</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td className='scoreRuleLabel'>לכל גול</td>
+                            <td className='scoreRuleLabel'>{t('mostAssists.eachGoalLabel')}</td>
                             <td>{scoreConfig.eachGoal}</td>
                         </tr>
                         <tr>
-                            <td className='scoreRuleLabel'>זכייה בתואר "מלך הבישולים"</td>
+                            <td className='scoreRuleLabel'>{t('mostAssists.titleWinLabel')}</td>
                             <td>{scoreConfig.correct}</td>
                         </tr>
                     </tbody>
                 </table>
             )}
             {!hasEachGoalBet  && (
-                <h5>{correct} נקודות</h5>
+                <h5>{t('mostAssists.points', { score: correct })}</h5>
             )}
             <ul style={{ marginTop: 4 }}>
                 <li>
-                    לא ניתן להחליף מלך בישולים במהלך הטורניר (גם אם שחקן נפצע)
+                    {t('mostAssists.noSwap')}
                 </li>
                 <li>
-                    במקרה של תיקו - ניחוש על אחד מהשחקנים יזכה את
-                    המנחש ב{scoreConfig.correct} הנקודות על זכייה בתואר
+                    {t('mostAssists.tie', { score: scoreConfig.correct })}
                 </li>
             </ul>
         </>

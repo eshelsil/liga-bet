@@ -45,6 +45,9 @@ class BetMatchRequest extends AbstractBetRequest
 
     protected function validateData($game, $data)
     {
+        if ($this->tournament->isKnockoutBracket()){
+            return $this->validateDataBracket($game, $data);
+        }
         if ($game->isTwoLeggedTie()){
             return $this->validateDataTwoLeggedTie($game, $data);
         }
@@ -62,6 +65,22 @@ class BetMatchRequest extends AbstractBetRequest
                 $paramString = is_null($koWinnerSide) ? "null" : $koWinnerSide;
                 throw new \InvalidArgumentException("Knockout Bet's \"winner_side\" parameter must be one of [\"away\", \"home\"] if score is tied. <br>Got: {$paramString}");
             }
+        }
+    }
+
+    /**
+     * Bracket tournaments are qualifier-only: only "winner_side" matters; result fields are ignored.
+     */
+    protected function validateDataBracket(Game $game, $data)
+    {
+        if (!$game->isKnockout()) {
+            Log::debug("[BetMatchRequest][validateDataBracket] Game ". $game->id ." is not knockout, skipping validation");
+            return;
+        }
+        $koWinnerSide = data_get($data, "winner_side");
+        if (!in_array($koWinnerSide, ["home", "away"], true)) {
+            $paramString = is_null($koWinnerSide) ? "null" : $koWinnerSide;
+            throw new \InvalidArgumentException("Bracket qualifier bet's \"winner_side\" must be one of [\"home\", \"away\"]. <br>Got: {$paramString}");
         }
     }
 
@@ -133,6 +152,9 @@ class BetMatchRequest extends AbstractBetRequest
      */
     public function calculate()
     {
+        if ($this->tournament->isKnockoutBracket()) {
+            return $this->calculateBracketQualifier();
+        }
         if ($this->getGame()->isKnockout()) {
             $score = $this->calculateKnockout("knockout");
 
@@ -193,6 +215,26 @@ class BetMatchRequest extends AbstractBetRequest
             ($resultHome == $resultAway && $this->getResultHome() == $this->getResultAway()) // Teko
             || ($resultHome > $resultAway && $this->getResultHome() > $this->getResultAway()) // Winner Home
             || ($resultHome < $resultAway && $this->getResultHome() < $this->getResultAway()); // Winner Away
+    }
+
+    /**
+     * Bracket qualifier scoring: award bracket.qualifier[sub_type] when the picked side matches the actual
+     * qualifier. Qualifier-only — no result/1X2/bonus paths. THIRD_PLACE is scored as a qualifier too.
+     */
+    protected function calculateBracketQualifier(): int
+    {
+        $game = $this->getGame();
+        if (!$game->isKnockout()) {
+            return 0;
+        }
+        if (!$game->is_done) {
+            return 0;
+        }
+        $actual = $game->getKnockoutWinnerSide();
+        if ($actual === null || $this->getKnockoutQualifier() !== $actual) {
+            return 0;
+        }
+        return (int) $this->getScoreConfig("bracket.qualifier.{$game->sub_type}");
     }
 
     protected function calculateKnockout(string $type): int

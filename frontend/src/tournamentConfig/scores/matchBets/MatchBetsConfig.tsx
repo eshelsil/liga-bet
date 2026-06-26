@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useWatch } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import TakanonPreviewModal from '../../takanonPreview/TakanonPreviewModal';
@@ -25,6 +26,7 @@ interface StageConfigModel {
 
 
 function MatchBetsConfig(formProps: ScoreConfigFormProps){
+	const { t } = useTranslation('tournamentConfig')
 	const disabled = !(useSelector(CanUpdateScoreConfig))
 	const scoreConfig = useWatch({control: formProps.control, name: 'gameBets'})
 	const optionsConfig = useWatch({control: formProps.control, name: 'gameBetOptions'})
@@ -75,7 +77,7 @@ function MatchBetsConfig(formProps: ScoreConfigFormProps){
 		},
 		{
 			id: 'result',
-			header: 'תוצאה מדויקת',
+			header: t('matchBets.exactResult'),
 			getter: (model: StageConfigModel) => (
 				<MatchBetStageConfig
 					attribute={'result'}
@@ -88,7 +90,7 @@ function MatchBetsConfig(formProps: ScoreConfigFormProps){
 		},
 		{
 			id: 'winnerSide',
-			header: 'מי תנצח - (1X2)',
+			header: t('matchBets.whoWins'),
 			getter: (model: StageConfigModel) => (
 				<MatchBetStageConfig
 					attribute={'winnerSide'}
@@ -104,7 +106,7 @@ function MatchBetsConfig(formProps: ScoreConfigFormProps){
 			header: (
 				<div className={'headerWithSwitch'}>
 					<Switch disabled={disabled} checked={qualifierIsOn} onChange={onKoSwitchChange} />
-					<div>מעפילה</div>
+					<div>{t('matchBets.qualifier')}</div>
 				</div>
 			),
 			getter: (model: StageConfigModel) => (<>
@@ -123,7 +125,7 @@ function MatchBetsConfig(formProps: ScoreConfigFormProps){
 	return (
 		<div className='LigaBet-MatchRankBetCofig LB-ConfigBox'>
 			<SectionTitle
-				title={'ניקוד על משחקים'}
+				title={t('matchBets.title')}
 				tooltipContent={<MatchBetsExplanation />}
 			/>
 			<div className='matchesTableContainer'>

@@ -1,18 +1,8 @@
-export const groupNameToHeb = {
-    'group a': 'בית א',
-    'group b': 'בית ב',
-    'group c': 'בית ג',
-    'group d': 'בית ד',
-    'group e': 'בית ה',
-    'group f': 'בית ו',
-    'group g': 'בית ז',
-    'group h': 'בית ח',
-    'group i': 'בית ט',
-    'group j': 'בית י',
-    'group k': 'בית י״א',
-    'group l': 'בית י״ב',
+import i18n from '../i18n/config'
+
+export function getGroupName(name: string) {
+    return i18n.t(`domain:groups.${name.toLowerCase()}`, { defaultValue: name })
 }
 
-export function getHebGroupName(name: string){
-    return groupNameToHeb[name.toLowerCase()] ?? name
-}
+// Back-compat alias (now language-aware, not Hebrew-only).
+export const getHebGroupName = getGroupName

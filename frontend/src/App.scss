@@ -10,7 +10,7 @@ html {
     body {
         height: 100%;
         background-color: rgba(30,30,30,0.02);
-        direction: rtl;
+        // direction comes from the <html dir> attribute (toggled per language)
         * {
             font-family: "Helvetica", "Roboto", sans-serif;
         }
@@ -64,7 +64,7 @@ html {
 
 .row {
     &.full-row {
-        margin-right: 0px;
+        margin-inline-start: 0px;
         width: 100%;
     }
 }
@@ -102,8 +102,8 @@ html {
     ul > li {
         cursor: pointer;
         padding: 3px;
-        padding-right: 9px;
-        padding-left: 6px;
+        padding-inline-start: 9px;
+        padding-inline-end: 6px;
         &:hover {
             background: #d3d3d3;
         }
@@ -152,7 +152,7 @@ html {
                 height: 30px;
                 position: absolute;
                 top: 6px;
-                right: 5px;
+                inset-inline-start: 5px;
                 background-size: cover;
                 &.podium_icon {
                     background-image: url('/img/podium.svg');
@@ -178,7 +178,7 @@ html {
                 }
             }
             > span.menu-label {
-                margin-right: 30px;
+                margin-inline-start: 30px;
             }
             &:hover {
                 @include menu_icons_hover;
@@ -215,7 +215,7 @@ table {
         width: 60px;
     }
     .open-matches-bet-cell {
-        padding-left: 5px;
+        padding-inline-end: 5px;
     }
 }
 
@@ -260,7 +260,7 @@ table {
     .LB-AdminViewContainer {
         background-color: #eeeeeee3;
         width: calc(100% + 16px);
-        margin-right: -8px;
+        margin-inline-start: -8px;
         padding: 30px 12px;
         border-radius: 24px;
     }

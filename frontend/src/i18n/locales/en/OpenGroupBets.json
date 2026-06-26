@@ -1,0 +1,17 @@
+{
+    "toasts": {
+        "betSent": "Prediction sent",
+        "betSentForTournaments_one": "Prediction sent for 1 tournament",
+        "betSentForTournaments_other": "Prediction sent for {{count}} tournaments"
+    },
+    "buttons": {
+        "send": "Send"
+    },
+    "view": {
+        "title": "Group standings prediction",
+        "editUntil": "You can edit your predictions until the start of the tournament's first match {{startTime}}",
+        "scoringMethodPrefix": "You can view the scoring method",
+        "scoringMethodLink": "by clicking here",
+        "closedTitle": "The tournament has already started! Group standings are closed for predictions"
+    }
+}

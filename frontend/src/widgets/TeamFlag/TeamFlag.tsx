@@ -31,6 +31,7 @@ const teamNameToCountryCode = {
     'iceland': 'is',
     'sweden': 'se',
     'turkey': 'tr',
+    'turkiye': 'tr',
     'austria': 'at',
     'ukraine': 'ua',
     'north macedonia': 'mk',
@@ -39,15 +40,19 @@ const teamNameToCountryCode = {
 
     'south africa': 'za',
     'bosnia-herzegovina': 'ba',
+    'bosnia & herzegovina': 'ba',
     haiti: 'ht',
     paraguay: 'py',
     'curaçao': 'cw',
+    'curacao': 'cw',
     'ivory coast': 'ci',
     'new zealand': 'nz',
     'cape verde islands': 'cv',
+    'cape verde': 'cv',
     iraq: 'iq',
     algeria: 'dz',
     'congo dr': 'cd',
+    'dr congo': 'cd',
 }
 
 interface Props {

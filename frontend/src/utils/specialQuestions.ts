@@ -7,6 +7,7 @@ import {
     SpecialQuestionType,
     Team,
 } from '../types'
+import i18n from '@/i18n/config'
 
 export const specialQuestionToAnswerType: Record<
     SpecialQuestionType,
@@ -21,18 +22,20 @@ export const specialQuestionToAnswerType: Record<
     [SpecialQuestionType.MVP]: SpecialAnswerType.Player,
 }
 
-export const specialQuestionToHebrew: Record<SpecialQuestionType, string> = {
-    [SpecialQuestionType.Winner]: 'זוכה',
-    [SpecialQuestionType.RunnerUp]: 'סגנית',
-    [SpecialQuestionType.OffensiveTeamGroupStage]: 'ההתקפה החזקה בבתים',
-    [SpecialQuestionType.DefensiveTeamGroupStage]: 'ההגנה החזקה בבתים',
-    [SpecialQuestionType.TopScorer]: 'מלך השערים',
-    [SpecialQuestionType.TopAssists]: 'מלך הבישולים',
-    [SpecialQuestionType.MVP]: 'מצטיין הטורניר',
-}
+// Enum values (winner / runnerUp / offensiveTeam / ...) match the keys in
+// the `utils:specialQuestions` locale resource.
+export const specialQuestionToString = new Proxy(
+    {} as Record<SpecialQuestionType, string>,
+    {
+        get: (_target, prop) =>
+            i18n.t(`utils:specialQuestions.${String(prop)}`, {
+                defaultValue: String(prop),
+            }),
+    }
+)
 
 export function getSpecialQuestionName(specialQuestion: SpecialQuestionBase) {
-    return specialQuestionToHebrew[specialQuestion.type]
+    return specialQuestionToString[specialQuestion.type]
 }
 
 export function hasTeamAnswer(specialQuestion: SpecialQuestionBase) {

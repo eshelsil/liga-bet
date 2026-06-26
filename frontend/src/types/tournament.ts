@@ -1,4 +1,5 @@
 import { BetType } from "./bet";
+import { BracketScoreConfig } from "./bracket";
 import { EnumRecord } from "./common";
 import { Competition } from "./competition";
 import { KnockoutStage } from "./match";
@@ -9,6 +10,12 @@ export enum TournamentStatus {
     Initial = 'initial',
     Ongoing = 'ongoing',
     Finished = 'done',
+}
+
+// Contract A — tournament type. Absent/undefined === classic (back-compat).
+export enum TournamentType {
+    Classic = 'classic',
+    KnockoutBracket = 'knockout_bracket',
 }
 
 // Todo: needs refinement
@@ -69,6 +76,7 @@ export interface TournamentScoreConfig {
     groupRankBets: GroupRankBetScoreConfig,
     specialBets: SpecialQuestionBetScoreConfig,
     specialQuestionFlags: SpecialQuestionFlagConfig,
+    bracket?: BracketScoreConfig, // contract F — present only for knockout_bracket tournaments
 }
 
 export interface TournamentConfig {
@@ -105,6 +113,7 @@ export interface Tournament {
     competitionId: number,
     competition: Competition,
     config: TournamentConfig,
+    type?: TournamentType, // contract A — absent === classic
     code: string,
 	creatorUserId: number,
 	sideTournaments?: SideTournament[],

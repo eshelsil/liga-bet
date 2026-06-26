@@ -1,0 +1,16 @@
+{
+    "title": "App Users",
+    "table": {
+        "email": "Email",
+        "permissions": "Permissions",
+        "actions": "Actions"
+    },
+    "buttons": {
+        "back": "Back",
+        "makeTournamentAdmin": "Make Tournament Admin",
+        "revokeTournamentAdmin": "Revoke Tournament Admin"
+    },
+    "toasts": {
+        "userUpdated": "User updated successfully"
+    }
+}

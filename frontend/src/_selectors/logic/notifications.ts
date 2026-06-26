@@ -1,30 +1,56 @@
 import { createSelector } from 'reselect'
 import { valuesOf } from '../../utils'
-import { CurrentTournamentNotifications, Notifications} from '../base'
+import { SpecialQuestionType } from '../../types'
+import {
+    CurrentTournamentNotifications,
+    Games,
+    IsCurrentTournamentKnockoutBracket,
+    Notifications,
+    SpecialQuestions,
+} from '../base'
 import { MyOtherTournaments } from './tournaments'
 import { pick } from 'lodash'
 
+// In a knockout-bracket tournament the user only bets on knockout ties + Winner/Runner-Up.
+// Group-rank bets, other special questions and group-stage games aren't theirs to bet, so
+// they must not light up the menu "missing bets" ping.
+
 export const MissingQuestionBetsCount = createSelector(
     CurrentTournamentNotifications,
-    (notifications) => notifications?.questions?.length ?? 0
+    IsCurrentTournamentKnockoutBracket,
+    SpecialQuestions,
+    (notifications, isBracket, questionsById) => {
+        const ids = notifications?.questions ?? []
+        if (!isBracket) return ids.length
+        return ids.filter((id) => {
+            const type = questionsById[id]?.type
+            return type === SpecialQuestionType.Winner || type === SpecialQuestionType.RunnerUp
+        }).length
+    }
 )
 
 export const MissingGameBetsCount = createSelector(
     CurrentTournamentNotifications,
-    (notifications) => notifications?.games?.length ?? 0
+    IsCurrentTournamentKnockoutBracket,
+    Games,
+    (notifications, isBracket, gamesById) => {
+        const ids = notifications?.games ?? []
+        if (!isBracket) return ids.length
+        return ids.filter((id) => gamesById[id]?.is_knockout).length
+    }
 )
 
 export const MissingGroupRankBetsCount = createSelector(
     CurrentTournamentNotifications,
-    (notifications) => notifications?.groups?.length ?? 0
+    IsCurrentTournamentKnockoutBracket,
+    (notifications, isBracket) => (isBracket ? 0 : notifications?.groups?.length ?? 0)
 )
 
 export const MissingBetsCount = createSelector(
-    CurrentTournamentNotifications,
-    (notifications) => {
-        const {questions = [], games = [], groups = []} = notifications
-        return games.length + groups.length + questions.length
-    }
+    MissingGameBetsCount,
+    MissingGroupRankBetsCount,
+    MissingQuestionBetsCount,
+    (games, groups, questions) => games + groups + questions
 )
 
 export const HasNotificationsOnOtherTournaments = createSelector(

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import TeamAchivementRules from './TeamAchivementRules'
 import TopScorerRules from './TopScorerRules'
 import MostAssistsRules from './MostAssistsRules'
@@ -9,16 +10,17 @@ import { FormattedSpecialQuestionsScoreConfig } from '../../_selectors'
 
 
 function SpecialQuestionsRules() {
+    const { t } = useTranslation('takanon')
     const config = useSelector(FormattedSpecialQuestionsScoreConfig)
     return (
         <div className="takanonTextSection">
-            <h4 style={{marginBottom: 24}}>ניחושים מיוחדים</h4>
+            <h4 style={{marginBottom: 24}}>{t('specialQuestions.heading')}</h4>
             {config?.winner && (<>
-                <TeamAchivementRules label={'זוכה'} scoreConfig={config.winner} />
+                <TeamAchivementRules label={t('specialQuestions.winnerLabel')} scoreConfig={config.winner} />
                 <br/>
             </>)}
             {config?.runnerUp && (<>
-                <TeamAchivementRules label={'סגנית'} scoreConfig={config.runnerUp} isRunnerUp />
+                <TeamAchivementRules label={t('specialQuestions.runnerUpLabel')} scoreConfig={config.runnerUp} isRunnerUp />
                 <br/>
             </>)}
             {config?.topScorer && (<>

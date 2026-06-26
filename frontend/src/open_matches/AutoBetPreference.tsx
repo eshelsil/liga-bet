@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { CircularProgress, Link, MenuItem, Select } from '@mui/material'
 import SmartToyOutlinedIcon from '@mui/icons-material/SmartToyOutlined'
@@ -12,12 +13,12 @@ import './AutoBetPreference.scss'
 import TakanonPreviewModal from '@/tournamentConfig/takanonPreview/TakanonPreviewModal'
 import AutoBetExplanation from '@/takanon/AutoBetExplanation'
 
-const AutoBetStrategyLabel: Record<AutoBetStrategy, string> = {
-    [AutoBetStrategy.Zero]: '0:0',
-    [AutoBetStrategy.Random]: 'אקראי',
-}
-
 function AutoBetPreference() {
+    const { t } = useTranslation('open_matches')
+    const AutoBetStrategyLabel: Record<AutoBetStrategy, string> = {
+        [AutoBetStrategy.Zero]: '0:0',
+        [AutoBetStrategy.Random]: t('autoBet.strategyRandom'),
+    }
     const dispatch = useDispatch<AppDispatch>()
     const isAutoBetOn = useSelector(IsOnAutoBet)
     const tournamentId = useSelector(CurrentTournamentId)
@@ -63,7 +64,7 @@ function AutoBetPreference() {
             await dispatch(
                 updateMyUTLAndStore(tournamentId, { auto_bet_strategy: value })
             )
-            window['toastr']['success']('הניחוש האוטומטי עודכן')
+            window['toastr']['success'](t('autoBet.updated'))
         } catch (error) {
             setStrategy(prev)
         } finally {
@@ -74,7 +75,7 @@ function AutoBetPreference() {
     return (
         <div className="LB-FloatingFrame LB-AutoBetPreference">
             <SmartToyOutlinedIcon className="autoBetIcon" />
-            <span className="autoBetLabel">ניחוש אוטומטי</span>
+            <span className="autoBetLabel">{t('autoBet.label')}</span>
             {loading ? (
                 <CircularProgress size={27} className="autoBetLoader" />
             ) : (
@@ -99,7 +100,7 @@ function AutoBetPreference() {
                 </Select>
             )}
             <div className="autoBetExplanationLink">
-                <TakanonPreviewModal label="מזה אומר?">
+                <TakanonPreviewModal label={t('autoBet.whatIsThis')}>
                     <AutoBetExplanation />
                 </TakanonPreviewModal>
             </div>

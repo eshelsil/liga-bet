@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { keysOf, matchRuleToString, valuesOf } from '../../utils';
 import { GameBetBonusesScoreConfig, GameBetScoreConfig } from '../../types';
 import { getHebStageName } from '../../strings';
@@ -18,6 +19,7 @@ function GameBetScore({
     bonuses?: GameBetBonusesScoreConfig
     isKo?: boolean
 }) {
+    const { t } = useTranslation('takanon')
     const isUcl = useSelector(IsUCL)
     const bonusKeys = keysOf(bonuses).reverse()
     const bonusValues = valuesOf(bonuses).reverse()
@@ -34,7 +36,7 @@ function GameBetScore({
                 <thead>
                     <tr>
                         <th></th>
-                        <th>ניקוד</th>
+                        <th>{t('matches.scoreHeader')}</th>
                         {bonusKeys.map(stageName => (
                             <th key={stageName}>{getHebStageName(stageName)}</th>
                         ))}
@@ -54,7 +56,7 @@ function GameBetScore({
                         ) : null
                     ))}
                     <tr className="divide">
-                        <td className='scoreRuleLabel'>סכום למשחק</td>
+                        <td className='scoreRuleLabel'>{t('matches.perMatchSum')}</td>
                         <td style={{whiteSpace:'pre-line'}}>
                             {(isUcl && qualifier > 0)
                             ? (<>
@@ -85,7 +87,7 @@ function GameBetScore({
                     </tr>
                 </tbody>
             </table>
-            <h5>מקסימום נקודות - {maxScore}</h5>
+            <h5>{t('matches.maxScore', { score: maxScore })}</h5>
         </>
     )
 }

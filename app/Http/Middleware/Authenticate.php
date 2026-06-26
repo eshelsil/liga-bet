@@ -19,7 +19,7 @@ class Authenticate extends Middleware
         $search = in_array($path, ['', '/']) ? '' : "?redirectTo=$path";
         $targetRoute = route('login');
         if(preg_match("/join-tournament\/\w{6}/", $path)) {
-            $targetRoute = route('welcome');
+            $targetRoute = route('register');
         }
         return $targetRoute.$search;
     }

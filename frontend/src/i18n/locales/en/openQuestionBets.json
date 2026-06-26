@@ -1,0 +1,25 @@
+{
+    "buttons": {
+        "send": "Send"
+    },
+    "toasts": {
+        "betSent": "Prediction sent",
+        "betSentForTournaments_one": "Prediction sent for 1 tournament",
+        "betSentForTournaments_other": "Prediction sent for {{count}} tournaments"
+    },
+    "provider": {
+        "tournamentStartedLocked": "The tournament has already started! Special predictions are now locked"
+    },
+    "view": {
+        "title": "Special Predictions",
+        "editUntil": "You can edit your predictions until the start time of the first match in the tournament {{startTime}}",
+        "scoringMethodPrefix": "You can view the scoring method",
+        "scoringMethodLink": "by clicking here"
+    },
+    "playerInput": {
+        "selectPlayer": "Select player"
+    },
+    "teamInput": {
+        "selectTeam": "Select team"
+    }
+}

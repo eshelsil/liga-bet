@@ -1,12 +1,9 @@
 import { GameBetScoreConfig } from '@/types'
+import i18n from '../i18n/config'
 
-export const gameBetSliceToString: Record<keyof GameBetScoreConfig, string> = {
-    qualifier: 'מעפילה',
-    winnerSide: 'הצד המנצח',
-    result: 'תוצאה מדויקת',
+export function getBetSliceName(type: keyof GameBetScoreConfig) {
+    return i18n.t(`domain:betSlices.${type}`, { defaultValue: type })
 }
 
-export function getHebBetSliceName(type: keyof GameBetScoreConfig){
-
-    return gameBetSliceToString[type] ?? type
-}
+// Back-compat alias (now language-aware, not Hebrew-only).
+export const getHebBetSliceName = getBetSliceName

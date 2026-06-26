@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { PlayersByTeamId, PlayersWithTeams } from '../_selectors'
 import PlayerWithImg from '../widgets/Player'
@@ -24,6 +25,7 @@ function PlayerInput({
     withLabel?: boolean
     relevantTeams?: Team[]
 }) {
+    const { t } = useTranslation('openQuestionBets')
     const playersByTeamId = useSelector(PlayersByTeamId)
     const playersById = useSelector(PlayersWithTeams)
     const selectedPlayer = playersById[value]
@@ -56,11 +58,11 @@ function PlayerInput({
         <div className={'LB-PlayerInput'}>
             <TeamInput value={team} onChange={setTeam} relevantTeams={relevantTeams} withLabel={withLabel} />
             {withLabel && (
-                <InputLabel id={`team-input-label`}>בחר שחקן</InputLabel>
+                <InputLabel id={`team-input-label`}>{t('playerInput.selectPlayer')}</InputLabel>
             )}
             <Select
-                placeholder={'בחר שחקן'}
-                label="בחר שחקן"
+                placeholder={t('playerInput.selectPlayer')}
+                label={t('playerInput.selectPlayer')}
                 disabled={!team}
                 labelId="team-input-label"
                 value={displayValue || ''}

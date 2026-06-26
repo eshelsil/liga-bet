@@ -8,11 +8,13 @@ import Typography from '@mui/material/Typography'
 import MenuIcon from '@mui/icons-material/Menu'
 import CloseIcon from '@mui/icons-material/CloseRounded'
 import UserMenu from './UserMenu'
+import LanguageMenu from './LanguageMenu'
 import TournamentMenuItems from './TournamentMenuItems'
 import TournamentsDropdownMenu from './TournamentsDropdownMenu'
 import { Badge } from '@mui/material'
 import { useSelector } from 'react-redux'
-import { CurrentTournament, MissingBetsCount } from '../_selectors'
+import { useTranslation } from 'react-i18next'
+import { CurrentTournament, IsCfUser, MissingBetsCount } from '../_selectors'
 
 
 function MenuWithNotification(){
@@ -41,17 +43,19 @@ function AppMenuMobile({
     currentUtl,
     openDialogChangePassword,
 }: Props) {
+    const { t } = useTranslation('appHeader')
     const [menuOpen, setMenuOpen] = useState(false)
 
     const menuClickedHandler = () => setMenuOpen(!menuOpen)
     const closeMenuHandler = () => setMenuOpen(false)
 
     const tournament = useSelector(CurrentTournament)
+    const isCfUser = useSelector(IsCfUser)
 
     return (
         <ClickAwayListener onClickAway={closeMenuHandler}>
             <div className="LigaBet-AppMenuMobile">
-                <Toolbar>
+                <Toolbar classes={{ root: 'sm:!px-1' }}>
                     <Container className="mobileMenuHeader">
                         <IconButton
                             size="large"
@@ -67,10 +71,14 @@ function AppMenuMobile({
                             }
                         </IconButton>
                         <Typography variant="h5" className="appName">
-                            ליגה ב' - {tournament?.competition?.name ?? ''}
+                            {t('appName', { competition: tournament?.competition?.name ?? '' })}
                         </Typography>
                         <div className='AppMenuMobile-leftSide'>
+                            {!isCfUser && (
                             <TournamentsDropdownMenu />
+                            )}
+                            <LanguageMenu />
+                            <div className="bg-black/15 h-8 w-px mx-2 sm:mx-1" />
                             <UserMenu openDialogChangePassword={openDialogChangePassword} />
                         </div>
                     </Container>

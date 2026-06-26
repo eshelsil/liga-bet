@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -29,6 +30,7 @@ export default function NihusGrantExplanationDialog({
     onConfirm,
     grant,
 }: Props) {
+    const { t } = useTranslation('dialogs')
     const {amount, grant_reason} = grant ?? {};
     const currentUtl = useSelector(CurrentTournamentUser)
     const gamesById = useSelector(MatchesWithTeams)
@@ -61,24 +63,24 @@ export default function NihusGrantExplanationDialog({
                     type_id: -1,
                     type: BetType.Match,
                 }}
-                targetUtl={{id: -1, name: 'יוסי מהכבדים', user_id: -1, role: UtlRole.Contestant}}
+                targetUtl={{id: -1, name: t('nihus.exampleUserName'), user_id: -1, role: UtlRole.Contestant}}
                 gifs={gifs ? gifs : []}
                 currentUtl={currentUtl}
             />
             <div>
                 <DialogTitle>
-                    <IconButton onClick={onClose} className={cn("absolute left-2 top-2")}>
+                    <IconButton onClick={onClose} className={cn("absolute start-2 top-2")}>
                         <CloseIcon />
                     </IconButton>
-                    {!!grant ? `זכית ב-${amount} ניחוסים!` : 'הסבר על ניחוסים'}
+                    {!!grant ? t('nihus.titleGranted', { amount }) : t('nihus.titleExplanation')}
                 </DialogTitle>
                 <DialogContent className={'dialogContent'}>
                     {!!grant && (<>
-                        <h4 className={cn("mt-0")}>הפיצ'ר הסודי כבר כאן!<br/>ואתה זכית להשתמש בו {amount} פעמים</h4>
-                        <h5><span className={cn("underline")}>הזכייה הוענקה לך בעקבות:</span> <span className={cn("text-md mr-1")}>{grant_reason}</span></h5>
+                        <h4 className={cn("mt-0")}><Trans i18nKey="nihus.grantedHeading" t={t} values={{ amount }} components={{ 1: <br/> }} /></h4>
+                        <h5><span className={cn("underline")}>{t('nihus.grantReasonLabel')}</span> <span className={cn("text-md me-1")}>{grant_reason}</span></h5>
                     </>)}
                     <div className={cn("mt-5", {'mt-0': !grant})}>
-                        <h5 className={cn("mb-1")}>בזמן משחקים בלייב, תוכל ללחוץ על הגבנייה שליד מי שתרצה לנחס וייפתח טופס שליחת ניחוס:</h5>
+                        <h5 className={cn("mb-1")}>{t('nihus.howToIntro')}</h5>
                         <div className={cn("flex items-center border-t border-b border-solid border-black/20 gap-2")}>
                             {exampleGame && (
                                 <MatchResultV2 
@@ -87,27 +89,27 @@ export default function NihusGrantExplanationDialog({
                                     isKnockout={false}
                                 />
                             )}
-                            <GumblerRow gumbler={{id: -1, name: 'יוסי מהכבדים'}} showNihusable onNihusClick={() => setNihusOpen(true)}/>
+                            <GumblerRow gumbler={{id: -1, name: t('nihus.exampleUserName')}} showNihusable onNihusClick={() => setNihusOpen(true)}/>
                         </div>
-                        <h5 className={cn("italic pr-3")}><span className={cn("underline")}>שים לב!</span> משתמש שיקבל ניחוס יישאר תקוע איתו על המסך ולא יוכל להתעלם ממנו למשך <b>{LOCK_SCREEN_SECONDS} שניות</b></h5>
+                        <h5 className={cn("italic pe-3")}><Trans i18nKey="nihus.lockWarning" t={t} values={{ seconds: LOCK_SCREEN_SECONDS }} components={{ 1: <span className={cn("underline")} />, 3: <b /> }} /></h5>
                     </div>
                     <div className={cn("mt-5")}>
-                        <h5 className={cn("mb-0")}>:במידה ונמאס לך לראות מלא עגבניות, תוכל לכבות את מתג הניחוסים בתפריט המשתמש והעבניות יעלמו</h5>
+                        <h5 className={cn("mb-0")}>{t('nihus.toggleOffInfo')}</h5>
                         <div className={cn("pointer-events-none bg-primaryGradient px-4 py-2 w-[200px] text-white")}>
                             <NihusimItemContent />
                         </div>
-                        <h5 className={cn("pr-3 italic")}>בליחצה על תפריט הניחוסים תוכל גם לראות כמה ניחוסים נשארו לך ולפתוח שוב הסבר זה</h5>
+                        <h5 className={cn("pe-3 italic")}>{t('nihus.menuInfo')}</h5>
                     </div>
 
-                    <h5 className={cn("font-bold mt-4 mb-0")}>הניחוסים כבר הוכחו פעמים רבות כקלף חזק מאוד. השתמש בהם בתבונה...</h5>
-                    <h5 className={cn("font-bold m-0 mt-1")}>בהצלחה!</h5>
+                    <h5 className={cn("font-bold mt-4 mb-0")}>{t('nihus.outro1')}</h5>
+                    <h5 className={cn("font-bold m-0 mt-1")}>{t('nihus.outro2')}</h5>
                     <div className={cn('mt-6 flex items-center justify-center')}>
                         <Button
                             variant='contained'
                             color='primary'
                             onClick={onConfirm}
                         >
-                            אוקיי, הבנתי
+                            {t('buttons.okGotIt')}
                         </Button>
                     </div>
                 </DialogContent>

@@ -1,18 +1,20 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 
 function TopAssistsExplanation(){
+	const { t } = useTranslation('tournamentConfig')
 	return (
 		<div className='LB-ScoreConfigSection'>
             <ul>
                 <li>
-                    השחקן שסיים את הטורניר עם הכי הרבה בישולים
+                    {t('topAssists.explanation.line1')}
                 </li>
                 <li>
-                    ניתן לקבוע ניקוד בונוס על כל בישול שהשחקן הבקיע
+                    {t('topAssists.explanation.line2')}
                 </li>
                 <li>
-                    בונוס "זכייה בתואר" יוענק לשחקן/שחקנים שסיימו את הטורניר עם הכי הרבה בישולים
+                    {t('topAssists.explanation.line3')}
                 </li>
             </ul>
 		</div>

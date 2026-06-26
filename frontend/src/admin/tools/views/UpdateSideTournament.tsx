@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import { Button, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import useGoTo from '../../../hooks/useGoTo'
 import { CurrentTournament, Games } from '../../../_selectors'
@@ -26,7 +27,7 @@ function SideTournamentOption({sideTournament}: {sideTournament: SideTournament}
     return (
         <div style={{display: 'flex', alignItems:'center', padding: '12px 18px', borderRadius: 16, background: '#88c2eb'}}>
             {emblem && (
-                <img src={emblem} style={{height: 32, width: 32, marginLeft: 8}} />
+                <img src={emblem} style={{height: 32, width: 32, marginInlineEnd: 8}} />
             )}
             <div>{name}</div>
         </div>
@@ -34,6 +35,7 @@ function SideTournamentOption({sideTournament}: {sideTournament: SideTournament}
 }
 
 function AdminUpdateSideTournament() {
+    const { t } = useTranslation('admin')
     const dispatch = useDispatch<AppDispatch>()
     const { goToAdminIndex } = useGoTo()
     const tournament = useSelector(CurrentTournament)
@@ -59,7 +61,7 @@ function AdminUpdateSideTournament() {
     const submit = async () => {
         await updateSideTournamentGames(tournament.id, gameDay, sideTournament)
             .then(data => {
-                (window as any).toastr["success"]('עודכן בהצלחה')
+                (window as any).toastr["success"](t('toasts.updatedSuccessfully'))
             })
     }
 
@@ -71,15 +73,15 @@ function AdminUpdateSideTournament() {
 
     return (
         <div className='LB-AdminSetMvp'>
-            <h2>עדכן משחקים לטורניר צדדי</h2>
-            <InputLabel>בחר טורניר צדדי</InputLabel>
+            <h2>{t('updateSideTournament.title')}</h2>
+            <InputLabel>{t('updateSideTournament.selectSideTournament')}</InputLabel>
             <Select
                 value={sideTournament || 0}
                 onChange={handleSideTournamentChange}
                 fullWidth
                 renderValue={(sideTournamentId) => {
                     const sideTournament = sideTournamentsById[sideTournamentId]
-                    if (!sideTournament) return (<div>מחק משחקים מטורניר צדדי</div>)
+                    if (!sideTournament) return (<div>{t('updateSideTournament.removeGamesFromSideTournament')}</div>)
                     return (
                         <SideTournamentOption sideTournament={sideTournament} />
                     )
@@ -87,7 +89,7 @@ function AdminUpdateSideTournament() {
             >
                 <MenuItem key={0} value={0} style={{}}>
                     <div>
-                        מחק משחקים מטורניר צדדי
+                        {t('updateSideTournament.removeGamesFromSideTournament')}
                     </div>
                 </MenuItem>
                 {valuesOf(sideTournamentsById).map((st) => (
@@ -97,7 +99,7 @@ function AdminUpdateSideTournament() {
                 ))}
             </Select>
 
-            <InputLabel style={{marginTop: 20}}>בחר יום משחקים</InputLabel>
+            <InputLabel style={{marginTop: 20}}>{t('updateSideTournament.selectGameDay')}</InputLabel>
             <Select
                 value={gameDay || ''}
                 onChange={handleGameDayChange}
@@ -117,7 +119,7 @@ function AdminUpdateSideTournament() {
             </Select>
 
             <LoadingButton action={submit} style={{marginTop: 24}}>
-                עדכן
+                {t('buttons.update')}
             </LoadingButton>
             <div className='goBackButton'>
                 <Button
@@ -126,7 +128,7 @@ function AdminUpdateSideTournament() {
                     onClick={goToAdminIndex}
                     style={{marginTop: 24}}
                 >
-                    חזור
+                    {t('buttons.back')}
                 </Button>
             </div>
         </div>

@@ -5,9 +5,11 @@ import ScorersTableView from './ScorersTableView'
 import GameGumblersList from './GameGumblersList'
 import { useSelector } from 'react-redux'
 import { CanSendNihus, IsOnNihusim } from '@/_selectors'
+import { useTranslation } from 'react-i18next'
 
 
 function GameDataView({ match, isLive }: { match: GameWithBetsAndGoalsData, isLive?: boolean, }) {
+    const { t } = useTranslation('matches')
     const [selectedTab, setSelectedTab] = useState(0)
     const canSendNihus = useSelector(CanSendNihus)
     const isOnNihusim = useSelector(IsOnNihusim)
@@ -18,14 +20,14 @@ function GameDataView({ match, isLive }: { match: GameWithBetsAndGoalsData, isLi
             tabs={[
                 {
                     id: 'gumblers',
-                    label: 'ניחושים',
+                    label: t('tabs.predictions'),
                     children: (
                         <GameGumblersList match={match} isLive={isLive} showNihusable={canShowNihusable} />
                     )
                 },
                 {
                     id: 'scorers',
-                    label: 'מבקיעים',
+                    label: t('tabs.scorers'),
                     children: (
                         <ScorersTableView match={match} />
                     )

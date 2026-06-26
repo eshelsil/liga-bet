@@ -7,14 +7,7 @@
     justify-content: flex-start;
     .MuiBadge-root {
       .MuiBadge-badge {
-        @media (min-width: 900px){
-          transform: translateY(-50%) translateX(-50%);
-          z-index: -1;
-        }
-        @media (max-width: 900px){
-          top: 10px;
-          left: -20px;
-        }
+        z-index: -1;
       }
     }
   }

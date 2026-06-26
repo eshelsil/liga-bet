@@ -1,0 +1,21 @@
+{
+    "columns": {
+        "id": "ID",
+        "date": "Date",
+        "bet": "Prediction",
+        "result": "Result",
+        "score": "Pts"
+    },
+    "headers": {
+        "actualResult": "Actual result"
+    },
+    "sections": {
+        "matches": "Matches",
+        "groupRanks": "Group standings",
+        "specialQuestions": "Special questions"
+    },
+    "titles": {
+        "myForm": "My form",
+        "userForm": "{{name}}'s form"
+    }
+}

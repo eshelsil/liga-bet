@@ -9,8 +9,10 @@
 }
 
 * {
-    text-align: right;
-    direction: rtl;
+    // `start` resolves to right in RTL and left in LTR; direction itself is
+    // inherited from the <html dir> attribute (toggled per language), so we
+    // must NOT hard-code `direction` here or LTR can never take effect.
+    text-align: start;
 }
 
 @media (min-width: 768px) {

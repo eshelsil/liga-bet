@@ -7,6 +7,10 @@ interface Props {
 	error?: string,
 	InputProps?: TextFieldProps['InputProps'],
 	clearErrors?: () => void,
+	// Controlled usage (e.g. the bracket scores page). Classic form usage drives the value
+	// through `InputProps` (react-hook-form register) and leaves these undefined.
+	value?: number,
+	onChange?: TextFieldProps['onChange'],
 }
 
 function ScoreInput({
@@ -14,6 +18,8 @@ function ScoreInput({
 	error,
 	InputProps,
 	clearErrors,
+	value,
+	onChange,
 } : Props) {
 	return (
 		<TextField
@@ -22,6 +28,8 @@ function ScoreInput({
 			label={label || ' '}
 			error={!!error}
 			helperText={error}
+			value={value}
+			onChange={onChange}
 			InputLabelProps={{shrink: !!label}}
 			InputProps={{
 				...InputProps,
@@ -29,7 +37,7 @@ function ScoreInput({
 					max: 1000,
 					min: 0,
 					onClick:(e: any) => e.target.select(),
-					...InputProps.inputProps,
+					...(InputProps?.inputProps),
 				},
 			}}
 			onFocus={clearErrors}

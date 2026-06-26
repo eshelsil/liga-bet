@@ -1,5 +1,19 @@
 @extends('layouts.app')
 
+@section('script')
+    <script>
+        (function (){
+            const searchParams = new URLSearchParams(window.location.search);
+            const redirectPath = searchParams.get('redirectTo');
+            if (redirectPath) {
+                sessionStorage.setItem('LigaBet-redirectAfterLogin', JSON.stringify({
+                    path: redirectPath,
+                    timestamp: new Date(),
+                }));
+            }
+        })()
+    </script>
+@endsection
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -13,7 +27,7 @@
 
 
                         <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-left">{{ __('אימייל') }}</label>
+                            <label for="email" class="col-md-4 col-form-label">{{ __('אימייל') }}</label>
 
                             <div class="col-md-6">
                                 @php
@@ -30,7 +44,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-left">{{ __('סיסמה') }}</label>
+                            <label for="password" class="col-md-4 col-form-label">{{ __('סיסמה') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
@@ -44,7 +58,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-left">{{ __('אימות סיסמה') }}</label>
+                            <label for="password-confirm" class="col-md-4 col-form-label">{{ __('אימות סיסמה') }}</label>
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                             </div>

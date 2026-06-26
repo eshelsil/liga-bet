@@ -21,6 +21,7 @@ import {
     CurrentSideTournamentId,
     CurrentTournament,
     CurrentTournamentUserId,
+    IsCurrentTournamentKnockoutBracket,
     IsShowingHistoricScoreboard,
     LeaderboardRows,
     LeaderboardVersions,
@@ -28,6 +29,7 @@ import {
     QuestionBets,
     ScoreboardSettings,
 } from '../base'
+import { LiveBracketScoreByUtlId } from './liveBracket'
 import {
     LiveGameBets,
     LiveGameBetsIncludingAll,
@@ -135,7 +137,10 @@ export const LiveGroupRankBetsWithScoreByGroupId = createSelector(
     }
 )
 
-export const LiveScoreboard = createSelector(
+// Classic-tournament live scoreboard. Knockout uses LiveScoreboardKnockoutBracket
+// instead — the LiveScoreboard switch below picks one by tournament type so the two
+// scoring paths never interleave.
+export const LiveScoreboardClassicTournament = createSelector(
     LatestLeaderboard,
     LiveGameBets,
     LiveGroupRankBetsWithScoreByUtlId,
@@ -254,6 +259,31 @@ export const LiveScoreboard = createSelector(
         )
         return getLiveVersionScore(staticLeaderboard, addedScorePerUtl)
     }
+)
+
+// Knockout-bracket live scoreboard: server's static leaderboard + the provisional
+// bracket points (qualifier + specialAdvance) from LiveBracketScoreByUtlId.
+export const LiveScoreboardKnockoutBracket = createSelector(
+    LatestLeaderboard,
+    Contestants,
+    LiveBracketScoreByUtlId,
+    (latestLeaderboard, contestants, addedScorePerUtl) => {
+        const staticLeaderboard = fillLeaderboardIfEmpty(
+            latestLeaderboard,
+            contestants
+        )
+        return getLiveVersionScore(staticLeaderboard, addedScorePerUtl)
+    }
+)
+
+// Single entry point used everywhere — switches on tournament type so each path
+// stays fully separated.
+export const LiveScoreboard = createSelector(
+    IsCurrentTournamentKnockoutBracket,
+    LiveScoreboardClassicTournament,
+    LiveScoreboardKnockoutBracket,
+    (isKnockoutBracket, classic, knockout) =>
+        isKnockoutBracket ? knockout : classic
 )
 
 export const CurrentLeaderboard = createSelector(

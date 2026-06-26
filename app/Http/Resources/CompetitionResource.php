@@ -19,9 +19,11 @@ class CompetitionResource extends JsonResource
         $competition = $this->resource;
 
         $startTime = $competition->getTournamentStartTime();
+        $supportsBracket = $competition->supportsBracket();
 
         $competition = $competition->toArray();
         $competition["startTime"] = $startTime;
+        $competition["supportsBracket"] = $supportsBracket;
         return $competition;
     }
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import { Button, Link, ClickAwayListener, Collapse, Tooltip } from '@mui/material'
 import useGoTo from '../../../hooks/useGoTo'
 import { AllTournamentsData, NoSelector } from '../../../_selectors'
@@ -42,6 +43,7 @@ function ClickableTooltip({
 
 
 function TournamentView({data}: {data: TournamentSummaryData}){
+    const { t } = useTranslation('admin')
     const { creatorUtlId, contestants, betEntities, config, name} = data
     const creator = contestants.find(utl => utl.id === creatorUtlId)
     const [expand, setExpand] = useState(false)
@@ -52,14 +54,14 @@ function TournamentView({data}: {data: TournamentSummaryData}){
             <div className='TournameView-name'>{name}</div>
             <div className='TournamentView-content'>
                 <div className='TournamentView-row'>
-                    <div><b>יוצר</b></div>
+                    <div><b>{t('seeTournaments.creator')}</b></div>
                     {creator && (
                         <div>{creator.name}{' '}({creator.email})</div>
                     )}
                 </div>
                 <div className='TournamentView-row'>
                     <div className='contestantsExpandLink' onClick={toggleExpand}>
-                        <b>משתתפים:</b>{' '}{contestants.length}
+                        <b>{t('seeTournaments.participants')}</b>{' '}{contestants.length}
                         <ArrowDownIcon />
                     </div>
                     <Collapse in={expand}>
@@ -67,9 +69,9 @@ function TournamentView({data}: {data: TournamentSummaryData}){
                         <table className='contestantsTable'>
                             <thead>
                                 <tr>
-                                    <th>שם</th>
-                                    <th>ניחושים</th>
-                                    <th>הרשאות</th>
+                                    <th>{t('seeTournaments.name')}</th>
+                                    <th>{t('seeTournaments.predictions')}</th>
+                                    <th>{t('seeTournaments.permissions')}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -86,13 +88,13 @@ function TournamentView({data}: {data: TournamentSummaryData}){
                                         <td>
                                             <div className='betsData'>
                                                 <div className='betsRow'>
-                                                    שאלות מיוחדות: {utl.bets[BetType.Question]}/{betEntities[BetType.Question]}
+                                                    {t('seeTournaments.specialQuestions')}: {utl.bets[BetType.Question]}/{betEntities[BetType.Question]}
                                                 </div>
                                                 <div className='betsRow'>
-                                                    דירוגי בתים: {utl.bets[BetType.GroupsRank]}/{betEntities[BetType.GroupsRank]}
+                                                    {t('seeTournaments.groupRankings')}: {utl.bets[BetType.GroupsRank]}/{betEntities[BetType.GroupsRank]}
                                                 </div>
                                                 <div className='betsRow'>
-                                                    משחקים: {utl.bets[BetType.Match]}/{betEntities[BetType.Match]}
+                                                    {t('seeTournaments.games')}: {utl.bets[BetType.Match]}/{betEntities[BetType.Match]}
                                                 </div>
                                             </div>
                                         </td>
@@ -106,7 +108,7 @@ function TournamentView({data}: {data: TournamentSummaryData}){
                         </div>
                     </Collapse>
                     <Link onClick={()=> setOpenConfigDialog(true)} style={{ marginTop: 16, display: 'block' }}>
-                        צפייה בהגדרות ניקוד
+                        {t('seeTournaments.viewScoreConfig')}
                     </Link>
                 </div>
             </div>
@@ -124,6 +126,7 @@ function TournamentView({data}: {data: TournamentSummaryData}){
 function AdminSeeTournaments({
     fetchAndStoreAllTournamentsDetails,
 }) {
+    const { t } = useTranslation('admin')
     const tournamentsData = useSelector(AllTournamentsData)
     const { goToAdminIndex } = useGoTo()
 
@@ -133,7 +136,7 @@ function AdminSeeTournaments({
 
     return (
         <div className='LB-AdminSeeTournaments'>
-            <h2>טורנירים רצים</h2>
+            <h2>{t('seeTournaments.title')}</h2>
             {valuesOf(tournamentsData).map(tournament => (
                 <TournamentView key={tournament.id} data={tournament} />
             ))}
@@ -143,7 +146,7 @@ function AdminSeeTournaments({
                     color='primary'
                     onClick={goToAdminIndex}
                 >
-                    חזור
+                    {t('buttons.back')}
                 </Button>
             </div>
         </div>

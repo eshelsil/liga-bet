@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { useSelector, connect } from 'react-redux'
 import {
     fetchAndStoreUsers,
@@ -15,17 +16,18 @@ function ManageUsers({
     revokeTournamentAdminPermissions,
     updateUserScoresConfigPermissions,
 }) {
+    const { t } = useTranslation('manageUsers')
     const usersById = useSelector(Users)
     const totalCount = useSelector(UsersTotalCount)
 
     function upgradeToTournamentAdmin(userId: number) {
         makeTournamentAdmin(userId).then(() => {
-            window['toastr']['success']('משתמש עודכן בהצלחה')
+            window['toastr']['success'](t('toasts.userUpdated'))
         })
     }
     function downgradeToRegularUser(userId: number) {
         revokeTournamentAdminPermissions(userId).then(() => {
-            window['toastr']['success']('משתמש עודכן בהצלחה')
+            window['toastr']['success'](t('toasts.userUpdated'))
         })
     }
 

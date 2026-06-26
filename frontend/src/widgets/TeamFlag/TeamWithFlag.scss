@@ -4,10 +4,10 @@
 .TeamWithFlag {
     @include mixins.flexRow;
     .TeamWithFlag-name {
-        margin-right: 6px;
+        margin-inline-start: 6px;
         margin-top: 2px;
         &.teamNameBig {
-            margin-right: 8px;
+            margin-inline-start: 8px;
             font-size: 20px;
         }
     }

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { sortBy, sum } from 'lodash'
 import { getHebCompetitionStageName } from '../../strings'
 import { CompetitionStageName, EnumRecord } from '../../types'
@@ -21,16 +22,17 @@ interface Props {
 }
 
 function TeamAchivementRules({ label, scoreConfig, isRunnerUp = false }: Props) {
+    const { t } = useTranslation('takanon')
     const maxScore = sum(Object.values(scoreConfig).map(val => Number(val)))
     return (
         <>
             <h5 className="underlined">{label}</h5>
-            <p>כל העפלת שלב תזכה את המנחש במספר נקודות</p>
+            <p>{t('teamAchievement.intro')}</p>
             <table className='scoresConfigTable'>
                 <thead>
                     <tr>
-                        <th>הישג</th>
-                        <th>נקודות</th>
+                        <th>{t('teamAchievement.achievementHeader')}</th>
+                        <th>{t('teamAchievement.pointsHeader')}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,11 +47,11 @@ function TeamAchivementRules({ label, scoreConfig, isRunnerUp = false }: Props) 
                         ))}
                 </tbody>
             </table>
-            <h5>מקסימום נקודות - {maxScore}</h5>
+            <h5>{t('teamAchievement.maxScore', { score: maxScore })}</h5>
             {isRunnerUp && (
                 <ul style={{ marginTop: 4 }}>
                     <li>
-                        לא ניתן לבחור אותה קבוצה גם כ"סגנית" וגם כ"זוכה"
+                        {t('teamAchievement.runnerUpNote')}
                     </li>
                 </ul>
             )}

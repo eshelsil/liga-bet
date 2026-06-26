@@ -1,0 +1,54 @@
+{
+    "errors": {
+        "unknownApiError": "Unknown error"
+    },
+    "prizes": {
+        "1": "1st place",
+        "2": "2nd place",
+        "3": "3rd place",
+        "4": "4th place",
+        "5": "5th place",
+        "6": "6th place",
+        "7": "7th place",
+        "8": "8th place",
+        "9": "9th place",
+        "10": "10th place"
+    },
+    "matchRules": {
+        "winnerSide": "Winner (1X2)",
+        "result": "Exact score",
+        "qualifier": "Qualifier"
+    },
+    "specialQuestions": {
+        "winner": "Winner",
+        "runnerUp": "Runner-up",
+        "offensiveTeam": "Best attack in the groups",
+        "defensiveTeam": "Best defense in the groups",
+        "topScorer": "Top scorer",
+        "topAssists": "Top assists",
+        "mvp": "Tournament MVP"
+    },
+    "gameStages": {
+        "groupStage": "Group stage",
+        "knockout": "Knockout",
+        "final": "Final",
+        "semiFinal": "Semi-final",
+        "quarterFinal": "Quarter-final",
+        "last16": "Round of 16",
+        "last32": "Round of 32"
+    },
+    "userRolesHebrew": {
+        "2": "Admin",
+        "1": "Tournament Admin",
+        "0": "User",
+        "-1": "Monkey"
+    },
+    "utlRoles": {
+        "admin": "Tournament Admin",
+        "manager": "Assistant Manager",
+        "contestant": "Contestant",
+        "not_confirmed": "Pending approval",
+        "rejected": "Not approved",
+        "monkey": "Monkey"
+    }
+}

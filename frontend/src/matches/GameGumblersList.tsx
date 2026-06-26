@@ -9,6 +9,7 @@ import useOpenDialog from '@/hooks/useOpenDialog'
 import { DialogName } from '@/dialogs/types'
 import { useSelector } from 'react-redux'
 import { NihusimByGameId } from '@/_selectors'
+import { useTranslation } from 'react-i18next'
 
 
 interface BetInstance {
@@ -21,6 +22,7 @@ interface BetInstance {
 }
 
 function GameGumblersList({ match, isLive, showNihusable }: { match: GameWithBetsAndGoalsData, isLive?: boolean, showNihusable?: boolean }) {
+    const { t } = useTranslation('matches')
     const { home_team, away_team, betsByValue, id } = match
     const nihusimByGameId = useSelector(NihusimByGameId)
     const nihusim = nihusimByGameId[id]
@@ -71,7 +73,7 @@ function GameGumblersList({ match, isLive, showNihusable }: { match: GameWithBet
             id: 'betValue',
             classes: {
             },
-            header: 'ניחוש',
+            header: t('table.prediction'),
             getter: (bet: BetInstance) => (
                 <MatchResultV2
                     home={{
@@ -93,7 +95,7 @@ function GameGumblersList({ match, isLive, showNihusable }: { match: GameWithBet
             classes: {
                 cell: 'gumblersCell'
             },
-            header: 'מנחשים',
+            header: t('table.gumblers'),
             getter: (bet: BetInstance) => (
                 <GumblersList nihusimByTargetUtlId={nihusimByTargetUtlId} gumblers={bet.gumblers} onNihusClick={(utlId => openNihusDialog({targetUtlId: utlId, gameId: id}))} showNihusable={showNihusable && isLive}/>
             ),
@@ -104,7 +106,7 @@ function GameGumblersList({ match, isLive, showNihusable }: { match: GameWithBet
                 cell: `scoreCell ${isLive ? 'isLive' : ''}`,
                 header: 'scoreHeaderCell',
             },
-            header: 'ניקוד',
+            header: t('table.score'),
             getter: (bet: BetInstance) => bet.score,
         },
     ]

@@ -30,8 +30,8 @@ function TeamWithFlag({
                         display: 'flex',
                         justifyContent: 'center',
                         alignContent: 'flex-start',
-                        marginRight: 8,
-                        marginLeft: -28,
+                        marginInlineStart: 8,
+                        marginInlineEnd: -28,
                     }}
                 >
                     <span

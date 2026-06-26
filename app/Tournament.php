@@ -62,9 +62,36 @@ class Tournament extends Model
     const STATUS_ONGOING = 'ongoing';
     const STATUS_INITIAL = 'initial';
 
+    const TYPE_CLASSIC = 'classic';
+    const TYPE_KNOCKOUT_BRACKET = 'knockout_bracket';
+
     protected $casts = [
         "config" => "array"
     ];
+
+    public function isKnockoutBracket(): bool
+    {
+        return $this->type === self::TYPE_KNOCKOUT_BRACKET;
+    }
+
+    public function isResultBetOn(): bool
+    {
+        if ($this->isKnockoutBracket()) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Default score-config template for a given tournament type.
+     * Competition-specific overlays (e.g. WC_48) are applied by the caller.
+     */
+    public static function defaultScoreConfig(string $type): array
+    {
+        return $type === self::TYPE_KNOCKOUT_BRACKET
+            ? config('defaultScoreKnockoutBracket')
+            : config('defaultScore');
+    }
 
     protected static $unguarded = true;
 
@@ -149,6 +176,10 @@ class Tournament extends Model
 
     public function start()
     {
+        $startTime = $this->getStartTime();
+        if (is_null($startTime) || time() < $startTime){
+            return;
+        }
         $this->status = static::STATUS_ONGOING;
         try {
             $this->updateToNumeralScoreConfig();
@@ -164,12 +195,26 @@ class Tournament extends Model
         $this->save();
     }
 
+    public function getStartTime()
+    {
+        return $this->competition->getStartTimeForType($this->type);
+    }
+
+    public function areBetsOpen()
+    {
+        $startTime = $this->getStartTime();
+        $lockBeforeSecs = config('bets.lockBetsBeforeTournamentSeconds');
+        return $startTime - $lockBeforeSecs > time();
+    }
+
     public static function mapScoreConfigToNumeral(array $config)
     {
         if (isset($config['scores']) && is_array($config['scores'])) {
-            updateToNumber($config['scores']['gameBets']);
-            updateToNumber($config['scores']['specialBets']);
-            updateToNumber($config['scores']['groupRankBets']);
+            foreach (['gameBets', 'specialBets', 'groupRankBets', 'bracket'] as $key) {
+                if (isset($config['scores'][$key]) && is_array($config['scores'][$key])) {
+                    updateToNumber($config['scores'][$key]);
+                }
+            }
         }
         return $config;
     }

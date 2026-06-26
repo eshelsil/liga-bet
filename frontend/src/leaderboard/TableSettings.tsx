@@ -1,4 +1,5 @@
 import React, { ReactNode, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Collapse, IconButton, Switch } from '@mui/material';
 import StickyConfigView from '../widgets/stickyConfig/StickyConfigView';
 import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -33,6 +34,7 @@ function ConfigRow({ children }: ConfigRowProps) {
 }
 
 function TableSettings({ updateSetting, settings, hasLiveGames, fetchScoreboards }: Props) {
+    const { t } = useTranslation('leaderboard')
     const versionsOrdered = useSelector(LeaderboardVersionsWithGames)
     const versionsById = keyBy(versionsOrdered, 'id')
     const hasVersions = versionsOrdered.length > 0
@@ -80,7 +82,7 @@ function TableSettings({ updateSetting, settings, hasLiveGames, fetchScoreboards
                 header={
                     <div className='TableSettings-header' onClick={toggleExpand}>
                         <div className='TableSettings-title'>
-                            הגדרות טבלה
+                            {t('settings.title')}
                         </div>
                         <IconButton onClick={toggleExpand}>
                             <ArrowDownIcon className={`TableSettings-expandArrow ${expanded ? 'TableSettings-expanded' : ''}`} />
@@ -99,7 +101,7 @@ function TableSettings({ updateSetting, settings, hasLiveGames, fetchScoreboards
                                         onClick={toggleLiveMode}
                                     />
                                     <div className='TableSettings-label'>
-                                        מצב חי (live)
+                                        {t('settings.liveMode')}
                                     </div>
                                 </div>
                             </ConfigRow>
@@ -108,7 +110,7 @@ function TableSettings({ updateSetting, settings, hasLiveGames, fetchScoreboards
                             <ConfigRow>
                                 <div className='TableSettings-flexRow TableSettings-destVersionRow'>
                                     <div className={`TableSettings-label ${!isShowingHistoryTable ? 'TableSettings-bolded' : ''}`}>
-                                        טבלה עדכנית
+                                        {t('settings.currentTable')}
                                     </div>
                                     <Switch
                                         color="primary"
@@ -117,7 +119,7 @@ function TableSettings({ updateSetting, settings, hasLiveGames, fetchScoreboards
                                         disabled={liveMode}
                                     />
                                     <div className={`TableSettings-label ${isShowingHistoryTable ? 'TableSettings-bolded' : ''}`}>
-                                        מצב היסטורי
+                                        {t('settings.historicMode')}
                                     </div>
                                 </div>
                                 <Collapse in={!upToDateMode} timeout={{enter: 300, exit: 50}}>
@@ -126,7 +128,7 @@ function TableSettings({ updateSetting, settings, hasLiveGames, fetchScoreboards
                                         value={destinationVersion?.id}
                                         onChange={onDestVersionChange}
                                         retryFetch={fetchScoreboards}
-                                        label='שלב סופי'
+                                        label={t('settings.finalStage')}
                                         disabled={liveMode || upToDateMode}
                                     />
                                 </Collapse>
@@ -141,7 +143,7 @@ function TableSettings({ updateSetting, settings, hasLiveGames, fetchScoreboards
                                             disabled={liveMode}
                                         />
                                         <div className='TableSettings-label'>
-                                            הצג התקדמות
+                                            {t('settings.showProgress')}
                                         </div>
                                     </div>
                                     <Collapse in={showChange} timeout={{enter: 300, exit: 50}}>
@@ -150,7 +152,7 @@ function TableSettings({ updateSetting, settings, hasLiveGames, fetchScoreboards
                                             value={originVersion?.id}
                                             onChange={onOriginVersionChange}
                                             retryFetch={fetchScoreboards}
-                                            label='שלב התחלתי'
+                                            label={t('settings.startStage')}
                                             disabled={liveMode || !showChange}
                                         />
                                     </Collapse>

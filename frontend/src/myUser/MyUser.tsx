@@ -6,6 +6,7 @@ import {
     TableRow,
 } from '@mui/material'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { User } from '../types'
 import { UserPermissionsToRoleStringHebrew } from '../utils'
 import './MyUser.scss'
@@ -15,9 +16,10 @@ interface Props {
 }
 
 function MyUser({ currentUser }: Props) {
+    const { t } = useTranslation('myUser')
     return (
         <div className="LigaBet-UserPage">
-            <h1 className="title LB-TitleText">המשתמש שלי</h1>
+            <h1 className="title LB-TitleText">{t('title')}</h1>
             <div className="UserDetailsCard">
                 <Table
                     sx={{
@@ -29,13 +31,13 @@ function MyUser({ currentUser }: Props) {
                 >
                     <TableBody>
                         <TableRow>
-                            <TableCell className="property">אימייל</TableCell>
+                            <TableCell className="property">{t('labels.email')}</TableCell>
                             <TableCell>
                                 {currentUser.email}
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell className="property">הרשאות</TableCell>
+                            <TableCell className="property">{t('labels.permissions')}</TableCell>
                             <TableCell>
                                 {
                                     UserPermissionsToRoleStringHebrew[

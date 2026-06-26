@@ -132,11 +132,11 @@
                         .qualifierIndication {
                             position: absolute;
                             top: 2px;
-                            right: calc(50% - 52px);
+                            inset-inline-start: calc(50% - 52px);
                             font-size: 22px;
                             &.awaySide {
-                                left: calc(50% - 52px);
-                                right: unset;
+                                inset-inline-end: calc(50% - 52px);
+                                inset-inline-start: unset;
                             }
                         }
                     }

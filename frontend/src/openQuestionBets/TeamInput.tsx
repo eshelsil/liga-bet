@@ -1,5 +1,6 @@
 import React from 'react'
 import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
 import { Teams } from '../_selectors'
@@ -22,6 +23,7 @@ function TeamInput({
     withLabel?: boolean
     relevantTeams?: Team[]
 }) {
+    const { t } = useTranslation('openQuestionBets')
     const teamsById = useSelector(Teams)
     const teamsSortedByName = sortBy(
         valuesOf(teamsById),
@@ -41,10 +43,10 @@ function TeamInput({
     return (
         <div className={'LB-TeamInput'}>
             {withLabel && (
-                <InputLabel>בחר קבוצה</InputLabel>
+                <InputLabel>{t('teamInput.selectTeam')}</InputLabel>
             )}
             <Select
-                placeholder={'בחר קבוצה'}
+                placeholder={t('teamInput.selectTeam')}
                 value={value || ''}
                 onChange={handleChange}
                 renderValue={(selectedTeam) => {

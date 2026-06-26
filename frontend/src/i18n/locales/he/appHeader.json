@@ -1,0 +1,34 @@
+{
+    "appName": "ליגה ב' - {{competition}}",
+    "nihusim": "ניחוסים",
+    "menu": {
+        "manageTournament": "ניהול טורניר",
+        "register": "הרשמה"
+    },
+    "buttons": {
+        "joinAnotherTournament": "הצטרף לטורניר נוסף",
+        "createNewTournament": "צור טורניר חדש"
+    },
+    "routes": {
+        "leaderboard": "טבלת ניקוד",
+        "bracket": "טבלת נוקאאוט",
+        "openGuesses": "ניחושים",
+        "openMatches": "ניחוש משחקים",
+        "closedBets": "צפייה בניחושים",
+        "openGroupStandings": "ניחוש דירוגי בתים",
+        "openQuestions": "ניחושים מיוחדים",
+        "allGroupStandings": "צפייה בניחושי דירוג בתים",
+        "allQuestions": "צפייה בניחושים מיוחדים",
+        "myBets": "הטופס שלי",
+        "setPassword": "שנה סיסמה",
+        "chooseUtl": "טורנירים",
+        "contestants": "נהל משתתפים",
+        "profile": "הפרופיל שלי",
+        "nihusim": "ניחוסים",
+        "takanon": "תקנון",
+        "logout": "התנתק",
+        "tournamentConfig": "הגדרות טורניר",
+        "tournamentScoreConfig": "הגדרות טורניר",
+        "inviteFriends": "הזמן חברים"
+    }
+}

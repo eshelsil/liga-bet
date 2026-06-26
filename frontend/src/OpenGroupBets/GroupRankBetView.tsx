@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import DraggableStandings from './DraggableStandings'
 import { Grid, IconButton, Switch } from '@mui/material'
@@ -13,7 +14,8 @@ import useCancelEdit from '../hooks/useCancelEdit'
 import { IsMultiBetDefaultForAll, MyOtherBettableUTLs } from '../_selectors'
 
 
-function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {    
+function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
+    const { t } = useTranslation('OpenGroupBets')
     const { name, id, bet, teams } = groupWithBet
 
     const otherTournaments = useSelector(MyOtherBettableUTLs);
@@ -38,9 +40,9 @@ function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
         const ts = getLastEditTs()
         await sendGroupRankBet({ groupId: id, standings: groupStandings, forAllTournaments })
             .then(function (data) {
-                let text = 'הניחוש נשלח'
+                let text = t('toasts.betSent')
                 if (forAllTournaments){
-                    text += ` עבור ${otherTournaments.length + 1} טורנירים`
+                    text = t('toasts.betSentForTournaments', { count: otherTournaments.length + 1 })
                 }
                 window['toastr']['success'](text)
                 cancelEdit(ts)
@@ -91,7 +93,7 @@ function GroupRankBetView({ groupWithBet, sendGroupRankBet }) {
                                 <LoadingButton
                                     action={sendBet}
                                 >
-                                    שלח
+                                    {t('buttons.send')}
                                 </LoadingButton>
                                 <IconButton className='iconGoBack' onClick={exitEditMode}>
                                     <CloseIcon />

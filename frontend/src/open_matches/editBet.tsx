@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
 import { MatchWithABet, WinnerSide } from '../types'
 import { DEFAULT_DATETIME_FORMAT } from '../utils/index'
@@ -15,6 +16,7 @@ function EditMatchBet({
     onSave: (...args: any) => void
 }) {
     // Component is deprecated
+    const { t } = useTranslation('open_matches')
     const { id, start_time, home_team, away_team, is_knockout, bet } = match
     const [koWinner, setKoWinner] = useState(bet?.winner_side ?? null)
     const [homeScore, setHomeScore] = useState(bet?.result_home ?? '')
@@ -94,7 +96,7 @@ function EditMatchBet({
                         className="row full-row"
                         style={{ height: 16, fontSize: 11 }}
                     >
-                        <span hidden>מעפילה:</span>
+                        <span hidden>{t('labels.qualifier')}</span>
                     </div>
                     <div className="spaced-row">
                         <input
@@ -114,7 +116,7 @@ function EditMatchBet({
                         className={`btn btn-sm btn-primary`}
                         onClick={saveBet}
                     >
-                        שלח
+                        {t('buttons.send')}
                     </button>
                     <span style={{ cursor: 'pointer' }} onClick={onCancel}>
                         (X)

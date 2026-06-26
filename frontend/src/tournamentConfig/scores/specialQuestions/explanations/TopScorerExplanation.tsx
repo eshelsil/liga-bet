@@ -1,18 +1,20 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 
 function TopScorerExplanation(){
+	const { t } = useTranslation('tournamentConfig')
 	return (
 		<div className='LB-ScoreConfigSection'>
             <ul>
                 <li>
-                    על משתתף לבחור שחקן אחד כמלך השערים
+                    {t('topScorer.explanation.line1')}
                 </li>
                 <li>
-                    ניתן לקבוע ניקוד בונוס על כל גול שהשחקן הבקיע
+                    {t('topScorer.explanation.line2')}
                 </li>
                 <li>
-                    בונוס "זכייה בתואר" יוענק לשחקן/שחקנים שסיימו את הטורניר עם הכי הרבה שערים
+                    {t('topScorer.explanation.line3')}
                 </li>
             </ul>
 		</div>

@@ -7,6 +7,7 @@ import { map } from 'lodash'
 import { useGameBets } from '../hooks/useFetcher'
 import { LoadingButton } from '../widgets/Buttons'
 import { useLiveUpdate } from '../hooks/useLiveUpdate'
+import { useTranslation } from 'react-i18next'
 import '../styles/closedBets/GumblersTable.scss'
 import './GamesView.scss'
 
@@ -41,15 +42,16 @@ function DoneGamesView({games}: {games: GameWithBetsAndGoalsData[]}){
 }
 
 function LiveGamesView({games}: {games: GameWithBetsAndGoalsData[]}){
+    const { t } = useTranslation('matches')
     const { refresh } = useLiveUpdate()
 
-    
+
     return (
         <div>
             <LoadingButton
                 action={refresh}
             >
-                רענן משחקים
+                {t('buttons.refreshGames')}
             </LoadingButton>
             {games.map((game) => (
                 <GameView key={game.id} match={game} isLive={true} />
@@ -65,24 +67,25 @@ const MatchesView = ({
     done_matches: GameWithBetsAndGoalsData[]
     live_matches: GameWithBetsAndGoalsData[]
 }) => {
+    const { t } = useTranslation('matches')
     const [selectedTab, setSelectedTab] = useState(0)
-    
+
     return (
         <div className='LB-GamesView'>
-            <h2 className='LB-TitleText'>רשימת משחקים</h2>
+            <h2 className='LB-TitleText'>{t('titles.gamesList')}</h2>
             <div>
                 <SimpleTabs
                     tabs={[
                         {
                             id: 'live',
-                            label: 'משחקים נוכחיים',
+                            label: t('tabs.liveGames'),
                             children: (
                                 <LiveGamesView games={live_matches} />
                             )
                         },
                         {
                             id: 'finished',
-                            label: 'משחקים שנגמרו',
+                            label: t('tabs.doneGames'),
                             children: (
                                 <DoneGamesView games={done_matches} />
                             )

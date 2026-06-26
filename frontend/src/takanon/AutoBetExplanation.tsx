@@ -1,22 +1,24 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 function AutoBetExplanation() {
+    const { t } = useTranslation('takanon')
     return (
         <>
-            <h3 className='LB-TitleText' style={{ marginBottom: 20 }}>ניחוש אוטומטי</h3>
+            <h3 className='LB-TitleText' style={{ marginBottom: 20 }}>{t('autoBet.heading')}</h3>
             <div className="takanonTextSection">
                 <p>
-                    אם שכחת להגיש ניחוש למשחק עד תחילתו, המערכת תגיש ניחוש אוטומטי בשמך לאחר תחילת המשחק.
+                    {t('autoBet.intro')}
                 </p>
                 <p>
-                    באפשרותך לבחור את אופן הניחוש האוטומטי במסך "ניחוש משחקים":
+                    {t('autoBet.chooseMode')}
                 </p>
                 <ul>
                     <li>
-                        <span style={{fontWeight: 700}}>0:0 (ברירת מחדל)</span> — יוגש ניחוש 0:0. במשחקי נוקאאוט שדורשים בחירת מעפילה, תיבחר מעפילה אקראית.
+                        <span style={{fontWeight: 700}}>{t('autoBet.defaultModeLabel')}</span>{t('autoBet.defaultModeText')}
                     </li>
                     <li>
-                        <span style={{fontWeight: 700}}>אקראי</span> — תוגרל תוצאת הימור אקראית, כולל בחירת מעפילה במשחקי נוקאאוט.
+                        <span style={{fontWeight: 700}}>{t('autoBet.randomModeLabel')}</span>{t('autoBet.randomModeText')}
                     </li>
                 </ul>
             </div>

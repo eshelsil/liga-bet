@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
     Paper,
     Pagination,
@@ -41,6 +42,7 @@ function ManageUsersView({
     revokeTournamentAdminPermissions,
     updateUserScoresConfigPermissions,
 }: Props) {
+    const { t } = useTranslation('manageUsers')
     const { goToAdminIndex } = useGoTo()
     const [page, setPage] = useState(1)
     const [search, setSearch] = useState('')
@@ -81,12 +83,12 @@ function ManageUsersView({
                     alignItems: 'center',
                 }}
             >
-                <h1 className='LB-TitleText'>משתמשים באפליקציה</h1>
+                <h1 className='LB-TitleText'>{t('title')}</h1>
                 {loading && (
                     <CircularProgress
                         color="inherit"
                         size={32}
-                        style={{ marginRight: 30 }}
+                        style={{ marginInlineStart: 30 }}
                     />
                 )}
             </div>
@@ -129,9 +131,9 @@ function ManageUsersView({
                         <TableHead>
                             <TableRow>
                                 <TableCell className="admin"></TableCell>
-                                <TableCell>מייל</TableCell>
-                                <TableCell>הרשאות</TableCell>
-                                <TableCell>פעולות</TableCell>
+                                <TableCell>{t('table.email')}</TableCell>
+                                <TableCell>{t('table.permissions')}</TableCell>
+                                <TableCell>{t('table.actions')}</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -163,7 +165,7 @@ function ManageUsersView({
                 onClick={goToAdminIndex}
                 style={{marginTop: 24}}
             >
-                חזור
+                {t('buttons.back')}
             </Button>
         </>
     )

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Grid } from '@mui/material';
 import { prizeToString } from '../../utils';
 import { TournamentConfig } from '../../types';
@@ -29,6 +30,7 @@ function PrizesConfig({
 	prizes: currentPrizes,
 	updatePrizes,
 }: Props){
+	const { t } = useTranslation('tournamentConfig');
 	const initialState = currentPrizes?.length > 0 ? currentPrizes : [''];
 	const [prizes, setPrizes] = useState(initialState);
 
@@ -60,7 +62,7 @@ function PrizesConfig({
 	const submit = async () => {
 		return await updatePrizes(compact(prizes))
 			.then(() => {
-				window['toastr']['success']('הפרסים עודכנו בהצלחה')
+				window['toastr']['success'](t('prizes.updateSuccess'))
 			})
 			.catch(function (error) {
                 console.log('FAILED updating prizes config', error)
@@ -70,7 +72,7 @@ function PrizesConfig({
 	return (
 		<div className='LigaBet-PrizesConfig'>
 			<h2 className='LB-TitleText'>
-				ניהול טורניר
+				{t('prizes.title')}
 			</h2>
 			<div className='inputWithTakanon'>
 				<Grid container>
@@ -97,7 +99,7 @@ function PrizesConfig({
 					</Grid>
 				</Grid>
 				<div className={'savePrizes'}>
-					<LoadingButton action={submit}>עדכן</LoadingButton>
+					<LoadingButton action={submit}>{t('prizes.update')}</LoadingButton>
 				</div>
 			</div>
 		</div>

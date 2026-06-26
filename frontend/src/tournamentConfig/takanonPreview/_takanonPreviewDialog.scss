@@ -4,7 +4,7 @@
         .closeButtonContainer{
             position: absolute;
             top: 12px;
-            left: 12px;
+            inset-inline-end: 12px;
             cursor: pointer;
         }
         .dialogContent {

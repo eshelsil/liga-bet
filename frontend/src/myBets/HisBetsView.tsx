@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { Contestants, GroupStandingBetsByUserId, MatchBetsByUserId, QuestionBetsByUserQuestionId } from '../_selectors'
 import MySpecialBetsTable from './MySpecialBetsTable'
@@ -7,10 +8,11 @@ import GroupPositionBetsTable from './MyGroupPositionBetsTable'
 import { useParams } from 'react-router-dom'
 import { useGameBetsOfUtl } from '../hooks/useFetcher'
 import { GameBetsFetchType } from '../types'
+import { IsCurrentTournamentKnockoutBracket } from '@/_selectors'
 import './MyBetsView.scss'
 
-
 function HisBetsView() {
+    const { t } = useTranslation('myBets')
     const { utlId: utlIdString } = useParams<{utlId: string}>()
     const utlId = Number(utlIdString)
     useGameBetsOfUtl(utlId)
@@ -19,6 +21,7 @@ function HisBetsView() {
     const groupRankBetsByUtlId = useSelector(GroupStandingBetsByUserId)
     const questionBetsByUtlId = useSelector(QuestionBetsByUserQuestionId)
     const utlsById = useSelector(Contestants)
+    const isKnockoutBracket = useSelector(IsCurrentTournamentKnockoutBracket)
 
     const matchBets = matchBetsByUtlId[utlId] ?? []
     const groupRankBets = groupRankBetsByUtlId[utlId] ?? []
@@ -28,10 +31,12 @@ function HisBetsView() {
 
     return (
         <div className="LB-MyBetsView">
-            <h1 className='LB-TitleText'>הטופס של {utl?.name}</h1>
+            <h1 className='LB-TitleText'>{t('titles.userForm', { name: utl?.name })}</h1>
             <MySpecialBetsTable bets={questionBets} />
-            <MyGameBetsTable bets={matchBets} />
-            <GroupPositionBetsTable bets={groupRankBets} />
+            <MyGameBetsTable bets={isKnockoutBracket ? [] : matchBets} /> {/* temp: hide game bets for knockout bracket */}
+            {isKnockoutBracket ? null : (
+                <GroupPositionBetsTable bets={groupRankBets} />
+            )}
         </div>
     )
 }

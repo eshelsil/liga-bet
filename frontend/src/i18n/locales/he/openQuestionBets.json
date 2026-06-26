@@ -1,0 +1,25 @@
+{
+    "buttons": {
+        "send": "שלח"
+    },
+    "toasts": {
+        "betSent": "הניחוש נשלח",
+        "betSentForTournaments_one": "הניחוש נשלח עבור טורניר אחד",
+        "betSentForTournaments_other": "הניחוש נשלח עבור {{count}} טורנירים"
+    },
+    "provider": {
+        "tournamentStartedLocked": "הטורניר כבר התחיל! הניחושים המיוחדים כבר נעולים"
+    },
+    "view": {
+        "title": "ניחושים מיוחדים",
+        "editUntil": "ניתן לערוך את הניחושים עד שעת תתחילת המשחק הראשון בטורניר {{startTime}}",
+        "scoringMethodPrefix": "ניתן לראות את שיטת הניקוד",
+        "scoringMethodLink": "בלחיצה כאן"
+    },
+    "playerInput": {
+        "selectPlayer": "בחר שחקן"
+    },
+    "teamInput": {
+        "selectTeam": "בחר קבוצה"
+    }
+}

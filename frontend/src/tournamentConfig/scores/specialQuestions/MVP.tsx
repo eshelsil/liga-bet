@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Collapse } from '@mui/material';
 import { SpecialQuestionConfigProps } from '../../types';
 import MvpRules from '../../../takanon/specialQuestions/MvpRules';
@@ -8,9 +9,8 @@ import SpecialQuestionHeader from './SpecialQuestionHeader';
 import MvpExplanation from './explanations/MvpExplanation';
 
 
-const MVP_WINNING_STRING = 'זכייה בתואר';
-
 function MVPConfig({disabled, ...formProps}: SpecialQuestionConfigProps){
+	const { t } = useTranslation('tournamentConfig')
 	const { watch, register, errors, clearErrors, setValue } = formProps;
 	const onChange = (event: any, value: boolean) => {
 		setValue('specialQuestionFlags.mvp', value as never);
@@ -20,7 +20,7 @@ function MVPConfig({disabled, ...formProps}: SpecialQuestionConfigProps){
 	return (
 		<div className='LigaBet-MVPConfig configContainer'>
 			<SpecialQuestionHeader
-				title={'שחקן מצטיין'}
+				title={t('mvp.title')}
 				tooltipContent={<MvpExplanation />}
 				switchProps={{
 					checked: isOn,
@@ -30,7 +30,7 @@ function MVPConfig({disabled, ...formProps}: SpecialQuestionConfigProps){
 			<Collapse in={isOn}>
 				<div className='configRow'>
 					<p className={'configLabel'}>
-						{MVP_WINNING_STRING}
+						{t('mvp.winning')}
 					</p>
 					<ScoreInput
 						error={errors.specialBets?.mvp?.message}

@@ -260,7 +260,7 @@ export const LiveWinnerBetsWithScore = createSelector(
                     || (gameQualifier === WinnerSide.Away && game.away_team === answer)
                 ){
                     const qualifyToStage = koStageToNextCompetitionStage[game.subType as KnockoutStage]
-                    additionalScore = scoresConfig.winner[qualifyToStage] ?? 0
+                    additionalScore = scoresConfig.winner?.[qualifyToStage] ?? 0
                 }
                 return {
                     ...bet,
@@ -288,7 +288,7 @@ export const LiveRunnerUpBetsWithScore = createSelector(
                     || (gameQualifier === WinnerSide.Away && game.away_team === answer)
                 ){
                     const qualifyToStage = koStageToNextCompetitionStage[game.subType as KnockoutStage]
-                    additionalScore = scoresConfig.runnerUp[qualifyToStage] ?? 0
+                    additionalScore = scoresConfig.runnerUp?.[qualifyToStage] ?? 0
                 }
                 return {
                     ...bet,
@@ -311,10 +311,10 @@ export const LiveTopScorerBetsWithScore = createSelector(
                 let additionalScore = 0
                 const goalsData = liveScorersData[answer]
                 if (goalsData){
-                    additionalScore += goalsData.goals * scoresConfig.topScorer.eachGoal
+                    additionalScore += goalsData.goals * (scoresConfig.topScorer?.eachGoal ?? 0)
                 }
                 if (liveTopScorers.includes(answer)) {
-                    additionalScore += scoresConfig.topScorer.correct
+                    additionalScore += scoresConfig.topScorer?.correct ?? 0
                 }
                 return {
                     ...bet,
@@ -337,10 +337,10 @@ export const LiveTopAssistsBetsWithScore = createSelector(
                 let additionalScore = 0
                 const goalsData = liveScorersData[answer]
                 if (goalsData){
-                    additionalScore += goalsData.assists * scoresConfig.topAssists.eachGoal
+                    additionalScore += goalsData.assists * (scoresConfig.topAssists?.eachGoal ?? 0)
                 }
                 if (liveTopAssists.includes(answer)) {
-                    additionalScore += scoresConfig.topAssists.correct
+                    additionalScore += scoresConfig.topAssists?.correct ?? 0
                 }
                 return {
                     ...bet,

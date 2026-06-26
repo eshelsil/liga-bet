@@ -1,0 +1,8 @@
+{
+    "loadingTournaments": {
+        "title": "טוען טורנירים"
+    },
+    "notOpenedForBets": {
+        "waitingForOwner": "מחכים שמנהל הטורניר (המכונה אצליכם בחברה \"{{owner}}\") יפתח את הטורניר לניחושים"
+    }
+}

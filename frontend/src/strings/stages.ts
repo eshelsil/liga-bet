@@ -1,37 +1,24 @@
-import { CompetitionStageName, GameStage, GameType, KnockoutStage, Match } from '../types'
-import { getHebGroupName } from './groups'
+import i18n from '../i18n/config'
+import { CompetitionStageName, GameStage, KnockoutStage, Match } from '../types'
+import { getGroupName } from './groups'
 
-export const stageNameToHeb = {
-    [KnockoutStage.Final]: 'גמר',
-    [KnockoutStage.ThirdPlace]: 'מקום 3-4',
-    [KnockoutStage.SemiFinal]: 'חצי גמר',
-    [KnockoutStage.QuarterFinal]: 'רבע גמר',
-    [KnockoutStage.Last16]: 'שמינית גמר',
-    [KnockoutStage.Last32]: '32 האחרונות',
-    [GameType.GroupStage]: 'שלב הבתים',
+export function getStageName(stage: GameStage) {
+    return i18n.t(`domain:stages.${stage}`, { defaultValue: stage })
 }
 
-export function getHebStageName(stage: GameStage){
-    return stageNameToHeb[stage] ?? stage
+export function getCompetitionStageName(stage: CompetitionStageName) {
+    return i18n.t(`domain:competitionStages.${stage}`, { defaultValue: stage })
 }
 
-export const competitionStageToString = {
-	[CompetitionStageName.Winning]: 'זכייה בתואר',
-	[CompetitionStageName.Final]: 'הגעה לגמר',
-	[CompetitionStageName.SemiFinal]: 'הגעה לחצי גמר',
-	[CompetitionStageName.QuarterFinal]: 'הגעה לרבע גמר',
-	[CompetitionStageName.Last16]: 'הגעה לשמינית גמר',
-}
-
-export function getHebCompetitionStageName(stage: CompetitionStageName){
-    return competitionStageToString[stage] ?? stage
-}
-
-
-export function getHebGameStage(game: Match){
-    if (game.is_knockout){
-        return getHebStageName(game.subType as KnockoutStage)
+export function getGameStage(game: Match) {
+    if (game.is_knockout) {
+        return getStageName(game.subType as KnockoutStage)
     }
     const groupName = game.group?.name
-    return groupName ? getHebGroupName(groupName) : ''
+    return groupName ? getGroupName(groupName) : ''
 }
+
+// Back-compat aliases (now language-aware, not Hebrew-only).
+export const getHebStageName = getStageName
+export const getHebCompetitionStageName = getCompetitionStageName
+export const getHebGameStage = getGameStage

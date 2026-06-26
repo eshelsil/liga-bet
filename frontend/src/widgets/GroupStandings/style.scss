@@ -14,12 +14,21 @@
         align-items: center;
         border-top: 1px solid #ddd;
         padding: 4px 8px;
-        padding-left: 2px;
+        padding-inline-end: 2px;
         font-size: 15px;
         .TeamDisplay-rank {
             font-size: 20px;
             margin-bottom: -2px;
-            margin-left: 8px;
+            margin-inline-end: 8px;
+        }
+        &.TeamDisplay-highlight {
+            background: rgb(25 118 210 / 14%);
+            border-radius: 8px;
+            box-shadow: inset 3px 0 0 rgb(25 118 210 / 80%);
+            font-weight: 700;
+            .TeamDisplay-rank {
+                color: rgb(25 118 210 / 100%);
+            }
         }
     }
     &.GroupStandingsResult-noName {
