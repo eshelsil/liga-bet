@@ -5,11 +5,17 @@ import CheckIcon from '@mui/icons-material/CheckCircle'
 import CircularProgress from '@mui/material/CircularProgress'
 import InfoIcon from '@mui/icons-material/InfoOutlined'
 import { BracketGame, BracketTeam, WinnerSide } from '../types'
-import { bracketTeamToTeam, formatBracketKickoff, subTypeToKnockoutStage } from '../utils'
+import {
+    bracketTeamToTeam,
+    DEFAULT_DATE_FORMAT,
+    ENG_DATE_FORMAT,
+    subTypeToKnockoutStage,
+} from '../utils'
 import { getStageName } from '../strings/stages'
 import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
 import BracketGameScoreInfoDialog from './BracketGameScoreInfoDialog'
 import { useBracketScores } from './useBracket'
+import dayjs from 'dayjs'
 
 type SpecialRole = 'winner' | 'runnerUp' | null
 
@@ -30,8 +36,14 @@ interface Props {
 //     (or the backend marked the tie `locked`). The qualifier is auto-committed to
 //     that team advancing — read-only, with a 🏆/🥈 badge + explanation.
 //   • Open: tap a team to pick who qualifies; submits a contract-E Game bet.
-function BracketGameCard({ game, userSide, homeRole, awayRole, onPick }: Props) {
-    const { t } = useTranslation('knockout_bracket')
+function BracketGameCard({
+    game,
+    userSide,
+    homeRole,
+    awayRole,
+    onPick,
+}: Props) {
+    const { t, i18n } = useTranslation('knockout_bracket')
 
     // The side currently being submitted — drives the inline loader on the tapped team.
     const [pendingSide, setPendingSide] = useState<WinnerSide | null>(null)
@@ -48,7 +60,6 @@ function BracketGameCard({ game, userSide, homeRole, awayRole, onPick }: Props) 
         }
     }
 
-
     const [infoOpen, setInfoOpen] = useState(false)
 
     const isSpecial = !!(homeRole || awayRole)
@@ -63,16 +74,15 @@ function BracketGameCard({ game, userSide, homeRole, awayRole, onPick }: Props) 
                 ? WinnerSide.Home
                 : WinnerSide.Away
             : homeRole
-              ? WinnerSide.Home
-              : awayRole
-                ? WinnerSide.Away
-                : null
+            ? WinnerSide.Home
+            : awayRole
+            ? WinnerSide.Away
+            : null
     const effectiveSide: WinnerSide | null = locked
         ? game.user_qualifier_side ?? specialSide
         : userSide
 
     const stage = getStageName(subTypeToKnockoutStage(game.round))
-    const kickoff = formatBracketKickoff(game.start_time)
 
     // Scoring info for this tie: qualifier points for the round, plus the advance bonus
     // when one of the user's pre-selected teams (Winner/Runner-Up) plays here.
@@ -81,23 +91,31 @@ function BracketGameCard({ game, userSide, homeRole, awayRole, onPick }: Props) 
     const advancePts = scores.specialAdvance[game.round] ?? 0
     // A pre-selected team (Winner/Runner-Up) playing here earns the advance bonus too.
     const bonusRole: SpecialRole =
-        homeRole === 'winner' || awayRole === 'winner' ? 'winner' : homeRole ?? awayRole
+        homeRole === 'winner' || awayRole === 'winner'
+            ? 'winner'
+            : homeRole ?? awayRole
 
     const badge = (role: SpecialRole) =>
         role === 'winner'
             ? t('card.winnerBadge')
             : role === 'runnerUp'
-              ? t('card.runnerUpBadge')
-              : null
+            ? t('card.runnerUpBadge')
+            : null
 
-    const teamRow = (team: BracketTeam | null, side: WinnerSide, role: SpecialRole) => {
+    const teamRow = (
+        team: BracketTeam | null,
+        side: WinnerSide,
+        role: SpecialRole
+    ) => {
         const picked = effectiveSide === side
         const clickable = !locked && !submitting
         const loading = submitting && pendingSide === side
         return (
             <button
                 type="button"
-                className={`BGC-side ${picked ? 'is-picked' : ''} ${clickable ? 'is-clickable' : ''}`}
+                className={`BGC-side ${picked ? 'is-picked' : ''} ${
+                    clickable ? 'is-clickable' : ''
+                }`}
                 onClick={
                     clickable
                         ? () => {
@@ -113,11 +131,15 @@ function BracketGameCard({ game, userSide, homeRole, awayRole, onPick }: Props) 
                 ) : (
                     <span className="BGC-tbd">{t('slot.tbd')}</span>
                 )}
-                {badge(role) && <span className="BGC-badge">{badge(role)}</span>}
+                {badge(role) && (
+                    <span className="BGC-badge">{badge(role)}</span>
+                )}
                 {loading ? (
                     <CircularProgress className="BGC-spinner" size={12} />
                 ) : (
-                    picked && <CheckIcon className="BGC-check" fontSize="small" />
+                    picked && (
+                        <CheckIcon className="BGC-check" fontSize="small" />
+                    )
                 )}
             </button>
         )
@@ -137,7 +159,17 @@ function BracketGameCard({ game, userSide, homeRole, awayRole, onPick }: Props) 
                         onClick={() => setInfoOpen(true)}
                     />
                 </span>
-                {kickoff && <span className="BGC-kickoff">{kickoff}</span>}
+                <span className="BGC-kickoff">
+                    {dayjs
+                        .unix(game.start_time)
+                        .format(
+                            `${
+                                i18n.language === 'he'
+                                    ? DEFAULT_DATE_FORMAT
+                                    : ENG_DATE_FORMAT
+                            }  HH:mm`
+                        )}
+                </span>
             </div>
             <div className="BGC-body">
                 {teamRow(game.home_team, WinnerSide.Home, homeRole)}

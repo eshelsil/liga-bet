@@ -92,10 +92,6 @@ export function deriveBracketConfig(games: BracketGame[]): BracketConfig {
     }
 }
 
-export function formatBracketKickoff(startTime: number | null): string {
-    if (startTime == null) return ''
-    return dayjs.unix(startTime).format('DD/MM HH:mm')
-}
 
 // Adapt a contract-D BracketTeam to the `Team` shape the shared TeamWithFlag/
 // TeamFlag widgets expect. Bracket teams are national sides (is_club=false →
