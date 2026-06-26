@@ -74,6 +74,14 @@ class Tournament extends Model
         return $this->type === self::TYPE_KNOCKOUT_BRACKET;
     }
 
+    public function isResultBetOn(): bool
+    {
+        if ($this->isKnockoutBracket()) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Default score-config template for a given tournament type.
      * Competition-specific overlays (e.g. WC_48) are applied by the caller.
