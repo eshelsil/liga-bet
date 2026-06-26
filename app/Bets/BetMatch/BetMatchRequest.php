@@ -73,6 +73,10 @@ class BetMatchRequest extends AbstractBetRequest
      */
     protected function validateDataBracket(Game $game, $data)
     {
+        if (!$game->isKnockout()) {
+            Log::debug("[BetMatchRequest][validateDataBracket] Game ". $game->id ." is not knockout, skipping validation");
+            return;
+        }
         $koWinnerSide = data_get($data, "winner_side");
         if (!in_array($koWinnerSide, ["home", "away"], true)) {
             $paramString = is_null($koWinnerSide) ? "null" : $koWinnerSide;
@@ -220,6 +224,9 @@ class BetMatchRequest extends AbstractBetRequest
     protected function calculateBracketQualifier(): int
     {
         $game = $this->getGame();
+        if (!$game->isKnockout()) {
+            return 0;
+        }
         if (!$game->is_done) {
             return 0;
         }
