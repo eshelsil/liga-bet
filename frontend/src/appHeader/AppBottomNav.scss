@@ -1,0 +1,254 @@
+@use '../styles/themes/tournaments';
+@use '../styles/shadows';
+@use 'sass:map';
+
+$LigaBet-bottomNav-icon-size: 32px;
+$LigaBet-bottomNav-fab-icon-size: 36px;
+$LigaBet-bottomNav-fab-size: 58px;
+$LigaBet-bottomNav-fab-lift: 22px;
+$LigaBet-bottomNav-badge-size: 22px;
+$LigaBet-bottomNav-badge-font-size: 13px;
+
+.LigaBet-AppBottomNav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    pointer-events: none;
+
+    .AppBottomNav-bar {
+        pointer-events: auto;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        overflow: visible;
+    }
+
+    .AppBottomNav-slots {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        direction: ltr;
+        min-height: 68px;
+        padding: 10px 8px 8px;
+        width: 100%;
+    }
+
+    .AppBottomNav-group {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: end;
+        width: 100%;
+        column-gap: 12px;
+    }
+
+    .AppBottomNav-side {
+        position: relative;
+        z-index: 4;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 12px;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .AppBottomNav-center {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        margin-top: -$LigaBet-bottomNav-fab-lift;
+        z-index: 2;
+        flex-shrink: 0;
+        overflow: visible;
+    }
+}
+
+.BottomNavItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+    padding: 0 6px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    min-width: 0;
+    flex: 1;
+    max-width: 160px;
+    color: rgba(255, 255, 255, 0.7);
+
+    .MuiBadge-root {
+        position: relative;
+        z-index: 5;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow: visible;
+    }
+
+    &-icon {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: $LigaBet-bottomNav-icon-size;
+        color: rgba(255, 255, 255, 0.7);
+
+        .MuiSvgIcon-root {
+            font-size: $LigaBet-bottomNav-icon-size;
+        }
+    }
+
+    &-liveBadge {
+        position: absolute;
+        top: -6px;
+        right: -12px;
+        background: #e53935;
+        color: #fff;
+        font-size: 8px;
+        font-weight: 700;
+        padding: 2px 4px;
+        border-radius: 4px;
+        letter-spacing: 0.3px;
+        line-height: 1.2;
+        white-space: nowrap;
+        z-index: 7;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    }
+
+    &-label {
+        font-size: 13px;
+        line-height: 1;
+        text-align: center;
+        direction: rtl;
+        white-space: nowrap;
+        width: auto;
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    &--active {
+        color: #fff;
+
+        .BottomNavItem-icon {
+            color: #fff;
+        }
+
+        .BottomNavItem-label {
+            color: #fff;
+            font-weight: 600;
+        }
+    }
+}
+
+.BottomNavFab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+    min-width: 0;
+    overflow: visible;
+
+    &-iconWrap {
+        display: flex;
+        justify-content: center;
+        overflow: visible;
+    }
+
+    &-badge {
+        overflow: visible !important;
+
+        &.MuiBadge-root {
+            z-index: 4;
+        }
+
+        .MuiBadge-badge {
+            top: 14% !important;
+            left: 14% !important;
+            right: auto !important;
+            transform: scale(1) translate(-50%, -50%) !important;
+            z-index: 10 !important;
+            font-size: $LigaBet-bottomNav-badge-font-size;
+            min-width: $LigaBet-bottomNav-badge-size;
+            height: $LigaBet-bottomNav-badge-size;
+            padding: 0 5px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+        }
+    }
+
+    &-button {
+        width: $LigaBet-bottomNav-fab-size !important;
+        height: $LigaBet-bottomNav-fab-size !important;
+        min-height: unset !important;
+        background-color: #fff !important;
+        box-shadow: shadows.$medium-shadow !important;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 1;
+
+        .MuiSvgIcon-root {
+            font-size: $LigaBet-bottomNav-fab-icon-size;
+        }
+
+        &--active {
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28) !important;
+        }
+    }
+
+    &-label {
+        font-size: 13px;
+        line-height: 1;
+        text-align: center;
+        direction: rtl;
+        white-space: nowrap;
+        width: auto;
+        color: rgba(255, 255, 255, 0.85);
+
+        &.active {
+            color: #fff;
+            font-weight: 600;
+        }
+    }
+}
+
+.BottomNavItem .MuiBadge-badge {
+    top: 0;
+    right: 0;
+    z-index: 6;
+    font-size: $LigaBet-bottomNav-badge-font-size;
+    min-width: $LigaBet-bottomNav-badge-size;
+    height: $LigaBet-bottomNav-badge-size;
+    padding: 0 5px;
+}
+
+@mixin themable_bottom_nav($class, $tournament_theme) {
+    $dark: map.get($tournament_theme, dark);
+    $gradient: map.get($tournament_theme, gradient);
+
+    .LigaBet-AppBottomNav.#{$class} {
+        .AppBottomNav-bar {
+            background: $gradient;
+        }
+
+        .BottomNavFab-button .MuiSvgIcon-root {
+            color: $dark;
+        }
+
+        .BottomNavItem--active {
+            .BottomNavItem-icon {
+                color: #fff;
+            }
+        }
+    }
+}
+
+@include themable_bottom_nav(tournament-theme, tournaments.$tournament_1);
+@include themable_bottom_nav(tournament-theme-1, tournaments.$tournament_1);
+@include themable_bottom_nav(tournament-theme-2, tournaments.$tournament_2);
+@include themable_bottom_nav(tournament-theme-3, tournaments.$tournament_3);
+@include themable_bottom_nav(tournament-theme-4, tournaments.$tournament_4);
+@include themable_bottom_nav(tournament-theme-5, tournaments.$tournament_5);

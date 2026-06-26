@@ -40,6 +40,35 @@
         padding: 12px 16px;
       }
     }
+    .LigaBet-AppMenuMobileCompact {
+      .MuiToolbar-root {
+        padding: 0px 12px;
+        min-height: unset;
+      }
+      .AppMenuMobile-leftSide {
+        @include mixins.flexRow;
+      }
+      .mobileMenuHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        max-width: unset;
+        .appName {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          font-size: 18px;
+          flex: 1;
+          min-width: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
     .LigaBet-AppMenuMobile {
       .MuiToolbar-root {
         padding: 0px 12px;

@@ -184,19 +184,14 @@ class TournamentUser extends Model
             ->filter(fn($game) => (
                 $game->isOpenForBets()
             ));
-        $nextOpenGameStartTime = $openGames->min('start_time');
-        if (!$nextOpenGameStartTime){
+        if ($openGames->isEmpty()) {
             return [];
         }
-        $nextGameDay = Carbon::createFromTimestamp($nextOpenGameStartTime, 'Asia/Jerusalem');
-        $upcomingGamesStartTime = $nextGameDay->startOfDay()->timestamp;
-        $upcomingGamesEndTime = $nextGameDay->copy()->addDay()->endOfDay()->timestamp;
-        $upcomingGames = $openGames->filter(fn(Game $g) => $g->start_time >= $upcomingGamesStartTime && $g->start_time <= $upcomingGamesEndTime);
 
         $betsByGameId = $this->bets->where('type', BetTypes::Game)
             ->keyBy('type_id')->toArray();
         
-        $gamesMissingBet = $upcomingGames->reduce(function ($res, $game) use($betsByGameId) {
+        $gamesMissingBet = $openGames->reduce(function ($res, $game) use($betsByGameId) {
             if (!array_key_exists($game->id, $betsByGameId)){
                 $res[] = $game;
             }

@@ -1,15 +1,16 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import Avatar from '@mui/material/Avatar'
+import Divider from '@mui/material/Divider'
 import PersonIcon from '@mui/icons-material/Person';
 import LinkMenuItem from './LinkMenuItem'
 import { routesMap } from './routes'
 import PopupMenu from '../widgets/Menu'
 import { useTournamentThemeClass } from '../hooks/useThemeClass'
 import TeamFlag from '../widgets/TeamFlag/TeamFlag'
-import { EverGrantedNihus, IsAdmin, IsCfUser, MyWinnerTeamSelector } from '../_selectors'
+import { AppHeaderSelector, EverGrantedNihus, IsAdmin, IsCfUser, IsConfirmedUtl, MyWinnerTeamSelector } from '../_selectors'
 import NihusimItemContent from './NihusimItemContent';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import useTournamentNavItems from './useTournamentNavItems';
 import { useIsXsScreen } from '@/hooks/useMedia';
 import { cn } from '@/utils/tailwind';
 
@@ -57,6 +58,12 @@ function UserMenu({
     const themeClass = useTournamentThemeClass();
     const isAdmin = useSelector(IsAdmin)
     const ShowNihusim = useSelector(EverGrantedNihus)
+    const isConfirmed = useSelector(IsConfirmedUtl)
+    const { currentUtl, isTournamentStarted } = useSelector(AppHeaderSelector)
+    const { managerItems } = useTournamentNavItems(
+        currentUtl,
+        isTournamentStarted
+    )
 
     return (
         <div className='LigaBet-UserMenu xs:!px-1'>
@@ -69,6 +76,11 @@ function UserMenu({
                 <LinkMenuItem
                     route={routesMap['profile']}
                 />
+                {isConfirmed && (
+                    <LinkMenuItem
+                        route={routesMap['my-bets']}
+                    />
+                )}
                 {isAdmin && (
                     <LinkMenuItem
                         route={routesMap['admin/index']}
@@ -79,6 +91,18 @@ function UserMenu({
                         route={routesMap['nihusim']}
                         content={<NihusimItemContent />}
                     />
+                )}
+                {managerItems.length > 0 && (
+                    <>
+                        <Divider />
+                        {managerItems.map((item) => (
+                            <LinkMenuItem
+                                key={item.id}
+                                route={item.route}
+                                onClick={item.onClick}
+                            />
+                        ))}
+                    </>
                 )}
                 <LinkMenuItem
                     route={routesMap['set-password']}
