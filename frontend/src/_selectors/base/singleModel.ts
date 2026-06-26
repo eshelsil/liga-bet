@@ -52,6 +52,11 @@ export const IsCurrentTournamentKnockoutBracket = createSelector(
     tournament => isKnockoutBracket(tournament),
 )
 
+export const IsCurrentTournamentIncludesBetOnResult = createSelector(
+    CurrentTournament,
+    (tournament) => tournament.isResultBetOn === undefined ? true : tournament.isResultBetOn,
+)
+
 export const IsAdmin = createSelector(CurrentUser, (user) => isAdmin(user))
 
 export const CanSendNihus = createSelector(CurrentTournamentUser, (utl) => utl?.nihusimLeft > 0)
@@ -165,7 +170,8 @@ export const IsLoadingAppCrucial = createSelector(
 
 export const IsMultiBetDefaultForAll = createSelector(
     MultiBetsSettings,
-    (settings) => settings.forAllTournaments
+    // (settings) => settings.forAllTournaments
+    (settings) => false
 )
 
 export const WinnerSpecialQuestionId = createSelector(

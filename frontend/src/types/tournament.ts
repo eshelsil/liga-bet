@@ -118,6 +118,7 @@ export interface Tournament {
 	creatorUserId: number,
 	sideTournaments?: SideTournament[],
 	preferences?: TournamentPreferences,
+	isResultBetOn?: boolean,
 }
 
 

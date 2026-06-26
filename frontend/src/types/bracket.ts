@@ -91,5 +91,6 @@ export interface BracketSpecialBets {
 export type BracketRoundScores = Partial<Record<GameSubType, number>>
 export interface BracketScoreConfig {
     qualifier: BracketRoundScores // per-round points for a correct qualifier pick
+    result: BracketRoundScores // per-round perfect-score bonus for nailing the exact result (incl. 3rd place)
     specialAdvance: BracketRoundScores // per-round points when your W/RU qualifies (no 3rd place)
 }

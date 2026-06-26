@@ -8,6 +8,8 @@
         "title": "Bracket scoring",
         "qualifier": "Qualifier points (per round)",
         "qualifierTooltip": "Points awarded for each correct qualifier pick, by the round it's played in.",
+        "result": "Exact-result points (per round)",
+        "resultTooltip": "Bonus points for predicting the exact result of a game, by the round it's played in.",
         "specialAdvance": "Winner / Runner-Up advance bonus (per round)",
         "specialAdvanceTooltip": "Bonus points each round your picked Winner or Runner-Up keeps advancing."
     },

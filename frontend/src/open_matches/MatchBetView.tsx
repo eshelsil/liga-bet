@@ -41,7 +41,8 @@ function OpenMatchBetView({
     const isMultiBetDefault = useSelector(IsMultiBetDefaultForAll)
     const tournamentClass = useTournamentThemeClass()
     const [edit, setEdit] = useState(false)
-    const [forAllTournaments, setForAllTournaments] = useState(isMultiBetDefault)
+    // const [forAllTournaments, setForAllTournaments] = useState(isMultiBetDefault)
+    const forAllTournaments = false; // multi-bets deprecated
     const { getLastEditTs, cancelEdit } = useCancelEdit({edit, setEdit})
     const [editOpener, setEditOpener] = useState(null)
     const hasNoBet = [undefined, null].includes(bet?.result_away)
@@ -85,9 +86,6 @@ function OpenMatchBetView({
         setEdit(false)
     }
 
-    useEffect(()=> {
-        setForAllTournaments(isMultiBetDefault)
-    }, [edit, isMultiBetDefault, setForAllTournaments])
 
 
     // const isHomeKoWinner = winnerSide === WinnerSide.Home
@@ -96,7 +94,6 @@ function OpenMatchBetView({
     return (
         <div className={`
             LB-OpenMatchBet LB-EditableBetView ${tournamentClass}
-            ${(showEdit && forAllTournaments) ? 'sendingforAllTournaments' : ''}
             ${is_knockout ? 'OpenMatchBet-knockout' : ''}
             ${showEdit ? 'OpenMatchBet-edit' : ''}
             ${isTwoLeggedTie ? 'OpenMatchBet-twoLegsKo' : ''}
@@ -105,14 +102,7 @@ function OpenMatchBetView({
                 <div className='dateLabel'>{dayjs(start_time).format(i18n.language === 'he' ? DEFAULT_DATE_FORMAT : ENG_DATE_FORMAT)}</div>
                 <div className='timeLabel'>{dayjs(start_time).format(DEFAULT_TIME_FORMAT)}</div>
                 <div className={cn("absolute top-0 end-0 flex items-center h-full")}>
-                    {showEdit && hasOtherTournaments && (
-                        <Switch
-                            className='forAllTournamentsInput'
-                            checked={forAllTournaments}
-                            onChange={(e, value) => setForAllTournaments(value)}
-                        />
-                    )}
-                    <InfoIcon onClick={()=>openInfoDialog({gameId:id})} className={cn("ms-2 fill-white/80 cursor-pointer")} />
+                    <InfoIcon onClick={()=>openInfoDialog({gameId:id})} className={cn("me-2 fill-white/80 cursor-pointer")} />
                 </div>
             </div>
             <div className='OpenMatchBet-body'>

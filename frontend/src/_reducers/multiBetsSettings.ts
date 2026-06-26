@@ -12,14 +12,15 @@ interface State {
     explainationDialog: ExplanationDialogState
 }
 
+// Todo: deprecate
 const multiBetsSettings = createSlice({
     name: 'multiBetsSettings',
     initialState: {
-        forAllTournaments: !!localStorage.getItem('ligaBetIsMultipleBetsOn'),
+        forAllTournaments: false,
         explainationDialog: {
-            seen: false,
-            dontShowAgain: !!localStorage.getItem('ligaBetDontShowMultiBetExplanation'),
-            initialized: false,
+            seen: true,
+            dontShowAgain: true,
+            initialized: true,
         }
     } as State,
     reducers: {

@@ -30,13 +30,18 @@ function BracketScoresConfigPage({ updateScoreConfig }: Props) {
     const scores = useBracketScores()
 
     const [qualifier, setQualifier] = useState<RoundScores>(() => ({ ...scores.qualifier }))
+    const [result, setResult] = useState<RoundScores>(() => ({ ...scores.result }))
     const [specialAdvance, setSpecialAdvance] = useState<RoundScores>(() => ({ ...scores.specialAdvance }))
 
-    const qualifierRounds = ROUND_ORDER.filter((r) => r in qualifier)
-    const advanceRounds = ROUND_ORDER.filter((r) => r in specialAdvance)
+    // const qualifierRounds = ROUND_ORDER.filter((r) => r in qualifier)
+    // const resultRounds = ROUND_ORDER.filter((r) => r in result)
+    // const advanceRounds = ROUND_ORDER.filter((r) => r in specialAdvance)
+    const qualifierRounds = ROUND_ORDER
+    const resultRounds = ROUND_ORDER
+    const advanceRounds = ROUND_ORDER
 
     const save = async () => {
-        const bracket: BracketScoreConfig = { qualifier, specialAdvance }
+        const bracket: BracketScoreConfig = { qualifier, result, specialAdvance }
         // knockout scores carry only `bracket`; the backend stores it under scores.bracket.
         await updateScoreConfig({ bracket } as TournamentScoreConfig)
         ;(window as any).toastr['success'](t('scoreConfigForm.updateSuccess'))
@@ -85,6 +90,14 @@ function BracketScoresConfigPage({ updateScoreConfig }: Props) {
                                 tooltipContent={t('bracketScoresConfig.qualifierTooltip')}
                             />
                             {scoresTable(qualifierRounds, qualifier, setQualifier)}
+                        </div>
+
+                        <div className="LigaBet-BracketScoresConfig LB-ConfigBox">
+                            <SectionTitle
+                                title={t('bracketScoresConfig.result')}
+                                tooltipContent={t('bracketScoresConfig.resultTooltip')}
+                            />
+                            {scoresTable(resultRounds, result, setResult)}
                         </div>
 
                         <div className="LigaBet-BracketScoresConfig LB-ConfigBox">

@@ -50,9 +50,6 @@ const OpenMatchesView = ({ matches = [], notifications, sendBet }: Props) => {
             </span>
             {!hasMatches && <h3 className='LB-TitleText'>{t('view.noOpenMatches')}</h3>}
             {hasMatches && (<>
-                {hasOtherTournaments && (
-                    <MultiBetsSettings />
-                )}
                 <div className='gamesContainer'>
                     {Object.entries(gamesByGameDay).map(
                         ([gameDay, games]) => {

@@ -23,7 +23,7 @@ export function useBracket(): BracketData {
  */
 export function useBracketScores(): BracketScoreConfig {
     const fromConfig = useSelector(BracketScoresConfigSelector)
-    return fromConfig ?? {qualifier: {}, specialAdvance: {}}
+    return fromConfig ?? {qualifier: {}, result: {}, specialAdvance: {}}
 }
 
 /**

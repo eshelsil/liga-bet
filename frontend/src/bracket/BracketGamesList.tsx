@@ -2,7 +2,10 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { BracketGame, WinnerSide } from '../types'
-import { MyGameBetsById } from '../_selectors'
+import {
+    IsCurrentTournamentIncludesBetOnResult,
+    MyGameBetsById,
+} from '../_selectors'
 import { useAppDispatch } from '../_helpers/store'
 import { sendBracketQualifierBetAndStore } from '../_actions/bets'
 import { bracketSpecialRole } from '../utils'
@@ -27,9 +30,9 @@ function BracketGamesList() {
     const { t } = useTranslation('knockout_bracket')
     const { config, games } = useBracket()
     const { winner, runnerUp } = useBracketSpecialBets()
+    const isResultsBetOn = useSelector(IsCurrentTournamentIncludesBetOnResult)
     const myBets = useSelector(MyGameBetsById)
     const dispatch = useAppDispatch()
-    const [submittingId, setSubmittingId] = useState<number | null>(null)
 
     const roleOf = (teamId: number | null | undefined) =>
         bracketSpecialRole(teamId, winner.teamId, runnerUp.teamId)
@@ -37,7 +40,10 @@ function BracketGamesList() {
     const order = new Map(config.rounds.map((r, i) => [r, i]))
     const visible = games
         .filter((g) =>
-            shouldShow(g, !!(roleOf(g.home_team?.id) || roleOf(g.away_team?.id))),
+            shouldShow(
+                g,
+                !!(roleOf(g.home_team?.id) || roleOf(g.away_team?.id))
+            )
         )
         .sort((a, b) => {
             const r = (order.get(a.round) ?? 99) - (order.get(b.round) ?? 99)
@@ -46,50 +52,48 @@ function BracketGamesList() {
 
     const onPick = async (game: BracketGame, side: WinnerSide) => {
         if (game.id == null) return
-        setSubmittingId(game.bracket_game_id)
         try {
             await dispatch(sendBracketQualifierBetAndStore(game.id, side))
             window['toastr']['success'](t('bet.saved'))
         } catch (e) {
             console.log('FAILED to save qualifier', e)
             window['toastr']['error'](t('bet.failed'))
-        } finally {
-            setSubmittingId(null)
         }
     }
 
     // No open ties yet → a floating placeholder panel (no "Open games" heading).
-    if (true) { // for now always return this view
-    // if (visible.length === 0) {
+    // if (true) { // for now always return this view
+    if (visible.length === 0 || isResultsBetOn) {
         return (
             <div className="LB-BracketGamesList">
-                <div className="BracketGamesList-emptyPanel">{t('openGames.empty')}</div>
+                <div className="BracketGamesList-emptyPanel">
+                    {t('openGames.empty')}
+                </div>
             </div>
         )
     }
 
     return (
         <div className="LB-BracketGamesList">
-            <h2 className="BracketGamesList-title">{t('openGames.title')}</h2>
-            {
-                visible.map((game) => {
-                    const myPick = game.id != null ? myBets[game.id] : undefined
-                    const userSide =
-                        (myPick?.winner_side as WinnerSide | undefined) ??
-                        game.user_qualifier_side
-                    return (
-                        <BracketGameCard
-                            key={game.bracket_game_id}
-                            game={game}
-                            userSide={userSide ?? null}
-                            homeRole={roleOf(game.home_team?.id)}
-                            awayRole={roleOf(game.away_team?.id)}
-                            onPick={(side) => onPick(game, side)}
-                            submitting={submittingId === game.bracket_game_id}
-                        />
-                    )
-                })
-            }
+            <h4 className="BracketGamesList-title LB-TitleText">
+                {t('openGames.title')}
+            </h4>
+            {visible.map((game) => {
+                const myPick = game.id != null ? myBets[game.id] : undefined
+                const userSide =
+                    (myPick?.winner_side as WinnerSide | undefined) ??
+                    game.user_qualifier_side
+                return (
+                    <BracketGameCard
+                        key={game.bracket_game_id}
+                        game={game}
+                        userSide={userSide ?? null}
+                        homeRole={roleOf(game.home_team?.id)}
+                        awayRole={roleOf(game.away_team?.id)}
+                        onPick={async (side) => await onPick(game, side)}
+                    />
+                )
+            })}
         </div>
     )
 }
