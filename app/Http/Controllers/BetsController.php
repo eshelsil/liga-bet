@@ -150,15 +150,18 @@ class BetsController extends Controller
                     }
                     foreach ($utlsToSendFor as $utl ){
                         if ($utl->tournament->isKnockoutBracket()){
-                            // Bracket: qualifier-only. Reject edits to games locked by the user's Winner/Runner-Up.
+                            // Bracket: reject edits to games locked by the user's Winner/Runner-Up.
                             $this->assertBracketQualifierEditable($utl, $game);
+                            // Qualifier-only, unless the tournament has a perfect-result tier configured —
+                            // then keep the user's predicted score (absent score stays qualifier-only).
+                            $resultBetOn = $utl->tournament->isResultBetOn();
                             $betRequest = new BetMatchRequest(
                                 $game,
                                 $utl->tournament,
                                 [
-                                    "result-home" => 0, // Bracket bets are qualifier-only, so the score is irrelevant.
-                                    "result-away" => 0, // Bracket bets are qualifier-only, so the score is irrelevant.
-                                    "winner_side" => data_get($betData, "winner_side")
+                                    "result-home" => $resultBetOn ? data_get($betData, "result-home") : 0,
+                                    "result-away" => $resultBetOn ? data_get($betData, "result-away") : 0,
+                                    "winner_side" => data_get($betData, "winner_side"),
                                 ]
                             );
                             $bets[] = BetMatch::save($utl, $betRequest);
@@ -339,7 +342,7 @@ class BetsController extends Controller
     {
         $lockedTeamIds = $this->bracketLockedTeamIds($utl->tournament_id, $utl->id);
         if ($lockedTeamIds->contains($game->team_home_id) || $lockedTeamIds->contains($game->team_away_id)) {
-            throw new \InvalidArgumentException("ניחוש המעפיל למשחק זה ננעל לפי בחירת הזוכה/סגנית שלך ואינו ניתן לעריכה");
+            throw new \InvalidArgumentException("This game is locked by your Winner/Runner-Up pick and cannot be edited");
         }
     }
 

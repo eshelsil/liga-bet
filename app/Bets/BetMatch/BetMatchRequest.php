@@ -69,7 +69,10 @@ class BetMatchRequest extends AbstractBetRequest
     }
 
     /**
-     * Bracket tournaments are qualifier-only: only "winner_side" matters; result fields are ignored.
+     * Bracket bets always carry the qualifier ("winner_side"). When the tournament has a
+     * perfect-result tier configured, an optional exact-score prediction may accompany it: if
+     * either result field is present, both must be numeric. A qualifier-only bet (no score) is
+     * still valid.
      */
     protected function validateDataBracket(Game $game, $data)
     {
@@ -81,6 +84,14 @@ class BetMatchRequest extends AbstractBetRequest
         if (!in_array($koWinnerSide, ["home", "away"], true)) {
             $paramString = is_null($koWinnerSide) ? "null" : $koWinnerSide;
             throw new \InvalidArgumentException("Bracket qualifier bet's \"winner_side\" must be one of [\"home\", \"away\"]. <br>Got: {$paramString}");
+        }
+        if (!$this->tournament->isResultBetOn()) {
+            return; // no perfect-result tier configured, so no further validation needed
+        }
+        $resultHome = data_get($data, "result-home");
+        $resultAway = data_get($data, "result-away");
+        if ((!is_null($resultHome) || !is_null($resultAway)) && (!is_numeric($resultHome) || !is_numeric($resultAway))) {
+            throw new \InvalidArgumentException("Bracket result prediction requires numeric result-home and result-away.");
         }
     }
 
@@ -153,7 +164,7 @@ class BetMatchRequest extends AbstractBetRequest
     public function calculate()
     {
         if ($this->tournament->isKnockoutBracket()) {
-            return $this->calculateBracketQualifier();
+            return $this->calculateBracket();
         }
         if ($this->getGame()->isKnockout()) {
             $score = $this->calculateKnockout("knockout");
@@ -218,23 +229,38 @@ class BetMatchRequest extends AbstractBetRequest
     }
 
     /**
-     * Bracket qualifier scoring: award bracket.qualifier[sub_type] when the picked side matches the actual
-     * qualifier. Qualifier-only — no result/1X2/bonus paths. THIRD_PLACE is scored as a qualifier too.
+     * Bracket scoring, per round (by sub_type):
+     *  - qualifier: bracket.qualifier[sub_type] when the picked side matches the actual qualifier
+     *    (THIRD_PLACE included).
+     *  - perfect result: bracket.result[sub_type] when an exact score was predicted and matches the
+     *    game result — only when the tournament has the result tier on (isResultBetOn).
+     * The two are additive.
      */
-    protected function calculateBracketQualifier(): int
+    protected function calculateBracket(): int
     {
         $game = $this->getGame();
-        if (!$game->isKnockout()) {
+        if (!$game->isKnockout() || !$game->is_done) {
             return 0;
         }
-        if (!$game->is_done) {
-            return 0;
-        }
+
+        $score = 0;
+
         $actual = $game->getKnockoutWinnerSide();
-        if ($actual === null || $this->getKnockoutQualifier() !== $actual) {
-            return 0;
+        if ($actual !== null && $this->getKnockoutQualifier() === $actual) {
+            $score += (int) $this->getScoreConfig("bracket.qualifier.{$game->sub_type}");
         }
-        return (int) $this->getScoreConfig("bracket.qualifier.{$game->sub_type}");
+
+        if (
+            $this->tournament->isResultBetOn()
+            && !is_null($this->getResultHome())
+            && !is_null($this->getResultAway())
+            && (int) $game->result_home === (int) $this->getResultHome()
+            && (int) $game->result_away === (int) $this->getResultAway()
+        ) {
+            $score += (int) $this->getScoreConfig("bracket.result.{$game->sub_type}");
+        }
+
+        return $score;
     }
 
     protected function calculateKnockout(string $type): int

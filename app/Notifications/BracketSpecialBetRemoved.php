@@ -48,6 +48,6 @@ class BracketSpecialBetRemoved extends Notification implements ShouldQueue
             ->subject("Special bet removed — {$this->tournament->name}")
             ->line($reasonText)
             ->line("You can make a new pick as long as the tournament hasn't started.")
-            ->action('Make a new pick', 'https://www.liga-bet.live/open-matches');
+            ->action('Make a new pick', 'https://liga-bet.live/open-matches');
     }
 }

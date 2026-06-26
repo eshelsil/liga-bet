@@ -27,6 +27,9 @@ class ApplyBracketSpecialBetQualifiers
      */
     public function handle(TournamentUser $utl, int $teamId): void
     {
+        if ($utl->tournament->isResultBetOn()) {
+            return;
+        }
         $competition = $utl->tournament->competition;
         $games = $competition->getKnockoutGames($teamId)
             ->filter(fn (Game $g) => $g->team_home_id && $g->team_away_id);
@@ -51,6 +54,9 @@ class ApplyBracketSpecialBetQualifiers
 
         foreach ($competition->tournaments as $tournament) {
             if (!$tournament->isKnockoutBracket()) {
+                continue;
+            }
+            if ($tournament->isResultBetOn()) {
                 continue;
             }
             $specialBetIds = $tournament->specialBets

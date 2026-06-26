@@ -77,7 +77,8 @@ class Tournament extends Model
     public function isResultBetOn(): bool
     {
         if ($this->isKnockoutBracket()) {
-            return false;
+            $result = data_get($this->config, 'scores.bracket.result', []);
+            return is_array($result) && collect($result)->contains(fn ($pts) => (int) $pts > 0);
         }
         return true;
     }

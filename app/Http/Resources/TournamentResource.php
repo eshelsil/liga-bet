@@ -32,6 +32,7 @@ class TournamentResource extends JsonResource
             "createdAt"         => $t->created_at,
             "updatedAt"         => $t->updated_at,
             "preferences"       => $t->preferences,
+            "isResultBetOn"     => $t->isResultBetOn(),
         ];
 
         return $res;

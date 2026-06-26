@@ -6,7 +6,9 @@
  *
  * Rule: when a team qualifies the user earns the qualifier points AND, if that team
  * is their pre-selected Winner/Runner-Up, the specialAdvance points for that round.
- * The 3rd-place game awards qualifier points only.
+ * `result` is the optional perfect-result tier (exact score), per round — toggled on
+ * by setting any positive value (see Tournament::isResultBetOn). The 3rd-place game
+ * awards qualifier/result points only (no specialAdvance).
  */
 return [
     "bracket" => [
@@ -18,6 +20,15 @@ return [
             "SEMI_FINALS"    => 8,
             "FINAL"          => 16,
             "THIRD_PLACE"    => 4,
+        ],
+        // user nailed the exact result of the tie, per round (perfect-score bonus)
+        "result" => [
+            "LAST_32"        => 0,
+            "LAST_16"        => 0,
+            "QUARTER_FINALS" => 0,
+            "SEMI_FINALS"    => 0,
+            "FINAL"          => 0,
+            "THIRD_PLACE"    => 0,
         ],
         // user's pre-selected Winner/Runner-Up qualifies, per round (no 3rd place)
         "specialAdvance" => [

@@ -5,6 +5,7 @@ namespace App\Actions;
 use App\Bet;
 use App\Competition;
 use App\Enums\BetTypes;
+use App\Notifications\BracketSpecialBetMismatchAlert;
 use App\Notifications\BracketSpecialBetRemoved;
 use App\SpecialBets\SpecialBet;
 use App\Team;
@@ -13,6 +14,7 @@ use App\TournamentUser;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 
 /**
  * Incremental validation of bracket Winner/Runner-Up picks. Run from UpdateCompetition whenever
@@ -133,11 +135,33 @@ class ValidateBracketSpecialBets
 
         Log::info("[ValidateBracketSpecialBets] Removed {$specialBetType} bet {$bet->id} (utl {$utl->id}, team {$teamId}) — {$reason}");
 
+        $team = Team::find($teamId);
+        $user = $utl->user;
+
         try {
-            $team = Team::find($teamId);
-            $utl->user?->notify(new BracketSpecialBetRemoved($tournament, $specialBetType, $team, $reason));
+            $user?->notify(new BracketSpecialBetRemoved($tournament, $specialBetType, $team, $reason));
         } catch (\Throwable $e) {
             Log::error("[ValidateBracketSpecialBets] Notify failed for utl {$utl->id}: {$e->getMessage()}");
+        }
+
+        // Internal heads-up to the site owner.
+        try {
+            $adminAlertEmail = env('ADMIN_ALERT_EMAIL');
+            if ($adminAlertEmail) {
+                $mismatchText = $reason === BracketSpecialBetRemoved::REASON_SAME_SIDE
+                    ? 'had bracket-side mismatch'
+                    : 'Team ' . ($team?->name ?? '[unknown]') . ' did not qualify';
+                Notification::route('mail', $adminAlertEmail)->notify(
+                    new BracketSpecialBetMismatchAlert(
+                        $user?->name ?? 'Unknown',
+                        $user?->email ?? 'unknown',
+                        $tournament->name,
+                        $mismatchText
+                    )
+                );
+            }
+        } catch (\Throwable $e) {
+            Log::error("[ValidateBracketSpecialBets] Admin alert failed for utl {$utl->id}: {$e->getMessage()}");
         }
     }
 

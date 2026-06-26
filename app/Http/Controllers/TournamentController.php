@@ -195,6 +195,8 @@ class TournamentController extends Controller
         $request->validate([
             "bracket.qualifier"        => ["required", "array"],
             "bracket.qualifier.*"      => ["required", "integer", "min:0"],
+            "bracket.result"           => ["sometimes", "array"],
+            "bracket.result.*"         => ["integer", "min:0"],
             "bracket.specialAdvance"   => ["required", "array"],
             "bracket.specialAdvance.*" => ["required", "integer", "min:0"],
         ]);
@@ -218,10 +220,18 @@ class TournamentController extends Controller
         unset($specialAdvance[GameSubTypes::THIRD_PLACE]); // advance bonus has no 3rd-place round
 
         $config = $tournament->config;
-        $config["scores"]["bracket"] = [
+        $bracket = [
             "qualifier"      => $qualifier,
             "specialAdvance" => $specialAdvance,
         ];
+        // Perfect-result tier: take it from the request when sent, otherwise preserve what's
+        // stored (the FE doesn't send `result` yet — don't silently wipe it).
+        if ($request->has("bracket.result")) {
+            $bracket["result"] = $sanitize($request->json("bracket.result"));
+        } elseif (is_array(data_get($config, "scores.bracket.result"))) {
+            $bracket["result"] = data_get($config, "scores.bracket.result");
+        }
+        $config["scores"]["bracket"] = $bracket;
         $tournament->config = $config;
         $tournament->save();
 
