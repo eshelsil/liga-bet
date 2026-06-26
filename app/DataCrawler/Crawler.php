@@ -509,7 +509,7 @@ class Crawler
 
         $response = Http::withUserAgent(Arr::random($userAgents))->get($url);
 
-        \Log::debug("[Crawler][fetchLatestGamesFrom365] Got response for request \"$url\" |\n Body: \n ".$response->body());
+        \Log::debug("[Crawler][fetchLatestGamesFrom365] Got response for request \"$url\"");
 
         $gamesData = null;
         if ($response->ok()) {
