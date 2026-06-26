@@ -48,14 +48,16 @@ export default defineConfig(({ mode }) => {
         },
         build: {
             outDir: path.resolve(__dirname, '../public/js/react-app'),
-            emptyOutDir: true,
+            manifest: true,
             sourcemap: true,
             minify: !isDev,
             modulePreload: false,
             rollupOptions: {
                 input: path.resolve(__dirname, 'src/index.tsx'),
                 output: {
-                    entryFileNames: 'appMain.js',
+                    entryFileNames: isDev
+                        ? 'appMain.js'
+                        : 'appMain.[hash].js',
                     chunkFileNames: isDev
                         ? 'chunk.[name].js'
                         : 'chunk.[name].[hash].js',

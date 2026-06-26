@@ -39,7 +39,12 @@
 <body dir="rtl">
     <div id="root"></div>
 </body>
-<script type="module" src="/js/react-app/appMain.js?v={{ config("app.version") }}"></script>
+@php
+    $manifestPath = public_path('js/react-app/.vite/manifest.json');
+    $manifest = json_decode(file_get_contents($manifestPath), true);
+    $entry = $manifest['src/index.tsx']['file'];
+@endphp
+<script type="module" src="/js/react-app/{{ $entry }}"></script>
 
 <script>
     $(function () {
