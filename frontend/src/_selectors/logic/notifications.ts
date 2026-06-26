@@ -24,40 +24,56 @@ export const MissingQuestionBetsCount = createSelector(
         if (!isBracket) return ids.length
         return ids.filter((id) => {
             const type = questionsById[id]?.type
-            return type === SpecialQuestionType.Winner || type === SpecialQuestionType.RunnerUp
+            return (
+                type === SpecialQuestionType.Winner ||
+                type === SpecialQuestionType.RunnerUp
+            )
         }).length
     }
 )
 
-export const MissingGameBetsCount = createSelector(
+export const MissingGameBetsIds = createSelector(
     CurrentTournamentNotifications,
     IsCurrentTournamentKnockoutBracket,
     Games,
     (notifications, isBracket, gamesById) => {
         const ids = notifications?.games ?? []
-        if (!isBracket) return ids.length
-        return ids.filter((id) => gamesById[id]?.is_knockout).length
+        if (!isBracket) return ids
+        return ids.filter((id) => gamesById[id]?.is_knockout)
     }
+)
+
+export const MissingGameBetsCount = createSelector(
+    MissingGameBetsIds,
+    (ids) => ids.length
 )
 
 export const MissingGroupRankBetsCount = createSelector(
     CurrentTournamentNotifications,
     IsCurrentTournamentKnockoutBracket,
-    (notifications, isBracket) => (isBracket ? 0 : notifications?.groups?.length ?? 0)
+    (notifications, isBracket) =>
+        isBracket ? 0 : notifications?.groups?.length ?? 0
 )
 
 export const MissingBetsCount = createSelector(
     MissingGameBetsCount,
     MissingGroupRankBetsCount,
     MissingQuestionBetsCount,
-    (games, groups, questions) => games + groups + questions
+    (games, groups, questions) => {
+        return games + groups + questions
+    }
 )
 
 export const HasNotificationsOnOtherTournaments = createSelector(
     Notifications,
     MyOtherTournaments,
     (notifications, otherTournaments) => {
-        const otherTournamentsNotifications = pick(notifications, otherTournaments)
-        return !!valuesOf(otherTournamentsNotifications).find(count => count > 0)
+        const otherTournamentsNotifications = pick(
+            notifications,
+            otherTournaments
+        )
+        return !!valuesOf(otherTournamentsNotifications).find(
+            (count) => count > 0
+        )
     }
 )

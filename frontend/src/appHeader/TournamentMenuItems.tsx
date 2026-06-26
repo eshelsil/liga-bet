@@ -13,7 +13,7 @@ import OpenQuestionBetsItem from './MenuItems/OpenQuestionBetsItem'
 import MyBetsItem from './MenuItems/MyBetsItem'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { IsAppMenuEmpty, IsCurrentTournamentKnockoutBracket, ManageTournamentIsAccessible } from '../_selectors'
+import { IsAppMenuEmpty, IsCurrentTournamentKnockoutBracket, ManageTournamentIsAccessible, MissingGameBetsCount } from '../_selectors'
 import useGoTo from '../hooks/useGoTo'
 
 
@@ -32,7 +32,7 @@ function TournamentMenuItems({
     const { t } = useTranslation('appHeader')
     const themeClass = useTournamentThemeClass()
     const { goToClosedGameBets } = useGoTo()
-
+    
     const hasCurrentUtl = !!currentUtl
     const tournamentStatus = currentUtl?.tournament?.status
     const isConfirmed = hasCurrentUtl && isUtlConfirmed(currentUtl)
@@ -44,6 +44,7 @@ function TournamentMenuItems({
     const isEmpty = useSelector(IsAppMenuEmpty)
     const showTournamentManage = useSelector(ManageTournamentIsAccessible)
     const isKnockoutBracket = useSelector(IsCurrentTournamentKnockoutBracket)
+    const missingGameBetsNotificationsCount = useSelector(MissingGameBetsCount)
 
     return (
         <>
@@ -58,6 +59,7 @@ function TournamentMenuItems({
                     <LinkMenuItem
                         route={routesMap['open-guesses']}
                         callback={reRouteCallback}
+                        notifications={missingGameBetsNotificationsCount}
                     />
                     {isTournamentStarted && (
                         <LinkMenuItem

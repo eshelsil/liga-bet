@@ -16,6 +16,7 @@ import TeamWithFlag from '../widgets/TeamFlag/TeamWithFlag'
 import BracketGameScoreInfoDialog from './BracketGameScoreInfoDialog'
 import { useBracketScores } from './useBracket'
 import dayjs from 'dayjs'
+import Badge from '@mui/material/Badge/Badge'
 
 type SpecialRole = 'winner' | 'runnerUp' | null
 
@@ -28,6 +29,7 @@ interface Props {
     homeRole: SpecialRole
     awayRole: SpecialRole
     onPick: (side: WinnerSide) => Promise<void>
+    hasNotification: boolean
 }
 
 // One bettable knockout tie, bet by QUALIFIER only (who advances) — no score.
@@ -42,6 +44,7 @@ function BracketGameCard({
     homeRole,
     awayRole,
     onPick,
+    hasNotification,
 }: Props) {
     const { t, i18n } = useTranslation('knockout_bracket')
 
@@ -147,6 +150,15 @@ function BracketGameCard({
 
     return (
         <div className={`LB-BracketGameCard ${locked ? 'is-locked' : ''}`}>
+            {hasNotification && (
+                <Badge
+                    className="BGC-notification"
+                    color="error"
+                    overlap="circular"
+                    variant="dot"
+                    badgeContent=" "
+                />
+            )}
             <div className="BGC-head">
                 <span className="BGC-stage">
                     {stage}

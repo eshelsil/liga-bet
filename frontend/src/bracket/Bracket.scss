@@ -458,10 +458,24 @@
 }
 
 .LB-BracketGameCard {
-    background: #fff;
+    position: relative;
+    background: rgb(255 255 255 / 95%);
     border-radius: 12px;
     box-shadow: shadows.$basic-shadow;
     padding: 10px 12px;
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+
+    .BGC-notification {
+        position: absolute;
+        top: 8px;
+        inset-inline-end: 8px;
+        width: 10px;
+        height: 10px;
+        border-radius: 100%;
+        z-index: 2;
+    }
 
     .BGC-head {
         display: flex;
@@ -501,14 +515,14 @@
         gap: 4px;
         border: 2px solid transparent;
         border-radius: 10px;
-        background: rgb(0 0 0 / 3%);
+        background: rgb(0 0 0 / 5%);
         padding: 8px 12px;
         position: relative;
         font: inherit;
         cursor: default;
 
         &.is-clickable { cursor: pointer; }
-        &.is-clickable:hover { background: rgb(0 0 0 / 6%); }
+        &.is-clickable:hover { background: rgb(0 0 0 / 10%); }
         &.is-picked {
             border-color: colors.$primary-main;
             background: #e7effb;

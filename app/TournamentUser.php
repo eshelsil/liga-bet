@@ -184,6 +184,11 @@ class TournamentUser extends Model
             ->filter(fn($game) => (
                 $game->isOpenForBets()
             ));
+        if ($this->tournament->isKnockoutBracket()){
+            $openGames = $openGames->filter(fn($game) => (
+                $game->isKnockout()
+            ));
+        }
         $nextOpenGameStartTime = $openGames->min('start_time');
         if (!$nextOpenGameStartTime){
             return [];
@@ -224,6 +229,9 @@ class TournamentUser extends Model
     
     public function getGroupsMissingRankBet()
     {
+        if ($this->tournament->isKnockoutBracket()){
+            return [];
+        }
         $groups = $this->tournament->competition->groups;
         $rankBetsByGroupId = $this->bets->where('type', BetTypes::GroupsRank)
             ->keyBy('type_id')->toArray();

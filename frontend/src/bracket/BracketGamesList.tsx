@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { BracketGame, WinnerSide } from '../types'
 import {
     IsCurrentTournamentIncludesBetOnResult,
+    MissingGameBetsIds,
     MyGameBetsById,
 } from '../_selectors'
 import { useAppDispatch } from '../_helpers/store'
@@ -32,6 +33,7 @@ function BracketGamesList() {
     const { winner, runnerUp } = useBracketSpecialBets()
     const isResultsBetOn = useSelector(IsCurrentTournamentIncludesBetOnResult)
     const myBets = useSelector(MyGameBetsById)
+    const missingGameBetsIds = useSelector(MissingGameBetsIds)
     const dispatch = useAppDispatch()
 
     const roleOf = (teamId: number | null | undefined) =>
@@ -91,6 +93,7 @@ function BracketGamesList() {
                         homeRole={roleOf(game.home_team?.id)}
                         awayRole={roleOf(game.away_team?.id)}
                         onPick={async (side) => await onPick(game, side)}
+                        hasNotification={missingGameBetsIds.includes(game.id)}
                     />
                 )
             })}
