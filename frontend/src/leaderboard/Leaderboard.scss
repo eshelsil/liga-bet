@@ -238,8 +238,33 @@
         margin-bottom: -1px;
     }
     .NameWithWinnerFlag-noWinner {
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
+    }
+    .NameWithWinnerFlag-runnerUp{
+        position: absolute;
+        bottom: -4px;
+        inset-inline-start: -12px;
+        border-radius: 100%;
+        height: 20px;
+        width: 20px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.78);
+        .LB-TeamFlag {
+            > img{
+                vertical-align: unset;
+            }
+        }
+    }
+    .LB-TeamFlag-wrapper{
+        position: relative;
+        display: inline;
+        border-radius: 100%;
+        box-shadow: shadows.$medium-shadow;
+        .LB-TeamFlag {
+                display: block;
+                height: 100%;
+                width: 100%;
+        }
     }
 }
 
