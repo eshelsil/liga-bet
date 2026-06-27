@@ -73,10 +73,20 @@
                 "title": "Qualifier:",
                 "description": "{{points}} pts for picking who advances"
             },
+            "result": {
+                "title": "Exact score:",
+                "description": "+{{points}} pts for the exact score"
+            },
             "bonus": {
-                "title": "Bonus:",
+                "title": "{{role}} bonus:",
                 "description": "+{{points}} pts bonus if your {{role}} advances from this game"
             },
+            "ok": "Got it"
+        },
+        "against": {
+            "alert": "You're betting against your pick",
+            "title": "Betting against your pick",
+            "body": "Your result has your {{role}} not advancing — you won't earn this game's qualifier points.",
             "ok": "Got it"
         }
     },
@@ -84,6 +94,7 @@
         "yourPick": "Your pick",
         "points": "{{points}} pts",
         "pickPrompt": "Tap who qualifies",
+        "send": "Submit",
         "lockedUntilSpecial": "Pick Winner & Runner-Up first",
         "saved": "Pick saved",
         "failed": "Could not save your pick"

@@ -30,15 +30,18 @@
     "bracket": {
         "rulesHeading": "How betting works",
         "ruleQualifiersOnly": "You bet only on who qualifies (advances) in each knockout game — no score prediction.",
+        "ruleQualifierAndScore": "You bet on who qualifies (advances) and what the exact score will be in each knockout game.",
         "ruleWinnerRunnerUp": "You pick a Winner and a Runner-Up — one team per side of the bracket (they are meant to come from different sides).",
         "ruleAutoLock": "The qualifier for your chosen Winner/Runner-Up teams is auto-selected and locked in every game they play.",
         "ruleStart": "The tournament starts at the first knockout kickoff; from then on your Winner/Runner-Up picks are locked.",
         "scoresHeading": "Points per round",
         "roundCol": "Round",
         "qualifierCol": "Qualifier",
+        "resultCol": "Exact score",
         "advanceCol": "Finalist Bonus",
         "noteBoth": "If one of your pre-selected finalist teams advances in a knockout round, you earn both that round's Qualifier points and the Finalist Bonus points.",
         "noteNotInGame": "If your Winner/Runner-Up isn't in a given game, you can still earn the normal qualifier points for that game.",
+        "noteResult": "If you also predict a game's exact score, you earn the Exact score points on top of any qualifier points.",
         "noteThirdPlace": "The third-place game awards qualifier points only."
     },
     "sendingBets": {

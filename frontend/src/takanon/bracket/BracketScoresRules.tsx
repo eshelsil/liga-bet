@@ -4,6 +4,8 @@ import { GameSubType } from '../../types'
 import { getStageName } from '../../strings'
 import { subTypeToKnockoutStage } from '../../utils'
 import { useBracketScores } from '../../bracket/useBracket'
+import { useSelector } from 'react-redux/es/hooks/useSelector'
+import { IsCurrentTournamentIncludesBetOnResult } from '@/_selectors/base/singleModel'
 
 // Canonical round order for display (enum declaration order: R32 → … → 3rd place).
 const ROUND_ORDER = Object.values(GameSubType) as GameSubType[]
@@ -11,6 +13,7 @@ const ROUND_ORDER = Object.values(GameSubType) as GameSubType[]
 function BracketScoresRules() {
     const { t } = useTranslation('takanon')
     const scores = useBracketScores()
+    const hasResultBet = useSelector(IsCurrentTournamentIncludesBetOnResult)
 
     // Config-driven: only rounds the tournament actually scores (admin overrides
     // flow straight through). 3rd place has a qualifier score but no advance score.
@@ -25,11 +28,13 @@ function BracketScoresRules() {
                         <th>{t('bracket.roundCol')}</th>
                         <th>{t('bracket.qualifierCol')}</th>
                         <th>{t('bracket.advanceCol')}</th>
+                        {hasResultBet && <th>{t('bracket.resultCol')}</th>}
                     </tr>
                 </thead>
                 <tbody>
                     {rounds.map((round) => {
                         const advance = scores.specialAdvance[round]
+                        const result = scores.result?.[round]
                         return (
                             <tr key={round} className="">
                                 <td className="scoreRuleLabel">
@@ -37,6 +42,9 @@ function BracketScoresRules() {
                                 </td>
                                 <td>{scores.qualifier[round]}</td>
                                 <td>{advance != null ? advance : '—'}</td>
+                                {hasResultBet && (
+                                    <td>{result != null ? result : '—'}</td>
+                                )}
                             </tr>
                         )
                     })}
@@ -45,6 +53,7 @@ function BracketScoresRules() {
             <ul className="mt-2">
                 <li>{t('bracket.noteBoth')}</li>
                 <li>{t('bracket.noteNotInGame')}</li>
+                {hasResultBet && <li>{t('bracket.noteResult')}</li>}
                 {rounds.includes(GameSubType.ThirdPlace) && (
                     <li>{t('bracket.noteThirdPlace')}</li>
                 )}

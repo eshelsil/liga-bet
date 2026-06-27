@@ -16,6 +16,7 @@ interface Props {
     onClose: () => void
     qualifierPoints: number
     advancePoints: number
+    resultPoints?: number // exact-score points for the round (result tournaments only)
     role: SpecialRole // a pre-selected team (Winner/Runner-Up) plays here → show its advance bonus
 }
 
@@ -26,6 +27,7 @@ function BracketGameScoreInfoDialog({
     onClose,
     qualifierPoints,
     advancePoints,
+    resultPoints = 0,
     role,
 }: Props) {
     const { t } = useTranslation('knockout_bracket')
@@ -52,10 +54,25 @@ function BracketGameScoreInfoDialog({
                         })}
                     </span>
                 </p>
+                {resultPoints > 0 && (
+                    <p className="BracketScoreInfo-row">
+                        <span className="font-bold underline">
+                            {t('card.info.result.title')}
+                        </span>
+                        <span>
+                            {' '}
+                            {t('card.info.result.description', {
+                                points: resultPoints,
+                            })}
+                        </span>
+                    </p>
+                )}
                 {role && (
                     <p className="BracketScoreInfo-row">
                         <span className="font-bold underline">
-                            <b>{t('card.info.bonus.title')}</b>
+                            <b>{t('card.info.bonus.title', {
+                                role: roleLabel,
+                            })}</b>
                         </span>
                         <span>
                             {' '}
