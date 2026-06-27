@@ -590,6 +590,11 @@
         border-radius: 8px;
         cursor: pointer;
         &:hover { background: rgb(25 118 210 / 8%); }
+        &.is-champion { background: rgb(255 193 7 / 14%); }
+        .WinnerPicker-trophy {
+            margin-inline-start: auto;
+            color: #d4a017;
+        }
     }
     .FinalistPicker-divider {
         margin: 10px 0 6px;

@@ -17,6 +17,7 @@ export interface FinalAreaProps {
     bothChosen: boolean
     onOpenFinalistPicker: (side: BracketSide) => void
     onCrown: (side: BracketSide) => void
+    onOpenWinnerPicker: () => void
 }
 
 interface Props extends FinalAreaProps {
@@ -57,6 +58,7 @@ function BracketTree({
     bothChosen,
     onOpenFinalistPicker,
     onCrown,
+    onOpenWinnerPicker,
     footer,
     onClose,
     winnerEditing,
@@ -86,9 +88,10 @@ function BracketTree({
         onOpenFinalistPicker(side) // normal mode: choose / change this side's finalist
     }
 
+    // Tapping the trophy opens the winner picker (a select of the two finalists),
+    // rather than toggling the shine mode off.
     const onWinnerTap = () => {
-        if (winnerEditing) setWinnerEditing(false)
-        else if (bothChosen) setWinnerEditing(true)
+        if (bothChosen) onOpenWinnerPicker()
     }
 
     return (

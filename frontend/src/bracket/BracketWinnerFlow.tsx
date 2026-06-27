@@ -30,6 +30,7 @@ import BracketTree from './BracketTree'
 import BracketGamesList from './BracketGamesList'
 import BracketPodium from './BracketPodium'
 import FinalistPickerDialog from './FinalistPickerDialog'
+import WinnerPickerDialog from './WinnerPickerDialog'
 import GroupsOverview from './GroupsOverview'
 import GroupStandingsDialog from './GroupStandingsDialog'
 import ThirdPlaceInfoDialog from './ThirdPlaceInfoDialog'
@@ -129,6 +130,7 @@ function BracketWinnerFlow() {
     const [thirdPlaceOpen, setThirdPlaceOpen] = useState(false)
     const [resetConfirmOpen, setResetConfirmOpen] = useState(false)
     const [winnerEditing, setWinnerEditing] = useState(false)
+    const [winnerPickerOpen, setWinnerPickerOpen] = useState(false)
     // Re-seed when the saved data changes (e.g. loads after mount), unless a picker is open.
     const sig = `${special.winner.teamId}-${special.runnerUp.teamId}-${special.locked}-${games.length}`
     const lastSig = useRef<string | null>(null)
@@ -208,6 +210,13 @@ function BracketWinnerFlow() {
 
     const crown = (side: BracketSide) => {
         if (!special.locked) setWinnerSide(side)
+    }
+
+    // Choose the champion from the winner-picker dialog (the two finalists).
+    const selectWinner = (side: BracketSide) => {
+        crown(side)
+        setWinnerEditing(false)
+        setWinnerPickerOpen(false)
     }
 
     const onSubmit = async () => {
@@ -317,6 +326,7 @@ function BracketWinnerFlow() {
                             bothChosen={bothChosen}
                             onOpenFinalistPicker={setPickingSide}
                             onCrown={crown}
+                            onOpenWinnerPicker={() => setWinnerPickerOpen(true)}
                             onClose={hasSaved ? onCancel : undefined}
                             footer={
                                 <LoadingButton
@@ -347,6 +357,14 @@ function BracketWinnerFlow() {
                     .map((s) => s.team)}
                 onSelect={pickFinalist}
                 onClose={() => setPickingSide(null)}
+            />
+            <WinnerPickerDialog
+                open={winnerPickerOpen && bothChosen}
+                leftTeam={leftTeam}
+                rightTeam={rightTeam}
+                winnerSide={winnerSide}
+                onSelect={selectWinner}
+                onClose={() => setWinnerPickerOpen(false)}
             />
             <GroupStandingsDialog
                 group={dialogGroup}
