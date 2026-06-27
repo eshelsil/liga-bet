@@ -32,7 +32,7 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 BUILD_DIR="${BUILD_DIR:-$REPO_ROOT/public/js/react-app}"
 MANIFEST="${MANIFEST:-$BUILD_DIR/.vite/manifest.json}"
-AGE_MINUTES="${AGE_MINUTES:-1}"
+AGE_MINUTES="${AGE_MINUTES:-1440}"
 
 DRY_RUN=0
 USE_AGE=0          # default: prune everything not in the manifest, regardless of age
