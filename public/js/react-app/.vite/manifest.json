@@ -1,116 +1,116 @@
 {
-  "_chunk.App.Dhbq9_M6.js": {
-    "file": "chunk.App.Dhbq9_M6.js",
+  "_chunk.App.BXY8eYFs.js": {
+    "file": "chunk.App.BXY8eYFs.js",
     "name": "App",
     "isDynamicEntry": true,
     "imports": [
-      "_chunk.preload-helper.cKMEr5Ss.js",
-      "_chunk.vendor.0o0HGDw4.js",
+      "_chunk.preload-helper.BeekSfli.js",
+      "_chunk.vendor.NpmXj2t5.js",
       "src/index.tsx"
     ],
     "dynamicImports": [
-      "_chunk.AppMainContent.D7TLgyhP.js"
+      "_chunk.AppMainContent.C8HDPj_9.js"
     ]
   },
-  "_chunk.AppBody.qgtt4-hu.js": {
-    "file": "chunk.AppBody.qgtt4-hu.js",
+  "_chunk.AppBody.CYE3kFcV.js": {
+    "file": "chunk.AppBody.CYE3kFcV.js",
     "name": "AppBody",
     "isDynamicEntry": true,
     "imports": [
-      "_chunk.vendor.0o0HGDw4.js",
-      "_chunk.preload-helper.cKMEr5Ss.js",
-      "_chunk.AppMainContent.D7TLgyhP.js",
-      "_chunk.App.Dhbq9_M6.js",
+      "_chunk.vendor.NpmXj2t5.js",
+      "_chunk.preload-helper.BeekSfli.js",
+      "_chunk.AppMainContent.C8HDPj_9.js",
+      "_chunk.App.BXY8eYFs.js",
       "src/index.tsx",
-      "_chunk.NihusSticker.ANFApmD_.js"
+      "_chunk.NihusSticker.zEWf1GPv.js"
     ],
     "dynamicImports": [
       "src/appContent/AppBasicRoutes.tsx"
     ]
   },
-  "_chunk.AppMainContent.D7TLgyhP.js": {
-    "file": "chunk.AppMainContent.D7TLgyhP.js",
+  "_chunk.AppMainContent.C8HDPj_9.js": {
+    "file": "chunk.AppMainContent.C8HDPj_9.js",
     "name": "AppMainContent",
     "isDynamicEntry": true,
     "imports": [
-      "_chunk.preload-helper.cKMEr5Ss.js",
-      "_chunk.vendor.0o0HGDw4.js",
-      "_chunk.App.Dhbq9_M6.js",
+      "_chunk.preload-helper.BeekSfli.js",
+      "_chunk.vendor.NpmXj2t5.js",
+      "_chunk.App.BXY8eYFs.js",
       "src/index.tsx"
     ],
     "dynamicImports": [
       "src/dialogs/DialogsProvider.tsx",
-      "_chunk.AppBody.qgtt4-hu.js"
+      "_chunk.AppBody.CYE3kFcV.js"
     ]
   },
-  "_chunk.NihusSticker.ANFApmD_.js": {
-    "file": "chunk.NihusSticker.ANFApmD_.js",
+  "_chunk.NihusSticker.zEWf1GPv.js": {
+    "file": "chunk.NihusSticker.zEWf1GPv.js",
     "name": "NihusSticker",
     "imports": [
       "src/index.tsx",
-      "_chunk.vendor.0o0HGDw4.js",
-      "_chunk.App.Dhbq9_M6.js",
-      "_chunk.AppMainContent.D7TLgyhP.js"
+      "_chunk.vendor.NpmXj2t5.js",
+      "_chunk.App.BXY8eYFs.js",
+      "_chunk.AppMainContent.C8HDPj_9.js"
     ]
   },
-  "_chunk.multiBetsSettings.Cy50_meH.js": {
-    "file": "chunk.multiBetsSettings.Cy50_meH.js",
+  "_chunk.multiBetsSettings.CoMRi_1v.js": {
+    "file": "chunk.multiBetsSettings.CoMRi_1v.js",
     "name": "multiBetsSettings",
     "imports": [
-      "_chunk.vendor.0o0HGDw4.js",
-      "_chunk.App.Dhbq9_M6.js"
+      "_chunk.vendor.NpmXj2t5.js",
+      "_chunk.App.BXY8eYFs.js"
     ]
   },
-  "_chunk.preload-helper.cKMEr5Ss.js": {
-    "file": "chunk.preload-helper.cKMEr5Ss.js",
+  "_chunk.preload-helper.BeekSfli.js": {
+    "file": "chunk.preload-helper.BeekSfli.js",
     "name": "preload-helper"
   },
-  "_chunk.vendor.0o0HGDw4.js": {
-    "file": "chunk.vendor.0o0HGDw4.js",
+  "_chunk.vendor.NpmXj2t5.js": {
+    "file": "chunk.vendor.NpmXj2t5.js",
     "name": "vendor"
   },
   "src/appContent/AppBasicRoutes.tsx": {
-    "file": "chunk.AppBasicRoutes.BH2nwQXU.js",
+    "file": "chunk.AppBasicRoutes.uuDiLIfH.js",
     "name": "AppBasicRoutes",
     "src": "src/appContent/AppBasicRoutes.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "_chunk.vendor.0o0HGDw4.js",
-      "_chunk.AppMainContent.D7TLgyhP.js",
-      "_chunk.App.Dhbq9_M6.js",
+      "_chunk.vendor.NpmXj2t5.js",
+      "_chunk.AppMainContent.C8HDPj_9.js",
+      "_chunk.App.BXY8eYFs.js",
       "src/index.tsx",
-      "_chunk.AppBody.qgtt4-hu.js",
-      "_chunk.multiBetsSettings.Cy50_meH.js",
-      "_chunk.NihusSticker.ANFApmD_.js",
-      "_chunk.preload-helper.cKMEr5Ss.js"
+      "_chunk.AppBody.CYE3kFcV.js",
+      "_chunk.multiBetsSettings.CoMRi_1v.js",
+      "_chunk.NihusSticker.zEWf1GPv.js",
+      "_chunk.preload-helper.BeekSfli.js"
     ]
   },
   "src/dialogs/DialogsProvider.tsx": {
-    "file": "chunk.DialogsProvider.B4KCcnMj.js",
+    "file": "chunk.DialogsProvider.BftyPIcy.js",
     "name": "DialogsProvider",
     "src": "src/dialogs/DialogsProvider.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "_chunk.vendor.0o0HGDw4.js",
-      "_chunk.App.Dhbq9_M6.js",
-      "_chunk.AppMainContent.D7TLgyhP.js",
+      "_chunk.vendor.NpmXj2t5.js",
+      "_chunk.App.BXY8eYFs.js",
+      "_chunk.AppMainContent.C8HDPj_9.js",
       "src/index.tsx",
-      "_chunk.multiBetsSettings.Cy50_meH.js",
-      "_chunk.NihusSticker.ANFApmD_.js",
-      "_chunk.preload-helper.cKMEr5Ss.js"
+      "_chunk.multiBetsSettings.CoMRi_1v.js",
+      "_chunk.NihusSticker.zEWf1GPv.js",
+      "_chunk.preload-helper.BeekSfli.js"
     ]
   },
   "src/index.tsx": {
-    "file": "appMain.C_DBR1as.js",
+    "file": "appMain.Cp-saCuR.js",
     "name": "index",
     "src": "src/index.tsx",
     "isEntry": true,
     "imports": [
-      "_chunk.preload-helper.cKMEr5Ss.js",
-      "_chunk.vendor.0o0HGDw4.js"
+      "_chunk.preload-helper.BeekSfli.js",
+      "_chunk.vendor.NpmXj2t5.js"
     ],
     "dynamicImports": [
-      "_chunk.App.Dhbq9_M6.js"
+      "_chunk.App.BXY8eYFs.js"
     ]
   }
 }
