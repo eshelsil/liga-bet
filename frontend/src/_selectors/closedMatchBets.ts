@@ -38,3 +38,13 @@ export const ClosedMatchBetsSelector = createSelector(
         }
     }
 )
+
+// Same live/done split, but only the knockout ties — used by the knockout-bracket
+// "Games" tab, where group-stage games aren't the user's to bet on (see notifications).
+export const KnockoutClosedMatchBetsSelector = createSelector(
+    ClosedMatchBetsSelector,
+    ({ done_matches, live_matches }) => ({
+        done_matches: done_matches.filter((m) => m.is_knockout),
+        live_matches: live_matches.filter((m) => m.is_knockout),
+    })
+)

@@ -128,5 +128,19 @@
         "lockedNote": "Picks locked. Your teams' qualifiers are auto-locked.",
         "removedWrongSide": "Removed: the team is on the wrong side of the bracket. You were emailed.",
         "removedNotQualified": "Removed: the team didn't qualify. You were emailed."
+    },
+    "startedView": {
+        "tabs": {
+            "myBets": "My bets",
+            "games": "Games"
+        },
+        "actions": {
+            "bracket": "Bracket",
+            "picksTable": "Winner & Runner-Up"
+        },
+        "close": "Close"
+    },
+    "picksTable": {
+        "contestant": "Contestant"
     }
 }

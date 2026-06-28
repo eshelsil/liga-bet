@@ -693,3 +693,97 @@
         padding: 14px 12px;
     }
 }
+
+/* ── Post-start "Predictions" layout ───────────────────────────────────── */
+.LB-BracketStartedView {
+    .BracketStartedView-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin: 4px 0 12px;
+
+        .MuiButton-root {
+            flex: 1 1 0;
+            max-width: 220px;
+            text-transform: none;
+        }
+    }
+}
+
+/* The Games tab pings while a live game is running and the tab isn't selected. */
+.BracketTab-pulseDot.MuiBadge-dot {
+    animation: bracket-tab-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes bracket-tab-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgb(211 47 47 / 60%);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgb(211 47 47 / 0%);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgb(211 47 47 / 0%);
+    }
+}
+
+/* Modals (bracket + picks table): a close "X" pinned to the corner. */
+.LB-BracketModal,
+.LB-PicksModal {
+    .BracketModal-close {
+        position: absolute;
+        top: 6px;
+        inset-inline-end: 6px;
+        z-index: 1;
+    }
+    .MuiDialogContent-root {
+        padding: 32px 12px 16px;
+    }
+}
+
+.PicksModal-title {
+    text-align: center;
+    margin: 0 0 12px;
+}
+
+/* Contestants' Winner / Runner-Up table. */
+.LB-ContestantPicks {
+    overflow-x: auto;
+
+    .ContestantPicks-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+
+        th,
+        td {
+            padding: 8px 10px;
+            text-align: start;
+            border-bottom: 1px solid rgb(0 0 0 / 8%);
+        }
+
+        th {
+            font-weight: 600;
+            color: rgb(0 0 0 / 55%);
+            white-space: nowrap;
+        }
+    }
+
+    .ContestantPicks-name {
+        font-weight: 600;
+    }
+
+    .ContestantPicks-team {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .ContestantPicks-teamName {
+        white-space: nowrap;
+    }
+
+    .ContestantPicks-empty {
+        color: rgb(0 0 0 / 35%);
+    }
+}

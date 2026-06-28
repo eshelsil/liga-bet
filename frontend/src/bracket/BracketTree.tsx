@@ -27,6 +27,10 @@ interface Props extends FinalAreaProps {
     onClose?: () => void // shown as an "X" at the top-centre of the bracket
     winnerEditing: boolean
     setWinnerEditing: (editing: boolean) => void
+    // Read-only "spectator" render (post-start bracket modal): the final area shows the
+    // ACTUAL final teams/winner (passed via leftTeam/rightTeam/winnerSide) with no picking,
+    // no edit buttons and no placeholder "+".
+    spectator?: boolean
 }
 
 // Track the available width of an element (drives the responsive sizing/gaps).
@@ -63,6 +67,7 @@ function BracketTree({
     onClose,
     winnerEditing,
     setWinnerEditing,
+    spectator = false,
 }: Props) {
     const { t } = useTranslation('knockout_bracket')
     const [scrollRef, scrollWidth] = useElementWidth()
@@ -78,6 +83,7 @@ function BracketTree({
     const winnerTeam = winnerSide ? teamOf(winnerSide) : null
 
     const onFinalistTap = (side: BracketSide) => {
+        if (spectator) return
         if (winnerEditing) {
             if (teamOf(side)) {
                 onCrown(side)
@@ -91,6 +97,7 @@ function BracketTree({
     // Tapping the trophy opens the winner picker (a select of the two finalists),
     // rather than toggling the shine mode off.
     const onWinnerTap = () => {
+        if (spectator) return
         if (bothChosen) onOpenWinnerPicker()
     }
 
@@ -185,8 +192,12 @@ function BracketTree({
                                     width: layout.finalist,
                                     height: layout.finalist,
                                 }}
-                                role="button"
-                                onClick={() => onFinalistTap(f.side)}
+                                role={spectator ? undefined : 'button'}
+                                onClick={
+                                    spectator
+                                        ? undefined
+                                        : () => onFinalistTap(f.side)
+                                }
                             >
                                 {team ? (
                                     <TeamFlag
@@ -195,17 +206,19 @@ function BracketTree({
                                     />
                                 ) : (
                                     <div className="FinalistSlot-empty flex items-center justify-center">
-                                        <PlusIcon
-                                            style={{
-                                                width: 16,
-                                                height: 16,
-                                                fill: 'rgb(0 0 0 / 20%)',
-                                                stroke: 'rgb(0 0 0 / 20%)',
-                                            }}
-                                        />
+                                        {!spectator && (
+                                            <PlusIcon
+                                                style={{
+                                                    width: 16,
+                                                    height: 16,
+                                                    fill: 'rgb(0 0 0 / 20%)',
+                                                    stroke: 'rgb(0 0 0 / 20%)',
+                                                }}
+                                            />
+                                        )}
                                     </div>
                                 )}
-                                {team && !winnerEditing && (
+                                {!spectator && team && !winnerEditing && (
                                     <button
                                         className="FinalistSlot-change"
                                         aria-label={t('select.edit')}
@@ -231,7 +244,7 @@ function BracketTree({
                         className={[
                             'LB-WinnerSlot',
                             winnerTeam ? 'is-filled' : '',
-                            bothChosen ? 'is-actionable' : '',
+                            !spectator && bothChosen ? 'is-actionable' : '',
                         ].join(' ')}
                         style={{
                             left: layout.winnerPos.x,
@@ -239,8 +252,10 @@ function BracketTree({
                             width: layout.winner,
                             height: layout.winner,
                         }}
-                        role={bothChosen ? 'button' : undefined}
-                        onClick={bothChosen ? onWinnerTap : undefined}
+                        role={!spectator && bothChosen ? 'button' : undefined}
+                        onClick={
+                            !spectator && bothChosen ? onWinnerTap : undefined
+                        }
                     >
                         <EmojiEventsIcon
                             className="WinnerSlot-trophy"
@@ -254,7 +269,7 @@ function BracketTree({
                                 />
                             </span>
                         )}
-                        {bothChosen && !winnerEditing && (
+                        {!spectator && bothChosen && !winnerEditing && (
                             <span className="WinnerSlot-edit">
                                 <EditIcon
                                     style={{

@@ -10,7 +10,7 @@ export interface TabPanelProps {
 
 
 export interface TabDescription {
-    label: string,
+    label: ReactNode,
     id: string,
     children: ReactNode
 }

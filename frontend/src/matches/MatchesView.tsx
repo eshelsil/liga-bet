@@ -63,12 +63,14 @@ function LiveGamesView({games}: {games: GameWithBetsAndGoalsData[]}){
 const MatchesView = ({
     done_matches,
     live_matches,
+    initialTabIndex = 0,
 }: {
     done_matches: GameWithBetsAndGoalsData[]
     live_matches: GameWithBetsAndGoalsData[]
+    initialTabIndex?: number // 0 = Live (default), 1 = Done — lets callers open on Done when nothing is live
 }) => {
     const { t } = useTranslation('matches')
-    const [selectedTab, setSelectedTab] = useState(0)
+    const [selectedTab, setSelectedTab] = useState(initialTabIndex)
 
     return (
         <div className='LB-GamesView'>
