@@ -5,7 +5,7 @@ import StickyConfigView from '../widgets/stickyConfig/StickyConfigView';
 import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LeaderboardVersionInput from './LeaderboardVersionInput';
 import { useSelector } from 'react-redux';
-import { LeaderboardVersionsWithGames } from '../_selectors';
+import { IsCurrentTournamentKnockoutBracket, LeaderboardVersionsWithGames } from '../_selectors';
 import { keyBy, last, pickBy } from 'lodash';
 import { ScoreboardConfig, UpdateSettingFunc } from '../_reducers/scoreboardSettings';
 import './TableSettings.scss';
@@ -35,10 +35,13 @@ function ConfigRow({ children }: ConfigRowProps) {
 
 function TableSettings({ updateSetting, settings, hasLiveGames, fetchScoreboards }: Props) {
     const { t } = useTranslation('leaderboard')
+    const isKnockout = useSelector(IsCurrentTournamentKnockoutBracket)
     const versionsOrdered = useSelector(LeaderboardVersionsWithGames)
     const versionsById = keyBy(versionsOrdered, 'id')
     const hasVersions = versionsOrdered.length > 0
     const firstVersion = last(versionsOrdered)
+    // versionsOrdered is newest-first, so [1] is the version right before the latest.
+    const previousVersion = versionsOrdered[1]
 
     const {liveMode, upToDateMode, showChange, originVersion, destinationVersion, expanded} = settings;
     const [pinned, setPinned] = useState(false)
@@ -58,13 +61,27 @@ function TableSettings({ updateSetting, settings, hasLiveGames, fetchScoreboards
     const onDestVersionChange = (id: number) => updateSetting('destinationVersion', versionsById[id])
     const onOriginVersionChange = (id: number) => updateSetting('originVersion', versionsById[id])
 
-    const showSettings = hasVersions || hasLiveGames
+    // Knockout exposes only the live-mode row (when there are live games); the
+    // history-version / history-diff controls are classic-only.
+    const showSettings = isKnockout ? hasLiveGames : (hasVersions || hasLiveGames)
 
     useEffect(() => {
         if (!expanded && (liveMode || !upToDateMode || showChange)){
             toggleExpand()
         }
     }, [])
+
+    // Knockout has no history controls, so default the table to the diff introduced
+    // by the latest version (latest table vs. the version right before it).
+    useEffect(() => {
+        if (!isKnockout || !previousVersion){
+            return
+        }
+        if (originVersion?.id !== previousVersion.id){
+            updateSetting('showChange', true)
+            updateSetting('originVersion', previousVersion)
+        }
+    }, [isKnockout, previousVersion?.id])
 
     useEffect(() => {
         if (!hasLiveGames && liveMode){
@@ -106,7 +123,7 @@ function TableSettings({ updateSetting, settings, hasLiveGames, fetchScoreboards
                                 </div>
                             </ConfigRow>
                         )}
-                        {hasVersions && (<>
+                        {!isKnockout && hasVersions && (<>
                             <ConfigRow>
                                 <div className='TableSettings-flexRow TableSettings-destVersionRow'>
                                     <div className={`TableSettings-label ${!isShowingHistoryTable ? 'TableSettings-bolded' : ''}`}>
