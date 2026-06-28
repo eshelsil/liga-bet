@@ -114,5 +114,5 @@ export function useBracketTeams(): BracketTeamsData {
         [(row) => row.rank, (row) => -row.points],
     )
 
-    return { groups, unseeded, seeded, unqualified }
+    return { groups, unseeded: [], seeded, unqualified }
 }
