@@ -252,7 +252,7 @@ class TournamentUser extends Model
             $winnerBet = Bet::query()
                 ->where('user_tournament_id', $this->id)
                 ->where('type', BetTypes::SpecialBet)
-                ->whereIn('type_id', $winnerSideBetId)
+                ->where('type_id', $winnerSideBetId)
                 ->first();
             if ($winnerBet) {
                 $winner = (int) $winnerBet->getAnswer();
@@ -262,7 +262,7 @@ class TournamentUser extends Model
             $runnerUpBet = Bet::query()
                 ->where('user_tournament_id', $this->id)
                 ->where('type', BetTypes::SpecialBet)
-                ->whereIn('type_id', $runnerUpSideBetId)
+                ->where('type_id', $runnerUpSideBetId)
                 ->first();
             if ($runnerUpBet) {
                 $runnerUp = (int) $runnerUpBet->getAnswer();
