@@ -32,6 +32,7 @@ use Illuminate\Support\Arr;
  * @property int|null $start_time
  * @property int|null $result_home
  * @property int|null $result_away
+ * @property string|null $minute
  * @property int|null $score
  * @property int|null $ko_winner
  * @property bool $is_done
