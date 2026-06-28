@@ -120,7 +120,6 @@ function BracketGameCard({
                 onClick={
                     clickable
                         ? () => {
-                              setPendingSide(side)
                               submitPick(side)
                           }
                         : undefined
