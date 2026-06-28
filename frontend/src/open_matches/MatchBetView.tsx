@@ -10,7 +10,7 @@ import dayjs from 'dayjs'
 import useCancelEdit from '../hooks/useCancelEdit'
 import { useSelector } from 'react-redux'
 import { IsCurrentTournamentKnockoutBracket, IsMultiBetDefaultForAll, IsOurTournament, MyOtherBettableUTLs } from '../_selectors'
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Switch } from '@mui/material'
+import { Badge, Button, Dialog, DialogActions, DialogContent, DialogTitle, Switch } from '@mui/material'
 import DaShubi from './DaShubi'
 import { cn, getWinnerSide } from '@/utils'
 import InfoIcon from '@mui/icons-material/InfoOutlined';
@@ -34,6 +34,7 @@ function OpenMatchBetView({
     isKnockoutBracketGame = false,
     homeRole = null,
     awayRole = null,
+    hasNotification = false,
 }: {
     match: MatchWithABet
     sendBet: (...args: any) => Promise<void>
@@ -42,6 +43,7 @@ function OpenMatchBetView({
     isKnockoutBracketGame?: boolean
     homeRole?: SpecialRole
     awayRole?: SpecialRole
+    hasNotification?: boolean
 }) {
     const { id, start_time, home_team, away_team, is_knockout, bet, isFirstLeg, isTwoLeggedTie, subType } = match
 
@@ -148,6 +150,15 @@ function OpenMatchBetView({
             ${showEdit ? 'OpenMatchBet-edit' : ''}
             ${isTwoLeggedTie ? 'OpenMatchBet-twoLegsKo' : ''}
         `}>
+            {hasNotification && (
+                <Badge
+                    className="Game-notification"
+                    color="error"
+                    overlap="circular"
+                    variant="dot"
+                    badgeContent=" "
+                />
+            )}
             <div className={`EditableBetView-header`}>
                 <div className='dateLabel'>{dayjs(start_time).format(i18n.language === 'he' ? DEFAULT_DATE_FORMAT : ENG_DATE_FORMAT)}</div>
                 <div className='timeLabel'>{dayjs(start_time).format(DEFAULT_TIME_FORMAT)}</div>

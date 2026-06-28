@@ -11,6 +11,7 @@
     max-width: 100%;
     box-shadow: shadows.$medium-shadow;
     margin: 24px;
+    position: relative;
     @media(max-width: 600px){
         margin: 12px auto;
     }
@@ -39,6 +40,15 @@
                 top: 40px;
             }
         }
+    }
+    .Game-notification {
+        position: absolute;
+        top: 8px;
+        inset-inline-start: 8px;
+        width: 10px;
+        height: 10px;
+        border-radius: 100%;
+        z-index: 2;
     }
     .EditableBetView-header {
         .timeLabel {

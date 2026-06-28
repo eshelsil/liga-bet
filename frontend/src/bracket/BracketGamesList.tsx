@@ -125,6 +125,7 @@ function BracketGamesList({
                             isKnockoutBracketGame={true}
                             homeRole={roleOf(game.home_team?.id)}
                             awayRole={roleOf(game.away_team?.id)}
+                            hasNotification={missingGameBetsIds.includes(game.id)}
                         />
                     )
                 }
