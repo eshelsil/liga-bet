@@ -50,15 +50,13 @@ function BracketGameCard({
 
     // The side currently being submitted — drives the inline loader on the tapped team.
     const [pendingSide, setPendingSide] = useState<WinnerSide | null>(null)
-    const [submitting, setSubmitting] = useState(false)
 
     const submitPick = async (side: WinnerSide) => {
-        if (submitting) return
-        setSubmitting(true)
+        if (pendingSide !== null) return
+        setPendingSide(side)
         try {
             await onPick(side)
         } finally {
-            setSubmitting(false)
             setPendingSide(null)
         }
     }
@@ -111,8 +109,8 @@ function BracketGameCard({
         role: SpecialRole
     ) => {
         const picked = effectiveSide === side
-        const clickable = !locked && !submitting
-        const loading = submitting && pendingSide === side
+        const loading = pendingSide === side
+        const clickable = !locked && !picked && pendingSide === null
         return (
             <button
                 type="button"
