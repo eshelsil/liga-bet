@@ -61,13 +61,6 @@ function TournamentMenuItems({
                         callback={reRouteCallback}
                         notifications={missingGameBetsNotificationsCount}
                     />
-                    {isTournamentStarted && (
-                        <LinkMenuItem
-                            route={routesMap['closed-bets']}
-                            onClick={goToClosedGameBets}
-                            callback={reRouteCallback}
-                        />
-                    )}
                 </>)}
                 {isConfirmed && !isKnockoutBracket && (<>
                     {isTournamentStarted && (<>
