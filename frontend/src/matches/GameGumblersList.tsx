@@ -1,14 +1,21 @@
 import React from 'react'
 import { GameWithBetsAndGoalsData, WinnerSide } from '../types'
-import { keysOf } from '../utils'
+import { getWinnerSide, keysOf } from '../utils'
 import { MatchResultV2 } from '../widgets/MatchResult'
+import TeamFlag from '../widgets/TeamFlag/TeamFlag'
 import CustomTable from '../widgets/Table/CustomTable'
 import { groupBy, mapValues, orderBy, sortBy } from 'lodash'
-import GumblersList from '../gumblersList/GumblersList'
+import GumblersList, { Gumbler } from '../gumblersList/GumblersList'
 import useOpenDialog from '@/hooks/useOpenDialog'
 import { DialogName } from '@/dialogs/types'
 import { useSelector } from 'react-redux'
-import { NihusimByGameId } from '@/_selectors'
+import {
+    IsCurrentTournamentIncludesBetOnResult,
+    IsCurrentTournamentKnockoutBracket,
+    NihusimByGameId,
+    RunnerUpBetByUtlId,
+    WinnerBetByUtlId,
+} from '@/_selectors'
 import { useTranslation } from 'react-i18next'
 
 
@@ -18,7 +25,7 @@ interface BetInstance {
     resultAway: number,
     qualifier: WinnerSide,
     score: number,
-    gumblers: {name: string, id: number, isAutoBet?: boolean}[],
+    gumblers: Gumbler[],
 }
 
 function GameGumblersList({ match, isLive, showNihusable }: { match: GameWithBetsAndGoalsData, isLive?: boolean, showNihusable?: boolean }) {
@@ -28,6 +35,23 @@ function GameGumblersList({ match, isLive, showNihusable }: { match: GameWithBet
     const nihusim = nihusimByGameId[id]
     const nihusimByTargetUtlId = mapValues(groupBy(nihusim, 'target_utl_id'), betNahs => sortBy(betNahs, 'created_at'))
     const openNihusDialog = useOpenDialog(DialogName.SendNihus)
+
+    const isKnockoutBracket = useSelector(IsCurrentTournamentKnockoutBracket)
+    const isResultBetOn = useSelector(IsCurrentTournamentIncludesBetOnResult)
+    const winnerBetByUtlId = useSelector(WinnerBetByUtlId)
+    const runnerUpBetByUtlId = useSelector(RunnerUpBetByUtlId)
+
+    // Knockout bracket only: 🏆/🥈 when one of THIS game's teams is the user's
+    // tournament Winner/Runner-Up pick. Undefined for classic → no visual change.
+    const gameTeamIds = [home_team?.id, away_team?.id].filter((tid): tid is number => tid != null)
+    const specialRoleForUtl = (utlId: number): Gumbler['specialRole'] => {
+        if (!isKnockoutBracket) return undefined
+        const winnerTeamId = winnerBetByUtlId[utlId]?.answer?.id
+        if (winnerTeamId != null && gameTeamIds.includes(winnerTeamId)) return 'winner'
+        const runnerUpTeamId = runnerUpBetByUtlId[utlId]?.answer?.id
+        if (runnerUpTeamId != null && gameTeamIds.includes(runnerUpTeamId)) return 'runnerUp'
+        return undefined
+    }
 
     const models = keysOf(betsByValue).map((betVal): BetInstance => {
         const bets = betsByValue[betVal]
@@ -42,6 +66,7 @@ function GameGumblersList({ match, isLive, showNihusable }: { match: GameWithBet
                 name: bet.utlName,
                 id: bet.user_tournament_id,
                 isAutoBet: bet.is_auto_bet,
+                specialRole: specialRoleForUtl(bet.user_tournament_id),
             })),
         }
     })
@@ -74,21 +99,34 @@ function GameGumblersList({ match, isLive, showNihusable }: { match: GameWithBet
             classes: {
             },
             header: t('table.prediction'),
-            getter: (bet: BetInstance) => (
-                <MatchResultV2
-                    home={{
-                        team: home_team,
-                        score: bet.resultHome
-                    }}
-                    away={{
-                        team: away_team,
-                        score: bet.resultAway
-                    }}
-                    isTwoLeggedTie={match.isTwoLeggedTie}
-                    isKnockout={match.is_knockout}
-                    qualifier={bet.qualifier}
-                />
-            ),
+            getter: (bet: BetInstance) => {
+                // Result bet off (knockout bracket): the bet is just a qualifier
+                // pick — show only the winning team's flag, no score / ✌️.
+                if (isKnockoutBracket && !isResultBetOn) {
+                    const winnerSide = getWinnerSide(bet.resultHome, bet.resultAway, bet.qualifier)
+                    const winnerTeam = winnerSide === WinnerSide.Away ? away_team : home_team
+                    return (
+                        <div className='flex justify-center'>
+                            <TeamFlag size={32} team={winnerTeam} />
+                        </div>
+                    )
+                }
+                return (
+                    <MatchResultV2
+                        home={{
+                            team: home_team,
+                            score: bet.resultHome
+                        }}
+                        away={{
+                            team: away_team,
+                            score: bet.resultAway
+                        }}
+                        isTwoLeggedTie={match.isTwoLeggedTie}
+                        isKnockout={match.is_knockout}
+                        qualifier={bet.qualifier}
+                    />
+                )
+            },
         },
         {
             id: 'gumblers',

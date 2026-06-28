@@ -15,6 +15,9 @@ export interface Gumbler {
     name: string
     id: number
     isAutoBet?: boolean
+    // Knockout bracket only: set when one of this game's teams is the user's
+    // tournament Winner/Runner-Up pick. Drives the 🏆/🥈 indication.
+    specialRole?: 'winner' | 'runnerUp'
 }
 
 interface GumblerProps {
@@ -33,6 +36,14 @@ export function GumblerRow({gumbler, showNihusable, showNihus, onNihusClick, nih
                 <div>
                     {gumbler.name}
                 </div>
+                {gumbler.specialRole && (
+                    <span
+                        className="ms-1"
+                        title={gumbler.specialRole === 'winner' ? 'אלופה' : 'סגנית'}
+                    >
+                        {gumbler.specialRole === 'winner' ? '🏆' : '🥈'}
+                    </span>
+                )}
                 {gumbler.isAutoBet && (
                     <div className="ms-1 flex items-center">
                         <AutoBetBadge />
