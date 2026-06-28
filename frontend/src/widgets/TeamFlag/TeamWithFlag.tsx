@@ -9,6 +9,7 @@ import './TeamWithFlag.scss'
 function TeamWithFlag({
     team,
     classes,
+    badge,
     is_ko_winner,
     size = 32,
 }: TeamWithFlagProps) {
@@ -23,6 +24,7 @@ function TeamWithFlag({
                     {getHebTeamName(name)}
                 </div>
             )}
+            {badge}
             {is_ko_winner && (
                 <div
                     style={{

@@ -151,10 +151,12 @@ class BetsController extends Controller
                     foreach ($utlsToSendFor as $utl ){
                         if ($utl->tournament->isKnockoutBracket()){
                             // Bracket: reject edits to games locked by the user's Winner/Runner-Up.
-                            $this->assertBracketQualifierEditable($utl, $game);
                             // Qualifier-only, unless the tournament has a perfect-result tier configured —
                             // then keep the user's predicted score (absent score stays qualifier-only).
                             $resultBetOn = $utl->tournament->isResultBetOn();
+                            if (!$resultBetOn){
+                                $this->assertBracketQualifierEditable($utl, $game);
+                            }
                             $betRequest = new BetMatchRequest(
                                 $game,
                                 $utl->tournament,

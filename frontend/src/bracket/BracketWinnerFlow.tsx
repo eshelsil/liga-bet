@@ -14,6 +14,7 @@ import {
     BracketSpecialBets,
     BracketTeam,
     GameSubType,
+    WinnerSide,
 } from '../types'
 import { CurrentTournamentId, Teams } from '../_selectors'
 import { findBracketTeam, gamesForSide, getTeamSide } from '../utils'
@@ -24,7 +25,11 @@ import {
     useSubmitWinnerAndRunnerUp,
 } from './useBracket'
 import { useBracketTeams } from './useBracketTeams'
-import { FinalistSides, readFinalistSides, writeFinalistSides } from './finalistSidesStore'
+import {
+    FinalistSides,
+    readFinalistSides,
+    writeFinalistSides,
+} from './finalistSidesStore'
 import { BracketTreeProvider } from './BracketTreeContext'
 import BracketTree from './BracketTree'
 import BracketGamesList from './BracketGamesList'
@@ -43,7 +48,8 @@ interface Parsed {
     complete: boolean
 }
 
-const opposite = (side: BracketSide): BracketSide => (side === 'left' ? 'right' : 'left')
+const opposite = (side: BracketSide): BracketSide =>
+    side === 'left' ? 'right' : 'left'
 
 // Map the user's saved Winner/Runner-Up onto the two side inputs. A team's side is taken
 // from the bracket when known; otherwise from the persisted left/right memory (`stored`);
@@ -53,7 +59,7 @@ function parseInitial(
     games,
     special: BracketSpecialBets,
     stored: FinalistSides,
-    inlineStart: BracketSide,
+    inlineStart: BracketSide
 ): Parsed {
     const w = special.winner.teamId
     const r = special.runnerUp.teamId
@@ -101,7 +107,16 @@ function parseInitial(
     return { left, right, winnerSide, complete: left != null && right != null }
 }
 
-function BracketWinnerFlow() {
+function BracketWinnerFlow({
+    sendMatchBet,
+}: {
+    sendMatchBet: (args: {
+        matchId: number
+        homeScore: string
+        awayScore: string
+        koWinner: WinnerSide
+    }) => Promise<void>
+}) {
     const { t, i18n } = useTranslation('knockout_bracket')
     const { config, games } = useBracket()
     const { groups, unseeded, seeded, unqualified } = useBracketTeams()
@@ -274,7 +289,8 @@ function BracketWinnerFlow() {
     const hasSaved =
         special.winner.teamId != null && special.runnerUp.teamId != null
     // The finalist already chosen on the OTHER side — excluded from this side's picker.
-    const otherFinalistId = pickingSide === 'left' ? right : pickingSide === 'right' ? left : null
+    const otherFinalistId =
+        pickingSide === 'left' ? right : pickingSide === 'right' ? left : null
 
     const leftTeam = resolveTeam(left)
     const rightTeam = resolveTeam(right)
@@ -308,7 +324,11 @@ function BracketWinnerFlow() {
                 />
             )}
 
-            <Collapse className='w-[calc(100%+24px)]  -translate-x-3 rtl:translate-x-3' in={expanded} unmountOnExit>
+            <Collapse
+                className="w-[calc(100%+24px)]  -translate-x-3 rtl:translate-x-3"
+                in={expanded}
+                unmountOnExit
+            >
                 <div className="Bracket-editor">
                     <div className="Bracket-editorHint LB-TitleText">
                         {hint}
@@ -343,17 +363,23 @@ function BracketWinnerFlow() {
                 </div>
             </Collapse>
 
-            <BracketGamesList />
+            <BracketGamesList sendMatchBet={sendMatchBet} />
 
             <FinalistPickerDialog
                 side={pickingSide}
                 sideTeams={
                     pickingSide
-                        ? sideTeams(pickingSide).filter((tm) => tm.id !== otherFinalistId)
+                        ? sideTeams(pickingSide).filter(
+                              (tm) => tm.id !== otherFinalistId
+                          )
                         : []
                 }
                 notPlaced={unseeded
-                    .filter((s) => !unqualified.has(s.team.id) && s.team.id !== otherFinalistId)
+                    .filter(
+                        (s) =>
+                            !unqualified.has(s.team.id) &&
+                            s.team.id !== otherFinalistId
+                    )
                     .map((s) => s.team)}
                 onSelect={pickFinalist}
                 onClose={() => setPickingSide(null)}

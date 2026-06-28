@@ -80,18 +80,23 @@ class BetMatchRequest extends AbstractBetRequest
             Log::debug("[BetMatchRequest][validateDataBracket] Game ". $game->id ." is not knockout, skipping validation");
             return;
         }
-        $koWinnerSide = data_get($data, "winner_side");
-        if (!in_array($koWinnerSide, ["home", "away"], true)) {
-            $paramString = is_null($koWinnerSide) ? "null" : $koWinnerSide;
-            throw new \InvalidArgumentException("Bracket qualifier bet's \"winner_side\" must be one of [\"home\", \"away\"]. <br>Got: {$paramString}");
-        }
         if (!$this->tournament->isResultBetOn()) {
+            $koWinnerSide = data_get($data, "winner_side");
+            if (!in_array($koWinnerSide, ["home", "away"], true)) {
+                $paramString = is_null($koWinnerSide) ? "null" : $koWinnerSide;
+                throw new \InvalidArgumentException("Bracket qualifier bet's \"winner_side\" must be one of [\"home\", \"away\"]. <br>Got: {$paramString}");
+            }
             return; // no perfect-result tier configured, so no further validation needed
         }
         $resultHome = data_get($data, "result-home");
         $resultAway = data_get($data, "result-away");
         if ((!is_null($resultHome) || !is_null($resultAway)) && (!is_numeric($resultHome) || !is_numeric($resultAway))) {
             throw new \InvalidArgumentException("Bracket result prediction requires numeric result-home and result-away.");
+        }
+        $koWinnerSide = data_get($data, "winner_side");
+        if ((int)$resultAway == (int)$resultHome && !in_array($koWinnerSide, ["home", "away"])){
+            $paramString = is_null($koWinnerSide) ? "null" : $koWinnerSide;
+            throw new \InvalidArgumentException("Knockout Bet's \"winner_side\" parameter must be one of [\"away\", \"home\"] if score is tied. <br>Got: {$paramString}");
         }
     }
 

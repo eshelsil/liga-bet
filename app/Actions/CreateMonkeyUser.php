@@ -10,6 +10,7 @@ namespace App\Actions;
 
 use App\Bet;
 use App\Enums\BetTypes;
+use App\Enums\WinnerSide;
 use App\Game;
 use App\Group;
 use App\SpecialBets\SpecialBet;
@@ -33,11 +34,13 @@ class CreateMonkeyUser
         $tournament->competition->groups
             ->each(fn (Group $group) => $this->betGroup($group, $utl));
 
-        $tournament->competition->games
-            ->each(fn(Game $game) => $this->betGame($game, $utl));
-
         $tournament->specialBets->each(fn(SpecialBet $specialBet) => $this->betSpecialBet($specialBet, $utl));
-
+        
+        $winnerSb = SpecialBet::getByType($tournament->id, SpecialBet::TYPE_WINNER);
+        $runnerSb = SpecialBet::getByType($tournament->id, SpecialBet::TYPE_RUNNER_UP);
+        $selectedBracketWinners = $utl->getWinnerAndRunnerUpTeams($winnerSb?->id, $runnerSb?->id);
+        $tournament->competition->games
+            ->each(fn(Game $game) => $this->betGame($game, $utl, $selectedBracketWinners->get('winner'), $selectedBracketWinners->get('runner_up')));
         return $user;
     }
 
@@ -83,10 +86,27 @@ class CreateMonkeyUser
      *
      * @return void
      */
-    private function betGame(Game $game, $utl): void
+    private function betGame(Game $game, TournamentUser $utl, ?int $desiredWinner, ?int $desiredRunnerUp): void
     {
         $type_id = $game->getID();
-        $data    = $game->generateRandomBetData();
+        $desiredWinnerSide = null;
+        if ($game->isKnockout()) {
+            if ($desiredWinner) {
+                if ($game->team_home_id === $desiredWinner) {
+                    $desiredWinnerSide = WinnerSide::HOME->value;
+                } else if ($game->team_away_id === $desiredWinner) {
+                    $desiredWinnerSide = WinnerSide::AWAY->value;
+                }
+            }
+            if (is_null($desiredWinnerSide) && $desiredRunnerUp) {
+                if ($game->team_home_id === $desiredRunnerUp) {
+                    $desiredWinnerSide = WinnerSide::HOME->value;
+                } else if ($game->team_away_id === $desiredRunnerUp) {
+                    $desiredWinnerSide = WinnerSide::AWAY->value;
+                }
+            }
+        }
+        $data    = $game->generateRandomBetData(true, $desiredWinnerSide);
         $this->autoGenerateBet($utl, BetTypes::Game, $type_id, $data);
     }
 

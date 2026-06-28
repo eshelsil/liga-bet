@@ -1,0 +1,150 @@
+@use '../styles/mixins';
+@use '../styles/shadows';
+@use '../styles/colors';
+
+
+.LB-OpenMatchBet {
+    @include mixins.floatingFrame;
+    border-radius: 12px;
+    width: 400px;
+    overflow: hidden;
+    max-width: 100%;
+    box-shadow: shadows.$medium-shadow;
+    margin: 24px;
+    @media(max-width: 600px){
+        margin: 12px auto;
+    }
+    &.OpenMatchBet-knockout {
+        .OpenMatchBet-body {
+            margin-bottom: 30px;
+        }
+        &:not(.OpenMatchBet-edit){
+            .OpenMatchBet-body {
+                .scoreForm {
+                    .buttonContainer {
+                        margin-top: 0px;
+                    }
+                }
+            }
+        }
+    }
+    &.OpenMatchBet-twoLegsKo {
+        .OpenMatchBet-body {
+            .scoreForm {
+                .LB-EditMatchBetView, .LB-CurrentBetView {
+                    padding-top: 34px;
+                }
+            }
+            .verticalTeam {
+                top: 40px;
+            }
+        }
+    }
+    .EditableBetView-header {
+        .timeLabel {
+            margin: 0px;
+            color: #fff;
+            font-size: 16px;
+            text-align: center;
+        }
+        .dateLabel {
+            inset-inline-start: 16px;
+            position: absolute;
+            color: #fff;
+            font-size: 16px;
+        }
+    }
+    .OpenMatchBet-body {
+        height: 98px;
+        padding: 12px;
+        display: flex;
+        position: relative;
+        .scoreForm {
+            flex: 1 auto;
+            margin: 0px 60px;
+            .inputsRow {
+                display: flex;
+                align-items: center;
+                justify-content: space-evenly;
+                .scoreDisplayContainer {
+                    @include mixins.centerContainer;
+                    width: 36px;
+                    height: 36px;
+                    .scoreDisplay {
+                        @include mixins.centerContainer;
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 8px;
+                        background: colors.$primary-main;
+                        cursor: pointer;
+                        .scoreText {
+                            color: #fff;
+                            font-size: 20px;
+                        }   
+                    }
+                }
+                input {
+                    width: 36px;
+                    height: 36px;
+                    padding: 6px;
+                    font-size: 16px;
+                }
+            }
+            .buttonContainer {
+                position: relative;
+                display: flex;
+                justify-content: center;
+                margin-top: 8px;
+                .sendButton {
+                    padding: 2px 12px;
+                    min-width: 32px;
+                }
+                .buttonsWrapper {
+                    position: relative;
+                }
+                .closeIcon {
+                    position: absolute;
+                    padding: 0px;
+                    inset-inline-start: calc(100% + 20px);
+                    top: 4px;
+                }
+            }
+        }
+        .verticalTeam {
+            @include mixins.centerContainer;
+            flex-direction: column;
+            display: inline-flex;
+            position: absolute;
+            .OpenMatchBet-badge {
+                position: absolute;
+                top: -8px;
+                transform: translateX(90%);
+                font-size: 16px;
+                font-weight: 700;
+                color: #8a6800;
+                background: #fff3cfdd;
+                border-radius: 100%;
+                padding: 1px;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                text-align: center;
+                height: 24px;
+                width: 24px;
+            }
+            &.sideLeft {
+                inset-inline-end: 12px;
+            }
+            &.sideRight {
+                inset-inline-start: 12px;
+                .OpenMatchBet-badge {
+                    transform: translateX(-90%);
+                }
+            }
+        }
+        .verticalTeamName {
+            margin-inline-start: 0px;
+            margin-top: 6px;
+            text-align: center;
+            font-size: 12px;
+        }
+    }
+}

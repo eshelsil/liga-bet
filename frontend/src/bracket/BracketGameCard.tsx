@@ -53,7 +53,6 @@ function BracketGameCard({
     const [pendingSide, setPendingSide] = useState<WinnerSide | null>(null)
 
     const submitPick = async (side: WinnerSide) => {
-        console.log('submitPick', side, pendingSide)
         if (pendingSide !== null) return
         setPendingSide(side)
         try {

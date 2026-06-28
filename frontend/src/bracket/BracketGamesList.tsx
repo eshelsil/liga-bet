@@ -1,17 +1,18 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
-import { BracketGame, WinnerSide } from '../types'
+import { BetType, BracketGame, WinnerSide } from '../types'
 import {
     IsCurrentTournamentIncludesBetOnResult,
     MissingGameBetsIds,
     MyGameBetsById,
 } from '../_selectors'
 import { useAppDispatch } from '../_helpers/store'
-import { sendBracketQualifierBetAndStore } from '../_actions/bets'
-import { bracketSpecialRole } from '../utils'
+import { sendBracketQualifierBetAndStore, sendBetAndStore } from '../_actions/bets'
+import { bracketSpecialRole, bracketTeamToTeam, getWinnerSide, knockoutStageToSubType, subTypeToKnockoutStage } from '../utils'
 import { useBracket, useBracketSpecialBets } from './useBracket'
 import BracketGameCard from './BracketGameCard'
+import OpenMatchBetView from '../open_matches/MatchBetView'
 
 // A bettable tie is shown when both teams are known and it isn't finished, and it's
 // either open for a pick OR auto-locked by the user's Winner/Runner-Up (plan D1/D3):
@@ -27,7 +28,16 @@ function shouldShow(g: BracketGame, isSpecial: boolean): boolean {
 
 // The "Open games" list on the bracket's Open Guesses page: per-tie qualifier-only
 // betting. Each card is either an open tap-a-team picker or a locked special-answer.
-function BracketGamesList() {
+function BracketGamesList({
+    sendMatchBet,
+}: {
+    sendMatchBet: (args: {
+        matchId: number
+        homeScore: string
+        awayScore: string
+        koWinner: WinnerSide
+    }) => Promise<void>
+}) {
     const { t } = useTranslation('knockout_bracket')
     const { config, games } = useBracket()
     const { winner, runnerUp } = useBracketSpecialBets()
@@ -63,9 +73,19 @@ function BracketGamesList() {
         }
     }
 
+    // Result tournaments submit an exact score via the normal game-bet API (sendBetAndStore),
+    // always including winner_side (the bracket qualifier tie-break, required by the backend).
+    const submitResult = async ({ matchId, homeScore, awayScore, koWinner }) => {
+        await sendMatchBet({
+            matchId,
+            homeScore,
+            awayScore,
+            koWinner,
+        })
+    }
+
     // No open ties yet → a floating placeholder panel (no "Open games" heading).
-    // if (true) { // for now always return this view
-    if (visible.length === 0 || isResultsBetOn) {
+    if (visible.length === 0) {
         return (
             <div className="LB-BracketGamesList">
                 <div className="BracketGamesList-emptyPanel">
@@ -81,9 +101,36 @@ function BracketGamesList() {
                 {t('openGames.title')}
             </h4>
             {visible.map((game) => {
-                const myPick = game.id != null ? myBets[game.id] : undefined
+                const myBet = game.id != null ? myBets[game.id] : undefined
+
+                if (isResultsBetOn) {
+                    // Reuse the classic game-bet card (score entry), with the bracket
+                    // Winner/Runner-Up roles driving its badge + betting-against alert.
+                    const match = {
+                        id: game.id,
+                        start_time: (game.start_time ?? 0) * 1000,
+                        home_team: bracketTeamToTeam(game.home_team),
+                        away_team: bracketTeamToTeam(game.away_team),
+                        subType: subTypeToKnockoutStage(game.round),
+                        is_knockout: true,
+                        isTwoLeggedTie: false,
+                        isFirstLeg: false,
+                        bet: myBet,
+                    } as any
+                    return (
+                        <OpenMatchBetView
+                            key={game.bracket_game_id}
+                            match={match}
+                            sendBet={submitResult}
+                            isKnockoutBracketGame={true}
+                            homeRole={roleOf(game.home_team?.id)}
+                            awayRole={roleOf(game.away_team?.id)}
+                        />
+                    )
+                }
+
                 const userSide =
-                    (myPick?.winner_side as WinnerSide | undefined) ??
+                    (myBet?.winner_side as WinnerSide | undefined) ??
                     game.user_qualifier_side
                 const pick = async (side: WinnerSide) => await onPick(game, side);
                 return (

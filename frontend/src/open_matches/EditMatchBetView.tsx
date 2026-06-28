@@ -19,6 +19,9 @@ interface Props  {
     onClose: () => void
     onSave: (...args: any) => Promise<void>
     opener?: WinnerSide
+    // Optional: report the live (unsaved) values on every change — used by the bracket card
+    // to show a "betting against your pick" alert as the user types. No-op for classic callers.
+    onChange?: (vals: { homeScore: any; awayScore: any; koWinner: WinnerSide | null }) => void
 }
 
 function EditMatchBetView({
@@ -29,6 +32,7 @@ function EditMatchBetView({
     onClose,
     onSave,
     opener,
+    onChange,
 }: Props) {
     const { t } = useTranslation('open_matches')
     const homeInputRef = useRef<HTMLInputElement>()
@@ -76,6 +80,11 @@ function EditMatchBetView({
             setKoWinner(bet?.winner_side)
         }
     }, [bet?.winner_side])
+
+    useEffect(()=>{
+        onChange?.({ homeScore, awayScore, koWinner })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [homeScore, awayScore, koWinner])
 
     const isBetTied = Number(homeScore) === Number(awayScore)
 

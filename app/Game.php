@@ -5,6 +5,7 @@ namespace App;
 use App\Bets\BetableInterface;
 use App\Bets\BetMatch\BetMatchRequest;
 use App\Enums\BetTypes;
+use App\Enums\WinnerSide;
 use App\Enums\GameSubTypes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -346,8 +347,9 @@ class Game extends Model implements BetableInterface
         return $this->competition->getIdsOfLastGroupGames()->contains($this->id);
     }
 
-    public function generateRandomBetData(?bool $qualifierBetIsOn = true)
+    public function generateRandomBetData(?bool $qualifierBetIsOn = true, ?WinnerSide $desiredWinnerSide = null)
     {
+        $winnerSide = $desiredWinnerSide?->value ?? Arr::random([WinnerSide::HOME, WinnerSide::AWAY]);
         $res = [];
         $max = 5;
         foreach(['result-home', 'result-away'] as $key){
@@ -362,9 +364,18 @@ class Game extends Model implements BetableInterface
             }
             $res[$key] = $goals;
         }
+        $sorted_teams_goals = collect([$res['result-home'], $res['result-away']])->sortDesc()->values();
+
+        if ($winnerSide === WinnerSide::HOME) {
+            $res['result-home'] = $sorted_teams_goals[0];
+            $res['result-away'] = $sorted_teams_goals[1];
+        } else if ($winnerSide === WinnerSide::AWAY) {
+            $res['result-home'] = $sorted_teams_goals[1];
+            $res['result-away'] = $sorted_teams_goals[0];
+        }
 
         if($this->isKnockout() && $qualifierBetIsOn){
-            $res['ko_winner_side'] = Arr::random(['home','away']);
+            $res['ko_winner_side'] = $winnerSide;
         }
         return json_encode($res);
     }

@@ -1,3 +1,4 @@
+import { ReactNode } from "react"
 import { Team } from "../../types"
 
 export interface TeamWithFlagProps {
@@ -7,6 +8,7 @@ export interface TeamWithFlagProps {
         root?: string
     }
     crest_url?: string
+    badge?: ReactNode
     is_ko_winner?: boolean
     size?: number
 }

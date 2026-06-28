@@ -67,6 +67,8 @@
         "locked": "Locked from your Winner/Runner-Up pick",
         "winnerBadge": "🏆 Your Winner",
         "runnerUpBadge": "🥈 Your Runner-Up",
+        "winnerBadgeSmall": "🏆",
+        "runnerUpBadgeSmall": "🥈",
         "info": {
             "title": "How this game is scored",
             "qualifier": {
@@ -86,7 +88,7 @@
         "against": {
             "alert": "You're betting against your pick",
             "title": "Betting against your pick",
-            "body": "Your result has your {{role}} not advancing — you won't earn this game's qualifier points.",
+            "body": "Your result has your {{role}} not advancing — you can't earn full points for this game's qualifier.",
             "ok": "Got it"
         }
     },

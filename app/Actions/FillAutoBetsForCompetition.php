@@ -5,7 +5,9 @@ namespace App\Actions;
 use App\Bet;
 use App\Competition;
 use App\Enums\BetTypes;
+use App\Enums\WinnerSide;
 use App\Game;
+use App\SpecialBets\SpecialBet;
 use App\Tournament;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
@@ -87,10 +89,33 @@ class FillAutoBetsForCompetition
 
         $nowDt = Carbon::now();
         $rows = [];
+        $resultBetOn = $tournament->isResultBetOn();
+        $winnerSb = SpecialBet::getByType($tournament->id, SpecialBet::TYPE_WINNER);
+        $runnerSb = SpecialBet::getByType($tournament->id, SpecialBet::TYPE_RUNNER_UP);
         foreach ($missingUtls as $utl) {
             $strategy = $utl->auto_bet_strategy ?? self::STRATEGY_ZERO;
-            $resultBetOn = $tournament->isResultBetOn();
-            $data = $this->buildBetData($game, $strategy, $qualifierBetIsOn, $resultBetOn);
+            if ($tournament->isKnockoutBracket() && $resultBetOn) {
+                $strategy = self::STRATEGY_RANDOM; // Hardcoded for now, for bracket with scores tournament
+            }
+            $utlSpecialTeams = $utl->getWinnerAndRunnerUpTeams($winnerSb?->id, $runnerSb?->id);
+            $desiredWinnerSide = null;
+            $desiredTournamentWinner = $utlSpecialTeams->get('winner');
+            $desiredTournamentRunnerUp = $utlSpecialTeams->get('runner_up');
+            if ($desiredTournamentWinner) {
+                if ($game->team_home_id === $desiredTournamentWinner) {
+                    $desiredWinnerSide = WinnerSide::HOME->value;
+                } else if ($game->team_away_id === $desiredTournamentWinner) {
+                    $desiredWinnerSide = WinnerSide::AWAY->value;
+                }
+            }
+            if (is_null($desiredWinnerSide) && $desiredTournamentRunnerUp) {
+                if ($game->team_home_id === $desiredTournamentRunnerUp) {
+                    $desiredWinnerSide = WinnerSide::HOME->value;
+                } else if ($game->team_away_id === $desiredTournamentRunnerUp) {
+                    $desiredWinnerSide = WinnerSide::AWAY->value;
+                }
+            }
+            $data = $this->buildBetData($game, $strategy, $qualifierBetIsOn, $resultBetOn, $desiredWinnerSide);
 
             $rows[] = [
                 'type'               => BetTypes::Game,
@@ -112,15 +137,16 @@ class FillAutoBetsForCompetition
         }
     }
 
-    private function buildBetData(Game $game, string $strategy, bool $qualifierBetIsOn, bool $resultBetOn): string
+    private function buildBetData(Game $game, string $strategy, bool $qualifierBetIsOn, bool $resultBetOn, ?WinnerSide $desiredWinnerSide): string
     {
+        $koWinnerSide = $desiredWinnerSide?->value ?? Arr::random([WinnerSide::HOME, WinnerSide::AWAY]);
         if (!$resultBetOn) {
             return json_encode([
-                'ko_winner_side' => Arr::random(['home', 'away']),
+                'ko_winner_side' => $koWinnerSide,
             ]);
         }
         if ($strategy === self::STRATEGY_RANDOM) {
-            return $game->generateRandomBetData($qualifierBetIsOn);
+            return $game->generateRandomBetData($qualifierBetIsOn, $desiredWinnerSide);
         }
 
         $rec = [
@@ -128,7 +154,7 @@ class FillAutoBetsForCompetition
             'result-away' => 0,
         ];
         if ($game->isKnockout() && $qualifierBetIsOn) {
-            $rec['ko_winner_side'] = Arr::random(['home', 'away']);
+            $rec['ko_winner_side'] = $koWinnerSide;
         }
         return json_encode($rec);
     }

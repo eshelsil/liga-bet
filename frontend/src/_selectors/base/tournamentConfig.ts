@@ -6,6 +6,7 @@ import {
     CurrentSideTournament,
     CurrentTournament,
 } from './models'
+import { IsCurrentTournamentKnockoutBracket } from './singleModel';
 
 
 export const CurrentTournamentConfig = createSelector(
@@ -96,7 +97,8 @@ export const FormattedMatchBetScoreConfig = createSelector(
 
 export const IsQualifierBetOn = createSelector(
     FormattedMatchBetScoreConfig,
-    (config) => config?.knockout?.qualifier > 0
+    IsCurrentTournamentKnockoutBracket,
+    (config, isBracketKnockout) => isBracketKnockout || config?.knockout?.qualifier > 0
 )
 
 export const IsRunnerUpBetOn = createSelector(

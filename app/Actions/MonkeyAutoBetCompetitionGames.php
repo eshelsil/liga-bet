@@ -11,11 +11,13 @@ namespace App\Actions;
 use App\Bet;
 use App\Competition;
 use App\Enums\BetTypes;
+use App\Enums\WinnerSide;
 use App\Game;
 use App\Tournament;
 use App\TournamentUser;
 use App\User;
 use Illuminate\Database\Eloquent\Collection;
+use App\SpecialBets\SpecialBet;
 
 class MonkeyAutoBetCompetitionGames
 {
@@ -51,6 +53,27 @@ class MonkeyAutoBetCompetitionGames
                     $koWinnerSide = $game->team_home_id == $alreadyBettedKoWinner ? "home" : "away";
                 }
             }
+        } else if ($game->isKnockout() && $tournamentUser->tournament->isKnockoutBracket()) {
+            $winnerSb = SpecialBet::getByType($tournamentUser->tournament->id, SpecialBet::TYPE_WINNER);
+            $runnerSb = SpecialBet::getByType($tournamentUser->tournament->id, SpecialBet::TYPE_RUNNER_UP);
+            $selectedBracketWinners = $tournamentUser->getWinnerAndRunnerUpTeams($winnerSb?->id, $runnerSb?->id);
+            $desiredTournamentWinner = $selectedBracketWinners->get('winner');
+            $desiredTournamentRunnerUp = $selectedBracketWinners->get('runner_up');
+            if ($desiredTournamentWinner) {
+                if ($game->team_home_id === $desiredTournamentWinner) {
+                    $koWinnerSide = WinnerSide::HOME->value;
+                } else if ($game->team_away_id === $desiredTournamentWinner) {
+                    $koWinnerSide = WinnerSide::AWAY->value;
+                }
+            }
+            if (is_null($koWinnerSide) && $desiredTournamentRunnerUp) {
+                if ($game->team_home_id === $desiredTournamentRunnerUp) {
+                    $koWinnerSide = WinnerSide::HOME->value;
+                } else if ($game->team_away_id === $desiredTournamentRunnerUp) {
+                    $koWinnerSide = WinnerSide::AWAY->value;
+                }
+            }
+            $koWinnerSide = rand(0, 1) ? "home" : "away";
         }
 
         $bet = new Bet();

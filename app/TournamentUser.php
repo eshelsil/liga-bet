@@ -245,6 +245,32 @@ class TournamentUser extends Model
         return $groupsMissingBet;
     }
 
+    public function getWinnerAndRunnerUpTeams(int $winnerSideBetId, int $runnerUpSideBetId): Collection{
+        $winner = null;
+        $runnerUp = null;
+        if ($winnerSideBetId) {
+            $winnerBet = Bet::query()
+                ->where('user_tournament_id', $this->id)
+                ->where('type', BetTypes::SpecialBet)
+                ->whereIn('type_id', $winnerSideBetId)
+                ->first();
+            if ($winnerBet) {
+                $winner = (int) $winnerBet->getAnswer();
+            }
+        }
+        if ($runnerUpSideBetId) {
+            $runnerUpBet = Bet::query()
+                ->where('user_tournament_id', $this->id)
+                ->where('type', BetTypes::SpecialBet)
+                ->whereIn('type_id', $runnerUpSideBetId)
+                ->first();
+            if ($runnerUpBet) {
+                $runnerUp = (int) $runnerUpBet->getAnswer();
+            }
+        }
+        return collect(["winner" => $winner, "runner_up" => $runnerUp]);
+    }
+
     public function getMissingOpenBets()
     {
         $tournamentStarted = $this->tournament->hasStarted();
