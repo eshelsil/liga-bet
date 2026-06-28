@@ -7,6 +7,7 @@ import InfoIcon from '@mui/icons-material/InfoOutlined'
 import { BracketGame, BracketTeam, WinnerSide } from '../types'
 import {
     bracketTeamToTeam,
+    cn,
     DEFAULT_DATE_FORMAT,
     ENG_DATE_FORMAT,
     subTypeToKnockoutStage,
@@ -52,6 +53,7 @@ function BracketGameCard({
     const [pendingSide, setPendingSide] = useState<WinnerSide | null>(null)
 
     const submitPick = async (side: WinnerSide) => {
+        console.log('submitPick', side, pendingSide)
         if (pendingSide !== null) return
         setPendingSide(side)
         try {
@@ -114,16 +116,10 @@ function BracketGameCard({
         return (
             <button
                 type="button"
-                className={`BGC-side ${picked ? 'is-picked' : ''} ${
-                    clickable ? 'is-clickable' : ''
-                }`}
-                onClick={
-                    clickable
-                        ? () => {
-                              submitPick(side)
-                          }
-                        : undefined
-                }
+                className={cn('BGC-side', { 'is-picked': picked, 'is-clickable': clickable })}
+                onClick={() => {
+                    submitPick(side)
+                }}
                 disabled={!clickable}
             >
                 {team ? (

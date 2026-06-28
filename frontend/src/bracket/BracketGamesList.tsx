@@ -85,6 +85,7 @@ function BracketGamesList() {
                 const userSide =
                     (myPick?.winner_side as WinnerSide | undefined) ??
                     game.user_qualifier_side
+                const pick = async (side: WinnerSide) => await onPick(game, side);
                 return (
                     <BracketGameCard
                         key={game.bracket_game_id}
@@ -92,7 +93,7 @@ function BracketGamesList() {
                         userSide={userSide ?? null}
                         homeRole={roleOf(game.home_team?.id)}
                         awayRole={roleOf(game.away_team?.id)}
-                        onPick={async (side) => await onPick(game, side)}
+                        onPick={pick}
                         hasNotification={missingGameBetsIds.includes(game.id)}
                     />
                 )
