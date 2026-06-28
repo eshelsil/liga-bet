@@ -44,44 +44,67 @@ class MonkeyAutoBetCompetitionGames
         if ($tournamentUser->bets->firstWhere("game_id", $game->id)) {
             return;
         }
-        $isQualifierBetOn = data_get($tournamentUser->tournament->config, "scores.gameBets.knockout.qualifier");
+        $tournament = $tournamentUser->tournament;
+
+        if ($tournament->isKnockoutBracket()) {
+            if (!$game->isKnockout()) {
+                return; // monkeys never bet group-stage games in bracket tournaments
+            }
+            $winnerSb = SpecialBet::getByType($tournament->id, SpecialBet::TYPE_WINNER);
+            $runnerSb = SpecialBet::getByType($tournament->id, SpecialBet::TYPE_RUNNER_UP);
+            $picks = $tournamentUser->getWinnerAndRunnerUpTeams($winnerSb?->id, $runnerSb?->id);
+            $this->betBracketGame($game, $tournamentUser, $picks);
+            return;
+        }
+
+        $isQualifierBetOn = data_get($tournament->config, "scores.gameBets.knockout.qualifier");
         $koWinnerSide = null;
         if ($game->isKnockout() && $isQualifierBetOn && $otherLegGame = $game->getOtherLegGame()) {
             if ($otherLegGameBet = $tournamentUser->bets()->where(["type" => BetTypes::Game, "type_id" => $otherLegGame->id])->first()){
                 if ($alreadyBettedKoWinnerSide = $otherLegGameBet->getKoWinnerSide()) {
                     $alreadyBettedKoWinner = $alreadyBettedKoWinnerSide === "home" ? $otherLegGame->team_home_id : $otherLegGame->team_away_id;
-                    $koWinnerSide = $game->team_home_id == $alreadyBettedKoWinner ? "home" : "away";
+                    $koWinnerSide = $game->team_home_id == $alreadyBettedKoWinner ? WinnerSide::HOME : WinnerSide::AWAY;
                 }
             }
-        } else if ($game->isKnockout() && $tournamentUser->tournament->isKnockoutBracket()) {
-            $winnerSb = SpecialBet::getByType($tournamentUser->tournament->id, SpecialBet::TYPE_WINNER);
-            $runnerSb = SpecialBet::getByType($tournamentUser->tournament->id, SpecialBet::TYPE_RUNNER_UP);
-            $selectedBracketWinners = $tournamentUser->getWinnerAndRunnerUpTeams($winnerSb?->id, $runnerSb?->id);
-            $desiredTournamentWinner = $selectedBracketWinners->get('winner');
-            $desiredTournamentRunnerUp = $selectedBracketWinners->get('runner_up');
-            if ($desiredTournamentWinner) {
-                if ($game->team_home_id === $desiredTournamentWinner) {
-                    $koWinnerSide = WinnerSide::HOME->value;
-                } else if ($game->team_away_id === $desiredTournamentWinner) {
-                    $koWinnerSide = WinnerSide::AWAY->value;
-                }
-            }
-            if (is_null($koWinnerSide) && $desiredTournamentRunnerUp) {
-                if ($game->team_home_id === $desiredTournamentRunnerUp) {
-                    $koWinnerSide = WinnerSide::HOME->value;
-                } else if ($game->team_away_id === $desiredTournamentRunnerUp) {
-                    $koWinnerSide = WinnerSide::AWAY->value;
-                }
-            }
-            $koWinnerSide = rand(0, 1) ? "home" : "away";
         }
 
         $bet = new Bet();
         $bet->user_tournament_id = $tournamentUser->id;
-        $bet->tournament_id = $tournamentUser->tournament->id;
+        $bet->tournament_id = $tournament->id;
         $bet->type = BetTypes::Game;
         $bet->type_id = $game->getID();
         $bet->data = $game->generateRandomBetData($isQualifierBetOn, $koWinnerSide);
+        $bet->save();
+    }
+
+    /**
+     * Auto-bet a single knockout game for a monkey in a knockout-bracket tournament: back the monkey's
+     * Winner/Runner-Up side when that team plays (Winner first), otherwise a random side. Always a
+     * decisive result + qualifier, for both qualifier-only and result-bet tournaments.
+     */
+    private function betBracketGame(Game $game, TournamentUser $tournamentUser, $picks): void
+    {
+        $desiredSide = null;
+        foreach ([$picks->get('winner'), $picks->get('runner_up')] as $teamId) {
+            if (!$teamId) {
+                continue;
+            }
+            if ($game->team_home_id === $teamId) {
+                $desiredSide = WinnerSide::HOME;
+                break;
+            }
+            if ($game->team_away_id === $teamId) {
+                $desiredSide = WinnerSide::AWAY;
+                break;
+            }
+        }
+
+        $bet = new Bet();
+        $bet->user_tournament_id = $tournamentUser->id;
+        $bet->tournament_id = $tournamentUser->tournament_id;
+        $bet->type = BetTypes::Game;
+        $bet->type_id = $game->getID();
+        $bet->data = $game->generateRandomBetData(true, $desiredSide);
         $bet->save();
     }
 }
