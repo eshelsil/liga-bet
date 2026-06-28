@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { Contestants, GroupStandingBetsByUserId, MatchBetsByUserId, QuestionBetsByUserQuestionId } from '../_selectors'
 import MySpecialBetsTable from './MySpecialBetsTable'
 import MyGameBetsTable from './MyGameBetsTable'
+import KnockoutGameBetsTable from './KnockoutGameBetsTable'
 import GroupPositionBetsTable from './MyGroupPositionBetsTable'
 import { useParams } from 'react-router-dom'
 import { useGameBetsOfUtl } from '../hooks/useFetcher'
@@ -33,7 +34,10 @@ function HisBetsView() {
         <div className="LB-MyBetsView">
             <h1 className='LB-TitleText'>{t('titles.userForm', { name: utl?.name })}</h1>
             <MySpecialBetsTable bets={questionBets} />
-            <MyGameBetsTable bets={isKnockoutBracket ? [] : matchBets} /> {/* temp: hide game bets for knockout bracket */}
+            {isKnockoutBracket
+                ? <KnockoutGameBetsTable utlId={utlId} bets={matchBets} />
+                : <MyGameBetsTable bets={matchBets} />
+            }
             {isKnockoutBracket ? null : (
                 <GroupPositionBetsTable bets={groupRankBets} />
             )}

@@ -1,4 +1,5 @@
 import { Team, WinnerSide } from '../../types'
+import { BracketSpecialRole } from '../../utils'
 
 
 export interface TeamMacthData {
@@ -15,4 +16,6 @@ export interface MatchResultProps {
     isAutoBet?: boolean,
     title?: string,
     isTwoLeggedTie?: boolean,
+    homeRole?: BracketSpecialRole,
+    awayRole?: BracketSpecialRole,
 }

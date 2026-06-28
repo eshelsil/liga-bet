@@ -1,0 +1,40 @@
+@use '../../styles/colors';
+
+.LB-QualifierResult {
+    position: relative;
+    max-width: 150px;
+    border-radius: 12px;
+    overflow: hidden;
+    &.GameBetsTable-autoBet {
+        .QualifierResult-content {
+            background: colors.$auto-bet-bg;
+        }
+    }
+    .QualifierResult-content {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        background: #eeeeee;
+        padding: 4px 8px;
+    }
+    .QualifierResult-delimiter {
+        display: flex;
+        align-items: center;
+        height: 32px;
+        margin: 0px 4px;
+    }
+    .QualifierResult-side {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: opacity 0.15s ease;
+        &.is-dimmed {
+            opacity: 0.4;
+        }
+    }
+    .QualifierResult-advance {
+        margin-top: 2px;
+        color: #2e7d32;
+    }
+}
