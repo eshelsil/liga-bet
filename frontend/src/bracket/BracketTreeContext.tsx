@@ -5,6 +5,7 @@ import { createContext, useContext } from 'react'
 // standings; chosen finalists are highlighted.
 export interface BracketTreeInteraction {
     isFinalist: (teamId: number) => boolean // team chosen as a finalist → highlight its path
+    isEliminated?: (teamId: number) => boolean // spectator: this pick is out → eliminated styling
     onOpenGroup: (groupId: number, position?: number | null) => void // token → group standings (marking the target position)
     onOpenThirdPlace: () => void // open the "how 3rd place works" dialog
 }
@@ -13,6 +14,7 @@ const noop = () => undefined
 
 const BracketTreeContext = createContext<BracketTreeInteraction>({
     isFinalist: () => false,
+    isEliminated: () => false,
     onOpenGroup: noop,
     onOpenThirdPlace: noop,
 })

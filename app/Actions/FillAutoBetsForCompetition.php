@@ -103,16 +103,16 @@ class FillAutoBetsForCompetition
             $desiredTournamentRunnerUp = $utlSpecialTeams->get('runner_up');
             if ($desiredTournamentWinner) {
                 if ($game->team_home_id === $desiredTournamentWinner) {
-                    $desiredWinnerSide = WinnerSide::HOME->value;
+                    $desiredWinnerSide = WinnerSide::HOME;
                 } else if ($game->team_away_id === $desiredTournamentWinner) {
-                    $desiredWinnerSide = WinnerSide::AWAY->value;
+                    $desiredWinnerSide = WinnerSide::AWAY;
                 }
             }
             if (is_null($desiredWinnerSide) && $desiredTournamentRunnerUp) {
                 if ($game->team_home_id === $desiredTournamentRunnerUp) {
-                    $desiredWinnerSide = WinnerSide::HOME->value;
+                    $desiredWinnerSide = WinnerSide::HOME;
                 } else if ($game->team_away_id === $desiredTournamentRunnerUp) {
-                    $desiredWinnerSide = WinnerSide::AWAY->value;
+                    $desiredWinnerSide = WinnerSide::AWAY;
                 }
             }
             $data = $this->buildBetData($game, $strategy, $qualifierBetIsOn, $resultBetOn, $desiredWinnerSide);
@@ -139,7 +139,8 @@ class FillAutoBetsForCompetition
 
     private function buildBetData(Game $game, string $strategy, bool $qualifierBetIsOn, bool $resultBetOn, ?WinnerSide $desiredWinnerSide): string
     {
-        $koWinnerSide = $desiredWinnerSide?->value ?? Arr::random([WinnerSide::HOME, WinnerSide::AWAY]);
+        $random_selection = Arr::random([WinnerSide::AWAY, WinnerSide::HOME])->value;
+        $koWinnerSide = $desiredWinnerSide?->value ?? $random_selection;
         if (!$resultBetOn) {
             return json_encode([
                 'ko_winner_side' => $koWinnerSide,

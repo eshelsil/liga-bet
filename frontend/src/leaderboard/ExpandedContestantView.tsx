@@ -11,6 +11,7 @@ import {
 import SimpleTabs from '../widgets/Tabs/Tabs'
 import SpecialBetsTable from '../myBets/SpecialBetsTable'
 import GameBetsTable from '../myBets/GameBetsTable'
+import KnockoutGameBetsTable from '../myBets/KnockoutGameBetsTable'
 import GroupRankBetsTable from '../myBets/GroupRankBetsTable'
 import useGoTo from '../hooks/useGoTo'
 import { Link } from '@mui/material'
@@ -28,12 +29,16 @@ function GameBetsView({totalScore, bets, utlId, showLive}: {
     showLive?: boolean,
 }) {
     const { t } = useTranslation('leaderboard')
+    const isKnockoutBracket = useSelector(IsCurrentTournamentKnockoutBracket)
     useGameBetsOfUtl(utlId)
 
     return (
         <div>
             <h3>{t('expandedContestant.total')}{' '}{totalScore}</h3>
-            <GameBetsTable bets={bets} dropColumns={{date: true}} showLive={showLive} />
+            {isKnockoutBracket
+                ? <KnockoutGameBetsTable utlId={utlId} bets={bets} dropColumns={{date: true}} showLive={showLive} />
+                : <GameBetsTable bets={bets} dropColumns={{date: true}} showLive={showLive} />
+            }
         </div>
     )
 }
@@ -150,13 +155,11 @@ export function ExpandedContestantView({
 
     return (
         <div className='LB-ExpanededContestantView'>
-            {isKnockoutBracket ? null : ( // temp: hide the link for knockout bracket
-                <div className='hisBetsLink'>
-                    <Link onClick={() => goToHisBets(utlId)}>
-                        {t('expandedContestant.fullFormLink')}
-                    </Link>
-                </div>
-            )}
+            <div className='hisBetsLink'>
+                <Link onClick={() => goToHisBets(utlId)}>
+                    {t('expandedContestant.fullFormLink')}
+                </Link>
+            </div>
             {isSideTournament && (
                 <GameBetsView
                     bets={gameBetsToShow}

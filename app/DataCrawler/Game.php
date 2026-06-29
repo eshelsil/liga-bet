@@ -27,6 +27,7 @@ class Game
         public ?string $koLeg,
         public bool $isDone,
         public bool $isStarted,
+        public ?string $minute = null, // live match minute as 365 shows it ("87'", "45+2'", "HT"); null when not live
     ) { }
 
 }

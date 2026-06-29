@@ -17,7 +17,7 @@ interface Props {
     qualifierPoints: number
     advancePoints: number
     resultPoints?: number // exact-score points for the round (result tournaments only)
-    role: SpecialRole // a pre-selected team (Winner/Runner-Up) plays here → show its advance bonus
+    role: SpecialRole | 'any' // a pre-selected team (Winner/Runner-Up) plays here → show its advance bonus
 }
 
 // Explains how a single bracket qualifier bet is scored: qualifier points for the round,
@@ -32,7 +32,7 @@ function BracketGameScoreInfoDialog({
 }: Props) {
     const { t } = useTranslation('knockout_bracket')
     const roleLabel =
-        role === 'winner' ? t('special.winner') : t('special.runnerUp')
+        role === 'winner' ? t('special.winner') : role === 'runnerUp' ? t('special.runnerUp') : t('special.anyFinalist')
 
     return (
         <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>

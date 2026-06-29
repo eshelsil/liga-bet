@@ -11,6 +11,7 @@ function SimpleTabs({
     tabsProps,
     onChange,
     index: selectedIndex = 0,
+    className,
 }: SimpleTabsProps) {
 
     function handleChange(e: unknown, newIndex: number){
@@ -18,7 +19,7 @@ function SimpleTabs({
     }
 
     return (
-        <div className='LigaBet-Tabs'>
+        <div className={`LigaBet-Tabs ${className || ''}`}>
             <StyledTabs
                 value={selectedIndex}
                 onChange={handleChange}

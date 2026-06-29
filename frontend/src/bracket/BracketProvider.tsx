@@ -4,11 +4,13 @@ import { CircularProgress } from '@mui/material'
 import {
     CurrentTournamentId,
     IsCurrentTournamentKnockoutBracket,
+    IsTournamentStarted,
 } from '../_selectors'
 import { useAppDispatch } from '../_helpers/store'
 import { fetchAndStoreBracket } from '../_actions/bracket'
 import RedirectToDefaultPage from '../appContent/RedirectToDefaultPage'
 import BracketWinnerFlow from './BracketWinnerFlow'
+import BracketStartedView from './BracketStartedView'
 import { MatchBetUpdatePayload } from '@/api/bets'
 import { WinnerSide } from '@/types/match'
 import { sendBetAndStore, SendMatchBetParams } from '../_actions/bets'
@@ -17,6 +19,7 @@ import { useTranslation } from 'react-i18next'
 
 function BracketProvider() {
     const isKnockoutBracket = useSelector(IsCurrentTournamentKnockoutBracket)
+    const isTournamentStarted = useSelector(IsTournamentStarted)
     const tournamentId = useSelector(CurrentTournamentId)
     const dispatch = useAppDispatch()
     const [loading, setLoading] = useState(true)
@@ -98,6 +101,9 @@ function BracketProvider() {
                 <CircularProgress />
             </div>
         )
+    }
+    if (isTournamentStarted) {
+        return <BracketStartedView sendMatchBet={sendMatchBet} />
     }
     return <BracketWinnerFlow sendMatchBet={sendMatchBet} />
 }

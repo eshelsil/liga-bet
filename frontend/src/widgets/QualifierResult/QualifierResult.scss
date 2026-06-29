@@ -1,0 +1,89 @@
+@use '../../styles/colors';
+@use '../../styles/shadows';
+
+.LB-QualifierResult {
+    position: relative;
+    max-width: 150px;
+    // No clipping — the ✓ badge and the auto-bet robot are allowed to overflow the corners.
+    overflow: visible;
+
+    &.GameBetsTable-autoBet .QualifierResult-content {
+        background: colors.$auto-bet-bg;
+    }
+
+    .QualifierResult-content {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #eeeeee;
+        border-radius: 12px;
+        padding: 6px 10px;
+    }
+
+    // A bit more room between each team and the separator.
+    .QualifierResult-delimiter {
+        display: flex;
+        align-items: center;
+        height: 32px;
+        margin: 0 10px;
+    }
+
+    .QualifierResult-side {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: opacity 0.15s ease;
+        &.is-dimmed { opacity: 0.4; }
+    }
+
+    // The advancing team's check — a filled green badge with a white ✓, pinned to the
+    // team's inset-inline-end corner (doesn't take layout space below the flag).
+    .QualifierResult-side {
+        .LB-SpecialRoleBadge {
+            font-size: 12px;
+            line-height: 1;
+            position: absolute;
+            inset-block-end: -5px;
+            inset-inline-end: -6px;
+            right: -6px;
+            background: rgba(255, 243, 207, 0.8666666667);
+            border-radius: 100%;
+            padding: 1px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            text-align: center;
+            height: 16px;
+            width: 16px;
+            margin-top: 0px;
+        }
+    }
+    .QualifierResult-advance {
+        position: absolute;
+        inset-block-start: -4px;
+        inset-inline-end: -6px;
+        z-index: 2;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 16px;
+        height: 16px;
+        padding: 0 3px;
+        border-radius: 50%;
+        background: #2e7d32;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 1;
+        box-shadow: shadows.$basic-shadow;
+    }
+
+    // Auto-bet robot — pinned to the bet-view's inset-inline-start corner (may overflow a little).
+    .QualifierResult-autoBet {
+        position: absolute;
+        inset-block-start: -6px;
+        inset-inline-start: -6px;
+        z-index: 2;
+        line-height: 0;
+    }
+}

@@ -88,6 +88,10 @@ class ApplyBracketSpecialBetQualifiers
         if (!$side) {
             return;
         }
+        if ($utl->isMonkey()) {
+            // Monkeys bet their knockout games on their own
+            return;
+        }
         try {
             $request = new BetMatchRequest($game, $utl->tournament, ["winner_side" => $side]);
             BetMatch::save($utl, $request);

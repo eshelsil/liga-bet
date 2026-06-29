@@ -54,6 +54,7 @@ class GameResource extends JsonResource
             "agg_result_home"   => $agg_results ? $agg_results["home"] : null,
             "agg_result_away"   => $agg_results ? $agg_results["away"] : null,
             "winner_side"       => $game->getKnockoutWinnerSide(),
+            "minute"            => $game->minute,
             "is_done"           => $game->is_done,
             "closed_for_bets"   => $game->start_time < time(),
             "type"              => $game->type,

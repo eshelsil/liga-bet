@@ -35,6 +35,10 @@ export const GroupStageGames = createSelector(MatchesWithTeams, (matches) => {
     return pickBy(matches, (game) => !game.is_knockout)
 })
 
+export const KnockoutGames = createSelector(MatchesWithTeams, (matches) => {
+    return pickBy(matches, (game) => game.is_knockout)
+})
+
 export const GroupStageGamesCount = createSelector(
     GroupStageGames,
     (games) => Object.keys(games).length

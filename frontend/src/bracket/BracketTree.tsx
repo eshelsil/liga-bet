@@ -4,10 +4,11 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
 import EditIcon from '@mui/icons-material/Edit'
 import PlusIcon from '@mui/icons-material/AddRounded'
 import CloseIcon from '@mui/icons-material/Close'
-import { BracketGame, BracketSide, BracketTeam, GameSubType } from '../types'
-import { bracketTeamToTeam } from '../utils'
+import { BracketGame, BracketSide, BracketSlotInfo, BracketTeam, GameSubType, WinnerSide } from '../types'
+import { bracketTeamToTeam, cn } from '../utils'
 import TeamFlag from '../widgets/TeamFlag/TeamFlag'
 import BracketSlotView from './BracketSlotView'
+import { useBracketTree } from './BracketTreeContext'
 import { computeBracketLayout, resolveLayoutConfig } from './bracketLayout'
 
 export interface FinalAreaProps {
@@ -27,6 +28,11 @@ interface Props extends FinalAreaProps {
     onClose?: () => void // shown as an "X" at the top-centre of the bracket
     winnerEditing: boolean
     setWinnerEditing: (editing: boolean) => void
+    // Read-only "spectator" render (post-start bracket modal): the final area shows the
+    // ACTUAL final teams/winner (passed via leftTeam/rightTeam/winnerSide) with no picking,
+    // no edit buttons and no placeholder "+".
+    spectator?: boolean
+    className?: string
 }
 
 // Track the available width of an element (drives the responsive sizing/gaps).
@@ -63,9 +69,12 @@ function BracketTree({
     onClose,
     winnerEditing,
     setWinnerEditing,
+    spectator = false,
+    className = '',
 }: Props) {
     const { t } = useTranslation('knockout_bracket')
     const [scrollRef, scrollWidth] = useElementWidth()
+    const tree = useBracketTree()
 
     const layout = useMemo(() => {
         const usable = Math.max(0, scrollWidth - 8) // minus .Bracket-scroll padding
@@ -76,8 +85,20 @@ function BracketTree({
     const teamOf = (side: BracketSide) =>
         side === 'left' ? leftTeam : rightTeam
     const winnerTeam = winnerSide ? teamOf(winnerSide) : null
+    const winnerElim = !!winnerTeam && !!tree.isEliminated?.(winnerTeam.id)
+
+    // Per-slot tournament result on a decided tie: the team that advanced gets a ✓, the team
+    // that lost is greyed. null while the tie isn't finished (or there's no team yet).
+    const slotResult = (slot: BracketSlotInfo): 'win' | 'loss' | null => {
+        if (!slot.team) return null
+        const g = games.find((x) => x.home_slot === slot || x.away_slot === slot)
+        if (!g || !g.is_done || !g.actual_qualifier_side) return null
+        const thisSide = g.home_slot === slot ? WinnerSide.Home : WinnerSide.Away
+        return g.actual_qualifier_side === thisSide ? 'win' : 'loss'
+    }
 
     const onFinalistTap = (side: BracketSide) => {
+        if (spectator) return
         if (winnerEditing) {
             if (teamOf(side)) {
                 onCrown(side)
@@ -91,12 +112,13 @@ function BracketTree({
     // Tapping the trophy opens the winner picker (a select of the two finalists),
     // rather than toggling the shine mode off.
     const onWinnerTap = () => {
+        if (spectator) return
         if (bothChosen) onOpenWinnerPicker()
     }
 
     return (
-        <div className="w-full py-2 px-1 flex justify-center">
-            <div className="Bracket-scroll" ref={scrollRef}>
+        <div className={cn("w-full py-2 px-1 flex justify-center pointer-events-none", className)} onClick={onClose}>
+            <div className={cn('Bracket-scroll', { 'Bracket-spectator': spectator })} ref={scrollRef} onClick={(e) => e.stopPropagation()}>
                 {onClose && (
                     <button
                         className="Bracket-closeX"
@@ -136,6 +158,7 @@ function BracketTree({
                                 slot={b.slot}
                                 flagSize={layout.flagSize}
                                 tokenFont={layout.tokenFont}
+                                result={slotResult(b.slot)}
                             />
                         </div>
                     ))}
@@ -171,6 +194,7 @@ function BracketTree({
                     {layout.finalists.map((f) => {
                         const team = teamOf(f.side)
                         const choosing = winnerEditing && !!team // shining target while picking the winner
+                        const elim = !!team && !!tree.isEliminated?.(team.id)
                         return (
                             <div
                                 key={`final-${f.side}`}
@@ -178,6 +202,7 @@ function BracketTree({
                                     'LB-FinalistSlot',
                                     team ? 'is-selected' : '',
                                     choosing ? 'is-choosing' : '',
+                                    elim ? 'is-eliminated' : '',
                                 ].join(' ')}
                                 style={{
                                     left: f.x,
@@ -185,8 +210,12 @@ function BracketTree({
                                     width: layout.finalist,
                                     height: layout.finalist,
                                 }}
-                                role="button"
-                                onClick={() => onFinalistTap(f.side)}
+                                role={spectator ? undefined : 'button'}
+                                onClick={
+                                    spectator
+                                        ? undefined
+                                        : () => onFinalistTap(f.side)
+                                }
                             >
                                 {team ? (
                                     <TeamFlag
@@ -195,17 +224,20 @@ function BracketTree({
                                     />
                                 ) : (
                                     <div className="FinalistSlot-empty flex items-center justify-center">
-                                        <PlusIcon
-                                            style={{
-                                                width: 16,
-                                                height: 16,
-                                                fill: 'rgb(0 0 0 / 20%)',
-                                                stroke: 'rgb(0 0 0 / 20%)',
-                                            }}
-                                        />
+                                        {!spectator && (
+                                            <PlusIcon
+                                                style={{
+                                                    width: 16,
+                                                    height: 16,
+                                                    fill: 'rgb(0 0 0 / 20%)',
+                                                    stroke: 'rgb(0 0 0 / 20%)',
+                                                }}
+                                            />
+                                        )}
                                     </div>
                                 )}
-                                {team && !winnerEditing && (
+                                {elim && <span className="Slot-elimX">✕</span>}
+                                {!spectator && team && !winnerEditing && (
                                     <button
                                         className="FinalistSlot-change"
                                         aria-label={t('select.edit')}
@@ -231,7 +263,8 @@ function BracketTree({
                         className={[
                             'LB-WinnerSlot',
                             winnerTeam ? 'is-filled' : '',
-                            bothChosen ? 'is-actionable' : '',
+                            winnerElim ? 'is-eliminated' : '',
+                            !spectator && bothChosen ? 'is-actionable' : '',
                         ].join(' ')}
                         style={{
                             left: layout.winnerPos.x,
@@ -239,8 +272,10 @@ function BracketTree({
                             width: layout.winner,
                             height: layout.winner,
                         }}
-                        role={bothChosen ? 'button' : undefined}
-                        onClick={bothChosen ? onWinnerTap : undefined}
+                        role={!spectator && bothChosen ? 'button' : undefined}
+                        onClick={
+                            !spectator && bothChosen ? onWinnerTap : undefined
+                        }
                     >
                         <EmojiEventsIcon
                             className="WinnerSlot-trophy"
@@ -254,7 +289,8 @@ function BracketTree({
                                 />
                             </span>
                         )}
-                        {bothChosen && !winnerEditing && (
+                        {winnerElim && <span className="Slot-elimX">✕</span>}
+                        {!spectator && bothChosen && !winnerEditing && (
                             <span className="WinnerSlot-edit">
                                 <EditIcon
                                     style={{

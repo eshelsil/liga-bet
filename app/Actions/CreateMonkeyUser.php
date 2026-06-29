@@ -35,13 +35,37 @@ class CreateMonkeyUser
             ->each(fn (Group $group) => $this->betGroup($group, $utl));
 
         $tournament->specialBets->each(fn(SpecialBet $specialBet) => $this->betSpecialBet($specialBet, $utl));
-        
+
         $winnerSb = SpecialBet::getByType($tournament->id, SpecialBet::TYPE_WINNER);
         $runnerSb = SpecialBet::getByType($tournament->id, SpecialBet::TYPE_RUNNER_UP);
         $selectedBracketWinners = $utl->getWinnerAndRunnerUpTeams($winnerSb?->id, $runnerSb?->id);
         $tournament->competition->games
             ->each(fn(Game $game) => $this->betGame($game, $utl, $selectedBracketWinners->get('winner'), $selectedBracketWinners->get('runner_up')));
         return $user;
+    }
+
+
+    /**
+     * The side the monkey backs in a knockout game: its Winner's side if the Winner plays, otherwise
+     * its Runner-Up's side, otherwise null (random). Winner precedence covers Winner-vs-Runner-Up ties.
+     */
+    private function desiredWinnerSide(Game $game, ?int $desiredWinner, ?int $desiredRunnerUp): ?WinnerSide
+    {
+        if (!$game->isKnockout()) {
+            return null;
+        }
+        foreach ([$desiredWinner, $desiredRunnerUp] as $teamId) {
+            if (!$teamId) {
+                continue;
+            }
+            if ($game->team_home_id === $teamId) {
+                return WinnerSide::HOME;
+            }
+            if ($game->team_away_id === $teamId) {
+                return WinnerSide::AWAY;
+            }
+        }
+        return null;
     }
 
     /**
@@ -88,26 +112,9 @@ class CreateMonkeyUser
      */
     private function betGame(Game $game, TournamentUser $utl, ?int $desiredWinner, ?int $desiredRunnerUp): void
     {
-        $type_id = $game->getID();
-        $desiredWinnerSide = null;
-        if ($game->isKnockout()) {
-            if ($desiredWinner) {
-                if ($game->team_home_id === $desiredWinner) {
-                    $desiredWinnerSide = WinnerSide::HOME->value;
-                } else if ($game->team_away_id === $desiredWinner) {
-                    $desiredWinnerSide = WinnerSide::AWAY->value;
-                }
-            }
-            if (is_null($desiredWinnerSide) && $desiredRunnerUp) {
-                if ($game->team_home_id === $desiredRunnerUp) {
-                    $desiredWinnerSide = WinnerSide::HOME->value;
-                } else if ($game->team_away_id === $desiredRunnerUp) {
-                    $desiredWinnerSide = WinnerSide::AWAY->value;
-                }
-            }
-        }
-        $data    = $game->generateRandomBetData(true, $desiredWinnerSide);
-        $this->autoGenerateBet($utl, BetTypes::Game, $type_id, $data);
+        $desiredWinnerSide = $this->desiredWinnerSide($game, $desiredWinner, $desiredRunnerUp);
+        $data = $game->generateRandomBetData(true, $desiredWinnerSide);
+        $this->autoGenerateBet($utl, BetTypes::Game, $game->getID(), $data);
     }
 
     /**

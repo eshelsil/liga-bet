@@ -116,6 +116,7 @@
     "special": {
         "winner": "אלופה",
         "runnerUp": "סגנית",
+        "anyFinalist": "פיינליסטית",
         "notSelected": "לא נבחרה",
         "sideLabel": "צד {{side}}",
         "sideLeft": "שמאל",
@@ -128,5 +129,19 @@
         "lockedNote": "הבחירות נעולות. המעפילות של הקבוצות שלך ננעלו אוטומטית.",
         "removedWrongSide": "הבחירה הוסרה: הקבוצה בצד הלא נכון של הטבלה. נשלח אליך אימייל.",
         "removedNotQualified": "הבחירה הוסרה: הקבוצה לא העפילה. נשלח אליך אימייל."
+    },
+    "startedView": {
+        "tabs": {
+            "myBets": "ההימורים שלי",
+            "games": "משחקים"
+        },
+        "actions": {
+            "bracket": "עץ הטורניר",
+            "picksTable": "מנצחת וסגנית"
+        },
+        "close": "סגירה"
+    },
+    "picksTable": {
+        "contestant": "מתמודד"
     }
 }

@@ -141,7 +141,7 @@ function BracketGameCard({
     }
 
     return (
-        <div className={`LB-BracketGameCard ${locked ? 'is-locked' : ''}`}>
+        <div className={cn('LB-BracketGameCard', { 'is-locked': locked, 'border-solid border-[3px] border-red-600': hasNotification })}>
             {hasNotification && (
                 <Badge
                     className="BGC-notification"

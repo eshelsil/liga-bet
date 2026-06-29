@@ -10,7 +10,7 @@ export interface TabPanelProps {
 
 
 export interface TabDescription {
-    label: string,
+    label: ReactNode,
     id: string,
     children: ReactNode
 }
@@ -20,4 +20,5 @@ export interface SimpleTabsProps {
     index: number,
     onChange: (index: number) => void,
     tabsProps?: TabsProps,
+    className?: string,
 }

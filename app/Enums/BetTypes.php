@@ -15,9 +15,3 @@ final class BetTypes extends AbstractEnum {
         BetTypes::SpecialBet     => "SpecialBet",
     ];
 }
-
-enum WinnerSide: string
-{
-    case HOME = 'home';
-    case AWAY = 'away';
-}

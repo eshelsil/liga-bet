@@ -8,9 +8,10 @@ import { IsQualifierBetOn } from '../../_selectors'
 import { cn, getWinnerSide } from '../../utils'
 import './MatchResult.scss'
 import AutoBetBadge from '../AutoBetBadge/AutoBetBadge'
+import SpecialRoleBadge from '../SpecialRoleBadge/SpecialRoleBadge'
 
 
-function MatchResultView({home, away, isKnockout, qualifier, isAutoBet, title}: MatchResultProps){
+function MatchResultView({home, away, isKnockout, qualifier, isAutoBet, title, homeRole, awayRole}: MatchResultProps){
 
     const { t } = useTranslation('widgets')
     const isQualifierBetOn = useSelector(IsQualifierBetOn)
@@ -29,6 +30,7 @@ function MatchResultView({home, away, isKnockout, qualifier, isAutoBet, title}: 
             <div className='MatchResult-content'>
                 <div className='MatchResult-side'>
                     <TeamFlag size={32} team={home.team} />
+                    {homeRole && <SpecialRoleBadge role={homeRole} />}
                     <div className={'MatchResult-row'}>
                         {home.score}
                     </div>
@@ -67,6 +69,7 @@ function MatchResultView({home, away, isKnockout, qualifier, isAutoBet, title}: 
                 </div>
                 <div className='MatchResult-side'>
                     <TeamFlag size={32} team={away.team} />
+                    {awayRole && <SpecialRoleBadge role={awayRole} />}
                     <div className={'MatchResult-row'}>
                         {away.score}
                     </div>

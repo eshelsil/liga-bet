@@ -113,7 +113,7 @@ function GameHeader({ match, onClick }: { match: Match, onClick?: () => void }) 
                 onClick={handlerNoPropagation(() => {openInfoDialog({gameId:id})})}
             >
                 <InfoIcon
-                    className={cn("fill-white/80")}
+                    className={cn("fill-white/80 text-white/80")}
                 />
             </div>
             <CustomTable

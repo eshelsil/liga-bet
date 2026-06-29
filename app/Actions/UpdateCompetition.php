@@ -261,6 +261,8 @@ class UpdateCompetition
             $game->result_away = $gameData->resultAway;
             $game->full_result_home = $gameData->fullResultHome;
             $game->full_result_away = $gameData->fullResultAway;
+            // Live minute (null once the game is done — the crawler clears it on the ending run).
+            $game->minute = $gameData->minute;
             if ($gameData->isDone && !$game->is_done) {
                 $game->done_time = time();
             }

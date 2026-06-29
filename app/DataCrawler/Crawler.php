@@ -662,6 +662,9 @@ class Crawler
                 continue;
             }
 
+            // Live minute: only while the game is in progress; cleared once it ends.
+            $parsedGame->minute = $parsedGame->isDone ? null : $this->live365Minute($game365);
+
             if ($parsedGame->type === CompetitionGame::TYPE_KNOCKOUT) {
                 $parsedGame->koWinnerExternalId = $this->resolve365KoWinner($parsedGame, $game365);
                 // Knockout games can be decided in extra-time / penalties; the per-game detail
@@ -848,6 +851,23 @@ class Crawler
             return null;
         }
         return (int) round($score);
+    }
+
+    /**
+     * The live "minute" badge exactly as 365 shows it. 365 puts the running clock in
+     * gameTimeDisplay ("87'", "45+2'" for stoppage, "120'"/"105'" for extra time) and
+     * leaves it empty during breaks, where the state lives in shortStatusText ("HT",
+     * "Pen."). Returns the running clock when present, else the status label, else null.
+     * Callers only invoke this for live (started, not-done) games.
+     */
+    protected function live365Minute($game365): ?string
+    {
+        $display = trim((string) data_get($game365, 'gameTimeDisplay'));
+        if ($display !== '') {
+            return $display;
+        }
+        $label = trim((string) data_get($game365, 'shortStatusText'));
+        return $label !== '' ? $label : null;
     }
 
     /* ------------------------------------------------------------------ */
@@ -1155,6 +1175,8 @@ class Crawler
             );
 
             if ($isStarted) {
+                // Live minute: only while the game is in progress; cleared once it ends.
+                $game->minute = $isDone ? null : $this->live365Minute($g);
                 if ($type === CompetitionGame::TYPE_KNOCKOUT) {
                     $game->koWinnerExternalId = $this->resolve365KoWinnerNative($g);
                     // 90'/ET/penalties split via the per-game detail (home is always 365 home here).

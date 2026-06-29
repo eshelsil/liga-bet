@@ -12,22 +12,38 @@ function BracketSlotView({
     slot,
     flagSize,
     tokenFont,
+    result = null,
 }: {
     slot: BracketSlotInfo
     flagSize: number
     tokenFont: number
+    result?: 'win' | 'loss' | null // this slot's tie outcome for its team (decided ties only)
 }) {
     const ctx = useBracketTree()
     const team = slot.team
 
     if (team) {
         const finalist = ctx.isFinalist(team.id)
+        const won = result === 'win'
+        const lost = result === 'loss'
+        // A lost tie: my pick → red ✕ (knocked out here); any other team → just greyed out.
+        const eliminatedPick = finalist && lost
+        const out = lost && !finalist
         return (
             <div
-                className={['LB-BracketSlot', 'BracketSlot-team', finalist ? 'BracketSlot-finalist' : ''].join(' ')}
+                className={[
+                    'LB-BracketSlot',
+                    'BracketSlot-team',
+                    finalist ? 'BracketSlot-finalist' : '',
+                    eliminatedPick ? 'BracketSlot-eliminated' : '',
+                    out ? 'BracketSlot-out' : '',
+                    won ? 'team-won' : '',
+                ].join(' ')}
                 title={team.name}
             >
                 <TeamFlag team={bracketTeamToTeam(team)} size={flagSize} />
+                {eliminatedPick && <span className="Slot-elimX">✕</span>}
+                {won && <span className="Slot-advanceCheck">✓</span>}
             </div>
         )
     }

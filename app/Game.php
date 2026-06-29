@@ -32,6 +32,7 @@ use Illuminate\Support\Arr;
  * @property int|null $start_time
  * @property int|null $result_home
  * @property int|null $result_away
+ * @property string|null $minute
  * @property int|null $score
  * @property int|null $ko_winner
  * @property bool $is_done
@@ -349,7 +350,7 @@ class Game extends Model implements BetableInterface
 
     public function generateRandomBetData(?bool $qualifierBetIsOn = true, ?WinnerSide $desiredWinnerSide = null)
     {
-        $winnerSide = $desiredWinnerSide?->value ?? Arr::random([WinnerSide::HOME, WinnerSide::AWAY]);
+        $winnerSide = $desiredWinnerSide ?? Arr::random([WinnerSide::HOME, WinnerSide::AWAY]);
         $res = [];
         $max = 5;
         foreach(['result-home', 'result-away'] as $key){
@@ -375,7 +376,7 @@ class Game extends Model implements BetableInterface
         }
 
         if($this->isKnockout() && $qualifierBetIsOn){
-            $res['ko_winner_side'] = $winnerSide;
+            $res['ko_winner_side'] = $winnerSide->value;
         }
         return json_encode($res);
     }
