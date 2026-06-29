@@ -233,9 +233,13 @@
     @include mixins.flexRow;
     height: 24px;
     margin-top: -4px;
+    min-width: 100%;
+    width: 135px;
     .NameWithWinnerFlag-name {
         margin-inline-start: 8px;
         margin-bottom: -1px;
+        max-width: 100%;
+        word-break: break-word;
     }
     .NameWithWinnerFlag-noWinner {
         width: 36px;
