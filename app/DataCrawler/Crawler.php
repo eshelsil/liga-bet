@@ -803,8 +803,14 @@ class Crawler
             $fallback = [data_get($entry['game365'], 'homeCompetitor.score'), data_get($entry['game365'], 'awayCompetitor.score')];
             $final = $current ?? $regular ?? $fallback;     // on-field final (incl. ET, excl. shootout)
             $reg = $regular ?? $final;                        // score after 90 minutes
+            // full_result_* must follow the live score while extra time is being played, but stay
+            // null during regular-time play. $regular comes from the "End of 90 Minutes" stage,
+            // which only has a real score once regulation is over (see stageScore) — so $regular
+            // being non-null while the game is still live means it is in extra time. An ended game
+            // that produced an Extra Time (10) or Penalties (11) stage also went the distance; an
+            // ended game decided in 90 has neither, so full_result_* stays null for it.
             $wentToExtra = $extraTime !== null || $penalties !== null
-                || ($reg[0] != $final[0] || $reg[1] != $final[1]);
+                || (!$parsedGame->isDone && $regular !== null);
 
             // Re-orient 365 home/away to football-data home/away.
             [$regH, $regA] = $homeIs365Home ? [$reg[0], $reg[1]] : [$reg[1], $reg[0]];
@@ -823,7 +829,10 @@ class Crawler
 
     /**
      * Return [homeScore, awayScore] of the first 365 "stage" matching one of the given ids or
-     * whose name contains one of the given needles; null if no such stage exists.
+     * whose name contains one of the given needles. Returns null if no such stage exists OR if it
+     * exists but has not happened yet: a future stage (e.g. "End of 90 Minutes" before the 90
+     * minutes are up) is always present in the array but carries a -1 score, which is treated here
+     * as "no score yet".
      */
     protected function stageScore(Collection $stages, array $ids, array $nameNeedles): ?array
     {
@@ -836,7 +845,12 @@ class Crawler
                 }
             }
             if ($matches) {
-                return [data_get($stage, 'homeCompetitorScore'), data_get($stage, 'awayCompetitorScore')];
+                $home = data_get($stage, 'homeCompetitorScore');
+                $away = data_get($stage, 'awayCompetitorScore');
+                if ($home === null || $away === null || $home < 0 || $away < 0) {
+                    return null;
+                }
+                return [$home, $away];
             }
         }
         return null;
