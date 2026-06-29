@@ -40,24 +40,6 @@
 
     // The advancing team's check — a filled green badge with a white ✓, pinned to the
     // team's inset-inline-end corner (doesn't take layout space below the flag).
-    .QualifierResult-side {
-        .LB-SpecialRoleBadge {
-            font-size: 12px;
-            line-height: 1;
-            position: absolute;
-            inset-block-end: -5px;
-            inset-inline-end: -6px;
-            right: -6px;
-            background: rgba(255, 243, 207, 0.8666666667);
-            border-radius: 100%;
-            padding: 1px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            text-align: center;
-            height: 16px;
-            width: 16px;
-            margin-top: 0px;
-        }
-    }
     .QualifierResult-advance {
         position: absolute;
         inset-block-start: -4px;

@@ -29,8 +29,10 @@ function MatchResultView({home, away, isKnockout, qualifier, isAutoBet, title, h
             )}
             <div className='MatchResult-content'>
                 <div className='MatchResult-side'>
-                    <TeamFlag size={32} team={home.team} />
-                    {homeRole && <SpecialRoleBadge role={homeRole} />}
+                    <div className={'relative'}>
+                        <TeamFlag size={32} team={home.team} />
+                        {homeRole && <SpecialRoleBadge role={homeRole} />}
+                    </div>
                     <div className={'MatchResult-row'}>
                         {home.score}
                     </div>
