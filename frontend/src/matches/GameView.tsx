@@ -12,7 +12,7 @@ function GameView({ match, withExpand, isLive }: { match: GameWithBetsAndGoalsDa
 
     return (
         <div className={`LB-GameView ${expand ? 'GameView-expanded' : ''}`}>
-            <GameHeader match={match} onClick={withExpand ? toggleExpand : null} />
+            <GameHeader match={match} isLive={isLive} onClick={withExpand ? toggleExpand : null} />
             {withExpand && (<>
                 <Collapse in={expand}>
                     <GameDataView match={match} isLive={isLive} />

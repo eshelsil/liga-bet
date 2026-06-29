@@ -18,7 +18,7 @@ interface RowModel {
     away?: ReactNode,
 }
 
-function GameHeader({ match, onClick }: { match: Match, onClick?: () => void }) {
+function GameHeader({ match, onClick, isLive }: { match: Match, onClick?: () => void, isLive?: boolean }) {
     const { t } = useTranslation('matches')
     const openInfoDialog = useOpenDialog(DialogName.GameScoreInfo)
     const tournamentClass = useTournamentThemeClass()
@@ -80,7 +80,12 @@ function GameHeader({ match, onClick }: { match: Match, onClick?: () => void }) 
         {
             id: 'delimiter',
             header: (
-                <span style={{ padding: 8 }}>-</span>
+                <div className='relative'>
+                    {isLive && match.minute &&  (
+                        <span className='absolute -top-0 -translate-y-full left-1/2 -translate-x-1/2 text-[14px]'>{match.minute}</span>
+                    )}
+                    <span style={{ padding: 8 }}>-</span>
+                </div>
             ),
             classes: {
                 header: 'delimitierHeader',

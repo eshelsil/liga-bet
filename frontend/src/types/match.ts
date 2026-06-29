@@ -42,6 +42,7 @@ export interface MatchCommonBase {
     isTwoLeggedTie: boolean
     isFirstLeg: boolean
     isLastLeg: boolean
+    minute?: string
 }
 
 export interface MatchApiModel extends MatchCommonBase {

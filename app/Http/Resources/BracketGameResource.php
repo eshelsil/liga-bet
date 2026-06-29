@@ -46,7 +46,7 @@ class BracketGameResource extends JsonResource
             // Per-game qualifier bet views (flat fields)
             "home_team"             => $homeSlot["team"], // null = slot not filled yet
             "away_team"             => $awaySlot["team"],
-            "bettable"              => $homeSlot["team"] !== null && $awaySlot["team"] !== null && !$isDone,
+            "bettable"              => $homeSlot["team"] !== null && $awaySlot["team"] !== null && !$isDone && $game->isOpenForBets(),
             "locked"                => false,             // Task 3
             "user_qualifier_side"   => null,              // Task 3
             "actual_qualifier_side" => $isDone ? $game->getKnockoutWinnerSide() : null,

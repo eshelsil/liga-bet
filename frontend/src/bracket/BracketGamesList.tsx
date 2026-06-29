@@ -8,8 +8,12 @@ import {
     MyGameBetsById,
 } from '../_selectors'
 import { useAppDispatch } from '../_helpers/store'
-import { sendBracketQualifierBetAndStore, sendBetAndStore } from '../_actions/bets'
-import { bracketSpecialRole, bracketTeamToTeam, getWinnerSide, knockoutStageToSubType, subTypeToKnockoutStage } from '../utils'
+import { sendBracketQualifierBetAndStore } from '../_actions/bets'
+import {
+    bracketSpecialRole,
+    bracketTeamToTeam,
+    subTypeToKnockoutStage,
+} from '../utils'
 import { useBracket, useBracketSpecialBets } from './useBracket'
 import BracketGameCard from './BracketGameCard'
 import OpenMatchBetView from '../open_matches/MatchBetView'
@@ -17,13 +21,8 @@ import OpenMatchBetView from '../open_matches/MatchBetView'
 // A bettable tie is shown when both teams are known and it isn't finished, and it's
 // either open for a pick OR auto-locked by the user's Winner/Runner-Up (plan D1/D3):
 // kicked-off, unresolved ties live on the Closed Bets page, not here.
-function shouldShow(g: BracketGame, isSpecial: boolean): boolean {
-    return (
-        !!g.home_team &&
-        !!g.away_team &&
-        !g.is_done &&
-        (g.bettable || g.locked || isSpecial)
-    )
+function shouldShow(g: BracketGame): boolean {
+    return !!g.home_team && !!g.away_team && g.bettable && !g.is_done
 }
 
 // The "Open games" list on the bracket's Open Guesses page: per-tie qualifier-only
@@ -51,12 +50,7 @@ function BracketGamesList({
 
     const order = new Map(config.rounds.map((r, i) => [r, i]))
     const visible = games
-        .filter((g) =>
-            shouldShow(
-                g,
-                !!(roleOf(g.home_team?.id) || roleOf(g.away_team?.id))
-            )
-        )
+        .filter((g) => shouldShow(g))
         .sort((a, b) => {
             const r = (order.get(a.round) ?? 99) - (order.get(b.round) ?? 99)
             return r !== 0 ? r : (a.start_time ?? 0) - (b.start_time ?? 0)
@@ -75,7 +69,12 @@ function BracketGamesList({
 
     // Result tournaments submit an exact score via the normal game-bet API (sendBetAndStore),
     // always including winner_side (the bracket qualifier tie-break, required by the backend).
-    const submitResult = async ({ matchId, homeScore, awayScore, koWinner }) => {
+    const submitResult = async ({
+        matchId,
+        homeScore,
+        awayScore,
+        koWinner,
+    }) => {
         await sendMatchBet({
             matchId,
             homeScore,
@@ -125,7 +124,9 @@ function BracketGamesList({
                             isKnockoutBracketGame={true}
                             homeRole={roleOf(game.home_team?.id)}
                             awayRole={roleOf(game.away_team?.id)}
-                            hasNotification={missingGameBetsIds.includes(game.id)}
+                            hasNotification={missingGameBetsIds.includes(
+                                game.id
+                            )}
                         />
                     )
                 }
@@ -133,7 +134,8 @@ function BracketGamesList({
                 const userSide =
                     (myBet?.winner_side as WinnerSide | undefined) ??
                     game.user_qualifier_side
-                const pick = async (side: WinnerSide) => await onPick(game, side);
+                const pick = async (side: WinnerSide) =>
+                    await onPick(game, side)
                 return (
                     <BracketGameCard
                         key={game.bracket_game_id}

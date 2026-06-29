@@ -71,7 +71,6 @@ function OpenMatchBetView({
 
     const scores = useBracketScores()
     const knockoutRound = knockoutStageToSubType(subType)
-    console.log('knockoutRound', knockoutRound, {subType})
     const qualifierPts = scores.qualifier?.[knockoutRound] ?? 0
     const advancePts = scores.specialAdvance?.[knockoutRound] ?? 0
     const resultPts = scores.result?.[knockoutRound] ?? 0
