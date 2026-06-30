@@ -143,6 +143,28 @@ class Competition extends Model
     }
 
     /**
+     * Team ids placed into the FIRST knockout round (group-position slots), optionally limited to one
+     * bracket side ("left"|"right"). A team's side is constant along its path, so the side of its
+     * first-round tie is its side. Includes teams later eliminated — it reflects who STARTED the bracket,
+     * which is what monkey Winner/Runner-Up picks (and the manual fix) select from.
+     */
+    public function getFirstRoundBracketTeamIds(?string $side = null): \Illuminate\Support\Collection
+    {
+        return BracketSlot::query()
+            ->where('kind', BracketSlot::KIND_GROUP_POSITION)
+            ->whereNotNull('team_id')
+            ->whereHas('bracketGame', function ($q) use ($side) {
+                $q->where('competition_id', $this->id);
+                if ($side) {
+                    $q->where('side', $side);
+                }
+            })
+            ->pluck('team_id')
+            ->unique()
+            ->values();
+    }
+
+    /**
      * True once every group-sourced first-round bracket slot has a resolved team — i.e. the group
      * stage has fully fed the bracket (all qualifiers, including any best-3rd-place teams, are placed).
      * Until this holds, a team merely being absent from the bracket is not yet conclusive.

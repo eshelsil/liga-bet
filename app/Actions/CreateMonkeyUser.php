@@ -34,7 +34,19 @@ class CreateMonkeyUser
         $tournament->competition->groups
             ->each(fn (Group $group) => $this->betGroup($group, $utl));
 
-        $tournament->specialBets->each(fn(SpecialBet $specialBet) => $this->betSpecialBet($specialBet, $utl));
+        // In bracket tournaments the Winner & Runner-Up must come from opposite halves of the
+        // bracket — pick them together (below) and skip them in the generic special-bet loop.
+        $isBracket = $tournament->isKnockoutBracket();
+        $tournament->specialBets->each(function (SpecialBet $specialBet) use ($utl, $isBracket) {
+            if ($isBracket && in_array($specialBet->type, [SpecialBet::TYPE_WINNER, SpecialBet::TYPE_RUNNER_UP], true)) {
+                return;
+            }
+            $this->betSpecialBet($specialBet, $utl);
+        });
+
+        if ($isBracket) {
+            $this->betBracketWinnerAndRunnerUp($tournament, $utl);
+        }
 
         $winnerSb = SpecialBet::getByType($tournament->id, SpecialBet::TYPE_WINNER);
         $runnerSb = SpecialBet::getByType($tournament->id, SpecialBet::TYPE_RUNNER_UP);
@@ -128,5 +140,38 @@ class CreateMonkeyUser
         $type_id = $specialBet->getID();
         $data    = $specialBet->generateRandomBetData();
         $this->autoGenerateBet($utl, BetTypes::SpecialBet, $type_id, $data);
+    }
+
+    /**
+     * Bracket Winner & Runner-Up, picked from OPPOSITE bracket halves: a random side for the Winner,
+     * the other side for the Runner-Up — each a random team that STARTED the bracket on that side.
+     * Falls back to the plain random pick if the bracket sides aren't resolved yet (pre-seeding).
+     */
+    private function betBracketWinnerAndRunnerUp(Tournament $tournament, TournamentUser $utl): void
+    {
+        $competition = $tournament->competition;
+        $leftTeams  = $competition->getFirstRoundBracketTeamIds('left');
+        $rightTeams = $competition->getFirstRoundBracketTeamIds('right');
+
+        $winnerSb = SpecialBet::getByType($tournament->id, SpecialBet::TYPE_WINNER);
+        $runnerSb = SpecialBet::getByType($tournament->id, SpecialBet::TYPE_RUNNER_UP);
+
+        if ($leftTeams->isEmpty() || $rightTeams->isEmpty()) {
+            // Bracket sides not resolved yet — keep the previous (random) behaviour.
+            if ($winnerSb) { $this->betSpecialBet($winnerSb, $utl); }
+            if ($runnerSb) { $this->betSpecialBet($runnerSb, $utl); }
+            return;
+        }
+
+        $winnerFromLeft = (bool) rand(0, 1);
+        $winnerTeamId   = ($winnerFromLeft ? $leftTeams : $rightTeams)->random();
+        $runnerUpTeamId = ($winnerFromLeft ? $rightTeams : $leftTeams)->random();
+
+        if ($winnerSb) {
+            $this->autoGenerateBet($utl, BetTypes::SpecialBet, $winnerSb->getID(), json_encode(["answer" => $winnerTeamId]));
+        }
+        if ($runnerSb) {
+            $this->autoGenerateBet($utl, BetTypes::SpecialBet, $runnerSb->getID(), json_encode(["answer" => $runnerUpTeamId]));
+        }
     }
 }
