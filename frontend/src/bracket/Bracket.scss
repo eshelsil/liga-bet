@@ -207,6 +207,15 @@
     border: 2px solid colors.$primary-main;
     box-sizing: content-box;
     transform: translate(-2px, -4px); // force GPU layer for smoother shadows
+
+    // Nudge the top/bottom slot of a tie apart so the added border doesn't overlap.
+    &.BracketSlot-top {
+        transform: translate(-2px, -4px);
+    }
+
+    &.BracketSlot-bottom {
+        transform: translate(-2px, 2px);
+    }
 }
 // No edit "shine" animation in the read-only bracket; empty finalist slots stay plain.
 .Bracket-spectator {

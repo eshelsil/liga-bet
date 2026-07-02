@@ -87,6 +87,7 @@ export interface BlockPos {
     side: BracketSide
     round: GameSubType
     slot: BracketSlotInfo
+    pos: 'top' | 'bottom' // which side of the tie this block is (home = top, away = bottom)
 }
 
 export interface Connector {
@@ -175,6 +176,7 @@ export function computeBracketLayout(
                     side,
                     round: tie.round,
                     slot: tie.home_slot,
+                    pos: 'top',
                 })
                 blocks.push({
                     key: `${side}-${tie.bracket_game_id}-a`,
@@ -183,6 +185,7 @@ export function computeBracketLayout(
                     side,
                     round: tie.round,
                     slot: tie.away_slot,
+                    pos: 'bottom',
                 })
             })
         })

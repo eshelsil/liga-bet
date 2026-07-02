@@ -159,6 +159,7 @@ function BracketTree({
                                 flagSize={layout.flagSize}
                                 tokenFont={layout.tokenFont}
                                 result={slotResult(b.slot)}
+                                pos={b.pos}
                             />
                         </div>
                     ))}

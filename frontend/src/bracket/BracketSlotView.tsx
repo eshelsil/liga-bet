@@ -13,11 +13,13 @@ function BracketSlotView({
     flagSize,
     tokenFont,
     result = null,
+    pos = null,
 }: {
     slot: BracketSlotInfo
     flagSize: number
     tokenFont: number
     result?: 'win' | 'loss' | null // this slot's tie outcome for its team (decided ties only)
+    pos?: 'top' | 'bottom' | null // which side of the tie this slot sits on
 }) {
     const ctx = useBracketTree()
     const team = slot.team
@@ -34,6 +36,8 @@ function BracketSlotView({
                 className={[
                     'LB-BracketSlot',
                     'BracketSlot-team',
+                    pos === 'top' ? 'BracketSlot-top' : '',
+                    pos === 'bottom' ? 'BracketSlot-bottom' : '',
                     finalist ? 'BracketSlot-finalist' : '',
                     eliminatedPick ? 'BracketSlot-eliminated' : '',
                     out ? 'BracketSlot-out' : '',
