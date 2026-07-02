@@ -69,7 +69,8 @@ function LeaderboardVersionInput({
     const options = addBulkOptions(sortedVersions)
     const bulkOptions = options.filter(o => o.isBulk)
 
-    const defaultValue = allowNoVersion ? -1 : (bulkOptions[0]?.id ?? sortedVersions[0]?.id ?? -1)
+    // const defaultValue = allowNoVersion ? -1 : (bulkOptions[0]?.id ?? sortedVersions[0]?.id ?? -1) // depreacated - show last bulk start
+    const defaultValue = allowNoVersion ? -1 : (sortedVersions[0]?.id ?? -1)
 
     useEffect(() => {
         if (!availableVersionIds.includes(value) && !allowNoVersion && !disabled){
