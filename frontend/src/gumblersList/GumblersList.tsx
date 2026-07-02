@@ -9,6 +9,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useSelectNihusView } from '@/nihusim/context'
 import AutoBetBadge from '@/widgets/AutoBetBadge/AutoBetBadge'
 import './GumblersList.scss'
+import SpecialRoleBadge from '@/widgets/SpecialRoleBadge/SpecialRoleBadge'
 
 
 export interface Gumbler {
@@ -37,12 +38,7 @@ export function GumblerRow({gumbler, showNihusable, showNihus, onNihusClick, nih
                     {gumbler.name}
                 </div>
                 {gumbler.specialRole && (
-                    <span
-                        className="ms-1"
-                        title={gumbler.specialRole === 'winner' ? 'אלופה' : 'סגנית'}
-                    >
-                        {gumbler.specialRole === 'winner' ? '🏆' : '🥈'}
-                    </span>
+                    <SpecialRoleBadge role={gumbler.specialRole} className={cn("ms-1 !static !text-[13px] !size-[18px]")} />
                 )}
                 {gumbler.isAutoBet && (
                     <div className="ms-1 flex items-center">

@@ -139,7 +139,7 @@
     }
 
     // Chosen finalists are highlighted in the tree for context (not clickable).
-    &.BracketSlot-finalist {
+    &.BracketSlot-finalist:not(.BracketSlot-eliminated) {
         background: rgb(255 255 255 / 90%);
         border: none;
         box-shadow: 0 0 0 2px rgb(255 255 255 / 70%), 0 0 8px rgb(255 255 255 / 60%);
@@ -202,7 +202,7 @@
 
 /* ── Spectator (read-only) bracket: my picks + eliminated marking ── */
 // My picked teams along the side trees — blue border, white background, shadow.
-.Bracket-spectator .BracketSlot-finalist {
+.Bracket-spectator .BracketSlot-finalist:not(.BracketSlot-eliminated) {
     background: #fff;
     border: 2px solid colors.$primary-main;
     box-sizing: content-box;

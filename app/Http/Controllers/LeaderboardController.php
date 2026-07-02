@@ -17,7 +17,11 @@ class LeaderboardController extends Controller
 
         LeaderboardVersionResource::withoutWrapping();
         
-        $sortedGameIds = $utl->tournament->competition->getSortedGameIds();
+        if ($utl->tournament->isKnockoutBracket()) {
+            $sortedGameIds = $utl->tournament->competition->getSortedKnockoutGameIds();
+        } else {
+            $sortedGameIds = $utl->tournament->competition->getSortedGameIds();
+        }
         $versions = $utl->tournament->leaderboardVersions;
         return LeaderboardVersionResource::collection(
             $sortedGameIds->reverse()->map(fn($gameId) => $versions->firstWhere('game_id', $gameId))->filter()->all()

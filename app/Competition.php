@@ -264,6 +264,11 @@ class Competition extends Model
         return $this->getGamesSorted()->pluck('id');
     }
 
+    public function getSortedKnockoutGameIds()
+    {
+        return $this->getGamesSorted()->filter(fn(Game $game) => $game->isKnockout())->pluck('id');
+    }
+
     public function shouldUpdateUpcomingGamesStartTime(){
         return collect($this->config)->get("update_upcoming_games_start_time") ?? false;
     }
