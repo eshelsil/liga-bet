@@ -153,9 +153,21 @@
                 &.rankCell {
                     width: 0px;
                     padding-inline-start: 8px;
+                    @media (max-width: 500px) {
+                        padding-inline-end: 6px;
+                    }
                 }
                 &.scoreCell {
                     width: 0px;
+                    @media (max-width: 500px) {
+                        padding-inline-end: 12px;
+                        padding-inline-start: 6px;
+                    }
+                }
+                &.nameCell {
+                    @media (max-width: 500px) {
+                        padding-inline-end: 8px;
+                    }
                 }
             }
         }

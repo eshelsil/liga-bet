@@ -125,6 +125,7 @@ function LeaderboardTable({ rows, currentUtlId, isLive }: Props) {
             header: t('table.headers.score'),
             classes: {
                 header: 'scoreCell',
+                cell: 'scoreCell',
             },
             getter: (model: ScoreboardRowDetailed) => (
                 <div className="scoreCell-container">
