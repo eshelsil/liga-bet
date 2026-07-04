@@ -33,8 +33,8 @@ export function GumblerRow({gumbler, showNihusable, showNihus, onNihusClick, nih
     const utlId = useSelector(CurrentTournamentUserId)
     return (
         <div className={`GumblersList-gumbler ${gumbler.id === utlId ? 'GumblersList-currentUtl' : ''}`}>
-            <div className={cn("flex items-center",{'autoBetGumbler': gumbler.isAutoBet})}>
-                <div>
+            <div className={cn("flex items-center gumbler-box",{'autoBetGumbler': gumbler.isAutoBet})}>
+                <div className="GumblersList-name">
                     {gumbler.name}
                 </div>
                 {gumbler.specialRole && (

@@ -6,14 +6,26 @@
     align-items: start;
     gap: 2px;
     .GumblersList-gumbler {
+        width: 125px;
+        min-width: 100%;
         &.GumblersList-currentUtl {
             font-weight: 700;
         }
 
-        .autoBetGumbler {
-            background: colors.$auto-bet-bg;
+        .GumblersList-name {
+            white-space: normal;
+            word-break: break-word;
+        }
+
+        .gumbler-box {
+            max-width: max-content;
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid #00000030;
             border-radius: 4px;
             padding-inline: 4px;
+            &.autoBetGumbler {
+                background: colors.$auto-bet-bg;
+            }
         }
     }
 }
