@@ -1,116 +1,116 @@
 {
-  "_chunk.App.Bv8qVS0c.js": {
-    "file": "chunk.App.Bv8qVS0c.js",
+  "_chunk.App.Cnk2MezA.js": {
+    "file": "chunk.App.Cnk2MezA.js",
     "name": "App",
     "isDynamicEntry": true,
     "imports": [
-      "_chunk.preload-helper.BQGzVAu8.js",
-      "_chunk.vendor.C6P7wFPI.js",
+      "_chunk.preload-helper.DN7lFV4x.js",
+      "_chunk.vendor.CmryZZxb.js",
       "src/index.tsx"
     ],
     "dynamicImports": [
-      "_chunk.AppMainContent.DNJ9fk-E.js"
+      "_chunk.AppMainContent.BvDg1lma.js"
     ]
   },
-  "_chunk.AppBody.DNVPCf1u.js": {
-    "file": "chunk.AppBody.DNVPCf1u.js",
+  "_chunk.AppBody.UEiug8Oo.js": {
+    "file": "chunk.AppBody.UEiug8Oo.js",
     "name": "AppBody",
     "isDynamicEntry": true,
     "imports": [
-      "_chunk.vendor.C6P7wFPI.js",
-      "_chunk.preload-helper.BQGzVAu8.js",
-      "_chunk.AppMainContent.DNJ9fk-E.js",
-      "_chunk.App.Bv8qVS0c.js",
+      "_chunk.vendor.CmryZZxb.js",
+      "_chunk.preload-helper.DN7lFV4x.js",
+      "_chunk.AppMainContent.BvDg1lma.js",
+      "_chunk.App.Cnk2MezA.js",
       "src/index.tsx",
-      "_chunk.NihusSticker.Doz-sUXC.js"
+      "_chunk.NihusSticker.D3bIsjvU.js"
     ],
     "dynamicImports": [
       "src/appContent/AppBasicRoutes.tsx"
     ]
   },
-  "_chunk.AppMainContent.DNJ9fk-E.js": {
-    "file": "chunk.AppMainContent.DNJ9fk-E.js",
+  "_chunk.AppMainContent.BvDg1lma.js": {
+    "file": "chunk.AppMainContent.BvDg1lma.js",
     "name": "AppMainContent",
     "isDynamicEntry": true,
     "imports": [
-      "_chunk.preload-helper.BQGzVAu8.js",
-      "_chunk.vendor.C6P7wFPI.js",
-      "_chunk.App.Bv8qVS0c.js",
+      "_chunk.preload-helper.DN7lFV4x.js",
+      "_chunk.vendor.CmryZZxb.js",
+      "_chunk.App.Cnk2MezA.js",
       "src/index.tsx"
     ],
     "dynamicImports": [
       "src/dialogs/DialogsProvider.tsx",
-      "_chunk.AppBody.DNVPCf1u.js"
+      "_chunk.AppBody.UEiug8Oo.js"
     ]
   },
-  "_chunk.BracketGameScoreInfoDialog.BUSIlVbn.js": {
-    "file": "chunk.BracketGameScoreInfoDialog.BUSIlVbn.js",
+  "_chunk.BracketGameScoreInfoDialog.ohOxnRWU.js": {
+    "file": "chunk.BracketGameScoreInfoDialog.ohOxnRWU.js",
     "name": "BracketGameScoreInfoDialog",
     "imports": [
-      "_chunk.vendor.C6P7wFPI.js",
-      "_chunk.App.Bv8qVS0c.js"
+      "_chunk.vendor.CmryZZxb.js",
+      "_chunk.App.Cnk2MezA.js"
     ]
   },
-  "_chunk.NihusSticker.Doz-sUXC.js": {
-    "file": "chunk.NihusSticker.Doz-sUXC.js",
+  "_chunk.NihusSticker.D3bIsjvU.js": {
+    "file": "chunk.NihusSticker.D3bIsjvU.js",
     "name": "NihusSticker",
     "imports": [
       "src/index.tsx",
-      "_chunk.vendor.C6P7wFPI.js",
-      "_chunk.App.Bv8qVS0c.js",
-      "_chunk.AppMainContent.DNJ9fk-E.js"
+      "_chunk.vendor.CmryZZxb.js",
+      "_chunk.App.Cnk2MezA.js",
+      "_chunk.AppMainContent.BvDg1lma.js"
     ]
   },
-  "_chunk.preload-helper.BQGzVAu8.js": {
-    "file": "chunk.preload-helper.BQGzVAu8.js",
+  "_chunk.preload-helper.DN7lFV4x.js": {
+    "file": "chunk.preload-helper.DN7lFV4x.js",
     "name": "preload-helper"
   },
-  "_chunk.vendor.C6P7wFPI.js": {
-    "file": "chunk.vendor.C6P7wFPI.js",
+  "_chunk.vendor.CmryZZxb.js": {
+    "file": "chunk.vendor.CmryZZxb.js",
     "name": "vendor"
   },
   "src/appContent/AppBasicRoutes.tsx": {
-    "file": "chunk.AppBasicRoutes.BsU2Hd9A.js",
+    "file": "chunk.AppBasicRoutes.BC6L-vCN.js",
     "name": "AppBasicRoutes",
     "src": "src/appContent/AppBasicRoutes.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "_chunk.vendor.C6P7wFPI.js",
-      "_chunk.AppMainContent.DNJ9fk-E.js",
-      "_chunk.App.Bv8qVS0c.js",
+      "_chunk.vendor.CmryZZxb.js",
+      "_chunk.AppMainContent.BvDg1lma.js",
+      "_chunk.App.Cnk2MezA.js",
       "src/index.tsx",
-      "_chunk.AppBody.DNVPCf1u.js",
-      "_chunk.BracketGameScoreInfoDialog.BUSIlVbn.js",
-      "_chunk.NihusSticker.Doz-sUXC.js",
-      "_chunk.preload-helper.BQGzVAu8.js"
+      "_chunk.AppBody.UEiug8Oo.js",
+      "_chunk.BracketGameScoreInfoDialog.ohOxnRWU.js",
+      "_chunk.NihusSticker.D3bIsjvU.js",
+      "_chunk.preload-helper.DN7lFV4x.js"
     ]
   },
   "src/dialogs/DialogsProvider.tsx": {
-    "file": "chunk.DialogsProvider.DCPXVmYI.js",
+    "file": "chunk.DialogsProvider.DzYntS9i.js",
     "name": "DialogsProvider",
     "src": "src/dialogs/DialogsProvider.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "_chunk.vendor.C6P7wFPI.js",
-      "_chunk.App.Bv8qVS0c.js",
-      "_chunk.AppMainContent.DNJ9fk-E.js",
+      "_chunk.vendor.CmryZZxb.js",
+      "_chunk.App.Cnk2MezA.js",
+      "_chunk.AppMainContent.BvDg1lma.js",
       "src/index.tsx",
-      "_chunk.BracketGameScoreInfoDialog.BUSIlVbn.js",
-      "_chunk.NihusSticker.Doz-sUXC.js",
-      "_chunk.preload-helper.BQGzVAu8.js"
+      "_chunk.BracketGameScoreInfoDialog.ohOxnRWU.js",
+      "_chunk.NihusSticker.D3bIsjvU.js",
+      "_chunk.preload-helper.DN7lFV4x.js"
     ]
   },
   "src/index.tsx": {
-    "file": "appMain.CVr4sgbC.js",
+    "file": "appMain._LkYuQbC.js",
     "name": "index",
     "src": "src/index.tsx",
     "isEntry": true,
     "imports": [
-      "_chunk.preload-helper.BQGzVAu8.js",
-      "_chunk.vendor.C6P7wFPI.js"
+      "_chunk.preload-helper.DN7lFV4x.js",
+      "_chunk.vendor.CmryZZxb.js"
     ],
     "dynamicImports": [
-      "_chunk.App.Bv8qVS0c.js"
+      "_chunk.App.Cnk2MezA.js"
     ]
   }
 }
