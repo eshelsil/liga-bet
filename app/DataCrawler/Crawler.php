@@ -792,31 +792,39 @@ class Crawler
 
             $stages = collect($response->collect("game")->get("stages"));
 
-            // 365 stage ids: 9 = End of 90 Minutes, 10 = End of Extra Time, 11 = Penalties,
-            // 1 = Current (final on-field score, excluding the penalty shootout).
+            // 365 stage ids: 9 = End of 90 Minutes, 10 = End of Extra Time, 11 = Penalties.
+            // NOTE: we deliberately do NOT use the "Current" stage (id 1) here — during a penalty
+            // shootout 365 fills it with the running *penalty* tally, not the on-field score, which
+            // corrupts full_result_* and double-counts into total_result_*.
             $regular = $this->stageScore($stages, [9], ['90 min']);
-            $current = $this->stageScore($stages, [1], ['current']);
             $extraTime = $this->stageScore($stages, [10], ['extra time']);
             $penalties = $this->stageScore($stages, [11], ['penalt']);
 
-            // Fall back to the list score if the stages are not available yet.
-            $fallback = [data_get($entry['game365'], 'homeCompetitor.score'), data_get($entry['game365'], 'awayCompetitor.score')];
-            $final = $current ?? $regular ?? $fallback;     // on-field final (incl. ET, excl. shootout)
-            $reg = $regular ?? $final;                        // score after 90 minutes
-            // full_result_* must follow the live score while extra time is being played, but stay
-            // null during regular-time play. $regular comes from the "End of 90 Minutes" stage,
+            // The on-field score (EXCLUDING the shootout) and the shootout tally come from the list
+            // feed's structured fields, which 365 keeps separate and clean at all times. score is
+            // the live/final on-field score (incl. extra time); penaltyScore is the shootout, set
+            // only for ties that went to penalties.
+            $onField = [data_get($entry['game365'], 'homeCompetitor.score'), data_get($entry['game365'], 'awayCompetitor.score')];
+            $listPen = [data_get($entry['game365'], 'homeCompetitor.penaltyScore'), data_get($entry['game365'], 'awayCompetitor.penaltyScore')];
+            $hasPen = $penalties !== null || ($listPen[0] !== null && $listPen[1] !== null);
+            $pen = $penalties ?? ($hasPen ? $listPen : null);
+
+            $final = $onField;                  // on-field final (incl. ET, excl. shootout)
+            $reg = $regular ?? $onField;        // score after 90 minutes (live on-field until 90' ends)
+            // full_result_* must follow the on-field score once the tie goes beyond 90 minutes, but
+            // stay null during regular-time play. $regular comes from the "End of 90 Minutes" stage,
             // which only has a real score once regulation is over (see stageScore) — so $regular
-            // being non-null while the game is still live means it is in extra time. An ended game
-            // that produced an Extra Time (10) or Penalties (11) stage also went the distance; an
-            // ended game decided in 90 has neither, so full_result_* stays null for it.
-            $wentToExtra = $extraTime !== null || $penalties !== null
+            // being non-null while the game is still live means it is in extra time. A tie that
+            // produced an Extra Time (10) stage or went to penalties also went the distance; one
+            // decided in 90 has neither, so full_result_* stays null for it.
+            $wentToExtra = $extraTime !== null || $hasPen
                 || (!$parsedGame->isDone && $regular !== null);
 
             // Re-orient 365 home/away to football-data home/away.
             [$regH, $regA] = $homeIs365Home ? [$reg[0], $reg[1]] : [$reg[1], $reg[0]];
             [$finH, $finA] = $homeIs365Home ? [$final[0], $final[1]] : [$final[1], $final[0]];
-            $penH = $penalties ? ($homeIs365Home ? $penalties[0] : $penalties[1]) : 0;
-            $penA = $penalties ? ($homeIs365Home ? $penalties[1] : $penalties[0]) : 0;
+            $penH = $pen ? ($homeIs365Home ? $pen[0] : $pen[1]) : 0;
+            $penA = $pen ? ($homeIs365Home ? $pen[1] : $pen[0]) : 0;
 
             $parsedGame->resultHome = $this->toIntScore($regH);
             $parsedGame->resultAway = $this->toIntScore($regA);
