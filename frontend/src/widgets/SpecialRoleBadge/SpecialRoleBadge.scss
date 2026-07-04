@@ -1,5 +1,5 @@
 .LB-SpecialRoleBadge {
-    font-size: 12px;
+    font-size: 11px;
     line-height: 1;
     position: absolute;
     inset-block-end: -5px;
@@ -12,4 +12,8 @@
     height: 16px;
     width: 16px;
     margin-top: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
 }

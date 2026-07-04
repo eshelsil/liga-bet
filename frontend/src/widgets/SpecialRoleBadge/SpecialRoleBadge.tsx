@@ -17,18 +17,20 @@ function SpecialRoleBadge({
         return null
     }
     return (
-        <span
+        <div
             className={cn('LB-SpecialRoleBadge', className)}
             title={t(
                 role === 'winner' ? 'card.winnerBadge' : 'card.runnerUpBadge'
             )}
         >
-            {t(
-                role === 'winner'
-                    ? 'card.winnerBadgeSmall'
-                    : 'card.runnerUpBadgeSmall'
-            )}
-        </span>
+            <span>
+                {t(
+                    role === 'winner'
+                        ? 'card.winnerBadgeSmall'
+                        : 'card.runnerUpBadgeSmall'
+                )}
+            </span>
+        </div>
     )
 }
 
