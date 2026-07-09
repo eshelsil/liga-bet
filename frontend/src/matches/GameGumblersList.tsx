@@ -44,13 +44,13 @@ function GameGumblersList({ match, isLive, showNihusable }: { match: GameWithBet
 
     // Knockout bracket only: 🏆/🥈 when one of THIS game's teams is the user's
     // tournament Winner/Runner-Up pick. Undefined for classic → no visual change.
-    const gameTeamIds = [home_team?.id, away_team?.id].filter((tid): tid is number => tid != null)
-    const specialRoleForUtl = (utlId: number): Gumbler['specialRole'] => {
+    const specialRoleForUtl = (utlId: number, qualifier: WinnerSide): Gumbler['specialRole'] => {
+        const qualifierTimeId = qualifier === WinnerSide.Away ? away_team.id : home_team.id
         if (!isKnockoutBracket) return undefined
         const winnerTeamId = winnerBetByUtlId[utlId]?.answer?.id
-        if (winnerTeamId != null && gameTeamIds.includes(winnerTeamId)) return 'winner'
+        if (winnerTeamId != null && qualifierTimeId === winnerTeamId) return 'winner'
         const runnerUpTeamId = runnerUpBetByUtlId[utlId]?.answer?.id
-        if (runnerUpTeamId != null && gameTeamIds.includes(runnerUpTeamId)) return 'runnerUp'
+        if (runnerUpTeamId != null && qualifierTimeId === runnerUpTeamId) return 'runnerUp'
         return undefined
     }
 
@@ -67,7 +67,7 @@ function GameGumblersList({ match, isLive, showNihusable }: { match: GameWithBet
                 name: bet.utlName,
                 id: bet.user_tournament_id,
                 isAutoBet: bet.is_auto_bet,
-                specialRole: specialRoleForUtl(bet.user_tournament_id),
+                specialRole: specialRoleForUtl(bet.user_tournament_id, bet.winner_side),
             })),
         }
     })
