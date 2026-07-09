@@ -122,6 +122,24 @@ export function bracketSpecialRole(
     return null
 }
 
+// A tie containing the user's Winner/Runner-Up is auto-locked to that pick up to and
+// including the Round of 16; from the Quarter-Finals onward the user may bet AGAINST it
+// (pick the other team to advance). "Above the Round of 16" == later in the round order.
+export function isBetAgainstAllowedRound(round: GameSubType): boolean {
+    return ROUND_ORDER.indexOf(round) > ROUND_ORDER.indexOf(GameSubType.Last16)
+}
+
+// On the Final only the Winner pick is a meaningful pre-selection: a Runner-Up that reached
+// the final has already fulfilled its pick (runner-up == loses the final), so it carries no
+// badge and betting "against" it there is normal. Everywhere else the role is unchanged.
+export function roleForRound(
+    role: BracketSpecialRole,
+    round: GameSubType,
+): BracketSpecialRole {
+    if (round === GameSubType.Final && role === 'runnerUp') return null
+    return role
+}
+
 // Locate a team (by id) anywhere in the bracket — teams recur across rounds.
 export function findBracketTeam(games: BracketGame[], teamId: number | null): BracketTeam | null {
     if (teamId == null) return null

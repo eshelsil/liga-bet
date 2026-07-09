@@ -1,15 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import LockIcon from '@mui/icons-material/LockOutlined'
 import CheckIcon from '@mui/icons-material/CheckCircle'
 import CircularProgress from '@mui/material/CircularProgress'
 import InfoIcon from '@mui/icons-material/InfoOutlined'
+import WarningIcon from '@mui/icons-material/WarningAmberRounded'
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+} from '@mui/material'
 import { BracketGame, BracketTeam, WinnerSide } from '../types'
 import {
     bracketTeamToTeam,
     cn,
     DEFAULT_DATE_FORMAT,
     ENG_DATE_FORMAT,
+    isBetAgainstAllowedRound,
     subTypeToKnockoutStage,
 } from '../utils'
 import { getStageName } from '../strings/stages'
@@ -26,7 +35,8 @@ interface Props {
     // The user's current qualifier pick for this tie (from their submitted Game bet),
     // or null if not picked yet.
     userSide: WinnerSide | null
-    // Which special role (if any) each side's team holds for this user.
+    // Which special role (if any) each side's team holds for this user. Already adjusted
+    // for the round (a Runner-Up on the Final is passed as null — see roleForRound).
     homeRole: SpecialRole
     awayRole: SpecialRole
     onPick: (side: WinnerSide) => Promise<void>
@@ -34,11 +44,13 @@ interface Props {
 }
 
 // One bettable knockout tie, bet by QUALIFIER only (who advances) — no score.
-// Two states (open list shows only bettable ties, per plan D1):
-//   • Locked / special-answer: one of the teams is the user's Winner/Runner-Up pick
-//     (or the backend marked the tie `locked`). The qualifier is auto-committed to
-//     that team advancing — read-only, with a 🏆/🥈 badge + explanation.
-//   • Open: tap a team to pick who qualifies; submits a contract-E Game bet.
+// Behaviour when the tie contains the user's Winner/Runner-Up pick ("special"):
+//   • Up to the Round of 16: auto-committed & read-only (🏆/🥈 badge + explanation).
+//   • From the Quarter-Finals on (isBetAgainstAllowedRound): editable, soft-defaulted to
+//     the pre-selected team, but the user may bet AGAINST it — pick the other team to
+//     advance. That asks for confirmation, then shows a persistent warning that this
+//     game's qualifier points are forfeited.
+// A plain (non-special) tie is always a simple tap-a-team picker.
 function BracketGameCard({
     game,
     userSide,
@@ -51,6 +63,11 @@ function BracketGameCard({
 
     // The side currently being submitted — drives the inline loader on the tapped team.
     const [pendingSide, setPendingSide] = useState<WinnerSide | null>(null)
+    // A pick that bets against a pre-selected team, awaiting confirmation.
+    const [confirmSide, setConfirmSide] = useState<WinnerSide | null>(null)
+    // The "you're betting against your pick" explanation dialog (from the warning icon).
+    const [againstOpen, setAgainstOpen] = useState(false)
+    const [infoOpen, setInfoOpen] = useState(false)
 
     const submitPick = async (side: WinnerSide) => {
         if (pendingSide !== null) return
@@ -62,14 +79,13 @@ function BracketGameCard({
         }
     }
 
-    const [infoOpen, setInfoOpen] = useState(false)
-
     const isSpecial = !!(homeRole || awayRole)
-    const locked = game.locked || isSpecial
+    const betAgainstAllowed = isBetAgainstAllowedRound(game.round)
+    // A special tie stays locked only up to the Round of 16; from the QF on it's editable.
+    const locked = game.locked || (isSpecial && !betAgainstAllowed)
 
-    // When locked, the qualifier is the team the user already committed to advancing:
-    // prefer the backend's auto-set side; otherwise the Winner pick advances, else the
-    // Runner-Up pick (W beats everyone; RU advances until it meets W).
+    // The side of the user's pre-selected team in this tie. W beats RU, but the two only ever
+    // meet in the final — where RU is passed as null — so at most one side is special here.
     const specialSide: WinnerSide | null =
         homeRole === 'winner' || awayRole === 'winner'
             ? homeRole === 'winner'
@@ -80,9 +96,19 @@ function BracketGameCard({
             : awayRole
             ? WinnerSide.Away
             : null
+    // When locked, the committed side is the pre-selected team. When editable, the user's
+    // explicit pick, else a soft default to the pre-selected team (mirrors kickoff auto-fill).
     const effectiveSide: WinnerSide | null = locked
         ? game.user_qualifier_side ?? specialSide
-        : userSide
+        : userSide ?? (isSpecial ? specialSide : null)
+
+    // The pre-selected role sitting on the OTHER side of a given pick — i.e. the role that
+    // pick bets against. Null unless that other team is the user's Winner/Runner-Up.
+    const roleAgainst = (side: WinnerSide): SpecialRole =>
+        side === WinnerSide.Home ? awayRole : homeRole
+    // The role the current pick is betting against (drives the persistent warning icon).
+    const againstRole: SpecialRole =
+        effectiveSide != null ? roleAgainst(effectiveSide) : null
 
     const stage = getStageName(subTypeToKnockoutStage(game.round))
 
@@ -104,6 +130,24 @@ function BracketGameCard({
             ? t('card.runnerUpBadge')
             : null
 
+    const roleLabel = (role: SpecialRole) =>
+        role === 'winner'
+            ? t('special.winner')
+            : role === 'runnerUp'
+            ? t('special.runnerUp')
+            : ''
+
+    // Tapping a team: if it bets against a pre-selected team, confirm first; else submit.
+    const onTap = (side: WinnerSide) => {
+        if (roleAgainst(side)) {
+            setConfirmSide(side)
+        } else {
+            submitPick(side)
+        }
+    }
+
+    const confirmRole = confirmSide != null ? roleAgainst(confirmSide) : null
+
     const teamRow = (
         team: BracketTeam | null,
         side: WinnerSide,
@@ -115,9 +159,12 @@ function BracketGameCard({
         return (
             <button
                 type="button"
-                className={cn('BGC-side', { 'is-picked': picked, 'is-clickable': clickable })}
+                className={cn('BGC-side', {
+                    'is-picked': picked,
+                    'is-clickable': clickable,
+                })}
                 onClick={() => {
-                    submitPick(side)
+                    onTap(side)
                 }}
                 disabled={!clickable}
             >
@@ -141,7 +188,12 @@ function BracketGameCard({
     }
 
     return (
-        <div className={cn('LB-BracketGameCard', { 'is-locked': locked, 'border-solid border-[3px] border-red-600': hasNotification })}>
+        <div
+            className={cn('LB-BracketGameCard', {
+                'is-locked': locked,
+                'border-solid border-[3px] border-red-600': hasNotification,
+            })}
+        >
             {hasNotification && (
                 <Badge
                     className="BGC-notification"
@@ -162,6 +214,15 @@ function BracketGameCard({
                         aria-label={t('card.info.title')}
                         onClick={() => setInfoOpen(true)}
                     />
+                    {againstRole && (
+                        <WarningIcon
+                            className="BGC-againstIcon text-amber-400 cursor-pointer"
+                            fontSize="small"
+                            role="button"
+                            aria-label={t('card.against.alert')}
+                            onClick={() => setAgainstOpen(true)}
+                        />
+                    )}
                 </span>
                 <span className="BGC-kickoff">
                     {dayjs
@@ -190,12 +251,63 @@ function BracketGameCard({
                 )}
             </div>
 
+            {/* Confirm before committing a bet against the user's Winner/Runner-Up pick. */}
+            <Dialog
+                open={confirmSide != null}
+                onClose={() => setConfirmSide(null)}
+                maxWidth="xs"
+                fullWidth
+            >
+                <DialogTitle>{t('card.against.title')}</DialogTitle>
+                <DialogContent>
+                    {t('card.against.bodyOnlyQualifier', { role: roleLabel(confirmRole) })}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setConfirmSide(null)}>
+                        {t('card.against.cancel')}
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="warning"
+                        onClick={() => {
+                            const side = confirmSide
+                            setConfirmSide(null)
+                            if (side != null) submitPick(side)
+                        }}
+                    >
+                        {t('card.against.confirm')}
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            {/* Persistent "you're betting against your pick" explanation (warning icon). */}
+            <Dialog
+                open={againstOpen}
+                onClose={() => setAgainstOpen(false)}
+                maxWidth="xs"
+                fullWidth
+            >
+                <DialogTitle>{t('card.against.title')}</DialogTitle>
+                <DialogContent>
+                    {t('card.against.bodyOnlyQualifier', { role: roleLabel(againstRole) })}
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        variant="contained"
+                        onClick={() => setAgainstOpen(false)}
+                    >
+                        {t('card.against.ok')}
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
             <BracketGameScoreInfoDialog
                 open={infoOpen}
                 onClose={() => setInfoOpen(false)}
                 qualifierPoints={qualifierPts}
                 advancePoints={advancePts}
                 role={bonusRole}
+                isBettingAgainst={!!againstRole}
             />
         </div>
     )

@@ -12,6 +12,7 @@ use App\Bets\BetSpecialBets\BetSpecialBetsRequest;
 use App\Bets\BetSpecialBets\BetSpecialBets;
 use App\Competition;
 use App\Enums\BetTypes;
+use App\Enums\GameSubTypes;
 use App\Game;
 use App\Http\Resources\GroupResource;
 use App\Team;
@@ -342,6 +343,9 @@ class BetsController extends Controller
      */
     private function assertBracketQualifierEditable(TournamentUser $utl, Game $game): void
     {
+        if (!$game->isKnockout() || !in_array($game->sub_type, [GameSubTypes::LAST_32, GameSubTypes::LAST_16])) {
+            return;
+        }
         $lockedTeamIds = $this->bracketLockedTeamIds($utl->tournament_id, $utl->id);
         if ($lockedTeamIds->contains($game->team_home_id) || $lockedTeamIds->contains($game->team_away_id)) {
             throw new \InvalidArgumentException("This game is locked by your Winner/Runner-Up pick and cannot be edited");

@@ -81,7 +81,7 @@
             },
             "bonus": {
                 "title": "{{role}} bonus:",
-                "description": "+{{points}} pts bonus if your {{role}} advances from this game"
+                "description": "{{bonusSign}}{{points}} pts bonus if your {{role}} advances from this game"
             },
             "ok": "Got it"
         },
@@ -89,7 +89,10 @@
             "alert": "You're betting against your pick",
             "title": "Betting against your pick",
             "body": "Your result has your {{role}} not advancing — you can't earn full points for this game's qualifier.",
-            "ok": "Got it"
+            "ok": "Got it",
+            "bodyOnlyQualifier": "You're betting your {{role}} won't advance here. You can't win both scores for this game — you'll get either the qualifier points (if your {{role}} is knocked out) or your {{role}} advance bonus (if they advance), never both.",
+            "confirm": "Bet against anyway",
+            "cancel": "Cancel"
         }
     },
     "bet": {

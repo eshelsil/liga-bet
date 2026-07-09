@@ -18,6 +18,7 @@ interface Props {
     advancePoints: number
     resultPoints?: number // exact-score points for the round (result tournaments only)
     role: SpecialRole | 'any' // a pre-selected team (Winner/Runner-Up) plays here → show its advance bonus
+    isBettingAgainst?: boolean // true if the user is betting against their pre-selected team (Winner/Runner-Up) in this game
 }
 
 // Explains how a single bracket qualifier bet is scored: qualifier points for the round,
@@ -29,6 +30,7 @@ function BracketGameScoreInfoDialog({
     advancePoints,
     resultPoints = 0,
     role,
+    isBettingAgainst = false,
 }: Props) {
     const { t } = useTranslation('knockout_bracket')
     const roleLabel =
@@ -79,6 +81,7 @@ function BracketGameScoreInfoDialog({
                             {t('card.info.bonus.description', {
                                 points: advancePoints,
                                 role: roleLabel,
+                                bonusSign: isBettingAgainst ? '' : '+',
                             })}
                         </span>
                     </p>

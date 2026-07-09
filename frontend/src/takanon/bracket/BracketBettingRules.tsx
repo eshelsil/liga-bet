@@ -12,6 +12,9 @@ function BracketBettingRules() {
         isResultBetOn ? t('bracket.ruleQualifierAndScore') : t('bracket.ruleQualifiersOnly'),
         t('bracket.ruleWinnerRunnerUp'),
         t('bracket.ruleAutoLock'),
+        // The QF-onward "bet against your pick" override only applies to the qualifier-only
+        // mode; with result betting on, every game is freely editable anyway.
+        ...(isResultBetOn ? [] : [t('bracket.ruleBetAgainstFromQf')]),
         t('bracket.ruleStart'),
     ]
     return (

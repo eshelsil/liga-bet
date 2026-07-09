@@ -33,6 +33,7 @@
         "ruleQualifierAndScore": "You bet on who qualifies (advances) and what the exact score will be in each knockout game.",
         "ruleWinnerRunnerUp": "You pick a Winner and a Runner-Up — one team per side of the bracket (they are meant to come from different sides).",
         "ruleAutoLock": "The qualifier for your chosen Winner/Runner-Up teams is auto-selected and locked in every game they play.",
+        "ruleBetAgainstFromQf": "From the Quarter-Finals onward you may bet against your Winner/Runner-Up pick — choose the other team to advance. You then can't win both scores for that game: you'll get either the qualifier points (if your pick is knocked out) or the Winner/Runner-Up advance bonus (if they advance), never both. Up to the Round of 16 the pick stays locked.",
         "ruleStart": "The tournament starts at the first knockout kickoff; from then on your Winner/Runner-Up picks are locked.",
         "scoresHeading": "Points per round",
         "roundCol": "Round",

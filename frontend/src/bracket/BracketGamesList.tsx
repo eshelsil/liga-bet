@@ -12,6 +12,7 @@ import { sendBracketQualifierBetAndStore } from '../_actions/bets'
 import {
     bracketSpecialRole,
     bracketTeamToTeam,
+    roleForRound,
     subTypeToKnockoutStage,
 } from '../utils'
 import { useBracket, useBracketSpecialBets } from './useBracket'
@@ -45,8 +46,14 @@ function BracketGamesList({
     const missingGameBetsIds = useSelector(MissingGameBetsIds)
     const dispatch = useAppDispatch()
 
-    const roleOf = (teamId: number | null | undefined) =>
-        bracketSpecialRole(teamId, winner.teamId, runnerUp.teamId)
+    // A team's pre-selected role for a given tie. The round matters: on the Final only the
+    // Winner is a meaningful pre-selection (see roleForRound) — a Runner-Up there gets no badge
+    // and betting against it is normal.
+    const roleOf = (game: BracketGame, teamId: number | null | undefined) =>
+        roleForRound(
+            bracketSpecialRole(teamId, winner.teamId, runnerUp.teamId),
+            game.round,
+        )
 
     const order = new Map(config.rounds.map((r, i) => [r, i]))
     const visible = games
@@ -122,8 +129,8 @@ function BracketGamesList({
                             match={match}
                             sendBet={submitResult}
                             isKnockoutBracketGame={true}
-                            homeRole={roleOf(game.home_team?.id)}
-                            awayRole={roleOf(game.away_team?.id)}
+                            homeRole={roleOf(game, game.home_team?.id)}
+                            awayRole={roleOf(game, game.away_team?.id)}
                             hasNotification={missingGameBetsIds.includes(
                                 game.id
                             )}
@@ -141,8 +148,8 @@ function BracketGamesList({
                         key={game.bracket_game_id}
                         game={game}
                         userSide={userSide ?? null}
-                        homeRole={roleOf(game.home_team?.id)}
-                        awayRole={roleOf(game.away_team?.id)}
+                        homeRole={roleOf(game, game.home_team?.id)}
+                        awayRole={roleOf(game, game.away_team?.id)}
                         onPick={pick}
                         hasNotification={missingGameBetsIds.includes(game.id)}
                     />
