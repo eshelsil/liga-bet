@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>עיתון</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            /* ============================================================
+     COLORS — change these in one place to recolor the whole page
+     ============================================================ */
+            :root {
+                --paper: #f3e8e4; /* page background (pinkish cream) */
+                --border: #000000; /* outer page frame */
+                --blue: #0a79be; /* blue bar + feature block */
+                --red: #dd4f5d; /* red blocks */
+                --gold: #d9ab3c; /* gold sub-bar */
+                --gray-med: #c3c3c3; /* medium gray block */
+                --gray-light: #c3c3c3; /* light gray card */
+                --dark: #33302b; /* dark card */
+                --lightblue: #c7ddea; /* light blue card */
+                --ink: #1a1a1a; /* default dark text */
+                --white: #ffffff; /* text on colored blocks */
+            }
+
+            /* ============================================================
+     SIZES — block heights / gaps. Edit to resize.
+     ============================================================ */
+            :root {
+                --page-w: 900px;
+                --page-pad: 18px;
+                --gap: 14px;
+                --col-gap: 14px;
+            }
+
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                background: #cfcabf;
+                font-family: 'Heebo', sans-serif;
+                color: var(--ink);
+                padding: 24px 0 60px;
+            }
+
+            .page {
+                width: var(--page-w);
+                margin: 0 auto;
+                background: var(--paper);
+                border: 3px solid var(--border);
+                padding: var(--page-pad);
+            }
+
+            /* ============================================================
+     REUSABLE BOX SYSTEM
+     Every editorial box = optional title + body (image on the side)
+     + optional small page-ref pinned to the bottom corner.
+     ============================================================ */
+            .box {
+                display: flex;
+                flex-direction: column;
+                padding: 12px;
+                overflow: hidden;
+            }
+            .box.red {
+                background: var(--red);
+                color: var(--white);
+            }
+            .box.gray {
+                background: var(--gray-med);
+                color: var(--ink);
+            }
+            .box.dark {
+                background: var(--dark);
+                color: var(--white);
+            }
+            .box.lightblue {
+                background: var(--lightblue);
+                color: var(--ink);
+            }
+            .box.blue {
+                background: var(--blue);
+                color: var(--white);
+            }
+
+            /* Title placeholder — replace the [כותרת] text with your headline */
+            .box-title {
+                font-size: 16px;
+                font-weight: 800;
+                line-height: 1.2;
+                text-align: center;
+                margin-bottom: 8px;
+            }
+
+            /* Body row: image on the side, text beside it */
+            .box-body {
+                flex: 1;
+                min-height: 0;
+                display: flex;
+                gap: 12px;
+                align-items: center;
+            }
+            .box-text {
+                flex: 1;
+                font-size: 14px;
+                line-height: 1.4;
+                font-weight: 500;
+            }
+            .box-img {
+                flex-shrink: 0;
+                align-self: stretch;
+                min-height: 90px;
+            }
+
+            /* Small newspaper "continued on page X" note, bottom corner */
+            .page-ref {
+                font-size: 11px;
+                font-weight: 500;
+                opacity: 0.7;
+                text-align: left;
+                margin-top: 8px;
+            }
+
+            /* ---------- Image placeholder / photo ---------- */
+            .photo {
+                background: #ddd8cc;
+                overflow: hidden;
+                position: relative;
+            }
+            .photo img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+            }
+
+            /* ---------- Masthead ---------- */
+            .masthead {
+                text-align: center;
+                padding: 10px 0 16px;
+            }
+            .masthead .title {
+                font-size: 54px;
+                font-weight: 900;
+                line-height: 1.05;
+            }
+
+            /* ---------- Blue top bar (Messi ticker) ---------- */
+            .blue-bar {
+                background: var(--blue);
+                color: var(--white);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                font-size: 13px;
+                font-weight: 500;
+                padding: 9px 12px;
+                margin-bottom: var(--gap);
+            }
+
+            /* ---------- Red lead headline ---------- */
+            .red-lead {
+                background: var(--red);
+                color: var(--white);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                padding: 16px 24px;
+                margin-bottom: var(--gap);
+            }
+            .red-lead .headline {
+                font-size: 40px;
+                font-weight: 800;
+                line-height: 1.15;
+            }
+
+            /* ---------- Lead intro paragraph ---------- */
+            .lead-intro {
+                text-align: center;
+                font-size: 17px;
+                line-height: 1.5;
+                font-weight: 500;
+                padding: 4px 24px 8px;
+                margin-bottom: var(--gap);
+            }
+            .lead-intro .page-ref {
+                display: block;
+                text-align: center;
+                margin-top: 6px;
+            }
+
+            /* ============================================================
+     MAIN COLLAGE — big feature (left) + right column of 3 boxes
+     ============================================================ */
+            .main-row {
+                min-height: 470px;
+                display: grid;
+                grid-template-columns: 320px 1fr; /* RTL: 1st col renders on the RIGHT */
+                gap: var(--col-gap);
+                margin-bottom: var(--gap);
+                align-items: stretch;
+            }
+            .right-col {
+                display: grid;
+                grid-template-rows: auto auto auto; /* size to content — no overflow */
+                gap: var(--gap);
+                min-height: 0;
+            }
+            .right-col .box {
+                min-height: 130px;
+            }
+            .right-col .box-img {
+                width: 34%;
+            }
+
+            /* Big feature (Shubli) — title bar, text, image on the side */
+            .feature .gold-bar {
+                background: var(--gold);
+                color: var(--ink);
+                text-align: center;
+                font-size: 19px;
+                font-weight: 700;
+                padding: 8px;
+                margin-bottom: 10px;
+            }
+            .feature .box-img {
+                width: 42%;
+            }
+            .feature .box-text {
+                font-size: 15px;
+                line-height: 1.5;
+            }
+
+            /* Ad fine-print / disclaimer — small muted line */
+            .fine-print {
+                display: block;
+                margin-top: 6px;
+                font-size: 10px;
+                font-weight: 400;
+                opacity: 0.75;
+                line-height: 1.3;
+            }
+
+            /* ---------- Ad logo (Azulay banner) ---------- */
+            .ad-logo {
+                display: block;
+                width: 100px;
+                max-width: 100%;
+                height: auto;
+            }
+
+            /* ============================================================
+     THREE-BOX ROW (bottom): Azulay #2 (left) · summary · Ronaldo (right)
+     ============================================================ */
+            .cards {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: var(--col-gap);
+                margin-bottom: var(--gap);
+            }
+            .cards .box {
+                min-height: 190px;
+            }
+            .cards .box-img {
+                width: 38%;
+            }
+
+            /* ---------- Red footer block (Balogun statement) ---------- */
+            .red-footer {
+                background: var(--red);
+                color: var(--white);
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                padding: 18px 22px;
+                margin-bottom: var(--gap);
+            }
+            .red-footer .footer-logo {
+                width: 110px;
+                height: 110px;
+                flex-shrink: 0;
+                object-fit: cover;
+                border-radius: 100%;
+                border: 1px solid black;
+                background: rgba(255, 255, 255, 0.8);
+            }
+            .red-footer .footer-text {
+                flex: 1;
+                font-size: 15px;
+                font-weight: 500;
+                line-height: 1.5;
+            }
+
+            /* ---------- Bottom credit line (שאלת רב) ---------- */
+            .credit {
+                border-radius: 12px;
+                border: 1px solid rgba(0, 0, 0, 0.5);
+                padding: 8px 12px;
+                background: rgba(255, 255, 255, 0.4);
+                display: flex;
+                align-items: flex-start;
+                gap: 10px;
+                font-size: 12px;
+                font-weight: 500;
+                line-height: 1.4;
+            }
+            .credit img {
+                width: auto;
+                height: 48px;
+                object-fit: cover;
+                flex-shrink: 0;
+            }
+
+            /* ============================================================
+     PRINT — Cmd+P -> Save as PDF. A4 portrait, colors kept.
+     ============================================================ */
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+            @media print {
+                body {
+                    background: #fff;
+                    padding: 0;
+                    -webkit-print-color-adjust: exact;
+                    print-color-adjust: exact;
+                }
+                .page {
+                    width: 100%;
+                    border: 3px solid var(--border);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="page">
+            <!-- Masthead -->
+            <header class="masthead">
+                <div class="title">ליגה ב׳ - מהדורה מיוחדת</div>
+            </header>
+
+            <!-- Blue info bar (Messi ticker) -->
+            <div class="blue-bar">
+                מסי עולה להתקפה: ״מאוכזב שלא האמינו בי כמו בטורניר הקודם ואני
+                עוד אוכיח לכם כי טעיתם! אל תבנו על הבונוס של מלך שערים יא בובוס״
+            </div>
+
+            <!-- Red lead headline -->
+            <div class="red-lead">
+                <div class="headline">שיא ביזנס!</div>
+            </div>
+
+            <!-- Lead intro -->
+            <p class="lead-intro">
+                תוך כדי שהוא לומד במרץ בביזנס סקול, שבר אמיר שיא עולמי בפיגעה
+                מדויקת בתוצאות בשלב הנוקאאוט והוא נח על זרי הדפנה בדרך לניצחון
+                בטורניר. אם זה ימשיך כך יצליח לשחזר את ההישג של שובלי מלפני 4
+                שנים ולהכריע את הטורניר עוד לפני שהתחיל משחק הגמר.
+                <br />
+                בראיון אינטימי הוא חושף את הסוד שלו להצלחה
+                <span class="page-ref">עמודים 4-5</span>
+            </p>
+
+            <!-- ============ MAIN COLLAGE ============ -->
+            <div class="main-row">
+                <!-- Right column (renders on the RIGHT in RTL): Tembele ad, Olise, Hakimi -->
+                <div class="right-col">
+                    <!-- Tembele-Azulay ad (top-right) -->
+                    <div class="box dark">
+                        <div class="box-body">
+                            <div
+                                class="photo box-img"
+                                style="
+                                    width: 100px;
+                                    height: 140px;
+                                    overflow: hidden;
+                                "
+                            >
+                                <img
+                                    src="./img/tembele.jpeg"
+                                    alt=""
+                                    style="
+                                        width: 180%;
+                                        height: 180%;
+                                        position: absolute;
+                                        top: 0px;
+                                        left: -50px;
+                                    "
+                                />
+                            </div>
+                            <div class="box-text">
+                                אל תצא טמבלה!
+                                <br />
+                                תן לאזולאי את התוצאות למלא
+                                <span class="fine-print"
+                                    >• 50% הנחה למצטרפים חדשים<br />• ללא כפל
+                                    מבצעים</span
+                                >
+                                <img
+                                    class="ad-logo"
+                                    src="./img/azulay.png"
+                                    alt=""
+                                    style="margin-top: 8px; margin-right: auto"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Olise -->
+                    <div class="box red">
+                        <div class="box-body">
+                            <div
+                                class="photo box-img"
+                                style="
+                                    width: 120px;
+                                    height: 100px;
+                                    max-height: fit-content;
+                                    overflow: hidden;
+                                "
+                            >
+                                <img
+                                    src="./img/olise.jpeg"
+                                    alt=""
+                                    style="
+                                        width: 160%;
+                                        height: auto;
+                                        position: absolute;
+                                        top: -10px;
+                                        left: -40px;
+                                    "
+                                />
+                            </div>
+                            <div style="height: 100%">
+                                <div
+                                    class="box-title leading-[1]"
+                                    style="font-size: 14px"
+                                >
+                                    אוליסה עוקץ את ההייטרס:
+                                </div>
+                                <div class="box-text" style="font-size: 12px">
+                                    "מי שהעדיף לשים את ברונו מלך בישולים על פניי
+                                    צריך להיבדק אצל פסיכיאטר"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hakimi -->
+                    <div class="box gray">
+                        <div class="box-body">
+                            <div
+                                class="photo box-img"
+                                style="
+                                    width: 120px;
+                                    height: 120px;
+                                    overflow: hidden;
+                                "
+                            >
+                                <img
+                                    src="./img/hakimi.jpeg"
+                                    alt=""
+                                    style="
+                                        width: 125%;
+                                        height: 125%;
+                                        position: absolute;
+                                        top: 0px;
+                                        left: -10px;
+                                    "
+                                />
+                            </div>
+                            <div>
+                                <div class="box-title">
+                                    במרוקו המומים אחרי ההפסד לצרפת
+                                </div>
+                                <div class="box-text">
+                                    חכימי: ״אני לא מאמין שסידרנו לאמיר עוד
+                                    תוצאה"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Big blue feature (renders on the LEFT in RTL): Shubli -->
+                <div class="box blue feature">
+                    <div class="gold-bar">
+                        הקרב על הכסף
+                        <span
+                            style="
+                                font-size: 24px;
+                                line-height: 24px;
+                                vertical-align: middle;
+                            "
+                            >🥈</span
+                        >
+                    </div>
+                    <div
+                        class="box-body"
+                        style="display: flex; flex-direction: column; stretch;"
+                    >
+                        <div
+                            class="box-text"
+                            style="font-size: 13px; line-height: 1.3"
+                        >
+                            שישה מנחשים מתחרים על המקום השני הנכסף ועל שני
+                            מקומות נוספים בפודיום כאשר רק 13 נקודות מפרידות בין
+                            שקד במקום השני לעומרי/בלומי במקום השישי.
+                            <div style="margin-top: 6px"></div>
+                            חוץ מלפגוע בתוצאות, לכל אחד מהם קלף בשרוול שיכול
+                            לעזור להם לזכות בכסף ואולי לגנוב אפילו את המקום
+                            הראשון מתחת לרגליים של אמיר:
+                            <div style="margin-top: 6px"></div>
+                            • שקד ״השנה זה שלי״ שהתחיל חזק השנה עם אוליסה מלך
+                            הבישולים ו-mvp
+                            <div style="margin-top: 3px"></div>
+                            • שובלי, ששקל כבר לפרוש אחרי ההדחה של ברזיל יכול
+                            להפתיע עם ספרד כזוכה ״החברים והמשפחה הרימו אותי
+                            וחזרתי להאמין בעצמי״
+                            <div style="margin-top: 3px"></div>
+                            • יואב ״תוצאות זה כאן״ יוכל עם אמבפה כ-mvp יכול
+                            להגיע גבוה אם גם יתפוס איזו תוצאה
+                            <div style="margin-top: 3px"></div>
+                            • עומרי ״אבא חשוב״ עם אנגליה כסגנית יכול לפגוע בגמר
+                            מושלם (ואולי גם הארי קיין mvp?)
+                            <div style="margin-top: 3px"></div>
+                            • אזולאי תוצאות בע״מ עם קיין כמלך שערים ואמבפה mvp
+                            כנראה יסתמך בעיקר על תוצאות. מדוברות החברה נמסר:
+                            ״הבטחתי פודיום ויהיה פודיום״
+                            <div style="margin-top: 3px"></div>
+                            • בלומי ״it's coming home״ ללא ספק עם הניחושים
+                            המיוחדים הכי מגוונים פה וזה יכול לבוא לטובתו או
+                            לרעתו - עם אנגליה וספרד, סיכוי לגמר מושלם וזכייה
+                            אנגלית על הראש של כולם. וגם - יש לו את רונאלדו כ-mvp
+                            - לא שזה מגיע אבל גם ככה הכל מושחת בפיפ״א אז מי אמר
+                            שאין לזה סיכוי
+                        </div>
+                        <div
+                            style="
+                                position: relative;
+                                flex-grow: 1;
+                                width: 100%;
+                                border-radius: 8px;
+                                background-color: #ffffff44;
+                                overflow: hidden;
+                            "
+                        >
+                            <!-- Stickers scattered on the "locker": random-ish spots, sizes,
+                                 rotations, overlapping, staggered high/low. drop-shadow = depth. -->
+                            <img
+                                src="./img/dashubi.webp"
+                                alt=""
+                                style="position: absolute; left: 2%; top: -16px; height: 110px; width: auto; transform: rotate(-3deg); z-index: 3; filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.3));"
+                            />
+                            <img
+                                src="./img/spain.webp"
+                                alt=""
+                                style="position: absolute; left: 54%; top: -12px; height: 130px; width: auto; transform: rotate(7deg); z-index: 2; filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.3));"
+                            />
+                            <img
+                                src="./img/kane.webp"
+                                alt=""
+                                style="position: absolute; left: 26%; top: -20px; height: 155px; width: auto; transform: rotate(-8deg); z-index: 5; filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.3));"
+                            />
+                            <img
+                                src="./img/olise_chef.webp"
+                                alt=""
+                                style="position: absolute; left: 12%; top: -2px; height: 108px; width: auto; transform: rotate(14deg); z-index: 4; filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.3));"
+                            />
+                            <img
+                                src="./img/mbipi.webp"
+                                alt=""
+                                style="position: absolute; left: 75%; top: 4px; height: 118px; width: auto; transform: rotate(4deg); z-index: 6; filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.3));"
+                            />
+                            <img
+                            src="./img/cominghome.webp"
+                            alt=""
+                            style="position: absolute; left: 76%; top: -50px; height: 130px; width: auto; transform: rotate(16deg); z-index: 7; filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.3));"
+                            />
+                            <div style="position: absolute; left: 28%;z-index: 10; padding: 0px 20px; border-radius: 16px; background-color: #0a79bedd; color: rgb(69, 51, 201); font-weight: 700; font-size: 24px; font-family: Arial, Helvetica, sans-serif; top: 60px; transform: rotate(-6deg);">
+                                אמביפייייי
+                            </div>
+                            <div
+                                class="page-ref"
+                                style="
+                                    position: absolute;
+                                    bottom: 6px;
+                                    left: 10px;
+                                    font-weight: 500;
+                                    z-index: 10;
+                                "
+                            >
+                                עמודים 2-3
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============ THREE-BOX ROW ============ -->
+            <!-- RTL DOM order right->left: Ronaldo, summary, Azulay #2 (bottom-left) -->
+            <div class="cards">
+                <!-- Ronaldo (right) -->
+                <div class="box gray">
+                    <div class="box-title">רונאלדו מודה לתומכים</div>
+                    <div class="box-body">
+                        <div class="photo box-img">
+                            <img src="./img/ronaldo.jpeg" alt="" />
+                        </div>
+                        <div class="box-text">
+                            "תודה ליוסף שהאמין בי לאורך כל הדרך, זה באמת מחמם את
+                            הלב.
+                            <br />
+                            מצטער מעומקי נשמתי על הכשלון השנה.
+                            <br />
+                            אני מבטיח שבמונדיאל הבא אני אגיע חד יותר, מפוקס יותר
+                            ופרשן יותר"
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Round-of-16 summary (center) -->
+                <div class="box lightblue">
+                    <div class="box-title">סיכום שלב רבע הגמר</div>
+                    <div class="box-body" style="position: relative;">
+                        <div class="box-text">
+                            אמיר והדבוקה הדולקת אחריו בורחים לשאר הטבלה אחרי שכולם פגעו לפחות בתוצאה אחת או שתיים,
+                            מלבד בלומי שדווקא הגיע עם מומנטום חזק בתור מצטיין שלב שמינית הגמר, אך פספס את התוצאה במשחק של אנגליה ונאלץ להתנחם בהעפלתה.
+                            בתחתית - בורחים ממאבקי ההישרדות עם פגיעות יפות: גלעד (2) רותם(1) והמנוע(1)
+                        
+                        </div>
+                        <div class="page-ref" style="position: absolute; bottom:-3px; left: 0;">עמוד 7</div>
+                    </div>
+                </div>
+
+                <!-- Azulay ad #2 (bottom-left) -->
+                <div
+                    class="box lightblue"
+                    style="
+                        background: transparent;
+                        border: 3px black solid;
+                        border-radius: 8px;
+                    "
+                >
+                    <div class="box-text" style="font-size: 16px">
+                        לא מבין בכדורגל? אל תהיה מצוברח!<br />
+                        פנה לאזולאי והפודיום מובטח
+                        <img
+                            class="ad-logo"
+                            src="./img/azulay.png"
+                            alt=""
+                            style="
+                                margin-top: 15px;
+                                margin-right: auto;
+                                margin-left: auto;
+                                width: 180px;
+                            "
+                        />
+                        <span
+                            class="fine-print"
+                            style="font-size: 8px; margin-top: 35px"
+                            >* אין לראות במצוין מעלה התחייבות משפטית מכל סוג
+                            שהוא</span
+                        >
+                    </div>
+                </div>
+            </div>
+
+            <!-- Red footer block (Balogun statement) -->
+            <div
+                class="red-footer"
+                style="padding-left: 8px; padding-right: 16px"
+            >
+                <div class="footer-text">
+                    <img
+                        class="footer-logo"
+                        src="/public/favicon.ico"
+                        alt=""
+                        style="float: right; margin-left: 12px"
+                    />
+                    <span
+                        style="
+                            font-weight: 600;
+                            font-size: 17px;
+                            text-decoration: underline;
+                        "
+                    >
+                        ההצהרה הרשמית של ליגה ב׳ על המקרה של באלוגון
+                    </span>
+                    <br />
+                    <i>
+                        <span style="font-size: 14px">
+                            פיפ״א המושחתים האלה חצו כל גבול. מעולם השעיה בגין
+                            כרטיס אדום שניתן במהלך משחק לא בוטלה לאחר סיום המשחק
+                            ובטח שלא תוך כדי טורניר מתנהל.
+                            <br />
+                            בנוסף לכך, האדום שקיבל השחקן היה מוצדק - סמכו עלינו
+                            כמי שחרטו את הכרטיס האדום על הלוגו.
+                            <br />
+                            עם כאלו סטנדרטים לאן נגיע? למה שלא נאפשר גם לבטל
+                            זכייה באלפיות אפריקה חודשיים אחרי שנגמרה ולהעניק את
+                            התואר לקבוצה שהפסידה בגמר בגלל עניין טכני? אה אופס
+                            זה כבר קרה...
+                            <br />
+                            לסיכום, פיפ״א פגעה בהגינות הספורטיבית של הטורניר על
+                            ידי כך שהכניסה למשחק של ארה״ב נגד בלגיה אלמנט של
+                            קארמה שהמנחשים לא ידעו איך להתמודד איתו. אנו נשקול
+                            את הכלים המשפטיים העומדים בפנינו כדי להילחם בפיפ״א
+                            ונמשיך להיאבק למען ההגינות בשביל כל המנחשים.
+                        </span>
+                    </i>
+                </div>
+            </div>
+
+            <!-- Credit line (שאלת רב) -->
+            <div class="credit">
+                <img src="./img/rav.png" alt="" />
+                <div>
+                    <div style="text-decoration: underline; font-weight: 600">
+                        שאלת רב
+                    </div>
+                    <div style="font-size: 11px">
+                        גל מתל-אביב שואל: <br />
+                        ״אם שכחתי לשלוח תוצאה כי שמרתי שבת ובגלל זה הבוט שלח לי
+                        תוצאה אוטומטית בשבת. האם שברתי שמירה? מזה אומר עליי
+                        כיהודי? והאם השם יביא אותי לפודיום?״
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 8px; font-weight: 600; font-size: 12px; text-align: center; width: 100%;">
+יום שלישי, כ"ט בתמוז ה'תשפ"ו, 14.7.2026 | ערב חצי הגמר 🇪🇸ספרד - צרפת🇫🇷
+            </div>
+        </div>
+    </body>
+</html>
