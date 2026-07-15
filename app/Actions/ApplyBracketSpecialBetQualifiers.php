@@ -45,7 +45,7 @@ class ApplyBracketSpecialBetQualifiers
      */
     public function handleForNewGame(Game $game): void
     {
-        if (!$game->isKnockout() || !$game->team_home_id || !$game->team_away_id) {
+        if (!$game->isKnockout() || !$game->team_home_id || !$game->team_away_id || $game->isThirdPlace()) {
             return;
         }
         $teamIds = [$game->team_home_id, $game->team_away_id];

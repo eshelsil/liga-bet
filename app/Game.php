@@ -336,6 +336,9 @@ class Game extends Model implements BetableInterface
                 ->exists();
     }
 
+    public function isThirdPlace() {
+        return $this->isKnockout() && $this->sub_type == GameSubTypes::THIRD_PLACE;
+    }
     public function isTheFinal() {
         return $this->isKnockout() && $this->sub_type == GameSubTypes::FINAL;
     }

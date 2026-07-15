@@ -137,6 +137,7 @@ export function roleForRound(
     round: GameSubType,
 ): BracketSpecialRole {
     if (round === GameSubType.Final && role === 'runnerUp') return null
+    if (round === GameSubType.ThirdPlace) return null;
     return role
 }
 

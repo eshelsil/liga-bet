@@ -1,6 +1,6 @@
 import React from 'react'
-import { GameWithBetsAndGoalsData, WinnerSide } from '../types'
-import { getWinnerSide, keysOf } from '../utils'
+import { GameSubType, GameWithBetsAndGoalsData, WinnerSide } from '../types'
+import { getWinnerSide, keysOf, knockoutStageToSubType, roleForRound } from '../utils'
 import { MatchResultV2 } from '../widgets/MatchResult'
 import TeamFlag from '../widgets/TeamFlag/TeamFlag'
 import CustomTable from '../widgets/Table/CustomTable'
@@ -67,7 +67,10 @@ function GameGumblersList({ match, isLive, showNihusable }: { match: GameWithBet
                 name: bet.utlName,
                 id: bet.user_tournament_id,
                 isAutoBet: bet.is_auto_bet,
-                specialRole: specialRoleForUtl(bet.user_tournament_id, bet.winner_side),
+                specialRole: roleForRound(
+                    specialRoleForUtl(bet.user_tournament_id, bet.winner_side) ?? null,
+                    knockoutStageToSubType(match.subType)
+                ),
             })),
         }
     })
