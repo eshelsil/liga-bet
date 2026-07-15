@@ -56,6 +56,9 @@ class UserController extends Controller
         ]);
 
         if ($request->has('name')) {
+            if ($utl->id === 482) {
+                throw new JsonException("Too Many Requests", 429);
+            }
             $name = $request->name;
             $contestantWithSameName = $utl->tournament->utls->where('name', $name)->first();
             if ($contestantWithSameName && $contestantWithSameName->id !== $utl->id){
