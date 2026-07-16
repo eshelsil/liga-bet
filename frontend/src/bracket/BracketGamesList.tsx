@@ -52,15 +52,13 @@ function BracketGamesList({
     const roleOf = (game: BracketGame, teamId: number | null | undefined) =>
         roleForRound(
             bracketSpecialRole(teamId, winner.teamId, runnerUp.teamId),
-            game.round,
+            game.round
         )
 
-    const order = new Map(config.rounds.map((r, i) => [r, i]))
     const visible = games
         .filter((g) => shouldShow(g))
         .sort((a, b) => {
-            const r = (order.get(a.round) ?? 99) - (order.get(b.round) ?? 99)
-            return r !== 0 ? r : (a.start_time ?? 0) - (b.start_time ?? 0)
+            return (a.start_time ?? 0) - (b.start_time ?? 0)
         })
 
     const onPick = async (game: BracketGame, side: WinnerSide) => {
