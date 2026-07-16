@@ -42,6 +42,7 @@
         "advanceCol": "Finalist Bonus",
         "noteBoth": "If one of your pre-selected finalist teams advances in a knockout round, you earn both that round's Qualifier points and the Finalist Bonus points.",
         "noteNotInGame": "If your Winner/Runner-Up isn't in a given game, you can still earn the normal qualifier points for that game.",
+        "noteFinalWinnerOnly": "In the final, only your Winner pick can earn the Finalist Bonus — if your Runner-Up wins the final, you get no extra points for it.",
         "noteResult": "If you also predict a game's exact score, you earn the Exact score points on top of any qualifier points.",
         "noteThirdPlace": "The third-place game awards qualifier points only."
     },

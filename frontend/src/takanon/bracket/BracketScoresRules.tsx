@@ -53,6 +53,7 @@ function BracketScoresRules() {
             <ul className="mt-2">
                 <li>{t('bracket.noteBoth')}</li>
                 <li>{t('bracket.noteNotInGame')}</li>
+                <li>{t('bracket.noteFinalWinnerOnly')}</li>
                 {hasResultBet && <li>{t('bracket.noteResult')}</li>}
                 {rounds.includes(GameSubType.ThirdPlace) && (
                     <li>{t('bracket.noteThirdPlace')}</li>
