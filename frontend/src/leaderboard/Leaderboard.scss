@@ -166,7 +166,7 @@
                 }
                 &.nameCell {
                     @media (max-width: 500px) {
-                        padding-inline-end: 8px;
+                        padding-inline-end: 2px;
                     }
                 }
             }
@@ -248,10 +248,19 @@
     min-width: 100%;
     width: 115px;
     .NameWithWinnerFlag-name {
-        margin-inline-start: 8px;
+        margin-inline-start: 4px;
         margin-bottom: -1px;
         max-width: 100%;
         word-break: break-word;
+        flex-grow: 1;
+        .NameWithWinnerFlag-nametext {
+            padding-inline-end: 6px;
+            padding-inline-start: 4px;
+            max-width: 100%;
+            line-height: 1.2;
+            max-height: 58px;
+            overflow: hidden;
+        }
     }
     .NameWithWinnerFlag-noWinner {
         width: 36px;

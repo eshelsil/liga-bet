@@ -49,7 +49,9 @@ export function NameWithWinnerFlag({
                     )}
                 </div>
             )}
-            <div className="NameWithWinnerFlag-name">{name}</div>
+            <div className="NameWithWinnerFlag-name">
+                <div className="NameWithWinnerFlag-nametext">{name}</div>
+            </div>
         </div>
     )
 }
