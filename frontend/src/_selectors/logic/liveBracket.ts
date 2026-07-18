@@ -7,7 +7,11 @@ import {
     knockoutStageToSubType,
     valuesOf,
 } from '../../utils'
-import { BracketScoresConfigSelector, LiveGames } from '../base'
+import {
+    BracketScoresConfigSelector,
+    IsCurrentTournamentIncludesBetOnResult,
+    LiveGames,
+} from '../base'
 import { LiveGameBets } from '../modelRelations'
 import { WinnerBetsById, RunnerUpBetsById } from './liveQuestionBets'
 
@@ -23,6 +27,22 @@ function liveQualifierPoints(bet: MatchBetWithRelations, bracket: BracketScoreCo
     if (gameQualifier == null || gameQualifier !== koWinnerSideBet) return 0
     const round = knockoutStageToSubType(game.subType)
     return round ? (bracket.qualifier?.[round] ?? 0) : 0
+}
+
+// Provisional perfect-result bonus for a single live knockout game bet — mirrors the
+// finalized `calculateBracket` result tier, keyed on the game's current live score.
+// Only relevant when result betting is on; a qualifier-only bet (no predicted score)
+// or a mismatch against the live score earns nothing.
+function liveResultPoints(bet: MatchBetWithRelations, bracket: BracketScoreConfig): number {
+    const game = bet.relatedMatch
+    if (!game?.is_knockout) return 0
+    if (bet.result_home == null || bet.result_away == null) return 0
+    if (game.result_home == null || game.result_away == null) return 0
+    if (game.result_home !== bet.result_home || game.result_away !== bet.result_away) {
+        return 0
+    }
+    const round = knockoutStageToSubType(game.subType)
+    return round ? (bracket.result?.[round] ?? 0) : 0
 }
 
 // Provisional specialAdvance points: the user's Winner/Runner-Up team is currently
@@ -56,7 +76,15 @@ export const LiveBracketScoreByUtlId = createSelector(
     RunnerUpBetsById,
     LiveGames,
     BracketScoresConfigSelector,
-    (liveGameBets, winnerBets, runnerUpBets, liveGamesById, bracket): Record<number, number> => {
+    IsCurrentTournamentIncludesBetOnResult,
+    (
+        liveGameBets,
+        winnerBets,
+        runnerUpBets,
+        liveGamesById,
+        bracket,
+        isResultBetOn,
+    ): Record<number, number> => {
         if (!bracket) return {}
         const liveGames = valuesOf(liveGamesById)
         const added: Record<number, number> = {}
@@ -65,9 +93,13 @@ export const LiveBracketScoreByUtlId = createSelector(
             added[utlId] = (added[utlId] ?? 0) + points
         }
 
-        // Qualifier picks on live games.
+        // Qualifier picks on live games, plus the exact-score result bonus when result
+        // betting is on (mirrors the backend calculateBracket: qualifier + result tier).
         for (const bet of valuesOf(liveGameBets)) {
             add(bet.user_tournament_id, liveQualifierPoints(bet, bracket))
+            if (isResultBetOn) {
+                add(bet.user_tournament_id, liveResultPoints(bet, bracket))
+            }
         }
 
         // Winner / Runner-Up advancing through a live game (specialAdvance). These
