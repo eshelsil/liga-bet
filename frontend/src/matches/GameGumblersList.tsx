@@ -1,6 +1,6 @@
 import React from 'react'
 import { GameSubType, GameWithBetsAndGoalsData, WinnerSide } from '../types'
-import { getWinnerSide, keysOf, knockoutStageToSubType, roleForRound } from '../utils'
+import { calcBracketGameBetScore, getWinnerSide, keysOf, knockoutStageToSubType, roleForRound } from '../utils'
 import { MatchResultV2 } from '../widgets/MatchResult'
 import TeamFlag from '../widgets/TeamFlag/TeamFlag'
 import CustomTable from '../widgets/Table/CustomTable'
@@ -10,6 +10,7 @@ import useOpenDialog from '@/hooks/useOpenDialog'
 import { DialogName } from '@/dialogs/types'
 import { useSelector } from 'react-redux'
 import {
+    BracketScoresConfigSelector,
     IsCurrentTournamentIncludesBetOnResult,
     IsCurrentTournamentKnockoutBracket,
     NihusimByGameId,
@@ -39,6 +40,7 @@ function GameGumblersList({ match, isLive, showNihusable }: { match: GameWithBet
 
     const isKnockoutBracket = useSelector(IsCurrentTournamentKnockoutBracket)
     const isResultBetOn = useSelector(IsCurrentTournamentIncludesBetOnResult)
+    const bracketScores = useSelector(BracketScoresConfigSelector)
     const winnerBetByUtlId = useSelector(WinnerBetByUtlId)
     const runnerUpBetByUtlId = useSelector(RunnerUpBetByUtlId)
 
@@ -57,12 +59,25 @@ function GameGumblersList({ match, isLive, showNihusable }: { match: GameWithBet
     const models = keysOf(betsByValue).map((betVal): BetInstance => {
         const bets = betsByValue[betVal]
         const betSample = bets[0]
+        // Bracket tournaments score games from the bracket config, not the (all-zero)
+        // classic gameBets config — so derive the per-prediction score here. Works live
+        // and once done (getQualifierSide handles both). Classic keeps the server score.
+        const score = isKnockoutBracket
+            ? calcBracketGameBetScore({
+                  game: match,
+                  resultHome: betSample.result_home,
+                  resultAway: betSample.result_away,
+                  qualifier: betSample.winner_side,
+                  bracket: bracketScores,
+                  isResultBetOn,
+              })
+            : betSample.score
         return {
             id: betVal,
             resultHome: betSample.result_home,
             resultAway: betSample.result_away,
             qualifier: betSample.winner_side,
-            score: betSample.score,
+            score,
             gumblers: bets.map((bet) => ({
                 name: bet.utlName,
                 id: bet.user_tournament_id,

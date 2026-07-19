@@ -3,6 +3,7 @@ import { isBetBelongsToSideTournament, keysOf } from '../utils'
 import {
     CurrentSideTournamentId,
     CurrentTournament,
+    IsCurrentTournamentKnockoutBracket,
     IsSideTournament,
     IsTournamentStarted,
 } from './base'
@@ -10,6 +11,7 @@ import {
     GamesIncludedInCurrentLeaderboard,
     GroupStandingsDiscludedByHistoricLeaderboard,
     IsCurrentLeaderboardMissing,
+    LiveBracketQuestionBetsByUtlId,
     LiveGameBetsWithRelevantScoreByUtlId,
     LiveGroupRankBetsWithScoreByUtlId,
     LiveRunnerUpBetsWithScoreByUtlId,
@@ -67,6 +69,8 @@ export const ContestantSelector = createSelector(
     LiveSpecialAnswers,
     CurrentSideTournamentId,
     CurrentTournament,
+    IsCurrentTournamentKnockoutBracket,
+    LiveBracketQuestionBetsByUtlId,
     (
         matchBets,
         groupStandingBets,
@@ -85,6 +89,8 @@ export const ContestantSelector = createSelector(
         liveSpecialAnswers,
         sideTournamentId,
         currentTournament,
+        isKnockoutBracket,
+        liveBracketQuestionBetsByUtlId,
     ) => {
         const gamesIncludedById = keyBy(gamesIncludedInLeaderboard, 'id')
         const relevantMatchBets = pickBy(
@@ -134,6 +140,23 @@ export const ContestantSelector = createSelector(
             })),
             'user_tournament_id'
         )
+
+        // Knockout bracket scores its Winner/Runner-Up special bets from the bracket
+        // specialAdvance config (not the classic specialBets config, which is empty),
+        // so use the bracket-aware live question bets directly.
+        if (isKnockoutBracket) {
+            return {
+                matchBetsByUserId,
+                groupStandingBetsByUserId,
+                questionBetsByUserId,
+                liveGameBetsByUtlId,
+                liveGroupRankBetsByUtlId,
+                liveStandingsByGroupId,
+                liveQuestionBetsByUtlId: liveBracketQuestionBetsByUtlId,
+                liveSpecialAnswers,
+                isSideTournament: !!sideTournamentId,
+            }
+        }
 
         const liveQuestionBetsByUtlId: Record<number, any> = {}
         for (const utlId of keysOf(liveWinnerBetsByUtlId) as number[]) {

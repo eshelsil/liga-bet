@@ -65,7 +65,7 @@ function Leaderboard() {
                     currentSideTournament={currentSideTournament}
                 />
             </ExpandedContestantContextProvider>
-            {/* <CongratsAnimationProvider /> */}
+            <CongratsAnimationProvider />
         </>
     )
 }

@@ -15,6 +15,7 @@
     },
     "final": {
         "title": "גמר",
+        "picksTitle": "בחירת הפיינליסטיות",
         "back": "חזרה",
         "prompt": "מי תזכה בגמר?",
         "vs": "נגד",
@@ -118,6 +119,7 @@
     },
     "special": {
         "winner": "אלופה",
+        "winnerPick": "בחירת האלופה",
         "runnerUp": "סגנית",
         "anyFinalist": "פיינליסטית",
         "notSelected": "לא נבחרה",

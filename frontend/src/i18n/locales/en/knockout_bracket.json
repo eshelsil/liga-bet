@@ -15,6 +15,7 @@
     },
     "final": {
         "title": "Final",
+        "picksTitle": "Finalists pick",
         "back": "Back",
         "prompt": "Who wins the final?",
         "vs": "vs",
@@ -118,6 +119,7 @@
     },
     "special": {
         "winner": "Winner",
+        "winnerPick": "Winner pick",
         "runnerUp": "Runner-Up",
         "anyFinalist": "Finalist",
         "notSelected": "Not selected",

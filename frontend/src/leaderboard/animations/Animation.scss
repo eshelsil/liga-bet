@@ -183,3 +183,56 @@
         }
     }
 }
+
+.LB-CongratsReplayButton {
+    position: fixed;
+    z-index: 1000;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    max-width: calc(100% - 24px);
+    padding: 4px 6px 4px 14px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #1a2a6c 0%, #b21f1f 55%, #d4af37 100%);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    animation: pop-and-spin-from-center 0.4s ease-out;
+
+    .replay-pill {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #fff;
+        font-weight: 700;
+        font-size: 0.95em;
+        padding: 6px 4px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        .replay-icon {
+            color: #ffd76a;
+            font-size: 1.3em;
+            flex-shrink: 0;
+        }
+        .replay-label {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .replay-dismiss {
+        color: rgba(255, 255, 255, 0.85);
+        flex-shrink: 0;
+        padding: 4px;
+        &:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.15);
+        }
+    }
+}

@@ -2,6 +2,7 @@ import { createSelector } from 'reselect'
 import {
     calcLiveAddedScore,
     getLiveVersionScore,
+    calcBracketGameBetScore,
     calcGainedPointsOnGameBet,
     calcGainedPointsOnStandingsBet,
     calcLeaderboardDiff,
@@ -17,10 +18,12 @@ import {
 import { ScoreboardRowById, SpecialQuestionType } from '../../types'
 import {
     BetsFullScoresConfigSelector,
+    BracketScoresConfigSelector,
     Contestants,
     CurrentSideTournamentId,
     CurrentTournament,
     CurrentTournamentUserId,
+    IsCurrentTournamentIncludesBetOnResult,
     IsCurrentTournamentKnockoutBracket,
     IsShowingHistoricScoreboard,
     LeaderboardRows,
@@ -74,10 +77,25 @@ export const LatestLeaderboard = createSelector(
 export const LiveGameBetsWithScore = createSelector(
     LiveGameBetsIncludingAll,
     BetsFullScoresConfigSelector,
-    (liveGameBetsById, scoresConfig) => {
+    IsCurrentTournamentKnockoutBracket,
+    BracketScoresConfigSelector,
+    IsCurrentTournamentIncludesBetOnResult,
+    (liveGameBetsById, scoresConfig, isKnockoutBracket, bracketScores, isResultBetOn) => {
         return valuesOf(liveGameBetsById).map((gameBet) => ({
             ...gameBet,
-            score: calcGainedPointsOnGameBet(gameBet, scoresConfig.gameBets),
+            // Bracket games score from the bracket config (qualifier + result), not the
+            // all-zero classic gameBets config — otherwise every live bracket game bet
+            // reads 0 in the expanded-contestant / per-game views.
+            score: isKnockoutBracket
+                ? calcBracketGameBetScore({
+                      game: gameBet.relatedMatch,
+                      resultHome: gameBet.result_home,
+                      resultAway: gameBet.result_away,
+                      qualifier: gameBet.winner_side,
+                      bracket: bracketScores,
+                      isResultBetOn,
+                  })
+                : calcGainedPointsOnGameBet(gameBet, scoresConfig.gameBets),
         }))
     }
 )

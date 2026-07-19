@@ -26,6 +26,12 @@ const myUtls = createSlice({
                 preferences,
             }
         },
+        setCongratsSeenAt: (state, action: PayloadAction<{utlId: number, congratsSeenAt: string}>) => {
+            const {utlId, congratsSeenAt} = action.payload
+            if (state[utlId]) {
+                state[utlId].congratsSeenAt = congratsSeenAt
+            }
+        },
     },
 })
 

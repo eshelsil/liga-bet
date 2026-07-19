@@ -101,6 +101,13 @@ export interface SlotAnchor {
     y: number // top edge
 }
 
+export interface FinalAreaGeometry {
+    finalists: SlotAnchor[]
+    winnerPos: { x: number; y: number }
+    finalFrame: { x: number; y: number; width: number; height: number }
+    winnerFrame: { x: number; y: number; width: number; height: number }
+}
+
 export interface BracketLayout {
     width: number
     height: number
@@ -119,6 +126,9 @@ export interface BracketLayout {
     winnerPos: { x: number; y: number }
     finalFrame: { x: number; y: number; width: number; height: number }
     winnerFrame: { x: number; y: number; width: number; height: number }
+    // The actual-final mirror above the tree (champion → finalists → down to the semis).
+    // Only populated when `hasTopFinal` is passed; null otherwise.
+    topFinal: FinalAreaGeometry | null
 }
 
 // Side rounds, outer → inner (Final already excluded by the caller).
@@ -126,6 +136,7 @@ export function computeBracketLayout(
     games: BracketGame[],
     rounds: GameSubType[],
     config: LayoutConfig,
+    hasTopFinal = false,
 ): BracketLayout {
     const { block: BLOCK, finalist: FINALIST, winner: WINNER, round1Gap, colGap, sideGap } = config
     const TIE_H = 2 * BLOCK + INTRA
@@ -140,6 +151,48 @@ export function computeBracketLayout(
     const blocks: BlockPos[] = []
     const connectors: Connector[] = []
 
+    const sides: BracketSide[] = ['left', 'right']
+
+    // Per-round tie lists per side (structure is independent of vertical placement).
+    const perRoundOf = (side: BracketSide) =>
+        rounds.map((round) => games.filter((g) => g.side === side && g.round === round))
+
+    // Vertical centres for one side, given a top padding: an inner tie sits at the
+    // midpoint of the two ties that feed it.
+    const centersOf = (perRound: BracketGame[][], pad: number): number[][] => {
+        const centers: number[][] = []
+        for (let r = 0; r < R; r++) {
+            if (r === 0) {
+                centers[r] = perRound[0].map((_, i) => pad + TIE_H / 2 + i * (TIE_H + round1Gap))
+            } else {
+                centers[r] = perRound[r].map((_, j) => {
+                    const a = centers[r - 1][2 * j] ?? 0
+                    const b = centers[r - 1][2 * j + 1] ?? a
+                    return (a + b) / 2
+                })
+            }
+        }
+        return centers
+    }
+
+    // The top mirror occupies the vertical band [TOP_PAD, semiTopTarget]. Push the whole
+    // tree down by `topPad` so the semi-finals' top edge clears that band (only if it
+    // wouldn't already — tall trees have room to spare in the central gap).
+    const topWinnerY0 = TOP_PAD + FRAME_PAD_TOP // leaves room for the "Winner" frame legend
+    const topFinalistsY0 = topWinnerY0 + WINNER + FINAL_TO_WINNER
+    const semiTopTarget = topFinalistsY0 + FINALIST + SF_TO_FINAL
+
+    let topPad = TOP_PAD
+    if (hasTopFinal) {
+        const semiTopUnpadded = Math.min(
+            ...sides.map((side) => {
+                const inner = centersOf(perRoundOf(side), 0)[R - 1] ?? []
+                return (inner.length ? inner[0] : TIE_H / 2) - TIE_H / 2
+            }),
+        )
+        topPad = Math.max(TOP_PAD, semiTopTarget - semiTopUnpadded)
+    }
+
     // Per-side vertical centres, computed by recursion: an inner tie sits at the
     // midpoint of the two ties that feed it.
     const sideData: Record<BracketSide, { perRound: BracketGame[][]; centers: number[][] }> = {
@@ -147,13 +200,12 @@ export function computeBracketLayout(
         right: { perRound: [], centers: [] },
     }
 
-    const sides: BracketSide[] = ['left', 'right']
     for (const side of sides) {
-        const perRound = rounds.map((round) => games.filter((g) => g.side === side && g.round === round))
+        const perRound = perRoundOf(side)
         const centers: number[][] = []
         for (let r = 0; r < R; r++) {
             if (r === 0) {
-                centers[r] = perRound[0].map((_, i) => TOP_PAD + TIE_H / 2 + i * (TIE_H + round1Gap))
+                centers[r] = perRound[0].map((_, i) => topPad + TIE_H / 2 + i * (TIE_H + round1Gap))
             } else {
                 centers[r] = perRound[r].map((_, j) => {
                     const a = centers[r - 1][2 * j] ?? 0
@@ -268,6 +320,51 @@ export function computeBracketLayout(
         connectors.push({ key: `${side}-final-winner`, d: `M ${fx} ${fbY} V ${midY2} H ${centerX} V ${winnerY}` })
     }
 
+    // ── Top actual-final mirror (champion → finalists → down to the semi-finals) ──
+    // Same central column + slot sizes as the bottom, stacked champion-first from the top.
+    let topFinal: FinalAreaGeometry | null = null
+    if (hasTopFinal) {
+        // Anchored just ABOVE the semi-finals — the vertical mirror of the bottom picks area,
+        // which sits just below them. `topPad` guarantees enough room up to the canvas top.
+        const sfTop = Math.min(sfCenterY('left'), sfCenterY('right')) - TIE_H / 2
+        const topFinalistsY = sfTop - SF_TO_FINAL - FINALIST
+        const topWinnerY = topFinalistsY - FINAL_TO_WINNER - WINNER
+        const topFinalists: SlotAnchor[] = [
+            { side: 'left', x: leftFinalX, y: topFinalistsY },
+            { side: 'right', x: rightFinalX, y: topFinalistsY },
+        ]
+        const topWinnerPos = { x: centerX - WINNER / 2, y: topWinnerY }
+
+        const topFinalFrame = {
+            x: leftFinalX - FRAME_PAD_X,
+            y: topFinalistsY - FRAME_PAD_TOP,
+            width: rightFinalX + FINALIST - leftFinalX + 2 * FRAME_PAD_X,
+            height: FINALIST + FRAME_PAD_TOP + FRAME_PAD_BOTTOM,
+        }
+        const topWinnerFrame = {
+            x: topWinnerPos.x - FRAME_PAD_X,
+            y: topWinnerY - FRAME_PAD_TOP,
+            width: WINNER + 2 * FRAME_PAD_X,
+            height: WINNER + FRAME_PAD_TOP + FRAME_PAD_BOTTOM,
+        }
+
+        // Champion → finalists (down), then finalists → semi-finals (down).
+        for (const side of sides) {
+            const fx = (side === 'left' ? leftFinalX : rightFinalX) + FINALIST / 2
+            const wbY = topWinnerY + WINNER
+            const midY = (wbY + topFinalistsY) / 2
+            connectors.push({ key: `${side}-top-winner-final`, d: `M ${centerX} ${wbY} V ${midY} H ${fx} V ${topFinalistsY}` })
+
+            const fbY = topFinalistsY + FINALIST
+            const sfTopY = sfCenterY(side) - TIE_H / 2
+            const sfX = colX(side, R - 1) + BLOCK / 2
+            const midY2 = (fbY + sfTopY) / 2
+            connectors.push({ key: `${side}-top-final-sf`, d: `M ${fx} ${fbY} V ${midY2} H ${sfX} V ${sfTopY}` })
+        }
+
+        topFinal = { finalists: topFinalists, winnerPos: topWinnerPos, finalFrame: topFinalFrame, winnerFrame: topWinnerFrame }
+    }
+
     const framesBottom = Math.max(
         finalFrame.y + finalFrame.height,
         winnerFrame.y + winnerFrame.height,
@@ -292,5 +389,6 @@ export function computeBracketLayout(
         winnerPos,
         finalFrame,
         winnerFrame,
+        topFinal,
     }
 }

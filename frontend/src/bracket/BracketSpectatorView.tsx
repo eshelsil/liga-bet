@@ -64,6 +64,28 @@ function BracketSpectatorView({ onClose }: { onClose?: () => void }) {
     const rightTeam = winnerB === 'left' ? runnerUpTeam : winnerTeam
     const championSide: BracketSide | null = winnerId != null ? winnerB : null
 
+    // The ACTUAL final (mirrored at the top): the two teams that really reached the final and,
+    // once played, the real champion. Each finalist is placed on its own bracket half so the
+    // top mirror lines up with the tree; the champion side is derived from the final's result.
+    const actualFinal = React.useMemo(() => {
+        const finalGame = games.find((g) => g.round === GameSubType.Final)
+        const home = finalGame?.home_team ?? null
+        const away = finalGame?.away_team ?? null
+        if (!home || !away) return null
+        const homeSide: BracketSide = getTeamSide(games, home.id) ?? 'left'
+        let awaySide: BracketSide = getTeamSide(games, away.id) ?? opposite(homeSide)
+        if (awaySide === homeSide) awaySide = opposite(homeSide)
+        const actualLeft = homeSide === 'left' ? home : away
+        const actualRight = homeSide === 'left' ? away : home
+        let actualChampionSide: BracketSide | null = null
+        if (finalGame?.is_done && finalGame.actual_qualifier_side) {
+            const champ =
+                finalGame.actual_qualifier_side === WinnerSide.Home ? home : away
+            actualChampionSide = champ.id === actualLeft.id ? 'left' : 'right'
+        }
+        return { leftTeam: actualLeft, rightTeam: actualRight, championSide: actualChampionSide }
+    }, [games])
+
     const interaction = {
         isFinalist: (id: number) => id === winnerId || id === runnerUpId,
         isEliminated: (id: number) => isEliminated(id),
@@ -80,6 +102,7 @@ function BracketSpectatorView({ onClose }: { onClose?: () => void }) {
                 leftTeam={leftTeam}
                 rightTeam={rightTeam}
                 winnerSide={championSide}
+                actualFinal={actualFinal}
                 bothChosen={leftTeam != null && rightTeam != null}
                 winnerEditing={false}
                 setWinnerEditing={noop}

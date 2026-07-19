@@ -55,6 +55,14 @@ export const updateTournamentPreferences = async (tournamentId: number, prefs: P
     })
 }
 
+export const markCongratsSeen = async (tournamentId: number): Promise<any> => {
+    return await sendApiRequest({
+        url: `/api/tournaments/${tournamentId}/congrats-seen`,
+        type: 'POST',
+        hideErrorToastr: true,
+    })
+}
+
 export const getTournamentNotifications = async (tournamentIds: number[], hideErrorToastr?: boolean): Promise<NotificationsByTournamentId> => {
     const queryString = `tournamentIds=${encodeURIComponent(JSON.stringify(tournamentIds))}`
     return await sendApiRequest({

@@ -32,6 +32,14 @@ interface Props extends FinalAreaProps {
     // ACTUAL final teams/winner (passed via leftTeam/rightTeam/winnerSide) with no picking,
     // no edit buttons and no placeholder "+".
     spectator?: boolean
+    // The ACTUAL final (read-only), mirrored at the TOP of the tree: the two teams that really
+    // reached the final and — once played — the real champion. Rendered only when both finalists
+    // are known. Also drives the ✓ feedback on the user's bottom picks.
+    actualFinal?: {
+        leftTeam: BracketTeam | null
+        rightTeam: BracketTeam | null
+        championSide: BracketSide | null
+    } | null
     className?: string
 }
 
@@ -70,22 +78,39 @@ function BracketTree({
     winnerEditing,
     setWinnerEditing,
     spectator = false,
+    actualFinal = null,
     className = '',
 }: Props) {
     const { t } = useTranslation('knockout_bracket')
     const [scrollRef, scrollWidth] = useElementWidth()
     const tree = useBracketTree()
 
+    // The actual final mirror shows only once both real finalists are known.
+    const hasTopFinal = !!(actualFinal?.leftTeam && actualFinal?.rightTeam)
+
     const layout = useMemo(() => {
         const usable = Math.max(0, scrollWidth - 8) // minus .Bracket-scroll padding
         const config = resolveLayoutConfig(usable, rounds.length)
-        return computeBracketLayout(games, rounds, config)
-    }, [games, rounds, scrollWidth])
+        return computeBracketLayout(games, rounds, config, hasTopFinal)
+    }, [games, rounds, scrollWidth, hasTopFinal])
 
     const teamOf = (side: BracketSide) =>
         side === 'left' ? leftTeam : rightTeam
     const winnerTeam = winnerSide ? teamOf(winnerSide) : null
     const winnerElim = !!winnerTeam && !!tree.isEliminated?.(winnerTeam.id)
+
+    // Real champion team (once the final is decided) + a "did this pick come true?" helper,
+    // used for the green ✓ badges on the user's bottom picks.
+    const actualChampionTeam = actualFinal?.championSide
+        ? actualFinal.championSide === 'left'
+            ? actualFinal.leftTeam
+            : actualFinal.rightTeam
+        : null
+    const reachedFinal = (teamId?: number | null) =>
+        hasTopFinal &&
+        teamId != null &&
+        (teamId === actualFinal!.leftTeam?.id || teamId === actualFinal!.rightTeam?.id)
+    const wonFinal = !!winnerTeam && !!actualChampionTeam && winnerTeam.id === actualChampionTeam.id
 
     // Per-slot tournament result on a decided tie: the team that advanced gets a ✓, the team
     // that lost is greyed. null while the tie isn't finished (or there's no team yet).
@@ -164,6 +189,95 @@ function BracketTree({
                         </div>
                     ))}
 
+                    {/* ── Top actual-final mirror: the real finalists + champion (read-only) ── */}
+                    {layout.topFinal && actualFinal && (
+                        <>
+                            <div
+                                className="LB-BracketFrame"
+                                style={{
+                                    left: layout.topFinal.finalFrame.x,
+                                    top: layout.topFinal.finalFrame.y,
+                                    width: layout.topFinal.finalFrame.width,
+                                    height: layout.topFinal.finalFrame.height,
+                                }}
+                            >
+                                <span className="BracketFrame-title">
+                                    {t('final.title')}
+                                </span>
+                            </div>
+                            <div
+                                className="LB-BracketFrame BracketFrame-winner"
+                                style={{
+                                    left: layout.topFinal.winnerFrame.x,
+                                    top: layout.topFinal.winnerFrame.y,
+                                    width: layout.topFinal.winnerFrame.width,
+                                    height: layout.topFinal.winnerFrame.height,
+                                }}
+                            >
+                                <span className="BracketFrame-title">
+                                    {t('special.winner')}
+                                </span>
+                            </div>
+
+                            {layout.topFinal.finalists.map((f) => {
+                                const team =
+                                    f.side === 'left'
+                                        ? actualFinal.leftTeam
+                                        : actualFinal.rightTeam
+                                return (
+                                    <div
+                                        key={`top-final-${f.side}`}
+                                        className={[
+                                            'LB-FinalistSlot',
+                                            team ? 'is-selected' : '',
+                                        ].join(' ')}
+                                        style={{
+                                            left: f.x,
+                                            top: f.y,
+                                            width: layout.finalist,
+                                            height: layout.finalist,
+                                        }}
+                                    >
+                                        {team && (
+                                            <TeamFlag
+                                                team={bracketTeamToTeam(team)}
+                                                size={layout.finalistFlag}
+                                            />
+                                        )}
+                                    </div>
+                                )
+                            })}
+
+                            <div
+                                className={[
+                                    'LB-WinnerSlot',
+                                    actualChampionTeam ? 'is-filled' : '',
+                                ].join(' ')}
+                                style={{
+                                    left: layout.topFinal.winnerPos.x,
+                                    top: layout.topFinal.winnerPos.y,
+                                    width: layout.winner,
+                                    height: layout.winner,
+                                }}
+                            >
+                                <EmojiEventsIcon
+                                    className="WinnerSlot-trophy"
+                                    style={{ fontSize: layout.trophyFont }}
+                                />
+                                {actualChampionTeam && (
+                                    <span className="WinnerSlot-flag">
+                                        <TeamFlag
+                                            team={bracketTeamToTeam(
+                                                actualChampionTeam
+                                            )}
+                                            size={layout.winnerFlag}
+                                        />
+                                    </span>
+                                )}
+                            </div>
+                        </>
+                    )}
+
                     {/* ── Bottom final area: titled frames + finalist slots → champion ── */}
                     <div
                         className="LB-BracketFrame"
@@ -175,7 +289,7 @@ function BracketTree({
                         }}
                     >
                         <span className="BracketFrame-title">
-                            {t('final.title')}
+                            {t('final.picksTitle')}
                         </span>
                     </div>
                     <div
@@ -188,14 +302,17 @@ function BracketTree({
                         }}
                     >
                         <span className="BracketFrame-title">
-                            {t('special.winner')}
+                            {t('special.winnerPick')}
                         </span>
                     </div>
 
                     {layout.finalists.map((f) => {
                         const team = teamOf(f.side)
                         const choosing = winnerEditing && !!team // shining target while picking the winner
-                        const elim = !!team && !!tree.isEliminated?.(team.id)
+                        // Reaching the final is success for a finalist pick — it wins over the
+                        // "lost the final" eliminated treatment (a losing finalist still reached it).
+                        const reached = reachedFinal(team?.id)
+                        const elim = !reached && !!team && !!tree.isEliminated?.(team.id)
                         return (
                             <div
                                 key={`final-${f.side}`}
@@ -238,6 +355,9 @@ function BracketTree({
                                     </div>
                                 )}
                                 {elim && <span className="Slot-elimX">✕</span>}
+                                {reached && (
+                                    <span className="Slot-advanceCheck">✓</span>
+                                )}
                                 {!spectator && team && !winnerEditing && (
                                     <button
                                         className="FinalistSlot-change"
@@ -291,6 +411,9 @@ function BracketTree({
                             </span>
                         )}
                         {winnerElim && <span className="Slot-elimX">✕</span>}
+                        {!winnerElim && wonFinal && (
+                            <span className="Slot-advanceCheck">✓</span>
+                        )}
                         {!spectator && bothChosen && !winnerEditing && (
                             <span className="WinnerSlot-edit">
                                 <EditIcon

@@ -1,42 +1,23 @@
-import i18n from '@/i18n/config'
+import { CongratsAnimationLang } from '../../types'
 
-function getOurTournamentKey(position: number): string {
-    switch (position) {
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-            return String(position)
-        case 6:
-        case 7:
-            return '6_7'
-        case 8:
-        case 9:
-            return '8_9'
-        case 10:
-        case 11:
-        case 12:
-        case 13:
-            return '10_13'
-        case 14:
-            return '14'
-        case 15:
-            return '15'
-        default:
-            return 'default'
-    }
+// Congrats content (title/msg) is admin-authored per tournament and comes from the
+// tournament config. The tournament's `lang` only drives text direction/design and the
+// few fixed in-animation button labels below (not admin-editable).
+
+const CONGRATS_LABELS: Record<CongratsAnimationLang, { claimPrize: string; closeDiploma: string }> = {
+    he: { claimPrize: 'אחלה 👍', closeDiploma: 'אחלה 👍' },
+    en: { claimPrize: 'Nice 👍', closeDiploma: 'Nice 👍' },
 }
 
-export function getSummaryMsg(position: number, isOurTournament = false) {
-    const group = isOurTournament ? 'ourTournament' : 'general'
-    const key = isOurTournament
-        ? getOurTournamentKey(position)
-        : position === 1
-        ? '1'
-        : 'default'
+const REPLAY_BUTTON_LABELS: Record<CongratsAnimationLang, string> = {
+    he: 'צפייה בסיכום הטורניר 🎉',
+    en: 'View tournament summary 🎉',
+}
 
-    const title = i18n.t(`leaderboard:congrats.${group}.${key}.title`)
-    const msg = i18n.t(`leaderboard:congrats.${group}.${key}.msg`)
-    return { title, msg }
+export function getCongratsLabels(lang: CongratsAnimationLang = 'he') {
+    return CONGRATS_LABELS[lang] ?? CONGRATS_LABELS.he
+}
+
+export function getReplayButtonLabel(lang: CongratsAnimationLang = 'he') {
+    return REPLAY_BUTTON_LABELS[lang] ?? REPLAY_BUTTON_LABELS.he
 }

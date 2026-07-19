@@ -72,10 +72,33 @@
         "specialQuestions": "Special questions",
         "groupRankings": "Group rankings",
         "games": "Games",
-        "viewScoreConfig": "View score settings"
+        "viewScoreConfig": "View score settings",
+        "editCongratsAnimation": "Edit congrats animation"
     },
     "tournamentConfigDialog": {
         "title": "Score settings for tournament \"{{name}}\""
+    },
+    "congratsAnimation": {
+        "title": "Congrats animation for tournament \"{{name}}\"",
+        "enabled": "Enable congrats animation",
+        "language": "Language",
+        "langHe": "Hebrew",
+        "langEn": "English",
+        "perRankTitle": "Content per rank",
+        "rank": "Rank",
+        "type": "Animation type",
+        "contentTitle": "Title",
+        "message": "Message",
+        "defaultEntry": "Default (for any rank not configured)",
+        "addRank": "Add rank",
+        "save": "Save",
+        "types": {
+            "confetti": "Confetti + trophy",
+            "two_bags": "Two money bags",
+            "one_bag": "One money bag",
+            "single_dollar": "Falling dollar",
+            "none": "None (diploma only)"
+        }
     },
     "updateSideTournament": {
         "title": "Update games for side tournament",

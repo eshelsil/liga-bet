@@ -1,3 +1,4 @@
+import { CongratsAnimationConfig } from '../types'
 import { sendApiRequest } from './common/apiRequest'
 
 
@@ -79,5 +80,16 @@ export const markUpdateGameStartTime = async (
     return await sendApiRequest({
         url: `/admin/fix-games-start-time/${tournamentId}`,
         type: 'POST',
+    })
+}
+
+export const updateCongratsAnimation = async (
+    tournamentId: number,
+    config: CongratsAnimationConfig,
+): Promise<CongratsAnimationConfig> => {
+    return await sendApiRequest({
+        url: `/admin/update-congrats-animation/${tournamentId}`,
+        type: 'POST',
+        data: { ...config },
     })
 }

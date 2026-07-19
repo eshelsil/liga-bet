@@ -11,6 +11,7 @@ import { valuesOf } from '../../../utils'
 import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import './SeeTournaments.scss'
 import TournamentConfigDialog from './TournamentConfigDialog'
+import CongratsAnimationDialog from './CongratsAnimationDialog'
 
 
 function ClickableTooltip({
@@ -44,10 +45,11 @@ function ClickableTooltip({
 
 function TournamentView({data}: {data: TournamentSummaryData}){
     const { t } = useTranslation('admin')
-    const { creatorUtlId, contestants, betEntities, config, name} = data
+    const { id, creatorUtlId, contestants, betEntities, config, name} = data
     const creator = contestants.find(utl => utl.id === creatorUtlId)
     const [expand, setExpand] = useState(false)
     const [openConfigDialog, setOpenConfigDialog] = useState(false)
+    const [openCongratsDialog, setOpenCongratsDialog] = useState(false)
     const toggleExpand = () => setExpand(!expand)
     return (
         <div className='LB-TournamentView'>
@@ -110,6 +112,9 @@ function TournamentView({data}: {data: TournamentSummaryData}){
                     <Link onClick={()=> setOpenConfigDialog(true)} style={{ marginTop: 16, display: 'block' }}>
                         {t('seeTournaments.viewScoreConfig')}
                     </Link>
+                    <Link onClick={()=> setOpenCongratsDialog(true)} style={{ marginTop: 8, display: 'block' }}>
+                        {t('seeTournaments.editCongratsAnimation')}
+                    </Link>
                 </div>
             </div>
             <TournamentConfigDialog
@@ -117,6 +122,13 @@ function TournamentView({data}: {data: TournamentSummaryData}){
                 config={config.scores}
                 open={openConfigDialog}
                 onClose={() => {setOpenConfigDialog(false)}}
+            />
+            <CongratsAnimationDialog
+                tournamentId={id}
+                name={name}
+                config={config.congratsAnimation}
+                open={openCongratsDialog}
+                onClose={() => {setOpenCongratsDialog(false)}}
             />
         </div>
     )

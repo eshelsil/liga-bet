@@ -1,6 +1,7 @@
 import dayjs from 'dayjs'
-import { BracketConfig, BracketGame, BracketSide, GameSubType, KnockoutStage, Team, Tournament, TournamentType } from '../types'
+import { BracketConfig, BracketGame, BracketScoreConfig, BracketSide, GameSubType, KnockoutStage, MatchCommonBase, Team, Tournament, TournamentType, WinnerSide } from '../types'
 import { BracketSlotInfo, BracketTeam } from '../types/bracket'
+import { getQualifierSide, getWinnerSide } from './matches'
 
 // Canonical round order (enum declaration order): R32 → … → Final → 3rd place.
 const ROUND_ORDER = Object.values(GameSubType) as GameSubType[]
@@ -139,6 +140,52 @@ export function roleForRound(
     if (round === GameSubType.Final && role === 'runnerUp') return null
     if (round === GameSubType.ThirdPlace) return null;
     return role
+}
+
+// Per-prediction bracket points for a single game bet, straight from the bracket
+// scoring config. Works for live AND finished games — getQualifierSide returns the
+// current live qualifier while in progress and the final winner once done. Mirrors the
+// backend `calculateBracket`: qualifier points + (result betting on & the predicted
+// score exactly matches the live/final score → the round's result-tier bonus).
+// This is the per-*prediction* score only; the per-user Winner/Runner-Up specialAdvance
+// bonus is scored separately (see _selectors/logic/liveBracket.ts).
+export function calcBracketGameBetScore({
+    game,
+    resultHome,
+    resultAway,
+    qualifier,
+    bracket,
+    isResultBetOn,
+}: {
+    game: MatchCommonBase
+    resultHome: number
+    resultAway: number
+    qualifier: WinnerSide
+    bracket: BracketScoreConfig | null
+    isResultBetOn: boolean
+}): number {
+    if (!bracket || !game?.is_knockout) return 0
+    const round = knockoutStageToSubType(game.subType)
+    if (!round) return 0
+    let score = 0
+
+    const koWinnerSideBet = game.isTwoLeggedTie
+        ? qualifier
+        : getWinnerSide(resultHome, resultAway, qualifier)
+    const gameQualifier = getQualifierSide(game)
+    if (gameQualifier != null && gameQualifier === koWinnerSideBet) {
+        score += bracket.qualifier?.[round] ?? 0
+    }
+
+    if (
+        isResultBetOn
+        && resultHome != null && resultAway != null
+        && game.result_home != null && game.result_away != null
+        && game.result_home === resultHome && game.result_away === resultAway
+    ) {
+        score += bracket.result?.[round] ?? 0
+    }
+    return score
 }
 
 // Locate a team (by id) anywhere in the bracket — teams recur across rounds.
