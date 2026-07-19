@@ -147,8 +147,8 @@ class BetSpecialBetsRequest extends AbstractBetRequest
             SpecialBet::TYPE_MVP => $this->calcMVP(),
             SpecialBet::TYPE_MOST_ASSISTS => $this->calcTopAssists(),
             SpecialBet::TYPE_OFFENSIVE_TEAM => $this->calculateOffensiveTeam(),
-            SpecialBet::TYPE_WINNER => $this->isBracket() ? $this->calcBracketSpecialAdvance() : $this->calcRoadToFinal("winner"),
-            SpecialBet::TYPE_RUNNER_UP => $this->isBracket() ? $this->calcBracketSpecialAdvance() : $this->calcRoadToFinal("runnerUp"),
+            SpecialBet::TYPE_WINNER => $this->isBracket() ? $this->calcBracketSpecialAdvance("winner") : $this->calcRoadToFinal("winner"),
+            SpecialBet::TYPE_RUNNER_UP => $this->isBracket() ? $this->calcBracketSpecialAdvance("runnerUp") : $this->calcRoadToFinal("runnerUp"),
             SpecialBet::TYPE_TOP_SCORER => $this->calcTopScorer(),
             SpecialBet::TYPE_DEFENSIVE_TEAM => $this->calculateDefensiveTeam(),
             default => throw new InvalidArgumentException("Invalid SpecialBet name \"{$this->getEntity()->type}\""),
@@ -169,8 +169,8 @@ class BetSpecialBetsRequest extends AbstractBetRequest
             SpecialBet::TYPE_MVP => $this->calcMVPForGame($game),
             SpecialBet::TYPE_MOST_ASSISTS => $this->calcTopAssistsForGame($game),
             SpecialBet::TYPE_OFFENSIVE_TEAM => $this->calculateOffensiveTeamForGame($game),
-            SpecialBet::TYPE_WINNER => $this->isBracket() ? $this->calcBracketSpecialAdvanceForGame($game) : $this->calcRoadToFinalForGame($game, "winner"),
-            SpecialBet::TYPE_RUNNER_UP => $this->isBracket() ? $this->calcBracketSpecialAdvanceForGame($game) : $this->calcRoadToFinalForGame($game, "runnerUp"),
+            SpecialBet::TYPE_WINNER => $this->isBracket() ? $this->calcBracketSpecialAdvanceForGame($game, "winner") : $this->calcRoadToFinalForGame($game, "winner"),
+            SpecialBet::TYPE_RUNNER_UP => $this->isBracket() ? $this->calcBracketSpecialAdvanceForGame($game, "runnerUp") : $this->calcRoadToFinalForGame($game, "runnerUp"),
             SpecialBet::TYPE_TOP_SCORER => $this->calcTopScorerForGame($game),
             SpecialBet::TYPE_DEFENSIVE_TEAM => $this->calculateDefensiveTeamForGame($game),
             default => throw new InvalidArgumentException("Invalid SpecialBet name \"{$this->getEntity()->type}\""),
@@ -272,18 +272,21 @@ class BetSpecialBetsRequest extends AbstractBetRequest
      * Bracket Winner/Runner-Up scoring: sum bracket.specialAdvance[sub_type] over every knockout game where
      * the user's team qualifies. THIRD_PLACE is excluded (no specialAdvance for the bronze match).
      */
-    public function calcBracketSpecialAdvance(): int
+    public function calcBracketSpecialAdvance(string $type): int
     {
         $score = 0;
         foreach ($this->tournament->competition->getKnockoutGames($this->answer) as $game) {
-            $score += $this->calcBracketSpecialAdvanceForGame($game);
+            $score += $this->calcBracketSpecialAdvanceForGame($game, $type);
         }
         return $score;
     }
 
-    public function calcBracketSpecialAdvanceForGame(Game $game): int
+    public function calcBracketSpecialAdvanceForGame(Game $game, string $type): int
     {
         if ($game->type != 'knockout' || $game->sub_type == GameSubTypes::THIRD_PLACE) {
+            return 0;
+        }
+        if ($game->sub_type == GameSubTypes::FINAL && $type == "runnerUp") {
             return 0;
         }
         if ($game->getKnockoutWinner() == $this->answer) {
