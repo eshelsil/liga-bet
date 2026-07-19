@@ -72,10 +72,33 @@
         "specialQuestions": "שאלות מיוחדות",
         "groupRankings": "דירוגי בתים",
         "games": "משחקים",
-        "viewScoreConfig": "צפייה בהגדרות ניקוד"
+        "viewScoreConfig": "צפייה בהגדרות ניקוד",
+        "editCongratsAnimation": "עריכת אנימציית סיום"
     },
     "tournamentConfigDialog": {
         "title": "הגדרות ניקוד לטורניר \"{{name}}\""
+    },
+    "congratsAnimation": {
+        "title": "אנימציית סיום לטורניר \"{{name}}\"",
+        "enabled": "הפעל אנימציית סיום",
+        "language": "שפה",
+        "langHe": "עברית",
+        "langEn": "אנגלית",
+        "perRankTitle": "תוכן לפי דירוג",
+        "rank": "דירוג",
+        "type": "סוג אנימציה",
+        "contentTitle": "כותרת",
+        "message": "הודעה",
+        "defaultEntry": "ברירת מחדל (לכל דירוג שלא הוגדר)",
+        "addRank": "הוסף דירוג",
+        "save": "שמור",
+        "types": {
+            "confetti": "קונפטי + גביע",
+            "two_bags": "שני שקי כסף",
+            "one_bag": "שק כסף אחד",
+            "single_dollar": "שטר נופל",
+            "none": "ללא (תעודה בלבד)"
+        }
     },
     "updateSideTournament": {
         "title": "עדכן משחקים לטורניר צדדי",

@@ -79,10 +79,41 @@ export interface TournamentScoreConfig {
     bracket?: BracketScoreConfig, // contract F — present only for knockout_bracket tournaments
 }
 
+export enum CongratsAnimationType {
+	Confetti = 'confetti',
+	TwoBags = 'two_bags',
+	OneBag = 'one_bag',
+	SingleDollar = 'single_dollar',
+	None = 'none',
+}
+
+export type CongratsAnimationLang = 'he' | 'en'
+
+export interface CongratsRankEntry {
+	rank: number,
+	type: CongratsAnimationType,
+	title: string,
+	msg: string,
+}
+
+export interface CongratsDefaultEntry {
+	type: CongratsAnimationType,
+	title: string,
+	msg: string,
+}
+
+export interface CongratsAnimationConfig {
+	enabled: boolean,
+	lang: CongratsAnimationLang,
+	ranks: CongratsRankEntry[],
+	default: CongratsDefaultEntry,
+}
+
 export interface TournamentConfig {
 	prizes: string[],
 	scores: TournamentScoreConfig,
 	sideTournamentGames?: Record<number, number[]>,
+	congratsAnimation?: CongratsAnimationConfig,
 }
 
 export interface TournamentPreferences {

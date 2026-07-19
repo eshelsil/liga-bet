@@ -46,6 +46,10 @@ class TournamentUser extends Model
 
     protected static $unguarded = true;
 
+    protected $casts = [
+        'congrats_seen_at' => 'datetime',
+    ];
+
     const ROLE_ADMIN = 'admin';
     const ROLE_MANAGER = 'manager';
     const ROLE_CONTESTANT = 'contestant';

@@ -21,6 +21,7 @@ export interface UtlBase {
     user_id: number
     createdAt?: Date
     updatedAt?: Date
+    congratsSeenAt?: string | null
 }
 
 export interface UTL extends UtlBase {

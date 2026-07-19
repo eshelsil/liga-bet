@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import ConfettiGenerator from 'confetti-js'
-import { UtlBase } from '../../types';
+import { CongratsAnimationLang, CongratsAnimationType, UtlBase } from '../../types';
 import { Button } from '@mui/material';
 import { useIsSmScreen, useIsXsScreen } from '../../hooks/useMedia';
-import { getSummaryMsg } from './utils';
-import { useSelector } from 'react-redux';
-import { IsOurTournament } from '../../_selectors';
+import { getCongratsLabels } from './utils';
 
 
 interface Props {
     currentUtl: UtlBase
     rank: number
+    type: CongratsAnimationType
+    title: string
+    msg: string
+    lang: CongratsAnimationLang
     onSeenAnimation: () => void
+    onFinished?: () => void
 }
 
-function CongratsAnimation({ currentUtl, rank, onSeenAnimation }: Props) {
-    const { t } = useTranslation('leaderboard')
-    const isOurTournament = useSelector(IsOurTournament)
+function CongratsAnimation({ currentUtl, rank, type, title, msg, lang, onSeenAnimation, onFinished }: Props) {
+    const labels = getCongratsLabels(lang)
+    const dir = lang === 'he' ? 'rtl' : 'ltr'
     const isXsScreen = useIsXsScreen()
     const isSmScreen = useIsSmScreen()
     const [takenPrize, setTakenPrize] = useState(false)
@@ -37,11 +39,12 @@ function CongratsAnimation({ currentUtl, rank, onSeenAnimation }: Props) {
     const hasPrize = rank <= 4
     const showClaimPrize = hasPrize && !takenPrize && readDiploma
     const hasMoneyBags = showCenterMoneyBag || showLeftMoneyBag || showRightMoneyBag
-    const hasConfetti = rank === 1
+    const hasConfetti = type === CongratsAnimationType.Confetti
 
-    const {title, msg} = getSummaryMsg(rank, isOurTournament);
-
-    const finishAnimation = () => setFinished(true)
+    const finishAnimation = () => {
+        setFinished(true)
+        onFinished?.()
+    }
 
     function takeTrophy(){
         setTakenPrize(true)
@@ -121,26 +124,31 @@ function CongratsAnimation({ currentUtl, rank, onSeenAnimation }: Props) {
 
 
     function renderCongrats(){
-        if (rank === 1){
-            setShowConfetti(true)
-            setTimeout(renderAllTrophies, 2500);
-        } else if (rank === 2){
-            renderTwoMoneyBags();
-            setTimeout(renderDiploma, 2000);
-        } else if (rank === 3){
-            renderCenterMoneyBag()
-            setTimeout(renderDiploma, 1500);
-        } else if (rank === 4){
-            renderDollar()
-            setTimeout(renderDiploma, 7000);
-        } else {
-            renderDiploma();
+        switch (type) {
+            case CongratsAnimationType.Confetti:
+                setShowConfetti(true)
+                setTimeout(renderAllTrophies, 2500);
+                break;
+            case CongratsAnimationType.TwoBags:
+                renderTwoMoneyBags();
+                setTimeout(renderDiploma, 2000);
+                break;
+            case CongratsAnimationType.OneBag:
+                renderCenterMoneyBag()
+                setTimeout(renderDiploma, 1500);
+                break;
+            case CongratsAnimationType.SingleDollar:
+                renderDollar()
+                setTimeout(renderDiploma, 7000);
+                break;
+            default:
+                renderDiploma();
         }
     }
 
     useEffect(() => {
         renderCongrats()
-    }, [rank])
+    }, [type])
 
     useEffect(() => {
         if (showConfetti){
@@ -152,11 +160,11 @@ function CongratsAnimation({ currentUtl, rank, onSeenAnimation }: Props) {
     return (
         <>
         {!finished && (
-            <div className={`LB-CongratsAnimation ${takenPrize ? 'prize-taken' : ''}`}>
+            <div className={`LB-CongratsAnimation lang-${lang} ${takenPrize ? 'prize-taken' : ''}`}>
                 {!doneConfetti && (
                     <canvas id="confetti-canvas" className={`${showConfetti ? 'max-height' : ''} ${confettiFadingOut ? 'fold-down' : ''}`}></canvas>
                 )}
-                <div id="money_bags_container" className={`fix-bg-wrapper ${hasMoneyBags ? 'shown' : ''}`}> 
+                <div id="money_bags_container" className={`fix-bg-wrapper ${hasMoneyBags ? 'shown' : ''}`}>
                     <img className={`money_bag_img right-bag ${showRightMoneyBag ? 'shown' : ''}`} src="/img/money.png" />
                     <img className={`money_bag_img left-bag ${showLeftMoneyBag ? 'shown' : ''} `} src="/img/money.png" />
                     <div id="center_money_bag_wrap" className={`center-wrap ${showCenterMoneyBag ? 'shown' : ''}`}>
@@ -187,15 +195,15 @@ function CongratsAnimation({ currentUtl, rank, onSeenAnimation }: Props) {
                             className='cliamPrizeButton'
                             onClick={takeTrophy}
                         >
-                                {t('congrats.claimPrize')}
+                                {labels.claimPrize}
                         </Button>
                     </div>
                 )}
 
                 <div id="fixed-wrapper" className={`${showDiploma ? 'shown' : ''}`}>
-                    <div className={`summary_container ${showDiploma ? 'shown' : ''}`}>   
+                    <div className={`summary_container ${showDiploma ? 'shown' : ''}`}>
                         <img className="diploma_img" src="/img/diploma.jpg" />
-                        <div className="diploma-content">
+                        <div className="diploma-content" dir={dir}>
                             <h4 className="diploma-title">{title}</h4>
                             <p className="diploma-msg">{msg}</p>
                             <div className="diploma-close-wrap">
@@ -205,7 +213,7 @@ function CongratsAnimation({ currentUtl, rank, onSeenAnimation }: Props) {
                                     className="diploma-close"
                                     onClick={seenDiploma ? closeDiploma : null}
                                 >
-                                        {t('congrats.closeDiploma')}
+                                        {labels.closeDiploma}
                                 </Button>
                             </div>
                         </div>

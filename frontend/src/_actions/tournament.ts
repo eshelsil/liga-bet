@@ -1,5 +1,5 @@
 import { AppDispatch, GetRootState } from '../_helpers/store'
-import { createTournament, getTournamentsOwnedByUser, updateTournamentPreferences, updateTournamentPrizesConfig, updateTournamentScoresConfig } from '../api/tournaments'
+import { createTournament, getTournamentsOwnedByUser, markCongratsSeen as markCongratsSeenApi, updateTournamentPreferences, updateTournamentPrizesConfig, updateTournamentScoresConfig } from '../api/tournaments'
 import ownedTournaments from '../_reducers/ownedTournament'
 import tournamentUser from '../_reducers/tournamentUser'
 import { CurrentTournamentId, CurrentTournamentUserId } from '../_selectors'
@@ -80,6 +80,21 @@ function updateAutoBetPreference(enableAutoBet: boolean) {
 }
 
 
+function markCongratsSeen() {
+    return async (dispatch: AppDispatch, getState: GetRootState) => {
+        const utlId = CurrentTournamentUserId(getState())
+        const tournamentId = CurrentTournamentId(getState())
+        // Optimistic: the user has now seen it, so it won't auto-show again.
+        dispatch(myUtlsSlice.actions.setCongratsSeenAt({ utlId, congratsSeenAt: new Date().toISOString() }))
+        try {
+            await markCongratsSeenApi(tournamentId)
+        } catch (e) {
+            // Non-critical — the animation still played; leave the optimistic flag in place.
+        }
+    }
+}
+
+
 export {
     createNewTournament,
     fetchOwnedTournaments,
@@ -88,4 +103,5 @@ export {
     answerDefaultConfigQuestion,
     updateAutoConfirmPreference,
     updateAutoBetPreference,
+    markCongratsSeen,
 }

@@ -35,6 +35,7 @@ class UtlResource extends JsonResource
             "name"              => $utl->name,
             "createdAt"         => $utl->created_at,
             "updatedAt"         => $utl->updated_at,
+            "congratsSeenAt"    => $utl->congrats_seen_at,
             "nihusimLeft"       => $nihusim,
             "nihusimGranted"    => $nihusimGranted,
             "nihusimUsed"       => $nihusimUsed,
