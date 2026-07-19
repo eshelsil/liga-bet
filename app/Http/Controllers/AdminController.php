@@ -117,6 +117,47 @@ class AdminController extends Controller
         return new JsonResponse($newMap, 200);
     }
 
+    public function updateCongratsAnimation(Request $request, string $tournamentId)
+    {
+        $t = Tournament::find($tournamentId);
+        if (!$t){
+            throw new JsonException("Tournament with id {{$tournamentId}} does not exist", 400);
+        }
+
+        $validated = $request->validate([
+            'enabled'       => 'required|boolean',
+            'lang'          => ['required', Rule::in(Tournament::CONGRATS_ANIM_LANGS)],
+            'ranks'         => 'present|array',
+            'ranks.*.rank'  => 'required|integer|min:1',
+            'ranks.*.type'  => ['required', Rule::in(Tournament::CONGRATS_ANIM_TYPES)],
+            'ranks.*.title' => 'nullable|string',
+            'ranks.*.msg'   => 'nullable|string',
+            'default'       => 'required|array',
+            'default.type'  => ['required', Rule::in(Tournament::CONGRATS_ANIM_TYPES)],
+            'default.title' => 'nullable|string',
+            'default.msg'   => 'nullable|string',
+        ]);
+
+        $payload = [
+            'enabled' => (bool) $validated['enabled'],
+            'lang'    => $validated['lang'],
+            'ranks'   => collect($validated['ranks'])->map(fn($r) => [
+                'rank'  => (int) $r['rank'],
+                'type'  => $r['type'],
+                'title' => $r['title'] ?? '',
+                'msg'   => $r['msg'] ?? '',
+            ])->values()->toArray(),
+            'default' => [
+                'type'  => $validated['default']['type'],
+                'title' => $validated['default']['title'] ?? '',
+                'msg'   => $validated['default']['msg'] ?? '',
+            ],
+        ];
+
+        $t->update(["config->congratsAnimation" => $payload]);
+        return new JsonResponse($payload, 200);
+    }
+
     public function getRunningTournamentsData()
     {
         $data = Tournament::where('status', '!=', Tournament::STATUS_DONE)->get()->map(function( Tournament $t){

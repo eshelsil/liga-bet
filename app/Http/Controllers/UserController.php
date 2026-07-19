@@ -22,6 +22,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\UtlPreferencesResource;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -72,6 +73,20 @@ class UserController extends Controller
         }
 
         $utl->save();
+        return (new UtlResource($utl))->toArray($request);
+    }
+
+    public function markCongratsSeen(Request $request, string $tournamentId)
+    {
+        $user = $this->getUser();
+        $utl = $user->getTournamentUser($tournamentId);
+        if (!$utl) {
+            throw new JsonException("משתמש לא קיים", 404);
+        }
+        if (!$utl->congrats_seen_at) {
+            $utl->congrats_seen_at = Carbon::now();
+            $utl->save();
+        }
         return (new UtlResource($utl))->toArray($request);
     }
 

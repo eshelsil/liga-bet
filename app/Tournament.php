@@ -65,6 +65,9 @@ class Tournament extends Model
     const TYPE_CLASSIC = 'classic';
     const TYPE_KNOCKOUT_BRACKET = 'knockout_bracket';
 
+    const CONGRATS_ANIM_TYPES = ['confetti', 'two_bags', 'one_bag', 'single_dollar', 'none'];
+    const CONGRATS_ANIM_LANGS = ['he', 'en'];
+
     protected $casts = [
         "config" => "array"
     ];

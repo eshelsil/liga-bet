@@ -90,6 +90,7 @@ Route::post('/admin/user-set-name', [AdminController::class, 'setNametoUser']);
 Route::delete('/admin/delete-user', [AdminController::class, 'deleteUser']);
 Route::post('/admin/create-monkey-user', [AdminController::class, 'createMonkey']);
 Route::post('/admin/update-side-tournament-games', [AdminController::class, 'updateSideTournamentGames']);
+Route::post('/admin/update-congrats-animation/{tournamentId}', [AdminController::class, 'updateCongratsAnimation']);
 Route::post('/admin/nihusim', [AdminController::class, 'grantNihusim']);
 Route::post('/admin/fix-games-start-time/{tournamentId}', [AdminController::class, 'markCompetitionAsShouldUpdateGames']);
 
@@ -125,6 +126,7 @@ Route::prefix("/api/tournaments/{tournamentId}/")->middleware("confirmed_user")
         Route::get("nihusim/sent", [NihusimController::class, 'getNihusimSent']);
         Route::post("nihusim", [NihusimController::class, 'sendNihus']);
         Route::post("nihusim/seen", [NihusimController::class, 'seenNihus']);
+        Route::post("congrats-seen", [UserController::class, 'markCongratsSeen']);
         Route::prefix("manage/utls")->middleware("tournament_manager")
         ->group(function () {
             Route::get("/", [TournamentUserController::class, 'index']);
