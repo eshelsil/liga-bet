@@ -168,6 +168,21 @@ class Tournament extends Model
         return $this->utls->firstWhere('user_id', $user->id);
     }
 
+    /**
+     * Turn off the congrats animation without discarding its texts. Safe to call from tinker:
+     *   Tournament::find(5)->disableCongratsAnimation();
+     */
+    public function disableCongratsAnimation(): void
+    {
+        $config = $this->config ?? [];
+        if (!array_key_exists('congratsAnimation', $config)) {
+            return;
+        }
+        $config['congratsAnimation']['enabled'] = false;
+        $this->config = $config;
+        $this->save();
+    }
+
     public function shouldAutoConfirmNewUtls()
     {
         return $this->preferences->isAutoConfirmUtlsOn();

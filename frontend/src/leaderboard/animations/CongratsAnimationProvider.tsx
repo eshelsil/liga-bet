@@ -1,28 +1,27 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import {
     CongratsAnimationSelector,
-    CurrentTournamentId,
     CurrentTournamentUser,
 } from '../../_selectors'
 import { AppDispatch } from '../../_helpers/store'
 import { markCongratsSeen } from '../../_actions/tournament'
 import CongratsAnimation from './CongratsAnimation'
 import CongratsReplayButton from './CongratsReplayButton'
-import { getReplayButtonLabel } from './utils'
 import './Animation.scss'
 
 function CongratsAnimationProvider() {
     const dispatch = useDispatch<AppDispatch>()
+    const { i18n } = useTranslation()
     const { isAvailable, shouldAutoShow, currentUtlRank, entry, lang } =
         useSelector(CongratsAnimationSelector)
     const currentUtl = useSelector(CurrentTournamentUser)
-    const tournamentId = useSelector(CurrentTournamentId)
 
-    const dismissKey = `LigaBetDismissedCongratsButton_${tournamentId}`
-    const [dismissed, setDismissed] = useState(
-        () => sessionStorage.getItem(dismissKey) === '1'
-    )
+    // Dismissal is per react-app session only (in-memory) — intentionally NOT persisted to
+    // sessionStorage, so a refresh brings the replay button back (the animation still won't
+    // auto-play, since the user has already seen it — that's tracked server-side).
+    const [dismissed, setDismissed] = useState(false)
     const [playing, setPlaying] = useState(false)
     const [playKey, setPlayKey] = useState(0)
     const autoPlayedRef = useRef(false)
@@ -40,7 +39,6 @@ function CongratsAnimationProvider() {
     }
 
     const dismiss = () => {
-        sessionStorage.setItem(dismissKey, '1')
         setDismissed(true)
     }
 
@@ -73,8 +71,8 @@ function CongratsAnimationProvider() {
             )}
             {!playing && !dismissed && (
                 <CongratsReplayButton
-                    label={getReplayButtonLabel(lang)}
-                    dir={lang === 'he' ? 'rtl' : 'ltr'}
+                    rank={currentUtlRank}
+                    dir={i18n.dir() === 'rtl' ? 'rtl' : 'ltr'}
                     onReplay={replay}
                     onDismiss={dismiss}
                 />

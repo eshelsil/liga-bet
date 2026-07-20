@@ -163,7 +163,7 @@
         position: fixed;
         z-index: 104;
         width: 100%;
-        top: 15%;
+        bottom: 6%;
         @include mixins.centerContainer;
     }
     .center-wrap {
@@ -184,55 +184,83 @@
     }
 }
 
+// Text-less trophy circle pinned to the bottom-end corner, with a gentle shimmer sweep +
+// glow pulse (no size change). The dismiss "×" sits at its outer-top corner.
 .LB-CongratsReplayButton {
     position: fixed;
     z-index: 1000;
-    bottom: 16px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    max-width: calc(100% - 24px);
-    padding: 4px 6px 4px 14px;
-    border-radius: 999px;
-    background: linear-gradient(135deg, #1a2a6c 0%, #b21f1f 55%, #d4af37 100%);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-    animation: pop-and-spin-from-center 0.4s ease-out;
+    bottom: 20px;
+    inset-inline-end: 20px;
 
     .replay-pill {
+        position: relative;
         display: flex;
         align-items: center;
-        gap: 8px;
-        background: none;
+        justify-content: center;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
         border: none;
         cursor: pointer;
-        color: #fff;
-        font-weight: 700;
-        font-size: 0.95em;
-        padding: 6px 4px;
-        white-space: nowrap;
         overflow: hidden;
-        text-overflow: ellipsis;
+        background: linear-gradient(135deg, #1a2a6c 0%, #b21f1f 55%, #d4af37 100%);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        animation: congrats-glow 2.6s ease-in-out infinite;
 
         .replay-icon {
-            color: #ffd76a;
-            font-size: 1.3em;
-            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+            color: #ffd76a; // also drives the inlined ScrollText svg via stroke:currentColor
+            font-size: 1.8em;
         }
-        .replay-label {
-            overflow: hidden;
-            text-overflow: ellipsis;
+
+        // Diagonal light sweep — the "shimmer". Purely a moving highlight; the button
+        // itself never scales.
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                120deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.55) 50%,
+                transparent 70%
+            );
+            transform: translateX(-120%);
+            animation: congrats-shimmer 2.6s ease-in-out infinite;
         }
     }
 
     .replay-dismiss {
-        color: rgba(255, 255, 255, 0.85);
-        flex-shrink: 0;
-        padding: 4px;
+        position: absolute;
+        inset-block-start: -6px;
+        inset-inline-end: -6px;
+        z-index: 2;
+        padding: 2px;
+        color: #fff;
+        background: rgba(0, 0, 0, 0.55);
         &:hover {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.75);
         }
+    }
+}
+
+@keyframes congrats-shimmer {
+    0% {
+        transform: translateX(-120%);
+    }
+    60%,
+    100% {
+        transform: translateX(120%);
+    }
+}
+
+@keyframes congrats-glow {
+    0%,
+    100% {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+    50% {
+        box-shadow: 0 4px 22px rgba(212, 175, 55, 0.7);
     }
 }

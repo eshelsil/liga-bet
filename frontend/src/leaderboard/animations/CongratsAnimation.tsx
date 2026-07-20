@@ -36,7 +36,7 @@ function CongratsAnimation({ currentUtl, rank, type, title, msg, lang, onSeenAni
     const [doneConfetti, setDoneConfetti] = useState(false)
     const [finished, setFinished] = useState(false)
 
-    const hasPrize = rank <= 4
+    const hasPrize = type !== CongratsAnimationType.None
     const showClaimPrize = hasPrize && !takenPrize && readDiploma
     const hasMoneyBags = showCenterMoneyBag || showLeftMoneyBag || showRightMoneyBag
     const hasConfetti = type === CongratsAnimationType.Confetti
